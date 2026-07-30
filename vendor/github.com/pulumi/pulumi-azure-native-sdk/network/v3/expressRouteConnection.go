@@ -37,7 +37,7 @@ type ExpressRouteConnection struct {
 	// The provisioning state of the express route connection resource.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationResponseV1PtrOutput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationExpressRouteConnectionResponsePtrOutput `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight pulumi.IntPtrOutput `pulumi:"routingWeight"`
 }
@@ -247,7 +247,7 @@ type expressRouteConnectionArgs struct {
 	// The name of the resource group.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationV1 `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 }
@@ -275,7 +275,7 @@ type ExpressRouteConnectionArgs struct {
 	// The name of the resource group.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationV1PtrInput
+	RoutingConfiguration RoutingConfigurationTypePtrInput
 	// The routing weight associated to the connection.
 	RoutingWeight pulumi.IntPtrInput
 }
@@ -360,8 +360,10 @@ func (o ExpressRouteConnectionOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o ExpressRouteConnectionOutput) RoutingConfiguration() RoutingConfigurationResponseV1PtrOutput {
-	return o.ApplyT(func(v *ExpressRouteConnection) RoutingConfigurationResponseV1PtrOutput { return v.RoutingConfiguration }).(RoutingConfigurationResponseV1PtrOutput)
+func (o ExpressRouteConnectionOutput) RoutingConfiguration() RoutingConfigurationExpressRouteConnectionResponsePtrOutput {
+	return o.ApplyT(func(v *ExpressRouteConnection) RoutingConfigurationExpressRouteConnectionResponsePtrOutput {
+		return v.RoutingConfiguration
+	}).(RoutingConfigurationExpressRouteConnectionResponsePtrOutput)
 }
 
 // The routing weight associated to the connection.

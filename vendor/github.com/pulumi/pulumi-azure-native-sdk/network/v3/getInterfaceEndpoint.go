@@ -23,7 +23,7 @@ func LookupInterfaceEndpoint(ctx *pulumi.Context, args *LookupInterfaceEndpointA
 	if err != nil {
 		return nil, err
 	}
-	return rv.Defaults(), nil
+	return &rv, nil
 }
 
 type LookupInterfaceEndpointArgs struct {
@@ -52,29 +52,19 @@ type LookupInterfaceEndpointResult struct {
 	// Resource name.
 	Name string `pulumi:"name"`
 	// Gets an array of references to the network interfaces created for this interface endpoint.
-	NetworkInterfaces []NetworkInterfaceResponse `pulumi:"networkInterfaces"`
+	NetworkInterfaces []NetworkInterfaceInterfaceEndpointResponse `pulumi:"networkInterfaces"`
 	// A read-only property that identifies who created this interface endpoint.
 	Owner string `pulumi:"owner"`
 	// The provisioning state of the interface endpoint. Possible values are: 'Updating', 'Deleting', and 'Failed'.
 	ProvisioningState string `pulumi:"provisioningState"`
 	// The ID of the subnet from which the private IP will be allocated.
-	Subnet *SubnetResponse `pulumi:"subnet"`
+	Subnet *SubnetInterfaceEndpointResponse `pulumi:"subnet"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Resource type.
 	Type string `pulumi:"type"`
 }
 
-// Defaults sets the appropriate defaults for LookupInterfaceEndpointResult
-func (val *LookupInterfaceEndpointResult) Defaults() *LookupInterfaceEndpointResult {
-	if val == nil {
-		return nil
-	}
-	tmp := *val
-	tmp.Subnet = tmp.Subnet.Defaults()
-
-	return &tmp
-}
 func LookupInterfaceEndpointOutput(ctx *pulumi.Context, args LookupInterfaceEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupInterfaceEndpointResultOutput {
 	return pulumi.ToOutputWithContext(ctx.Context(), args).
 		ApplyT(func(v interface{}) (LookupInterfaceEndpointResultOutput, error) {
@@ -148,8 +138,10 @@ func (o LookupInterfaceEndpointResultOutput) Name() pulumi.StringOutput {
 }
 
 // Gets an array of references to the network interfaces created for this interface endpoint.
-func (o LookupInterfaceEndpointResultOutput) NetworkInterfaces() NetworkInterfaceResponseArrayOutput {
-	return o.ApplyT(func(v LookupInterfaceEndpointResult) []NetworkInterfaceResponse { return v.NetworkInterfaces }).(NetworkInterfaceResponseArrayOutput)
+func (o LookupInterfaceEndpointResultOutput) NetworkInterfaces() NetworkInterfaceInterfaceEndpointResponseArrayOutput {
+	return o.ApplyT(func(v LookupInterfaceEndpointResult) []NetworkInterfaceInterfaceEndpointResponse {
+		return v.NetworkInterfaces
+	}).(NetworkInterfaceInterfaceEndpointResponseArrayOutput)
 }
 
 // A read-only property that identifies who created this interface endpoint.
@@ -163,8 +155,8 @@ func (o LookupInterfaceEndpointResultOutput) ProvisioningState() pulumi.StringOu
 }
 
 // The ID of the subnet from which the private IP will be allocated.
-func (o LookupInterfaceEndpointResultOutput) Subnet() SubnetResponsePtrOutput {
-	return o.ApplyT(func(v LookupInterfaceEndpointResult) *SubnetResponse { return v.Subnet }).(SubnetResponsePtrOutput)
+func (o LookupInterfaceEndpointResultOutput) Subnet() SubnetInterfaceEndpointResponsePtrOutput {
+	return o.ApplyT(func(v LookupInterfaceEndpointResult) *SubnetInterfaceEndpointResponse { return v.Subnet }).(SubnetInterfaceEndpointResponsePtrOutput)
 }
 
 // Resource tags.

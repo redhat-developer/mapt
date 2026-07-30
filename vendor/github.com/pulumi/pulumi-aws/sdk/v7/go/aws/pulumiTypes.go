@@ -906,6 +906,8 @@ type ProviderEndpoint struct {
 	// Use this to override the default service endpoint URL
 	Lambda *string `pulumi:"lambda"`
 	// Use this to override the default service endpoint URL
+	Lambdamicrovms *string `pulumi:"lambdamicrovms"`
+	// Use this to override the default service endpoint URL
 	Launchwizard *string `pulumi:"launchwizard"`
 	// Use this to override the default service endpoint URL
 	Lex *string `pulumi:"lex"`
@@ -933,6 +935,8 @@ type ProviderEndpoint struct {
 	M2 *string `pulumi:"m2"`
 	// Use this to override the default service endpoint URL
 	Macie2 *string `pulumi:"macie2"`
+	// Use this to override the default service endpoint URL
+	Mailmanager *string `pulumi:"mailmanager"`
 	// Use this to override the default service endpoint URL
 	Managedgrafana *string `pulumi:"managedgrafana"`
 	// Use this to override the default service endpoint URL
@@ -1546,6 +1550,8 @@ type ProviderEndpointArgs struct {
 	// Use this to override the default service endpoint URL
 	Lambda pulumi.StringPtrInput `pulumi:"lambda"`
 	// Use this to override the default service endpoint URL
+	Lambdamicrovms pulumi.StringPtrInput `pulumi:"lambdamicrovms"`
+	// Use this to override the default service endpoint URL
 	Launchwizard pulumi.StringPtrInput `pulumi:"launchwizard"`
 	// Use this to override the default service endpoint URL
 	Lex pulumi.StringPtrInput `pulumi:"lex"`
@@ -1573,6 +1579,8 @@ type ProviderEndpointArgs struct {
 	M2 pulumi.StringPtrInput `pulumi:"m2"`
 	// Use this to override the default service endpoint URL
 	Macie2 pulumi.StringPtrInput `pulumi:"macie2"`
+	// Use this to override the default service endpoint URL
+	Mailmanager pulumi.StringPtrInput `pulumi:"mailmanager"`
 	// Use this to override the default service endpoint URL
 	Managedgrafana pulumi.StringPtrInput `pulumi:"managedgrafana"`
 	// Use this to override the default service endpoint URL
@@ -2738,6 +2746,11 @@ func (o ProviderEndpointOutput) Lambda() pulumi.StringPtrOutput {
 }
 
 // Use this to override the default service endpoint URL
+func (o ProviderEndpointOutput) Lambdamicrovms() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Lambdamicrovms }).(pulumi.StringPtrOutput)
+}
+
+// Use this to override the default service endpoint URL
 func (o ProviderEndpointOutput) Launchwizard() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Launchwizard }).(pulumi.StringPtrOutput)
 }
@@ -2805,6 +2818,11 @@ func (o ProviderEndpointOutput) M2() pulumi.StringPtrOutput {
 // Use this to override the default service endpoint URL
 func (o ProviderEndpointOutput) Macie2() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Macie2 }).(pulumi.StringPtrOutput)
+}
+
+// Use this to override the default service endpoint URL
+func (o ProviderEndpointOutput) Mailmanager() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Mailmanager }).(pulumi.StringPtrOutput)
 }
 
 // Use this to override the default service endpoint URL

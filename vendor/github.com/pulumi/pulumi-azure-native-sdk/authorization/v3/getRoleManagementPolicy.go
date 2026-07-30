@@ -48,7 +48,7 @@ type LookupRoleManagementPolicyResult struct {
 	// The role management policy is default policy.
 	IsOrganizationDefault *bool `pulumi:"isOrganizationDefault"`
 	// The name of the entity last modified it
-	LastModifiedBy MicrosoftCommonPrincipalResponse `pulumi:"lastModifiedBy"`
+	LastModifiedBy PrincipalResponse `pulumi:"lastModifiedBy"`
 	// The last modified date time.
 	LastModifiedDateTime string `pulumi:"lastModifiedDateTime"`
 	// The name of the resource
@@ -131,8 +131,8 @@ func (o LookupRoleManagementPolicyResultOutput) IsOrganizationDefault() pulumi.B
 }
 
 // The name of the entity last modified it
-func (o LookupRoleManagementPolicyResultOutput) LastModifiedBy() MicrosoftCommonPrincipalResponseOutput {
-	return o.ApplyT(func(v LookupRoleManagementPolicyResult) MicrosoftCommonPrincipalResponse { return v.LastModifiedBy }).(MicrosoftCommonPrincipalResponseOutput)
+func (o LookupRoleManagementPolicyResultOutput) LastModifiedBy() PrincipalResponseOutput {
+	return o.ApplyT(func(v LookupRoleManagementPolicyResult) PrincipalResponse { return v.LastModifiedBy }).(PrincipalResponseOutput)
 }
 
 // The last modified date time.

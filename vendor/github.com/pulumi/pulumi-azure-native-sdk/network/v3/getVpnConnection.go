@@ -68,7 +68,7 @@ type LookupVpnConnectionResult struct {
 	// Id of the connected vpn site.
 	RemoteVpnSite *SubResourceResponse `pulumi:"remoteVpnSite"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationResponse `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationVpnConnectionResponse `pulumi:"routingConfiguration"`
 	// Routing weight for vpn connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 	// SharedKey for the vpn connection.
@@ -198,8 +198,10 @@ func (o LookupVpnConnectionResultOutput) RemoteVpnSite() SubResourceResponsePtrO
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o LookupVpnConnectionResultOutput) RoutingConfiguration() RoutingConfigurationResponsePtrOutput {
-	return o.ApplyT(func(v LookupVpnConnectionResult) *RoutingConfigurationResponse { return v.RoutingConfiguration }).(RoutingConfigurationResponsePtrOutput)
+func (o LookupVpnConnectionResultOutput) RoutingConfiguration() RoutingConfigurationVpnConnectionResponsePtrOutput {
+	return o.ApplyT(func(v LookupVpnConnectionResult) *RoutingConfigurationVpnConnectionResponse {
+		return v.RoutingConfiguration
+	}).(RoutingConfigurationVpnConnectionResponsePtrOutput)
 }
 
 // Routing weight for vpn connection.

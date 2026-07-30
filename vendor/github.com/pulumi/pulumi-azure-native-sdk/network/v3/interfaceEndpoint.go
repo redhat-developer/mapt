@@ -33,13 +33,13 @@ type InterfaceEndpoint struct {
 	// Resource name.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Gets an array of references to the network interfaces created for this interface endpoint.
-	NetworkInterfaces NetworkInterfaceResponseV1ArrayOutput `pulumi:"networkInterfaces"`
+	NetworkInterfaces NetworkInterfaceInterfaceEndpointResponseArrayOutput `pulumi:"networkInterfaces"`
 	// A read-only property that identifies who created this interface endpoint.
 	Owner pulumi.StringOutput `pulumi:"owner"`
 	// The provisioning state of the interface endpoint. Possible values are: 'Updating', 'Deleting', and 'Failed'.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// The ID of the subnet from which the private IP will be allocated.
-	Subnet SubnetResponsePtrOutput `pulumi:"subnet"`
+	Subnet SubnetInterfaceEndpointResponsePtrOutput `pulumi:"subnet"`
 	// Resource tags.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
 	// Resource type.
@@ -363,8 +363,10 @@ func (o InterfaceEndpointOutput) Name() pulumi.StringOutput {
 }
 
 // Gets an array of references to the network interfaces created for this interface endpoint.
-func (o InterfaceEndpointOutput) NetworkInterfaces() NetworkInterfaceResponseV1ArrayOutput {
-	return o.ApplyT(func(v *InterfaceEndpoint) NetworkInterfaceResponseV1ArrayOutput { return v.NetworkInterfaces }).(NetworkInterfaceResponseV1ArrayOutput)
+func (o InterfaceEndpointOutput) NetworkInterfaces() NetworkInterfaceInterfaceEndpointResponseArrayOutput {
+	return o.ApplyT(func(v *InterfaceEndpoint) NetworkInterfaceInterfaceEndpointResponseArrayOutput {
+		return v.NetworkInterfaces
+	}).(NetworkInterfaceInterfaceEndpointResponseArrayOutput)
 }
 
 // A read-only property that identifies who created this interface endpoint.
@@ -378,8 +380,8 @@ func (o InterfaceEndpointOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // The ID of the subnet from which the private IP will be allocated.
-func (o InterfaceEndpointOutput) Subnet() SubnetResponsePtrOutput {
-	return o.ApplyT(func(v *InterfaceEndpoint) SubnetResponsePtrOutput { return v.Subnet }).(SubnetResponsePtrOutput)
+func (o InterfaceEndpointOutput) Subnet() SubnetInterfaceEndpointResponsePtrOutput {
+	return o.ApplyT(func(v *InterfaceEndpoint) SubnetInterfaceEndpointResponsePtrOutput { return v.Subnet }).(SubnetInterfaceEndpointResponsePtrOutput)
 }
 
 // Resource tags.

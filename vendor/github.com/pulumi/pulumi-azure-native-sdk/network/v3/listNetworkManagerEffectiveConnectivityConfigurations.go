@@ -42,7 +42,7 @@ type ListNetworkManagerEffectiveConnectivityConfigurationsResult struct {
 	// When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
 	SkipToken *string `pulumi:"skipToken"`
 	// Gets a page of NetworkManagerEffectiveConnectivityConfiguration
-	Value []EffectiveConnectivityConfigurationResponseV1 `pulumi:"value"`
+	Value []EffectiveConnectivityConfigurationlistNetworkManagerEffectiveConnectivityConfigurationsResponse `pulumi:"value"`
 }
 
 func ListNetworkManagerEffectiveConnectivityConfigurationsOutput(ctx *pulumi.Context, args ListNetworkManagerEffectiveConnectivityConfigurationsOutputArgs, opts ...pulumi.InvokeOption) ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput {
@@ -90,10 +90,10 @@ func (o ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput) SkipT
 }
 
 // Gets a page of NetworkManagerEffectiveConnectivityConfiguration
-func (o ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput) Value() EffectiveConnectivityConfigurationResponseV1ArrayOutput {
-	return o.ApplyT(func(v ListNetworkManagerEffectiveConnectivityConfigurationsResult) []EffectiveConnectivityConfigurationResponseV1 {
+func (o ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput) Value() EffectiveConnectivityConfigurationlistNetworkManagerEffectiveConnectivityConfigurationsResponseArrayOutput {
+	return o.ApplyT(func(v ListNetworkManagerEffectiveConnectivityConfigurationsResult) []EffectiveConnectivityConfigurationlistNetworkManagerEffectiveConnectivityConfigurationsResponse {
 		return v.Value
-	}).(EffectiveConnectivityConfigurationResponseV1ArrayOutput)
+	}).(EffectiveConnectivityConfigurationlistNetworkManagerEffectiveConnectivityConfigurationsResponseArrayOutput)
 }
 
 func init() {

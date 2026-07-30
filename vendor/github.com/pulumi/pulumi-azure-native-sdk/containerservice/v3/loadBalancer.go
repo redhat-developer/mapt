@@ -27,15 +27,15 @@ type LoadBalancer struct {
 	// The name of the resource
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Nodes that match this selector will be possible members of this load balancer.
-	NodeSelector LabelSelectorResponsePtrOutput `pulumi:"nodeSelector"`
+	NodeSelector LabelSelectorLoadBalancerResponsePtrOutput `pulumi:"nodeSelector"`
 	// Required field. A string value that must specify the ID of an existing agent pool. All nodes in the given pool will always be added to this load balancer. This agent pool must have at least one node and minCount>=1 for autoscaling operations. An agent pool can only be the primary pool for a single load balancer.
 	PrimaryAgentPoolName pulumi.StringOutput `pulumi:"primaryAgentPoolName"`
 	// The current provisioning state.
 	ProvisioningState pulumi.StringOutput `pulumi:"provisioningState"`
 	// Only services that must match this selector can be placed on this load balancer.
-	ServiceLabelSelector LabelSelectorResponsePtrOutput `pulumi:"serviceLabelSelector"`
+	ServiceLabelSelector LabelSelectorLoadBalancerResponsePtrOutput `pulumi:"serviceLabelSelector"`
 	// Services created in namespaces that match the selector can be placed on this load balancer.
-	ServiceNamespaceSelector LabelSelectorResponsePtrOutput `pulumi:"serviceNamespaceSelector"`
+	ServiceNamespaceSelector LabelSelectorLoadBalancerResponsePtrOutput `pulumi:"serviceNamespaceSelector"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData SystemDataResponseOutput `pulumi:"systemData"`
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -255,8 +255,8 @@ func (o LoadBalancerOutput) Name() pulumi.StringOutput {
 }
 
 // Nodes that match this selector will be possible members of this load balancer.
-func (o LoadBalancerOutput) NodeSelector() LabelSelectorResponsePtrOutput {
-	return o.ApplyT(func(v *LoadBalancer) LabelSelectorResponsePtrOutput { return v.NodeSelector }).(LabelSelectorResponsePtrOutput)
+func (o LoadBalancerOutput) NodeSelector() LabelSelectorLoadBalancerResponsePtrOutput {
+	return o.ApplyT(func(v *LoadBalancer) LabelSelectorLoadBalancerResponsePtrOutput { return v.NodeSelector }).(LabelSelectorLoadBalancerResponsePtrOutput)
 }
 
 // Required field. A string value that must specify the ID of an existing agent pool. All nodes in the given pool will always be added to this load balancer. This agent pool must have at least one node and minCount>=1 for autoscaling operations. An agent pool can only be the primary pool for a single load balancer.
@@ -270,13 +270,13 @@ func (o LoadBalancerOutput) ProvisioningState() pulumi.StringOutput {
 }
 
 // Only services that must match this selector can be placed on this load balancer.
-func (o LoadBalancerOutput) ServiceLabelSelector() LabelSelectorResponsePtrOutput {
-	return o.ApplyT(func(v *LoadBalancer) LabelSelectorResponsePtrOutput { return v.ServiceLabelSelector }).(LabelSelectorResponsePtrOutput)
+func (o LoadBalancerOutput) ServiceLabelSelector() LabelSelectorLoadBalancerResponsePtrOutput {
+	return o.ApplyT(func(v *LoadBalancer) LabelSelectorLoadBalancerResponsePtrOutput { return v.ServiceLabelSelector }).(LabelSelectorLoadBalancerResponsePtrOutput)
 }
 
 // Services created in namespaces that match the selector can be placed on this load balancer.
-func (o LoadBalancerOutput) ServiceNamespaceSelector() LabelSelectorResponsePtrOutput {
-	return o.ApplyT(func(v *LoadBalancer) LabelSelectorResponsePtrOutput { return v.ServiceNamespaceSelector }).(LabelSelectorResponsePtrOutput)
+func (o LoadBalancerOutput) ServiceNamespaceSelector() LabelSelectorLoadBalancerResponsePtrOutput {
+	return o.ApplyT(func(v *LoadBalancer) LabelSelectorLoadBalancerResponsePtrOutput { return v.ServiceNamespaceSelector }).(LabelSelectorLoadBalancerResponsePtrOutput)
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.

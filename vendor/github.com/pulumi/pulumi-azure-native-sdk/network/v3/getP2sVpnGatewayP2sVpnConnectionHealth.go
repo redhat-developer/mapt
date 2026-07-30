@@ -48,7 +48,7 @@ type GetP2sVpnGatewayP2sVpnConnectionHealthResult struct {
 	// Resource name.
 	Name string `pulumi:"name"`
 	// List of all p2s connection configurations of the gateway.
-	P2SConnectionConfigurations []P2SConnectionConfigurationResponseV2 `pulumi:"p2SConnectionConfigurations"`
+	P2SConnectionConfigurations []P2SConnectionConfigurationgetP2sVpnGatewayP2sVpnConnectionHealthResponse `pulumi:"p2SConnectionConfigurations"`
 	// The provisioning state of the P2S VPN gateway resource.
 	ProvisioningState string `pulumi:"provisioningState"`
 	// Resource tags.
@@ -131,10 +131,10 @@ func (o GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput) Name() pulumi.String
 }
 
 // List of all p2s connection configurations of the gateway.
-func (o GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput) P2SConnectionConfigurations() P2SConnectionConfigurationResponseV2ArrayOutput {
-	return o.ApplyT(func(v GetP2sVpnGatewayP2sVpnConnectionHealthResult) []P2SConnectionConfigurationResponseV2 {
+func (o GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput) P2SConnectionConfigurations() P2SConnectionConfigurationgetP2sVpnGatewayP2sVpnConnectionHealthResponseArrayOutput {
+	return o.ApplyT(func(v GetP2sVpnGatewayP2sVpnConnectionHealthResult) []P2SConnectionConfigurationgetP2sVpnGatewayP2sVpnConnectionHealthResponse {
 		return v.P2SConnectionConfigurations
-	}).(P2SConnectionConfigurationResponseV2ArrayOutput)
+	}).(P2SConnectionConfigurationgetP2sVpnGatewayP2sVpnConnectionHealthResponseArrayOutput)
 }
 
 // The provisioning state of the P2S VPN gateway resource.

@@ -63,7 +63,7 @@ type VirtualNetwork struct {
 	// Resource type.
 	Type pulumi.StringOutput `pulumi:"type"`
 	// A list of peerings in a Virtual Network.
-	VirtualNetworkPeerings VirtualNetworkPeeringResponseArrayOutput `pulumi:"virtualNetworkPeerings"`
+	VirtualNetworkPeerings VirtualNetworkPeeringVirtualNetworkResponseArrayOutput `pulumi:"virtualNetworkPeerings"`
 }
 
 // NewVirtualNetwork registers a new resource with the given unique name, arguments, and options.
@@ -523,8 +523,10 @@ func (o VirtualNetworkOutput) Type() pulumi.StringOutput {
 }
 
 // A list of peerings in a Virtual Network.
-func (o VirtualNetworkOutput) VirtualNetworkPeerings() VirtualNetworkPeeringResponseArrayOutput {
-	return o.ApplyT(func(v *VirtualNetwork) VirtualNetworkPeeringResponseArrayOutput { return v.VirtualNetworkPeerings }).(VirtualNetworkPeeringResponseArrayOutput)
+func (o VirtualNetworkOutput) VirtualNetworkPeerings() VirtualNetworkPeeringVirtualNetworkResponseArrayOutput {
+	return o.ApplyT(func(v *VirtualNetwork) VirtualNetworkPeeringVirtualNetworkResponseArrayOutput {
+		return v.VirtualNetworkPeerings
+	}).(VirtualNetworkPeeringVirtualNetworkResponseArrayOutput)
 }
 
 func init() {

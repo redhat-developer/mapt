@@ -42,7 +42,7 @@ type LookupDeploymentStacksWhatIfResultsAtResourceGroupResult struct {
 	// The name of the resource
 	Name string `pulumi:"name"`
 	// The resource-specific properties for this resource.
-	Properties DeploymentStacksWhatIfResultPropertiesResponse `pulumi:"properties"`
+	Properties DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse `pulumi:"properties"`
 	// Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData SystemDataResponse `pulumi:"systemData"`
 	// Resource tags.
@@ -107,10 +107,10 @@ func (o LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput) Name() p
 }
 
 // The resource-specific properties for this resource.
-func (o LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput) Properties() DeploymentStacksWhatIfResultPropertiesResponseOutput {
-	return o.ApplyT(func(v LookupDeploymentStacksWhatIfResultsAtResourceGroupResult) DeploymentStacksWhatIfResultPropertiesResponse {
+func (o LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput) Properties() DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput {
+	return o.ApplyT(func(v LookupDeploymentStacksWhatIfResultsAtResourceGroupResult) DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse {
 		return v.Properties
-	}).(DeploymentStacksWhatIfResultPropertiesResponseOutput)
+	}).(DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput)
 }
 
 // Azure Resource Manager metadata containing createdBy and modifiedBy information.

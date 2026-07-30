@@ -56,7 +56,7 @@ type LookupExpressRouteConnectionResult struct {
 	// The provisioning state of the express route connection resource.
 	ProvisioningState string `pulumi:"provisioningState"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationResponse `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationExpressRouteConnectionResponse `pulumi:"routingConfiguration"`
 	// The routing weight associated to the connection.
 	RoutingWeight *int `pulumi:"routingWeight"`
 }
@@ -146,10 +146,10 @@ func (o LookupExpressRouteConnectionResultOutput) ProvisioningState() pulumi.Str
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o LookupExpressRouteConnectionResultOutput) RoutingConfiguration() RoutingConfigurationResponsePtrOutput {
-	return o.ApplyT(func(v LookupExpressRouteConnectionResult) *RoutingConfigurationResponse {
+func (o LookupExpressRouteConnectionResultOutput) RoutingConfiguration() RoutingConfigurationExpressRouteConnectionResponsePtrOutput {
+	return o.ApplyT(func(v LookupExpressRouteConnectionResult) *RoutingConfigurationExpressRouteConnectionResponse {
 		return v.RoutingConfiguration
-	}).(RoutingConfigurationResponsePtrOutput)
+	}).(RoutingConfigurationExpressRouteConnectionResponsePtrOutput)
 }
 
 // The routing weight associated to the connection.

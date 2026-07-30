@@ -8361,6 +8361,112 @@ func (o FlowLogDestinationOptionsPtrOutput) PerHourPartition() pulumi.BoolPtrOut
 	}).(pulumi.BoolPtrOutput)
 }
 
+type FlowLogTagFieldSpecification struct {
+	// Resource type to associate the tag keys with. Valid values: `instance`, `network-interface`, `auto-scaling-group`.
+	ResourceType string `pulumi:"resourceType"`
+	// Ordered list of tag keys, on resources of `resourceType`, to display in Flow Log records. The position of each key determines which field it populates in `logFormat` (e.g., the first `instance` tag key populates `$${instance-tag}` and the second populates `$${instance-tag-2}`).
+	TagKeys []string `pulumi:"tagKeys"`
+}
+
+// FlowLogTagFieldSpecificationInput is an input type that accepts FlowLogTagFieldSpecificationArgs and FlowLogTagFieldSpecificationOutput values.
+// You can construct a concrete instance of `FlowLogTagFieldSpecificationInput` via:
+//
+//	FlowLogTagFieldSpecificationArgs{...}
+type FlowLogTagFieldSpecificationInput interface {
+	pulumi.Input
+
+	ToFlowLogTagFieldSpecificationOutput() FlowLogTagFieldSpecificationOutput
+	ToFlowLogTagFieldSpecificationOutputWithContext(context.Context) FlowLogTagFieldSpecificationOutput
+}
+
+type FlowLogTagFieldSpecificationArgs struct {
+	// Resource type to associate the tag keys with. Valid values: `instance`, `network-interface`, `auto-scaling-group`.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+	// Ordered list of tag keys, on resources of `resourceType`, to display in Flow Log records. The position of each key determines which field it populates in `logFormat` (e.g., the first `instance` tag key populates `$${instance-tag}` and the second populates `$${instance-tag-2}`).
+	TagKeys pulumi.StringArrayInput `pulumi:"tagKeys"`
+}
+
+func (FlowLogTagFieldSpecificationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlowLogTagFieldSpecification)(nil)).Elem()
+}
+
+func (i FlowLogTagFieldSpecificationArgs) ToFlowLogTagFieldSpecificationOutput() FlowLogTagFieldSpecificationOutput {
+	return i.ToFlowLogTagFieldSpecificationOutputWithContext(context.Background())
+}
+
+func (i FlowLogTagFieldSpecificationArgs) ToFlowLogTagFieldSpecificationOutputWithContext(ctx context.Context) FlowLogTagFieldSpecificationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlowLogTagFieldSpecificationOutput)
+}
+
+// FlowLogTagFieldSpecificationArrayInput is an input type that accepts FlowLogTagFieldSpecificationArray and FlowLogTagFieldSpecificationArrayOutput values.
+// You can construct a concrete instance of `FlowLogTagFieldSpecificationArrayInput` via:
+//
+//	FlowLogTagFieldSpecificationArray{ FlowLogTagFieldSpecificationArgs{...} }
+type FlowLogTagFieldSpecificationArrayInput interface {
+	pulumi.Input
+
+	ToFlowLogTagFieldSpecificationArrayOutput() FlowLogTagFieldSpecificationArrayOutput
+	ToFlowLogTagFieldSpecificationArrayOutputWithContext(context.Context) FlowLogTagFieldSpecificationArrayOutput
+}
+
+type FlowLogTagFieldSpecificationArray []FlowLogTagFieldSpecificationInput
+
+func (FlowLogTagFieldSpecificationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlowLogTagFieldSpecification)(nil)).Elem()
+}
+
+func (i FlowLogTagFieldSpecificationArray) ToFlowLogTagFieldSpecificationArrayOutput() FlowLogTagFieldSpecificationArrayOutput {
+	return i.ToFlowLogTagFieldSpecificationArrayOutputWithContext(context.Background())
+}
+
+func (i FlowLogTagFieldSpecificationArray) ToFlowLogTagFieldSpecificationArrayOutputWithContext(ctx context.Context) FlowLogTagFieldSpecificationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(FlowLogTagFieldSpecificationArrayOutput)
+}
+
+type FlowLogTagFieldSpecificationOutput struct{ *pulumi.OutputState }
+
+func (FlowLogTagFieldSpecificationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*FlowLogTagFieldSpecification)(nil)).Elem()
+}
+
+func (o FlowLogTagFieldSpecificationOutput) ToFlowLogTagFieldSpecificationOutput() FlowLogTagFieldSpecificationOutput {
+	return o
+}
+
+func (o FlowLogTagFieldSpecificationOutput) ToFlowLogTagFieldSpecificationOutputWithContext(ctx context.Context) FlowLogTagFieldSpecificationOutput {
+	return o
+}
+
+// Resource type to associate the tag keys with. Valid values: `instance`, `network-interface`, `auto-scaling-group`.
+func (o FlowLogTagFieldSpecificationOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v FlowLogTagFieldSpecification) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+// Ordered list of tag keys, on resources of `resourceType`, to display in Flow Log records. The position of each key determines which field it populates in `logFormat` (e.g., the first `instance` tag key populates `$${instance-tag}` and the second populates `$${instance-tag-2}`).
+func (o FlowLogTagFieldSpecificationOutput) TagKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v FlowLogTagFieldSpecification) []string { return v.TagKeys }).(pulumi.StringArrayOutput)
+}
+
+type FlowLogTagFieldSpecificationArrayOutput struct{ *pulumi.OutputState }
+
+func (FlowLogTagFieldSpecificationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]FlowLogTagFieldSpecification)(nil)).Elem()
+}
+
+func (o FlowLogTagFieldSpecificationArrayOutput) ToFlowLogTagFieldSpecificationArrayOutput() FlowLogTagFieldSpecificationArrayOutput {
+	return o
+}
+
+func (o FlowLogTagFieldSpecificationArrayOutput) ToFlowLogTagFieldSpecificationArrayOutputWithContext(ctx context.Context) FlowLogTagFieldSpecificationArrayOutput {
+	return o
+}
+
+func (o FlowLogTagFieldSpecificationArrayOutput) Index(i pulumi.IntInput) FlowLogTagFieldSpecificationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) FlowLogTagFieldSpecification {
+		return vs[0].([]FlowLogTagFieldSpecification)[vs[1].(int)]
+	}).(FlowLogTagFieldSpecificationOutput)
+}
+
 type InstanceCapacityReservationSpecification struct {
 	// Indicates the instance's Capacity Reservation preferences. Can be `"open"` or `"none"`. (Default: `"open"`).
 	CapacityReservationPreference *string `pulumi:"capacityReservationPreference"`
@@ -33653,6 +33759,106 @@ func (o NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationPtrOutput) EnaS
 	}).(pulumi.BoolPtrOutput)
 }
 
+type NetworkInterfaceFilter struct {
+	Name   string   `pulumi:"name"`
+	Values []string `pulumi:"values"`
+}
+
+// NetworkInterfaceFilterInput is an input type that accepts NetworkInterfaceFilterArgs and NetworkInterfaceFilterOutput values.
+// You can construct a concrete instance of `NetworkInterfaceFilterInput` via:
+//
+//	NetworkInterfaceFilterArgs{...}
+type NetworkInterfaceFilterInput interface {
+	pulumi.Input
+
+	ToNetworkInterfaceFilterOutput() NetworkInterfaceFilterOutput
+	ToNetworkInterfaceFilterOutputWithContext(context.Context) NetworkInterfaceFilterOutput
+}
+
+type NetworkInterfaceFilterArgs struct {
+	Name   pulumi.StringInput      `pulumi:"name"`
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (NetworkInterfaceFilterArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*NetworkInterfaceFilter)(nil)).Elem()
+}
+
+func (i NetworkInterfaceFilterArgs) ToNetworkInterfaceFilterOutput() NetworkInterfaceFilterOutput {
+	return i.ToNetworkInterfaceFilterOutputWithContext(context.Background())
+}
+
+func (i NetworkInterfaceFilterArgs) ToNetworkInterfaceFilterOutputWithContext(ctx context.Context) NetworkInterfaceFilterOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NetworkInterfaceFilterOutput)
+}
+
+// NetworkInterfaceFilterArrayInput is an input type that accepts NetworkInterfaceFilterArray and NetworkInterfaceFilterArrayOutput values.
+// You can construct a concrete instance of `NetworkInterfaceFilterArrayInput` via:
+//
+//	NetworkInterfaceFilterArray{ NetworkInterfaceFilterArgs{...} }
+type NetworkInterfaceFilterArrayInput interface {
+	pulumi.Input
+
+	ToNetworkInterfaceFilterArrayOutput() NetworkInterfaceFilterArrayOutput
+	ToNetworkInterfaceFilterArrayOutputWithContext(context.Context) NetworkInterfaceFilterArrayOutput
+}
+
+type NetworkInterfaceFilterArray []NetworkInterfaceFilterInput
+
+func (NetworkInterfaceFilterArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]NetworkInterfaceFilter)(nil)).Elem()
+}
+
+func (i NetworkInterfaceFilterArray) ToNetworkInterfaceFilterArrayOutput() NetworkInterfaceFilterArrayOutput {
+	return i.ToNetworkInterfaceFilterArrayOutputWithContext(context.Background())
+}
+
+func (i NetworkInterfaceFilterArray) ToNetworkInterfaceFilterArrayOutputWithContext(ctx context.Context) NetworkInterfaceFilterArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(NetworkInterfaceFilterArrayOutput)
+}
+
+type NetworkInterfaceFilterOutput struct{ *pulumi.OutputState }
+
+func (NetworkInterfaceFilterOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NetworkInterfaceFilter)(nil)).Elem()
+}
+
+func (o NetworkInterfaceFilterOutput) ToNetworkInterfaceFilterOutput() NetworkInterfaceFilterOutput {
+	return o
+}
+
+func (o NetworkInterfaceFilterOutput) ToNetworkInterfaceFilterOutputWithContext(ctx context.Context) NetworkInterfaceFilterOutput {
+	return o
+}
+
+func (o NetworkInterfaceFilterOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v NetworkInterfaceFilter) string { return v.Name }).(pulumi.StringOutput)
+}
+
+func (o NetworkInterfaceFilterOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v NetworkInterfaceFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type NetworkInterfaceFilterArrayOutput struct{ *pulumi.OutputState }
+
+func (NetworkInterfaceFilterArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]NetworkInterfaceFilter)(nil)).Elem()
+}
+
+func (o NetworkInterfaceFilterArrayOutput) ToNetworkInterfaceFilterArrayOutput() NetworkInterfaceFilterArrayOutput {
+	return o
+}
+
+func (o NetworkInterfaceFilterArrayOutput) ToNetworkInterfaceFilterArrayOutputWithContext(ctx context.Context) NetworkInterfaceFilterArrayOutput {
+	return o
+}
+
+func (o NetworkInterfaceFilterArrayOutput) Index(i pulumi.IntInput) NetworkInterfaceFilterOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) NetworkInterfaceFilter {
+		return vs[0].([]NetworkInterfaceFilter)[vs[1].(int)]
+	}).(NetworkInterfaceFilterOutput)
+}
+
 type NetworkInterfacePermissionTimeouts struct {
 	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
 	Create *string `pulumi:"create"`
@@ -47287,6 +47493,324 @@ func (o GetAmiProductCodeArrayOutput) Index(i pulumi.IntInput) GetAmiProductCode
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetAmiProductCode {
 		return vs[0].([]GetAmiProductCode)[vs[1].(int)]
 	}).(GetAmiProductCodeOutput)
+}
+
+type GetCapacityBlockReservationCommitmentInfo struct {
+	// Date and time the commitment duration ends in [RFC3339 format](https://tools.ietf.org/html/rfc3339#section-5.8).
+	CommitmentEndDate string `pulumi:"commitmentEndDate"`
+	// Number of instances committed to the Capacity Block reservation.
+	CommittedInstanceCount int `pulumi:"committedInstanceCount"`
+}
+
+// GetCapacityBlockReservationCommitmentInfoInput is an input type that accepts GetCapacityBlockReservationCommitmentInfoArgs and GetCapacityBlockReservationCommitmentInfoOutput values.
+// You can construct a concrete instance of `GetCapacityBlockReservationCommitmentInfoInput` via:
+//
+//	GetCapacityBlockReservationCommitmentInfoArgs{...}
+type GetCapacityBlockReservationCommitmentInfoInput interface {
+	pulumi.Input
+
+	ToGetCapacityBlockReservationCommitmentInfoOutput() GetCapacityBlockReservationCommitmentInfoOutput
+	ToGetCapacityBlockReservationCommitmentInfoOutputWithContext(context.Context) GetCapacityBlockReservationCommitmentInfoOutput
+}
+
+type GetCapacityBlockReservationCommitmentInfoArgs struct {
+	// Date and time the commitment duration ends in [RFC3339 format](https://tools.ietf.org/html/rfc3339#section-5.8).
+	CommitmentEndDate pulumi.StringInput `pulumi:"commitmentEndDate"`
+	// Number of instances committed to the Capacity Block reservation.
+	CommittedInstanceCount pulumi.IntInput `pulumi:"committedInstanceCount"`
+}
+
+func (GetCapacityBlockReservationCommitmentInfoArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationCommitmentInfo)(nil)).Elem()
+}
+
+func (i GetCapacityBlockReservationCommitmentInfoArgs) ToGetCapacityBlockReservationCommitmentInfoOutput() GetCapacityBlockReservationCommitmentInfoOutput {
+	return i.ToGetCapacityBlockReservationCommitmentInfoOutputWithContext(context.Background())
+}
+
+func (i GetCapacityBlockReservationCommitmentInfoArgs) ToGetCapacityBlockReservationCommitmentInfoOutputWithContext(ctx context.Context) GetCapacityBlockReservationCommitmentInfoOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetCapacityBlockReservationCommitmentInfoOutput)
+}
+
+type GetCapacityBlockReservationCommitmentInfoOutput struct{ *pulumi.OutputState }
+
+func (GetCapacityBlockReservationCommitmentInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationCommitmentInfo)(nil)).Elem()
+}
+
+func (o GetCapacityBlockReservationCommitmentInfoOutput) ToGetCapacityBlockReservationCommitmentInfoOutput() GetCapacityBlockReservationCommitmentInfoOutput {
+	return o
+}
+
+func (o GetCapacityBlockReservationCommitmentInfoOutput) ToGetCapacityBlockReservationCommitmentInfoOutputWithContext(ctx context.Context) GetCapacityBlockReservationCommitmentInfoOutput {
+	return o
+}
+
+// Date and time the commitment duration ends in [RFC3339 format](https://tools.ietf.org/html/rfc3339#section-5.8).
+func (o GetCapacityBlockReservationCommitmentInfoOutput) CommitmentEndDate() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationCommitmentInfo) string { return v.CommitmentEndDate }).(pulumi.StringOutput)
+}
+
+// Number of instances committed to the Capacity Block reservation.
+func (o GetCapacityBlockReservationCommitmentInfoOutput) CommittedInstanceCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationCommitmentInfo) int { return v.CommittedInstanceCount }).(pulumi.IntOutput)
+}
+
+type GetCapacityBlockReservationFilter struct {
+	// Name of the filter field. See the [DescribeCapacityReservations API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCapacityReservations.html) for valid values. Common filters include `instance-type`, `availability-zone`, `state`, `instance-platform`, `tenancy`, `outpost-arn`, `placement-group-arn`, `instance-match-criteria`, and `tag:<KEY>`.
+	Name string `pulumi:"name"`
+	// Set of values that are accepted for the given filter field. A Capacity Block reservation will be selected if any one of the given values matches.
+	Values []string `pulumi:"values"`
+}
+
+// GetCapacityBlockReservationFilterInput is an input type that accepts GetCapacityBlockReservationFilterArgs and GetCapacityBlockReservationFilterOutput values.
+// You can construct a concrete instance of `GetCapacityBlockReservationFilterInput` via:
+//
+//	GetCapacityBlockReservationFilterArgs{...}
+type GetCapacityBlockReservationFilterInput interface {
+	pulumi.Input
+
+	ToGetCapacityBlockReservationFilterOutput() GetCapacityBlockReservationFilterOutput
+	ToGetCapacityBlockReservationFilterOutputWithContext(context.Context) GetCapacityBlockReservationFilterOutput
+}
+
+type GetCapacityBlockReservationFilterArgs struct {
+	// Name of the filter field. See the [DescribeCapacityReservations API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCapacityReservations.html) for valid values. Common filters include `instance-type`, `availability-zone`, `state`, `instance-platform`, `tenancy`, `outpost-arn`, `placement-group-arn`, `instance-match-criteria`, and `tag:<KEY>`.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Set of values that are accepted for the given filter field. A Capacity Block reservation will be selected if any one of the given values matches.
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (GetCapacityBlockReservationFilterArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationFilter)(nil)).Elem()
+}
+
+func (i GetCapacityBlockReservationFilterArgs) ToGetCapacityBlockReservationFilterOutput() GetCapacityBlockReservationFilterOutput {
+	return i.ToGetCapacityBlockReservationFilterOutputWithContext(context.Background())
+}
+
+func (i GetCapacityBlockReservationFilterArgs) ToGetCapacityBlockReservationFilterOutputWithContext(ctx context.Context) GetCapacityBlockReservationFilterOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetCapacityBlockReservationFilterOutput)
+}
+
+// GetCapacityBlockReservationFilterArrayInput is an input type that accepts GetCapacityBlockReservationFilterArray and GetCapacityBlockReservationFilterArrayOutput values.
+// You can construct a concrete instance of `GetCapacityBlockReservationFilterArrayInput` via:
+//
+//	GetCapacityBlockReservationFilterArray{ GetCapacityBlockReservationFilterArgs{...} }
+type GetCapacityBlockReservationFilterArrayInput interface {
+	pulumi.Input
+
+	ToGetCapacityBlockReservationFilterArrayOutput() GetCapacityBlockReservationFilterArrayOutput
+	ToGetCapacityBlockReservationFilterArrayOutputWithContext(context.Context) GetCapacityBlockReservationFilterArrayOutput
+}
+
+type GetCapacityBlockReservationFilterArray []GetCapacityBlockReservationFilterInput
+
+func (GetCapacityBlockReservationFilterArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetCapacityBlockReservationFilter)(nil)).Elem()
+}
+
+func (i GetCapacityBlockReservationFilterArray) ToGetCapacityBlockReservationFilterArrayOutput() GetCapacityBlockReservationFilterArrayOutput {
+	return i.ToGetCapacityBlockReservationFilterArrayOutputWithContext(context.Background())
+}
+
+func (i GetCapacityBlockReservationFilterArray) ToGetCapacityBlockReservationFilterArrayOutputWithContext(ctx context.Context) GetCapacityBlockReservationFilterArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetCapacityBlockReservationFilterArrayOutput)
+}
+
+type GetCapacityBlockReservationFilterOutput struct{ *pulumi.OutputState }
+
+func (GetCapacityBlockReservationFilterOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationFilter)(nil)).Elem()
+}
+
+func (o GetCapacityBlockReservationFilterOutput) ToGetCapacityBlockReservationFilterOutput() GetCapacityBlockReservationFilterOutput {
+	return o
+}
+
+func (o GetCapacityBlockReservationFilterOutput) ToGetCapacityBlockReservationFilterOutputWithContext(ctx context.Context) GetCapacityBlockReservationFilterOutput {
+	return o
+}
+
+// Name of the filter field. See the [DescribeCapacityReservations API Reference](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeCapacityReservations.html) for valid values. Common filters include `instance-type`, `availability-zone`, `state`, `instance-platform`, `tenancy`, `outpost-arn`, `placement-group-arn`, `instance-match-criteria`, and `tag:<KEY>`.
+func (o GetCapacityBlockReservationFilterOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationFilter) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Set of values that are accepted for the given filter field. A Capacity Block reservation will be selected if any one of the given values matches.
+func (o GetCapacityBlockReservationFilterOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type GetCapacityBlockReservationFilterArrayOutput struct{ *pulumi.OutputState }
+
+func (GetCapacityBlockReservationFilterArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetCapacityBlockReservationFilter)(nil)).Elem()
+}
+
+func (o GetCapacityBlockReservationFilterArrayOutput) ToGetCapacityBlockReservationFilterArrayOutput() GetCapacityBlockReservationFilterArrayOutput {
+	return o
+}
+
+func (o GetCapacityBlockReservationFilterArrayOutput) ToGetCapacityBlockReservationFilterArrayOutputWithContext(ctx context.Context) GetCapacityBlockReservationFilterArrayOutput {
+	return o
+}
+
+func (o GetCapacityBlockReservationFilterArrayOutput) Index(i pulumi.IntInput) GetCapacityBlockReservationFilterOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetCapacityBlockReservationFilter {
+		return vs[0].([]GetCapacityBlockReservationFilter)[vs[1].(int)]
+	}).(GetCapacityBlockReservationFilterOutput)
+}
+
+type GetCapacityBlockReservationInterruptibleCapacityAllocation struct {
+	// Number of instances allocated as interruptible capacity within the Capacity Block reservation.
+	InstanceCount int `pulumi:"instanceCount"`
+	// ID of the interruptible Capacity Reservation associated with this allocation.
+	InterruptibleCapacityReservationId string `pulumi:"interruptibleCapacityReservationId"`
+	// Type of interruption that occurred. Either `spot-interruption` or `capacity-block-interruption`.
+	InterruptionType string `pulumi:"interruptionType"`
+	// Status of the interruptible capacity allocation. One of `pending`, `confirmed`, or `cancelled`.
+	Status string `pulumi:"status"`
+	// Target number of interruptible instances for the allocation.
+	TargetInstanceCount int `pulumi:"targetInstanceCount"`
+}
+
+// GetCapacityBlockReservationInterruptibleCapacityAllocationInput is an input type that accepts GetCapacityBlockReservationInterruptibleCapacityAllocationArgs and GetCapacityBlockReservationInterruptibleCapacityAllocationOutput values.
+// You can construct a concrete instance of `GetCapacityBlockReservationInterruptibleCapacityAllocationInput` via:
+//
+//	GetCapacityBlockReservationInterruptibleCapacityAllocationArgs{...}
+type GetCapacityBlockReservationInterruptibleCapacityAllocationInput interface {
+	pulumi.Input
+
+	ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutput() GetCapacityBlockReservationInterruptibleCapacityAllocationOutput
+	ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutputWithContext(context.Context) GetCapacityBlockReservationInterruptibleCapacityAllocationOutput
+}
+
+type GetCapacityBlockReservationInterruptibleCapacityAllocationArgs struct {
+	// Number of instances allocated as interruptible capacity within the Capacity Block reservation.
+	InstanceCount pulumi.IntInput `pulumi:"instanceCount"`
+	// ID of the interruptible Capacity Reservation associated with this allocation.
+	InterruptibleCapacityReservationId pulumi.StringInput `pulumi:"interruptibleCapacityReservationId"`
+	// Type of interruption that occurred. Either `spot-interruption` or `capacity-block-interruption`.
+	InterruptionType pulumi.StringInput `pulumi:"interruptionType"`
+	// Status of the interruptible capacity allocation. One of `pending`, `confirmed`, or `cancelled`.
+	Status pulumi.StringInput `pulumi:"status"`
+	// Target number of interruptible instances for the allocation.
+	TargetInstanceCount pulumi.IntInput `pulumi:"targetInstanceCount"`
+}
+
+func (GetCapacityBlockReservationInterruptibleCapacityAllocationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationInterruptibleCapacityAllocation)(nil)).Elem()
+}
+
+func (i GetCapacityBlockReservationInterruptibleCapacityAllocationArgs) ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutput() GetCapacityBlockReservationInterruptibleCapacityAllocationOutput {
+	return i.ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutputWithContext(context.Background())
+}
+
+func (i GetCapacityBlockReservationInterruptibleCapacityAllocationArgs) ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutputWithContext(ctx context.Context) GetCapacityBlockReservationInterruptibleCapacityAllocationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetCapacityBlockReservationInterruptibleCapacityAllocationOutput)
+}
+
+type GetCapacityBlockReservationInterruptibleCapacityAllocationOutput struct{ *pulumi.OutputState }
+
+func (GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationInterruptibleCapacityAllocation)(nil)).Elem()
+}
+
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutput() GetCapacityBlockReservationInterruptibleCapacityAllocationOutput {
+	return o
+}
+
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) ToGetCapacityBlockReservationInterruptibleCapacityAllocationOutputWithContext(ctx context.Context) GetCapacityBlockReservationInterruptibleCapacityAllocationOutput {
+	return o
+}
+
+// Number of instances allocated as interruptible capacity within the Capacity Block reservation.
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) InstanceCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptibleCapacityAllocation) int { return v.InstanceCount }).(pulumi.IntOutput)
+}
+
+// ID of the interruptible Capacity Reservation associated with this allocation.
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) InterruptibleCapacityReservationId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptibleCapacityAllocation) string {
+		return v.InterruptibleCapacityReservationId
+	}).(pulumi.StringOutput)
+}
+
+// Type of interruption that occurred. Either `spot-interruption` or `capacity-block-interruption`.
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) InterruptionType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptibleCapacityAllocation) string { return v.InterruptionType }).(pulumi.StringOutput)
+}
+
+// Status of the interruptible capacity allocation. One of `pending`, `confirmed`, or `cancelled`.
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptibleCapacityAllocation) string { return v.Status }).(pulumi.StringOutput)
+}
+
+// Target number of interruptible instances for the allocation.
+func (o GetCapacityBlockReservationInterruptibleCapacityAllocationOutput) TargetInstanceCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptibleCapacityAllocation) int { return v.TargetInstanceCount }).(pulumi.IntOutput)
+}
+
+type GetCapacityBlockReservationInterruptionInfo struct {
+	// Type of interruption that occurred. Either `spot-interruption` or `capacity-block-interruption`.
+	InterruptionType string `pulumi:"interruptionType"`
+	// ID of the source Capacity Reservation that originally held the capacity, if the reservation was created as a result of an interruption.
+	SourceCapacityReservationId string `pulumi:"sourceCapacityReservationId"`
+}
+
+// GetCapacityBlockReservationInterruptionInfoInput is an input type that accepts GetCapacityBlockReservationInterruptionInfoArgs and GetCapacityBlockReservationInterruptionInfoOutput values.
+// You can construct a concrete instance of `GetCapacityBlockReservationInterruptionInfoInput` via:
+//
+//	GetCapacityBlockReservationInterruptionInfoArgs{...}
+type GetCapacityBlockReservationInterruptionInfoInput interface {
+	pulumi.Input
+
+	ToGetCapacityBlockReservationInterruptionInfoOutput() GetCapacityBlockReservationInterruptionInfoOutput
+	ToGetCapacityBlockReservationInterruptionInfoOutputWithContext(context.Context) GetCapacityBlockReservationInterruptionInfoOutput
+}
+
+type GetCapacityBlockReservationInterruptionInfoArgs struct {
+	// Type of interruption that occurred. Either `spot-interruption` or `capacity-block-interruption`.
+	InterruptionType pulumi.StringInput `pulumi:"interruptionType"`
+	// ID of the source Capacity Reservation that originally held the capacity, if the reservation was created as a result of an interruption.
+	SourceCapacityReservationId pulumi.StringInput `pulumi:"sourceCapacityReservationId"`
+}
+
+func (GetCapacityBlockReservationInterruptionInfoArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationInterruptionInfo)(nil)).Elem()
+}
+
+func (i GetCapacityBlockReservationInterruptionInfoArgs) ToGetCapacityBlockReservationInterruptionInfoOutput() GetCapacityBlockReservationInterruptionInfoOutput {
+	return i.ToGetCapacityBlockReservationInterruptionInfoOutputWithContext(context.Background())
+}
+
+func (i GetCapacityBlockReservationInterruptionInfoArgs) ToGetCapacityBlockReservationInterruptionInfoOutputWithContext(ctx context.Context) GetCapacityBlockReservationInterruptionInfoOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetCapacityBlockReservationInterruptionInfoOutput)
+}
+
+type GetCapacityBlockReservationInterruptionInfoOutput struct{ *pulumi.OutputState }
+
+func (GetCapacityBlockReservationInterruptionInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetCapacityBlockReservationInterruptionInfo)(nil)).Elem()
+}
+
+func (o GetCapacityBlockReservationInterruptionInfoOutput) ToGetCapacityBlockReservationInterruptionInfoOutput() GetCapacityBlockReservationInterruptionInfoOutput {
+	return o
+}
+
+func (o GetCapacityBlockReservationInterruptionInfoOutput) ToGetCapacityBlockReservationInterruptionInfoOutputWithContext(ctx context.Context) GetCapacityBlockReservationInterruptionInfoOutput {
+	return o
+}
+
+// Type of interruption that occurred. Either `spot-interruption` or `capacity-block-interruption`.
+func (o GetCapacityBlockReservationInterruptionInfoOutput) InterruptionType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptionInfo) string { return v.InterruptionType }).(pulumi.StringOutput)
+}
+
+// ID of the source Capacity Reservation that originally held the capacity, if the reservation was created as a result of an interruption.
+func (o GetCapacityBlockReservationInterruptionInfoOutput) SourceCapacityReservationId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetCapacityBlockReservationInterruptionInfo) string { return v.SourceCapacityReservationId }).(pulumi.StringOutput)
 }
 
 type GetCoipPoolFilter struct {
@@ -69297,657 +69821,6 @@ func (o GetSecurityGroupsFilterArrayOutput) Index(i pulumi.IntInput) GetSecurity
 	}).(GetSecurityGroupsFilterOutput)
 }
 
-type GetServiceLinkVirtualInterfaceFilter struct {
-	// Name of the filter.
-	Name string `pulumi:"name"`
-	// List of one or more values for the filter.
-	Values []string `pulumi:"values"`
-}
-
-// GetServiceLinkVirtualInterfaceFilterInput is an input type that accepts GetServiceLinkVirtualInterfaceFilterArgs and GetServiceLinkVirtualInterfaceFilterOutput values.
-// You can construct a concrete instance of `GetServiceLinkVirtualInterfaceFilterInput` via:
-//
-//	GetServiceLinkVirtualInterfaceFilterArgs{...}
-type GetServiceLinkVirtualInterfaceFilterInput interface {
-	pulumi.Input
-
-	ToGetServiceLinkVirtualInterfaceFilterOutput() GetServiceLinkVirtualInterfaceFilterOutput
-	ToGetServiceLinkVirtualInterfaceFilterOutputWithContext(context.Context) GetServiceLinkVirtualInterfaceFilterOutput
-}
-
-type GetServiceLinkVirtualInterfaceFilterArgs struct {
-	// Name of the filter.
-	Name pulumi.StringInput `pulumi:"name"`
-	// List of one or more values for the filter.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetServiceLinkVirtualInterfaceFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetServiceLinkVirtualInterfaceFilter)(nil)).Elem()
-}
-
-func (i GetServiceLinkVirtualInterfaceFilterArgs) ToGetServiceLinkVirtualInterfaceFilterOutput() GetServiceLinkVirtualInterfaceFilterOutput {
-	return i.ToGetServiceLinkVirtualInterfaceFilterOutputWithContext(context.Background())
-}
-
-func (i GetServiceLinkVirtualInterfaceFilterArgs) ToGetServiceLinkVirtualInterfaceFilterOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfaceFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetServiceLinkVirtualInterfaceFilterOutput)
-}
-
-// GetServiceLinkVirtualInterfaceFilterArrayInput is an input type that accepts GetServiceLinkVirtualInterfaceFilterArray and GetServiceLinkVirtualInterfaceFilterArrayOutput values.
-// You can construct a concrete instance of `GetServiceLinkVirtualInterfaceFilterArrayInput` via:
-//
-//	GetServiceLinkVirtualInterfaceFilterArray{ GetServiceLinkVirtualInterfaceFilterArgs{...} }
-type GetServiceLinkVirtualInterfaceFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetServiceLinkVirtualInterfaceFilterArrayOutput() GetServiceLinkVirtualInterfaceFilterArrayOutput
-	ToGetServiceLinkVirtualInterfaceFilterArrayOutputWithContext(context.Context) GetServiceLinkVirtualInterfaceFilterArrayOutput
-}
-
-type GetServiceLinkVirtualInterfaceFilterArray []GetServiceLinkVirtualInterfaceFilterInput
-
-func (GetServiceLinkVirtualInterfaceFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetServiceLinkVirtualInterfaceFilter)(nil)).Elem()
-}
-
-func (i GetServiceLinkVirtualInterfaceFilterArray) ToGetServiceLinkVirtualInterfaceFilterArrayOutput() GetServiceLinkVirtualInterfaceFilterArrayOutput {
-	return i.ToGetServiceLinkVirtualInterfaceFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetServiceLinkVirtualInterfaceFilterArray) ToGetServiceLinkVirtualInterfaceFilterArrayOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfaceFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetServiceLinkVirtualInterfaceFilterArrayOutput)
-}
-
-type GetServiceLinkVirtualInterfaceFilterOutput struct{ *pulumi.OutputState }
-
-func (GetServiceLinkVirtualInterfaceFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetServiceLinkVirtualInterfaceFilter)(nil)).Elem()
-}
-
-func (o GetServiceLinkVirtualInterfaceFilterOutput) ToGetServiceLinkVirtualInterfaceFilterOutput() GetServiceLinkVirtualInterfaceFilterOutput {
-	return o
-}
-
-func (o GetServiceLinkVirtualInterfaceFilterOutput) ToGetServiceLinkVirtualInterfaceFilterOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfaceFilterOutput {
-	return o
-}
-
-// Name of the filter.
-func (o GetServiceLinkVirtualInterfaceFilterOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetServiceLinkVirtualInterfaceFilter) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// List of one or more values for the filter.
-func (o GetServiceLinkVirtualInterfaceFilterOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetServiceLinkVirtualInterfaceFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetServiceLinkVirtualInterfaceFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetServiceLinkVirtualInterfaceFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetServiceLinkVirtualInterfaceFilter)(nil)).Elem()
-}
-
-func (o GetServiceLinkVirtualInterfaceFilterArrayOutput) ToGetServiceLinkVirtualInterfaceFilterArrayOutput() GetServiceLinkVirtualInterfaceFilterArrayOutput {
-	return o
-}
-
-func (o GetServiceLinkVirtualInterfaceFilterArrayOutput) ToGetServiceLinkVirtualInterfaceFilterArrayOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfaceFilterArrayOutput {
-	return o
-}
-
-func (o GetServiceLinkVirtualInterfaceFilterArrayOutput) Index(i pulumi.IntInput) GetServiceLinkVirtualInterfaceFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetServiceLinkVirtualInterfaceFilter {
-		return vs[0].([]GetServiceLinkVirtualInterfaceFilter)[vs[1].(int)]
-	}).(GetServiceLinkVirtualInterfaceFilterOutput)
-}
-
-type GetServiceLinkVirtualInterfacesFilter struct {
-	// Name of the filter.
-	Name string `pulumi:"name"`
-	// List of one or more values for the filter.
-	Values []string `pulumi:"values"`
-}
-
-// GetServiceLinkVirtualInterfacesFilterInput is an input type that accepts GetServiceLinkVirtualInterfacesFilterArgs and GetServiceLinkVirtualInterfacesFilterOutput values.
-// You can construct a concrete instance of `GetServiceLinkVirtualInterfacesFilterInput` via:
-//
-//	GetServiceLinkVirtualInterfacesFilterArgs{...}
-type GetServiceLinkVirtualInterfacesFilterInput interface {
-	pulumi.Input
-
-	ToGetServiceLinkVirtualInterfacesFilterOutput() GetServiceLinkVirtualInterfacesFilterOutput
-	ToGetServiceLinkVirtualInterfacesFilterOutputWithContext(context.Context) GetServiceLinkVirtualInterfacesFilterOutput
-}
-
-type GetServiceLinkVirtualInterfacesFilterArgs struct {
-	// Name of the filter.
-	Name pulumi.StringInput `pulumi:"name"`
-	// List of one or more values for the filter.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetServiceLinkVirtualInterfacesFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetServiceLinkVirtualInterfacesFilter)(nil)).Elem()
-}
-
-func (i GetServiceLinkVirtualInterfacesFilterArgs) ToGetServiceLinkVirtualInterfacesFilterOutput() GetServiceLinkVirtualInterfacesFilterOutput {
-	return i.ToGetServiceLinkVirtualInterfacesFilterOutputWithContext(context.Background())
-}
-
-func (i GetServiceLinkVirtualInterfacesFilterArgs) ToGetServiceLinkVirtualInterfacesFilterOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfacesFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetServiceLinkVirtualInterfacesFilterOutput)
-}
-
-// GetServiceLinkVirtualInterfacesFilterArrayInput is an input type that accepts GetServiceLinkVirtualInterfacesFilterArray and GetServiceLinkVirtualInterfacesFilterArrayOutput values.
-// You can construct a concrete instance of `GetServiceLinkVirtualInterfacesFilterArrayInput` via:
-//
-//	GetServiceLinkVirtualInterfacesFilterArray{ GetServiceLinkVirtualInterfacesFilterArgs{...} }
-type GetServiceLinkVirtualInterfacesFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetServiceLinkVirtualInterfacesFilterArrayOutput() GetServiceLinkVirtualInterfacesFilterArrayOutput
-	ToGetServiceLinkVirtualInterfacesFilterArrayOutputWithContext(context.Context) GetServiceLinkVirtualInterfacesFilterArrayOutput
-}
-
-type GetServiceLinkVirtualInterfacesFilterArray []GetServiceLinkVirtualInterfacesFilterInput
-
-func (GetServiceLinkVirtualInterfacesFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetServiceLinkVirtualInterfacesFilter)(nil)).Elem()
-}
-
-func (i GetServiceLinkVirtualInterfacesFilterArray) ToGetServiceLinkVirtualInterfacesFilterArrayOutput() GetServiceLinkVirtualInterfacesFilterArrayOutput {
-	return i.ToGetServiceLinkVirtualInterfacesFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetServiceLinkVirtualInterfacesFilterArray) ToGetServiceLinkVirtualInterfacesFilterArrayOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfacesFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetServiceLinkVirtualInterfacesFilterArrayOutput)
-}
-
-type GetServiceLinkVirtualInterfacesFilterOutput struct{ *pulumi.OutputState }
-
-func (GetServiceLinkVirtualInterfacesFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetServiceLinkVirtualInterfacesFilter)(nil)).Elem()
-}
-
-func (o GetServiceLinkVirtualInterfacesFilterOutput) ToGetServiceLinkVirtualInterfacesFilterOutput() GetServiceLinkVirtualInterfacesFilterOutput {
-	return o
-}
-
-func (o GetServiceLinkVirtualInterfacesFilterOutput) ToGetServiceLinkVirtualInterfacesFilterOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfacesFilterOutput {
-	return o
-}
-
-// Name of the filter.
-func (o GetServiceLinkVirtualInterfacesFilterOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetServiceLinkVirtualInterfacesFilter) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// List of one or more values for the filter.
-func (o GetServiceLinkVirtualInterfacesFilterOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetServiceLinkVirtualInterfacesFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetServiceLinkVirtualInterfacesFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetServiceLinkVirtualInterfacesFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetServiceLinkVirtualInterfacesFilter)(nil)).Elem()
-}
-
-func (o GetServiceLinkVirtualInterfacesFilterArrayOutput) ToGetServiceLinkVirtualInterfacesFilterArrayOutput() GetServiceLinkVirtualInterfacesFilterArrayOutput {
-	return o
-}
-
-func (o GetServiceLinkVirtualInterfacesFilterArrayOutput) ToGetServiceLinkVirtualInterfacesFilterArrayOutputWithContext(ctx context.Context) GetServiceLinkVirtualInterfacesFilterArrayOutput {
-	return o
-}
-
-func (o GetServiceLinkVirtualInterfacesFilterArrayOutput) Index(i pulumi.IntInput) GetServiceLinkVirtualInterfacesFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetServiceLinkVirtualInterfacesFilter {
-		return vs[0].([]GetServiceLinkVirtualInterfacesFilter)[vs[1].(int)]
-	}).(GetServiceLinkVirtualInterfacesFilterOutput)
-}
-
-type GetSpotPriceFilter struct {
-	// Name of the filter.
-	Name string `pulumi:"name"`
-	// List of one or more values for the filter.
-	Values []string `pulumi:"values"`
-}
-
-// GetSpotPriceFilterInput is an input type that accepts GetSpotPriceFilterArgs and GetSpotPriceFilterOutput values.
-// You can construct a concrete instance of `GetSpotPriceFilterInput` via:
-//
-//	GetSpotPriceFilterArgs{...}
-type GetSpotPriceFilterInput interface {
-	pulumi.Input
-
-	ToGetSpotPriceFilterOutput() GetSpotPriceFilterOutput
-	ToGetSpotPriceFilterOutputWithContext(context.Context) GetSpotPriceFilterOutput
-}
-
-type GetSpotPriceFilterArgs struct {
-	// Name of the filter.
-	Name pulumi.StringInput `pulumi:"name"`
-	// List of one or more values for the filter.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetSpotPriceFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetSpotPriceFilter)(nil)).Elem()
-}
-
-func (i GetSpotPriceFilterArgs) ToGetSpotPriceFilterOutput() GetSpotPriceFilterOutput {
-	return i.ToGetSpotPriceFilterOutputWithContext(context.Background())
-}
-
-func (i GetSpotPriceFilterArgs) ToGetSpotPriceFilterOutputWithContext(ctx context.Context) GetSpotPriceFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetSpotPriceFilterOutput)
-}
-
-// GetSpotPriceFilterArrayInput is an input type that accepts GetSpotPriceFilterArray and GetSpotPriceFilterArrayOutput values.
-// You can construct a concrete instance of `GetSpotPriceFilterArrayInput` via:
-//
-//	GetSpotPriceFilterArray{ GetSpotPriceFilterArgs{...} }
-type GetSpotPriceFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetSpotPriceFilterArrayOutput() GetSpotPriceFilterArrayOutput
-	ToGetSpotPriceFilterArrayOutputWithContext(context.Context) GetSpotPriceFilterArrayOutput
-}
-
-type GetSpotPriceFilterArray []GetSpotPriceFilterInput
-
-func (GetSpotPriceFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetSpotPriceFilter)(nil)).Elem()
-}
-
-func (i GetSpotPriceFilterArray) ToGetSpotPriceFilterArrayOutput() GetSpotPriceFilterArrayOutput {
-	return i.ToGetSpotPriceFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetSpotPriceFilterArray) ToGetSpotPriceFilterArrayOutputWithContext(ctx context.Context) GetSpotPriceFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetSpotPriceFilterArrayOutput)
-}
-
-type GetSpotPriceFilterOutput struct{ *pulumi.OutputState }
-
-func (GetSpotPriceFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetSpotPriceFilter)(nil)).Elem()
-}
-
-func (o GetSpotPriceFilterOutput) ToGetSpotPriceFilterOutput() GetSpotPriceFilterOutput {
-	return o
-}
-
-func (o GetSpotPriceFilterOutput) ToGetSpotPriceFilterOutputWithContext(ctx context.Context) GetSpotPriceFilterOutput {
-	return o
-}
-
-// Name of the filter.
-func (o GetSpotPriceFilterOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetSpotPriceFilter) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// List of one or more values for the filter.
-func (o GetSpotPriceFilterOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetSpotPriceFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetSpotPriceFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetSpotPriceFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetSpotPriceFilter)(nil)).Elem()
-}
-
-func (o GetSpotPriceFilterArrayOutput) ToGetSpotPriceFilterArrayOutput() GetSpotPriceFilterArrayOutput {
-	return o
-}
-
-func (o GetSpotPriceFilterArrayOutput) ToGetSpotPriceFilterArrayOutputWithContext(ctx context.Context) GetSpotPriceFilterArrayOutput {
-	return o
-}
-
-func (o GetSpotPriceFilterArrayOutput) Index(i pulumi.IntInput) GetSpotPriceFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetSpotPriceFilter {
-		return vs[0].([]GetSpotPriceFilter)[vs[1].(int)]
-	}).(GetSpotPriceFilterOutput)
-}
-
-type GetSubnetFilter struct {
-	// Name of the field to filter by, as defined by [the underlying AWS API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSubnets.html).
-	Name string `pulumi:"name"`
-	// Set of values that are accepted for the given field. A subnet will be selected if any one of the given values matches.
-	Values []string `pulumi:"values"`
-}
-
-// GetSubnetFilterInput is an input type that accepts GetSubnetFilterArgs and GetSubnetFilterOutput values.
-// You can construct a concrete instance of `GetSubnetFilterInput` via:
-//
-//	GetSubnetFilterArgs{...}
-type GetSubnetFilterInput interface {
-	pulumi.Input
-
-	ToGetSubnetFilterOutput() GetSubnetFilterOutput
-	ToGetSubnetFilterOutputWithContext(context.Context) GetSubnetFilterOutput
-}
-
-type GetSubnetFilterArgs struct {
-	// Name of the field to filter by, as defined by [the underlying AWS API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSubnets.html).
-	Name pulumi.StringInput `pulumi:"name"`
-	// Set of values that are accepted for the given field. A subnet will be selected if any one of the given values matches.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetSubnetFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetSubnetFilter)(nil)).Elem()
-}
-
-func (i GetSubnetFilterArgs) ToGetSubnetFilterOutput() GetSubnetFilterOutput {
-	return i.ToGetSubnetFilterOutputWithContext(context.Background())
-}
-
-func (i GetSubnetFilterArgs) ToGetSubnetFilterOutputWithContext(ctx context.Context) GetSubnetFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetSubnetFilterOutput)
-}
-
-// GetSubnetFilterArrayInput is an input type that accepts GetSubnetFilterArray and GetSubnetFilterArrayOutput values.
-// You can construct a concrete instance of `GetSubnetFilterArrayInput` via:
-//
-//	GetSubnetFilterArray{ GetSubnetFilterArgs{...} }
-type GetSubnetFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetSubnetFilterArrayOutput() GetSubnetFilterArrayOutput
-	ToGetSubnetFilterArrayOutputWithContext(context.Context) GetSubnetFilterArrayOutput
-}
-
-type GetSubnetFilterArray []GetSubnetFilterInput
-
-func (GetSubnetFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetSubnetFilter)(nil)).Elem()
-}
-
-func (i GetSubnetFilterArray) ToGetSubnetFilterArrayOutput() GetSubnetFilterArrayOutput {
-	return i.ToGetSubnetFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetSubnetFilterArray) ToGetSubnetFilterArrayOutputWithContext(ctx context.Context) GetSubnetFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetSubnetFilterArrayOutput)
-}
-
-type GetSubnetFilterOutput struct{ *pulumi.OutputState }
-
-func (GetSubnetFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetSubnetFilter)(nil)).Elem()
-}
-
-func (o GetSubnetFilterOutput) ToGetSubnetFilterOutput() GetSubnetFilterOutput {
-	return o
-}
-
-func (o GetSubnetFilterOutput) ToGetSubnetFilterOutputWithContext(ctx context.Context) GetSubnetFilterOutput {
-	return o
-}
-
-// Name of the field to filter by, as defined by [the underlying AWS API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSubnets.html).
-func (o GetSubnetFilterOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetSubnetFilter) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Set of values that are accepted for the given field. A subnet will be selected if any one of the given values matches.
-func (o GetSubnetFilterOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetSubnetFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetSubnetFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetSubnetFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetSubnetFilter)(nil)).Elem()
-}
-
-func (o GetSubnetFilterArrayOutput) ToGetSubnetFilterArrayOutput() GetSubnetFilterArrayOutput {
-	return o
-}
-
-func (o GetSubnetFilterArrayOutput) ToGetSubnetFilterArrayOutputWithContext(ctx context.Context) GetSubnetFilterArrayOutput {
-	return o
-}
-
-func (o GetSubnetFilterArrayOutput) Index(i pulumi.IntInput) GetSubnetFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetSubnetFilter {
-		return vs[0].([]GetSubnetFilter)[vs[1].(int)]
-	}).(GetSubnetFilterOutput)
-}
-
-type GetSubnetsFilter struct {
-	// Name of the field to filter by, as defined by
-	// [the underlying AWS API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSubnets.html).
-	// For example, if matching against tag `Name`, use:
-	Name string `pulumi:"name"`
-	// Set of values that are accepted for the given field.
-	// Subnet IDs will be selected if any one of the given values match.
-	Values []string `pulumi:"values"`
-}
-
-// GetSubnetsFilterInput is an input type that accepts GetSubnetsFilterArgs and GetSubnetsFilterOutput values.
-// You can construct a concrete instance of `GetSubnetsFilterInput` via:
-//
-//	GetSubnetsFilterArgs{...}
-type GetSubnetsFilterInput interface {
-	pulumi.Input
-
-	ToGetSubnetsFilterOutput() GetSubnetsFilterOutput
-	ToGetSubnetsFilterOutputWithContext(context.Context) GetSubnetsFilterOutput
-}
-
-type GetSubnetsFilterArgs struct {
-	// Name of the field to filter by, as defined by
-	// [the underlying AWS API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSubnets.html).
-	// For example, if matching against tag `Name`, use:
-	Name pulumi.StringInput `pulumi:"name"`
-	// Set of values that are accepted for the given field.
-	// Subnet IDs will be selected if any one of the given values match.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetSubnetsFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetSubnetsFilter)(nil)).Elem()
-}
-
-func (i GetSubnetsFilterArgs) ToGetSubnetsFilterOutput() GetSubnetsFilterOutput {
-	return i.ToGetSubnetsFilterOutputWithContext(context.Background())
-}
-
-func (i GetSubnetsFilterArgs) ToGetSubnetsFilterOutputWithContext(ctx context.Context) GetSubnetsFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetSubnetsFilterOutput)
-}
-
-// GetSubnetsFilterArrayInput is an input type that accepts GetSubnetsFilterArray and GetSubnetsFilterArrayOutput values.
-// You can construct a concrete instance of `GetSubnetsFilterArrayInput` via:
-//
-//	GetSubnetsFilterArray{ GetSubnetsFilterArgs{...} }
-type GetSubnetsFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetSubnetsFilterArrayOutput() GetSubnetsFilterArrayOutput
-	ToGetSubnetsFilterArrayOutputWithContext(context.Context) GetSubnetsFilterArrayOutput
-}
-
-type GetSubnetsFilterArray []GetSubnetsFilterInput
-
-func (GetSubnetsFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetSubnetsFilter)(nil)).Elem()
-}
-
-func (i GetSubnetsFilterArray) ToGetSubnetsFilterArrayOutput() GetSubnetsFilterArrayOutput {
-	return i.ToGetSubnetsFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetSubnetsFilterArray) ToGetSubnetsFilterArrayOutputWithContext(ctx context.Context) GetSubnetsFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetSubnetsFilterArrayOutput)
-}
-
-type GetSubnetsFilterOutput struct{ *pulumi.OutputState }
-
-func (GetSubnetsFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetSubnetsFilter)(nil)).Elem()
-}
-
-func (o GetSubnetsFilterOutput) ToGetSubnetsFilterOutput() GetSubnetsFilterOutput {
-	return o
-}
-
-func (o GetSubnetsFilterOutput) ToGetSubnetsFilterOutputWithContext(ctx context.Context) GetSubnetsFilterOutput {
-	return o
-}
-
-// Name of the field to filter by, as defined by
-// [the underlying AWS API](http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeSubnets.html).
-// For example, if matching against tag `Name`, use:
-func (o GetSubnetsFilterOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetSubnetsFilter) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Set of values that are accepted for the given field.
-// Subnet IDs will be selected if any one of the given values match.
-func (o GetSubnetsFilterOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetSubnetsFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetSubnetsFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetSubnetsFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetSubnetsFilter)(nil)).Elem()
-}
-
-func (o GetSubnetsFilterArrayOutput) ToGetSubnetsFilterArrayOutput() GetSubnetsFilterArrayOutput {
-	return o
-}
-
-func (o GetSubnetsFilterArrayOutput) ToGetSubnetsFilterArrayOutputWithContext(ctx context.Context) GetSubnetsFilterArrayOutput {
-	return o
-}
-
-func (o GetSubnetsFilterArrayOutput) Index(i pulumi.IntInput) GetSubnetsFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetSubnetsFilter {
-		return vs[0].([]GetSubnetsFilter)[vs[1].(int)]
-	}).(GetSubnetsFilterOutput)
-}
-
-type GetTransitGatewayRouteTablesFilter struct {
-	// Name of the field to filter by, as defined by
-	// [the underlying AWS API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGatewayRouteTables.html).
-	Name string `pulumi:"name"`
-	// Set of values that are accepted for the given field.
-	// A Transit Gateway Route Table will be selected if any one of the given values matches.
-	Values []string `pulumi:"values"`
-}
-
-// GetTransitGatewayRouteTablesFilterInput is an input type that accepts GetTransitGatewayRouteTablesFilterArgs and GetTransitGatewayRouteTablesFilterOutput values.
-// You can construct a concrete instance of `GetTransitGatewayRouteTablesFilterInput` via:
-//
-//	GetTransitGatewayRouteTablesFilterArgs{...}
-type GetTransitGatewayRouteTablesFilterInput interface {
-	pulumi.Input
-
-	ToGetTransitGatewayRouteTablesFilterOutput() GetTransitGatewayRouteTablesFilterOutput
-	ToGetTransitGatewayRouteTablesFilterOutputWithContext(context.Context) GetTransitGatewayRouteTablesFilterOutput
-}
-
-type GetTransitGatewayRouteTablesFilterArgs struct {
-	// Name of the field to filter by, as defined by
-	// [the underlying AWS API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGatewayRouteTables.html).
-	Name pulumi.StringInput `pulumi:"name"`
-	// Set of values that are accepted for the given field.
-	// A Transit Gateway Route Table will be selected if any one of the given values matches.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetTransitGatewayRouteTablesFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTransitGatewayRouteTablesFilter)(nil)).Elem()
-}
-
-func (i GetTransitGatewayRouteTablesFilterArgs) ToGetTransitGatewayRouteTablesFilterOutput() GetTransitGatewayRouteTablesFilterOutput {
-	return i.ToGetTransitGatewayRouteTablesFilterOutputWithContext(context.Background())
-}
-
-func (i GetTransitGatewayRouteTablesFilterArgs) ToGetTransitGatewayRouteTablesFilterOutputWithContext(ctx context.Context) GetTransitGatewayRouteTablesFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTransitGatewayRouteTablesFilterOutput)
-}
-
-// GetTransitGatewayRouteTablesFilterArrayInput is an input type that accepts GetTransitGatewayRouteTablesFilterArray and GetTransitGatewayRouteTablesFilterArrayOutput values.
-// You can construct a concrete instance of `GetTransitGatewayRouteTablesFilterArrayInput` via:
-//
-//	GetTransitGatewayRouteTablesFilterArray{ GetTransitGatewayRouteTablesFilterArgs{...} }
-type GetTransitGatewayRouteTablesFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetTransitGatewayRouteTablesFilterArrayOutput() GetTransitGatewayRouteTablesFilterArrayOutput
-	ToGetTransitGatewayRouteTablesFilterArrayOutputWithContext(context.Context) GetTransitGatewayRouteTablesFilterArrayOutput
-}
-
-type GetTransitGatewayRouteTablesFilterArray []GetTransitGatewayRouteTablesFilterInput
-
-func (GetTransitGatewayRouteTablesFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTransitGatewayRouteTablesFilter)(nil)).Elem()
-}
-
-func (i GetTransitGatewayRouteTablesFilterArray) ToGetTransitGatewayRouteTablesFilterArrayOutput() GetTransitGatewayRouteTablesFilterArrayOutput {
-	return i.ToGetTransitGatewayRouteTablesFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetTransitGatewayRouteTablesFilterArray) ToGetTransitGatewayRouteTablesFilterArrayOutputWithContext(ctx context.Context) GetTransitGatewayRouteTablesFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTransitGatewayRouteTablesFilterArrayOutput)
-}
-
-type GetTransitGatewayRouteTablesFilterOutput struct{ *pulumi.OutputState }
-
-func (GetTransitGatewayRouteTablesFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTransitGatewayRouteTablesFilter)(nil)).Elem()
-}
-
-func (o GetTransitGatewayRouteTablesFilterOutput) ToGetTransitGatewayRouteTablesFilterOutput() GetTransitGatewayRouteTablesFilterOutput {
-	return o
-}
-
-func (o GetTransitGatewayRouteTablesFilterOutput) ToGetTransitGatewayRouteTablesFilterOutputWithContext(ctx context.Context) GetTransitGatewayRouteTablesFilterOutput {
-	return o
-}
-
-// Name of the field to filter by, as defined by
-// [the underlying AWS API](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeTransitGatewayRouteTables.html).
-func (o GetTransitGatewayRouteTablesFilterOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTransitGatewayRouteTablesFilter) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Set of values that are accepted for the given field.
-// A Transit Gateway Route Table will be selected if any one of the given values matches.
-func (o GetTransitGatewayRouteTablesFilterOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetTransitGatewayRouteTablesFilter) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetTransitGatewayRouteTablesFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTransitGatewayRouteTablesFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTransitGatewayRouteTablesFilter)(nil)).Elem()
-}
-
-func (o GetTransitGatewayRouteTablesFilterArrayOutput) ToGetTransitGatewayRouteTablesFilterArrayOutput() GetTransitGatewayRouteTablesFilterArrayOutput {
-	return o
-}
-
-func (o GetTransitGatewayRouteTablesFilterArrayOutput) ToGetTransitGatewayRouteTablesFilterArrayOutputWithContext(ctx context.Context) GetTransitGatewayRouteTablesFilterArrayOutput {
-	return o
-}
-
-func (o GetTransitGatewayRouteTablesFilterArrayOutput) Index(i pulumi.IntInput) GetTransitGatewayRouteTablesFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTransitGatewayRouteTablesFilter {
-		return vs[0].([]GetTransitGatewayRouteTablesFilter)[vs[1].(int)]
-	}).(GetTransitGatewayRouteTablesFilterOutput)
-}
-
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*AllowedImagesSettingsImageCriterionInput)(nil)).Elem(), AllowedImagesSettingsImageCriterionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*AllowedImagesSettingsImageCriterionArrayInput)(nil)).Elem(), AllowedImagesSettingsImageCriterionArray{})
@@ -70045,6 +69918,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*FleetTargetCapacitySpecificationPtrInput)(nil)).Elem(), FleetTargetCapacitySpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlowLogDestinationOptionsInput)(nil)).Elem(), FlowLogDestinationOptionsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*FlowLogDestinationOptionsPtrInput)(nil)).Elem(), FlowLogDestinationOptionsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlowLogTagFieldSpecificationInput)(nil)).Elem(), FlowLogTagFieldSpecificationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*FlowLogTagFieldSpecificationArrayInput)(nil)).Elem(), FlowLogTagFieldSpecificationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceCapacityReservationSpecificationInput)(nil)).Elem(), InstanceCapacityReservationSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceCapacityReservationSpecificationPtrInput)(nil)).Elem(), InstanceCapacityReservationSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceCapacityReservationSpecificationCapacityReservationTargetInput)(nil)).Elem(), InstanceCapacityReservationSpecificationCapacityReservationTargetArgs{})
@@ -70387,6 +70262,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfaceEnaSrdSpecificationPtrInput)(nil)).Elem(), NetworkInterfaceEnaSrdSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationInput)(nil)).Elem(), NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationPtrInput)(nil)).Elem(), NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfaceFilterInput)(nil)).Elem(), NetworkInterfaceFilterArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfaceFilterArrayInput)(nil)).Elem(), NetworkInterfaceFilterArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfacePermissionTimeoutsInput)(nil)).Elem(), NetworkInterfacePermissionTimeoutsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*NetworkInterfacePermissionTimeoutsPtrInput)(nil)).Elem(), NetworkInterfacePermissionTimeoutsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*PeeringConnectionOptionsAccepterInput)(nil)).Elem(), PeeringConnectionOptionsAccepterArgs{})
@@ -70560,6 +70437,11 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetAmiIdsFilterArrayInput)(nil)).Elem(), GetAmiIdsFilterArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetAmiProductCodeInput)(nil)).Elem(), GetAmiProductCodeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetAmiProductCodeArrayInput)(nil)).Elem(), GetAmiProductCodeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetCapacityBlockReservationCommitmentInfoInput)(nil)).Elem(), GetCapacityBlockReservationCommitmentInfoArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetCapacityBlockReservationFilterInput)(nil)).Elem(), GetCapacityBlockReservationFilterArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetCapacityBlockReservationFilterArrayInput)(nil)).Elem(), GetCapacityBlockReservationFilterArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetCapacityBlockReservationInterruptibleCapacityAllocationInput)(nil)).Elem(), GetCapacityBlockReservationInterruptibleCapacityAllocationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetCapacityBlockReservationInterruptionInfoInput)(nil)).Elem(), GetCapacityBlockReservationInterruptionInfoArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetCoipPoolFilterInput)(nil)).Elem(), GetCoipPoolFilterArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetCoipPoolFilterArrayInput)(nil)).Elem(), GetCoipPoolFilterArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetCoipPoolsFilterInput)(nil)).Elem(), GetCoipPoolsFilterArgs{})
@@ -70936,18 +70818,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetSecurityGroupFilterArrayInput)(nil)).Elem(), GetSecurityGroupFilterArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetSecurityGroupsFilterInput)(nil)).Elem(), GetSecurityGroupsFilterArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetSecurityGroupsFilterArrayInput)(nil)).Elem(), GetSecurityGroupsFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceLinkVirtualInterfaceFilterInput)(nil)).Elem(), GetServiceLinkVirtualInterfaceFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceLinkVirtualInterfaceFilterArrayInput)(nil)).Elem(), GetServiceLinkVirtualInterfaceFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceLinkVirtualInterfacesFilterInput)(nil)).Elem(), GetServiceLinkVirtualInterfacesFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceLinkVirtualInterfacesFilterArrayInput)(nil)).Elem(), GetServiceLinkVirtualInterfacesFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetSpotPriceFilterInput)(nil)).Elem(), GetSpotPriceFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetSpotPriceFilterArrayInput)(nil)).Elem(), GetSpotPriceFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetSubnetFilterInput)(nil)).Elem(), GetSubnetFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetSubnetFilterArrayInput)(nil)).Elem(), GetSubnetFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetSubnetsFilterInput)(nil)).Elem(), GetSubnetsFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetSubnetsFilterArrayInput)(nil)).Elem(), GetSubnetsFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTransitGatewayRouteTablesFilterInput)(nil)).Elem(), GetTransitGatewayRouteTablesFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTransitGatewayRouteTablesFilterArrayInput)(nil)).Elem(), GetTransitGatewayRouteTablesFilterArray{})
 	pulumi.RegisterOutputType(AllowedImagesSettingsImageCriterionOutput{})
 	pulumi.RegisterOutputType(AllowedImagesSettingsImageCriterionArrayOutput{})
 	pulumi.RegisterOutputType(AllowedImagesSettingsImageCriterionCreationDateConditionOutput{})
@@ -71044,6 +70914,8 @@ func init() {
 	pulumi.RegisterOutputType(FleetTargetCapacitySpecificationPtrOutput{})
 	pulumi.RegisterOutputType(FlowLogDestinationOptionsOutput{})
 	pulumi.RegisterOutputType(FlowLogDestinationOptionsPtrOutput{})
+	pulumi.RegisterOutputType(FlowLogTagFieldSpecificationOutput{})
+	pulumi.RegisterOutputType(FlowLogTagFieldSpecificationArrayOutput{})
 	pulumi.RegisterOutputType(InstanceCapacityReservationSpecificationOutput{})
 	pulumi.RegisterOutputType(InstanceCapacityReservationSpecificationPtrOutput{})
 	pulumi.RegisterOutputType(InstanceCapacityReservationSpecificationCapacityReservationTargetOutput{})
@@ -71386,6 +71258,8 @@ func init() {
 	pulumi.RegisterOutputType(NetworkInterfaceEnaSrdSpecificationPtrOutput{})
 	pulumi.RegisterOutputType(NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationOutput{})
 	pulumi.RegisterOutputType(NetworkInterfaceEnaSrdSpecificationEnaSrdUdpSpecificationPtrOutput{})
+	pulumi.RegisterOutputType(NetworkInterfaceFilterOutput{})
+	pulumi.RegisterOutputType(NetworkInterfaceFilterArrayOutput{})
 	pulumi.RegisterOutputType(NetworkInterfacePermissionTimeoutsOutput{})
 	pulumi.RegisterOutputType(NetworkInterfacePermissionTimeoutsPtrOutput{})
 	pulumi.RegisterOutputType(PeeringConnectionOptionsAccepterOutput{})
@@ -71559,6 +71433,11 @@ func init() {
 	pulumi.RegisterOutputType(GetAmiIdsFilterArrayOutput{})
 	pulumi.RegisterOutputType(GetAmiProductCodeOutput{})
 	pulumi.RegisterOutputType(GetAmiProductCodeArrayOutput{})
+	pulumi.RegisterOutputType(GetCapacityBlockReservationCommitmentInfoOutput{})
+	pulumi.RegisterOutputType(GetCapacityBlockReservationFilterOutput{})
+	pulumi.RegisterOutputType(GetCapacityBlockReservationFilterArrayOutput{})
+	pulumi.RegisterOutputType(GetCapacityBlockReservationInterruptibleCapacityAllocationOutput{})
+	pulumi.RegisterOutputType(GetCapacityBlockReservationInterruptionInfoOutput{})
 	pulumi.RegisterOutputType(GetCoipPoolFilterOutput{})
 	pulumi.RegisterOutputType(GetCoipPoolFilterArrayOutput{})
 	pulumi.RegisterOutputType(GetCoipPoolsFilterOutput{})
@@ -71935,16 +71814,4 @@ func init() {
 	pulumi.RegisterOutputType(GetSecurityGroupFilterArrayOutput{})
 	pulumi.RegisterOutputType(GetSecurityGroupsFilterOutput{})
 	pulumi.RegisterOutputType(GetSecurityGroupsFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetServiceLinkVirtualInterfaceFilterOutput{})
-	pulumi.RegisterOutputType(GetServiceLinkVirtualInterfaceFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetServiceLinkVirtualInterfacesFilterOutput{})
-	pulumi.RegisterOutputType(GetServiceLinkVirtualInterfacesFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetSpotPriceFilterOutput{})
-	pulumi.RegisterOutputType(GetSpotPriceFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetSubnetFilterOutput{})
-	pulumi.RegisterOutputType(GetSubnetFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetSubnetsFilterOutput{})
-	pulumi.RegisterOutputType(GetSubnetsFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetTransitGatewayRouteTablesFilterOutput{})
-	pulumi.RegisterOutputType(GetTransitGatewayRouteTablesFilterArrayOutput{})
 }
