@@ -54,3 +54,34 @@ func TestFilterByFamily_EmptyInput_ReturnsNil(t *testing.T) {
 		t.Errorf("got %v, want empty", got)
 	}
 }
+
+// TestFilterByFamily_CapAppliedAfterFilter verifies that when InstanceFamilies
+// is set, matching types beyond MaxResults are still reachable by filterByFamily
+// (i.e. the cap is applied after filtering, not before). This guards the fix for
+// the bug where FilterVerbose capped results before filterByFamily ran, silently
+// dropping allowlisted families ranked outside the top MaxResults.
+func TestFilterByFamily_CapAppliedAfterFilter(t *testing.T) {
+	// Build 25 types: 5 non-matching (d3en) followed by 20 m6i types.
+	// If cap were applied before filter, the 5 d3en types would consume cap slots
+	// and only 15 m6i types would survive. With cap-after-filter all 20 survive.
+	var types []string
+	for i := 0; i < 5; i++ {
+		types = append(types, "d3en.12xlarge")
+	}
+	for i := 0; i < 20; i++ {
+		types = append(types, "m6i.xlarge")
+	}
+
+	got := filterByFamily(types, []string{"m6i"})
+	if len(got) != 20 {
+		t.Errorf("got %d results, want 20 — cap must be applied after filter, not before", len(got))
+	}
+}
+
+func TestFilterByFamily_CapNotExceeded(t *testing.T) {
+	// When filtered results are fewer than MaxResults, all are returned unchanged.
+	got := filterByFamily([]string{"m5.xlarge", "m6i.xlarge"}, []string{"m5", "m6i"})
+	if len(got) != 2 {
+		t.Errorf("got %v, want [m5.xlarge m6i.xlarge]", got)
+	}
+}
