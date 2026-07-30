@@ -64,6 +64,7 @@ func getFedoraCreate() *cobra.Command {
 					Prefix:           "main",
 					Version:          viper.GetString(fedoraVersion),
 					Arch:             viper.GetString(params.LinuxArch),
+					AMIID:            viper.GetString(params.AMIIDName),
 					ComputeRequest:   params.ComputeRequestArgs(),
 					Spot:             params.SpotArgs(),
 					Timeout:          viper.GetString(params.Timeout),
@@ -76,6 +77,7 @@ func getFedoraCreate() *cobra.Command {
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(fedoraVersion, "", fedoraVersionDefault, fedoraVersionDesc)
 	flagSet.StringP(params.LinuxArch, "", params.LinuxArchDefault, params.LinuxArchDesc)
+	flagSet.StringP(params.AMIIDName, "", "", params.AMIIDDesc)
 	flagSet.Bool(airgap, false, airgapDesc)
 	flagSet.StringP(params.Timeout, "", "", params.TimeoutDesc)
 	params.AddComputeRequestFlags(flagSet)

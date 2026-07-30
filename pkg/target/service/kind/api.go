@@ -37,6 +37,7 @@ type KindArgs struct {
 	ComputeRequest    *cr.ComputeRequestArgs
 	Version           string
 	Arch              string
+	AMIID             string
 	HostingPlace      string
 	Spot              *spotTypes.SpotArgs
 	Timeout           string

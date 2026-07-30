@@ -46,6 +46,7 @@ type SNCArgs struct {
 	Version                 string
 	DisableClusterReadiness bool
 	Arch                    string
+	AMIID                   string
 	PullSecretFile          string
 	Spot                    *spotTypes.SpotArgs
 	Timeout                 string
