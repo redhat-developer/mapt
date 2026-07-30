@@ -45,7 +45,7 @@ type ServiceGateway struct {
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type pulumi.StringOutput `pulumi:"type"`
 	// Reference to an existing virtual network.
-	VirtualNetwork CommonVirtualNetworkResponsePtrOutput `pulumi:"virtualNetwork"`
+	VirtualNetwork VirtualNetworkResponsePtrOutput `pulumi:"virtualNetwork"`
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -261,8 +261,8 @@ func (o ServiceGatewayOutput) Type() pulumi.StringOutput {
 }
 
 // Reference to an existing virtual network.
-func (o ServiceGatewayOutput) VirtualNetwork() CommonVirtualNetworkResponsePtrOutput {
-	return o.ApplyT(func(v *ServiceGateway) CommonVirtualNetworkResponsePtrOutput { return v.VirtualNetwork }).(CommonVirtualNetworkResponsePtrOutput)
+func (o ServiceGatewayOutput) VirtualNetwork() VirtualNetworkResponsePtrOutput {
+	return o.ApplyT(func(v *ServiceGateway) VirtualNetworkResponsePtrOutput { return v.VirtualNetwork }).(VirtualNetworkResponsePtrOutput)
 }
 
 // A list of availability zones denoting the zone in which service gateway should be deployed.

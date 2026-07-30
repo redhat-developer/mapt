@@ -1229,6 +1229,66 @@ func (o AdvancedNetworkingSecurityResponsePtrOutput) Enabled() pulumi.BoolPtrOut
 	}).(pulumi.BoolPtrOutput)
 }
 
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type AffinityResponse struct {
+	// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+	ClusterAffinity *ClusterAffinityResponse `pulumi:"clusterAffinity"`
+}
+
+// Affinity is a group of cluster affinity scheduling rules. More to be added.
+type AffinityResponseOutput struct{ *pulumi.OutputState }
+
+func (AffinityResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*AffinityResponse)(nil)).Elem()
+}
+
+func (o AffinityResponseOutput) ToAffinityResponseOutput() AffinityResponseOutput {
+	return o
+}
+
+func (o AffinityResponseOutput) ToAffinityResponseOutputWithContext(ctx context.Context) AffinityResponseOutput {
+	return o
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+func (o AffinityResponseOutput) ClusterAffinity() ClusterAffinityResponsePtrOutput {
+	return o.ApplyT(func(v AffinityResponse) *ClusterAffinityResponse { return v.ClusterAffinity }).(ClusterAffinityResponsePtrOutput)
+}
+
+type AffinityResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (AffinityResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**AffinityResponse)(nil)).Elem()
+}
+
+func (o AffinityResponsePtrOutput) ToAffinityResponsePtrOutput() AffinityResponsePtrOutput {
+	return o
+}
+
+func (o AffinityResponsePtrOutput) ToAffinityResponsePtrOutputWithContext(ctx context.Context) AffinityResponsePtrOutput {
+	return o
+}
+
+func (o AffinityResponsePtrOutput) Elem() AffinityResponseOutput {
+	return o.ApplyT(func(v *AffinityResponse) AffinityResponse {
+		if v != nil {
+			return *v
+		}
+		var ret AffinityResponse
+		return ret
+	}).(AffinityResponseOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+func (o AffinityResponsePtrOutput) ClusterAffinity() ClusterAffinityResponsePtrOutput {
+	return o.ApplyT(func(v *AffinityResponse) *ClusterAffinityResponse {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterAffinity
+	}).(ClusterAffinityResponsePtrOutput)
+}
+
 // Profile of the managed cluster gateway agent pool.
 type AgentPoolGatewayProfile struct {
 	// The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31.
@@ -3393,6 +3453,241 @@ func (o AzureKeyVaultKmsResponsePtrOutput) KeyVaultResourceId() pulumi.StringPtr
 		}
 		return v.KeyVaultResourceId
 	}).(pulumi.StringPtrOutput)
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type ClusterAffinityResponse struct {
+	// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+	RequiredDuringSchedulingIgnoredDuringExecution *ClusterSelectorResponse `pulumi:"requiredDuringSchedulingIgnoredDuringExecution"`
+}
+
+// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
+type ClusterAffinityResponseOutput struct{ *pulumi.OutputState }
+
+func (ClusterAffinityResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClusterAffinityResponse)(nil)).Elem()
+}
+
+func (o ClusterAffinityResponseOutput) ToClusterAffinityResponseOutput() ClusterAffinityResponseOutput {
+	return o
+}
+
+func (o ClusterAffinityResponseOutput) ToClusterAffinityResponseOutputWithContext(ctx context.Context) ClusterAffinityResponseOutput {
+	return o
+}
+
+// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+func (o ClusterAffinityResponseOutput) RequiredDuringSchedulingIgnoredDuringExecution() ClusterSelectorResponsePtrOutput {
+	return o.ApplyT(func(v ClusterAffinityResponse) *ClusterSelectorResponse {
+		return v.RequiredDuringSchedulingIgnoredDuringExecution
+	}).(ClusterSelectorResponsePtrOutput)
+}
+
+type ClusterAffinityResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ClusterAffinityResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClusterAffinityResponse)(nil)).Elem()
+}
+
+func (o ClusterAffinityResponsePtrOutput) ToClusterAffinityResponsePtrOutput() ClusterAffinityResponsePtrOutput {
+	return o
+}
+
+func (o ClusterAffinityResponsePtrOutput) ToClusterAffinityResponsePtrOutputWithContext(ctx context.Context) ClusterAffinityResponsePtrOutput {
+	return o
+}
+
+func (o ClusterAffinityResponsePtrOutput) Elem() ClusterAffinityResponseOutput {
+	return o.ApplyT(func(v *ClusterAffinityResponse) ClusterAffinityResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ClusterAffinityResponse
+		return ret
+	}).(ClusterAffinityResponseOutput)
+}
+
+// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
+func (o ClusterAffinityResponsePtrOutput) RequiredDuringSchedulingIgnoredDuringExecution() ClusterSelectorResponsePtrOutput {
+	return o.ApplyT(func(v *ClusterAffinityResponse) *ClusterSelectorResponse {
+		if v == nil {
+			return nil
+		}
+		return v.RequiredDuringSchedulingIgnoredDuringExecution
+	}).(ClusterSelectorResponsePtrOutput)
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type ClusterResourcePlacementSpecResponse struct {
+	// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+	Policy *PlacementPolicyResponse `pulumi:"policy"`
+}
+
+// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
+type ClusterResourcePlacementSpecResponseOutput struct{ *pulumi.OutputState }
+
+func (ClusterResourcePlacementSpecResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClusterResourcePlacementSpecResponse)(nil)).Elem()
+}
+
+func (o ClusterResourcePlacementSpecResponseOutput) ToClusterResourcePlacementSpecResponseOutput() ClusterResourcePlacementSpecResponseOutput {
+	return o
+}
+
+func (o ClusterResourcePlacementSpecResponseOutput) ToClusterResourcePlacementSpecResponseOutputWithContext(ctx context.Context) ClusterResourcePlacementSpecResponseOutput {
+	return o
+}
+
+// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+func (o ClusterResourcePlacementSpecResponseOutput) Policy() PlacementPolicyResponsePtrOutput {
+	return o.ApplyT(func(v ClusterResourcePlacementSpecResponse) *PlacementPolicyResponse { return v.Policy }).(PlacementPolicyResponsePtrOutput)
+}
+
+type ClusterResourcePlacementSpecResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ClusterResourcePlacementSpecResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClusterResourcePlacementSpecResponse)(nil)).Elem()
+}
+
+func (o ClusterResourcePlacementSpecResponsePtrOutput) ToClusterResourcePlacementSpecResponsePtrOutput() ClusterResourcePlacementSpecResponsePtrOutput {
+	return o
+}
+
+func (o ClusterResourcePlacementSpecResponsePtrOutput) ToClusterResourcePlacementSpecResponsePtrOutputWithContext(ctx context.Context) ClusterResourcePlacementSpecResponsePtrOutput {
+	return o
+}
+
+func (o ClusterResourcePlacementSpecResponsePtrOutput) Elem() ClusterResourcePlacementSpecResponseOutput {
+	return o.ApplyT(func(v *ClusterResourcePlacementSpecResponse) ClusterResourcePlacementSpecResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ClusterResourcePlacementSpecResponse
+		return ret
+	}).(ClusterResourcePlacementSpecResponseOutput)
+}
+
+// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
+func (o ClusterResourcePlacementSpecResponsePtrOutput) Policy() PlacementPolicyResponsePtrOutput {
+	return o.ApplyT(func(v *ClusterResourcePlacementSpecResponse) *PlacementPolicyResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Policy
+	}).(PlacementPolicyResponsePtrOutput)
+}
+
+// ClusterSelector
+type ClusterSelectorResponse struct {
+	// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+	ClusterSelectorTerms []ClusterSelectorTermResponse `pulumi:"clusterSelectorTerms"`
+}
+
+// ClusterSelector
+type ClusterSelectorResponseOutput struct{ *pulumi.OutputState }
+
+func (ClusterSelectorResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClusterSelectorResponse)(nil)).Elem()
+}
+
+func (o ClusterSelectorResponseOutput) ToClusterSelectorResponseOutput() ClusterSelectorResponseOutput {
+	return o
+}
+
+func (o ClusterSelectorResponseOutput) ToClusterSelectorResponseOutputWithContext(ctx context.Context) ClusterSelectorResponseOutput {
+	return o
+}
+
+// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+func (o ClusterSelectorResponseOutput) ClusterSelectorTerms() ClusterSelectorTermResponseArrayOutput {
+	return o.ApplyT(func(v ClusterSelectorResponse) []ClusterSelectorTermResponse { return v.ClusterSelectorTerms }).(ClusterSelectorTermResponseArrayOutput)
+}
+
+type ClusterSelectorResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (ClusterSelectorResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClusterSelectorResponse)(nil)).Elem()
+}
+
+func (o ClusterSelectorResponsePtrOutput) ToClusterSelectorResponsePtrOutput() ClusterSelectorResponsePtrOutput {
+	return o
+}
+
+func (o ClusterSelectorResponsePtrOutput) ToClusterSelectorResponsePtrOutputWithContext(ctx context.Context) ClusterSelectorResponsePtrOutput {
+	return o
+}
+
+func (o ClusterSelectorResponsePtrOutput) Elem() ClusterSelectorResponseOutput {
+	return o.ApplyT(func(v *ClusterSelectorResponse) ClusterSelectorResponse {
+		if v != nil {
+			return *v
+		}
+		var ret ClusterSelectorResponse
+		return ret
+	}).(ClusterSelectorResponseOutput)
+}
+
+// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
+func (o ClusterSelectorResponsePtrOutput) ClusterSelectorTerms() ClusterSelectorTermResponseArrayOutput {
+	return o.ApplyT(func(v *ClusterSelectorResponse) []ClusterSelectorTermResponse {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterSelectorTerms
+	}).(ClusterSelectorTermResponseArrayOutput)
+}
+
+// ClusterSelectorTerm
+type ClusterSelectorTermResponse struct {
+	// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+	LabelSelector *LabelSelectorResponse `pulumi:"labelSelector"`
+	// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+	PropertySelector *PropertySelectorResponse `pulumi:"propertySelector"`
+}
+
+// ClusterSelectorTerm
+type ClusterSelectorTermResponseOutput struct{ *pulumi.OutputState }
+
+func (ClusterSelectorTermResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClusterSelectorTermResponse)(nil)).Elem()
+}
+
+func (o ClusterSelectorTermResponseOutput) ToClusterSelectorTermResponseOutput() ClusterSelectorTermResponseOutput {
+	return o
+}
+
+func (o ClusterSelectorTermResponseOutput) ToClusterSelectorTermResponseOutputWithContext(ctx context.Context) ClusterSelectorTermResponseOutput {
+	return o
+}
+
+// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
+func (o ClusterSelectorTermResponseOutput) LabelSelector() LabelSelectorResponsePtrOutput {
+	return o.ApplyT(func(v ClusterSelectorTermResponse) *LabelSelectorResponse { return v.LabelSelector }).(LabelSelectorResponsePtrOutput)
+}
+
+// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
+func (o ClusterSelectorTermResponseOutput) PropertySelector() PropertySelectorResponsePtrOutput {
+	return o.ApplyT(func(v ClusterSelectorTermResponse) *PropertySelectorResponse { return v.PropertySelector }).(PropertySelectorResponsePtrOutput)
+}
+
+type ClusterSelectorTermResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (ClusterSelectorTermResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClusterSelectorTermResponse)(nil)).Elem()
+}
+
+func (o ClusterSelectorTermResponseArrayOutput) ToClusterSelectorTermResponseArrayOutput() ClusterSelectorTermResponseArrayOutput {
+	return o
+}
+
+func (o ClusterSelectorTermResponseArrayOutput) ToClusterSelectorTermResponseArrayOutputWithContext(ctx context.Context) ClusterSelectorTermResponseArrayOutput {
+	return o
+}
+
+func (o ClusterSelectorTermResponseArrayOutput) Index(i pulumi.IntInput) ClusterSelectorTermResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClusterSelectorTermResponse {
+		return vs[0].([]ClusterSelectorTermResponse)[vs[1].(int)]
+	}).(ClusterSelectorTermResponseOutput)
 }
 
 // Settings for upgrading a cluster.
@@ -10756,6 +11051,85 @@ func (o LabelSelectorPtrOutput) MatchLabels() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type LabelSelectorLoadBalancerResponse struct {
+	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+	MatchExpressions []LabelSelectorRequirementLoadBalancerResponse `pulumi:"matchExpressions"`
+	// matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed.
+	MatchLabels []string `pulumi:"matchLabels"`
+}
+
+// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
+type LabelSelectorLoadBalancerResponseOutput struct{ *pulumi.OutputState }
+
+func (LabelSelectorLoadBalancerResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LabelSelectorLoadBalancerResponse)(nil)).Elem()
+}
+
+func (o LabelSelectorLoadBalancerResponseOutput) ToLabelSelectorLoadBalancerResponseOutput() LabelSelectorLoadBalancerResponseOutput {
+	return o
+}
+
+func (o LabelSelectorLoadBalancerResponseOutput) ToLabelSelectorLoadBalancerResponseOutputWithContext(ctx context.Context) LabelSelectorLoadBalancerResponseOutput {
+	return o
+}
+
+// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+func (o LabelSelectorLoadBalancerResponseOutput) MatchExpressions() LabelSelectorRequirementLoadBalancerResponseArrayOutput {
+	return o.ApplyT(func(v LabelSelectorLoadBalancerResponse) []LabelSelectorRequirementLoadBalancerResponse {
+		return v.MatchExpressions
+	}).(LabelSelectorRequirementLoadBalancerResponseArrayOutput)
+}
+
+// matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed.
+func (o LabelSelectorLoadBalancerResponseOutput) MatchLabels() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LabelSelectorLoadBalancerResponse) []string { return v.MatchLabels }).(pulumi.StringArrayOutput)
+}
+
+type LabelSelectorLoadBalancerResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (LabelSelectorLoadBalancerResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**LabelSelectorLoadBalancerResponse)(nil)).Elem()
+}
+
+func (o LabelSelectorLoadBalancerResponsePtrOutput) ToLabelSelectorLoadBalancerResponsePtrOutput() LabelSelectorLoadBalancerResponsePtrOutput {
+	return o
+}
+
+func (o LabelSelectorLoadBalancerResponsePtrOutput) ToLabelSelectorLoadBalancerResponsePtrOutputWithContext(ctx context.Context) LabelSelectorLoadBalancerResponsePtrOutput {
+	return o
+}
+
+func (o LabelSelectorLoadBalancerResponsePtrOutput) Elem() LabelSelectorLoadBalancerResponseOutput {
+	return o.ApplyT(func(v *LabelSelectorLoadBalancerResponse) LabelSelectorLoadBalancerResponse {
+		if v != nil {
+			return *v
+		}
+		var ret LabelSelectorLoadBalancerResponse
+		return ret
+	}).(LabelSelectorLoadBalancerResponseOutput)
+}
+
+// matchExpressions is a list of label selector requirements. The requirements are ANDed.
+func (o LabelSelectorLoadBalancerResponsePtrOutput) MatchExpressions() LabelSelectorRequirementLoadBalancerResponseArrayOutput {
+	return o.ApplyT(func(v *LabelSelectorLoadBalancerResponse) []LabelSelectorRequirementLoadBalancerResponse {
+		if v == nil {
+			return nil
+		}
+		return v.MatchExpressions
+	}).(LabelSelectorRequirementLoadBalancerResponseArrayOutput)
+}
+
+// matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed.
+func (o LabelSelectorLoadBalancerResponsePtrOutput) MatchLabels() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *LabelSelectorLoadBalancerResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.MatchLabels
+	}).(pulumi.StringArrayOutput)
+}
+
 // A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
 type LabelSelectorRequirement struct {
 	// key is the label key that the selector applies to.
@@ -10875,12 +11249,72 @@ func (o LabelSelectorRequirementArrayOutput) Index(i pulumi.IntInput) LabelSelec
 }
 
 // A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
-type LabelSelectorRequirementResponse struct {
+type LabelSelectorRequirementLoadBalancerResponse struct {
 	// key is the label key that the selector applies to.
 	Key *string `pulumi:"key"`
 	// operator represents a key's relationship to a set of values. Valid operators are In and NotIn
 	Operator *string `pulumi:"operator"`
 	// values is an array of string values, the values array must be non-empty.
+	Values []string `pulumi:"values"`
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type LabelSelectorRequirementLoadBalancerResponseOutput struct{ *pulumi.OutputState }
+
+func (LabelSelectorRequirementLoadBalancerResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*LabelSelectorRequirementLoadBalancerResponse)(nil)).Elem()
+}
+
+func (o LabelSelectorRequirementLoadBalancerResponseOutput) ToLabelSelectorRequirementLoadBalancerResponseOutput() LabelSelectorRequirementLoadBalancerResponseOutput {
+	return o
+}
+
+func (o LabelSelectorRequirementLoadBalancerResponseOutput) ToLabelSelectorRequirementLoadBalancerResponseOutputWithContext(ctx context.Context) LabelSelectorRequirementLoadBalancerResponseOutput {
+	return o
+}
+
+// key is the label key that the selector applies to.
+func (o LabelSelectorRequirementLoadBalancerResponseOutput) Key() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LabelSelectorRequirementLoadBalancerResponse) *string { return v.Key }).(pulumi.StringPtrOutput)
+}
+
+// operator represents a key's relationship to a set of values. Valid operators are In and NotIn
+func (o LabelSelectorRequirementLoadBalancerResponseOutput) Operator() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LabelSelectorRequirementLoadBalancerResponse) *string { return v.Operator }).(pulumi.StringPtrOutput)
+}
+
+// values is an array of string values, the values array must be non-empty.
+func (o LabelSelectorRequirementLoadBalancerResponseOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LabelSelectorRequirementLoadBalancerResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type LabelSelectorRequirementLoadBalancerResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (LabelSelectorRequirementLoadBalancerResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]LabelSelectorRequirementLoadBalancerResponse)(nil)).Elem()
+}
+
+func (o LabelSelectorRequirementLoadBalancerResponseArrayOutput) ToLabelSelectorRequirementLoadBalancerResponseArrayOutput() LabelSelectorRequirementLoadBalancerResponseArrayOutput {
+	return o
+}
+
+func (o LabelSelectorRequirementLoadBalancerResponseArrayOutput) ToLabelSelectorRequirementLoadBalancerResponseArrayOutputWithContext(ctx context.Context) LabelSelectorRequirementLoadBalancerResponseArrayOutput {
+	return o
+}
+
+func (o LabelSelectorRequirementLoadBalancerResponseArrayOutput) Index(i pulumi.IntInput) LabelSelectorRequirementLoadBalancerResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) LabelSelectorRequirementLoadBalancerResponse {
+		return vs[0].([]LabelSelectorRequirementLoadBalancerResponse)[vs[1].(int)]
+	}).(LabelSelectorRequirementLoadBalancerResponseOutput)
+}
+
+// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
+type LabelSelectorRequirementResponse struct {
+	// key is the label key that the selector applies to.
+	Key string `pulumi:"key"`
+	// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+	Operator string `pulumi:"operator"`
+	// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
 	Values []string `pulumi:"values"`
 }
 
@@ -10900,16 +11334,16 @@ func (o LabelSelectorRequirementResponseOutput) ToLabelSelectorRequirementRespon
 }
 
 // key is the label key that the selector applies to.
-func (o LabelSelectorRequirementResponseOutput) Key() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v LabelSelectorRequirementResponse) *string { return v.Key }).(pulumi.StringPtrOutput)
+func (o LabelSelectorRequirementResponseOutput) Key() pulumi.StringOutput {
+	return o.ApplyT(func(v LabelSelectorRequirementResponse) string { return v.Key }).(pulumi.StringOutput)
 }
 
-// operator represents a key's relationship to a set of values. Valid operators are In and NotIn
-func (o LabelSelectorRequirementResponseOutput) Operator() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v LabelSelectorRequirementResponse) *string { return v.Operator }).(pulumi.StringPtrOutput)
+// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+func (o LabelSelectorRequirementResponseOutput) Operator() pulumi.StringOutput {
+	return o.ApplyT(func(v LabelSelectorRequirementResponse) string { return v.Operator }).(pulumi.StringOutput)
 }
 
-// values is an array of string values, the values array must be non-empty.
+// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
 func (o LabelSelectorRequirementResponseOutput) Values() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LabelSelectorRequirementResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
 }
@@ -10938,8 +11372,8 @@ func (o LabelSelectorRequirementResponseArrayOutput) Index(i pulumi.IntInput) La
 type LabelSelectorResponse struct {
 	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
 	MatchExpressions []LabelSelectorRequirementResponse `pulumi:"matchExpressions"`
-	// matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed.
-	MatchLabels []string `pulumi:"matchLabels"`
+	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+	MatchLabels map[string]string `pulumi:"matchLabels"`
 }
 
 // A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
@@ -10962,9 +11396,9 @@ func (o LabelSelectorResponseOutput) MatchExpressions() LabelSelectorRequirement
 	return o.ApplyT(func(v LabelSelectorResponse) []LabelSelectorRequirementResponse { return v.MatchExpressions }).(LabelSelectorRequirementResponseArrayOutput)
 }
 
-// matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed.
-func (o LabelSelectorResponseOutput) MatchLabels() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v LabelSelectorResponse) []string { return v.MatchLabels }).(pulumi.StringArrayOutput)
+// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+func (o LabelSelectorResponseOutput) MatchLabels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v LabelSelectorResponse) map[string]string { return v.MatchLabels }).(pulumi.StringMapOutput)
 }
 
 type LabelSelectorResponsePtrOutput struct{ *pulumi.OutputState }
@@ -11001,14 +11435,14 @@ func (o LabelSelectorResponsePtrOutput) MatchExpressions() LabelSelectorRequirem
 	}).(LabelSelectorRequirementResponseArrayOutput)
 }
 
-// matchLabels is an array of {key=value} pairs. A single {key=value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is `key`, the operator is `In`, and the values array contains only `value`. The requirements are ANDed.
-func (o LabelSelectorResponsePtrOutput) MatchLabels() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *LabelSelectorResponse) []string {
+// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
+func (o LabelSelectorResponsePtrOutput) MatchLabels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *LabelSelectorResponse) map[string]string {
 		if v == nil {
 			return nil
 		}
 		return v.MatchLabels
-	}).(pulumi.StringArrayOutput)
+	}).(pulumi.StringMapOutput)
 }
 
 // OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details.
@@ -17333,7 +17767,7 @@ type ManagedClusterIngressProfileWebAppRoutingResponse struct {
 	// Whether to enable the Application Routing add-on.
 	Enabled *bool `pulumi:"enabled"`
 	// Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
-	Identity UserAssignedIdentityResponse `pulumi:"identity"`
+	Identity UserAssignedIdentityManagedClusterResponse `pulumi:"identity"`
 	// Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
 	Nginx *ManagedClusterIngressProfileNginxResponse `pulumi:"nginx"`
 }
@@ -17364,10 +17798,10 @@ func (o ManagedClusterIngressProfileWebAppRoutingResponseOutput) Enabled() pulum
 }
 
 // Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
-func (o ManagedClusterIngressProfileWebAppRoutingResponseOutput) Identity() UserAssignedIdentityResponseOutput {
-	return o.ApplyT(func(v ManagedClusterIngressProfileWebAppRoutingResponse) UserAssignedIdentityResponse {
+func (o ManagedClusterIngressProfileWebAppRoutingResponseOutput) Identity() UserAssignedIdentityManagedClusterResponseOutput {
+	return o.ApplyT(func(v ManagedClusterIngressProfileWebAppRoutingResponse) UserAssignedIdentityManagedClusterResponse {
 		return v.Identity
-	}).(UserAssignedIdentityResponseOutput)
+	}).(UserAssignedIdentityManagedClusterResponseOutput)
 }
 
 // Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
@@ -17422,13 +17856,13 @@ func (o ManagedClusterIngressProfileWebAppRoutingResponsePtrOutput) Enabled() pu
 }
 
 // Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions.
-func (o ManagedClusterIngressProfileWebAppRoutingResponsePtrOutput) Identity() UserAssignedIdentityResponsePtrOutput {
-	return o.ApplyT(func(v *ManagedClusterIngressProfileWebAppRoutingResponse) *UserAssignedIdentityResponse {
+func (o ManagedClusterIngressProfileWebAppRoutingResponsePtrOutput) Identity() UserAssignedIdentityManagedClusterResponsePtrOutput {
+	return o.ApplyT(func(v *ManagedClusterIngressProfileWebAppRoutingResponse) *UserAssignedIdentityManagedClusterResponse {
 		if v == nil {
 			return nil
 		}
 		return &v.Identity
-	}).(UserAssignedIdentityResponsePtrOutput)
+	}).(UserAssignedIdentityManagedClusterResponsePtrOutput)
 }
 
 // Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller.
@@ -20886,7 +21320,7 @@ type ManagedClusterPodIdentityResponse struct {
 	// The binding selector to use for the AzureIdentityBinding resource.
 	BindingSelector *string `pulumi:"bindingSelector"`
 	// The user assigned identity details.
-	Identity UserAssignedIdentityResponse `pulumi:"identity"`
+	Identity UserAssignedIdentityManagedClusterResponse `pulumi:"identity"`
 	// The name of the pod identity.
 	Name string `pulumi:"name"`
 	// The namespace of the pod identity.
@@ -20917,8 +21351,10 @@ func (o ManagedClusterPodIdentityResponseOutput) BindingSelector() pulumi.String
 }
 
 // The user assigned identity details.
-func (o ManagedClusterPodIdentityResponseOutput) Identity() UserAssignedIdentityResponseOutput {
-	return o.ApplyT(func(v ManagedClusterPodIdentityResponse) UserAssignedIdentityResponse { return v.Identity }).(UserAssignedIdentityResponseOutput)
+func (o ManagedClusterPodIdentityResponseOutput) Identity() UserAssignedIdentityManagedClusterResponseOutput {
+	return o.ApplyT(func(v ManagedClusterPodIdentityResponse) UserAssignedIdentityManagedClusterResponse {
+		return v.Identity
+	}).(UserAssignedIdentityManagedClusterResponseOutput)
 }
 
 // The name of the pod identity.
@@ -27560,145 +27996,6 @@ func (o MetaV1LabelSelectorRequirementArrayOutput) Index(i pulumi.IntInput) Meta
 	}).(MetaV1LabelSelectorRequirementOutput)
 }
 
-// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
-type MetaV1LabelSelectorRequirementResponse struct {
-	// key is the label key that the selector applies to.
-	Key string `pulumi:"key"`
-	// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
-	Operator string `pulumi:"operator"`
-	// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
-	Values []string `pulumi:"values"`
-}
-
-// A label selector requirement is a selector that contains values, a key, and an operator that relates the key and values.
-type MetaV1LabelSelectorRequirementResponseOutput struct{ *pulumi.OutputState }
-
-func (MetaV1LabelSelectorRequirementResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*MetaV1LabelSelectorRequirementResponse)(nil)).Elem()
-}
-
-func (o MetaV1LabelSelectorRequirementResponseOutput) ToMetaV1LabelSelectorRequirementResponseOutput() MetaV1LabelSelectorRequirementResponseOutput {
-	return o
-}
-
-func (o MetaV1LabelSelectorRequirementResponseOutput) ToMetaV1LabelSelectorRequirementResponseOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementResponseOutput {
-	return o
-}
-
-// key is the label key that the selector applies to.
-func (o MetaV1LabelSelectorRequirementResponseOutput) Key() pulumi.StringOutput {
-	return o.ApplyT(func(v MetaV1LabelSelectorRequirementResponse) string { return v.Key }).(pulumi.StringOutput)
-}
-
-// operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
-func (o MetaV1LabelSelectorRequirementResponseOutput) Operator() pulumi.StringOutput {
-	return o.ApplyT(func(v MetaV1LabelSelectorRequirementResponse) string { return v.Operator }).(pulumi.StringOutput)
-}
-
-// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
-func (o MetaV1LabelSelectorRequirementResponseOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v MetaV1LabelSelectorRequirementResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type MetaV1LabelSelectorRequirementResponseArrayOutput struct{ *pulumi.OutputState }
-
-func (MetaV1LabelSelectorRequirementResponseArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]MetaV1LabelSelectorRequirementResponse)(nil)).Elem()
-}
-
-func (o MetaV1LabelSelectorRequirementResponseArrayOutput) ToMetaV1LabelSelectorRequirementResponseArrayOutput() MetaV1LabelSelectorRequirementResponseArrayOutput {
-	return o
-}
-
-func (o MetaV1LabelSelectorRequirementResponseArrayOutput) ToMetaV1LabelSelectorRequirementResponseArrayOutputWithContext(ctx context.Context) MetaV1LabelSelectorRequirementResponseArrayOutput {
-	return o
-}
-
-func (o MetaV1LabelSelectorRequirementResponseArrayOutput) Index(i pulumi.IntInput) MetaV1LabelSelectorRequirementResponseOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) MetaV1LabelSelectorRequirementResponse {
-		return vs[0].([]MetaV1LabelSelectorRequirementResponse)[vs[1].(int)]
-	}).(MetaV1LabelSelectorRequirementResponseOutput)
-}
-
-// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
-type MetaV1LabelSelectorResponse struct {
-	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
-	MatchExpressions []MetaV1LabelSelectorRequirementResponse `pulumi:"matchExpressions"`
-	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
-	MatchLabels map[string]string `pulumi:"matchLabels"`
-}
-
-// A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects.
-type MetaV1LabelSelectorResponseOutput struct{ *pulumi.OutputState }
-
-func (MetaV1LabelSelectorResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*MetaV1LabelSelectorResponse)(nil)).Elem()
-}
-
-func (o MetaV1LabelSelectorResponseOutput) ToMetaV1LabelSelectorResponseOutput() MetaV1LabelSelectorResponseOutput {
-	return o
-}
-
-func (o MetaV1LabelSelectorResponseOutput) ToMetaV1LabelSelectorResponseOutputWithContext(ctx context.Context) MetaV1LabelSelectorResponseOutput {
-	return o
-}
-
-// matchExpressions is a list of label selector requirements. The requirements are ANDed.
-func (o MetaV1LabelSelectorResponseOutput) MatchExpressions() MetaV1LabelSelectorRequirementResponseArrayOutput {
-	return o.ApplyT(func(v MetaV1LabelSelectorResponse) []MetaV1LabelSelectorRequirementResponse {
-		return v.MatchExpressions
-	}).(MetaV1LabelSelectorRequirementResponseArrayOutput)
-}
-
-// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
-func (o MetaV1LabelSelectorResponseOutput) MatchLabels() pulumi.StringMapOutput {
-	return o.ApplyT(func(v MetaV1LabelSelectorResponse) map[string]string { return v.MatchLabels }).(pulumi.StringMapOutput)
-}
-
-type MetaV1LabelSelectorResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (MetaV1LabelSelectorResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**MetaV1LabelSelectorResponse)(nil)).Elem()
-}
-
-func (o MetaV1LabelSelectorResponsePtrOutput) ToMetaV1LabelSelectorResponsePtrOutput() MetaV1LabelSelectorResponsePtrOutput {
-	return o
-}
-
-func (o MetaV1LabelSelectorResponsePtrOutput) ToMetaV1LabelSelectorResponsePtrOutputWithContext(ctx context.Context) MetaV1LabelSelectorResponsePtrOutput {
-	return o
-}
-
-func (o MetaV1LabelSelectorResponsePtrOutput) Elem() MetaV1LabelSelectorResponseOutput {
-	return o.ApplyT(func(v *MetaV1LabelSelectorResponse) MetaV1LabelSelectorResponse {
-		if v != nil {
-			return *v
-		}
-		var ret MetaV1LabelSelectorResponse
-		return ret
-	}).(MetaV1LabelSelectorResponseOutput)
-}
-
-// matchExpressions is a list of label selector requirements. The requirements are ANDed.
-func (o MetaV1LabelSelectorResponsePtrOutput) MatchExpressions() MetaV1LabelSelectorRequirementResponseArrayOutput {
-	return o.ApplyT(func(v *MetaV1LabelSelectorResponse) []MetaV1LabelSelectorRequirementResponse {
-		if v == nil {
-			return nil
-		}
-		return v.MatchExpressions
-	}).(MetaV1LabelSelectorRequirementResponseArrayOutput)
-}
-
-// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
-func (o MetaV1LabelSelectorResponsePtrOutput) MatchLabels() pulumi.StringMapOutput {
-	return o.ApplyT(func(v *MetaV1LabelSelectorResponse) map[string]string {
-		if v == nil {
-			return nil
-		}
-		return v.MatchLabels
-	}).(pulumi.StringMapOutput)
-}
-
 // Properties of a namespace managed by ARM
 type NamespaceProperties struct {
 	// Action if Kubernetes namespace with same name already exists.
@@ -27955,6 +28252,85 @@ func (o NamespacePropertiesPtrOutput) Labels() pulumi.StringMapOutput {
 }
 
 // Properties of a namespace managed by ARM
+type NamespacePropertiesNamespaceResponse struct {
+	// Action if Kubernetes namespace with same name already exists.
+	AdoptionPolicy *string `pulumi:"adoptionPolicy"`
+	// The annotations of managed namespace.
+	Annotations map[string]string `pulumi:"annotations"`
+	// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
+	DefaultNetworkPolicy *NetworkPoliciesResponse `pulumi:"defaultNetworkPolicy"`
+	// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
+	DefaultResourceQuota *ResourceQuotaResponse `pulumi:"defaultResourceQuota"`
+	// Delete options of a namespace.
+	DeletePolicy *string `pulumi:"deletePolicy"`
+	// The labels of managed namespace.
+	Labels map[string]string `pulumi:"labels"`
+	// The current provisioning state of the namespace.
+	ProvisioningState string `pulumi:"provisioningState"`
+}
+
+// Defaults sets the appropriate defaults for NamespacePropertiesNamespaceResponse
+func (val *NamespacePropertiesNamespaceResponse) Defaults() *NamespacePropertiesNamespaceResponse {
+	if val == nil {
+		return nil
+	}
+	tmp := *val
+	tmp.DefaultNetworkPolicy = tmp.DefaultNetworkPolicy.Defaults()
+
+	return &tmp
+}
+
+// Properties of a namespace managed by ARM
+type NamespacePropertiesNamespaceResponseOutput struct{ *pulumi.OutputState }
+
+func (NamespacePropertiesNamespaceResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*NamespacePropertiesNamespaceResponse)(nil)).Elem()
+}
+
+func (o NamespacePropertiesNamespaceResponseOutput) ToNamespacePropertiesNamespaceResponseOutput() NamespacePropertiesNamespaceResponseOutput {
+	return o
+}
+
+func (o NamespacePropertiesNamespaceResponseOutput) ToNamespacePropertiesNamespaceResponseOutputWithContext(ctx context.Context) NamespacePropertiesNamespaceResponseOutput {
+	return o
+}
+
+// Action if Kubernetes namespace with same name already exists.
+func (o NamespacePropertiesNamespaceResponseOutput) AdoptionPolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) *string { return v.AdoptionPolicy }).(pulumi.StringPtrOutput)
+}
+
+// The annotations of managed namespace.
+func (o NamespacePropertiesNamespaceResponseOutput) Annotations() pulumi.StringMapOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) map[string]string { return v.Annotations }).(pulumi.StringMapOutput)
+}
+
+// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
+func (o NamespacePropertiesNamespaceResponseOutput) DefaultNetworkPolicy() NetworkPoliciesResponsePtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) *NetworkPoliciesResponse { return v.DefaultNetworkPolicy }).(NetworkPoliciesResponsePtrOutput)
+}
+
+// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
+func (o NamespacePropertiesNamespaceResponseOutput) DefaultResourceQuota() ResourceQuotaResponsePtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) *ResourceQuotaResponse { return v.DefaultResourceQuota }).(ResourceQuotaResponsePtrOutput)
+}
+
+// Delete options of a namespace.
+func (o NamespacePropertiesNamespaceResponseOutput) DeletePolicy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) *string { return v.DeletePolicy }).(pulumi.StringPtrOutput)
+}
+
+// The labels of managed namespace.
+func (o NamespacePropertiesNamespaceResponseOutput) Labels() pulumi.StringMapOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) map[string]string { return v.Labels }).(pulumi.StringMapOutput)
+}
+
+// The current provisioning state of the namespace.
+func (o NamespacePropertiesNamespaceResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v NamespacePropertiesNamespaceResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
+}
+
+// Properties of a namespace managed by ARM
 type NamespacePropertiesResponse struct {
 	// Action if Kubernetes namespace with same name already exists.
 	AdoptionPolicy *string `pulumi:"adoptionPolicy"`
@@ -28038,85 +28414,6 @@ func (o NamespacePropertiesResponseOutput) PortalFqdn() pulumi.StringOutput {
 // The current provisioning state of the namespace.
 func (o NamespacePropertiesResponseOutput) ProvisioningState() pulumi.StringOutput {
 	return o.ApplyT(func(v NamespacePropertiesResponse) string { return v.ProvisioningState }).(pulumi.StringOutput)
-}
-
-// Properties of a namespace managed by ARM
-type NamespacePropertiesResponseV1 struct {
-	// Action if Kubernetes namespace with same name already exists.
-	AdoptionPolicy *string `pulumi:"adoptionPolicy"`
-	// The annotations of managed namespace.
-	Annotations map[string]string `pulumi:"annotations"`
-	// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
-	DefaultNetworkPolicy *NetworkPoliciesResponse `pulumi:"defaultNetworkPolicy"`
-	// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
-	DefaultResourceQuota *ResourceQuotaResponse `pulumi:"defaultResourceQuota"`
-	// Delete options of a namespace.
-	DeletePolicy *string `pulumi:"deletePolicy"`
-	// The labels of managed namespace.
-	Labels map[string]string `pulumi:"labels"`
-	// The current provisioning state of the namespace.
-	ProvisioningState string `pulumi:"provisioningState"`
-}
-
-// Defaults sets the appropriate defaults for NamespacePropertiesResponseV1
-func (val *NamespacePropertiesResponseV1) Defaults() *NamespacePropertiesResponseV1 {
-	if val == nil {
-		return nil
-	}
-	tmp := *val
-	tmp.DefaultNetworkPolicy = tmp.DefaultNetworkPolicy.Defaults()
-
-	return &tmp
-}
-
-// Properties of a namespace managed by ARM
-type NamespacePropertiesResponseV1Output struct{ *pulumi.OutputState }
-
-func (NamespacePropertiesResponseV1Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*NamespacePropertiesResponseV1)(nil)).Elem()
-}
-
-func (o NamespacePropertiesResponseV1Output) ToNamespacePropertiesResponseV1Output() NamespacePropertiesResponseV1Output {
-	return o
-}
-
-func (o NamespacePropertiesResponseV1Output) ToNamespacePropertiesResponseV1OutputWithContext(ctx context.Context) NamespacePropertiesResponseV1Output {
-	return o
-}
-
-// Action if Kubernetes namespace with same name already exists.
-func (o NamespacePropertiesResponseV1Output) AdoptionPolicy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) *string { return v.AdoptionPolicy }).(pulumi.StringPtrOutput)
-}
-
-// The annotations of managed namespace.
-func (o NamespacePropertiesResponseV1Output) Annotations() pulumi.StringMapOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) map[string]string { return v.Annotations }).(pulumi.StringMapOutput)
-}
-
-// The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. All the network policies will be enforced.
-func (o NamespacePropertiesResponseV1Output) DefaultNetworkPolicy() NetworkPoliciesResponsePtrOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) *NetworkPoliciesResponse { return v.DefaultNetworkPolicy }).(NetworkPoliciesResponsePtrOutput)
-}
-
-// The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. All the resource quotas will be enforced.
-func (o NamespacePropertiesResponseV1Output) DefaultResourceQuota() ResourceQuotaResponsePtrOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) *ResourceQuotaResponse { return v.DefaultResourceQuota }).(ResourceQuotaResponsePtrOutput)
-}
-
-// Delete options of a namespace.
-func (o NamespacePropertiesResponseV1Output) DeletePolicy() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) *string { return v.DeletePolicy }).(pulumi.StringPtrOutput)
-}
-
-// The labels of managed namespace.
-func (o NamespacePropertiesResponseV1Output) Labels() pulumi.StringMapOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) map[string]string { return v.Labels }).(pulumi.StringMapOutput)
-}
-
-// The current provisioning state of the namespace.
-func (o NamespacePropertiesResponseV1Output) ProvisioningState() pulumi.StringOutput {
-	return o.ApplyT(func(v NamespacePropertiesResponseV1) string { return v.ProvisioningState }).(pulumi.StringOutput)
 }
 
 // Default network policy of the namespace, specifying ingress and egress rules.
@@ -28825,6 +29122,117 @@ func (o NodeImageVersionResponseArrayOutput) Index(i pulumi.IntInput) NodeImageV
 	}).(NodeImageVersionResponseOutput)
 }
 
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementPolicyResponse struct {
+	// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+	Affinity *AffinityResponse `pulumi:"affinity"`
+	// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+	ClusterNames []string `pulumi:"clusterNames"`
+	// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+	PlacementType *string `pulumi:"placementType"`
+	// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+	Tolerations []TolerationResponse `pulumi:"tolerations"`
+}
+
+// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
+type PlacementPolicyResponseOutput struct{ *pulumi.OutputState }
+
+func (PlacementPolicyResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PlacementPolicyResponse)(nil)).Elem()
+}
+
+func (o PlacementPolicyResponseOutput) ToPlacementPolicyResponseOutput() PlacementPolicyResponseOutput {
+	return o
+}
+
+func (o PlacementPolicyResponseOutput) ToPlacementPolicyResponseOutputWithContext(ctx context.Context) PlacementPolicyResponseOutput {
+	return o
+}
+
+// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+func (o PlacementPolicyResponseOutput) Affinity() AffinityResponsePtrOutput {
+	return o.ApplyT(func(v PlacementPolicyResponse) *AffinityResponse { return v.Affinity }).(AffinityResponsePtrOutput)
+}
+
+// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+func (o PlacementPolicyResponseOutput) ClusterNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v PlacementPolicyResponse) []string { return v.ClusterNames }).(pulumi.StringArrayOutput)
+}
+
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+func (o PlacementPolicyResponseOutput) PlacementType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PlacementPolicyResponse) *string { return v.PlacementType }).(pulumi.StringPtrOutput)
+}
+
+// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+func (o PlacementPolicyResponseOutput) Tolerations() TolerationResponseArrayOutput {
+	return o.ApplyT(func(v PlacementPolicyResponse) []TolerationResponse { return v.Tolerations }).(TolerationResponseArrayOutput)
+}
+
+type PlacementPolicyResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PlacementPolicyResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PlacementPolicyResponse)(nil)).Elem()
+}
+
+func (o PlacementPolicyResponsePtrOutput) ToPlacementPolicyResponsePtrOutput() PlacementPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PlacementPolicyResponsePtrOutput) ToPlacementPolicyResponsePtrOutputWithContext(ctx context.Context) PlacementPolicyResponsePtrOutput {
+	return o
+}
+
+func (o PlacementPolicyResponsePtrOutput) Elem() PlacementPolicyResponseOutput {
+	return o.ApplyT(func(v *PlacementPolicyResponse) PlacementPolicyResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PlacementPolicyResponse
+		return ret
+	}).(PlacementPolicyResponseOutput)
+}
+
+// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
+func (o PlacementPolicyResponsePtrOutput) Affinity() AffinityResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementPolicyResponse) *AffinityResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Affinity
+	}).(AffinityResponsePtrOutput)
+}
+
+// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
+func (o PlacementPolicyResponsePtrOutput) ClusterNames() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *PlacementPolicyResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ClusterNames
+	}).(pulumi.StringArrayOutput)
+}
+
+// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
+func (o PlacementPolicyResponsePtrOutput) PlacementType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PlacementPolicyResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PlacementType
+	}).(pulumi.StringPtrOutput)
+}
+
+// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
+func (o PlacementPolicyResponsePtrOutput) Tolerations() TolerationResponseArrayOutput {
+	return o.ApplyT(func(v *PlacementPolicyResponse) []TolerationResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Tolerations
+	}).(TolerationResponseArrayOutput)
+}
+
 // The configuration profile for default ClusterResourcePlacement for placement.
 type PlacementProfile struct {
 	// The default ClusterResourcePlacement policy configuration.
@@ -28970,7 +29378,7 @@ func (o PlacementProfilePtrOutput) DefaultClusterResourcePlacement() PlacementV1
 // The configuration profile for default ClusterResourcePlacement for placement.
 type PlacementProfileResponse struct {
 	// The default ClusterResourcePlacement policy configuration.
-	DefaultClusterResourcePlacement *PlacementV1ClusterResourcePlacementSpecResponse `pulumi:"defaultClusterResourcePlacement"`
+	DefaultClusterResourcePlacement *ClusterResourcePlacementSpecResponse `pulumi:"defaultClusterResourcePlacement"`
 }
 
 // The configuration profile for default ClusterResourcePlacement for placement.
@@ -28989,10 +29397,10 @@ func (o PlacementProfileResponseOutput) ToPlacementProfileResponseOutputWithCont
 }
 
 // The default ClusterResourcePlacement policy configuration.
-func (o PlacementProfileResponseOutput) DefaultClusterResourcePlacement() PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
-	return o.ApplyT(func(v PlacementProfileResponse) *PlacementV1ClusterResourcePlacementSpecResponse {
+func (o PlacementProfileResponseOutput) DefaultClusterResourcePlacement() ClusterResourcePlacementSpecResponsePtrOutput {
+	return o.ApplyT(func(v PlacementProfileResponse) *ClusterResourcePlacementSpecResponse {
 		return v.DefaultClusterResourcePlacement
-	}).(PlacementV1ClusterResourcePlacementSpecResponsePtrOutput)
+	}).(ClusterResourcePlacementSpecResponsePtrOutput)
 }
 
 type PlacementProfileResponsePtrOutput struct{ *pulumi.OutputState }
@@ -29020,13 +29428,13 @@ func (o PlacementProfileResponsePtrOutput) Elem() PlacementProfileResponseOutput
 }
 
 // The default ClusterResourcePlacement policy configuration.
-func (o PlacementProfileResponsePtrOutput) DefaultClusterResourcePlacement() PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
-	return o.ApplyT(func(v *PlacementProfileResponse) *PlacementV1ClusterResourcePlacementSpecResponse {
+func (o PlacementProfileResponsePtrOutput) DefaultClusterResourcePlacement() ClusterResourcePlacementSpecResponsePtrOutput {
+	return o.ApplyT(func(v *PlacementProfileResponse) *ClusterResourcePlacementSpecResponse {
 		if v == nil {
 			return nil
 		}
 		return v.DefaultClusterResourcePlacement
-	}).(PlacementV1ClusterResourcePlacementSpecResponsePtrOutput)
+	}).(ClusterResourcePlacementSpecResponsePtrOutput)
 }
 
 // Affinity is a group of cluster affinity scheduling rules. More to be added.
@@ -29167,66 +29575,6 @@ func (o PlacementV1AffinityPtrOutput) ClusterAffinity() PlacementV1ClusterAffini
 		}
 		return v.ClusterAffinity
 	}).(PlacementV1ClusterAffinityPtrOutput)
-}
-
-// Affinity is a group of cluster affinity scheduling rules. More to be added.
-type PlacementV1AffinityResponse struct {
-	// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
-	ClusterAffinity *PlacementV1ClusterAffinityResponse `pulumi:"clusterAffinity"`
-}
-
-// Affinity is a group of cluster affinity scheduling rules. More to be added.
-type PlacementV1AffinityResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1AffinityResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1AffinityResponse)(nil)).Elem()
-}
-
-func (o PlacementV1AffinityResponseOutput) ToPlacementV1AffinityResponseOutput() PlacementV1AffinityResponseOutput {
-	return o
-}
-
-func (o PlacementV1AffinityResponseOutput) ToPlacementV1AffinityResponseOutputWithContext(ctx context.Context) PlacementV1AffinityResponseOutput {
-	return o
-}
-
-// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
-func (o PlacementV1AffinityResponseOutput) ClusterAffinity() PlacementV1ClusterAffinityResponsePtrOutput {
-	return o.ApplyT(func(v PlacementV1AffinityResponse) *PlacementV1ClusterAffinityResponse { return v.ClusterAffinity }).(PlacementV1ClusterAffinityResponsePtrOutput)
-}
-
-type PlacementV1AffinityResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1AffinityResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PlacementV1AffinityResponse)(nil)).Elem()
-}
-
-func (o PlacementV1AffinityResponsePtrOutput) ToPlacementV1AffinityResponsePtrOutput() PlacementV1AffinityResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1AffinityResponsePtrOutput) ToPlacementV1AffinityResponsePtrOutputWithContext(ctx context.Context) PlacementV1AffinityResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1AffinityResponsePtrOutput) Elem() PlacementV1AffinityResponseOutput {
-	return o.ApplyT(func(v *PlacementV1AffinityResponse) PlacementV1AffinityResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PlacementV1AffinityResponse
-		return ret
-	}).(PlacementV1AffinityResponseOutput)
-}
-
-// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
-func (o PlacementV1AffinityResponsePtrOutput) ClusterAffinity() PlacementV1ClusterAffinityResponsePtrOutput {
-	return o.ApplyT(func(v *PlacementV1AffinityResponse) *PlacementV1ClusterAffinityResponse {
-		if v == nil {
-			return nil
-		}
-		return v.ClusterAffinity
-	}).(PlacementV1ClusterAffinityResponsePtrOutput)
 }
 
 // ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
@@ -29371,68 +29719,6 @@ func (o PlacementV1ClusterAffinityPtrOutput) RequiredDuringSchedulingIgnoredDuri
 	}).(PlacementV1ClusterSelectorPtrOutput)
 }
 
-// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
-type PlacementV1ClusterAffinityResponse struct {
-	// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
-	RequiredDuringSchedulingIgnoredDuringExecution *PlacementV1ClusterSelectorResponse `pulumi:"requiredDuringSchedulingIgnoredDuringExecution"`
-}
-
-// ClusterAffinity contains cluster affinity scheduling rules for the selected resources.
-type PlacementV1ClusterAffinityResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterAffinityResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1ClusterAffinityResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterAffinityResponseOutput) ToPlacementV1ClusterAffinityResponseOutput() PlacementV1ClusterAffinityResponseOutput {
-	return o
-}
-
-func (o PlacementV1ClusterAffinityResponseOutput) ToPlacementV1ClusterAffinityResponseOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityResponseOutput {
-	return o
-}
-
-// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
-func (o PlacementV1ClusterAffinityResponseOutput) RequiredDuringSchedulingIgnoredDuringExecution() PlacementV1ClusterSelectorResponsePtrOutput {
-	return o.ApplyT(func(v PlacementV1ClusterAffinityResponse) *PlacementV1ClusterSelectorResponse {
-		return v.RequiredDuringSchedulingIgnoredDuringExecution
-	}).(PlacementV1ClusterSelectorResponsePtrOutput)
-}
-
-type PlacementV1ClusterAffinityResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterAffinityResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PlacementV1ClusterAffinityResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterAffinityResponsePtrOutput) ToPlacementV1ClusterAffinityResponsePtrOutput() PlacementV1ClusterAffinityResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1ClusterAffinityResponsePtrOutput) ToPlacementV1ClusterAffinityResponsePtrOutputWithContext(ctx context.Context) PlacementV1ClusterAffinityResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1ClusterAffinityResponsePtrOutput) Elem() PlacementV1ClusterAffinityResponseOutput {
-	return o.ApplyT(func(v *PlacementV1ClusterAffinityResponse) PlacementV1ClusterAffinityResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PlacementV1ClusterAffinityResponse
-		return ret
-	}).(PlacementV1ClusterAffinityResponseOutput)
-}
-
-// If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster.
-func (o PlacementV1ClusterAffinityResponsePtrOutput) RequiredDuringSchedulingIgnoredDuringExecution() PlacementV1ClusterSelectorResponsePtrOutput {
-	return o.ApplyT(func(v *PlacementV1ClusterAffinityResponse) *PlacementV1ClusterSelectorResponse {
-		if v == nil {
-			return nil
-		}
-		return v.RequiredDuringSchedulingIgnoredDuringExecution
-	}).(PlacementV1ClusterSelectorResponsePtrOutput)
-}
-
 // ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
 type PlacementV1ClusterResourcePlacementSpec struct {
 	// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
@@ -29571,68 +29857,6 @@ func (o PlacementV1ClusterResourcePlacementSpecPtrOutput) Policy() PlacementV1Pl
 		}
 		return v.Policy
 	}).(PlacementV1PlacementPolicyPtrOutput)
-}
-
-// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
-type PlacementV1ClusterResourcePlacementSpecResponse struct {
-	// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
-	Policy *PlacementV1PlacementPolicyResponse `pulumi:"policy"`
-}
-
-// ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement.
-type PlacementV1ClusterResourcePlacementSpecResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterResourcePlacementSpecResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1ClusterResourcePlacementSpecResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterResourcePlacementSpecResponseOutput) ToPlacementV1ClusterResourcePlacementSpecResponseOutput() PlacementV1ClusterResourcePlacementSpecResponseOutput {
-	return o
-}
-
-func (o PlacementV1ClusterResourcePlacementSpecResponseOutput) ToPlacementV1ClusterResourcePlacementSpecResponseOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecResponseOutput {
-	return o
-}
-
-// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
-func (o PlacementV1ClusterResourcePlacementSpecResponseOutput) Policy() PlacementV1PlacementPolicyResponsePtrOutput {
-	return o.ApplyT(func(v PlacementV1ClusterResourcePlacementSpecResponse) *PlacementV1PlacementPolicyResponse {
-		return v.Policy
-	}).(PlacementV1PlacementPolicyResponsePtrOutput)
-}
-
-type PlacementV1ClusterResourcePlacementSpecResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PlacementV1ClusterResourcePlacementSpecResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) ToPlacementV1ClusterResourcePlacementSpecResponsePtrOutput() PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) ToPlacementV1ClusterResourcePlacementSpecResponsePtrOutputWithContext(ctx context.Context) PlacementV1ClusterResourcePlacementSpecResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) Elem() PlacementV1ClusterResourcePlacementSpecResponseOutput {
-	return o.ApplyT(func(v *PlacementV1ClusterResourcePlacementSpecResponse) PlacementV1ClusterResourcePlacementSpecResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PlacementV1ClusterResourcePlacementSpecResponse
-		return ret
-	}).(PlacementV1ClusterResourcePlacementSpecResponseOutput)
-}
-
-// Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected.
-func (o PlacementV1ClusterResourcePlacementSpecResponsePtrOutput) Policy() PlacementV1PlacementPolicyResponsePtrOutput {
-	return o.ApplyT(func(v *PlacementV1ClusterResourcePlacementSpecResponse) *PlacementV1PlacementPolicyResponse {
-		if v == nil {
-			return nil
-		}
-		return v.Policy
-	}).(PlacementV1PlacementPolicyResponsePtrOutput)
 }
 
 // ClusterSelector
@@ -29775,68 +29999,6 @@ func (o PlacementV1ClusterSelectorPtrOutput) ClusterSelectorTerms() PlacementV1C
 	}).(PlacementV1ClusterSelectorTermArrayOutput)
 }
 
-// ClusterSelector
-type PlacementV1ClusterSelectorResponse struct {
-	// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
-	ClusterSelectorTerms []PlacementV1ClusterSelectorTermResponse `pulumi:"clusterSelectorTerms"`
-}
-
-// ClusterSelector
-type PlacementV1ClusterSelectorResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterSelectorResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1ClusterSelectorResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterSelectorResponseOutput) ToPlacementV1ClusterSelectorResponseOutput() PlacementV1ClusterSelectorResponseOutput {
-	return o
-}
-
-func (o PlacementV1ClusterSelectorResponseOutput) ToPlacementV1ClusterSelectorResponseOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorResponseOutput {
-	return o
-}
-
-// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
-func (o PlacementV1ClusterSelectorResponseOutput) ClusterSelectorTerms() PlacementV1ClusterSelectorTermResponseArrayOutput {
-	return o.ApplyT(func(v PlacementV1ClusterSelectorResponse) []PlacementV1ClusterSelectorTermResponse {
-		return v.ClusterSelectorTerms
-	}).(PlacementV1ClusterSelectorTermResponseArrayOutput)
-}
-
-type PlacementV1ClusterSelectorResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterSelectorResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PlacementV1ClusterSelectorResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterSelectorResponsePtrOutput) ToPlacementV1ClusterSelectorResponsePtrOutput() PlacementV1ClusterSelectorResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1ClusterSelectorResponsePtrOutput) ToPlacementV1ClusterSelectorResponsePtrOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1ClusterSelectorResponsePtrOutput) Elem() PlacementV1ClusterSelectorResponseOutput {
-	return o.ApplyT(func(v *PlacementV1ClusterSelectorResponse) PlacementV1ClusterSelectorResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PlacementV1ClusterSelectorResponse
-		return ret
-	}).(PlacementV1ClusterSelectorResponseOutput)
-}
-
-// ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`.
-func (o PlacementV1ClusterSelectorResponsePtrOutput) ClusterSelectorTerms() PlacementV1ClusterSelectorTermResponseArrayOutput {
-	return o.ApplyT(func(v *PlacementV1ClusterSelectorResponse) []PlacementV1ClusterSelectorTermResponse {
-		if v == nil {
-			return nil
-		}
-		return v.ClusterSelectorTerms
-	}).(PlacementV1ClusterSelectorTermResponseArrayOutput)
-}
-
 // ClusterSelectorTerm
 type PlacementV1ClusterSelectorTerm struct {
 	// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
@@ -29944,61 +30106,6 @@ func (o PlacementV1ClusterSelectorTermArrayOutput) Index(i pulumi.IntInput) Plac
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1ClusterSelectorTerm {
 		return vs[0].([]PlacementV1ClusterSelectorTerm)[vs[1].(int)]
 	}).(PlacementV1ClusterSelectorTermOutput)
-}
-
-// ClusterSelectorTerm
-type PlacementV1ClusterSelectorTermResponse struct {
-	// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
-	LabelSelector *MetaV1LabelSelectorResponse `pulumi:"labelSelector"`
-	// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
-	PropertySelector *PlacementV1PropertySelectorResponse `pulumi:"propertySelector"`
-}
-
-// ClusterSelectorTerm
-type PlacementV1ClusterSelectorTermResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterSelectorTermResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1ClusterSelectorTermResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterSelectorTermResponseOutput) ToPlacementV1ClusterSelectorTermResponseOutput() PlacementV1ClusterSelectorTermResponseOutput {
-	return o
-}
-
-func (o PlacementV1ClusterSelectorTermResponseOutput) ToPlacementV1ClusterSelectorTermResponseOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermResponseOutput {
-	return o
-}
-
-// LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd.
-func (o PlacementV1ClusterSelectorTermResponseOutput) LabelSelector() MetaV1LabelSelectorResponsePtrOutput {
-	return o.ApplyT(func(v PlacementV1ClusterSelectorTermResponse) *MetaV1LabelSelectorResponse { return v.LabelSelector }).(MetaV1LabelSelectorResponsePtrOutput)
-}
-
-// PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment.
-func (o PlacementV1ClusterSelectorTermResponseOutput) PropertySelector() PlacementV1PropertySelectorResponsePtrOutput {
-	return o.ApplyT(func(v PlacementV1ClusterSelectorTermResponse) *PlacementV1PropertySelectorResponse {
-		return v.PropertySelector
-	}).(PlacementV1PropertySelectorResponsePtrOutput)
-}
-
-type PlacementV1ClusterSelectorTermResponseArrayOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1ClusterSelectorTermResponseArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PlacementV1ClusterSelectorTermResponse)(nil)).Elem()
-}
-
-func (o PlacementV1ClusterSelectorTermResponseArrayOutput) ToPlacementV1ClusterSelectorTermResponseArrayOutput() PlacementV1ClusterSelectorTermResponseArrayOutput {
-	return o
-}
-
-func (o PlacementV1ClusterSelectorTermResponseArrayOutput) ToPlacementV1ClusterSelectorTermResponseArrayOutputWithContext(ctx context.Context) PlacementV1ClusterSelectorTermResponseArrayOutput {
-	return o
-}
-
-func (o PlacementV1ClusterSelectorTermResponseArrayOutput) Index(i pulumi.IntInput) PlacementV1ClusterSelectorTermResponseOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1ClusterSelectorTermResponse {
-		return vs[0].([]PlacementV1ClusterSelectorTermResponse)[vs[1].(int)]
-	}).(PlacementV1ClusterSelectorTermResponseOutput)
 }
 
 // PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
@@ -30196,117 +30303,6 @@ func (o PlacementV1PlacementPolicyPtrOutput) Tolerations() PlacementV1Toleration
 		}
 		return v.Tolerations
 	}).(PlacementV1TolerationArrayOutput)
-}
-
-// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
-type PlacementV1PlacementPolicyResponse struct {
-	// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
-	Affinity *PlacementV1AffinityResponse `pulumi:"affinity"`
-	// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
-	ClusterNames []string `pulumi:"clusterNames"`
-	// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
-	PlacementType *string `pulumi:"placementType"`
-	// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
-	Tolerations []PlacementV1TolerationResponse `pulumi:"tolerations"`
-}
-
-// PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected.
-type PlacementV1PlacementPolicyResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1PlacementPolicyResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1PlacementPolicyResponse)(nil)).Elem()
-}
-
-func (o PlacementV1PlacementPolicyResponseOutput) ToPlacementV1PlacementPolicyResponseOutput() PlacementV1PlacementPolicyResponseOutput {
-	return o
-}
-
-func (o PlacementV1PlacementPolicyResponseOutput) ToPlacementV1PlacementPolicyResponseOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyResponseOutput {
-	return o
-}
-
-// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
-func (o PlacementV1PlacementPolicyResponseOutput) Affinity() PlacementV1AffinityResponsePtrOutput {
-	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) *PlacementV1AffinityResponse { return v.Affinity }).(PlacementV1AffinityResponsePtrOutput)
-}
-
-// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
-func (o PlacementV1PlacementPolicyResponseOutput) ClusterNames() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) []string { return v.ClusterNames }).(pulumi.StringArrayOutput)
-}
-
-// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
-func (o PlacementV1PlacementPolicyResponseOutput) PlacementType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) *string { return v.PlacementType }).(pulumi.StringPtrOutput)
-}
-
-// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
-func (o PlacementV1PlacementPolicyResponseOutput) Tolerations() PlacementV1TolerationResponseArrayOutput {
-	return o.ApplyT(func(v PlacementV1PlacementPolicyResponse) []PlacementV1TolerationResponse { return v.Tolerations }).(PlacementV1TolerationResponseArrayOutput)
-}
-
-type PlacementV1PlacementPolicyResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1PlacementPolicyResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PlacementV1PlacementPolicyResponse)(nil)).Elem()
-}
-
-func (o PlacementV1PlacementPolicyResponsePtrOutput) ToPlacementV1PlacementPolicyResponsePtrOutput() PlacementV1PlacementPolicyResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1PlacementPolicyResponsePtrOutput) ToPlacementV1PlacementPolicyResponsePtrOutputWithContext(ctx context.Context) PlacementV1PlacementPolicyResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1PlacementPolicyResponsePtrOutput) Elem() PlacementV1PlacementPolicyResponseOutput {
-	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) PlacementV1PlacementPolicyResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PlacementV1PlacementPolicyResponse
-		return ret
-	}).(PlacementV1PlacementPolicyResponseOutput)
-}
-
-// Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN".
-func (o PlacementV1PlacementPolicyResponsePtrOutput) Affinity() PlacementV1AffinityResponsePtrOutput {
-	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) *PlacementV1AffinityResponse {
-		if v == nil {
-			return nil
-		}
-		return v.Affinity
-	}).(PlacementV1AffinityResponsePtrOutput)
-}
-
-// ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed"
-func (o PlacementV1PlacementPolicyResponsePtrOutput) ClusterNames() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) []string {
-		if v == nil {
-			return nil
-		}
-		return v.ClusterNames
-	}).(pulumi.StringArrayOutput)
-}
-
-// Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll.
-func (o PlacementV1PlacementPolicyResponsePtrOutput) PlacementType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.PlacementType
-	}).(pulumi.StringPtrOutput)
-}
-
-// If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature.
-func (o PlacementV1PlacementPolicyResponsePtrOutput) Tolerations() PlacementV1TolerationResponseArrayOutput {
-	return o.ApplyT(func(v *PlacementV1PlacementPolicyResponse) []PlacementV1TolerationResponse {
-		if v == nil {
-			return nil
-		}
-		return v.Tolerations
-	}).(PlacementV1TolerationResponseArrayOutput)
 }
 
 // PropertySelector helps user specify property requirements when picking clusters for resource placement.
@@ -30569,128 +30565,6 @@ func (o PlacementV1PropertySelectorRequirementArrayOutput) Index(i pulumi.IntInp
 	}).(PlacementV1PropertySelectorRequirementOutput)
 }
 
-// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
-type PlacementV1PropertySelectorRequirementResponse struct {
-	// Name is the name of the property; it should be a Kubernetes label name.
-	Name string `pulumi:"name"`
-	// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
-	Operator string `pulumi:"operator"`
-	// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
-	Values []string `pulumi:"values"`
-}
-
-// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
-type PlacementV1PropertySelectorRequirementResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1PropertySelectorRequirementResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1PropertySelectorRequirementResponse)(nil)).Elem()
-}
-
-func (o PlacementV1PropertySelectorRequirementResponseOutput) ToPlacementV1PropertySelectorRequirementResponseOutput() PlacementV1PropertySelectorRequirementResponseOutput {
-	return o
-}
-
-func (o PlacementV1PropertySelectorRequirementResponseOutput) ToPlacementV1PropertySelectorRequirementResponseOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementResponseOutput {
-	return o
-}
-
-// Name is the name of the property; it should be a Kubernetes label name.
-func (o PlacementV1PropertySelectorRequirementResponseOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v PlacementV1PropertySelectorRequirementResponse) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
-func (o PlacementV1PropertySelectorRequirementResponseOutput) Operator() pulumi.StringOutput {
-	return o.ApplyT(func(v PlacementV1PropertySelectorRequirementResponse) string { return v.Operator }).(pulumi.StringOutput)
-}
-
-// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
-func (o PlacementV1PropertySelectorRequirementResponseOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v PlacementV1PropertySelectorRequirementResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type PlacementV1PropertySelectorRequirementResponseArrayOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1PropertySelectorRequirementResponseArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PlacementV1PropertySelectorRequirementResponse)(nil)).Elem()
-}
-
-func (o PlacementV1PropertySelectorRequirementResponseArrayOutput) ToPlacementV1PropertySelectorRequirementResponseArrayOutput() PlacementV1PropertySelectorRequirementResponseArrayOutput {
-	return o
-}
-
-func (o PlacementV1PropertySelectorRequirementResponseArrayOutput) ToPlacementV1PropertySelectorRequirementResponseArrayOutputWithContext(ctx context.Context) PlacementV1PropertySelectorRequirementResponseArrayOutput {
-	return o
-}
-
-func (o PlacementV1PropertySelectorRequirementResponseArrayOutput) Index(i pulumi.IntInput) PlacementV1PropertySelectorRequirementResponseOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1PropertySelectorRequirementResponse {
-		return vs[0].([]PlacementV1PropertySelectorRequirementResponse)[vs[1].(int)]
-	}).(PlacementV1PropertySelectorRequirementResponseOutput)
-}
-
-// PropertySelector helps user specify property requirements when picking clusters for resource placement.
-type PlacementV1PropertySelectorResponse struct {
-	// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
-	MatchExpressions []PlacementV1PropertySelectorRequirementResponse `pulumi:"matchExpressions"`
-}
-
-// PropertySelector helps user specify property requirements when picking clusters for resource placement.
-type PlacementV1PropertySelectorResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1PropertySelectorResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1PropertySelectorResponse)(nil)).Elem()
-}
-
-func (o PlacementV1PropertySelectorResponseOutput) ToPlacementV1PropertySelectorResponseOutput() PlacementV1PropertySelectorResponseOutput {
-	return o
-}
-
-func (o PlacementV1PropertySelectorResponseOutput) ToPlacementV1PropertySelectorResponseOutputWithContext(ctx context.Context) PlacementV1PropertySelectorResponseOutput {
-	return o
-}
-
-// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
-func (o PlacementV1PropertySelectorResponseOutput) MatchExpressions() PlacementV1PropertySelectorRequirementResponseArrayOutput {
-	return o.ApplyT(func(v PlacementV1PropertySelectorResponse) []PlacementV1PropertySelectorRequirementResponse {
-		return v.MatchExpressions
-	}).(PlacementV1PropertySelectorRequirementResponseArrayOutput)
-}
-
-type PlacementV1PropertySelectorResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1PropertySelectorResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**PlacementV1PropertySelectorResponse)(nil)).Elem()
-}
-
-func (o PlacementV1PropertySelectorResponsePtrOutput) ToPlacementV1PropertySelectorResponsePtrOutput() PlacementV1PropertySelectorResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1PropertySelectorResponsePtrOutput) ToPlacementV1PropertySelectorResponsePtrOutputWithContext(ctx context.Context) PlacementV1PropertySelectorResponsePtrOutput {
-	return o
-}
-
-func (o PlacementV1PropertySelectorResponsePtrOutput) Elem() PlacementV1PropertySelectorResponseOutput {
-	return o.ApplyT(func(v *PlacementV1PropertySelectorResponse) PlacementV1PropertySelectorResponse {
-		if v != nil {
-			return *v
-		}
-		var ret PlacementV1PropertySelectorResponse
-		return ret
-	}).(PlacementV1PropertySelectorResponseOutput)
-}
-
-// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
-func (o PlacementV1PropertySelectorResponsePtrOutput) MatchExpressions() PlacementV1PropertySelectorRequirementResponseArrayOutput {
-	return o.ApplyT(func(v *PlacementV1PropertySelectorResponse) []PlacementV1PropertySelectorRequirementResponse {
-		if v == nil {
-			return nil
-		}
-		return v.MatchExpressions
-	}).(PlacementV1PropertySelectorRequirementResponseArrayOutput)
-}
-
 // Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
 type PlacementV1Toleration struct {
 	// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
@@ -30816,73 +30690,6 @@ func (o PlacementV1TolerationArrayOutput) Index(i pulumi.IntInput) PlacementV1To
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1Toleration {
 		return vs[0].([]PlacementV1Toleration)[vs[1].(int)]
 	}).(PlacementV1TolerationOutput)
-}
-
-// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
-type PlacementV1TolerationResponse struct {
-	// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
-	Effect *string `pulumi:"effect"`
-	// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
-	Key *string `pulumi:"key"`
-	// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
-	Operator *string `pulumi:"operator"`
-	// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
-	Value *string `pulumi:"value"`
-}
-
-// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
-type PlacementV1TolerationResponseOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1TolerationResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PlacementV1TolerationResponse)(nil)).Elem()
-}
-
-func (o PlacementV1TolerationResponseOutput) ToPlacementV1TolerationResponseOutput() PlacementV1TolerationResponseOutput {
-	return o
-}
-
-func (o PlacementV1TolerationResponseOutput) ToPlacementV1TolerationResponseOutputWithContext(ctx context.Context) PlacementV1TolerationResponseOutput {
-	return o
-}
-
-// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
-func (o PlacementV1TolerationResponseOutput) Effect() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Effect }).(pulumi.StringPtrOutput)
-}
-
-// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
-func (o PlacementV1TolerationResponseOutput) Key() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Key }).(pulumi.StringPtrOutput)
-}
-
-// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
-func (o PlacementV1TolerationResponseOutput) Operator() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Operator }).(pulumi.StringPtrOutput)
-}
-
-// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
-func (o PlacementV1TolerationResponseOutput) Value() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PlacementV1TolerationResponse) *string { return v.Value }).(pulumi.StringPtrOutput)
-}
-
-type PlacementV1TolerationResponseArrayOutput struct{ *pulumi.OutputState }
-
-func (PlacementV1TolerationResponseArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PlacementV1TolerationResponse)(nil)).Elem()
-}
-
-func (o PlacementV1TolerationResponseArrayOutput) ToPlacementV1TolerationResponseArrayOutput() PlacementV1TolerationResponseArrayOutput {
-	return o
-}
-
-func (o PlacementV1TolerationResponseArrayOutput) ToPlacementV1TolerationResponseArrayOutputWithContext(ctx context.Context) PlacementV1TolerationResponseArrayOutput {
-	return o
-}
-
-func (o PlacementV1TolerationResponseArrayOutput) Index(i pulumi.IntInput) PlacementV1TolerationResponseOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PlacementV1TolerationResponse {
-		return vs[0].([]PlacementV1TolerationResponse)[vs[1].(int)]
-	}).(PlacementV1TolerationResponseOutput)
 }
 
 // The port range.
@@ -32011,6 +31818,126 @@ func (o PropagationPolicyResponsePtrOutput) Type() pulumi.StringPtrOutput {
 		}
 		return &v.Type
 	}).(pulumi.StringPtrOutput)
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PropertySelectorRequirementResponse struct {
+	// Name is the name of the property; it should be a Kubernetes label name.
+	Name string `pulumi:"name"`
+	// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+	Operator string `pulumi:"operator"`
+	// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+	Values []string `pulumi:"values"`
+}
+
+// PropertySelectorRequirement is a specific property requirement when picking clusters for resource placement.
+type PropertySelectorRequirementResponseOutput struct{ *pulumi.OutputState }
+
+func (PropertySelectorRequirementResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropertySelectorRequirementResponse)(nil)).Elem()
+}
+
+func (o PropertySelectorRequirementResponseOutput) ToPropertySelectorRequirementResponseOutput() PropertySelectorRequirementResponseOutput {
+	return o
+}
+
+func (o PropertySelectorRequirementResponseOutput) ToPropertySelectorRequirementResponseOutputWithContext(ctx context.Context) PropertySelectorRequirementResponseOutput {
+	return o
+}
+
+// Name is the name of the property; it should be a Kubernetes label name.
+func (o PropertySelectorRequirementResponseOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v PropertySelectorRequirementResponse) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Operator specifies the relationship between a cluster's observed value of the specified property and the values given in the requirement.
+func (o PropertySelectorRequirementResponseOutput) Operator() pulumi.StringOutput {
+	return o.ApplyT(func(v PropertySelectorRequirementResponse) string { return v.Operator }).(pulumi.StringOutput)
+}
+
+// Values are a list of values of the specified property which Fleet will compare against the observed values of individual member clusters in accordance with the given operator. At this moment, each value should be a Kubernetes quantity. For more information, see https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#Quantity. If the operator is Gt (greater than), Ge (greater than or equal to), Lt (less than), or `Le` (less than or equal to), Eq (equal to), or Ne (ne), exactly one value must be specified in the list.
+func (o PropertySelectorRequirementResponseOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v PropertySelectorRequirementResponse) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type PropertySelectorRequirementResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (PropertySelectorRequirementResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]PropertySelectorRequirementResponse)(nil)).Elem()
+}
+
+func (o PropertySelectorRequirementResponseArrayOutput) ToPropertySelectorRequirementResponseArrayOutput() PropertySelectorRequirementResponseArrayOutput {
+	return o
+}
+
+func (o PropertySelectorRequirementResponseArrayOutput) ToPropertySelectorRequirementResponseArrayOutputWithContext(ctx context.Context) PropertySelectorRequirementResponseArrayOutput {
+	return o
+}
+
+func (o PropertySelectorRequirementResponseArrayOutput) Index(i pulumi.IntInput) PropertySelectorRequirementResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PropertySelectorRequirementResponse {
+		return vs[0].([]PropertySelectorRequirementResponse)[vs[1].(int)]
+	}).(PropertySelectorRequirementResponseOutput)
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PropertySelectorResponse struct {
+	// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+	MatchExpressions []PropertySelectorRequirementResponse `pulumi:"matchExpressions"`
+}
+
+// PropertySelector helps user specify property requirements when picking clusters for resource placement.
+type PropertySelectorResponseOutput struct{ *pulumi.OutputState }
+
+func (PropertySelectorResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PropertySelectorResponse)(nil)).Elem()
+}
+
+func (o PropertySelectorResponseOutput) ToPropertySelectorResponseOutput() PropertySelectorResponseOutput {
+	return o
+}
+
+func (o PropertySelectorResponseOutput) ToPropertySelectorResponseOutputWithContext(ctx context.Context) PropertySelectorResponseOutput {
+	return o
+}
+
+// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+func (o PropertySelectorResponseOutput) MatchExpressions() PropertySelectorRequirementResponseArrayOutput {
+	return o.ApplyT(func(v PropertySelectorResponse) []PropertySelectorRequirementResponse { return v.MatchExpressions }).(PropertySelectorRequirementResponseArrayOutput)
+}
+
+type PropertySelectorResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PropertySelectorResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PropertySelectorResponse)(nil)).Elem()
+}
+
+func (o PropertySelectorResponsePtrOutput) ToPropertySelectorResponsePtrOutput() PropertySelectorResponsePtrOutput {
+	return o
+}
+
+func (o PropertySelectorResponsePtrOutput) ToPropertySelectorResponsePtrOutputWithContext(ctx context.Context) PropertySelectorResponsePtrOutput {
+	return o
+}
+
+func (o PropertySelectorResponsePtrOutput) Elem() PropertySelectorResponseOutput {
+	return o.ApplyT(func(v *PropertySelectorResponse) PropertySelectorResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PropertySelectorResponse
+		return ret
+	}).(PropertySelectorResponseOutput)
+}
+
+// MatchExpressions is an array of PropertySelectorRequirements. The requirements are AND'd.
+func (o PropertySelectorResponsePtrOutput) MatchExpressions() PropertySelectorRequirementResponseArrayOutput {
+	return o.ApplyT(func(v *PropertySelectorResponse) []PropertySelectorRequirementResponse {
+		if v == nil {
+			return nil
+		}
+		return v.MatchExpressions
+	}).(PropertySelectorRequirementResponseArrayOutput)
 }
 
 // For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'.
@@ -35040,6 +34967,73 @@ func (o TimeSpanResponseArrayOutput) Index(i pulumi.IntInput) TimeSpanResponseOu
 	}).(TimeSpanResponseOutput)
 }
 
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type TolerationResponse struct {
+	// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+	Effect *string `pulumi:"effect"`
+	// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+	Key *string `pulumi:"key"`
+	// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+	Operator *string `pulumi:"operator"`
+	// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+	Value *string `pulumi:"value"`
+}
+
+// Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>.
+type TolerationResponseOutput struct{ *pulumi.OutputState }
+
+func (TolerationResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*TolerationResponse)(nil)).Elem()
+}
+
+func (o TolerationResponseOutput) ToTolerationResponseOutput() TolerationResponseOutput {
+	return o
+}
+
+func (o TolerationResponseOutput) ToTolerationResponseOutputWithContext(ctx context.Context) TolerationResponseOutput {
+	return o
+}
+
+// Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule.
+func (o TolerationResponseOutput) Effect() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v TolerationResponse) *string { return v.Effect }).(pulumi.StringPtrOutput)
+}
+
+// Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys.
+func (o TolerationResponseOutput) Key() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v TolerationResponse) *string { return v.Key }).(pulumi.StringPtrOutput)
+}
+
+// Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category.
+func (o TolerationResponseOutput) Operator() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v TolerationResponse) *string { return v.Operator }).(pulumi.StringPtrOutput)
+}
+
+// Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string.
+func (o TolerationResponseOutput) Value() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v TolerationResponse) *string { return v.Value }).(pulumi.StringPtrOutput)
+}
+
+type TolerationResponseArrayOutput struct{ *pulumi.OutputState }
+
+func (TolerationResponseArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]TolerationResponse)(nil)).Elem()
+}
+
+func (o TolerationResponseArrayOutput) ToTolerationResponseArrayOutput() TolerationResponseArrayOutput {
+	return o
+}
+
+func (o TolerationResponseArrayOutput) ToTolerationResponseArrayOutputWithContext(ctx context.Context) TolerationResponseArrayOutput {
+	return o
+}
+
+func (o TolerationResponseArrayOutput) Index(i pulumi.IntInput) TolerationResponseOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) TolerationResponse {
+		return vs[0].([]TolerationResponse)[vs[1].(int)]
+	}).(TolerationResponseOutput)
+}
+
 // A group to be updated.
 type UpdateGroup struct {
 	// Name of the group.
@@ -36167,6 +36161,120 @@ func (o UserAssignedIdentityMapOutput) MapIndex(k pulumi.StringInput) UserAssign
 	}).(UserAssignedIdentityOutput)
 }
 
+// Details about a user assigned identity.
+type UserAssignedIdentityManagedClusterResponse struct {
+	// The client ID of the user assigned identity.
+	ClientId *string `pulumi:"clientId"`
+	// The object ID of the user assigned identity.
+	ObjectId *string `pulumi:"objectId"`
+	// The resource ID of the user assigned identity.
+	ResourceId *string `pulumi:"resourceId"`
+}
+
+// Details about a user assigned identity.
+type UserAssignedIdentityManagedClusterResponseOutput struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentityManagedClusterResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UserAssignedIdentityManagedClusterResponse)(nil)).Elem()
+}
+
+func (o UserAssignedIdentityManagedClusterResponseOutput) ToUserAssignedIdentityManagedClusterResponseOutput() UserAssignedIdentityManagedClusterResponseOutput {
+	return o
+}
+
+func (o UserAssignedIdentityManagedClusterResponseOutput) ToUserAssignedIdentityManagedClusterResponseOutputWithContext(ctx context.Context) UserAssignedIdentityManagedClusterResponseOutput {
+	return o
+}
+
+// The client ID of the user assigned identity.
+func (o UserAssignedIdentityManagedClusterResponseOutput) ClientId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v UserAssignedIdentityManagedClusterResponse) *string { return v.ClientId }).(pulumi.StringPtrOutput)
+}
+
+// The object ID of the user assigned identity.
+func (o UserAssignedIdentityManagedClusterResponseOutput) ObjectId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v UserAssignedIdentityManagedClusterResponse) *string { return v.ObjectId }).(pulumi.StringPtrOutput)
+}
+
+// The resource ID of the user assigned identity.
+func (o UserAssignedIdentityManagedClusterResponseOutput) ResourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v UserAssignedIdentityManagedClusterResponse) *string { return v.ResourceId }).(pulumi.StringPtrOutput)
+}
+
+type UserAssignedIdentityManagedClusterResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentityManagedClusterResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**UserAssignedIdentityManagedClusterResponse)(nil)).Elem()
+}
+
+func (o UserAssignedIdentityManagedClusterResponsePtrOutput) ToUserAssignedIdentityManagedClusterResponsePtrOutput() UserAssignedIdentityManagedClusterResponsePtrOutput {
+	return o
+}
+
+func (o UserAssignedIdentityManagedClusterResponsePtrOutput) ToUserAssignedIdentityManagedClusterResponsePtrOutputWithContext(ctx context.Context) UserAssignedIdentityManagedClusterResponsePtrOutput {
+	return o
+}
+
+func (o UserAssignedIdentityManagedClusterResponsePtrOutput) Elem() UserAssignedIdentityManagedClusterResponseOutput {
+	return o.ApplyT(func(v *UserAssignedIdentityManagedClusterResponse) UserAssignedIdentityManagedClusterResponse {
+		if v != nil {
+			return *v
+		}
+		var ret UserAssignedIdentityManagedClusterResponse
+		return ret
+	}).(UserAssignedIdentityManagedClusterResponseOutput)
+}
+
+// The client ID of the user assigned identity.
+func (o UserAssignedIdentityManagedClusterResponsePtrOutput) ClientId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *UserAssignedIdentityManagedClusterResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ClientId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The object ID of the user assigned identity.
+func (o UserAssignedIdentityManagedClusterResponsePtrOutput) ObjectId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *UserAssignedIdentityManagedClusterResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ObjectId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The resource ID of the user assigned identity.
+func (o UserAssignedIdentityManagedClusterResponsePtrOutput) ResourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *UserAssignedIdentityManagedClusterResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ResourceId
+	}).(pulumi.StringPtrOutput)
+}
+
+type UserAssignedIdentityManagedClusterResponseMapOutput struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentityManagedClusterResponseMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]UserAssignedIdentityManagedClusterResponse)(nil)).Elem()
+}
+
+func (o UserAssignedIdentityManagedClusterResponseMapOutput) ToUserAssignedIdentityManagedClusterResponseMapOutput() UserAssignedIdentityManagedClusterResponseMapOutput {
+	return o
+}
+
+func (o UserAssignedIdentityManagedClusterResponseMapOutput) ToUserAssignedIdentityManagedClusterResponseMapOutputWithContext(ctx context.Context) UserAssignedIdentityManagedClusterResponseMapOutput {
+	return o
+}
+
+func (o UserAssignedIdentityManagedClusterResponseMapOutput) MapIndex(k pulumi.StringInput) UserAssignedIdentityManagedClusterResponseOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentityManagedClusterResponse {
+		return vs[0].(map[string]UserAssignedIdentityManagedClusterResponse)[vs[1].(string)]
+	}).(UserAssignedIdentityManagedClusterResponseOutput)
+}
+
 // User assigned identity properties
 type UserAssignedIdentityResponse struct {
 	// The client ID of the assigned identity.
@@ -36200,50 +36308,6 @@ func (o UserAssignedIdentityResponseOutput) PrincipalId() pulumi.StringOutput {
 	return o.ApplyT(func(v UserAssignedIdentityResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
 }
 
-type UserAssignedIdentityResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (UserAssignedIdentityResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**UserAssignedIdentityResponse)(nil)).Elem()
-}
-
-func (o UserAssignedIdentityResponsePtrOutput) ToUserAssignedIdentityResponsePtrOutput() UserAssignedIdentityResponsePtrOutput {
-	return o
-}
-
-func (o UserAssignedIdentityResponsePtrOutput) ToUserAssignedIdentityResponsePtrOutputWithContext(ctx context.Context) UserAssignedIdentityResponsePtrOutput {
-	return o
-}
-
-func (o UserAssignedIdentityResponsePtrOutput) Elem() UserAssignedIdentityResponseOutput {
-	return o.ApplyT(func(v *UserAssignedIdentityResponse) UserAssignedIdentityResponse {
-		if v != nil {
-			return *v
-		}
-		var ret UserAssignedIdentityResponse
-		return ret
-	}).(UserAssignedIdentityResponseOutput)
-}
-
-// The client ID of the assigned identity.
-func (o UserAssignedIdentityResponsePtrOutput) ClientId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *UserAssignedIdentityResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.ClientId
-	}).(pulumi.StringPtrOutput)
-}
-
-// The principal ID of the assigned identity.
-func (o UserAssignedIdentityResponsePtrOutput) PrincipalId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *UserAssignedIdentityResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.PrincipalId
-	}).(pulumi.StringPtrOutput)
-}
-
 type UserAssignedIdentityResponseMapOutput struct{ *pulumi.OutputState }
 
 func (UserAssignedIdentityResponseMapOutput) ElementType() reflect.Type {
@@ -36262,66 +36326,6 @@ func (o UserAssignedIdentityResponseMapOutput) MapIndex(k pulumi.StringInput) Us
 	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentityResponse {
 		return vs[0].(map[string]UserAssignedIdentityResponse)[vs[1].(string)]
 	}).(UserAssignedIdentityResponseOutput)
-}
-
-// Details about a user assigned identity.
-type UserAssignedIdentityResponseV1 struct {
-	// The client ID of the user assigned identity.
-	ClientId *string `pulumi:"clientId"`
-	// The object ID of the user assigned identity.
-	ObjectId *string `pulumi:"objectId"`
-	// The resource ID of the user assigned identity.
-	ResourceId *string `pulumi:"resourceId"`
-}
-
-// Details about a user assigned identity.
-type UserAssignedIdentityResponseV1Output struct{ *pulumi.OutputState }
-
-func (UserAssignedIdentityResponseV1Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*UserAssignedIdentityResponseV1)(nil)).Elem()
-}
-
-func (o UserAssignedIdentityResponseV1Output) ToUserAssignedIdentityResponseV1Output() UserAssignedIdentityResponseV1Output {
-	return o
-}
-
-func (o UserAssignedIdentityResponseV1Output) ToUserAssignedIdentityResponseV1OutputWithContext(ctx context.Context) UserAssignedIdentityResponseV1Output {
-	return o
-}
-
-// The client ID of the user assigned identity.
-func (o UserAssignedIdentityResponseV1Output) ClientId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponseV1) *string { return v.ClientId }).(pulumi.StringPtrOutput)
-}
-
-// The object ID of the user assigned identity.
-func (o UserAssignedIdentityResponseV1Output) ObjectId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponseV1) *string { return v.ObjectId }).(pulumi.StringPtrOutput)
-}
-
-// The resource ID of the user assigned identity.
-func (o UserAssignedIdentityResponseV1Output) ResourceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v UserAssignedIdentityResponseV1) *string { return v.ResourceId }).(pulumi.StringPtrOutput)
-}
-
-type UserAssignedIdentityResponseV1MapOutput struct{ *pulumi.OutputState }
-
-func (UserAssignedIdentityResponseV1MapOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*map[string]UserAssignedIdentityResponseV1)(nil)).Elem()
-}
-
-func (o UserAssignedIdentityResponseV1MapOutput) ToUserAssignedIdentityResponseV1MapOutput() UserAssignedIdentityResponseV1MapOutput {
-	return o
-}
-
-func (o UserAssignedIdentityResponseV1MapOutput) ToUserAssignedIdentityResponseV1MapOutputWithContext(ctx context.Context) UserAssignedIdentityResponseV1MapOutput {
-	return o
-}
-
-func (o UserAssignedIdentityResponseV1MapOutput) MapIndex(k pulumi.StringInput) UserAssignedIdentityResponseV1Output {
-	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentityResponseV1 {
-		return vs[0].(map[string]UserAssignedIdentityResponseV1)[vs[1].(string)]
-	}).(UserAssignedIdentityResponseV1Output)
 }
 
 // Current status on a group of nodes of the same vm size.
@@ -37248,6 +37252,8 @@ func init() {
 	pulumi.RegisterOutputType(AdvancedNetworkingSecurityPtrOutput{})
 	pulumi.RegisterOutputType(AdvancedNetworkingSecurityResponseOutput{})
 	pulumi.RegisterOutputType(AdvancedNetworkingSecurityResponsePtrOutput{})
+	pulumi.RegisterOutputType(AffinityResponseOutput{})
+	pulumi.RegisterOutputType(AffinityResponsePtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolGatewayProfileOutput{})
 	pulumi.RegisterOutputType(AgentPoolGatewayProfilePtrOutput{})
 	pulumi.RegisterOutputType(AgentPoolGatewayProfileResponseOutput{})
@@ -37282,6 +37288,14 @@ func init() {
 	pulumi.RegisterOutputType(AzureKeyVaultKmsPtrOutput{})
 	pulumi.RegisterOutputType(AzureKeyVaultKmsResponseOutput{})
 	pulumi.RegisterOutputType(AzureKeyVaultKmsResponsePtrOutput{})
+	pulumi.RegisterOutputType(ClusterAffinityResponseOutput{})
+	pulumi.RegisterOutputType(ClusterAffinityResponsePtrOutput{})
+	pulumi.RegisterOutputType(ClusterResourcePlacementSpecResponseOutput{})
+	pulumi.RegisterOutputType(ClusterResourcePlacementSpecResponsePtrOutput{})
+	pulumi.RegisterOutputType(ClusterSelectorResponseOutput{})
+	pulumi.RegisterOutputType(ClusterSelectorResponsePtrOutput{})
+	pulumi.RegisterOutputType(ClusterSelectorTermResponseOutput{})
+	pulumi.RegisterOutputType(ClusterSelectorTermResponseArrayOutput{})
 	pulumi.RegisterOutputType(ClusterUpgradeSettingsOutput{})
 	pulumi.RegisterOutputType(ClusterUpgradeSettingsPtrOutput{})
 	pulumi.RegisterOutputType(ClusterUpgradeSettingsResponseOutput{})
@@ -37402,8 +37416,12 @@ func init() {
 	pulumi.RegisterOutputType(KubeletConfigResponsePtrOutput{})
 	pulumi.RegisterOutputType(LabelSelectorOutput{})
 	pulumi.RegisterOutputType(LabelSelectorPtrOutput{})
+	pulumi.RegisterOutputType(LabelSelectorLoadBalancerResponseOutput{})
+	pulumi.RegisterOutputType(LabelSelectorLoadBalancerResponsePtrOutput{})
 	pulumi.RegisterOutputType(LabelSelectorRequirementOutput{})
 	pulumi.RegisterOutputType(LabelSelectorRequirementArrayOutput{})
+	pulumi.RegisterOutputType(LabelSelectorRequirementLoadBalancerResponseOutput{})
+	pulumi.RegisterOutputType(LabelSelectorRequirementLoadBalancerResponseArrayOutput{})
 	pulumi.RegisterOutputType(LabelSelectorRequirementResponseOutput{})
 	pulumi.RegisterOutputType(LabelSelectorRequirementResponseArrayOutput{})
 	pulumi.RegisterOutputType(LabelSelectorResponseOutput{})
@@ -37649,14 +37667,10 @@ func init() {
 	pulumi.RegisterOutputType(MetaV1LabelSelectorPtrOutput{})
 	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementOutput{})
 	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementArrayOutput{})
-	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementResponseOutput{})
-	pulumi.RegisterOutputType(MetaV1LabelSelectorRequirementResponseArrayOutput{})
-	pulumi.RegisterOutputType(MetaV1LabelSelectorResponseOutput{})
-	pulumi.RegisterOutputType(MetaV1LabelSelectorResponsePtrOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesPtrOutput{})
+	pulumi.RegisterOutputType(NamespacePropertiesNamespaceResponseOutput{})
 	pulumi.RegisterOutputType(NamespacePropertiesResponseOutput{})
-	pulumi.RegisterOutputType(NamespacePropertiesResponseV1Output{})
 	pulumi.RegisterOutputType(NetworkPoliciesOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesPtrOutput{})
 	pulumi.RegisterOutputType(NetworkPoliciesResponseOutput{})
@@ -37671,46 +37685,30 @@ func init() {
 	pulumi.RegisterOutputType(NodeImageSelectionStatusResponseOutput{})
 	pulumi.RegisterOutputType(NodeImageVersionResponseOutput{})
 	pulumi.RegisterOutputType(NodeImageVersionResponseArrayOutput{})
+	pulumi.RegisterOutputType(PlacementPolicyResponseOutput{})
+	pulumi.RegisterOutputType(PlacementPolicyResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementProfileOutput{})
 	pulumi.RegisterOutputType(PlacementProfilePtrOutput{})
 	pulumi.RegisterOutputType(PlacementProfileResponseOutput{})
 	pulumi.RegisterOutputType(PlacementProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1AffinityOutput{})
 	pulumi.RegisterOutputType(PlacementV1AffinityPtrOutput{})
-	pulumi.RegisterOutputType(PlacementV1AffinityResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1AffinityResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterAffinityOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterAffinityPtrOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterAffinityResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterAffinityResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecPtrOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterResourcePlacementSpecResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterSelectorOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterSelectorPtrOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterSelectorResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterSelectorResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermOutput{})
 	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermArrayOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1ClusterSelectorTermResponseArrayOutput{})
 	pulumi.RegisterOutputType(PlacementV1PlacementPolicyOutput{})
 	pulumi.RegisterOutputType(PlacementV1PlacementPolicyPtrOutput{})
-	pulumi.RegisterOutputType(PlacementV1PlacementPolicyResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1PlacementPolicyResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1PropertySelectorOutput{})
 	pulumi.RegisterOutputType(PlacementV1PropertySelectorPtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementOutput{})
 	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementArrayOutput{})
-	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1PropertySelectorRequirementResponseArrayOutput{})
-	pulumi.RegisterOutputType(PlacementV1PropertySelectorResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1PropertySelectorResponsePtrOutput{})
 	pulumi.RegisterOutputType(PlacementV1TolerationOutput{})
 	pulumi.RegisterOutputType(PlacementV1TolerationArrayOutput{})
-	pulumi.RegisterOutputType(PlacementV1TolerationResponseOutput{})
-	pulumi.RegisterOutputType(PlacementV1TolerationResponseArrayOutput{})
 	pulumi.RegisterOutputType(PortRangeOutput{})
 	pulumi.RegisterOutputType(PortRangeArrayOutput{})
 	pulumi.RegisterOutputType(PortRangeResponseOutput{})
@@ -37733,6 +37731,10 @@ func init() {
 	pulumi.RegisterOutputType(PropagationPolicyPtrOutput{})
 	pulumi.RegisterOutputType(PropagationPolicyResponseOutput{})
 	pulumi.RegisterOutputType(PropagationPolicyResponsePtrOutput{})
+	pulumi.RegisterOutputType(PropertySelectorRequirementResponseOutput{})
+	pulumi.RegisterOutputType(PropertySelectorRequirementResponseArrayOutput{})
+	pulumi.RegisterOutputType(PropertySelectorResponseOutput{})
+	pulumi.RegisterOutputType(PropertySelectorResponsePtrOutput{})
 	pulumi.RegisterOutputType(RelativeMonthlyScheduleOutput{})
 	pulumi.RegisterOutputType(RelativeMonthlySchedulePtrOutput{})
 	pulumi.RegisterOutputType(RelativeMonthlyScheduleResponseOutput{})
@@ -37770,6 +37772,8 @@ func init() {
 	pulumi.RegisterOutputType(TimeSpanArrayOutput{})
 	pulumi.RegisterOutputType(TimeSpanResponseOutput{})
 	pulumi.RegisterOutputType(TimeSpanResponseArrayOutput{})
+	pulumi.RegisterOutputType(TolerationResponseOutput{})
+	pulumi.RegisterOutputType(TolerationResponseArrayOutput{})
 	pulumi.RegisterOutputType(UpdateGroupOutput{})
 	pulumi.RegisterOutputType(UpdateGroupArrayOutput{})
 	pulumi.RegisterOutputType(UpdateGroupResponseOutput{})
@@ -37794,11 +37798,11 @@ func init() {
 	pulumi.RegisterOutputType(UpgradeOverrideSettingsResponsePtrOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityMapOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentityManagedClusterResponseOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentityManagedClusterResponsePtrOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentityManagedClusterResponseMapOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityResponseOutput{})
-	pulumi.RegisterOutputType(UserAssignedIdentityResponsePtrOutput{})
 	pulumi.RegisterOutputType(UserAssignedIdentityResponseMapOutput{})
-	pulumi.RegisterOutputType(UserAssignedIdentityResponseV1Output{})
-	pulumi.RegisterOutputType(UserAssignedIdentityResponseV1MapOutput{})
 	pulumi.RegisterOutputType(VirtualMachineNodesOutput{})
 	pulumi.RegisterOutputType(VirtualMachineNodesArrayOutput{})
 	pulumi.RegisterOutputType(VirtualMachineNodesResponseOutput{})

@@ -18,16 +18,15 @@ var (
 // Model is the main table model.  Create using New().
 type Model struct {
 	// Data
-	columns  []Column
-	rows     []Row
-	metadata map[string]any
+	columns []Column
+	rows    []Row
 
 	// Caches for optimizations
 	visibleRowCacheUpdated bool
 	visibleRowCache        []Row
 
 	// Shown when data is missing from a row
-	missingDataIndicator any
+	missingDataIndicator interface{}
 
 	// Interaction
 	focused bool
@@ -79,7 +78,6 @@ type Model struct {
 	// Filter
 	filtered        bool
 	filterTextInput textinput.Model
-	filterFunc      FilterFunc
 
 	// For flex columns
 	targetTotalWidth int
@@ -117,7 +115,6 @@ func New(columns []Column) Model {
 	filterInput.Prompt = "/"
 	model := Model{
 		columns:        make([]Column, len(columns)),
-		metadata:       make(map[string]any),
 		highlightStyle: defaultHighlightStyle.Copy(),
 		border:         borderDefault,
 		headerVisible:  true,
@@ -128,7 +125,6 @@ func New(columns []Column) Model {
 		unselectedText: "[ ]",
 
 		filterTextInput: filterInput,
-		filterFunc:      filterFuncContains,
 		baseStyle:       lipgloss.NewStyle().Align(lipgloss.Right),
 
 		paginationWrapping: true,

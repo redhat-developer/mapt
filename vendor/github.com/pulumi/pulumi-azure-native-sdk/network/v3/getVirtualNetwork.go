@@ -82,7 +82,7 @@ type LookupVirtualNetworkResult struct {
 	// Resource type.
 	Type string `pulumi:"type"`
 	// A list of peerings in a Virtual Network.
-	VirtualNetworkPeerings []VirtualNetworkPeeringResponse `pulumi:"virtualNetworkPeerings"`
+	VirtualNetworkPeerings []VirtualNetworkPeeringVirtualNetworkResponse `pulumi:"virtualNetworkPeerings"`
 }
 
 // Defaults sets the appropriate defaults for LookupVirtualNetworkResult
@@ -249,8 +249,10 @@ func (o LookupVirtualNetworkResultOutput) Type() pulumi.StringOutput {
 }
 
 // A list of peerings in a Virtual Network.
-func (o LookupVirtualNetworkResultOutput) VirtualNetworkPeerings() VirtualNetworkPeeringResponseArrayOutput {
-	return o.ApplyT(func(v LookupVirtualNetworkResult) []VirtualNetworkPeeringResponse { return v.VirtualNetworkPeerings }).(VirtualNetworkPeeringResponseArrayOutput)
+func (o LookupVirtualNetworkResultOutput) VirtualNetworkPeerings() VirtualNetworkPeeringVirtualNetworkResponseArrayOutput {
+	return o.ApplyT(func(v LookupVirtualNetworkResult) []VirtualNetworkPeeringVirtualNetworkResponse {
+		return v.VirtualNetworkPeerings
+	}).(VirtualNetworkPeeringVirtualNetworkResponseArrayOutput)
 }
 
 func init() {

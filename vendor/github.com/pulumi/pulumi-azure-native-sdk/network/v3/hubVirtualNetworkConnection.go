@@ -37,7 +37,7 @@ type HubVirtualNetworkConnection struct {
 	// Reference to the remote virtual network.
 	RemoteVirtualNetwork SubResourceResponsePtrOutput `pulumi:"remoteVirtualNetwork"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationResponseV3PtrOutput `pulumi:"routingConfiguration"`
+	RoutingConfiguration RoutingConfigurationHubVirtualNetworkConnectionResponsePtrOutput `pulumi:"routingConfiguration"`
 }
 
 // NewHubVirtualNetworkConnection registers a new resource with the given unique name, arguments, and options.
@@ -193,7 +193,7 @@ type hubVirtualNetworkConnectionArgs struct {
 	// The resource group name of the HubVirtualNetworkConnection.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationV3 `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationType `pulumi:"routingConfiguration"`
 	// The name of the VirtualHub.
 	VirtualHubName string `pulumi:"virtualHubName"`
 }
@@ -217,7 +217,7 @@ type HubVirtualNetworkConnectionArgs struct {
 	// The resource group name of the HubVirtualNetworkConnection.
 	ResourceGroupName pulumi.StringInput
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration RoutingConfigurationV3PtrInput
+	RoutingConfiguration RoutingConfigurationTypePtrInput
 	// The name of the VirtualHub.
 	VirtualHubName pulumi.StringInput
 }
@@ -302,10 +302,10 @@ func (o HubVirtualNetworkConnectionOutput) RemoteVirtualNetwork() SubResourceRes
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o HubVirtualNetworkConnectionOutput) RoutingConfiguration() RoutingConfigurationResponseV3PtrOutput {
-	return o.ApplyT(func(v *HubVirtualNetworkConnection) RoutingConfigurationResponseV3PtrOutput {
+func (o HubVirtualNetworkConnectionOutput) RoutingConfiguration() RoutingConfigurationHubVirtualNetworkConnectionResponsePtrOutput {
+	return o.ApplyT(func(v *HubVirtualNetworkConnection) RoutingConfigurationHubVirtualNetworkConnectionResponsePtrOutput {
 		return v.RoutingConfiguration
-	}).(RoutingConfigurationResponseV3PtrOutput)
+	}).(RoutingConfigurationHubVirtualNetworkConnectionResponsePtrOutput)
 }
 
 func init() {

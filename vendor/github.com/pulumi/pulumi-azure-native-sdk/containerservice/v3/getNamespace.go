@@ -46,7 +46,7 @@ type LookupNamespaceResult struct {
 	// The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `pulumi:"name"`
 	// Properties of a namespace.
-	Properties NamespacePropertiesResponse `pulumi:"properties"`
+	Properties NamespacePropertiesNamespaceResponse `pulumi:"properties"`
 	// The system metadata relating to this resource.
 	SystemData SystemDataResponse `pulumi:"systemData"`
 	// The tags to be persisted on the managed cluster namespace.
@@ -128,8 +128,8 @@ func (o LookupNamespaceResultOutput) Name() pulumi.StringOutput {
 }
 
 // Properties of a namespace.
-func (o LookupNamespaceResultOutput) Properties() NamespacePropertiesResponseOutput {
-	return o.ApplyT(func(v LookupNamespaceResult) NamespacePropertiesResponse { return v.Properties }).(NamespacePropertiesResponseOutput)
+func (o LookupNamespaceResultOutput) Properties() NamespacePropertiesNamespaceResponseOutput {
+	return o.ApplyT(func(v LookupNamespaceResult) NamespacePropertiesNamespaceResponse { return v.Properties }).(NamespacePropertiesNamespaceResponseOutput)
 }
 
 // The system metadata relating to this resource.

@@ -162,8 +162,8 @@ github.com/charithe/durationcheck
 # github.com/charmbracelet/colorprofile v0.4.3
 ## explicit; go 1.25.0
 github.com/charmbracelet/colorprofile
-# github.com/charmbracelet/ultraviolet v0.0.0-20251205161215-1948445e3318
-## explicit; go 1.24.2
+# github.com/charmbracelet/ultraviolet v0.0.0-20260730003005-19049f296fa9
+## explicit; go 1.25.0
 github.com/charmbracelet/ultraviolet
 # github.com/charmbracelet/x/ansi v0.11.7
 ## explicit; go 1.24.2
@@ -211,7 +211,7 @@ github.com/dave/dst/decorator/resolver
 github.com/dave/dst/decorator/resolver/gopackages
 github.com/dave/dst/decorator/resolver/gotypes
 github.com/dave/dst/dstutil
-# github.com/davecgh/go-spew v1.1.1
+# github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 ## explicit
 github.com/davecgh/go-spew/spew
 # github.com/denis-tingaikin/go-header v0.5.0
@@ -564,7 +564,7 @@ github.com/hexops/gotextdiff/span
 # github.com/inconshreveable/mousetrap v1.1.0
 ## explicit; go 1.18
 github.com/inconshreveable/mousetrap
-# github.com/jgautheron/goconst v1.10.2
+# github.com/jgautheron/goconst v1.11.0
 ## explicit; go 1.23
 github.com/jgautheron/goconst
 # github.com/jjti/go-spancheck v0.6.5
@@ -711,11 +711,11 @@ github.com/pelletier/go-toml/v2
 github.com/pelletier/go-toml/v2/internal/parserbridge
 github.com/pelletier/go-toml/v2/internal/tracker
 github.com/pelletier/go-toml/v2/unstable
-# github.com/pmezard/go-difflib v1.0.0
+# github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
 ## explicit
 github.com/pmezard/go-difflib/difflib
-# github.com/prometheus/client_golang v1.23.2
-## explicit; go 1.23.0
+# github.com/prometheus/client_golang v1.24.1
+## explicit; go 1.25.0
 github.com/prometheus/client_golang/prometheus
 github.com/prometheus/client_golang/prometheus/internal
 github.com/prometheus/client_golang/prometheus/testutil/promlint
@@ -805,8 +805,8 @@ github.com/sashamelentyev/interfacebloat/pkg/analyzer
 ## explicit; go 1.23.0
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer
 github.com/sashamelentyev/usestdlibvars/pkg/analyzer/internal/mapping
-# github.com/securego/gosec/v2 v2.27.1
-## explicit; go 1.25.0
+# github.com/securego/gosec/v2 v2.28.0
+## explicit; go 1.25.8
 github.com/securego/gosec/v2
 github.com/securego/gosec/v2/analyzers
 github.com/securego/gosec/v2/cwe
@@ -869,7 +869,7 @@ github.com/subosito/gotenv
 # github.com/tetafro/godot v1.5.6
 ## explicit; go 1.22
 github.com/tetafro/godot
-# github.com/timakin/bodyclose v0.0.0-20260129054331-73d1f95b84b4
+# github.com/timakin/bodyclose v0.0.0-20260723120731-857993a2939c
 ## explicit; go 1.22
 github.com/timakin/bodyclose/passes/bodyclose
 # github.com/timonwong/loggercheck v0.11.0
@@ -953,7 +953,7 @@ go.uber.org/zap/zapcore
 # go.yaml.in/yaml/v3 v3.0.5
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20260718201538-764159d718ef
+# golang.org/x/exp/typeparams v0.0.0-20260727155853-b88d891fe743
 ## explicit; go 1.25.0
 golang.org/x/exp/typeparams
 # golang.org/x/mod v0.38.0
@@ -1321,7 +1321,7 @@ honnef.co/go/tools/stylecheck/st1021
 honnef.co/go/tools/stylecheck/st1022
 honnef.co/go/tools/stylecheck/st1023
 honnef.co/go/tools/unused
-# mvdan.cc/gofumpt v0.10.0
+# mvdan.cc/gofumpt v0.11.0
 ## explicit; go 1.25.0
 mvdan.cc/gofumpt/format
 mvdan.cc/gofumpt/internal/govendor/go/doc/comment

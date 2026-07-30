@@ -56,7 +56,7 @@ type LookupHubVirtualNetworkConnectionResult struct {
 	// Reference to the remote virtual network.
 	RemoteVirtualNetwork *SubResourceResponse `pulumi:"remoteVirtualNetwork"`
 	// The Routing Configuration indicating the associated and propagated route tables on this connection.
-	RoutingConfiguration *RoutingConfigurationResponse `pulumi:"routingConfiguration"`
+	RoutingConfiguration *RoutingConfigurationHubVirtualNetworkConnectionResponse `pulumi:"routingConfiguration"`
 }
 
 func LookupHubVirtualNetworkConnectionOutput(ctx *pulumi.Context, args LookupHubVirtualNetworkConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupHubVirtualNetworkConnectionResultOutput {
@@ -142,10 +142,10 @@ func (o LookupHubVirtualNetworkConnectionResultOutput) RemoteVirtualNetwork() Su
 }
 
 // The Routing Configuration indicating the associated and propagated route tables on this connection.
-func (o LookupHubVirtualNetworkConnectionResultOutput) RoutingConfiguration() RoutingConfigurationResponsePtrOutput {
-	return o.ApplyT(func(v LookupHubVirtualNetworkConnectionResult) *RoutingConfigurationResponse {
+func (o LookupHubVirtualNetworkConnectionResultOutput) RoutingConfiguration() RoutingConfigurationHubVirtualNetworkConnectionResponsePtrOutput {
+	return o.ApplyT(func(v LookupHubVirtualNetworkConnectionResult) *RoutingConfigurationHubVirtualNetworkConnectionResponse {
 		return v.RoutingConfiguration
-	}).(RoutingConfigurationResponsePtrOutput)
+	}).(RoutingConfigurationHubVirtualNetworkConnectionResponsePtrOutput)
 }
 
 func init() {

@@ -211,6 +211,169 @@ func (o ActionOnUnmanagePtrOutput) ResourcesWithoutDeleteSupport() pulumi.String
 }
 
 // Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
+type ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse struct {
+	// Specifies an action for a newly unmanaged resource management group.
+	ManagementGroups *string `pulumi:"managementGroups"`
+	// Specifies an action for a newly unmanaged resource group.
+	ResourceGroups *string `pulumi:"resourceGroups"`
+	// Specifies an action for a newly unmanaged resource.
+	Resources string `pulumi:"resources"`
+	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
+}
+
+// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
+type ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput struct{ *pulumi.OutputState }
+
+func (ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse)(nil)).Elem()
+}
+
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) ToActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput() ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput {
+	return o
+}
+
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) ToActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutputWithContext(ctx context.Context) ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput {
+	return o
+}
+
+// Specifies an action for a newly unmanaged resource management group.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) ManagementGroups() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse) *string {
+		return v.ManagementGroups
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource group.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) ResourceGroups() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse) *string {
+		return v.ResourceGroups
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) Resources() pulumi.StringOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse) string {
+		return v.Resources
+	}).(pulumi.StringOutput)
+}
+
+// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput) ResourcesWithoutDeleteSupport() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse) *string {
+		return v.ResourcesWithoutDeleteSupport
+	}).(pulumi.StringPtrOutput)
+}
+
+// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
+type ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse struct {
+	// Specifies an action for a newly unmanaged resource management group.
+	ManagementGroups *string `pulumi:"managementGroups"`
+	// Specifies an action for a newly unmanaged resource group.
+	ResourceGroups *string `pulumi:"resourceGroups"`
+	// Specifies an action for a newly unmanaged resource.
+	Resources string `pulumi:"resources"`
+	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
+}
+
+// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
+type ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput struct{ *pulumi.OutputState }
+
+func (ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse)(nil)).Elem()
+}
+
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ToActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput() ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput {
+	return o
+}
+
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ToActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutputWithContext(ctx context.Context) ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput {
+	return o
+}
+
+// Specifies an action for a newly unmanaged resource management group.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ManagementGroups() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse) *string {
+		return v.ManagementGroups
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource group.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ResourceGroups() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse) *string {
+		return v.ResourceGroups
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) Resources() pulumi.StringOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse) string {
+		return v.Resources
+	}).(pulumi.StringOutput)
+}
+
+// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ResourcesWithoutDeleteSupport() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse) *string {
+		return v.ResourcesWithoutDeleteSupport
+	}).(pulumi.StringPtrOutput)
+}
+
+// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
+type ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse struct {
+	// Specifies an action for a newly unmanaged resource management group.
+	ManagementGroups *string `pulumi:"managementGroups"`
+	// Specifies an action for a newly unmanaged resource group.
+	ResourceGroups *string `pulumi:"resourceGroups"`
+	// Specifies an action for a newly unmanaged resource.
+	Resources string `pulumi:"resources"`
+	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
+}
+
+// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
+type ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput struct{ *pulumi.OutputState }
+
+func (ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse)(nil)).Elem()
+}
+
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ToActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput() ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput {
+	return o
+}
+
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ToActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutputWithContext(ctx context.Context) ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput {
+	return o
+}
+
+// Specifies an action for a newly unmanaged resource management group.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ManagementGroups() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse) *string {
+		return v.ManagementGroups
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource group.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ResourceGroups() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse) *string {
+		return v.ResourceGroups
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies an action for a newly unmanaged resource.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) Resources() pulumi.StringOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse) string { return v.Resources }).(pulumi.StringOutput)
+}
+
+// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
+func (o ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ResourcesWithoutDeleteSupport() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse) *string {
+		return v.ResourcesWithoutDeleteSupport
+	}).(pulumi.StringPtrOutput)
+}
+
+// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
 type ActionOnUnmanageResponse struct {
 	// Specifies an action for a newly unmanaged resource management group.
 	ManagementGroups *string `pulumi:"managementGroups"`
@@ -248,147 +411,6 @@ func (o ActionOnUnmanageResponseOutput) ResourceGroups() pulumi.StringPtrOutput 
 // Specifies an action for a newly unmanaged resource.
 func (o ActionOnUnmanageResponseOutput) Resources() pulumi.StringOutput {
 	return o.ApplyT(func(v ActionOnUnmanageResponse) string { return v.Resources }).(pulumi.StringOutput)
-}
-
-// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
-type ActionOnUnmanageResponseV1 struct {
-	// Specifies an action for a newly unmanaged resource management group.
-	ManagementGroups *string `pulumi:"managementGroups"`
-	// Specifies an action for a newly unmanaged resource group.
-	ResourceGroups *string `pulumi:"resourceGroups"`
-	// Specifies an action for a newly unmanaged resource.
-	Resources string `pulumi:"resources"`
-	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
-}
-
-// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
-type ActionOnUnmanageResponseV1Output struct{ *pulumi.OutputState }
-
-func (ActionOnUnmanageResponseV1Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*ActionOnUnmanageResponseV1)(nil)).Elem()
-}
-
-func (o ActionOnUnmanageResponseV1Output) ToActionOnUnmanageResponseV1Output() ActionOnUnmanageResponseV1Output {
-	return o
-}
-
-func (o ActionOnUnmanageResponseV1Output) ToActionOnUnmanageResponseV1OutputWithContext(ctx context.Context) ActionOnUnmanageResponseV1Output {
-	return o
-}
-
-// Specifies an action for a newly unmanaged resource management group.
-func (o ActionOnUnmanageResponseV1Output) ManagementGroups() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV1) *string { return v.ManagementGroups }).(pulumi.StringPtrOutput)
-}
-
-// Specifies an action for a newly unmanaged resource group.
-func (o ActionOnUnmanageResponseV1Output) ResourceGroups() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV1) *string { return v.ResourceGroups }).(pulumi.StringPtrOutput)
-}
-
-// Specifies an action for a newly unmanaged resource.
-func (o ActionOnUnmanageResponseV1Output) Resources() pulumi.StringOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV1) string { return v.Resources }).(pulumi.StringOutput)
-}
-
-// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-func (o ActionOnUnmanageResponseV1Output) ResourcesWithoutDeleteSupport() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV1) *string { return v.ResourcesWithoutDeleteSupport }).(pulumi.StringPtrOutput)
-}
-
-// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
-type ActionOnUnmanageResponseV2 struct {
-	// Specifies an action for a newly unmanaged resource management group.
-	ManagementGroups *string `pulumi:"managementGroups"`
-	// Specifies an action for a newly unmanaged resource group.
-	ResourceGroups *string `pulumi:"resourceGroups"`
-	// Specifies an action for a newly unmanaged resource.
-	Resources string `pulumi:"resources"`
-	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
-}
-
-// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
-type ActionOnUnmanageResponseV2Output struct{ *pulumi.OutputState }
-
-func (ActionOnUnmanageResponseV2Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*ActionOnUnmanageResponseV2)(nil)).Elem()
-}
-
-func (o ActionOnUnmanageResponseV2Output) ToActionOnUnmanageResponseV2Output() ActionOnUnmanageResponseV2Output {
-	return o
-}
-
-func (o ActionOnUnmanageResponseV2Output) ToActionOnUnmanageResponseV2OutputWithContext(ctx context.Context) ActionOnUnmanageResponseV2Output {
-	return o
-}
-
-// Specifies an action for a newly unmanaged resource management group.
-func (o ActionOnUnmanageResponseV2Output) ManagementGroups() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV2) *string { return v.ManagementGroups }).(pulumi.StringPtrOutput)
-}
-
-// Specifies an action for a newly unmanaged resource group.
-func (o ActionOnUnmanageResponseV2Output) ResourceGroups() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV2) *string { return v.ResourceGroups }).(pulumi.StringPtrOutput)
-}
-
-// Specifies an action for a newly unmanaged resource.
-func (o ActionOnUnmanageResponseV2Output) Resources() pulumi.StringOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV2) string { return v.Resources }).(pulumi.StringOutput)
-}
-
-// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-func (o ActionOnUnmanageResponseV2Output) ResourcesWithoutDeleteSupport() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV2) *string { return v.ResourcesWithoutDeleteSupport }).(pulumi.StringPtrOutput)
-}
-
-// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
-type ActionOnUnmanageResponseV3 struct {
-	// Specifies an action for a newly unmanaged resource management group.
-	ManagementGroups *string `pulumi:"managementGroups"`
-	// Specifies an action for a newly unmanaged resource group.
-	ResourceGroups *string `pulumi:"resourceGroups"`
-	// Specifies an action for a newly unmanaged resource.
-	Resources string `pulumi:"resources"`
-	// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-	ResourcesWithoutDeleteSupport *string `pulumi:"resourcesWithoutDeleteSupport"`
-}
-
-// Defines the behavior of resources that are no longer managed after the stack is updated or deleted.
-type ActionOnUnmanageResponseV3Output struct{ *pulumi.OutputState }
-
-func (ActionOnUnmanageResponseV3Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*ActionOnUnmanageResponseV3)(nil)).Elem()
-}
-
-func (o ActionOnUnmanageResponseV3Output) ToActionOnUnmanageResponseV3Output() ActionOnUnmanageResponseV3Output {
-	return o
-}
-
-func (o ActionOnUnmanageResponseV3Output) ToActionOnUnmanageResponseV3OutputWithContext(ctx context.Context) ActionOnUnmanageResponseV3Output {
-	return o
-}
-
-// Specifies an action for a newly unmanaged resource management group.
-func (o ActionOnUnmanageResponseV3Output) ManagementGroups() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV3) *string { return v.ManagementGroups }).(pulumi.StringPtrOutput)
-}
-
-// Specifies an action for a newly unmanaged resource group.
-func (o ActionOnUnmanageResponseV3Output) ResourceGroups() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV3) *string { return v.ResourceGroups }).(pulumi.StringPtrOutput)
-}
-
-// Specifies an action for a newly unmanaged resource.
-func (o ActionOnUnmanageResponseV3Output) Resources() pulumi.StringOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV3) string { return v.Resources }).(pulumi.StringOutput)
-}
-
-// Some resources do not support deletion.  This flag will denote how the stack should handle those resources.
-func (o ActionOnUnmanageResponseV3Output) ResourcesWithoutDeleteSupport() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ActionOnUnmanageResponseV3) *string { return v.ResourcesWithoutDeleteSupport }).(pulumi.StringPtrOutput)
 }
 
 type AliasPathMetadataResponse struct {
@@ -4358,9 +4380,335 @@ func (o DeploymentStacksWhatIfResultPropertiesPtrOutput) ValidationLevel() pulum
 }
 
 // DeploymentStack WhatIfResult Properties
+type DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse struct {
+	// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
+	ActionOnUnmanage ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse `pulumi:"actionOnUnmanage"`
+	// All of the changes predicted by the deployment stack what-if operation.
+	Changes DeploymentStacksWhatIfChangeResponse `pulumi:"changes"`
+	// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
+	CorrelationId string `pulumi:"correlationId"`
+	// The debug setting of the deployment.
+	DebugSetting *DeploymentStacksDebugSettingResponse `pulumi:"debugSetting"`
+	// Defines how resources deployed by the stack are locked.
+	DenySettings DenySettingsResponse `pulumi:"denySettings"`
+	// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
+	DeploymentScope *string `pulumi:"deploymentScope"`
+	// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
+	DeploymentStackLastModified string `pulumi:"deploymentStackLastModified"`
+	// The deployment stack id to use as the basis for comparison.
+	DeploymentStackResourceId string `pulumi:"deploymentStackResourceId"`
+	// Deployment stack description. Max length of 4096 characters.
+	Description *string `pulumi:"description"`
+	// List of resource diagnostics detected by What-If operation.
+	Diagnostics []DeploymentStacksDiagnosticResponse `pulumi:"diagnostics"`
+	// The error detail.
+	Error ErrorDetailResponse `pulumi:"error"`
+	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
+	Parameters map[string]DeploymentParameterResponse `pulumi:"parameters"`
+	// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
+	ParametersLink *DeploymentStacksParametersLinkResponse `pulumi:"parametersLink"`
+	// State of the deployment stack.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The interval to persist the deployment stack what-if result in ISO 8601 format.
+	RetentionInterval string `pulumi:"retentionInterval"`
+	// The validation level of the deployment stack
+	ValidationLevel *string `pulumi:"validationLevel"`
+}
+
+// DeploymentStack WhatIfResult Properties
+type DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput struct{ *pulumi.OutputState }
+
+func (DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse)(nil)).Elem()
+}
+
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ToDeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput() DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput {
+	return o
+}
+
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ToDeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutputWithContext(ctx context.Context) DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput {
+	return o
+}
+
+// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ActionOnUnmanage() ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponse {
+		return v.ActionOnUnmanage
+	}).(ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput)
+}
+
+// All of the changes predicted by the deployment stack what-if operation.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) Changes() DeploymentStacksWhatIfChangeResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) DeploymentStacksWhatIfChangeResponse {
+		return v.Changes
+	}).(DeploymentStacksWhatIfChangeResponseOutput)
+}
+
+// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) CorrelationId() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) string {
+		return v.CorrelationId
+	}).(pulumi.StringOutput)
+}
+
+// The debug setting of the deployment.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) DebugSetting() DeploymentStacksDebugSettingResponsePtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) *DeploymentStacksDebugSettingResponse {
+		return v.DebugSetting
+	}).(DeploymentStacksDebugSettingResponsePtrOutput)
+}
+
+// Defines how resources deployed by the stack are locked.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) DenySettings() DenySettingsResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) DenySettingsResponse {
+		return v.DenySettings
+	}).(DenySettingsResponseOutput)
+}
+
+// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) DeploymentScope() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) *string {
+		return v.DeploymentScope
+	}).(pulumi.StringPtrOutput)
+}
+
+// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) DeploymentStackLastModified() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) string {
+		return v.DeploymentStackLastModified
+	}).(pulumi.StringOutput)
+}
+
+// The deployment stack id to use as the basis for comparison.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) DeploymentStackResourceId() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) string {
+		return v.DeploymentStackResourceId
+	}).(pulumi.StringOutput)
+}
+
+// Deployment stack description. Max length of 4096 characters.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) *string {
+		return v.Description
+	}).(pulumi.StringPtrOutput)
+}
+
+// List of resource diagnostics detected by What-If operation.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) Diagnostics() DeploymentStacksDiagnosticResponseArrayOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) []DeploymentStacksDiagnosticResponse {
+		return v.Diagnostics
+	}).(DeploymentStacksDiagnosticResponseArrayOutput)
+}
+
+// The error detail.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) ErrorDetailResponse {
+		return v.Error
+	}).(ErrorDetailResponseOutput)
+}
+
+// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) Parameters() DeploymentParameterResponseMapOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) map[string]DeploymentParameterResponse {
+		return v.Parameters
+	}).(DeploymentParameterResponseMapOutput)
+}
+
+// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ParametersLink() DeploymentStacksParametersLinkResponsePtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) *DeploymentStacksParametersLinkResponse {
+		return v.ParametersLink
+	}).(DeploymentStacksParametersLinkResponsePtrOutput)
+}
+
+// State of the deployment stack.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) string {
+		return v.ProvisioningState
+	}).(pulumi.StringOutput)
+}
+
+// The interval to persist the deployment stack what-if result in ISO 8601 format.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) RetentionInterval() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) string {
+		return v.RetentionInterval
+	}).(pulumi.StringOutput)
+}
+
+// The validation level of the deployment stack
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput) ValidationLevel() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponse) *string {
+		return v.ValidationLevel
+	}).(pulumi.StringPtrOutput)
+}
+
+// DeploymentStack WhatIfResult Properties
+type DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse struct {
+	// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
+	ActionOnUnmanage ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse `pulumi:"actionOnUnmanage"`
+	// All of the changes predicted by the deployment stack what-if operation.
+	Changes DeploymentStacksWhatIfChangeResponse `pulumi:"changes"`
+	// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
+	CorrelationId string `pulumi:"correlationId"`
+	// The debug setting of the deployment.
+	DebugSetting *DeploymentStacksDebugSettingResponse `pulumi:"debugSetting"`
+	// Defines how resources deployed by the stack are locked.
+	DenySettings DenySettingsResponse `pulumi:"denySettings"`
+	// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
+	DeploymentScope *string `pulumi:"deploymentScope"`
+	// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
+	DeploymentStackLastModified string `pulumi:"deploymentStackLastModified"`
+	// The deployment stack id to use as the basis for comparison.
+	DeploymentStackResourceId string `pulumi:"deploymentStackResourceId"`
+	// Deployment stack description. Max length of 4096 characters.
+	Description *string `pulumi:"description"`
+	// List of resource diagnostics detected by What-If operation.
+	Diagnostics []DeploymentStacksDiagnosticResponse `pulumi:"diagnostics"`
+	// The error detail.
+	Error ErrorDetailResponse `pulumi:"error"`
+	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
+	Parameters map[string]DeploymentParameterResponse `pulumi:"parameters"`
+	// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
+	ParametersLink *DeploymentStacksParametersLinkResponse `pulumi:"parametersLink"`
+	// State of the deployment stack.
+	ProvisioningState string `pulumi:"provisioningState"`
+	// The interval to persist the deployment stack what-if result in ISO 8601 format.
+	RetentionInterval string `pulumi:"retentionInterval"`
+	// The validation level of the deployment stack
+	ValidationLevel *string `pulumi:"validationLevel"`
+}
+
+// DeploymentStack WhatIfResult Properties
+type DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput struct{ *pulumi.OutputState }
+
+func (DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse)(nil)).Elem()
+}
+
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ToDeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput() DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput {
+	return o
+}
+
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ToDeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutputWithContext(ctx context.Context) DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput {
+	return o
+}
+
+// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ActionOnUnmanage() ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponse {
+		return v.ActionOnUnmanage
+	}).(ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput)
+}
+
+// All of the changes predicted by the deployment stack what-if operation.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) Changes() DeploymentStacksWhatIfChangeResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) DeploymentStacksWhatIfChangeResponse {
+		return v.Changes
+	}).(DeploymentStacksWhatIfChangeResponseOutput)
+}
+
+// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) CorrelationId() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) string {
+		return v.CorrelationId
+	}).(pulumi.StringOutput)
+}
+
+// The debug setting of the deployment.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) DebugSetting() DeploymentStacksDebugSettingResponsePtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) *DeploymentStacksDebugSettingResponse {
+		return v.DebugSetting
+	}).(DeploymentStacksDebugSettingResponsePtrOutput)
+}
+
+// Defines how resources deployed by the stack are locked.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) DenySettings() DenySettingsResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) DenySettingsResponse {
+		return v.DenySettings
+	}).(DenySettingsResponseOutput)
+}
+
+// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) DeploymentScope() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) *string {
+		return v.DeploymentScope
+	}).(pulumi.StringPtrOutput)
+}
+
+// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) DeploymentStackLastModified() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) string {
+		return v.DeploymentStackLastModified
+	}).(pulumi.StringOutput)
+}
+
+// The deployment stack id to use as the basis for comparison.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) DeploymentStackResourceId() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) string {
+		return v.DeploymentStackResourceId
+	}).(pulumi.StringOutput)
+}
+
+// Deployment stack description. Max length of 4096 characters.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) *string {
+		return v.Description
+	}).(pulumi.StringPtrOutput)
+}
+
+// List of resource diagnostics detected by What-If operation.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) Diagnostics() DeploymentStacksDiagnosticResponseArrayOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) []DeploymentStacksDiagnosticResponse {
+		return v.Diagnostics
+	}).(DeploymentStacksDiagnosticResponseArrayOutput)
+}
+
+// The error detail.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) Error() ErrorDetailResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) ErrorDetailResponse {
+		return v.Error
+	}).(ErrorDetailResponseOutput)
+}
+
+// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) Parameters() DeploymentParameterResponseMapOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) map[string]DeploymentParameterResponse {
+		return v.Parameters
+	}).(DeploymentParameterResponseMapOutput)
+}
+
+// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ParametersLink() DeploymentStacksParametersLinkResponsePtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) *DeploymentStacksParametersLinkResponse {
+		return v.ParametersLink
+	}).(DeploymentStacksParametersLinkResponsePtrOutput)
+}
+
+// State of the deployment stack.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ProvisioningState() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) string {
+		return v.ProvisioningState
+	}).(pulumi.StringOutput)
+}
+
+// The interval to persist the deployment stack what-if result in ISO 8601 format.
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) RetentionInterval() pulumi.StringOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) string {
+		return v.RetentionInterval
+	}).(pulumi.StringOutput)
+}
+
+// The validation level of the deployment stack
+func (o DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput) ValidationLevel() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponse) *string {
+		return v.ValidationLevel
+	}).(pulumi.StringPtrOutput)
+}
+
+// DeploymentStack WhatIfResult Properties
 type DeploymentStacksWhatIfResultPropertiesResponse struct {
 	// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
-	ActionOnUnmanage ActionOnUnmanageResponseV1 `pulumi:"actionOnUnmanage"`
+	ActionOnUnmanage ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse `pulumi:"actionOnUnmanage"`
 	// All of the changes predicted by the deployment stack what-if operation.
 	Changes DeploymentStacksWhatIfChangeResponse `pulumi:"changes"`
 	// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
@@ -4409,10 +4757,10 @@ func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) ToDeploymentStacks
 }
 
 // Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
-func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) ActionOnUnmanage() ActionOnUnmanageResponseV1Output {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponse) ActionOnUnmanageResponseV1 {
+func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) ActionOnUnmanage() ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput {
+	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponse) ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponse {
 		return v.ActionOnUnmanage
-	}).(ActionOnUnmanageResponseV1Output)
+	}).(ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput)
 }
 
 // All of the changes predicted by the deployment stack what-if operation.
@@ -4498,292 +4846,6 @@ func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) RetentionInterval(
 // The validation level of the deployment stack
 func (o DeploymentStacksWhatIfResultPropertiesResponseOutput) ValidationLevel() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponse) *string { return v.ValidationLevel }).(pulumi.StringPtrOutput)
-}
-
-// DeploymentStack WhatIfResult Properties
-type DeploymentStacksWhatIfResultPropertiesResponseV1 struct {
-	// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
-	ActionOnUnmanage ActionOnUnmanageResponseV2 `pulumi:"actionOnUnmanage"`
-	// All of the changes predicted by the deployment stack what-if operation.
-	Changes DeploymentStacksWhatIfChangeResponse `pulumi:"changes"`
-	// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
-	CorrelationId string `pulumi:"correlationId"`
-	// The debug setting of the deployment.
-	DebugSetting *DeploymentStacksDebugSettingResponse `pulumi:"debugSetting"`
-	// Defines how resources deployed by the stack are locked.
-	DenySettings DenySettingsResponse `pulumi:"denySettings"`
-	// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
-	DeploymentScope *string `pulumi:"deploymentScope"`
-	// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
-	DeploymentStackLastModified string `pulumi:"deploymentStackLastModified"`
-	// The deployment stack id to use as the basis for comparison.
-	DeploymentStackResourceId string `pulumi:"deploymentStackResourceId"`
-	// Deployment stack description. Max length of 4096 characters.
-	Description *string `pulumi:"description"`
-	// List of resource diagnostics detected by What-If operation.
-	Diagnostics []DeploymentStacksDiagnosticResponse `pulumi:"diagnostics"`
-	// The error detail.
-	Error ErrorDetailResponse `pulumi:"error"`
-	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
-	Parameters map[string]DeploymentParameterResponse `pulumi:"parameters"`
-	// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
-	ParametersLink *DeploymentStacksParametersLinkResponse `pulumi:"parametersLink"`
-	// State of the deployment stack.
-	ProvisioningState string `pulumi:"provisioningState"`
-	// The interval to persist the deployment stack what-if result in ISO 8601 format.
-	RetentionInterval string `pulumi:"retentionInterval"`
-	// The validation level of the deployment stack
-	ValidationLevel *string `pulumi:"validationLevel"`
-}
-
-// DeploymentStack WhatIfResult Properties
-type DeploymentStacksWhatIfResultPropertiesResponseV1Output struct{ *pulumi.OutputState }
-
-func (DeploymentStacksWhatIfResultPropertiesResponseV1Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*DeploymentStacksWhatIfResultPropertiesResponseV1)(nil)).Elem()
-}
-
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) ToDeploymentStacksWhatIfResultPropertiesResponseV1Output() DeploymentStacksWhatIfResultPropertiesResponseV1Output {
-	return o
-}
-
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) ToDeploymentStacksWhatIfResultPropertiesResponseV1OutputWithContext(ctx context.Context) DeploymentStacksWhatIfResultPropertiesResponseV1Output {
-	return o
-}
-
-// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) ActionOnUnmanage() ActionOnUnmanageResponseV2Output {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) ActionOnUnmanageResponseV2 {
-		return v.ActionOnUnmanage
-	}).(ActionOnUnmanageResponseV2Output)
-}
-
-// All of the changes predicted by the deployment stack what-if operation.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) Changes() DeploymentStacksWhatIfChangeResponseOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) DeploymentStacksWhatIfChangeResponse {
-		return v.Changes
-	}).(DeploymentStacksWhatIfChangeResponseOutput)
-}
-
-// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) CorrelationId() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) string { return v.CorrelationId }).(pulumi.StringOutput)
-}
-
-// The debug setting of the deployment.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) DebugSetting() DeploymentStacksDebugSettingResponsePtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) *DeploymentStacksDebugSettingResponse {
-		return v.DebugSetting
-	}).(DeploymentStacksDebugSettingResponsePtrOutput)
-}
-
-// Defines how resources deployed by the stack are locked.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) DenySettings() DenySettingsResponseOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) DenySettingsResponse { return v.DenySettings }).(DenySettingsResponseOutput)
-}
-
-// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) DeploymentScope() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) *string { return v.DeploymentScope }).(pulumi.StringPtrOutput)
-}
-
-// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) DeploymentStackLastModified() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) string { return v.DeploymentStackLastModified }).(pulumi.StringOutput)
-}
-
-// The deployment stack id to use as the basis for comparison.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) DeploymentStackResourceId() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) string { return v.DeploymentStackResourceId }).(pulumi.StringOutput)
-}
-
-// Deployment stack description. Max length of 4096 characters.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) Description() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) *string { return v.Description }).(pulumi.StringPtrOutput)
-}
-
-// List of resource diagnostics detected by What-If operation.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) Diagnostics() DeploymentStacksDiagnosticResponseArrayOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) []DeploymentStacksDiagnosticResponse {
-		return v.Diagnostics
-	}).(DeploymentStacksDiagnosticResponseArrayOutput)
-}
-
-// The error detail.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) Error() ErrorDetailResponseOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) ErrorDetailResponse { return v.Error }).(ErrorDetailResponseOutput)
-}
-
-// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) Parameters() DeploymentParameterResponseMapOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) map[string]DeploymentParameterResponse {
-		return v.Parameters
-	}).(DeploymentParameterResponseMapOutput)
-}
-
-// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) ParametersLink() DeploymentStacksParametersLinkResponsePtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) *DeploymentStacksParametersLinkResponse {
-		return v.ParametersLink
-	}).(DeploymentStacksParametersLinkResponsePtrOutput)
-}
-
-// State of the deployment stack.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) ProvisioningState() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) string { return v.ProvisioningState }).(pulumi.StringOutput)
-}
-
-// The interval to persist the deployment stack what-if result in ISO 8601 format.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) RetentionInterval() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) string { return v.RetentionInterval }).(pulumi.StringOutput)
-}
-
-// The validation level of the deployment stack
-func (o DeploymentStacksWhatIfResultPropertiesResponseV1Output) ValidationLevel() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV1) *string { return v.ValidationLevel }).(pulumi.StringPtrOutput)
-}
-
-// DeploymentStack WhatIfResult Properties
-type DeploymentStacksWhatIfResultPropertiesResponseV2 struct {
-	// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
-	ActionOnUnmanage ActionOnUnmanageResponseV3 `pulumi:"actionOnUnmanage"`
-	// All of the changes predicted by the deployment stack what-if operation.
-	Changes DeploymentStacksWhatIfChangeResponse `pulumi:"changes"`
-	// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
-	CorrelationId string `pulumi:"correlationId"`
-	// The debug setting of the deployment.
-	DebugSetting *DeploymentStacksDebugSettingResponse `pulumi:"debugSetting"`
-	// Defines how resources deployed by the stack are locked.
-	DenySettings DenySettingsResponse `pulumi:"denySettings"`
-	// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
-	DeploymentScope *string `pulumi:"deploymentScope"`
-	// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
-	DeploymentStackLastModified string `pulumi:"deploymentStackLastModified"`
-	// The deployment stack id to use as the basis for comparison.
-	DeploymentStackResourceId string `pulumi:"deploymentStackResourceId"`
-	// Deployment stack description. Max length of 4096 characters.
-	Description *string `pulumi:"description"`
-	// List of resource diagnostics detected by What-If operation.
-	Diagnostics []DeploymentStacksDiagnosticResponse `pulumi:"diagnostics"`
-	// The error detail.
-	Error ErrorDetailResponse `pulumi:"error"`
-	// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
-	Parameters map[string]DeploymentParameterResponse `pulumi:"parameters"`
-	// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
-	ParametersLink *DeploymentStacksParametersLinkResponse `pulumi:"parametersLink"`
-	// State of the deployment stack.
-	ProvisioningState string `pulumi:"provisioningState"`
-	// The interval to persist the deployment stack what-if result in ISO 8601 format.
-	RetentionInterval string `pulumi:"retentionInterval"`
-	// The validation level of the deployment stack
-	ValidationLevel *string `pulumi:"validationLevel"`
-}
-
-// DeploymentStack WhatIfResult Properties
-type DeploymentStacksWhatIfResultPropertiesResponseV2Output struct{ *pulumi.OutputState }
-
-func (DeploymentStacksWhatIfResultPropertiesResponseV2Output) ElementType() reflect.Type {
-	return reflect.TypeOf((*DeploymentStacksWhatIfResultPropertiesResponseV2)(nil)).Elem()
-}
-
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) ToDeploymentStacksWhatIfResultPropertiesResponseV2Output() DeploymentStacksWhatIfResultPropertiesResponseV2Output {
-	return o
-}
-
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) ToDeploymentStacksWhatIfResultPropertiesResponseV2OutputWithContext(ctx context.Context) DeploymentStacksWhatIfResultPropertiesResponseV2Output {
-	return o
-}
-
-// Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) ActionOnUnmanage() ActionOnUnmanageResponseV3Output {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) ActionOnUnmanageResponseV3 {
-		return v.ActionOnUnmanage
-	}).(ActionOnUnmanageResponseV3Output)
-}
-
-// All of the changes predicted by the deployment stack what-if operation.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) Changes() DeploymentStacksWhatIfChangeResponseOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) DeploymentStacksWhatIfChangeResponse {
-		return v.Changes
-	}).(DeploymentStacksWhatIfChangeResponseOutput)
-}
-
-// The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) CorrelationId() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) string { return v.CorrelationId }).(pulumi.StringOutput)
-}
-
-// The debug setting of the deployment.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) DebugSetting() DeploymentStacksDebugSettingResponsePtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) *DeploymentStacksDebugSettingResponse {
-		return v.DebugSetting
-	}).(DeploymentStacksDebugSettingResponsePtrOutput)
-}
-
-// Defines how resources deployed by the stack are locked.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) DenySettings() DenySettingsResponseOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) DenySettingsResponse { return v.DenySettings }).(DenySettingsResponseOutput)
-}
-
-// The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}').
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) DeploymentScope() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) *string { return v.DeploymentScope }).(pulumi.StringPtrOutput)
-}
-
-// The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) DeploymentStackLastModified() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) string { return v.DeploymentStackLastModified }).(pulumi.StringOutput)
-}
-
-// The deployment stack id to use as the basis for comparison.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) DeploymentStackResourceId() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) string { return v.DeploymentStackResourceId }).(pulumi.StringOutput)
-}
-
-// Deployment stack description. Max length of 4096 characters.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) Description() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) *string { return v.Description }).(pulumi.StringPtrOutput)
-}
-
-// List of resource diagnostics detected by What-If operation.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) Diagnostics() DeploymentStacksDiagnosticResponseArrayOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) []DeploymentStacksDiagnosticResponse {
-		return v.Diagnostics
-	}).(DeploymentStacksDiagnosticResponseArrayOutput)
-}
-
-// The error detail.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) Error() ErrorDetailResponseOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) ErrorDetailResponse { return v.Error }).(ErrorDetailResponseOutput)
-}
-
-// Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) Parameters() DeploymentParameterResponseMapOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) map[string]DeploymentParameterResponse {
-		return v.Parameters
-	}).(DeploymentParameterResponseMapOutput)
-}
-
-// The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) ParametersLink() DeploymentStacksParametersLinkResponsePtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) *DeploymentStacksParametersLinkResponse {
-		return v.ParametersLink
-	}).(DeploymentStacksParametersLinkResponsePtrOutput)
-}
-
-// State of the deployment stack.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) ProvisioningState() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) string { return v.ProvisioningState }).(pulumi.StringOutput)
-}
-
-// The interval to persist the deployment stack what-if result in ISO 8601 format.
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) RetentionInterval() pulumi.StringOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) string { return v.RetentionInterval }).(pulumi.StringOutput)
-}
-
-// The validation level of the deployment stack
-func (o DeploymentStacksWhatIfResultPropertiesResponseV2Output) ValidationLevel() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v DeploymentStacksWhatIfResultPropertiesResponseV2) *string { return v.ValidationLevel }).(pulumi.StringPtrOutput)
 }
 
 // The environment variable to pass to the script in the container instance.
@@ -9302,10 +9364,10 @@ func (o DeploymentExtensionConfigItemMapMapOutput) MapIndex(k pulumi.StringInput
 func init() {
 	pulumi.RegisterOutputType(ActionOnUnmanageOutput{})
 	pulumi.RegisterOutputType(ActionOnUnmanagePtrOutput{})
+	pulumi.RegisterOutputType(ActionOnUnmanageDeploymentStacksWhatIfResultsAtManagementGroupResponseOutput{})
+	pulumi.RegisterOutputType(ActionOnUnmanageDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput{})
+	pulumi.RegisterOutputType(ActionOnUnmanageDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput{})
 	pulumi.RegisterOutputType(ActionOnUnmanageResponseOutput{})
-	pulumi.RegisterOutputType(ActionOnUnmanageResponseV1Output{})
-	pulumi.RegisterOutputType(ActionOnUnmanageResponseV2Output{})
-	pulumi.RegisterOutputType(ActionOnUnmanageResponseV3Output{})
 	pulumi.RegisterOutputType(AliasPathMetadataResponseOutput{})
 	pulumi.RegisterOutputType(AliasPathResponseOutput{})
 	pulumi.RegisterOutputType(AliasPathResponseArrayOutput{})
@@ -9377,9 +9439,9 @@ func init() {
 	pulumi.RegisterOutputType(DeploymentStacksWhatIfResourceChangeResponseResourceConfigurationChangesPtrOutput{})
 	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesOutput{})
 	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtResourceGroupResponseOutput{})
+	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesDeploymentStacksWhatIfResultsAtSubscriptionResponseOutput{})
 	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesResponseOutput{})
-	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesResponseV1Output{})
-	pulumi.RegisterOutputType(DeploymentStacksWhatIfResultPropertiesResponseV2Output{})
 	pulumi.RegisterOutputType(EnvironmentVariableOutput{})
 	pulumi.RegisterOutputType(EnvironmentVariableArrayOutput{})
 	pulumi.RegisterOutputType(EnvironmentVariableResponseOutput{})

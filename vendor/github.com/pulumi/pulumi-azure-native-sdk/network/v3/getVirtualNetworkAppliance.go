@@ -54,7 +54,7 @@ type LookupVirtualNetworkApplianceResult struct {
 	// The resource GUID property of the virtual network appliance resource.
 	ResourceGuid string `pulumi:"resourceGuid"`
 	// The reference to the subnet resource.
-	Subnet *CommonSubnetResponse `pulumi:"subnet"`
+	Subnet *SubnetResponseV2 `pulumi:"subnet"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Resource type.
@@ -154,8 +154,8 @@ func (o LookupVirtualNetworkApplianceResultOutput) ResourceGuid() pulumi.StringO
 }
 
 // The reference to the subnet resource.
-func (o LookupVirtualNetworkApplianceResultOutput) Subnet() CommonSubnetResponsePtrOutput {
-	return o.ApplyT(func(v LookupVirtualNetworkApplianceResult) *CommonSubnetResponse { return v.Subnet }).(CommonSubnetResponsePtrOutput)
+func (o LookupVirtualNetworkApplianceResultOutput) Subnet() SubnetResponseV2PtrOutput {
+	return o.ApplyT(func(v LookupVirtualNetworkApplianceResult) *SubnetResponseV2 { return v.Subnet }).(SubnetResponseV2PtrOutput)
 }
 
 // Resource tags.

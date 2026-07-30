@@ -67,7 +67,7 @@ type ManagedCluster struct {
 	// The identity of the managed cluster, if configured.
 	Identity ManagedClusterIdentityResponsePtrOutput `pulumi:"identity"`
 	// The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}".
-	IdentityProfile UserAssignedIdentityResponseV1MapOutput `pulumi:"identityProfile"`
+	IdentityProfile UserAssignedIdentityManagedClusterResponseMapOutput `pulumi:"identityProfile"`
 	// Ingress profile for the managed cluster.
 	IngressProfile ManagedClusterIngressProfileResponsePtrOutput `pulumi:"ingressProfile"`
 	// This is primarily used to expose different UI experiences in the portal for different kinds
@@ -872,8 +872,8 @@ func (o ManagedClusterOutput) Identity() ManagedClusterIdentityResponsePtrOutput
 }
 
 // The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}".
-func (o ManagedClusterOutput) IdentityProfile() UserAssignedIdentityResponseV1MapOutput {
-	return o.ApplyT(func(v *ManagedCluster) UserAssignedIdentityResponseV1MapOutput { return v.IdentityProfile }).(UserAssignedIdentityResponseV1MapOutput)
+func (o ManagedClusterOutput) IdentityProfile() UserAssignedIdentityManagedClusterResponseMapOutput {
+	return o.ApplyT(func(v *ManagedCluster) UserAssignedIdentityManagedClusterResponseMapOutput { return v.IdentityProfile }).(UserAssignedIdentityManagedClusterResponseMapOutput)
 }
 
 // Ingress profile for the managed cluster.

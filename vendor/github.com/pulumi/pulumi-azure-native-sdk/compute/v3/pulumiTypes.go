@@ -4254,57 +4254,6 @@ func (o CapacityReservationUtilizationResponsePtrOutput) VirtualMachinesAllocate
 	}).(SubResourceReadOnlyResponseArrayOutput)
 }
 
-type CommonUserAssignedIdentitiesValueResponse struct {
-	// The client id of user assigned identity.
-	ClientId string `pulumi:"clientId"`
-	// The principal id of user assigned identity.
-	PrincipalId string `pulumi:"principalId"`
-}
-
-type CommonUserAssignedIdentitiesValueResponseOutput struct{ *pulumi.OutputState }
-
-func (CommonUserAssignedIdentitiesValueResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*CommonUserAssignedIdentitiesValueResponse)(nil)).Elem()
-}
-
-func (o CommonUserAssignedIdentitiesValueResponseOutput) ToCommonUserAssignedIdentitiesValueResponseOutput() CommonUserAssignedIdentitiesValueResponseOutput {
-	return o
-}
-
-func (o CommonUserAssignedIdentitiesValueResponseOutput) ToCommonUserAssignedIdentitiesValueResponseOutputWithContext(ctx context.Context) CommonUserAssignedIdentitiesValueResponseOutput {
-	return o
-}
-
-// The client id of user assigned identity.
-func (o CommonUserAssignedIdentitiesValueResponseOutput) ClientId() pulumi.StringOutput {
-	return o.ApplyT(func(v CommonUserAssignedIdentitiesValueResponse) string { return v.ClientId }).(pulumi.StringOutput)
-}
-
-// The principal id of user assigned identity.
-func (o CommonUserAssignedIdentitiesValueResponseOutput) PrincipalId() pulumi.StringOutput {
-	return o.ApplyT(func(v CommonUserAssignedIdentitiesValueResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
-}
-
-type CommonUserAssignedIdentitiesValueResponseMapOutput struct{ *pulumi.OutputState }
-
-func (CommonUserAssignedIdentitiesValueResponseMapOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*map[string]CommonUserAssignedIdentitiesValueResponse)(nil)).Elem()
-}
-
-func (o CommonUserAssignedIdentitiesValueResponseMapOutput) ToCommonUserAssignedIdentitiesValueResponseMapOutput() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o
-}
-
-func (o CommonUserAssignedIdentitiesValueResponseMapOutput) ToCommonUserAssignedIdentitiesValueResponseMapOutputWithContext(ctx context.Context) CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o
-}
-
-func (o CommonUserAssignedIdentitiesValueResponseMapOutput) MapIndex(k pulumi.StringInput) CommonUserAssignedIdentitiesValueResponseOutput {
-	return pulumi.All(o, k).ApplyT(func(vs []interface{}) CommonUserAssignedIdentitiesValueResponse {
-		return vs[0].(map[string]CommonUserAssignedIdentitiesValueResponse)[vs[1].(string)]
-	}).(CommonUserAssignedIdentitiesValueResponseOutput)
-}
-
 // Information of community gallery if current gallery is shared to community
 type CommunityGalleryInfo struct {
 	// End-user license agreement for community gallery image.
@@ -9324,7 +9273,7 @@ type EncryptionSetIdentityResponse struct {
 	// The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]CommonUserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks.
@@ -9358,10 +9307,10 @@ func (o EncryptionSetIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o EncryptionSetIdentityResponseOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v EncryptionSetIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o EncryptionSetIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v EncryptionSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type EncryptionSetIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -9419,13 +9368,13 @@ func (o EncryptionSetIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o EncryptionSetIdentityResponsePtrOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v *EncryptionSetIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o EncryptionSetIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *EncryptionSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // Encryption settings for disk or snapshot
@@ -12456,7 +12405,7 @@ type GalleryIdentityResponse struct {
 	// The type of identity used for the gallery. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove all identities from the gallery.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]CommonUserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // Identity for the virtual machine.
@@ -12490,10 +12439,10 @@ func (o GalleryIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o GalleryIdentityResponseOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v GalleryIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o GalleryIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v GalleryIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type GalleryIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -12551,13 +12500,13 @@ func (o GalleryIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the gallery. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o GalleryIdentityResponsePtrOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v *GalleryIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o GalleryIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *GalleryIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // A feature for gallery image.
@@ -38067,6 +38016,57 @@ func (o UserArtifactSourceResponseOutput) MediaLink() pulumi.StringOutput {
 	return o.ApplyT(func(v UserArtifactSourceResponse) string { return v.MediaLink }).(pulumi.StringOutput)
 }
 
+type UserAssignedIdentitiesValueResponse struct {
+	// The client id of user assigned identity.
+	ClientId string `pulumi:"clientId"`
+	// The principal id of user assigned identity.
+	PrincipalId string `pulumi:"principalId"`
+}
+
+type UserAssignedIdentitiesValueResponseOutput struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentitiesValueResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*UserAssignedIdentitiesValueResponse)(nil)).Elem()
+}
+
+func (o UserAssignedIdentitiesValueResponseOutput) ToUserAssignedIdentitiesValueResponseOutput() UserAssignedIdentitiesValueResponseOutput {
+	return o
+}
+
+func (o UserAssignedIdentitiesValueResponseOutput) ToUserAssignedIdentitiesValueResponseOutputWithContext(ctx context.Context) UserAssignedIdentitiesValueResponseOutput {
+	return o
+}
+
+// The client id of user assigned identity.
+func (o UserAssignedIdentitiesValueResponseOutput) ClientId() pulumi.StringOutput {
+	return o.ApplyT(func(v UserAssignedIdentitiesValueResponse) string { return v.ClientId }).(pulumi.StringOutput)
+}
+
+// The principal id of user assigned identity.
+func (o UserAssignedIdentitiesValueResponseOutput) PrincipalId() pulumi.StringOutput {
+	return o.ApplyT(func(v UserAssignedIdentitiesValueResponse) string { return v.PrincipalId }).(pulumi.StringOutput)
+}
+
+type UserAssignedIdentitiesValueResponseMapOutput struct{ *pulumi.OutputState }
+
+func (UserAssignedIdentitiesValueResponseMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]UserAssignedIdentitiesValueResponse)(nil)).Elem()
+}
+
+func (o UserAssignedIdentitiesValueResponseMapOutput) ToUserAssignedIdentitiesValueResponseMapOutput() UserAssignedIdentitiesValueResponseMapOutput {
+	return o
+}
+
+func (o UserAssignedIdentitiesValueResponseMapOutput) ToUserAssignedIdentitiesValueResponseMapOutputWithContext(ctx context.Context) UserAssignedIdentitiesValueResponseMapOutput {
+	return o
+}
+
+func (o UserAssignedIdentitiesValueResponseMapOutput) MapIndex(k pulumi.StringInput) UserAssignedIdentitiesValueResponseOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) UserAssignedIdentitiesValueResponse {
+		return vs[0].(map[string]UserAssignedIdentitiesValueResponse)[vs[1].(string)]
+	}).(UserAssignedIdentitiesValueResponseOutput)
+}
+
 // Specifies Reboot related Scheduled Event related configurations.
 type UserInitiatedReboot struct {
 	// Specifies Reboot Scheduled Event related configurations.
@@ -40612,7 +40612,7 @@ type VirtualMachineIdentityResponse struct {
 	// The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]CommonUserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // Identity for the virtual machine.
@@ -40646,10 +40646,10 @@ func (o VirtualMachineIdentityResponseOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineIdentityResponseOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v VirtualMachineIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o VirtualMachineIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v VirtualMachineIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type VirtualMachineIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -40707,13 +40707,13 @@ func (o VirtualMachineIdentityResponsePtrOutput) Type() pulumi.StringPtrOutput {
 }
 
 // The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineIdentityResponsePtrOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v *VirtualMachineIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o VirtualMachineIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *VirtualMachineIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // The instance view of a virtual machine.
@@ -44596,7 +44596,7 @@ type VirtualMachineScaleSetIdentityResponse struct {
 	// The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
 	Type *string `pulumi:"type"`
 	// The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]CommonUserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
+	UserAssignedIdentities map[string]UserAssignedIdentitiesValueResponse `pulumi:"userAssignedIdentities"`
 }
 
 // Identity for the virtual machine scale set.
@@ -44630,10 +44630,10 @@ func (o VirtualMachineScaleSetIdentityResponseOutput) Type() pulumi.StringPtrOut
 }
 
 // The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineScaleSetIdentityResponseOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v VirtualMachineScaleSetIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o VirtualMachineScaleSetIdentityResponseOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v VirtualMachineScaleSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 type VirtualMachineScaleSetIdentityResponsePtrOutput struct{ *pulumi.OutputState }
@@ -44691,13 +44691,13 @@ func (o VirtualMachineScaleSetIdentityResponsePtrOutput) Type() pulumi.StringPtr
 }
 
 // The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-func (o VirtualMachineScaleSetIdentityResponsePtrOutput) UserAssignedIdentities() CommonUserAssignedIdentitiesValueResponseMapOutput {
-	return o.ApplyT(func(v *VirtualMachineScaleSetIdentityResponse) map[string]CommonUserAssignedIdentitiesValueResponse {
+func (o VirtualMachineScaleSetIdentityResponsePtrOutput) UserAssignedIdentities() UserAssignedIdentitiesValueResponseMapOutput {
+	return o.ApplyT(func(v *VirtualMachineScaleSetIdentityResponse) map[string]UserAssignedIdentitiesValueResponse {
 		if v == nil {
 			return nil
 		}
 		return v.UserAssignedIdentities
-	}).(CommonUserAssignedIdentitiesValueResponseMapOutput)
+	}).(UserAssignedIdentitiesValueResponseMapOutput)
 }
 
 // Contains the IP tag associated with the public IP address.
@@ -50543,8 +50543,6 @@ func init() {
 	pulumi.RegisterOutputType(CapacityReservationProfileResponsePtrOutput{})
 	pulumi.RegisterOutputType(CapacityReservationUtilizationResponseOutput{})
 	pulumi.RegisterOutputType(CapacityReservationUtilizationResponsePtrOutput{})
-	pulumi.RegisterOutputType(CommonUserAssignedIdentitiesValueResponseOutput{})
-	pulumi.RegisterOutputType(CommonUserAssignedIdentitiesValueResponseMapOutput{})
 	pulumi.RegisterOutputType(CommunityGalleryInfoOutput{})
 	pulumi.RegisterOutputType(CommunityGalleryInfoPtrOutput{})
 	pulumi.RegisterOutputType(CommunityGalleryInfoResponseOutput{})
@@ -51088,6 +51086,8 @@ func init() {
 	pulumi.RegisterOutputType(UserArtifactSettingsResponsePtrOutput{})
 	pulumi.RegisterOutputType(UserArtifactSourceOutput{})
 	pulumi.RegisterOutputType(UserArtifactSourceResponseOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentitiesValueResponseOutput{})
+	pulumi.RegisterOutputType(UserAssignedIdentitiesValueResponseMapOutput{})
 	pulumi.RegisterOutputType(UserInitiatedRebootOutput{})
 	pulumi.RegisterOutputType(UserInitiatedRebootPtrOutput{})
 	pulumi.RegisterOutputType(UserInitiatedRebootResponseOutput{})

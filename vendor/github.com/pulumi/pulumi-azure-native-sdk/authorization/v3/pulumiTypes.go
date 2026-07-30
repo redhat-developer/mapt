@@ -3037,117 +3037,6 @@ func (o ManagementLockOwnerResponseArrayOutput) Index(i pulumi.IntInput) Managem
 	}).(ManagementLockOwnerResponseOutput)
 }
 
-// The name of the entity last modified it
-type MicrosoftCommonPrincipalResponse struct {
-	// The name of the principal made changes
-	DisplayName *string `pulumi:"displayName"`
-	// Email of principal
-	Email *string `pulumi:"email"`
-	// The id of the principal made changes
-	Id *string `pulumi:"id"`
-	// Type of principal such as user , group etc
-	Type *string `pulumi:"type"`
-}
-
-// The name of the entity last modified it
-type MicrosoftCommonPrincipalResponseOutput struct{ *pulumi.OutputState }
-
-func (MicrosoftCommonPrincipalResponseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*MicrosoftCommonPrincipalResponse)(nil)).Elem()
-}
-
-func (o MicrosoftCommonPrincipalResponseOutput) ToMicrosoftCommonPrincipalResponseOutput() MicrosoftCommonPrincipalResponseOutput {
-	return o
-}
-
-func (o MicrosoftCommonPrincipalResponseOutput) ToMicrosoftCommonPrincipalResponseOutputWithContext(ctx context.Context) MicrosoftCommonPrincipalResponseOutput {
-	return o
-}
-
-// The name of the principal made changes
-func (o MicrosoftCommonPrincipalResponseOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
-}
-
-// Email of principal
-func (o MicrosoftCommonPrincipalResponseOutput) Email() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.Email }).(pulumi.StringPtrOutput)
-}
-
-// The id of the principal made changes
-func (o MicrosoftCommonPrincipalResponseOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// Type of principal such as user , group etc
-func (o MicrosoftCommonPrincipalResponseOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v MicrosoftCommonPrincipalResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
-}
-
-type MicrosoftCommonPrincipalResponsePtrOutput struct{ *pulumi.OutputState }
-
-func (MicrosoftCommonPrincipalResponsePtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**MicrosoftCommonPrincipalResponse)(nil)).Elem()
-}
-
-func (o MicrosoftCommonPrincipalResponsePtrOutput) ToMicrosoftCommonPrincipalResponsePtrOutput() MicrosoftCommonPrincipalResponsePtrOutput {
-	return o
-}
-
-func (o MicrosoftCommonPrincipalResponsePtrOutput) ToMicrosoftCommonPrincipalResponsePtrOutputWithContext(ctx context.Context) MicrosoftCommonPrincipalResponsePtrOutput {
-	return o
-}
-
-func (o MicrosoftCommonPrincipalResponsePtrOutput) Elem() MicrosoftCommonPrincipalResponseOutput {
-	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) MicrosoftCommonPrincipalResponse {
-		if v != nil {
-			return *v
-		}
-		var ret MicrosoftCommonPrincipalResponse
-		return ret
-	}).(MicrosoftCommonPrincipalResponseOutput)
-}
-
-// The name of the principal made changes
-func (o MicrosoftCommonPrincipalResponsePtrOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.DisplayName
-	}).(pulumi.StringPtrOutput)
-}
-
-// Email of principal
-func (o MicrosoftCommonPrincipalResponsePtrOutput) Email() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Email
-	}).(pulumi.StringPtrOutput)
-}
-
-// The id of the principal made changes
-func (o MicrosoftCommonPrincipalResponsePtrOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Id
-	}).(pulumi.StringPtrOutput)
-}
-
-// Type of principal such as user , group etc
-func (o MicrosoftCommonPrincipalResponsePtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *MicrosoftCommonPrincipalResponse) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Type
-	}).(pulumi.StringPtrOutput)
-}
-
 // A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results.
 type NonComplianceMessage struct {
 	// A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results.
@@ -4639,7 +4528,7 @@ type PolicyAssignmentPropertiesPolicyResponse struct {
 	// Id of the policy
 	Id *string `pulumi:"id"`
 	// The name of the entity last modified it
-	LastModifiedBy MicrosoftCommonPrincipalResponse `pulumi:"lastModifiedBy"`
+	LastModifiedBy PrincipalResponse `pulumi:"lastModifiedBy"`
 	// The last modified date time.
 	LastModifiedDateTime *string `pulumi:"lastModifiedDateTime"`
 }
@@ -4665,10 +4554,8 @@ func (o PolicyAssignmentPropertiesPolicyResponseOutput) Id() pulumi.StringPtrOut
 }
 
 // The name of the entity last modified it
-func (o PolicyAssignmentPropertiesPolicyResponseOutput) LastModifiedBy() MicrosoftCommonPrincipalResponseOutput {
-	return o.ApplyT(func(v PolicyAssignmentPropertiesPolicyResponse) MicrosoftCommonPrincipalResponse {
-		return v.LastModifiedBy
-	}).(MicrosoftCommonPrincipalResponseOutput)
+func (o PolicyAssignmentPropertiesPolicyResponseOutput) LastModifiedBy() PrincipalResponseOutput {
+	return o.ApplyT(func(v PolicyAssignmentPropertiesPolicyResponse) PrincipalResponse { return v.LastModifiedBy }).(PrincipalResponseOutput)
 }
 
 // The last modified date time.
@@ -4711,13 +4598,13 @@ func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) Id() pulumi.StringPtr
 }
 
 // The name of the entity last modified it
-func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) LastModifiedBy() MicrosoftCommonPrincipalResponsePtrOutput {
-	return o.ApplyT(func(v *PolicyAssignmentPropertiesPolicyResponse) *MicrosoftCommonPrincipalResponse {
+func (o PolicyAssignmentPropertiesPolicyResponsePtrOutput) LastModifiedBy() PrincipalResponsePtrOutput {
+	return o.ApplyT(func(v *PolicyAssignmentPropertiesPolicyResponse) *PrincipalResponse {
 		if v == nil {
 			return nil
 		}
 		return &v.LastModifiedBy
-	}).(MicrosoftCommonPrincipalResponsePtrOutput)
+	}).(PrincipalResponsePtrOutput)
 }
 
 // The last modified date time.
@@ -6033,6 +5920,117 @@ func (o PolicyVariableValueColumnValueResponseArrayOutput) Index(i pulumi.IntInp
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PolicyVariableValueColumnValueResponse {
 		return vs[0].([]PolicyVariableValueColumnValueResponse)[vs[1].(int)]
 	}).(PolicyVariableValueColumnValueResponseOutput)
+}
+
+// The name of the entity last modified it
+type PrincipalResponse struct {
+	// The name of the principal made changes
+	DisplayName *string `pulumi:"displayName"`
+	// Email of principal
+	Email *string `pulumi:"email"`
+	// The id of the principal made changes
+	Id *string `pulumi:"id"`
+	// Type of principal such as user , group etc
+	Type *string `pulumi:"type"`
+}
+
+// The name of the entity last modified it
+type PrincipalResponseOutput struct{ *pulumi.OutputState }
+
+func (PrincipalResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PrincipalResponse)(nil)).Elem()
+}
+
+func (o PrincipalResponseOutput) ToPrincipalResponseOutput() PrincipalResponseOutput {
+	return o
+}
+
+func (o PrincipalResponseOutput) ToPrincipalResponseOutputWithContext(ctx context.Context) PrincipalResponseOutput {
+	return o
+}
+
+// The name of the principal made changes
+func (o PrincipalResponseOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PrincipalResponse) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
+}
+
+// Email of principal
+func (o PrincipalResponseOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PrincipalResponse) *string { return v.Email }).(pulumi.StringPtrOutput)
+}
+
+// The id of the principal made changes
+func (o PrincipalResponseOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PrincipalResponse) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Type of principal such as user , group etc
+func (o PrincipalResponseOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v PrincipalResponse) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type PrincipalResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (PrincipalResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PrincipalResponse)(nil)).Elem()
+}
+
+func (o PrincipalResponsePtrOutput) ToPrincipalResponsePtrOutput() PrincipalResponsePtrOutput {
+	return o
+}
+
+func (o PrincipalResponsePtrOutput) ToPrincipalResponsePtrOutputWithContext(ctx context.Context) PrincipalResponsePtrOutput {
+	return o
+}
+
+func (o PrincipalResponsePtrOutput) Elem() PrincipalResponseOutput {
+	return o.ApplyT(func(v *PrincipalResponse) PrincipalResponse {
+		if v != nil {
+			return *v
+		}
+		var ret PrincipalResponse
+		return ret
+	}).(PrincipalResponseOutput)
+}
+
+// The name of the principal made changes
+func (o PrincipalResponsePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Email of principal
+func (o PrincipalResponsePtrOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Email
+	}).(pulumi.StringPtrOutput)
+}
+
+// The id of the principal made changes
+func (o PrincipalResponsePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// Type of principal such as user , group etc
+func (o PrincipalResponsePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PrincipalResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
 }
 
 type PrivateLinkAssociationProperties struct {
@@ -9341,8 +9339,6 @@ func init() {
 	pulumi.RegisterOutputType(ManagementLockOwnerArrayOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerResponseOutput{})
 	pulumi.RegisterOutputType(ManagementLockOwnerResponseArrayOutput{})
-	pulumi.RegisterOutputType(MicrosoftCommonPrincipalResponseOutput{})
-	pulumi.RegisterOutputType(MicrosoftCommonPrincipalResponsePtrOutput{})
 	pulumi.RegisterOutputType(NonComplianceMessageOutput{})
 	pulumi.RegisterOutputType(NonComplianceMessageArrayOutput{})
 	pulumi.RegisterOutputType(NonComplianceMessageResponseOutput{})
@@ -9400,6 +9396,8 @@ func init() {
 	pulumi.RegisterOutputType(PolicyVariableValueColumnValueArrayOutput{})
 	pulumi.RegisterOutputType(PolicyVariableValueColumnValueResponseOutput{})
 	pulumi.RegisterOutputType(PolicyVariableValueColumnValueResponseArrayOutput{})
+	pulumi.RegisterOutputType(PrincipalResponseOutput{})
+	pulumi.RegisterOutputType(PrincipalResponsePtrOutput{})
 	pulumi.RegisterOutputType(PrivateLinkAssociationPropertiesOutput{})
 	pulumi.RegisterOutputType(PrivateLinkAssociationPropertiesPtrOutput{})
 	pulumi.RegisterOutputType(PrivateLinkAssociationPropertiesExpandedResponseOutput{})

@@ -62,7 +62,7 @@ type LookupServiceGatewayResult struct {
 	// The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type string `pulumi:"type"`
 	// Reference to an existing virtual network.
-	VirtualNetwork *CommonVirtualNetworkResponse `pulumi:"virtualNetwork"`
+	VirtualNetwork *VirtualNetworkResponse `pulumi:"virtualNetwork"`
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -188,8 +188,8 @@ func (o LookupServiceGatewayResultOutput) Type() pulumi.StringOutput {
 }
 
 // Reference to an existing virtual network.
-func (o LookupServiceGatewayResultOutput) VirtualNetwork() CommonVirtualNetworkResponsePtrOutput {
-	return o.ApplyT(func(v LookupServiceGatewayResult) *CommonVirtualNetworkResponse { return v.VirtualNetwork }).(CommonVirtualNetworkResponsePtrOutput)
+func (o LookupServiceGatewayResultOutput) VirtualNetwork() VirtualNetworkResponsePtrOutput {
+	return o.ApplyT(func(v LookupServiceGatewayResult) *VirtualNetworkResponse { return v.VirtualNetwork }).(VirtualNetworkResponsePtrOutput)
 }
 
 // A list of availability zones denoting the zone in which service gateway should be deployed.
