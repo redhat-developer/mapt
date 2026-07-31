@@ -49,7 +49,7 @@ func getInstanceTypes(ctx context.Context, args *computerequest.ComputeRequestAr
 			result = append(result, string(d.InstanceType))
 		}
 	}
-	result = filterByFamily(result, args.InstanceFamilies)
+	result = filterByFamily(result, args.ComputeFamilies)
 	if len(result) > computerequest.MaxResults {
 		result = result[:computerequest.MaxResults]
 	}
@@ -90,7 +90,7 @@ func filters(args *computerequest.ComputeRequestArgs) (f selector.Filters) {
 		// Skip the cap when family filtering is active — the selector may rank
 		// allowlisted families outside the top MaxResults, producing empty results
 		// even though matching types exist. We cap manually after filterByFamily.
-		if len(args.InstanceFamilies) == 0 {
+		if len(args.ComputeFamilies) == 0 {
 			maxResults := computerequest.MaxResults
 			f.MaxResults = &maxResults
 		}
