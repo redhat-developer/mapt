@@ -70,8 +70,8 @@ const (
 	nestedVirtDesc      string = "Use cloud instance that has nested virtualization support"
 	computeSizes        string = "compute-sizes"
 	computeSizesDesc    string = "Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args"
-	instanceFamilies     string = "instance-families"
-	instanceFamiliesDesc string = "Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when --compute-sizes is not set."
+	computeFamilies     string = "compute-families"
+	computeFamiliesDesc string = "Comma-separated allowlist of compute family prefixes (e.g. m5,m6i,m7i for AWS; D8v3,E16v4 for Azure). Empty means no restriction. Only used when --compute-sizes is not set."
 	diskSize            string = "disk-size"
 	diskSizeDesc        string = "Disk size in GB for the cloud instance"
 	diskSizeDefault     int    = 200
@@ -272,7 +272,7 @@ func AddComputeRequestFlags(fs *pflag.FlagSet) {
 	fs.Int32P(memory, "", 64, memoryDesc)
 	fs.BoolP(nestedVirt, "", false, nestedVirtDesc)
 	fs.StringSliceP(computeSizes, "", []string{}, computeSizesDesc)
-	fs.StringSliceP(instanceFamilies, "", []string{}, instanceFamiliesDesc)
+	fs.StringSliceP(computeFamilies, "", []string{}, computeFamiliesDesc)
 	fs.IntP(diskSize, "", diskSizeDefault, diskSizeDesc)
 }
 
@@ -286,7 +286,7 @@ func ComputeRequestArgs() *cr.ComputeRequestArgs {
 			cr.Arm64, cr.Amd64),
 		NestedVirt:       viper.GetBool(ProfileSNC) || viper.GetBool(nestedVirt),
 		ComputeSizes:     viper.GetStringSlice(computeSizes),
-		InstanceFamilies: viper.GetStringSlice(instanceFamilies),
+		ComputeFamilies: viper.GetStringSlice(computeFamilies),
 	}
 	if viper.IsSet(diskSize) {
 		ds := viper.GetInt(diskSize)

@@ -55,7 +55,7 @@ func TestFilterByFamily_EmptyInput_ReturnsNil(t *testing.T) {
 	}
 }
 
-// TestFilterByFamily_CapAppliedAfterFilter verifies that when InstanceFamilies
+// TestFilterByFamily_CapAppliedAfterFilter verifies that when ComputeFamilies
 // is set, matching types beyond MaxResults are still reachable by filterByFamily
 // (i.e. the cap is applied after filtering, not before). This guards the fix for
 // the bug where FilterVerbose capped results before filterByFamily ran, silently

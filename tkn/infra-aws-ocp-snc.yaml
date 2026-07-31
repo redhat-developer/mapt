@@ -100,7 +100,7 @@ spec:
     - name: compute-sizes
       description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
       default: ""
-    - name: instance-families
+    - name: compute-families
       description: Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when compute-sizes is not set.
       default: ""
     - name: cpus
@@ -143,12 +143,6 @@ spec:
     - name: disable-cluster-readiness
       description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
       default: 'false'
-    - name: operator-channel
-      description: |
-        Comma-separated list of operator channel overrides in the form package=channel
-        (e.g. rhods-operator=stable-3.x). Overrides the default OLM channel for the
-        named operator. Multiple overrides can be separated by commas.
-      default: ""
     - name: profile
       description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai). When virtualization is selected, a bare metal instance is used.
       default: "''"
@@ -271,8 +265,8 @@ spec:
             cmd+="--memory '$(params.memory)' "
             cmd+="--gpus '$(params.gpus)' "
             cmd+="--gpu-manufacturer '$(params.gpu-manufacturer)' "
-            if [[ "$(params.instance-families)" != "" ]]; then
-              cmd+="--instance-families '$(params.instance-families)' "
+            if [[ "$(params.compute-families)" != "" ]]; then
+              cmd+="--compute-families '$(params.compute-families)' "
             fi
           fi
           if [[ $(params.nested-virt) == "true" ]]; then
@@ -301,6 +295,7 @@ spec:
               cmd+="--operator-channel $(printf '%q' "${ch}") "
             done
           fi
+
 
           if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
