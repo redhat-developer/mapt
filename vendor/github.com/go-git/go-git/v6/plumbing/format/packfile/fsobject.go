@@ -6,6 +6,7 @@ import (
 	"io"
 	"math"
 	"os"
+	stdsync "sync"
 
 	billy "github.com/go-git/go-billy/v6"
 
@@ -15,6 +16,46 @@ import (
 	"github.com/go-git/go-git/v6/utils/ioutil"
 	"github.com/go-git/go-git/v6/utils/sync"
 )
+
+// probeSize is the byte count for the closed-FD probe. A one-byte
+// ReadAt distinguishes a live descriptor from a closed one without
+// mutating the file's seek cursor; a zero-length read is unusable
+// because some implementations (e.g. [os.File]) return (0, nil) on
+// a closed file.
+const probeSize = 1
+
+// probeBufPool returns the per-call backing array for [probePack].
+// Pooling keeps the read path allocation-free on what is a very hot
+// code path.
+var probeBufPool = stdsync.Pool{
+	New: func() any {
+		var buf [probeSize]byte
+		return &buf
+	},
+}
+
+// probePack tests whether pack is still readable at offset by
+// issuing a [probeSize]-byte [io.ReaderAt.ReadAt]. The error is
+// returned verbatim so any wrapping context (path, syscall) is
+// preserved for the caller; classification is left to
+// [errors.Is]:
+//
+//   - nil means the descriptor is live; the caller may keep using
+//     pack.
+//   - an error matching [os.ErrClosed] means the descriptor has
+//     been closed and the caller should reopen the file.
+//   - any other error is propagated, matching the canonical Git
+//     behaviour in `packfile.c:use_pack`, which does not retry on
+//     transient I/O errors.
+//
+// [io.EOF] indicates the offset is at or past end-of-file, which
+// implies a truncated pack — propagate rather than masking.
+func probePack(pack io.ReaderAt, offset int64) error {
+	buf := probeBufPool.Get().(*[probeSize]byte)
+	defer probeBufPool.Put(buf)
+	_, err := pack.ReadAt(buf[:], offset)
+	return err
+}
 
 // FSObject is an object from the packfile on the filesystem.
 type FSObject struct {
@@ -27,6 +68,10 @@ type FSObject struct {
 	pack     billy.File
 	packPath string
 	cache    cache.Object
+	// acquireRandom, when set, supersedes pack/packPath/fs in
+	// [FSObject.Reader]: each call yields a fresh cursor that
+	// Close releases.
+	acquireRandom func() (RandomReader, error)
 }
 
 // NewFSObject creates a new filesystem object.
@@ -56,9 +101,10 @@ func NewFSObject(
 
 // Reader implements the plumbing.EncodedObject interface.
 //
-// Reader is safe for concurrent use: it uses ReadAt (which does not modify the
-// file's seek cursor) instead of Seek+Read, so multiple goroutines can call
-// Reader on FSObjects that share the same underlying packfile handle.
+// Reader is safe for concurrent use: it uses ReadAt (which does
+// not modify the file's seek cursor) instead of Seek+Read, so
+// multiple goroutines can call Reader on FSObjects that share the
+// same underlying packfile handle.
 func (o *FSObject) Reader() (io.ReadCloser, error) {
 	obj, ok := o.cache.Get(o.hash)
 	if ok && obj != o {
@@ -70,22 +116,34 @@ func (o *FSObject) Reader() (io.ReadCloser, error) {
 		return reader, nil
 	}
 
-	pack := o.pack
-	var file io.Closer
+	var (
+		pack io.ReaderAt
+		file io.Closer
+	)
 
-	// Probe with a 1-byte ReadAt to detect a closed file descriptor without
-	// modifying any shared state. A zero-length read cannot be used because
-	// some implementations (e.g. os.File) return (0, nil) for empty reads
-	// even on closed files.
-	_, err := pack.ReadAt(make([]byte, 1), o.offset)
-	if err != nil && errors.Is(err, os.ErrClosed) {
-		pack, err = o.fs.Open(o.packPath)
+	if o.acquireRandom != nil {
+		cur, err := o.acquireRandom()
 		if err != nil {
 			return nil, err
 		}
-		file = pack
-	} else if err != nil && !errors.Is(err, io.EOF) {
-		return nil, err
+		pack = cur
+		file = cur
+	} else {
+		pack = o.pack
+
+		switch err := probePack(pack, o.offset); {
+		case err == nil:
+			// FD is live; keep using pack.
+		case errors.Is(err, os.ErrClosed):
+			reopened, oerr := o.fs.Open(o.packPath)
+			if oerr != nil {
+				return nil, oerr
+			}
+			pack = reopened
+			file = reopened
+		default:
+			return nil, err
+		}
 	}
 
 	// SectionReader provides a standalone io.Reader backed by ReadAt. Each

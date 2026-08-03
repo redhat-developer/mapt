@@ -1,6 +1,7 @@
 package object
 
 import (
+	"bufio"
 	"context"
 	"errors"
 	"fmt"
@@ -300,10 +301,13 @@ func (t *Tree) Decode(o plumbing.EncodedObject) (err error) {
 
 	var prevSortName string
 	for {
-		str, err := r.ReadString(' ')
+		// Use ReadSlice to get a view into bufio's internal buffer,
+		// avoiding a string allocation for the mode (which is parsed
+		// into a uint32 immediately and doesn't need to persist).
+		modeSlice, err := r.ReadSlice(' ')
 		if err != nil {
 			if err == io.EOF {
-				if len(str) != 0 {
+				if len(modeSlice) != 0 {
 					return fmt.Errorf("%w: missing mode terminator", ErrMalformedTree)
 				}
 				break
@@ -311,24 +315,35 @@ func (t *Tree) Decode(o plumbing.EncodedObject) (err error) {
 
 			return err
 		}
-		str = str[:len(str)-1] // strip last byte (' ')
+		modeSlice = modeSlice[:len(modeSlice)-1] // strip delimiter
 
-		mode, err := filemode.New(str)
+		mode, err := filemode.FromBytes(modeSlice)
 		if err != nil {
 			return fmt.Errorf("%w: malformed mode", ErrMalformedTree)
 		}
 		mode = canonicalTreeMode(mode)
 
-		name, err := r.ReadString(0)
+		nameSlice, err := r.ReadSlice(0)
+		if err == bufio.ErrBufferFull {
+			// Rare: name exceeds bufio's buffer. Accumulate the rest.
+			buf := append([]byte(nil), nameSlice...)
+			for err == bufio.ErrBufferFull {
+				var more []byte
+				more, err = r.ReadSlice(0)
+				buf = append(buf, more...)
+			}
+			nameSlice = buf
+		}
 		if err != nil {
 			if err == io.EOF {
 				return fmt.Errorf("%w: missing filename terminator", ErrMalformedTree)
 			}
 			return err
 		}
-		if len(name) == 1 {
+		if len(nameSlice) == 1 {
 			return fmt.Errorf("%w: empty filename", ErrMalformedTree)
 		}
+		name := string(nameSlice[:len(nameSlice)-1]) // strip delimiter
 
 		var hash plumbing.Hash
 		hash.ResetBySize(t.Hash.Size())
@@ -339,11 +354,10 @@ func (t *Tree) Decode(o plumbing.EncodedObject) (err error) {
 			return err
 		}
 
-		baseName := name[:len(name)-1]
 		entry := TreeEntry{
 			Hash: hash,
 			Mode: mode,
-			Name: baseName,
+			Name: name,
 		}
 		sortName := treeEntrySortName(&entry)
 		if len(t.Entries) != 0 && prevSortName > sortName {
@@ -598,6 +612,13 @@ type TreeWalker struct {
 	recursive bool
 	seen      map[plumbing.Hash]bool
 
+	// skipPathValidation disables the pathutil.ValidTreePath check in Next.
+	// It is set by inspection-only callers (e.g. the diff treeNoder) that
+	// never funnel entry names into the filesystem and must enumerate trees
+	// faithfully, including entries with names upstream Git accepts but that
+	// are unsafe to materialise (control characters, `.git`-shaped names).
+	skipPathValidation bool
+
 	s storer.EncodedObjectStorer
 	t *Tree
 }
@@ -630,7 +651,7 @@ func NewTreeWalker(t *Tree, recursive bool, seen map[plumbing.Hash]bool) *TreeWa
 // HFS+/NTFS variants, Windows reserved names, and traversal sequences.
 // A malformed entry stops the walk with the validator's error;
 // inspection-only callers that need to enumerate raw, unvalidated
-// names can read Tree.Entries directly.
+// names can read Tree.Entries directly or set skipPathValidation.
 //
 // In the current implementation any objects which cannot be found in the
 // underlying repository will be skipped automatically. It is possible that this
@@ -668,8 +689,10 @@ func (w *TreeWalker) Next() (name string, entry TreeEntry, err error) {
 			continue
 		}
 
-		if err := pathutil.ValidTreePath(entry.Name); err != nil {
-			return name, entry, err
+		if !w.skipPathValidation {
+			if err := pathutil.ValidTreePath(entry.Name); err != nil {
+				return name, entry, err
+			}
 		}
 
 		if entry.Mode == filemode.Dir {
