@@ -77,16 +77,21 @@ func (req *UpdateRequests) Decode(r io.Reader) error {
 		length  int
 	)
 
+	s := pktline.NewScanner(r)
+
 	readLine := func(eofErr error) error {
-		l, p, err := pktline.ReadLine(r)
-		if errors.Is(err, io.EOF) {
-			return eofErr
+		if !s.Scan() {
+			if s.Err() == nil {
+				return eofErr
+			}
+			return s.Err()
 		}
-		if err != nil {
-			return err
+		length = s.Len()
+		if length == pktline.Flush {
+			payload = nil
+		} else {
+			payload = s.Bytes()
 		}
-		payload = p
-		length = l
 		return nil
 	}
 
@@ -116,6 +121,14 @@ func (req *UpdateRequests) Decode(r io.Reader) error {
 		if err := readLine(errNoCommands); err != nil {
 			return err
 		}
+	}
+
+	// A shallow-only no-op push (shallow lines followed immediately by a
+	// flush, with no commands) is a valid empty request, e.g. from a shallow
+	// clone with nothing to push. A bare flush with no shallows is still
+	// treated as malformed.
+	if length == pktline.Flush && len(req.Shallows) > 0 {
+		return nil
 	}
 
 	// The first command line must contain capabilities separated by a null byte

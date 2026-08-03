@@ -10,10 +10,12 @@ import (
 	"fmt"
 	"hash"
 	"io"
+	"maps"
 	"os"
 	"path"
 	"path/filepath"
 	"runtime"
+	"slices"
 	"sort"
 	"strings"
 	"sync"
@@ -21,13 +23,17 @@ import (
 
 	"github.com/go-git/go-billy/v6"
 
+	"github.com/go-git/go-git/v6/internal/packhandle"
+	"github.com/go-git/go-git/v6/internal/pathutil"
 	"github.com/go-git/go-git/v6/plumbing"
 	formatcfg "github.com/go-git/go-git/v6/plumbing/format/config"
 	"github.com/go-git/go-git/v6/plumbing/format/idxfile"
+	"github.com/go-git/go-git/v6/plumbing/format/packfile"
 	"github.com/go-git/go-git/v6/plumbing/format/revfile"
 	plumbhash "github.com/go-git/go-git/v6/plumbing/hash"
 	"github.com/go-git/go-git/v6/storage"
 	"github.com/go-git/go-git/v6/utils/ioutil"
+	"github.com/go-git/go-git/v6/x/fdpool"
 )
 
 const (
@@ -83,16 +89,57 @@ var (
 	// resolve outside the modules/ subtree, mirroring canonical Git's
 	// "ignoring suspicious submodule name" defence.
 	ErrModuleNameEscape = errors.New("submodule name escapes modules/ directory")
+	// ErrReferenceNameEscape is returned when a reference name would
+	// resolve outside its reference sub-tree once turned into a path
+	// under the .git directory (e.g. a name with a ".." component).
+	ErrReferenceNameEscape = errors.New("reference name escapes the reference storage")
 )
+
+func isPathSep(r rune) bool { return r == '/' || r == '\\' }
+
+// validReferenceName rejects reference names that cannot be safely turned into
+// a path under the .git directory. A loose reference (and its reflog) is stored
+// verbatim at ".git/<name>", so a crafted name — for instance one advertised by
+// a malicious remote — could climb out of its reference sub-tree and read,
+// overwrite, or delete unrelated metadata such as .git/config.
+//
+// The storage-safety gate is plumbing.ReferenceName.IsSafe, mirroring Git's
+// refname_is_safe: a name must be under refs/ without escaping it, or be a
+// [A-Z_] pseudo-ref. This alone rejects absolute, drive-prefixed, escaping and
+// single-level metadata names. On top of it, this adds filesystem-specific
+// hardening that IsSafe's literal check does not cover: control characters, and
+// components a case-insensitive/NTFS/HFS+ filesystem would fold back to "." or
+// ".." (trailing dots/spaces, Alternate Data Streams, ignorable Unicode code
+// points). The per-component check is delegated to pathutil.IsHFSDot and
+// pathutil.IsNTFSDot with "." as the needle, exactly as validSubmoduleName
+// does, and runs regardless of host OS because a name can be authored on one OS
+// and reach this layer on another.
+func validReferenceName(name plumbing.ReferenceName) error {
+	if !name.IsSafe() {
+		return fmt.Errorf("%w: %q is not under refs/ nor a valid pseudo-ref", ErrReferenceNameEscape, string(name))
+	}
+
+	s := string(name)
+	for i := 0; i < len(s); i++ {
+		if s[i] < 0x20 || s[i] == 0x7f {
+			return fmt.Errorf("%w: %q", ErrReferenceNameEscape, s)
+		}
+	}
+	for _, part := range strings.FieldsFunc(s, isPathSep) {
+		// IsNTFSDot/IsHFSDot with a "." needle match ".." and its disguises
+		// but not a bare ".", so reject that component explicitly too.
+		if part == "." || pathutil.IsHFSDot(part, ".") || pathutil.IsNTFSDot(part, ".", "") {
+			return fmt.Errorf("%w: %q", ErrReferenceNameEscape, s)
+		}
+	}
+	return nil
+}
 
 // Options holds configuration for the storage.
 type Options struct {
 	// ExclusiveAccess means that the filesystem is not modified externally
 	// while the repo is open.
 	ExclusiveAccess bool
-	// KeepDescriptors makes the file descriptors to be reused but they will
-	// need to be manually closed calling Close().
-	KeepDescriptors bool
 	// AlternatesFS provides the billy filesystem to be used for Git Alternates.
 	// If none is provided, it falls back to using the underlying instance used for
 	// DotGit.
@@ -107,6 +154,17 @@ type Options struct {
 	// WriteReverseIndex controls whether .rev files are written when
 	// creating new packfiles. Defaults to true.
 	WriteReverseIndex bool
+	// Pool, when non-nil, governs the LRU eviction of file
+	// descriptors held by [packhandle.PackHandle] instances
+	// constructed by this DotGit. Nil disables pooling for the
+	// pack-FD lifecycle (grace-period close on quiescence).
+	//
+	// The Pool field's API stability tracks [fdpool.Pool]'s, not
+	// this package's. Per the x/ package policy, the fdpool API
+	// may change without following semantic versioning; consumers
+	// reading this field should treat it as experimental on the
+	// same timeline.
+	Pool *fdpool.Pool
 }
 
 // The DotGit type represents a local git repository on disk. This
@@ -126,7 +184,10 @@ type DotGit struct {
 	packList   []plumbing.Hash
 	packMap    map[plumbing.Hash]struct{}
 
-	files map[plumbing.Hash]billy.File
+	// packHandles caches one [*packhandle.PackHandle] per pack hash,
+	// guarded by packHandlesMu. Lazy-initialised on first use.
+	packHandlesMu sync.Mutex
+	packHandles   map[plumbing.Hash]*packhandle.PackHandle
 }
 
 // New returns a DotGit value ready to be used. The path argument must
@@ -178,24 +239,21 @@ func (d *DotGit) Initialize() error {
 
 // Close closes all opened files.
 func (d *DotGit) Close() error {
-	var firstError error
-	if d.files != nil {
-		for _, f := range d.files {
-			err := f.Close()
-			if err != nil && firstError == nil {
-				firstError = err
-				continue
-			}
+	d.packHandlesMu.Lock()
+	handles := d.packHandles
+	d.packHandles = nil
+	d.packHandlesMu.Unlock()
+
+	var phErrs []error
+	for _, h := range handles {
+		if err := h.Close(); err != nil {
+			phErrs = append(phErrs, err)
 		}
-
-		d.files = nil
 	}
 
-	if firstError != nil {
-		return firstError
-	}
+	d.packMap = nil
 
-	return nil
+	return errors.Join(phErrs...)
 }
 
 // ConfigWriter returns a file pointer for write to the config file
@@ -255,6 +313,9 @@ func (d *DotGit) Shallow() (billy.File, error) {
 // ReflogReader returns a file pointer for reading the reflog for the given reference.
 // Returns nil, nil if the reflog file does not exist.
 func (d *DotGit) ReflogReader(name plumbing.ReferenceName) (billy.File, error) {
+	if err := validReferenceName(name); err != nil {
+		return nil, err
+	}
 	p := d.fs.Join(logsPath, string(name))
 	f, err := d.fs.Open(p)
 	if err != nil {
@@ -269,6 +330,9 @@ func (d *DotGit) ReflogReader(name plumbing.ReferenceName) (billy.File, error) {
 // ReflogWriter returns a file pointer for appending to the reflog for the given reference.
 // It creates the file and any necessary parent directories if they don't exist.
 func (d *DotGit) ReflogWriter(name plumbing.ReferenceName) (billy.File, error) {
+	if err := validReferenceName(name); err != nil {
+		return nil, err
+	}
 	p := d.fs.Join(logsPath, string(name))
 	if err := d.fs.MkdirAll(filepath.Dir(p), os.ModePerm); err != nil {
 		return nil, err
@@ -278,6 +342,9 @@ func (d *DotGit) ReflogWriter(name plumbing.ReferenceName) (billy.File, error) {
 
 // DeleteReflog removes the reflog file for the given reference.
 func (d *DotGit) DeleteReflog(name plumbing.ReferenceName) error {
+	if err := validReferenceName(name); err != nil {
+		return err
+	}
 	p := d.fs.Join(logsPath, string(name))
 	err := d.fs.Remove(p)
 	if os.IsNotExist(err) {
@@ -289,8 +356,15 @@ func (d *DotGit) DeleteReflog(name plumbing.ReferenceName) error {
 // NewObjectPack return a writer for a new packfile, it saves the packfile to
 // disk and also generates and save the index for the given packfile.
 func (d *DotGit) NewObjectPack() (*PackWriter, error) {
-	d.cleanPackList()
-	return newPackWrite(d.fs, d.options.ObjectFormat, d.options.WriteReverseIndex)
+	cleanErr := d.cleanPackList()
+	pw, err := newPackWrite(d.fs, d.options.ObjectFormat, d.options.WriteReverseIndex)
+	if err != nil {
+		return nil, errors.Join(cleanErr, err)
+	}
+	if cleanErr != nil {
+		return nil, cleanErr
+	}
+	return pw, nil
 }
 
 // ObjectPacks returns the list of availables packfiles
@@ -341,17 +415,6 @@ func (d *DotGit) objectPackPath(hash plumbing.Hash, extension string) string {
 }
 
 func (d *DotGit) objectPackOpen(hash plumbing.Hash, extension string) (billy.File, error) {
-	if d.options.KeepDescriptors && extension == "pack" {
-		if d.files == nil {
-			d.files = make(map[plumbing.Hash]billy.File)
-		}
-
-		f, ok := d.files[hash]
-		if ok {
-			return f, nil
-		}
-	}
-
 	err := d.hasPack(hash)
 	if err != nil {
 		return nil, err
@@ -365,10 +428,6 @@ func (d *DotGit) objectPackOpen(hash plumbing.Hash, extension string) (billy.Fil
 		}
 
 		return nil, err
-	}
-
-	if d.options.KeepDescriptors && extension == "pack" {
-		d.files[hash] = pack
 	}
 
 	return pack, nil
@@ -462,26 +521,198 @@ func newBytesReadAtCloser(data []byte) *bytesReadAtCloser {
 
 func (b *bytesReadAtCloser) Close() error { return nil }
 
-// DeleteOldObjectPackAndIndex removes a pack and its index if older than t.
-func (d *DotGit) DeleteOldObjectPackAndIndex(hash plumbing.Hash, t time.Time) error {
-	d.cleanPackList()
+// packHandle returns the cached [packhandle.PackHandle] for the
+// given pack hash, constructing one on first access. Rev is
+// served through [DotGit.OpenPackRev] so the in-memory fallback
+// applies when the .rev file is absent or [Options.ReadReverseIndex]
+// is false. Returns [ErrPackfileNotFound] when the .pack file
+// cannot be located.
+func (d *DotGit) packHandle(hash plumbing.Hash) (*packhandle.PackHandle, error) {
+	d.packHandlesMu.Lock()
+	defer d.packHandlesMu.Unlock()
 
-	path := d.objectPackPath(hash, `pack`)
+	if h, ok := d.packHandles[hash]; ok {
+		return h, nil
+	}
+
+	if err := d.hasPack(hash); err != nil {
+		return nil, err
+	}
+
+	packPath := d.objectPackPath(hash, "pack")
+	idxPath := d.objectPackPath(hash, "idx")
+
+	sources := packhandle.Sources{
+		Pack: packhandle.Source{
+			Open: func() (packhandle.ReadAtCloser, error) {
+				return d.ObjectPack(hash)
+			},
+			Size: func() (int64, error) {
+				fi, err := d.fs.Stat(packPath)
+				if err != nil {
+					return 0, err
+				}
+				return fi.Size(), nil
+			},
+		},
+		Idx: packhandle.Source{
+			Open: func() (packhandle.ReadAtCloser, error) {
+				return d.ObjectPackIdx(hash)
+			},
+			Size: func() (int64, error) {
+				fi, err := d.fs.Stat(idxPath)
+				if err != nil {
+					return 0, err
+				}
+				return fi.Size(), nil
+			},
+		},
+		Rev: packhandle.Source{
+			Open: func() (packhandle.ReadAtCloser, error) {
+				return d.OpenPackRev(hash)
+			},
+			// Rev may be served from an in-memory buffer with no
+			// stat-able size. [idxfile.LazyIndex] does not consult
+			// Rev.Size, so a zero stub is correct here.
+			Size: func() (int64, error) { return 0, nil },
+		},
+	}
+
+	ph, err := packhandle.NewWithPool(sources, hash, d.options.Pool)
+	if err != nil {
+		return nil, err
+	}
+
+	if d.packHandles == nil {
+		d.packHandles = make(map[plumbing.Hash]*packhandle.PackHandle)
+	}
+	d.packHandles[hash] = ph
+	return ph, nil
+}
+
+// walkPackHandles snapshots the [packhandle.PackHandle] catalog
+// under packHandlesMu and invokes fn on each entry with the lock
+// released. The snapshot shortens the critical section so
+// concurrent [DotGit.packHandle] lookups do not block on slow
+// per-handle work such as file-close syscalls.
+//
+// The catalog is left intact; fn observes the same PackHandle
+// pointers that subsequent lookups return. Callers that want to
+// drain the catalog must do so separately — Close and
+// cleanPackList keep their inline snapshot-with-clear because
+// they need the drain to be atomic with the snapshot.
+//
+// Errors returned by fn are joined; the walk continues past a
+// failing entry so one bad pack does not strand FDs in others.
+func (d *DotGit) walkPackHandles(fn func(*packhandle.PackHandle) error) error {
+	d.packHandlesMu.Lock()
+	handles := slices.Collect(maps.Values(d.packHandles))
+	d.packHandlesMu.Unlock()
+
+	var errs []error
+	for _, h := range handles {
+		if err := fn(h); err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return errors.Join(errs...)
+}
+
+// CloseIdleDescriptors releases the FDs held by every cached
+// [packhandle.PackHandle] without evicting them from the
+// catalog. The catalog and each PackHandle's cached state
+// (`PackMeta`, `LazyIndex`) survive the call; subsequent
+// operations reopen FDs on demand.
+//
+// Idempotent and safe to call concurrently with other DotGit
+// operations. After [DotGit.Close] the catalog is empty, so the
+// call is a no-op.
+func (d *DotGit) CloseIdleDescriptors() error {
+	return d.walkPackHandles(func(ph *packhandle.PackHandle) error {
+		return ph.CloseIdleDescriptors()
+	})
+}
+
+// PackHandle returns the cached [packfile.PackHandle] for the
+// given pack hash, constructing one on first access. The returned
+// interface does not expose Close; dotgit owns the handle's
+// lifetime and tears it down via [DotGit.Close] or
+// [DotGit.cleanPackList].
+func (d *DotGit) PackHandle(hash plumbing.Hash) (packfile.PackHandle, error) {
+	ph, err := d.packHandle(hash)
+	if err != nil {
+		return nil, err
+	}
+	return packHandleAdapter{ph}, nil
+}
+
+// packHandleAdapter satisfies [packfile.PackHandle] by delegating
+// to the dotgit-owned [packhandle.PackHandle]. Unexported so
+// callers cannot type-assert back to the concrete type and reach
+// [packhandle.PackHandle.Close].
+type packHandleAdapter struct{ ph *packhandle.PackHandle }
+
+func (a packHandleAdapter) OpenPackReader() (io.ReadSeekCloser, error) {
+	return a.ph.OpenPackReader()
+}
+
+func (a packHandleAdapter) OpenRandomReader() (packfile.RandomReader, error) {
+	return a.ph.OpenRandomReader()
+}
+
+func (a packHandleAdapter) PackHash() (plumbing.Hash, error) {
+	m, err := a.ph.Meta()
+	if err != nil {
+		return plumbing.ZeroHash, err
+	}
+	return m.ID, nil
+}
+
+// DeleteOldObjectPackAndIndex removes a pack and its index if older than t.
+// The .pack, .idx and .rev files are each attempted independently; any
+// failures are joined into the returned error so a partial failure cannot
+// leave orphaned siblings on disk. A missing .rev is not an error — the
+// reverse index is optional and may have been generated only in memory.
+func (d *DotGit) DeleteOldObjectPackAndIndex(hash plumbing.Hash, t time.Time) error {
+	var errs []error
+	if err := d.cleanPackList(); err != nil {
+		errs = append(errs, err)
+	}
+
+	packPath := d.objectPackPath(hash, `pack`)
 	if !t.IsZero() {
-		fi, err := d.fs.Stat(path)
+		fi, err := d.fs.Stat(packPath)
 		if err != nil {
-			return err
+			errs = append(errs, err)
+			return errors.Join(errs...)
 		}
 		// too new, skip deletion.
 		if !fi.ModTime().Before(t) {
-			return nil
+			return errors.Join(errs...)
 		}
 	}
-	err := d.fs.Remove(path)
-	if err != nil {
-		return err
+
+	for _, ext := range []string{`pack`, `idx`, `rev`} {
+		if err := d.fs.Remove(d.objectPackPath(hash, ext)); err != nil {
+			if ext == `rev` && os.IsNotExist(err) {
+				continue
+			}
+			errs = append(errs, err)
+		}
 	}
-	return d.fs.Remove(d.objectPackPath(hash, `idx`))
+
+	d.packHandlesMu.Lock()
+	ph, ok := d.packHandles[hash]
+	if ok {
+		delete(d.packHandles, hash)
+	}
+	d.packHandlesMu.Unlock()
+	if ok {
+		if err := ph.Close(); err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return errors.Join(errs...)
 }
 
 // NewObject return a writer for a new object file.
@@ -660,9 +891,32 @@ func (d *DotGit) hasObject(h plumbing.Hash) error {
 	return nil
 }
 
-func (d *DotGit) cleanPackList() {
+// cleanPackList resets the pack catalog and drops every cached
+// [packhandle.PackHandle]. A pack-set mutation may have
+// invalidated the handles' underlying files, so they cannot
+// safely be reused. Idle readers finish normally; their cursor
+// Close becomes a no-op release.
+//
+// PackHandle.Close owns the underlying sharedfile and LazyIndex
+// FDs, so a close failure here means an FD has not been released.
+// The errors are joined and returned so callers can surface them
+// rather than silently masking I/O failures during cleanup.
+func (d *DotGit) cleanPackList() error {
 	d.packMap = nil
 	d.packList = nil
+
+	d.packHandlesMu.Lock()
+	handles := d.packHandles
+	d.packHandles = nil
+	d.packHandlesMu.Unlock()
+
+	var errs []error
+	for _, h := range handles {
+		if err := h.Close(); err != nil {
+			errs = append(errs, err)
+		}
+	}
+	return errors.Join(errs...)
 }
 
 func (d *DotGit) genPackList() error {
@@ -845,6 +1099,10 @@ func (d *DotGit) checkReferenceAndTruncate(f billy.File, old *plumbing.Reference
 
 // SetRef stores a reference, optionally checking that old matches the current value.
 func (d *DotGit) SetRef(r, old *plumbing.Reference) error {
+	if err := validReferenceName(r.Name()); err != nil {
+		return err
+	}
+
 	var content string
 	switch r.Type() {
 	case plumbing.SymbolicReference:
@@ -880,6 +1138,10 @@ func (d *DotGit) Refs() ([]*plumbing.Reference, error) {
 
 // Ref returns the reference for a given reference name.
 func (d *DotGit) Ref(name plumbing.ReferenceName) (*plumbing.Reference, error) {
+	if err := validReferenceName(name); err != nil {
+		return nil, err
+	}
+
 	ref, err := d.readReferenceFile(".", name.String())
 	if err == nil {
 		return ref, nil
@@ -943,6 +1205,10 @@ func (d *DotGit) packedRef(name plumbing.ReferenceName) (*plumbing.Reference, er
 
 // RemoveRef removes a reference by name.
 func (d *DotGit) RemoveRef(name plumbing.ReferenceName) error {
+	if err := validReferenceName(name); err != nil {
+		return err
+	}
+
 	path := d.fs.Join(".", name.String())
 	_, err := d.fs.Stat(path)
 	if err == nil {
@@ -1377,7 +1643,17 @@ func (d *DotGit) Alternates() ([]*DotGit, error) {
 		if err != nil {
 			return nil, fmt.Errorf("cannot chroot %q: %w", path, err)
 		}
-		alternates = append(alternates, New(afs))
+		// Inherit the parent DotGit's ObjectFormat so the alternate
+		// reads and writes hashes at the same width as the
+		// repository it serves. Inherit the FD pool too so the
+		// storage-wide budget covers alternate packs and idxes.
+		// Other Options keep their defaults from New.
+		alternates = append(alternates, NewWithOptions(afs, Options{
+			ObjectFormat:      d.options.ObjectFormat,
+			ReadReverseIndex:  true,
+			WriteReverseIndex: true,
+			Pool:              d.options.Pool,
+		}))
 	}
 
 	if err = scanner.Err(); err != nil {

@@ -34,7 +34,7 @@ ARG PULUMI_RANDOM_VERSION=v4.21.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
 ARG PULUMI_AWS_NATIVE_VERSION=v1.73.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-github
-ARG PULUMI_GITHUB_VERSION=v6.14.0
+ARG PULUMI_GITHUB_VERSION=v6.14.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v10.1.1
 # renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud

@@ -454,7 +454,9 @@ func PlainOpenWithOptions(path string, o *PlainOpenOptions) (*Repository, error)
 	}
 	repositoryFs = dotgit.NewRepositoryFilesystem(dot, dotGitCommon)
 
-	s := filesystem.NewStorage(repositoryFs, cache.NewObjectLRUDefault())
+	s := filesystem.NewStorageWithOptions(repositoryFs, cache.NewObjectLRUDefault(), filesystem.Options{
+		AlternatesFS: o.AlternatesFS,
+	})
 
 	r, err := Open(s, wt)
 	if err != nil {
@@ -999,7 +1001,8 @@ func (r *Repository) buildTagSignature(tag *object.Tag, signer Signer) (string, 
 		return "", err
 	}
 
-	b, err := signer.Sign(rdr)
+	// TODO: thread a caller-supplied context once CreateTag accepts one.
+	b, err := signer.Sign(context.TODO(), rdr)
 	if err != nil {
 		return "", err
 	}
@@ -1575,7 +1578,7 @@ func (r *Repository) Log(o *LogOptions) (object.CommitIter, error) {
 
 func (r *Repository) log(from plumbing.Hash, commitIterFunc func(*object.Commit) object.CommitIter) (object.CommitIter, error) {
 	h := from
-	if from == plumbing.ZeroHash {
+	if from.IsZero() {
 		head, err := r.Head()
 		if err != nil {
 			return nil, err
