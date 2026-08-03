@@ -11,11 +11,11 @@ replace (
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
 require (
-	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
+	dev.gaijin.team/go/exhaustruct/v5 v5.0.2 // indirect
+	github.com/bombsimon/wsl/v5 v5.8.0 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20260730003005-19049f296fa9 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
+	github.com/denis-tingaikin/go-header v1.0.0 // indirect
+	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 )
 
 require (
