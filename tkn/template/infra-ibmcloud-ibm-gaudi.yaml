@@ -1,0 +1,302 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-ibmcloud-ibm-gaudi
+  labels:
+    app.kubernetes.io/version: "<VERSION>"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, ibmcloud, gaudi
+    tekton.dev/displayName: "ibmcloud manager"
+    tekton.dev/platforms: "linux/amd64"
+spec:
+  description: |
+    Task provision an IBM Cloud Gaudi accelerated instance (amd64)
+
+  volumes:
+    - name: ibmcloud-credentials
+      secret:
+        secretName: $(params.secret-ibmcloud-credentials)
+    - name: host-info
+      emptyDir: {}
+
+  params:
+    - name: secret-ibmcloud-credentials
+      description: |
+        ocp secret holding the ibm cloud credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: ibmcloud-${name}
+        type: Opaque
+        data:
+          api-key: ${IBMCLOUD_API_KEY}
+          region: ${IC_REGION}
+          cos-access-key: ${IBMCLOUD_COS_ACCESS_KEY_ID}
+          cos-secret-key: ${IBMCLOUD_COS_SECRET_ACCESS_KEY}
+          bucket: ${bucket}
+          # optional
+          otel-auth-token: ${otel_auth_token}
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result
+    # naming
+    - name: host-access-secret-name
+      type: string
+      default: ""
+      description: |
+        Once the target is provisioned the config to connect is addded to a secret
+        check resutls. If this param is set the secret will be created with the name set
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: "PipelineRun"
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      default: ""
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      default: ""
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
+
+    # Gaudi params
+    - name: subnet-id
+      description: ID of an existing VPC subnet. If empty, a new VPC with subnet and public gateway is auto-provisioned.
+      default: ""
+    - name: zone
+      description: IBM Cloud availability zone (e.g. us-east-1). Only required when subnet-id is not set.
+      default: ""
+    - name: otel-app-code
+      description: OpenTelemetry appcode identifier
+      default: ""
+    - name: otel-endpoint
+      description: OTLP HTTP endpoint
+      default: ""
+    - name: otel-index
+      description: Splunk index name for log routing
+      default: ""
+    - name: otel-extra-attrs
+      description: Extra resource attributes for otelcol log records (key=value,key=value)
+      default: ""
+
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: ""
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
+      default: "false"
+    - name: force-destroy
+      description: |
+        If force-destroy is set the command will destroy even if there is a lock.
+        Allowed values: true, false
+      default: "false"
+    - name: keep-state
+      description: |
+        Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
+        Allowed values: true, false
+      default: "false"
+
+  results:
+    - name: host-access-secret
+      description: |
+        ocp secret holding the information to connect with the target machine.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+            labels:
+          type: Opaque
+          data:
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
+
+  steps:
+    - name: provisioner
+      image: <IMAGE>
+      imagePullPolicy: Always
+      env:
+        - name: HOME
+          value: /opt/mapt/run
+      volumeMounts:
+        - name: ibmcloud-credentials
+          mountPath: /opt/ibmcloud-credentials
+        - name: host-info
+          mountPath: /opt/host-info
+      script: |
+        #!/bin/sh
+
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
+        export IBMCLOUD_API_KEY=$(cat /opt/ibmcloud-credentials/api-key)
+        export IC_REGION=$(cat /opt/ibmcloud-credentials/region)
+        export IBMCLOUD_COS_ACCESS_KEY_ID=$(cat /opt/ibmcloud-credentials/cos-access-key)
+        export IBMCLOUD_COS_SECRET_ACCESS_KEY=$(cat /opt/ibmcloud-credentials/cos-secret-key)
+        BUCKET=$(cat /opt/ibmcloud-credentials/bucket)
+        OTEL_AUTH_TOKEN=$(cat /opt/ibmcloud-credentials/otel-auth-token 2>/dev/null || true)
+
+        if [[ "$(params.zone)" != "" ]]; then
+          export IC_ZONE="$(params.zone)"
+        fi
+
+        # If debug add verbosity and print masked credentials
+        if [[ "$(params.debug)" == "true" ]]; then
+          echo "IBMCLOUD_API_KEY=$(mask_credential "$IBMCLOUD_API_KEY")"
+          echo "IC_REGION=$IC_REGION"
+          echo "IC_ZONE=${IC_ZONE:-}"
+          echo "IBMCLOUD_COS_ACCESS_KEY_ID=$(mask_credential "$IBMCLOUD_COS_ACCESS_KEY_ID")"
+          echo "IBMCLOUD_COS_SECRET_ACCESS_KEY=$(mask_credential "$IBMCLOUD_COS_SECRET_ACCESS_KEY")"
+          echo "BUCKET=$BUCKET"
+          set -xeuo pipefail
+        fi
+
+        if [[ "$(params.operation)" == "create"  ]]; then
+          if [[ "$(params.ownerName)" == "" || "$(params.ownerUid)" == "" ]]; then
+            echo "Parameter ownerName and ownerUid is recommended when creating instance"
+          fi
+        fi
+
+        # Run mapt
+        cmd="mapt ibmcloud ibm-gaudi $(params.operation) "
+        cmd+="--project-name mapt-ibm-gaudi-$(params.id) "
+        cmd+="--backed-url s3://${BUCKET}/mapt/ibm-gaudi/$(params.id) "
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          cmd+="--debug "
+        fi
+
+        if [[ "$(params.operation)" == "create" ]]; then
+          cmd+="--conn-details-output /opt/host-info "
+          if [[ "$(params.subnet-id)" != "" ]]; then
+            cmd+="--subnet-id '$(params.subnet-id)' "
+          fi
+          if [[ "$(params.otel-app-code)" != "" ]]; then
+            cmd+="--otel-app-code '$(params.otel-app-code)' "
+          fi
+          if [[ "${OTEL_AUTH_TOKEN}" != "" ]]; then
+            cmd+="--otel-auth-token '${OTEL_AUTH_TOKEN}' "
+          fi
+          if [[ "$(params.otel-endpoint)" != "" ]]; then
+            cmd+="--otel-endpoint '$(params.otel-endpoint)' "
+          fi
+          if [[ "$(params.otel-index)" != "" ]]; then
+            cmd+="--otel-index '$(params.otel-index)' "
+          fi
+          if [[ "$(params.otel-extra-attrs)" != "" ]]; then
+            cmd+="--otel-extra-attrs '$(params.otel-extra-attrs)' "
+          fi
+          cmd+="--tags '$(params.tags)' "
+        fi
+
+        if [[ "$(params.operation)" == "destroy" ]]; then
+          if [[ "$(params.keep-state)" == "true" ]]; then
+            cmd+="--keep-state "
+          fi
+          if [[ "$(params.force-destroy)" == "true" ]]; then
+            cmd+="--force-destroy "
+          fi
+        fi
+
+        eval "${cmd}"
+
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "100m"
+        limits:
+          memory: "2Gi"
+          cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:v4.15@sha256:9dbec69c215a4041a49bec977a7c2013b5bafe335201d5e983422f30a7e434a2
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+      volumeMounts:
+        - name: host-info
+          mountPath: /opt/host-info
+      workingDir: /opt/host-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ "$(params.operation)" == "create" ]]; then
+        export SECRETNAME="generateName: mapt-ibmcloud-ibm-gaudi-"
+        if [[ "$(params.host-access-secret-name)" != "" ]]; then
+          export SECRETNAME="name: $(params.host-access-secret-name)"
+        fi
+        cat <<EOF > host-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+        EOF
+        if [[ "$OWNER_NAME" != "" && "$OWNER_UID" != "" ]]; then
+        cat <<EOF >> host-info.yaml
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        EOF
+        fi
+        cat <<EOF >> host-info.yaml
+        type: Opaque
+        data:
+          host: $(cat /opt/host-info/host | tr -d '\n\r' | base64 -w0)
+          username: $(cat /opt/host-info/username | tr -d '\n\r' | base64 -w0)
+          id_rsa: $(cat /opt/host-info/id_rsa | base64 -w0)
+        EOF
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          cat /opt/host-info/*
+        fi
+
+        NAME=$(oc create -f host-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.host-access-secret.path)
+        fi
