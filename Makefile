@@ -54,6 +54,7 @@ define tkn_update
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-rhel-ai.yaml > tkn/infra-azure-rhel-ai.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-fedora.yaml > tkn/infra-azure-fedora.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-windows-desktop.yaml > tkn/infra-azure-windows-desktop.yaml
+	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-ibmcloud-ibm-gaudi.yaml > tkn/infra-ibmcloud-ibm-gaudi.yaml
 endef
 
 # Add default target
@@ -180,4 +181,5 @@ tkn-push: install-out-of-tree-tools
 		-f tkn/infra-azure-aks.yaml \
 		-f tkn/infra-azure-fedora.yaml \
 		-f tkn/infra-azure-rhel.yaml \
-		-f tkn/infra-azure-windows-desktop.yaml
+		-f tkn/infra-azure-windows-desktop.yaml \
+		-f tkn/infra-ibmcloud-ibm-gaudi.yaml
