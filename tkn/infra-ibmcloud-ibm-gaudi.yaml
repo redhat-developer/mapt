@@ -39,6 +39,8 @@ spec:
           cos-access-key: ${IBMCLOUD_COS_ACCESS_KEY_ID}
           cos-secret-key: ${IBMCLOUD_COS_SECRET_ACCESS_KEY}
           bucket: ${bucket}
+          # optional
+          otel-auth-token: ${otel_auth_token}
     - name: id
       description: identifier for the provisioned environment
     - name: operation
@@ -80,11 +82,11 @@ spec:
     - name: subnet-id
       description: ID of an existing VPC subnet. If empty, a new VPC with subnet and public gateway is auto-provisioned.
       default: ""
+    - name: zone
+      description: IBM Cloud availability zone (e.g. us-east-1). Only required when subnet-id is not set.
+      default: ""
     - name: otel-app-code
       description: OpenTelemetry appcode identifier
-      default: ""
-    - name: otel-auth-token
-      description: OpenTelemetry authentication token (UUID)
       default: ""
     - name: otel-endpoint
       description: OTLP HTTP endpoint
@@ -171,11 +173,17 @@ spec:
         export IBMCLOUD_COS_ACCESS_KEY_ID=$(cat /opt/ibmcloud-credentials/cos-access-key)
         export IBMCLOUD_COS_SECRET_ACCESS_KEY=$(cat /opt/ibmcloud-credentials/cos-secret-key)
         BUCKET=$(cat /opt/ibmcloud-credentials/bucket)
+        OTEL_AUTH_TOKEN=$(cat /opt/ibmcloud-credentials/otel-auth-token 2>/dev/null || true)
+
+        if [[ "$(params.zone)" != "" ]]; then
+          export IC_ZONE="$(params.zone)"
+        fi
 
         # If debug add verbosity and print masked credentials
         if [[ "$(params.debug)" == "true" ]]; then
           echo "IBMCLOUD_API_KEY=$(mask_credential "$IBMCLOUD_API_KEY")"
           echo "IC_REGION=$IC_REGION"
+          echo "IC_ZONE=${IC_ZONE:-}"
           echo "IBMCLOUD_COS_ACCESS_KEY_ID=$(mask_credential "$IBMCLOUD_COS_ACCESS_KEY_ID")"
           echo "IBMCLOUD_COS_SECRET_ACCESS_KEY=$(mask_credential "$IBMCLOUD_COS_SECRET_ACCESS_KEY")"
           echo "BUCKET=$BUCKET"
@@ -205,8 +213,8 @@ spec:
           if [[ "$(params.otel-app-code)" != "" ]]; then
             cmd+="--otel-app-code '$(params.otel-app-code)' "
           fi
-          if [[ "$(params.otel-auth-token)" != "" ]]; then
-            cmd+="--otel-auth-token '$(params.otel-auth-token)' "
+          if [[ "${OTEL_AUTH_TOKEN}" != "" ]]; then
+            cmd+="--otel-auth-token '${OTEL_AUTH_TOKEN}' "
           fi
           if [[ "$(params.otel-endpoint)" != "" ]]; then
             cmd+="--otel-endpoint '$(params.otel-endpoint)' "
