@@ -52,7 +52,7 @@ func GetBucketReplicationConfiguration(ctx *pulumi.Context, args *GetBucketRepli
 
 // A collection of arguments for invoking getBucketReplicationConfiguration.
 type GetBucketReplicationConfigurationArgs struct {
-	// The name of the bucket to get the replication configuration for.
+	// Name of the bucket to get the replication configuration for.
 	Bucket string `pulumi:"bucket"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
@@ -61,12 +61,10 @@ type GetBucketReplicationConfigurationArgs struct {
 // A collection of values returned by getBucketReplicationConfiguration.
 type GetBucketReplicationConfigurationResult struct {
 	Bucket string `pulumi:"bucket"`
-	// The provider-assigned unique ID for this managed resource.
-	Id     string `pulumi:"id"`
 	Region string `pulumi:"region"`
-	// The ARN of the IAM role that Amazon S3 assumes when replicating objects.
+	// ARN of the IAM role that Amazon S3 assumes when replicating objects.
 	Role string `pulumi:"role"`
-	// An unordered list of configuration blocks that define the rules managing replication.
+	// Unordered list of configuration blocks that define the rules managing replication. See the `awsS3ReplicationConfiguration` resource documentation for details about the `rule` block (excluding the `and` block within the `filter` block).
 	Rules []GetBucketReplicationConfigurationRule `pulumi:"rules"`
 }
 
@@ -81,7 +79,7 @@ func GetBucketReplicationConfigurationOutput(ctx *pulumi.Context, args GetBucket
 
 // A collection of arguments for invoking getBucketReplicationConfiguration.
 type GetBucketReplicationConfigurationOutputArgs struct {
-	// The name of the bucket to get the replication configuration for.
+	// Name of the bucket to get the replication configuration for.
 	Bucket pulumi.StringInput `pulumi:"bucket"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput `pulumi:"region"`
@@ -110,21 +108,16 @@ func (o GetBucketReplicationConfigurationResultOutput) Bucket() pulumi.StringOut
 	return o.ApplyT(func(v GetBucketReplicationConfigurationResult) string { return v.Bucket }).(pulumi.StringOutput)
 }
 
-// The provider-assigned unique ID for this managed resource.
-func (o GetBucketReplicationConfigurationResultOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetBucketReplicationConfigurationResult) string { return v.Id }).(pulumi.StringOutput)
-}
-
 func (o GetBucketReplicationConfigurationResultOutput) Region() pulumi.StringOutput {
 	return o.ApplyT(func(v GetBucketReplicationConfigurationResult) string { return v.Region }).(pulumi.StringOutput)
 }
 
-// The ARN of the IAM role that Amazon S3 assumes when replicating objects.
+// ARN of the IAM role that Amazon S3 assumes when replicating objects.
 func (o GetBucketReplicationConfigurationResultOutput) Role() pulumi.StringOutput {
 	return o.ApplyT(func(v GetBucketReplicationConfigurationResult) string { return v.Role }).(pulumi.StringOutput)
 }
 
-// An unordered list of configuration blocks that define the rules managing replication.
+// Unordered list of configuration blocks that define the rules managing replication. See the `awsS3ReplicationConfiguration` resource documentation for details about the `rule` block (excluding the `and` block within the `filter` block).
 func (o GetBucketReplicationConfigurationResultOutput) Rules() GetBucketReplicationConfigurationRuleArrayOutput {
 	return o.ApplyT(func(v GetBucketReplicationConfigurationResult) []GetBucketReplicationConfigurationRule {
 		return v.Rules

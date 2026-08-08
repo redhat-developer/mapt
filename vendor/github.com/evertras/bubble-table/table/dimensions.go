@@ -1,7 +1,7 @@
 package table
 
 import (
-	"github.com/charmbracelet/lipgloss"
+	"charm.land/lipgloss/v2"
 )
 
 func (m *Model) recalculateWidth() {
@@ -29,10 +29,12 @@ func updateColumnWidths(cols []Column, totalWidth int) {
 	totalFlexFactor := 0
 	flexGCD := 0
 
-	for index, col := range cols {
+	for _, col := range cols {
 		if !col.isFlex() {
 			totalFlexWidth -= col.width
-			cols[index].style = col.style.Width(col.width)
+			// Do not set Width on col.style here; the rendering functions apply
+			// Width(column.width + borderOverhead) at render time to correctly
+			// account for lipgloss v2's total-outer-width semantics.
 		} else {
 			totalFlexFactor += col.flexFactor
 			flexGCD = gcd(flexGCD, col.flexFactor)
@@ -71,8 +73,8 @@ func updateColumnWidths(cols []Column, totalWidth int) {
 
 		cols[index].width = width
 
-		// Take borders into account for the actual style
-		cols[index].style = cols[index].style.Width(width)
+		// Do not set Width on the style; rendering functions apply
+		// Width(column.width + borderOverhead) at render time.
 	}
 }
 
@@ -90,6 +92,71 @@ func (m *Model) recalculateHeight() {
 	}
 
 	m.metaHeight = headerHeight + footerHeight
+}
+
+// ensurePageMap rebuilds the page-start index cache if it is stale.
+// For targetHeight mode it uses a two-pass approach: first calculate without a
+// footer to determine whether multiple pages are needed, then if they are,
+// recalculate with the footer included in the height budget and rebuild.
+func (m *Model) ensurePageMap() {
+	if m.pageStartIndices == nil {
+		m.recalculateHeight()
+		m.buildPageStartIndices()
+
+		if m.targetHeight != 0 && len(m.pageStartIndices) > 1 {
+			// Footer is now active (multi-page); redo with footer in budget.
+			m.recalculateHeight()
+			m.buildPageStartIndices()
+		}
+	}
+}
+
+// buildPageStartIndices computes which row index each page starts on and stores
+// the result in m.pageStartIndices.  Must be called after recalculateHeight so
+// that m.metaHeight is up to date.
+func (m *Model) buildPageStartIndices() {
+	rows := m.GetVisibleRows()
+
+	if len(rows) == 0 {
+		m.pageStartIndices = []int{}
+
+		return
+	}
+
+	// metaHeight covers the header (including top border) and footer.
+	// The bottom border is appended to the last data row by assembleRowOutput,
+	// so subtract 1 more to account for it.
+	availableLines := m.targetHeight - m.metaHeight - 1
+
+	if availableLines < 1 {
+		availableLines = 1
+	}
+
+	pageStarts := []int{0}
+	currentPageLines := 0
+
+	for rowIdx, row := range rows {
+		rowLines := m.rowLineCount(row)
+
+		var linesNeeded int
+		if currentPageLines == 0 {
+			linesNeeded = rowLines
+		} else if m.rowSeparator {
+			linesNeeded = rowLines + 1 // separator between rows
+		} else {
+			linesNeeded = rowLines
+		}
+
+		if currentPageLines+linesNeeded > availableLines && currentPageLines > 0 {
+			// Row doesn't fit on the current page; start a new one.
+			pageStarts = append(pageStarts, rowIdx)
+			currentPageLines = m.rowLineCount(row)
+		} else {
+			currentPageLines += linesNeeded
+		}
+	}
+
+	m.pageStartIndices = pageStarts
 }
 
 func (m *Model) calculatePadding(numRows int) int {
