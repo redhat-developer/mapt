@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:272a3dd990bba320c2e246119a0019d10d627d0104938d5db77ba5ab3ae3a51d as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:5d26ff5606bd6590930e7cfc202b510e3fe2c7a7a1720860f444ab49c45128cb as builder
 ARG TARGETARCH
 USER root
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.255.0
+ENV PULUMI_VERSION 3.256.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -20,11 +20,11 @@ RUN unset VERSION \
 
 # Pulumi plugins — installed in build stage, copied into runtime
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.39.0
+ARG PULUMI_AWS_VERSION=v7.41.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
 ARG PULUMI_AWSX_VERSION=v3.8.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
-ARG PULUMI_AZURE_NATIVE_VERSION=v3.24.0
+ARG PULUMI_AZURE_NATIVE_VERSION=v3.25.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
 ARG PULUMI_COMMAND_VERSION=v1.2.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-tls
@@ -32,7 +32,7 @@ ARG PULUMI_TLS_VERSION=v5.5.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-random
 ARG PULUMI_RANDOM_VERSION=v4.21.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws-native
-ARG PULUMI_AWS_NATIVE_VERSION=v1.73.1
+ARG PULUMI_AWS_NATIVE_VERSION=v1.74.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-github
 ARG PULUMI_GITHUB_VERSION=v6.14.1
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
@@ -59,7 +59,7 @@ RUN mkdir -p ${PULUMI_HOME} \
     && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
 
 # Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
-FROM registry.access.redhat.com/hi/core-runtime@sha256:b1cc97b3fee6c84407bea32d4d638a898c160f6682179ef03e56d90af44cfc1f
+FROM registry.access.redhat.com/hi/core-runtime@sha256:a4e512a621c761d9fa98d097e1b7c0ccf5027f6f792274629638b61f72aa426e
 USER 0
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"
