@@ -116,7 +116,7 @@ spec:
       description: Number of CPUs for the cloud instance (default 8)
       default: '8'
     - name: memory
-      description: Amount of RAM for the cloud instance in GiB (default 64)
+      description: Amount of RAM for the cloud instance in GiB (default 200)
       default: '200'
 
     - name: airgap
