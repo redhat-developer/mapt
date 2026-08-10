@@ -247,12 +247,12 @@ spec:
           cmd+="--ami-lang $(params.ami-lang) "
           cmd+="--disk-size $(params.disk-size) "
           if [[ $(params.compute-sizes) != "" ]]; then
-            cmd+="--compute-sizes $(params.compute-sizes) "
+            cmd+="--compute-sizes '$(params.compute-sizes)' "
           else
-            cmd+="--cpus $(params.cpus) "
-            cmd+="--memory $(params.memory) "
+            cmd+="--cpus '$(params.cpus)' "
+            cmd+="--memory '$(params.memory)' "
             if [[ $(params.compute-families) != "" ]]; then
-              cmd+="--compute-families $(params.compute-families) "
+              cmd+="--compute-families '$(params.compute-families)' "
             fi
           fi
           if [[ $(params.spot) == "true" ]]; then
