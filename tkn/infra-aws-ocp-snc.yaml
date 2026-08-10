@@ -143,6 +143,12 @@ spec:
     - name: disable-cluster-readiness
       description: If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated.
       default: 'false'
+    - name: operator-channel
+      description: |
+        Comma-separated list of operator channel overrides in the form package=channel
+        (e.g. rhods-operator=stable-3.x). Overrides the default OLM channel for the
+        named operator. Multiple overrides can be separated by commas.
+      default: ""
     - name: profile
       description: Comma-separated list of profiles to install on the cluster (e.g. virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai). When virtualization is selected, a bare metal instance is used.
       default: "''"
@@ -295,7 +301,6 @@ spec:
               cmd+="--operator-channel $(printf '%q' "${ch}") "
             done
           fi
-
 
           if [[ "$(params.spot)" == "true" ]]; then
             cmd+="--spot "
