@@ -227,12 +227,12 @@ spec:
           cmd+="--conn-details-output /opt/cluster-info "
           cmd+="--arch $(params.arch) "
           if [[ $(params.compute-sizes) != "" ]]; then
-            cmd+="--compute-sizes $(params.compute-sizes) "
+            cmd+="--compute-sizes '$(params.compute-sizes)' "
           else
-            cmd+="--cpus $(params.cpus) "
-            cmd+="--memory $(params.memory) "
+            cmd+="--cpus '$(params.cpus)' "
+            cmd+="--memory '$(params.memory)' "
             if [[ $(params.compute-families) != "" ]]; then
-              cmd+="--compute-families $(params.compute-families) "
+              cmd+="--compute-families '$(params.compute-families)' "
             fi
           fi
           if [[ $(params.nested-virt) == "true" ]]; then
