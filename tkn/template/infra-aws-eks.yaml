@@ -102,6 +102,9 @@ spec:
     - name: load-balancer-controller
       description: Install AWS Load Balancer Controller (default false)
       default: 'false'
+    - name: compute-families
+      description: Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when compute-sizes is not set.
+      default: ""
 
     # Spot params
     - name: spot
