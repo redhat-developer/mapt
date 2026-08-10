@@ -32,6 +32,14 @@ type ComputeRequestArgs struct {
 	// In case we want an specific type / size
 	// we can set them directly
 	ComputeSizes []string
+	// ComputeFamilies is an optional allowlist of compute family prefixes used to post-filter
+	// instance/VM types returned by the compute selector.
+	// AWS: family prefixes (e.g., "m5", "c6i", "r7a"). Dot-separator enforced: "m5" matches
+	//      "m5.xlarge" but not "m5a.xlarge".
+	// Azure: family prefixes without "Family" suffix (e.g., "D8v3", "E16v4"). Matches SKUs
+	//        like "StandardD8v3Family".
+	// Empty list = no restriction. Only used when ComputeSizes is empty.
+	ComputeFamilies []string
 	// Disk size in GB, nil means use provider default
 	DiskSize *int
 }
