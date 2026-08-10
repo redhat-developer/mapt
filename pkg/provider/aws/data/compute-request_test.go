@@ -2,6 +2,8 @@ package data
 
 import (
 	"testing"
+
+	computerequest "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 )
 
 func TestFilterByFamily_EmptyFamilies_ReturnsAll(t *testing.T) {
@@ -83,5 +85,39 @@ func TestFilterByFamily_CapNotExceeded(t *testing.T) {
 	got := filterByFamily([]string{"m5.xlarge", "m6i.xlarge"}, []string{"m5", "m6i"})
 	if len(got) != 2 {
 		t.Errorf("got %v, want [m5.xlarge m6i.xlarge]", got)
+	}
+}
+
+// TestFilters_MaxResultsOmittedWhenFamiliesSet verifies the production cap-order
+// fix: filters() must NOT set MaxResults when ComputeFamilies is non-empty.
+// If it did, the selector would drop allowlisted families ranked outside the top
+// MaxResults before filterByFamily runs, silently producing empty results.
+func TestFilters_MaxResultsOmittedWhenFamiliesSet(t *testing.T) {
+	args := &computerequest.ComputeRequestArgs{
+		CPUs:            4,
+		MemoryGib:       16,
+		Arch:            computerequest.Amd64,
+		ComputeFamilies: []string{"m5", "m6i"},
+	}
+	f := filters(args)
+	if f.MaxResults != nil {
+		t.Errorf("MaxResults must be nil when ComputeFamilies is set, got %d — cap must be applied after filterByFamily", *f.MaxResults)
+	}
+}
+
+// TestFilters_MaxResultsSetWhenNoFamilies verifies that filters() sets MaxResults
+// normally when ComputeFamilies is empty (default path, no family filtering).
+func TestFilters_MaxResultsSetWhenNoFamilies(t *testing.T) {
+	args := &computerequest.ComputeRequestArgs{
+		CPUs:      4,
+		MemoryGib: 16,
+		Arch:      computerequest.Amd64,
+	}
+	f := filters(args)
+	if f.MaxResults == nil {
+		t.Error("MaxResults must be set when ComputeFamilies is empty")
+	}
+	if *f.MaxResults != computerequest.MaxResults {
+		t.Errorf("MaxResults = %d, want %d", *f.MaxResults, computerequest.MaxResults)
 	}
 }
