@@ -10,10 +10,18 @@ import (
 // Tasks that have a compute-sizes conditional in their script and must also
 // conditionally pass --compute-families in the else branch.
 var tasksWithComputeFamiliesScript = map[string]struct{}{
-	"infra-aws-rhel.yaml":     {},
-	"infra-aws-ocp-snc.yaml":  {},
-	"infra-aws-fedora.yaml":   {},
-	"infra-aws-rhel-ai.yaml":  {},
+	"infra-aws-rhel.yaml":            {},
+	"infra-aws-ocp-snc.yaml":         {},
+	"infra-aws-fedora.yaml":          {},
+	"infra-aws-rhel-ai.yaml":         {},
+	"infra-aws-eks.yaml":             {},
+	"infra-aws-kind.yaml":            {},
+	"infra-aws-windows-server.yaml":  {},
+}
+
+// mac uses dedicated host provisioning — CLI does not accept --compute-families.
+var tasksWithoutComputeFamiliesParam = map[string]struct{}{
+	"infra-aws-mac.yaml": {},
 }
 
 func TestComputeFamiliesParamDefined(t *testing.T) {
@@ -26,6 +34,9 @@ func TestComputeFamiliesParamDefined(t *testing.T) {
 		for _, entry := range entries {
 			name := entry.Name()
 			if !isAWSInfraTask(name) {
+				continue
+			}
+			if _, skip := tasksWithoutComputeFamiliesParam[name]; skip {
 				continue
 			}
 			path := filepath.Join(root, dir, name)

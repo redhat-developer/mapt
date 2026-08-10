@@ -106,9 +106,18 @@ spec:
     - name: disk-size
       description: Disk size in GB for the cloud instance
       default: '200'
+    - name: compute-sizes
+      description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
+      default: ""
     - name: compute-families
       description: Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when compute-sizes is not set.
       default: ""
+    - name: cpus
+      description: Number of CPUs for the cloud instance (default 8)
+      default: '8'
+    - name: memory
+      description: Amount of RAM for the cloud instance in GiB (default 64)
+      default: '200'
 
     - name: airgap
       description: |
@@ -237,6 +246,15 @@ spec:
           cmd+="--ami-owner $(params.ami-owner) "
           cmd+="--ami-lang $(params.ami-lang) "
           cmd+="--disk-size $(params.disk-size) "
+          if [[ $(params.compute-sizes) != "" ]]; then
+            cmd+="--compute-sizes $(params.compute-sizes) "
+          else
+            cmd+="--cpus $(params.cpus) "
+            cmd+="--memory $(params.memory) "
+            if [[ $(params.compute-families) != "" ]]; then
+              cmd+="--compute-families $(params.compute-families) "
+            fi
+          fi
           if [[ $(params.spot) == "true" ]]; then
             cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
           fi
