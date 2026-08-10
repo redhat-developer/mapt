@@ -91,6 +91,9 @@ spec:
     - name: memory
       description: Amount of RAM for the cloud instance in GiB (default 64)
       default: '64'
+    - name: compute-families
+      description: Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when compute-sizes is not set.
+      default: ""
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: 'false'
