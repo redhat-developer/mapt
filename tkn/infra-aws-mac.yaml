@@ -99,6 +99,9 @@ spec:
     - name: fixed-location
       description: if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION).
       default: 'false'
+    - name: compute-families
+      description: Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when compute-sizes is not set.
+      default: ""
 
     # Topology params
     - name: airgap
