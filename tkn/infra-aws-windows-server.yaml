@@ -251,9 +251,7 @@ spec:
           else
             cmd+="--cpus '$(params.cpus)' "
             cmd+="--memory '$(params.memory)' "
-            if [[ $(params.compute-families) != "" ]]; then
-              cmd+="--compute-families '$(params.compute-families)' "
-            fi
+            cmd+="--compute-families '$(params.compute-families)' "
           fi
           if [[ $(params.spot) == "true" ]]; then
             cmd+="--spot --spot-increase-rate $(params.spot-increase-rate) --spot-eviction-tolerance $(params.spot-eviction-tolerance) "
