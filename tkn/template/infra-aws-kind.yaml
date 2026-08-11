@@ -231,9 +231,7 @@ spec:
           else
             cmd+="--cpus '$(params.cpus)' "
             cmd+="--memory '$(params.memory)' "
-            if [[ $(params.compute-families) != "" ]]; then
-              cmd+="--compute-families '$(params.compute-families)' "
-            fi
+            cmd+="--compute-families '$(params.compute-families)' "
           fi
           if [[ $(params.nested-virt) == "true" ]]; then
             cmd+="--nested-virt "
