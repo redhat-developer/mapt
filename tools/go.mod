@@ -11,15 +11,9 @@ replace (
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
 require (
-	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
-	github.com/charmbracelet/ultraviolet v0.0.0-20260730003005-19049f296fa9 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
-)
-
-require (
 	github.com/bombsimon/wsl/v5 v5.8.0 // indirect
+	github.com/charmbracelet/ultraviolet v0.0.0-20260730003005-19049f296fa9 // indirect
+	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 )
 
@@ -39,17 +33,21 @@ require (
 )
 
 require (
+	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
 	dev.gaijin.team/go/golib v0.8.1 // indirect
 	github.com/AdminBenni/iota-mixing v1.0.0 // indirect
 	github.com/MirrexOne/unqueryvet v1.5.4 // indirect
 	github.com/alexkohler/prealloc v1.1.0 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
+	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
+	github.com/denis-tingaikin/go-header v0.5.0 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.23.1 // indirect
+	github.com/ryancurrah/gomodguard v1.4.1 // indirect
 )
 
 require (
@@ -207,7 +205,7 @@ require (
 	github.com/uudashr/gocognit v1.2.1 // indirect
 	github.com/uudashr/iface v1.5.0 // indirect
 	github.com/xen0n/gosmopolitan v1.3.0 // indirect
-	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
+	github.com/xo/terminfo v1.0.0 // indirect
 	github.com/yagipy/maintidx v1.0.0 // indirect
 	github.com/yeya24/promlinter v0.3.0 // indirect
 	github.com/ykadowak/zerologlint v0.1.5 // indirect
