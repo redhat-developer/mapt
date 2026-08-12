@@ -14,7 +14,6 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/manager"
@@ -76,7 +75,6 @@ func (r *windowsRequest) validate() error {
 
 type ghActionsRunnerData struct {
 	ActionsRunnerSnippet string
-	CirrusSnippet        string
 	GitLabSnippet        string
 }
 
@@ -349,14 +347,13 @@ func (r *windowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				defer gitlab.SetAuthToken("")
 
 				return fmt.Sprintf(
-					"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -cirrusToken \"%s\" -gitlabToken \"%s\" -authorizedKey \"%s\"",
+					"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -gitlabToken \"%s\" -authorizedKey \"%s\"",
 					scriptName,
 					r.profilesAsParams(),
 					password,
 					*r.username,
 					*hostname,
 					github.GetToken(),
-					cirrus.GetToken(),
 					gitlabToken,
 					authorizedKey,
 				)
@@ -369,14 +366,13 @@ func (r *windowsRequest) postInitSetup(ctx *pulumi.Context, rg *resources.Resour
 				authorizedKey := args[1].(string)
 				hostname := args[2].(*string)
 				return fmt.Sprintf(
-					"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -cirrusToken \"%s\" -gitlabToken \"%s\" -authorizedKey \"%s\"",
+					"powershell -ExecutionPolicy Unrestricted -File %s %s -userPass \"%s\" -user %s -hostname %s -ghToken \"%s\" -gitlabToken \"%s\" -authorizedKey \"%s\"",
 					scriptName,
 					r.profilesAsParams(),
 					password,
 					*r.username,
 					*hostname,
 					github.GetToken(),
-					cirrus.GetToken(),
 					gitlab.GetToken(),
 					authorizedKey,
 				)
@@ -438,10 +434,6 @@ func (r *windowsRequest) uploadScript(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), *r.username)
-	if err != nil {
-		return nil, err
-	}
 	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), *r.username)
 	if err != nil {
 		return nil, err
@@ -454,7 +446,6 @@ func (r *windowsRequest) uploadScript(ctx *pulumi.Context,
 	ciSetupScript, err := file.Template(
 		ghActionsRunnerData{
 			*ghActionsRunnerSnippet,
-			*cirrusSnippet,
 			*gitlabSnippet,
 		},
 		string(RHQPCISetupScript))

@@ -52,7 +52,6 @@ func ibmZCreate() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(&github.S390x),
 					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.S390x),
 					Tags:          viper.GetStringMapString(params.Tags),
@@ -81,7 +80,6 @@ func ibmZCreate() *cobra.Command {
 	flagSet.String(params.IZProfile, params.IZProfileDefault, params.IZProfileDesc)
 	flagSet.Int(params.IZDiskSize, params.IZDiskSizeDefault, params.IZDiskSizeDesc)
 	params.AddGHActionsFlags(flagSet)
-	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)
 	flagSet.Int(params.GlRunnerConcurrent, params.GlRunnerConcurrentS390xDefault, params.GlRunnerConcurrentDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)

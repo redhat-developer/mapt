@@ -38,7 +38,6 @@ In addition we can provision
 The integrations allow to provision the machine and link to different CI/CD systems based on their native integrations. 
 
 * [Github Self Hosted Runner](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners)
-* [Cirrus Persistent Worker](https://cirrus-ci.org/guide/persistent-workers/)
 * [GitLab Runner](docs/gitlab-runner.md)
 
 And [Tekton tasks](tkn) are offered to dynamically provision the remote target to use within tekton pipelines

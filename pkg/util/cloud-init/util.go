@@ -5,16 +5,8 @@ import (
 	"strings"
 )
 
-// If we add the snippet as part of a cloud init file the strategy
-// would be create the file with write_files:
-// i.e.
-// write_files:
-//
-//	# Cirrus service setup
-//	- content: |
-//	    {{ .CirrusSnippet }} <----- 6 spaces
-//
-// to do so we need to indent 6 spaces each line of the snippet
+// IndentWriteFile indents each line of snippet by 6 spaces so it can be
+// embedded inside a cloud-init write_files content block.
 func IndentWriteFile(snippet *string) (*string, error) {
 	lines := strings.Split(strings.TrimSpace(*snippet), "\n")
 	for i, line := range lines {

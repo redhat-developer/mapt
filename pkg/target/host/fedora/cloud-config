@@ -12,18 +12,11 @@ ntp:
 runcmd:
   - dnf install -y podman
 {{ if .ActionsRunnerSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-ghrunner.sh{{ end }}
-{{ if .CirrusSnippet }}  - /opt/setup-cirrus-service.sh{{ end }}
 {{ if .GitLabSnippet }}  - sudo -u {{ .Username }} bash -c /opt/install-glrunner.sh{{ end }}
 {{ if .ActionsRunnerSnippet }}write_files:
   - content: |
 {{ .ActionsRunnerSnippet }}
     path: /opt/install-ghrunner.sh
-    permissions: '0755'
-{{ end }}
-{{ if .CirrusSnippet }}write_files:
-  - content: |
-{{.CirrusSnippet}}
-    path: /opt/setup-cirrus-service.sh
     permissions: '0755'
 {{ end }}
 {{ if .GitLabSnippet }}write_files:

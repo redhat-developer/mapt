@@ -6,7 +6,6 @@ import (
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	cloudinit "github.com/redhat-developer/mapt/pkg/util/cloud-init"
@@ -25,7 +24,6 @@ type userDataValues struct {
 	SubscriptionPassword string
 	Username             string
 	ActionsRunnerSnippet string
-	CirrusSnippet        string
 	GitLabSnippet        string
 	ExpandRootDisk       string
 }
@@ -41,10 +39,6 @@ func (r *CloudConfigArgs) CloudConfig() (*string, error) {
 	if r.SNCProfile {
 		templateConfig = string(CloudConfigSNC[:])
 	}
-	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), r.Username)
-	if err != nil {
-		return nil, err
-	}
 	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), r.Username)
 	if err != nil {
 		return nil, err
@@ -58,7 +52,6 @@ func (r *CloudConfigArgs) CloudConfig() (*string, error) {
 		SubscriptionPassword: r.SubsPassword,
 		Username:             r.Username,
 		ActionsRunnerSnippet: *ghActionsRunnerSnippet,
-		CirrusSnippet:        *cirrusSnippet,
 		GitLabSnippet:        *gitlabSnippet}
 	if r.ExpandRootDisk != nil {
 		snippet := string(r.ExpandRootDisk[:])
@@ -86,10 +79,6 @@ func (r *CloudConfigArgs) CloudConfigWithGitLabToken(gitlabAuthToken string) (st
 	if r.SNCProfile {
 		templateConfig = string(CloudConfigSNC[:])
 	}
-	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), r.Username)
-	if err != nil {
-		return "", err
-	}
 	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), r.Username)
 	if err != nil {
 		return "", err
@@ -103,7 +92,6 @@ func (r *CloudConfigArgs) CloudConfigWithGitLabToken(gitlabAuthToken string) (st
 		SubscriptionPassword: r.SubsPassword,
 		Username:             r.Username,
 		ActionsRunnerSnippet: *ghActionsRunnerSnippet,
-		CirrusSnippet:        *cirrusSnippet,
 		GitLabSnippet:        *gitlabSnippet}
 	if r.ExpandRootDisk != nil {
 		snippet := string(r.ExpandRootDisk[:])

@@ -3,7 +3,6 @@ package params
 import (
 	"os"
 
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
@@ -91,11 +90,6 @@ const (
 	ghActionsAppInstallationIDDesc string = "GitHub App installation ID for the target organization or repository"
 	ghActionsAppPrivateKey         string = "ghactions-app-private-key"
 	ghActionsAppPrivateKeyDesc     string = "Path to the GitHub App RSA private key PEM file"
-
-	cirrusPWToken      string = "it-cirrus-pw-token"
-	cirrusPWTokenDesc  string = "Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project."
-	cirrusPWLabels     string = "it-cirrus-pw-labels"
-	cirrusPWLabelsDesc string = "additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2)"
 
 	glRunnerToken         string = "glrunner-token"
 	glRunnerTokenDesc     string = "GitLab token with create_runner scope (personal access token, group/project access token, or service account token)"
@@ -425,11 +419,6 @@ func GithubRunnerDeregisterArgs(arch *github.Arch) *github.GithubRunnerArgs {
 	}
 }
 
-func AddCirrusFlags(fs *pflag.FlagSet) {
-	fs.StringP(cirrusPWToken, "", "", cirrusPWTokenDesc)
-	fs.StringToStringP(cirrusPWLabels, "", nil, cirrusPWLabelsDesc)
-}
-
 func AddGitLabRunnerFlags(fs *pflag.FlagSet) {
 	fs.StringP(glRunnerToken, "", "", glRunnerTokenDesc)
 	fs.StringP(glRunnerProjectID, "", "", glRunnerProjectIDDesc)
@@ -439,19 +428,6 @@ func AddGitLabRunnerFlags(fs *pflag.FlagSet) {
 	fs.Bool(glRunnerUnsecure, false, glRunnerUnsecureDesc)
 }
 
-
-func CirrusPersistentWorkerArgs() *cirrus.PersistentWorkerArgs {
-	if viper.IsSet(cirrusPWToken) {
-		return &cirrus.PersistentWorkerArgs{
-			Token:    viper.GetString(cirrusPWToken),
-			Labels:   viper.GetStringMapString(cirrusPWLabels),
-			Platform: &cirrus.Linux,
-			Arch: linuxArchAsCirrusArch(
-				viper.GetString(LinuxArch)),
-		}
-	}
-	return nil
-}
 
 func GitLabRunnerArgs(arch *gitlab.Arch) *gitlab.GitLabRunnerArgs {
 	if viper.IsSet(glRunnerToken) {
@@ -478,14 +454,6 @@ func LinuxGitLabArch() *gitlab.Arch {
 	return linuxArchAsGitLabArch(viper.GetString(LinuxArch))
 }
 
-func linuxArchAsCirrusArch(arch string) *cirrus.Arch {
-	switch arch {
-	case "x86_64":
-		return &cirrus.Amd64
-	}
-	return &cirrus.Arm64
-}
-
 func LinuxGithubArch() *github.Arch {
 	return linuxArchAsGithubActionsArch(viper.GetString(LinuxArch))
 }
@@ -500,14 +468,6 @@ func linuxArchAsGithubActionsArch(arch string) *github.Arch {
 		return &github.S390x
 	}
 	return &github.Arm64
-}
-
-func MACArchAsCirrusArch(arch string) *cirrus.Arch {
-	switch arch {
-	case "x86":
-		return &cirrus.Amd64
-	}
-	return &cirrus.Arm64
 }
 
 func linuxArchAsGitLabArch(arch string) *gitlab.Arch {

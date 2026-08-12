@@ -52,7 +52,6 @@ func ibmPowerCreate() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(&github.Ppc64le),
 					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Ppc64le),
 					Tags:          viper.GetStringMapString(params.Tags),
@@ -93,7 +92,6 @@ func ibmPowerCreate() *cobra.Command {
 	flagSet.String(params.PIStorageType, params.PIStorageTypeDefault, params.PIStorageTypeDesc)
 	flagSet.Int(params.PIDiskSize, params.PIDiskSizeDefault, params.PIDiskSizeDesc)
 	params.AddGHActionsFlags(flagSet)
-	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)
 	flagSet.Int(params.GlRunnerConcurrent, params.GlRunnerConcurrentPowerDefault, params.GlRunnerConcurrentDesc)
 	c.PersistentFlags().AddFlagSet(flagSet)

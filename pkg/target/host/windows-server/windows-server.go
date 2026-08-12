@@ -7,7 +7,6 @@ import (
 	"github.com/pulumi/pulumi-random/sdk/v4/go/random"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/services/ec2/keypair"
@@ -20,8 +19,6 @@ type userDataValues struct {
 	AuthorizedKey        string
 	ActionsRunnerSnippet string
 	RunnerToken          string
-	CirrusSnippet        string
-	CirrusToken          string
 	GitLabSnippet        string
 	GitLabToken          string
 }
@@ -36,10 +33,6 @@ func Userdata(ctx *pulumi.Context, amiUser *string, password *random.RandomPassw
 		func(args []interface{}) (string, error) {
 			password := args[0].(string)
 			authorizedKey := args[1].(string)
-			cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), *amiUser)
-			if err != nil {
-				return "", err
-			}
 			ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), *amiUser)
 			if err != nil {
 				return "", err
@@ -54,8 +47,6 @@ func Userdata(ctx *pulumi.Context, amiUser *string, password *random.RandomPassw
 				authorizedKey,
 				*ghActionsRunnerSnippet,
 				github.GetToken(),
-				*cirrusSnippet,
-				cirrus.GetToken(),
 				*gitlabSnippet,
 				gitlab.GetToken(),
 			}
@@ -81,10 +72,6 @@ func UserdataWithGitLabToken(ctx *pulumi.Context, amiUser *string, password *ran
 			gitlab.SetAuthToken(gitlabToken)
 			defer gitlab.SetAuthToken("")
 
-			cirrusSnippet, err := integrations.GetIntegrationSnippet(cirrus.GetRunnerArgs(), *amiUser)
-			if err != nil {
-				return "", err
-			}
 			ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippet(github.GetRunnerArgs(), *amiUser)
 			if err != nil {
 				return "", err
@@ -99,8 +86,6 @@ func UserdataWithGitLabToken(ctx *pulumi.Context, amiUser *string, password *ran
 				authorizedKey,
 				*ghActionsRunnerSnippet,
 				github.GetToken(),
-				*cirrusSnippet,
-				cirrus.GetToken(),
 				*gitlabSnippet,
 				gitlabToken,
 			}
