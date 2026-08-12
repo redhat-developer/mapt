@@ -6,7 +6,6 @@ import (
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/integrations"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/util/file"
@@ -15,7 +14,6 @@ import (
 type userDataValues struct {
 	Username             string
 	ActionsRunnerSnippet string
-	CirrusSnippet        string
 	GitLabSnippet        string
 }
 
@@ -23,10 +21,6 @@ type userDataValues struct {
 var CloudConfig []byte
 
 func Userdata(amiUser string) (pulumi.StringPtrInput, error) {
-	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), amiUser)
-	if err != nil {
-		return nil, err
-	}
 	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), amiUser)
 	if err != nil {
 		return nil, err
@@ -41,7 +35,6 @@ func Userdata(amiUser string) (pulumi.StringPtrInput, error) {
 		userDataValues{
 			amiUser,
 			*ghActionsRunnerSnippet,
-			*cirrusSnippet,
 			*gitlabSnippet},
 		templateConfig)
 	return pulumi.String(base64.StdEncoding.EncodeToString([]byte(userdata))), err
@@ -55,10 +48,6 @@ func UserdataWithGitLabToken(amiUser string, gitlabAuthToken string) (string, er
 	defer gitlab.SetAuthToken("") // Clear after use
 
 	// Generate userdata as normal
-	cirrusSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(cirrus.GetRunnerArgs(), amiUser)
-	if err != nil {
-		return "", err
-	}
 	ghActionsRunnerSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(github.GetRunnerArgs(), amiUser)
 	if err != nil {
 		return "", err
@@ -73,7 +62,6 @@ func UserdataWithGitLabToken(amiUser string, gitlabAuthToken string) (string, er
 		userDataValues{
 			amiUser,
 			*ghActionsRunnerSnippet,
-			*cirrusSnippet,
 			*gitlabSnippet},
 		templateConfig)
 	if err != nil {

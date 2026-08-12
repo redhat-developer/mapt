@@ -136,8 +136,6 @@ func Request(mCtxArgs *mc.ContextArgs, r *RequestMachineArgs) error {
 		Timeout:      r.Timeout,
 	}
 
-	// TODO here we would change based on the integration-mode requested
-	// possible values remote-shh, gh-selfhosted-runner, cirrus-persistent-worker
 	err = mr.ManageRequest(hi)
 	if err != nil {
 		return err

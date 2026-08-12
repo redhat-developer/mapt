@@ -55,7 +55,6 @@ func getFedoraCreate() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
 					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
 					Tags:          viper.GetStringMapString(params.Tags),
@@ -82,7 +81,6 @@ func getFedoraCreate() *cobra.Command {
 	params.AddSpotFlags(flagSet)
 	params.AddNetworkFlags(flagSet, awsParams.ServiceEndpointsDesc)
 	params.AddGHActionsFlags(flagSet)
-	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

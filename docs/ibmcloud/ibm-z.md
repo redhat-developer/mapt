@@ -34,8 +34,6 @@ Flags:
       --ghactions-runner-repo string         Full URL of the repository where the Github Actions Runner should be registered
       --ghactions-runner-token string        Token needed for registering the Github Actions Runner token
   -h, --help                                 help for create
-      --it-cirrus-pw-labels stringToString   additional labels to use on the persistent worker (--it-cirrus-pw-labels key1=value1,key2=value2) (default [])
-      --it-cirrus-pw-token string            Add mapt target as a cirrus persistent worker. The value will hold a valid token to be used by cirrus cli to join the project.
       --otel-app-code string                 OpenTelemetry appcode identifier (e.g. MAPT-001); when set together with --otel-auth-token, installs the otelcol-contrib filelog collector on the instance
       --otel-auth-token string               OpenTelemetry authentication token (UUID) used to authenticate against the OTLP endpoint
       --otel-endpoint string                 OTLP HTTP endpoint to export logs to (default "https://otel-input.corp.redhat.com")

@@ -17,7 +17,6 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
@@ -334,22 +333,6 @@ func (r *eksRequest) securityGroups(ctx *pulumi.Context,
 	sshIngressRule := securityGroup.SSH_TCP
 	sshIngressRule.CidrBlocks = infra.NETWORKING_CIDR_ANY_IPV4
 	ingressRules = []securityGroup.IngressRules{sshIngressRule}
-	// Integration ports
-	cirrusPort, err := cirrus.CirrusPort()
-	if err != nil {
-		return nil, err
-	}
-	if cirrusPort != nil {
-		ingressRules = append(ingressRules,
-			securityGroup.IngressRules{
-				Description: fmt.Sprintf("Cirrus port for %s", awsEKSID),
-				FromPort:    *cirrusPort,
-				ToPort:      *cirrusPort,
-				Protocol:    "tcp",
-				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
-			})
-	}
-
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
 		Name:         resourcesUtil.GetResourceName(*r.prefix, awsEKSID, "sg"),

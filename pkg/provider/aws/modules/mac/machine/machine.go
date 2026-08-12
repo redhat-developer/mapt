@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/redhat-developer/mapt/pkg/integrations/cirrus"
 	"github.com/redhat-developer/mapt/pkg/manager"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
@@ -302,21 +301,6 @@ func (r *Request) securityGroups(ctx *pulumi.Context,
 	}
 	ingressRules := []securityGroup.IngressRules{
 		sshIngressRule, vncIngressRule}
-	// Integration ports
-	cirrusPort, err := cirrus.CirrusPort()
-	if err != nil {
-		return nil, err
-	}
-	if cirrusPort != nil {
-		ingressRules = append(ingressRules,
-			securityGroup.IngressRules{
-				Description: fmt.Sprintf("Cirrus port for %s", awsMacMachineID),
-				FromPort:    *cirrusPort,
-				ToPort:      *cirrusPort,
-				Protocol:    "tcp",
-				CidrBlocks:  infra.NETWORKING_CIDR_ANY_IPV4,
-			})
-	}
 	// Create SG with ingress rules
 	sg, err := securityGroup.SGRequest{
 		Name:         resourcesUtil.GetResourceName(r.Prefix, awsMacMachineID, "sg"),

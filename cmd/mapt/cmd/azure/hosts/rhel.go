@@ -47,7 +47,6 @@ func getCreateRHEL() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					CirrusPWArgs:  params.CirrusPersistentWorkerArgs(),
 					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
 					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
 					Tags:          viper.GetStringMapString(params.Tags),
@@ -77,7 +76,6 @@ func getCreateRHEL() *cobra.Command {
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
 	params.AddGHActionsFlags(flagSet)
-	params.AddCirrusFlags(flagSet)
 	params.AddGitLabRunnerFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
 	return c

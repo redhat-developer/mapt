@@ -38,16 +38,8 @@ func GetIntegrationSnippet(intCfg IntegrationConfig, username string) (*string, 
 	return &snippet, err
 }
 
-// If we add the snippet as part of a cloud init file the strategy
-// would be create the file with write_files:
-// i.e.
-// write_files:
-//
-//	# Cirrus service setup
-//	- content: |
-//	    {{ .CirrusSnippet }} <----- 6 spaces
-//
-// to do so we need to indent 6 spaces each line of the snippet
+// GetIntegrationSnippetAsCloudInitWritableFile wraps GetIntegrationSnippet
+// and indents the result for use inside a cloud-init write_files block.
 func GetIntegrationSnippetAsCloudInitWritableFile(intCfg IntegrationConfig, username string) (*string, error) {
 	snippet, err := GetIntegrationSnippet(intCfg, username)
 	if err != nil || len(*snippet) == 0 {

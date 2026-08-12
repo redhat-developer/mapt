@@ -29,8 +29,6 @@ echo "{{.AuthorizedKey}}" | tee /Users/{{.Username}}/.ssh/authorized_keys
 
 {{ .ActionsRunnerSnippet }}
 
-{{ .CirrusSnippet }}
-
 {{ .GitLabSnippet }}
 
 # autologin to take effect

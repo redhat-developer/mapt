@@ -9,8 +9,6 @@ param(
     $authorizedKey,
     [Parameter(HelpMessage='token for the github actions runner')]
     $ghToken,
-    [Parameter(HelpMessage='token for the cirrus persistent worker')]
-    $cirrusToken,
     [Parameter(HelpMessage='token for the gitlab runner')]
     $gitlabToken,
     [switch]$crcProfile=$false
@@ -152,8 +150,6 @@ if ($crcProfile) {
 
 # Install github-actions-runner if needed
 {{ .ActionsRunnerSnippet }}
-
-{{ .CirrusSnippet }}
 
 {{ .GitLabSnippet }}
 

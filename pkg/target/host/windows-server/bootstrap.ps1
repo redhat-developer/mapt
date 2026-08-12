@@ -24,11 +24,6 @@ Set-Item .\allowunencrypted $false
     {{- .ActionsRunnerSnippet }}
 {{ end }}
 
-{{ if .CirrusSnippet }}
-$cirrusToken = {{ .CirrusToken }}
-{{ .CirrusSnippet }}
-{{ end }}
-
 {{ if .GitLabSnippet }}
 $gitlabToken = {{ .GitLabToken }}
 {{ .GitLabSnippet }}
