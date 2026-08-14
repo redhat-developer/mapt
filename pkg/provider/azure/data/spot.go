@@ -393,6 +393,9 @@ func checkSpotPricing(ctx context.Context, mCtx *mc.Context, locations []string,
 		}
 		results = append(results, rStruct)
 	}
+	if len(results) == 0 {
+		return checkSpotPricingRetailAPI(ctx, mCtx, locations, args)
+	}
 	return utilSlices.Split(
 		results,
 		func(s spotPricingResult) string {
