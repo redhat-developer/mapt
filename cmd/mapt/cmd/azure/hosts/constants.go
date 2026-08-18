@@ -10,5 +10,5 @@ const (
 	paramLinuxVersionDesc = "linux version. Version should be formated as X.Y (Major.minor)"
 	defaultUbuntuVersion  = "24.04"
 	defaultRHELVersion    = "9.7"
-	defaultFedoraVersion  = "42"
+	defaultFedoraVersion  = "43"
 )
