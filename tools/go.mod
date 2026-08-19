@@ -10,6 +10,8 @@ replace (
 
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
+require github.com/denis-tingaikin/go-header v0.5.0 // indirect
+
 require (
 	github.com/bombsimon/wsl/v5 v5.8.0 // indirect
 	github.com/charmbracelet/ultraviolet v0.0.0-20260811164956-006e29f97886 // indirect
@@ -41,7 +43,7 @@ require (
 	github.com/alfatraining/structtag v1.0.0 // indirect
 	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
