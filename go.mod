@@ -5,7 +5,7 @@ go 1.26.0
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.1
 	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.8
-	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.5
+	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.6
 )
 
 require (
@@ -28,11 +28,11 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.8.0
 	github.com/IBM/go-sdk-core/v5 v5.23.2
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
-	github.com/aws/aws-sdk-go-v2 v1.43.4
-	github.com/aws/aws-sdk-go-v2/config v1.32.35
+	github.com/aws/aws-sdk-go-v2 v1.43.6
+	github.com/aws/aws-sdk-go-v2/config v1.32.37
 	github.com/aws/aws-sdk-go-v2/service/ec2 v1.318.1
 	github.com/aws/aws-sdk-go-v2/service/s3 v1.106.3
-	github.com/aws/aws-sdk-go-v2/service/sts v1.45.4
+	github.com/aws/aws-sdk-go-v2/service/sts v1.45.6
 	github.com/pulumi/pulumi-aws-native/sdk v1.73.1
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.39.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.8.0
@@ -86,11 +86,11 @@ require (
 )
 
 require (
-	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.16 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.36 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.28 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.36 // indirect
-	github.com/aws/aws-sdk-go-v2/service/pricing v1.44.4 // indirect
+	github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream v1.7.18 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/v4a v1.4.38 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/checksum v1.9.30 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/s3shared v1.19.38 // indirect
+	github.com/aws/aws-sdk-go-v2/service/pricing v1.44.6 // indirect
 	github.com/blang/semver/v4 v4.0.0 // indirect
 	//keep bubble-table v0.19.2 to avoid breaking changes in bubble-table v0.20.0
 	github.com/hashicorp/hcl/v2 v2.24.0 // indirect
@@ -111,22 +111,22 @@ require (
 	github.com/IBM/platform-services-go-sdk v0.101.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.19.34 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.35 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.35 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.35 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.15 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.35 // indirect
-	github.com/aws/aws-sdk-go-v2/service/signin v1.5.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.33.4 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.38.4 // indirect
-	github.com/aws/smithy-go v1.27.7 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.19.36 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.18.37 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.4.37 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.7.37 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.17 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.13.37 // indirect
+	github.com/aws/aws-sdk-go-v2/service/signin v1.5.6 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.33.6 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.38.6 // indirect
+	github.com/aws/smithy-go v1.27.8 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	// github.com/charmbracelet/bubbles v1.0.0 // indirect
 	// github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/colorprofile v0.4.3 // indirect
-	github.com/charmbracelet/x/ansi v0.11.7 // indirect
+	github.com/charmbracelet/x/ansi v0.11.8 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
 	github.com/charmbracelet/x/exp/golden v0.0.0-20260730164118-7e2d3e6c5238 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
@@ -135,14 +135,14 @@ require (
 	github.com/cloudflare/circl v1.6.5 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/erikgeiser/coninput v0.0.0-20211004153227-1c3628e74d0f // indirect
-	github.com/fxamacker/cbor/v2 v2.9.2 // indirect
+	github.com/fxamacker/cbor/v2 v2.9.3 // indirect
 	github.com/go-logr/logr v1.4.4 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-openapi/analysis v0.26.0 // indirect
 	github.com/go-openapi/errors v0.22.8 // indirect
 	github.com/go-openapi/jsonpointer v1.0.0 // indirect
 	github.com/go-openapi/jsonreference v1.0.0 // indirect
-	github.com/go-openapi/loads v0.25.0 // indirect
+	github.com/go-openapi/loads v0.25.1 // indirect
 	github.com/go-openapi/runtime v0.33.0 // indirect
 	github.com/go-openapi/runtime/server-middleware v0.33.0 // indirect
 	github.com/go-openapi/spec v0.22.9 // indirect
@@ -241,7 +241,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kevinburke/ssh_config v1.6.0 // indirect
-	github.com/mattn/go-runewidth v0.0.27 // indirect
+	github.com/mattn/go-runewidth v0.0.28 // indirect
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/opentracing/basictracer-go v1.1.0 // indirect
@@ -264,7 +264,7 @@ require (
 	golang.org/x/term v0.45.0 // indirect
 	golang.org/x/text v0.40.0 // indirect
 	google.golang.org/grpc v1.83.0 // indirect
-	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
+	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	lukechampine.com/frand v1.5.1 // indirect
 )
