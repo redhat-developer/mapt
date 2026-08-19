@@ -55,7 +55,7 @@ func NewVirtualNetworkAppliance(ctx *pulumi.Context,
 		return nil, errors.New("invalid value for required argument 'ResourceGroupName'")
 	}
 	if args.Subnet != nil {
-		args.Subnet = args.Subnet.ToCommonSubnetPtrOutput().ApplyT(func(v *CommonSubnet) *CommonSubnet { return v.Defaults() }).(CommonSubnetPtrOutput)
+		args.Subnet = args.Subnet.ToSubnetTypePtrOutput().ApplyT(func(v *SubnetType) *SubnetType { return v.Defaults() }).(SubnetTypePtrOutput)
 	}
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
@@ -108,7 +108,7 @@ type virtualNetworkApplianceArgs struct {
 	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// The reference to the subnet resource.
-	Subnet *CommonSubnet `pulumi:"subnet"`
+	Subnet *SubnetType `pulumi:"subnet"`
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// The name of the virtual network appliance.
@@ -126,7 +126,7 @@ type VirtualNetworkApplianceArgs struct {
 	// The name of the resource group. The name is case insensitive.
 	ResourceGroupName pulumi.StringInput
 	// The reference to the subnet resource.
-	Subnet CommonSubnetPtrInput
+	Subnet SubnetTypePtrInput
 	// Resource tags.
 	Tags pulumi.StringMapInput
 	// The name of the virtual network appliance.

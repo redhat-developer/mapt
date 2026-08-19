@@ -69,7 +69,7 @@ func NewServiceGateway(ctx *pulumi.Context,
 		args.RouteTargetAddressV6 = args.RouteTargetAddressV6.ToRouteTargetAddressPropertiesFormatPtrOutput().ApplyT(func(v *RouteTargetAddressPropertiesFormat) *RouteTargetAddressPropertiesFormat { return v.Defaults() }).(RouteTargetAddressPropertiesFormatPtrOutput)
 	}
 	if args.VirtualNetwork != nil {
-		args.VirtualNetwork = args.VirtualNetwork.ToCommonVirtualNetworkPtrOutput().ApplyT(func(v *CommonVirtualNetwork) *CommonVirtualNetwork { return v.Defaults() }).(CommonVirtualNetworkPtrOutput)
+		args.VirtualNetwork = args.VirtualNetwork.ToVirtualNetworkTypePtrOutput().ApplyT(func(v *VirtualNetworkType) *VirtualNetworkType { return v.Defaults() }).(VirtualNetworkTypePtrOutput)
 	}
 	aliases := pulumi.Aliases([]pulumi.Alias{
 		{
@@ -128,7 +128,7 @@ type serviceGatewayArgs struct {
 	// Resource tags.
 	Tags map[string]string `pulumi:"tags"`
 	// Reference to an existing virtual network.
-	VirtualNetwork *CommonVirtualNetwork `pulumi:"virtualNetwork"`
+	VirtualNetwork *VirtualNetworkType `pulumi:"virtualNetwork"`
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.
@@ -152,7 +152,7 @@ type ServiceGatewayArgs struct {
 	// Resource tags.
 	Tags pulumi.StringMapInput
 	// Reference to an existing virtual network.
-	VirtualNetwork CommonVirtualNetworkPtrInput
+	VirtualNetwork VirtualNetworkTypePtrInput
 	// A list of availability zones denoting the zone in which service gateway should be deployed.
 	//
 	// - The zone values must be provided as strings representing numeric identifiers like "1", "2", "3" etc.

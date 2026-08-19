@@ -162,7 +162,7 @@ github.com/charithe/durationcheck
 # github.com/charmbracelet/colorprofile v0.4.3
 ## explicit; go 1.25.0
 github.com/charmbracelet/colorprofile
-# github.com/charmbracelet/ultraviolet v0.0.0-20260811164956-006e29f97886
+# github.com/charmbracelet/ultraviolet v0.0.0-20260812204455-68fa937c71be
 ## explicit; go 1.25.0
 github.com/charmbracelet/ultraviolet
 # github.com/charmbracelet/x/ansi v0.11.8
@@ -211,13 +211,10 @@ github.com/dave/dst/decorator/resolver
 github.com/dave/dst/decorator/resolver/gopackages
 github.com/dave/dst/decorator/resolver/gotypes
 github.com/dave/dst/dstutil
-# github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
-## explicit
-github.com/davecgh/go-spew/spew
 # github.com/denis-tingaikin/go-header v0.5.0
 ## explicit; go 1.21
 github.com/denis-tingaikin/go-header
-# github.com/dlclark/regexp2/v2 v2.5.2
+# github.com/dlclark/regexp2/v2 v2.7.1
 ## explicit; go 1.25
 github.com/dlclark/regexp2/v2
 github.com/dlclark/regexp2/v2/helpers
@@ -514,7 +511,7 @@ github.com/golangci/plugin-module-register/register
 # github.com/golangci/revgrep v0.8.0
 ## explicit; go 1.21
 github.com/golangci/revgrep
-# github.com/golangci/rowserrcheck v0.0.0-20260701145345-399602f983c8
+# github.com/golangci/rowserrcheck v0.0.0-20260801150524-d2031e3af752
 ## explicit; go 1.25.0
 github.com/golangci/rowserrcheck/passes/rowserr
 # github.com/golangci/swaggoswag v0.0.0-20250504205917-77f2aca3143e
@@ -711,9 +708,6 @@ github.com/pelletier/go-toml/v2
 github.com/pelletier/go-toml/v2/internal/parserbridge
 github.com/pelletier/go-toml/v2/internal/tracker
 github.com/pelletier/go-toml/v2/unstable
-# github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
-## explicit
-github.com/pmezard/go-difflib/difflib
 # github.com/prometheus/client_golang v1.24.1
 ## explicit; go 1.25.0
 github.com/prometheus/client_golang/prometheus
@@ -770,7 +764,7 @@ github.com/raeperd/recvcheck
 # github.com/rivo/uniseg v0.4.7
 ## explicit; go 1.18
 github.com/rivo/uniseg
-# github.com/rogpeppe/go-internal v1.15.0
+# github.com/rogpeppe/go-internal v1.16.0
 ## explicit; go 1.25
 github.com/rogpeppe/go-internal/diff
 github.com/rogpeppe/go-internal/internal/syscall/windows
@@ -814,8 +808,8 @@ github.com/securego/gosec/v2/internal/ssautil
 github.com/securego/gosec/v2/issue
 github.com/securego/gosec/v2/rules
 github.com/securego/gosec/v2/taint
-# github.com/sirupsen/logrus v1.9.4
-## explicit; go 1.17
+# github.com/sirupsen/logrus v1.10.1
+## explicit; go 1.23
 github.com/sirupsen/logrus
 # github.com/sivchari/containedctx v1.0.3
 ## explicit; go 1.17
@@ -858,10 +852,12 @@ github.com/stbenjam/no-sprintf-host-port/pkg/analyzer
 # github.com/stretchr/objx v0.5.3
 ## explicit; go 1.20
 github.com/stretchr/objx
-# github.com/stretchr/testify v1.11.1
+# github.com/stretchr/testify v1.12.0
 ## explicit; go 1.17
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/assert/yaml
+github.com/stretchr/testify/internal/difflib
+github.com/stretchr/testify/internal/spew
 github.com/stretchr/testify/mock
 # github.com/subosito/gotenv v1.6.0
 ## explicit; go 1.18
@@ -953,10 +949,10 @@ go.uber.org/zap/zapcore
 # go.yaml.in/yaml/v3 v3.0.5
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20260727155853-b88d891fe743
+# golang.org/x/exp/typeparams v0.0.0-20260813180055-c1d0aacb2297
 ## explicit; go 1.25.0
 golang.org/x/exp/typeparams
-# golang.org/x/mod v0.38.0
+# golang.org/x/mod v0.40.0
 ## explicit; go 1.25.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
@@ -971,7 +967,7 @@ golang.org/x/sync/semaphore
 ## explicit; go 1.25.0
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.40.0
+# golang.org/x/text v0.41.0
 ## explicit; go 1.25.0
 golang.org/x/text/encoding
 golang.org/x/text/encoding/internal
@@ -994,7 +990,7 @@ golang.org/x/text/runes
 golang.org/x/text/transform
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# golang.org/x/tools v0.48.0
+# golang.org/x/tools v0.49.0
 ## explicit; go 1.25.0
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/appends
@@ -1082,6 +1078,7 @@ golang.org/x/tools/internal/gopathwalk
 golang.org/x/tools/internal/imports
 golang.org/x/tools/internal/modindex
 golang.org/x/tools/internal/moreiters
+golang.org/x/tools/internal/moremaps
 golang.org/x/tools/internal/packagepath
 golang.org/x/tools/internal/packagesinternal
 golang.org/x/tools/internal/pkgbits
@@ -1328,8 +1325,8 @@ mvdan.cc/gofumpt/internal/govendor/go/doc/comment
 mvdan.cc/gofumpt/internal/govendor/go/format
 mvdan.cc/gofumpt/internal/govendor/go/printer
 mvdan.cc/gofumpt/internal/version
-# mvdan.cc/unparam v0.0.0-20251027182757-5beb8c8f8f15
-## explicit; go 1.24.0
+# mvdan.cc/unparam v0.0.0-20260818115549-3f964bcb5673
+## explicit; go 1.25.0
 mvdan.cc/unparam/check
 # github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.1.1
 # github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.8

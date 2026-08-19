@@ -45,7 +45,7 @@ type LookupRoleDefinitionResult struct {
 	CreatedOn string `pulumi:"createdOn"`
 	// The role definition description.
 	Description *string `pulumi:"description"`
-	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id string `pulumi:"id"`
 	// The name of the resource
 	Name string `pulumi:"name"`
@@ -125,7 +125,7 @@ func (o LookupRoleDefinitionResultOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) *string { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 func (o LookupRoleDefinitionResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupRoleDefinitionResult) string { return v.Id }).(pulumi.StringOutput)
 }

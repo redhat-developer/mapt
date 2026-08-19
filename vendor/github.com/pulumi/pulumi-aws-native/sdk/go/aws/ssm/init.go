@@ -23,6 +23,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 	switch typ {
 	case "aws-native:ssm:Association":
 		r = &Association{}
+	case "aws-native:ssm:CloudConnector":
+		r = &CloudConnector{}
 	case "aws-native:ssm:Document":
 		r = &Document{}
 	case "aws-native:ssm:MaintenanceWindow":
@@ -41,6 +43,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ResourceDataSync{}
 	case "aws-native:ssm:ResourcePolicy":
 		r = &ResourcePolicy{}
+	case "aws-native:ssm:ServiceSetting":
+		r = &ServiceSetting{}
 	default:
 		return nil, fmt.Errorf("unknown resource type: %s", typ)
 	}

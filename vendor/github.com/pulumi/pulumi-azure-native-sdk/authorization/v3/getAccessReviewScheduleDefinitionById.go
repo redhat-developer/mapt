@@ -49,7 +49,7 @@ type LookupAccessReviewScheduleDefinitionByIdResult struct {
 	DescriptionForReviewers *string `pulumi:"descriptionForReviewers"`
 	// The display name for the schedule definition.
 	DisplayName *string `pulumi:"displayName"`
-	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id string `pulumi:"id"`
 	// The duration in days for an instance.
 	InstanceDurationInDays *int `pulumi:"instanceDurationInDays"`
@@ -168,7 +168,7 @@ func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) DisplayName() pulu
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
-// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 func (o LookupAccessReviewScheduleDefinitionByIdResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupAccessReviewScheduleDefinitionByIdResult) string { return v.Id }).(pulumi.StringOutput)
 }

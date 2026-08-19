@@ -73,16 +73,14 @@ import (
 //				},
 //			}, nil)
 //			topicTopic, err := sns.NewTopic(ctx, "topic", &sns.TopicArgs{
-//				Name: pulumi.String("s3-event-notification-topic"),
-//				Policy: pulumi.String(topic.ApplyT(func(topic iam.GetPolicyDocumentResult) (*string, error) {
-//					return topic.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:   pulumi.String("s3-event-notification-topic"),
+//				Policy: topic.Json(),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = s3.NewBucketNotification(ctx, "bucket_notification", &s3.BucketNotificationArgs{
-//				Bucket: bucket.ID(),
+//				Bucket: bucket.ID().ToIDOutput().ToStringOutput(),
 //				Topics: s3.BucketNotificationTopicArray{
 //					&s3.BucketNotificationTopicArgs{
 //						TopicArn: topicTopic.Arn,
@@ -155,16 +153,14 @@ import (
 //				},
 //			}, nil)
 //			queueQueue, err := sqs.NewQueue(ctx, "queue", &sqs.QueueArgs{
-//				Name: pulumi.String("s3-event-notification-queue"),
-//				Policy: pulumi.String(queue.ApplyT(func(queue iam.GetPolicyDocumentResult) (*string, error) {
-//					return queue.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:   pulumi.String("s3-event-notification-queue"),
+//				Policy: queue.Json(),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = s3.NewBucketNotification(ctx, "bucket_notification", &s3.BucketNotificationArgs{
-//				Bucket: bucket.ID(),
+//				Bucket: bucket.ID().ToIDOutput().ToStringOutput(),
 //				Queues: s3.BucketNotificationQueueArray{
 //					&s3.BucketNotificationQueueArgs{
 //						QueueArn: queueQueue.Arn,
@@ -255,7 +251,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketNotification(ctx, "bucket_notification", &s3.BucketNotificationArgs{
-//				Bucket: bucket.ID(),
+//				Bucket: bucket.ID().ToIDOutput().ToStringOutput(),
 //				LambdaFunctions: s3.BucketNotificationLambdaFunctionArray{
 //					&s3.BucketNotificationLambdaFunctionArgs{
 //						LambdaFunctionArn: _func.Arn,
@@ -368,7 +364,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketNotification(ctx, "bucket_notification", &s3.BucketNotificationArgs{
-//				Bucket: bucket.ID(),
+//				Bucket: bucket.ID().ToIDOutput().ToStringOutput(),
 //				LambdaFunctions: s3.BucketNotificationLambdaFunctionArray{
 //					&s3.BucketNotificationLambdaFunctionArgs{
 //						LambdaFunctionArn: func1.Arn,
@@ -453,16 +449,14 @@ import (
 //				},
 //			}, nil)
 //			queueQueue, err := sqs.NewQueue(ctx, "queue", &sqs.QueueArgs{
-//				Name: pulumi.String("s3-event-notification-queue"),
-//				Policy: pulumi.String(queue.ApplyT(func(queue iam.GetPolicyDocumentResult) (*string, error) {
-//					return queue.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:   pulumi.String("s3-event-notification-queue"),
+//				Policy: queue.Json(),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = s3.NewBucketNotification(ctx, "bucket_notification", &s3.BucketNotificationArgs{
-//				Bucket: bucket.ID(),
+//				Bucket: bucket.ID().ToIDOutput().ToStringOutput(),
 //				Queues: s3.BucketNotificationQueueArray{
 //					&s3.BucketNotificationQueueArgs{
 //						Id:       pulumi.String("image-upload-event"),
@@ -519,7 +513,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketNotification(ctx, "shared", &s3.BucketNotificationArgs{
-//				Bucket:      shared.ID(),
+//				Bucket:      shared.ID().ToIDOutput().ToStringOutput(),
 //				Eventbridge: pulumi.Bool(true),
 //			})
 //			if err != nil {
@@ -538,14 +532,14 @@ import (
 //							"Object Created",
 //						},
 //						"detail": map[string]interface{}{
-//							"bucket": map[string]interface{}{
+//							"bucket": map[string][]string{
 //								"name": []string{
 //									bucket,
 //								},
 //							},
-//							"object": map[string]interface{}{
-//								"key": []map[string]interface{}{
-//									map[string]interface{}{
+//							"object": map[string][]map[string]string{
+//								"key": []map[string]string{
+//									{
 //										"prefix": "uploads/",
 //									},
 //								},
@@ -583,14 +577,14 @@ import (
 //							"Object Deleted",
 //						},
 //						"detail": map[string]interface{}{
-//							"bucket": map[string]interface{}{
+//							"bucket": map[string][]string{
 //								"name": []string{
 //									bucket,
 //								},
 //							},
-//							"object": map[string]interface{}{
-//								"key": []map[string]interface{}{
-//									map[string]interface{}{
+//							"object": map[string][]map[string]string{
+//								"key": []map[string]string{
+//									{
 //										"prefix": "archive/",
 //									},
 //								},
@@ -649,7 +643,7 @@ type BucketNotification struct {
 	Bucket pulumi.StringOutput `pulumi:"bucket"`
 	// Whether to enable Amazon EventBridge notifications. Defaults to `false`.
 	Eventbridge pulumi.BoolPtrOutput `pulumi:"eventbridge"`
-	// Used to configure notifications to a Lambda Function. See below.
+	// Notification configuration to a Lambda Function. See below.
 	LambdaFunctions BucketNotificationLambdaFunctionArrayOutput `pulumi:"lambdaFunctions"`
 	// Notification configuration to SQS Queue. See below.
 	Queues BucketNotificationQueueArrayOutput `pulumi:"queues"`
@@ -698,7 +692,7 @@ type bucketNotificationState struct {
 	Bucket *string `pulumi:"bucket"`
 	// Whether to enable Amazon EventBridge notifications. Defaults to `false`.
 	Eventbridge *bool `pulumi:"eventbridge"`
-	// Used to configure notifications to a Lambda Function. See below.
+	// Notification configuration to a Lambda Function. See below.
 	LambdaFunctions []BucketNotificationLambdaFunction `pulumi:"lambdaFunctions"`
 	// Notification configuration to SQS Queue. See below.
 	Queues []BucketNotificationQueue `pulumi:"queues"`
@@ -715,7 +709,7 @@ type BucketNotificationState struct {
 	Bucket pulumi.StringPtrInput
 	// Whether to enable Amazon EventBridge notifications. Defaults to `false`.
 	Eventbridge pulumi.BoolPtrInput
-	// Used to configure notifications to a Lambda Function. See below.
+	// Notification configuration to a Lambda Function. See below.
 	LambdaFunctions BucketNotificationLambdaFunctionArrayInput
 	// Notification configuration to SQS Queue. See below.
 	Queues BucketNotificationQueueArrayInput
@@ -736,7 +730,7 @@ type bucketNotificationArgs struct {
 	Bucket string `pulumi:"bucket"`
 	// Whether to enable Amazon EventBridge notifications. Defaults to `false`.
 	Eventbridge *bool `pulumi:"eventbridge"`
-	// Used to configure notifications to a Lambda Function. See below.
+	// Notification configuration to a Lambda Function. See below.
 	LambdaFunctions []BucketNotificationLambdaFunction `pulumi:"lambdaFunctions"`
 	// Notification configuration to SQS Queue. See below.
 	Queues []BucketNotificationQueue `pulumi:"queues"`
@@ -754,7 +748,7 @@ type BucketNotificationArgs struct {
 	Bucket pulumi.StringInput
 	// Whether to enable Amazon EventBridge notifications. Defaults to `false`.
 	Eventbridge pulumi.BoolPtrInput
-	// Used to configure notifications to a Lambda Function. See below.
+	// Notification configuration to a Lambda Function. See below.
 	LambdaFunctions BucketNotificationLambdaFunctionArrayInput
 	// Notification configuration to SQS Queue. See below.
 	Queues BucketNotificationQueueArrayInput
@@ -863,7 +857,7 @@ func (o BucketNotificationOutput) Eventbridge() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *BucketNotification) pulumi.BoolPtrOutput { return v.Eventbridge }).(pulumi.BoolPtrOutput)
 }
 
-// Used to configure notifications to a Lambda Function. See below.
+// Notification configuration to a Lambda Function. See below.
 func (o BucketNotificationOutput) LambdaFunctions() BucketNotificationLambdaFunctionArrayOutput {
 	return o.ApplyT(func(v *BucketNotification) BucketNotificationLambdaFunctionArrayOutput { return v.LambdaFunctions }).(BucketNotificationLambdaFunctionArrayOutput)
 }

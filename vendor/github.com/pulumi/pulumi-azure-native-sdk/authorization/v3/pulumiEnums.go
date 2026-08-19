@@ -3257,6 +3257,10 @@ const (
 	PrincipalTypeForeignGroup = PrincipalType("ForeignGroup")
 	// Device
 	PrincipalTypeDevice = PrincipalType("Device")
+	// Agent identity derived from a user.
+	PrincipalTypeAgentUser = PrincipalType("AgentUser")
+	// Agent identity derived from a service principal.
+	PrincipalTypeAgentServicePrincipal = PrincipalType("AgentServicePrincipal")
 )
 
 func (PrincipalType) ElementType() reflect.Type {
@@ -3386,6 +3390,8 @@ func (o PrincipalTypePtrOutput) ToStringPtrOutputWithContext(ctx context.Context
 //	PrincipalTypeServicePrincipal
 //	PrincipalTypeForeignGroup
 //	PrincipalTypeDevice
+//	PrincipalTypeAgentUser
+//	PrincipalTypeAgentServicePrincipal
 type PrincipalTypeInput interface {
 	pulumi.Input
 

@@ -97,7 +97,7 @@ import (
 //			}
 //			_, err = iam.NewRolePolicy(ctx, "example", &iam.RolePolicyArgs{
 //				Name:   pulumi.String("example"),
-//				Role:   exampleRole.ID(),
+//				Role:   exampleRole.ID().ToIDOutput().ToStringOutput(),
 //				Policy: pulumi.String(example.Json),
 //			})
 //			if err != nil {
@@ -259,10 +259,8 @@ import (
 //				},
 //			}, nil)
 //			dst, err := iam.NewRole(ctx, "dst", &iam.RoleArgs{
-//				Name: pulumi.String("AWSLogDeliveryFirehoseCrossAccountRole"),
-//				AssumeRolePolicy: pulumi.String(dstAssumeRolePolicy.ApplyT(func(dstAssumeRolePolicy iam.GetPolicyDocumentResult) (*string, error) {
-//					return dstAssumeRolePolicy.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:             pulumi.String("AWSLogDeliveryFirehoseCrossAccountRole"),
+//				AssumeRolePolicy: dstAssumeRolePolicy.Json(),
 //			})
 //			if err != nil {
 //				return err
@@ -318,11 +316,9 @@ import (
 //				},
 //			}, nil)
 //			_, err = iam.NewRolePolicy(ctx, "src_policy", &iam.RolePolicyArgs{
-//				Name: pulumi.String("tf-example-mySourceRolePolicy"),
-//				Role: srcRole.Name,
-//				Policy: pulumi.String(srcRolePolicy.ApplyT(func(srcRolePolicy iam.GetPolicyDocumentResult) (*string, error) {
-//					return srcRolePolicy.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:   pulumi.String("tf-example-mySourceRolePolicy"),
+//				Role:   srcRole.Name,
+//				Policy: srcRolePolicy.Json(),
 //			})
 //			if err != nil {
 //				return err
@@ -339,7 +335,7 @@ import (
 //				LogDestinationType:      pulumi.String("kinesis-data-firehose"),
 //				LogDestination:          dstFirehoseDeliveryStream.Arn,
 //				TrafficType:             pulumi.String("ALL"),
-//				VpcId:                   src.ID(),
+//				VpcId:                   src.ID().ToIDOutput().ToStringOutput(),
 //				IamRoleArn:              srcRole.Arn,
 //				DeliverCrossAccountRole: dst.Arn,
 //			})
@@ -379,6 +375,17 @@ import (
 //
 // ## Import
 //
+// ### Identity Schema
+//
+// #### Required
+//
+// * `id` (String) Flow Log ID.
+//
+// #### Optional
+//
+// * `accountId` (String) AWS Account where this resource is managed.
+// * `region` (String) Region where this resource is managed.
+//
 // Using `pulumi import`, import Flow Logs using the `id`. For example:
 //
 // ```sh
@@ -391,7 +398,7 @@ type FlowLog struct {
 	Arn pulumi.StringOutput `pulumi:"arn"`
 	// ARN of the IAM role in the destination account used for cross-account delivery of flow logs.
 	DeliverCrossAccountRole pulumi.StringPtrOutput `pulumi:"deliverCrossAccountRole"`
-	// Describes the destination options for a flow log. More details below.
+	// Destination options for a flow log. More details below.
 	DestinationOptions FlowLogDestinationOptionsPtrOutput `pulumi:"destinationOptions"`
 	// Elastic Network Interface ID to attach to.
 	EniId pulumi.StringPtrOutput `pulumi:"eniId"`
@@ -401,11 +408,9 @@ type FlowLog struct {
 	LogDestination pulumi.StringOutput `pulumi:"logDestination"`
 	// Logging destination type. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrOutput `pulumi:"logDestinationType"`
-	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
+	// Fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat pulumi.StringOutput `pulumi:"logFormat"`
-	// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.
-	// Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`.
-	// When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
+	// Maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`. When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
 	MaxAggregationInterval pulumi.IntPtrOutput `pulumi:"maxAggregationInterval"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringOutput `pulumi:"region"`
@@ -417,9 +422,9 @@ type FlowLog struct {
 	TagFieldSpecifications FlowLogTagFieldSpecificationArrayOutput `pulumi:"tagFieldSpecifications"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
-	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
+	// Type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
 	TrafficType pulumi.StringPtrOutput `pulumi:"trafficType"`
 	// Transit Gateway Attachment ID to attach to.
 	TransitGatewayAttachmentId pulumi.StringPtrOutput `pulumi:"transitGatewayAttachmentId"`
@@ -465,7 +470,7 @@ type flowLogState struct {
 	Arn *string `pulumi:"arn"`
 	// ARN of the IAM role in the destination account used for cross-account delivery of flow logs.
 	DeliverCrossAccountRole *string `pulumi:"deliverCrossAccountRole"`
-	// Describes the destination options for a flow log. More details below.
+	// Destination options for a flow log. More details below.
 	DestinationOptions *FlowLogDestinationOptions `pulumi:"destinationOptions"`
 	// Elastic Network Interface ID to attach to.
 	EniId *string `pulumi:"eniId"`
@@ -475,11 +480,9 @@ type flowLogState struct {
 	LogDestination *string `pulumi:"logDestination"`
 	// Logging destination type. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType *string `pulumi:"logDestinationType"`
-	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
+	// Fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat *string `pulumi:"logFormat"`
-	// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.
-	// Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`.
-	// When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
+	// Maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`. When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
 	MaxAggregationInterval *int `pulumi:"maxAggregationInterval"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
@@ -491,9 +494,9 @@ type flowLogState struct {
 	TagFieldSpecifications []FlowLogTagFieldSpecification `pulumi:"tagFieldSpecifications"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
-	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll map[string]string `pulumi:"tagsAll"`
-	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
+	// Type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
 	TrafficType *string `pulumi:"trafficType"`
 	// Transit Gateway Attachment ID to attach to.
 	TransitGatewayAttachmentId *string `pulumi:"transitGatewayAttachmentId"`
@@ -510,7 +513,7 @@ type FlowLogState struct {
 	Arn pulumi.StringPtrInput
 	// ARN of the IAM role in the destination account used for cross-account delivery of flow logs.
 	DeliverCrossAccountRole pulumi.StringPtrInput
-	// Describes the destination options for a flow log. More details below.
+	// Destination options for a flow log. More details below.
 	DestinationOptions FlowLogDestinationOptionsPtrInput
 	// Elastic Network Interface ID to attach to.
 	EniId pulumi.StringPtrInput
@@ -520,11 +523,9 @@ type FlowLogState struct {
 	LogDestination pulumi.StringPtrInput
 	// Logging destination type. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrInput
-	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
+	// Fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat pulumi.StringPtrInput
-	// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.
-	// Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`.
-	// When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
+	// Maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`. When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
 	MaxAggregationInterval pulumi.IntPtrInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput
@@ -536,9 +537,9 @@ type FlowLogState struct {
 	TagFieldSpecifications FlowLogTagFieldSpecificationArrayInput
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
-	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapInput
-	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
+	// Type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
 	TrafficType pulumi.StringPtrInput
 	// Transit Gateway Attachment ID to attach to.
 	TransitGatewayAttachmentId pulumi.StringPtrInput
@@ -557,7 +558,7 @@ func (FlowLogState) ElementType() reflect.Type {
 type flowLogArgs struct {
 	// ARN of the IAM role in the destination account used for cross-account delivery of flow logs.
 	DeliverCrossAccountRole *string `pulumi:"deliverCrossAccountRole"`
-	// Describes the destination options for a flow log. More details below.
+	// Destination options for a flow log. More details below.
 	DestinationOptions *FlowLogDestinationOptions `pulumi:"destinationOptions"`
 	// Elastic Network Interface ID to attach to.
 	EniId *string `pulumi:"eniId"`
@@ -567,11 +568,9 @@ type flowLogArgs struct {
 	LogDestination *string `pulumi:"logDestination"`
 	// Logging destination type. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType *string `pulumi:"logDestinationType"`
-	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
+	// Fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat *string `pulumi:"logFormat"`
-	// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.
-	// Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`.
-	// When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
+	// Maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`. When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
 	MaxAggregationInterval *int `pulumi:"maxAggregationInterval"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
@@ -583,7 +582,7 @@ type flowLogArgs struct {
 	TagFieldSpecifications []FlowLogTagFieldSpecification `pulumi:"tagFieldSpecifications"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
-	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
+	// Type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
 	TrafficType *string `pulumi:"trafficType"`
 	// Transit Gateway Attachment ID to attach to.
 	TransitGatewayAttachmentId *string `pulumi:"transitGatewayAttachmentId"`
@@ -599,7 +598,7 @@ type flowLogArgs struct {
 type FlowLogArgs struct {
 	// ARN of the IAM role in the destination account used for cross-account delivery of flow logs.
 	DeliverCrossAccountRole pulumi.StringPtrInput
-	// Describes the destination options for a flow log. More details below.
+	// Destination options for a flow log. More details below.
 	DestinationOptions FlowLogDestinationOptionsPtrInput
 	// Elastic Network Interface ID to attach to.
 	EniId pulumi.StringPtrInput
@@ -609,11 +608,9 @@ type FlowLogArgs struct {
 	LogDestination pulumi.StringPtrInput
 	// Logging destination type. Valid values: `cloud-watch-logs`, `s3`, `kinesis-data-firehose`. Default: `cloud-watch-logs`.
 	LogDestinationType pulumi.StringPtrInput
-	// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
+	// Fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 	LogFormat pulumi.StringPtrInput
-	// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.
-	// Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`.
-	// When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
+	// Maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`. When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
 	MaxAggregationInterval pulumi.IntPtrInput
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput
@@ -625,7 +622,7 @@ type FlowLogArgs struct {
 	TagFieldSpecifications FlowLogTagFieldSpecificationArrayInput
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
-	// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
+	// Type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
 	TrafficType pulumi.StringPtrInput
 	// Transit Gateway Attachment ID to attach to.
 	TransitGatewayAttachmentId pulumi.StringPtrInput
@@ -734,7 +731,7 @@ func (o FlowLogOutput) DeliverCrossAccountRole() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringPtrOutput { return v.DeliverCrossAccountRole }).(pulumi.StringPtrOutput)
 }
 
-// Describes the destination options for a flow log. More details below.
+// Destination options for a flow log. More details below.
 func (o FlowLogOutput) DestinationOptions() FlowLogDestinationOptionsPtrOutput {
 	return o.ApplyT(func(v *FlowLog) FlowLogDestinationOptionsPtrOutput { return v.DestinationOptions }).(FlowLogDestinationOptionsPtrOutput)
 }
@@ -759,14 +756,12 @@ func (o FlowLogOutput) LogDestinationType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringPtrOutput { return v.LogDestinationType }).(pulumi.StringPtrOutput)
 }
 
-// The fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
+// Fields to include in the flow log record. Accepted format example: `"$${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport}"`.
 func (o FlowLogOutput) LogFormat() pulumi.StringOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringOutput { return v.LogFormat }).(pulumi.StringOutput)
 }
 
-// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.
-// Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`.
-// When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
+// Maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: `60` seconds (1 minute) or `600` seconds (10 minutes). Default: `600`. When `transitGatewayId` or `transitGatewayAttachmentId` is specified, `maxAggregationInterval` *must* be 60 seconds (1 minute).
 func (o FlowLogOutput) MaxAggregationInterval() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.IntPtrOutput { return v.MaxAggregationInterval }).(pulumi.IntPtrOutput)
 }
@@ -796,12 +791,12 @@ func (o FlowLogOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 func (o FlowLogOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }
 
-// The type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
+// Type of traffic to capture. Valid values: `ACCEPT`,`REJECT`, `ALL`. Required if `eniId`, `regionalNatGatewayId`, `subnetId`, or `vpcId` is specified.
 func (o FlowLogOutput) TrafficType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *FlowLog) pulumi.StringPtrOutput { return v.TrafficType }).(pulumi.StringPtrOutput)
 }

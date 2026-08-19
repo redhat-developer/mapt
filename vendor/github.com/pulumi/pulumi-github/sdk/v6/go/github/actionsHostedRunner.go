@@ -12,8 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// This resource allows you to create and manage GitHub-hosted runners within your GitHub organization.
-// You must have admin access to an organization to use this resource.
+// This resource allows you to create and manage GitHub-hosted runners within your GitHub organization. You must have admin access to an organization to use this resource.
 //
 // GitHub-hosted runners are fully managed virtual machines that run your GitHub Actions workflows. Unlike self-hosted runners, GitHub handles the infrastructure, maintenance, and scaling.
 //
@@ -25,6 +24,8 @@ import (
 // package main
 //
 // import (
+//
+//	"strconv"
 //
 //	"github.com/pulumi/pulumi-github/sdk/v6/go/github"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -47,7 +48,7 @@ import (
 //					Source: pulumi.String("github"),
 //				},
 //				Size:          pulumi.String("4-core"),
-//				RunnerGroupId: example.ID(),
+//				RunnerGroupId: example.ID().ToIDOutput().ApplyT(func(id pulumi.ID) (int, error) { return strconv.Atoi(string(id)) }).(pulumi.IntOutput),
 //			})
 //			if err != nil {
 //				return err
@@ -64,6 +65,8 @@ import (
 // package main
 //
 // import (
+//
+//	"strconv"
 //
 //	"github.com/pulumi/pulumi-github/sdk/v6/go/github"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
@@ -86,7 +89,7 @@ import (
 //					Source: pulumi.String("github"),
 //				},
 //				Size:            pulumi.String("8-core"),
-//				RunnerGroupId:   advanced.ID(),
+//				RunnerGroupId:   advanced.ID().ToIDOutput().ApplyT(func(id pulumi.ID) (int, error) { return strconv.Atoi(string(id)) }).(pulumi.IntOutput),
 //				MaximumRunners:  pulumi.Int(10),
 //				PublicIpEnabled: pulumi.Bool(true),
 //			})
@@ -101,13 +104,13 @@ import (
 //
 // ## Notes
 //
-// * This resource is **organization-only** and cannot be used with individual accounts.
-// * The `image` field cannot be changed after the runner is created. Changing it will force recreation of the runner.
-// * The `size` field can be updated to scale the runner up or down as needed.
-// * Image IDs for GitHub-owned images are numeric strings (e.g., "2306" for Ubuntu Latest 24.04), not names like "ubuntu-latest".
-// * Deletion of hosted runners is asynchronous. The provider will poll for up to 10 minutes (configurable via timeouts) to confirm deletion.
-// * Runner creation and updates may take several minutes as GitHub provisions the infrastructure.
-// * Static public IPs are subject to account limits. Check your organization's limits before enabling.
+// - This resource is **organization-only** and cannot be used with individual accounts.
+// - The `image` field cannot be changed after the runner is created. Changing it will force recreation of the runner.
+// - The `size` field can be updated to scale the runner up or down as needed.
+// - Image IDs for GitHub-owned images are numeric strings (e.g., "2306" for Ubuntu Latest 24.04), not names like "ubuntu-latest".
+// - Deletion of hosted runners is asynchronous. The provider will poll for up to 10 minutes (configurable via timeouts) to confirm deletion.
+// - Runner creation and updates may take several minutes as GitHub provisions the infrastructure.
+// - Static public IPs are subject to account limits. Check your organization's limits before enabling.
 //
 // ## Getting Available Images and Sizes
 //

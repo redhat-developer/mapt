@@ -41,7 +41,7 @@ import (
 //				return err
 //			}
 //			exampleBucketOwnershipControls, err := s3.NewBucketOwnershipControls(ctx, "example", &s3.BucketOwnershipControlsArgs{
-//				Bucket: example.ID(),
+//				Bucket: example.ID().ToIDOutput().ToStringOutput(),
 //				Rule: &s3.BucketOwnershipControlsRuleArgs{
 //					ObjectOwnership: pulumi.String("BucketOwnerPreferred"),
 //				},
@@ -50,7 +50,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketAcl(ctx, "example", &s3.BucketAclArgs{
-//				Bucket: example.ID(),
+//				Bucket: example.ID().ToIDOutput().ToStringOutput(),
 //				Acl:    pulumi.String("private"),
 //			}, pulumi.DependsOn([]pulumi.Resource{
 //				exampleBucketOwnershipControls,
@@ -88,7 +88,7 @@ import (
 //				return err
 //			}
 //			exampleBucketOwnershipControls, err := s3.NewBucketOwnershipControls(ctx, "example", &s3.BucketOwnershipControlsArgs{
-//				Bucket: example.ID(),
+//				Bucket: example.ID().ToIDOutput().ToStringOutput(),
 //				Rule: &s3.BucketOwnershipControlsRuleArgs{
 //					ObjectOwnership: pulumi.String("BucketOwnerPreferred"),
 //				},
@@ -97,7 +97,7 @@ import (
 //				return err
 //			}
 //			exampleBucketPublicAccessBlock, err := s3.NewBucketPublicAccessBlock(ctx, "example", &s3.BucketPublicAccessBlockArgs{
-//				Bucket:                example.ID(),
+//				Bucket:                example.ID().ToIDOutput().ToStringOutput(),
 //				BlockPublicAcls:       pulumi.Bool(false),
 //				BlockPublicPolicy:     pulumi.Bool(false),
 //				IgnorePublicAcls:      pulumi.Bool(false),
@@ -107,7 +107,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketAcl(ctx, "example", &s3.BucketAclArgs{
-//				Bucket: example.ID(),
+//				Bucket: example.ID().ToIDOutput().ToStringOutput(),
 //				Acl:    pulumi.String("public-read"),
 //			}, pulumi.DependsOn([]pulumi.Resource{
 //				exampleBucketOwnershipControls,
@@ -147,7 +147,7 @@ import (
 //				return err
 //			}
 //			exampleBucketOwnershipControls, err := s3.NewBucketOwnershipControls(ctx, "example", &s3.BucketOwnershipControlsArgs{
-//				Bucket: example.ID(),
+//				Bucket: example.ID().ToIDOutput().ToStringOutput(),
 //				Rule: &s3.BucketOwnershipControlsRuleArgs{
 //					ObjectOwnership: pulumi.String("BucketOwnerPreferred"),
 //				},
@@ -156,7 +156,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketAcl(ctx, "example", &s3.BucketAclArgs{
-//				Bucket: example.ID(),
+//				Bucket: example.ID().ToIDOutput().ToStringOutput(),
 //				AccessControlPolicy: &s3.BucketAclAccessControlPolicyArgs{
 //					Grants: s3.BucketAclAccessControlPolicyGrantArray{
 //						&s3.BucketAclAccessControlPolicyGrantArgs{
@@ -244,7 +244,7 @@ type BucketAclV2 struct {
 
 	// Configuration block that sets the ACL permissions for an object per grantee. See below.
 	AccessControlPolicy BucketAclV2AccessControlPolicyOutput `pulumi:"accessControlPolicy"`
-	// Specifies the Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
+	// Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
 	Acl pulumi.StringPtrOutput `pulumi:"acl"`
 	// Bucket to which to apply the ACL.
 	Bucket pulumi.StringOutput `pulumi:"bucket"`
@@ -297,7 +297,7 @@ func GetBucketAclV2(ctx *pulumi.Context,
 type bucketAclV2State struct {
 	// Configuration block that sets the ACL permissions for an object per grantee. See below.
 	AccessControlPolicy *BucketAclV2AccessControlPolicy `pulumi:"accessControlPolicy"`
-	// Specifies the Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
+	// Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
 	Acl *string `pulumi:"acl"`
 	// Bucket to which to apply the ACL.
 	Bucket *string `pulumi:"bucket"`
@@ -312,7 +312,7 @@ type bucketAclV2State struct {
 type BucketAclV2State struct {
 	// Configuration block that sets the ACL permissions for an object per grantee. See below.
 	AccessControlPolicy BucketAclV2AccessControlPolicyPtrInput
-	// Specifies the Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
+	// Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
 	Acl pulumi.StringPtrInput
 	// Bucket to which to apply the ACL.
 	Bucket pulumi.StringPtrInput
@@ -331,7 +331,7 @@ func (BucketAclV2State) ElementType() reflect.Type {
 type bucketAclV2Args struct {
 	// Configuration block that sets the ACL permissions for an object per grantee. See below.
 	AccessControlPolicy *BucketAclV2AccessControlPolicy `pulumi:"accessControlPolicy"`
-	// Specifies the Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
+	// Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
 	Acl *string `pulumi:"acl"`
 	// Bucket to which to apply the ACL.
 	Bucket string `pulumi:"bucket"`
@@ -347,7 +347,7 @@ type bucketAclV2Args struct {
 type BucketAclV2Args struct {
 	// Configuration block that sets the ACL permissions for an object per grantee. See below.
 	AccessControlPolicy BucketAclV2AccessControlPolicyPtrInput
-	// Specifies the Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
+	// Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
 	Acl pulumi.StringPtrInput
 	// Bucket to which to apply the ACL.
 	Bucket pulumi.StringInput
@@ -451,7 +451,7 @@ func (o BucketAclV2Output) AccessControlPolicy() BucketAclV2AccessControlPolicyO
 	return o.ApplyT(func(v *BucketAclV2) BucketAclV2AccessControlPolicyOutput { return v.AccessControlPolicy }).(BucketAclV2AccessControlPolicyOutput)
 }
 
-// Specifies the Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
+// Canned ACL to apply to the bucket. Valid values: `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, `bucket-owner-full-control`, `log-delivery-write`. Full details are available on the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl).
 func (o BucketAclV2Output) Acl() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BucketAclV2) pulumi.StringPtrOutput { return v.Acl }).(pulumi.StringPtrOutput)
 }

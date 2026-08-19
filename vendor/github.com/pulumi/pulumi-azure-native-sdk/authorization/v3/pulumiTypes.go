@@ -407,7 +407,7 @@ type AccessReviewInstanceResponse struct {
 	BackupReviewers []AccessReviewReviewerResponse `pulumi:"backupReviewers"`
 	// The DateTime when the review instance is scheduled to end.
 	EndDateTime *string `pulumi:"endDateTime"`
-	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id string `pulumi:"id"`
 	// The name of the resource
 	Name string `pulumi:"name"`
@@ -450,7 +450,7 @@ func (o AccessReviewInstanceResponseOutput) EndDateTime() pulumi.StringPtrOutput
 	return o.ApplyT(func(v AccessReviewInstanceResponse) *string { return v.EndDateTime }).(pulumi.StringPtrOutput)
 }
 
-// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 func (o AccessReviewInstanceResponseOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v AccessReviewInstanceResponse) string { return v.Id }).(pulumi.StringOutput)
 }

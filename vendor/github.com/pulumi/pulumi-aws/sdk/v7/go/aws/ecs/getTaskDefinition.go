@@ -62,12 +62,10 @@ import (
 //				return err
 //			}
 //			_, err = ecs.NewService(ctx, "mongo", &ecs.ServiceArgs{
-//				Name:         pulumi.String("mongo"),
-//				Cluster:      foo.ID(),
-//				DesiredCount: pulumi.Int(2),
-//				TaskDefinition: pulumi.String(mongo.ApplyT(func(mongo ecs.GetTaskDefinitionResult) (*string, error) {
-//					return mongo.Arn, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:           pulumi.String("mongo"),
+//				Cluster:        foo.ID().ToIDOutput().ToStringOutput(),
+//				DesiredCount:   pulumi.Int(2),
+//				TaskDefinition: mongo.Arn(),
 //			})
 //			if err != nil {
 //				return err
@@ -101,17 +99,17 @@ type LookupTaskDefinitionResult struct {
 	Arn string `pulumi:"arn"`
 	// ARN of the Task Definition with the trailing `revision` removed. This may be useful for situations where the latest task definition is always desired. If a revision isn't specified, the latest ACTIVE revision is used. See the [AWS documentation](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_StartTask.html#ECS-StartTask-request-taskDefinition) for details.
 	ArnWithoutRevision string `pulumi:"arnWithoutRevision"`
-	// A list of valid [container definitions](http://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html) provided as a single valid JSON document. Please note that you should only provide values that are part of the container definition document. For a detailed description of what parameters are available, see the [Task Definition Parameters](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) section from the official [Developer Guide](https://docs.aws.amazon.com/AmazonECS/latest/developerguide).
+	// List of valid [container definitions](http://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html) provided as a single valid JSON document. Please note that you should only provide values that are part of the container definition document. For a detailed description of what parameters are available, see the [Task Definition Parameters](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) section from the official [Developer Guide](https://docs.aws.amazon.com/AmazonECS/latest/developerguide).
 	ContainerDefinitions string `pulumi:"containerDefinitions"`
 	// Number of cpu units used by the task. If the `requiresCompatibilities` is `FARGATE` this field is required.
 	Cpu string `pulumi:"cpu"`
 	// Enables fault injection and allows for fault injection requests to be accepted from the task's containers. Default is `false`.
 	EnableFaultInjection bool `pulumi:"enableFaultInjection"`
-	// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on AWS Fargate. See Ephemeral Storage.
+	// Amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on AWS Fargate. See `ephemeralStorage` Block.
 	EphemeralStorages []GetTaskDefinitionEphemeralStorage `pulumi:"ephemeralStorages"`
 	// ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume.
 	ExecutionRoleArn string `pulumi:"executionRoleArn"`
-	// A unique name for your task definition.
+	// Unique name for your task definition.
 	// The following arguments are optional:
 	Family string `pulumi:"family"`
 	// The provider-assigned unique ID for this managed resource.
@@ -124,9 +122,9 @@ type LookupTaskDefinitionResult struct {
 	NetworkMode string `pulumi:"networkMode"`
 	// Process namespace to use for the containers in the task. The valid values are `host` and `task`.
 	PidMode string `pulumi:"pidMode"`
-	// Configuration block for rules that are taken into consideration during task placement. Maximum number of `placementConstraints` is `10`. Detailed below.
+	// Configuration block for rules that are taken into consideration during task placement. Maximum number of `placementConstraints` is `10`. See `placementConstraints` Block.
 	PlacementConstraints []GetTaskDefinitionPlacementConstraint `pulumi:"placementConstraints"`
-	// Configuration block for the App Mesh proxy. Detailed below.
+	// Configuration block for the App Mesh proxy. See `proxyConfiguration` Block.
 	ProxyConfigurations []GetTaskDefinitionProxyConfiguration `pulumi:"proxyConfigurations"`
 	Region              string                                `pulumi:"region"`
 	// Set of launch types required by the task. The valid values are `EC2` and `FARGATE`.
@@ -140,7 +138,7 @@ type LookupTaskDefinitionResult struct {
 	TaskDefinition string `pulumi:"taskDefinition"`
 	// ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services.
 	TaskRoleArn string `pulumi:"taskRoleArn"`
-	// Attributes corresponding to the `volume` argument of the `ecs.TaskDefinition` resource.
+	// Configuration block for volumes that containers in your task may use. See `volume` Block for details.
 	Volumes []GetTaskDefinitionVolume `pulumi:"volumes"`
 }
 
@@ -190,7 +188,7 @@ func (o LookupTaskDefinitionResultOutput) ArnWithoutRevision() pulumi.StringOutp
 	return o.ApplyT(func(v LookupTaskDefinitionResult) string { return v.ArnWithoutRevision }).(pulumi.StringOutput)
 }
 
-// A list of valid [container definitions](http://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html) provided as a single valid JSON document. Please note that you should only provide values that are part of the container definition document. For a detailed description of what parameters are available, see the [Task Definition Parameters](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) section from the official [Developer Guide](https://docs.aws.amazon.com/AmazonECS/latest/developerguide).
+// List of valid [container definitions](http://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html) provided as a single valid JSON document. Please note that you should only provide values that are part of the container definition document. For a detailed description of what parameters are available, see the [Task Definition Parameters](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html) section from the official [Developer Guide](https://docs.aws.amazon.com/AmazonECS/latest/developerguide).
 func (o LookupTaskDefinitionResultOutput) ContainerDefinitions() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) string { return v.ContainerDefinitions }).(pulumi.StringOutput)
 }
@@ -205,7 +203,7 @@ func (o LookupTaskDefinitionResultOutput) EnableFaultInjection() pulumi.BoolOutp
 	return o.ApplyT(func(v LookupTaskDefinitionResult) bool { return v.EnableFaultInjection }).(pulumi.BoolOutput)
 }
 
-// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on AWS Fargate. See Ephemeral Storage.
+// Amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on AWS Fargate. See `ephemeralStorage` Block.
 func (o LookupTaskDefinitionResultOutput) EphemeralStorages() GetTaskDefinitionEphemeralStorageArrayOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) []GetTaskDefinitionEphemeralStorage { return v.EphemeralStorages }).(GetTaskDefinitionEphemeralStorageArrayOutput)
 }
@@ -215,7 +213,7 @@ func (o LookupTaskDefinitionResultOutput) ExecutionRoleArn() pulumi.StringOutput
 	return o.ApplyT(func(v LookupTaskDefinitionResult) string { return v.ExecutionRoleArn }).(pulumi.StringOutput)
 }
 
-// A unique name for your task definition.
+// Unique name for your task definition.
 // The following arguments are optional:
 func (o LookupTaskDefinitionResultOutput) Family() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) string { return v.Family }).(pulumi.StringOutput)
@@ -246,14 +244,14 @@ func (o LookupTaskDefinitionResultOutput) PidMode() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) string { return v.PidMode }).(pulumi.StringOutput)
 }
 
-// Configuration block for rules that are taken into consideration during task placement. Maximum number of `placementConstraints` is `10`. Detailed below.
+// Configuration block for rules that are taken into consideration during task placement. Maximum number of `placementConstraints` is `10`. See `placementConstraints` Block.
 func (o LookupTaskDefinitionResultOutput) PlacementConstraints() GetTaskDefinitionPlacementConstraintArrayOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) []GetTaskDefinitionPlacementConstraint {
 		return v.PlacementConstraints
 	}).(GetTaskDefinitionPlacementConstraintArrayOutput)
 }
 
-// Configuration block for the App Mesh proxy. Detailed below.
+// Configuration block for the App Mesh proxy. See `proxyConfiguration` Block.
 func (o LookupTaskDefinitionResultOutput) ProxyConfigurations() GetTaskDefinitionProxyConfigurationArrayOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) []GetTaskDefinitionProxyConfiguration { return v.ProxyConfigurations }).(GetTaskDefinitionProxyConfigurationArrayOutput)
 }
@@ -291,7 +289,7 @@ func (o LookupTaskDefinitionResultOutput) TaskRoleArn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) string { return v.TaskRoleArn }).(pulumi.StringOutput)
 }
 
-// Attributes corresponding to the `volume` argument of the `ecs.TaskDefinition` resource.
+// Configuration block for volumes that containers in your task may use. See `volume` Block for details.
 func (o LookupTaskDefinitionResultOutput) Volumes() GetTaskDefinitionVolumeArrayOutput {
 	return o.ApplyT(func(v LookupTaskDefinitionResult) []GetTaskDefinitionVolume { return v.Volumes }).(GetTaskDefinitionVolumeArrayOutput)
 }
