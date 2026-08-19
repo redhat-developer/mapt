@@ -120,10 +120,8 @@ import (
 //				},
 //			}, nil)
 //			replicationPolicy, err := iam.NewPolicy(ctx, "replication", &iam.PolicyArgs{
-//				Name: pulumi.String("tf-iam-role-policy-replication-12345"),
-//				Policy: pulumi.String(replication.ApplyT(func(replication iam.GetPolicyDocumentResult) (*string, error) {
-//					return replication.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:   pulumi.String("tf-iam-role-policy-replication-12345"),
+//				Policy: replication.Json(),
 //			})
 //			if err != nil {
 //				return err
@@ -136,7 +134,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketVersioning(ctx, "destination", &s3.BucketVersioningArgs{
-//				Bucket: destination.ID(),
+//				Bucket: destination.ID().ToIDOutput().ToStringOutput(),
 //				VersioningConfiguration: &s3.BucketVersioningVersioningConfigurationArgs{
 //					Status: pulumi.String("Enabled"),
 //				},
@@ -145,14 +143,14 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketAcl(ctx, "source_bucket_acl", &s3.BucketAclArgs{
-//				Bucket: source.ID(),
+//				Bucket: source.ID().ToIDOutput().ToStringOutput(),
 //				Acl:    pulumi.String("private"),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			sourceBucketVersioning, err := s3.NewBucketVersioning(ctx, "source", &s3.BucketVersioningArgs{
-//				Bucket: source.ID(),
+//				Bucket: source.ID().ToIDOutput().ToStringOutput(),
 //				VersioningConfiguration: &s3.BucketVersioningVersioningConfigurationArgs{
 //					Status: pulumi.String("Enabled"),
 //				},
@@ -162,7 +160,7 @@ import (
 //			}
 //			_, err = s3.NewBucketReplicationConfig(ctx, "replication", &s3.BucketReplicationConfigArgs{
 //				Role:   replicationRole.Arn,
-//				Bucket: source.ID(),
+//				Bucket: source.ID().ToIDOutput().ToStringOutput(),
 //				Rules: s3.BucketReplicationConfigRuleArray{
 //					&s3.BucketReplicationConfigRuleArgs{
 //						Id: pulumi.String("examplerule"),
@@ -287,10 +285,8 @@ import (
 //				},
 //			}, nil)
 //			replicationPolicy, err := iam.NewPolicy(ctx, "replication", &iam.PolicyArgs{
-//				Name: pulumi.String("tf-iam-role-policy-replication-12345"),
-//				Policy: pulumi.String(replication.ApplyT(func(replication iam.GetPolicyDocumentResult) (*string, error) {
-//					return replication.Json, nil
-//				}).(pulumi.StringPtrOutput)),
+//				Name:   pulumi.String("tf-iam-role-policy-replication-12345"),
+//				Policy: replication.Json(),
 //			})
 //			if err != nil {
 //				return err
@@ -303,7 +299,7 @@ import (
 //				return err
 //			}
 //			_, err = s3.NewBucketVersioning(ctx, "destination", &s3.BucketVersioningArgs{
-//				Bucket: destination.ID(),
+//				Bucket: destination.ID().ToIDOutput().ToStringOutput(),
 //				VersioningConfiguration: &s3.BucketVersioningVersioningConfigurationArgs{
 //					Status: pulumi.String("Enabled"),
 //				},
@@ -313,7 +309,7 @@ import (
 //			}
 //			_, err = s3.NewBucketAcl(ctx, "source_bucket_acl", &s3.BucketAclArgs{
 //				Region: pulumi.String("eu-central-1"),
-//				Bucket: source.ID(),
+//				Bucket: source.ID().ToIDOutput().ToStringOutput(),
 //				Acl:    pulumi.String("private"),
 //			})
 //			if err != nil {
@@ -321,7 +317,7 @@ import (
 //			}
 //			sourceBucketVersioning, err := s3.NewBucketVersioning(ctx, "source", &s3.BucketVersioningArgs{
 //				Region: pulumi.String("eu-central-1"),
-//				Bucket: source.ID(),
+//				Bucket: source.ID().ToIDOutput().ToStringOutput(),
 //				VersioningConfiguration: &s3.BucketVersioningVersioningConfigurationArgs{
 //					Status: pulumi.String("Enabled"),
 //				},
@@ -332,7 +328,7 @@ import (
 //			_, err = s3.NewBucketReplicationConfig(ctx, "replication", &s3.BucketReplicationConfigArgs{
 //				Region: pulumi.String("eu-central-1"),
 //				Role:   replicationRole.Arn,
-//				Bucket: source.ID(),
+//				Bucket: source.ID().ToIDOutput().ToStringOutput(),
 //				Rules: s3.BucketReplicationConfigRuleArray{
 //					&s3.BucketReplicationConfigRuleArgs{
 //						Id: pulumi.String("examplerule"),
@@ -380,7 +376,7 @@ import (
 //				return err
 //			}
 //			eastBucketVersioning, err := s3.NewBucketVersioning(ctx, "east", &s3.BucketVersioningArgs{
-//				Bucket: east.ID(),
+//				Bucket: east.ID().ToIDOutput().ToStringOutput(),
 //				VersioningConfiguration: &s3.BucketVersioningVersioningConfigurationArgs{
 //					Status: pulumi.String("Enabled"),
 //				},
@@ -395,7 +391,7 @@ import (
 //				return err
 //			}
 //			westBucketVersioning, err := s3.NewBucketVersioning(ctx, "west", &s3.BucketVersioningArgs{
-//				Bucket: west.ID(),
+//				Bucket: west.ID().ToIDOutput().ToStringOutput(),
 //				VersioningConfiguration: &s3.BucketVersioningVersioningConfigurationArgs{
 //					Status: pulumi.String("Enabled"),
 //				},
@@ -405,7 +401,7 @@ import (
 //			}
 //			_, err = s3.NewBucketReplicationConfig(ctx, "east_to_west", &s3.BucketReplicationConfigArgs{
 //				Role:   pulumi.Any(eastReplication.Arn),
-//				Bucket: east.ID(),
+//				Bucket: east.ID().ToIDOutput().ToStringOutput(),
 //				Rules: s3.BucketReplicationConfigRuleArray{
 //					&s3.BucketReplicationConfigRuleArgs{
 //						Id: pulumi.String("foobar"),
@@ -427,7 +423,7 @@ import (
 //			}
 //			_, err = s3.NewBucketReplicationConfig(ctx, "west_to_east", &s3.BucketReplicationConfigArgs{
 //				Role:   pulumi.Any(westReplication.Arn),
-//				Bucket: west.ID(),
+//				Bucket: west.ID().ToIDOutput().ToStringOutput(),
 //				Rules: s3.BucketReplicationConfigRuleArray{
 //					&s3.BucketReplicationConfigRuleArgs{
 //						Id: pulumi.String("foobar"),
@@ -470,16 +466,8 @@ type BucketReplicationConfig struct {
 	// ARN of the IAM role for Amazon S3 to assume when replicating the objects.
 	Role pulumi.StringOutput `pulumi:"role"`
 	// List of configuration blocks describing the rules managing the replication. See below.
-	//
-	// > **NOTE:** Replication to multiple destination buckets requires that `priority` is specified in the `rule` object. If the corresponding rule requires no filter, an empty configuration block `filter {}` must be specified.
-	//
-	// > **NOTE:** Amazon S3's latest version of the replication configuration is V2, which includes the `filter` attribute for replication rules.
-	//
-	// > **NOTE:** The `existingObjectReplication` parameter is not supported by Amazon S3 at this time and should not be included in your `rule` configurations. Specifying this parameter will result in `MalformedXML` errors.
-	// To replicate existing objects, please refer to the [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) documentation in the Amazon S3 User Guide.
 	Rules BucketReplicationConfigRuleArrayOutput `pulumi:"rules"`
-	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token".
-	// For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
+	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token". For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
 	Token pulumi.StringPtrOutput `pulumi:"token"`
 }
 
@@ -536,16 +524,8 @@ type bucketReplicationConfigState struct {
 	// ARN of the IAM role for Amazon S3 to assume when replicating the objects.
 	Role *string `pulumi:"role"`
 	// List of configuration blocks describing the rules managing the replication. See below.
-	//
-	// > **NOTE:** Replication to multiple destination buckets requires that `priority` is specified in the `rule` object. If the corresponding rule requires no filter, an empty configuration block `filter {}` must be specified.
-	//
-	// > **NOTE:** Amazon S3's latest version of the replication configuration is V2, which includes the `filter` attribute for replication rules.
-	//
-	// > **NOTE:** The `existingObjectReplication` parameter is not supported by Amazon S3 at this time and should not be included in your `rule` configurations. Specifying this parameter will result in `MalformedXML` errors.
-	// To replicate existing objects, please refer to the [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) documentation in the Amazon S3 User Guide.
 	Rules []BucketReplicationConfigRule `pulumi:"rules"`
-	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token".
-	// For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
+	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token". For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
 	Token *string `pulumi:"token"`
 }
 
@@ -557,16 +537,8 @@ type BucketReplicationConfigState struct {
 	// ARN of the IAM role for Amazon S3 to assume when replicating the objects.
 	Role pulumi.StringPtrInput
 	// List of configuration blocks describing the rules managing the replication. See below.
-	//
-	// > **NOTE:** Replication to multiple destination buckets requires that `priority` is specified in the `rule` object. If the corresponding rule requires no filter, an empty configuration block `filter {}` must be specified.
-	//
-	// > **NOTE:** Amazon S3's latest version of the replication configuration is V2, which includes the `filter` attribute for replication rules.
-	//
-	// > **NOTE:** The `existingObjectReplication` parameter is not supported by Amazon S3 at this time and should not be included in your `rule` configurations. Specifying this parameter will result in `MalformedXML` errors.
-	// To replicate existing objects, please refer to the [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) documentation in the Amazon S3 User Guide.
 	Rules BucketReplicationConfigRuleArrayInput
-	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token".
-	// For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
+	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token". For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
 	Token pulumi.StringPtrInput
 }
 
@@ -582,16 +554,8 @@ type bucketReplicationConfigArgs struct {
 	// ARN of the IAM role for Amazon S3 to assume when replicating the objects.
 	Role string `pulumi:"role"`
 	// List of configuration blocks describing the rules managing the replication. See below.
-	//
-	// > **NOTE:** Replication to multiple destination buckets requires that `priority` is specified in the `rule` object. If the corresponding rule requires no filter, an empty configuration block `filter {}` must be specified.
-	//
-	// > **NOTE:** Amazon S3's latest version of the replication configuration is V2, which includes the `filter` attribute for replication rules.
-	//
-	// > **NOTE:** The `existingObjectReplication` parameter is not supported by Amazon S3 at this time and should not be included in your `rule` configurations. Specifying this parameter will result in `MalformedXML` errors.
-	// To replicate existing objects, please refer to the [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) documentation in the Amazon S3 User Guide.
 	Rules []BucketReplicationConfigRule `pulumi:"rules"`
-	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token".
-	// For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
+	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token". For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
 	Token *string `pulumi:"token"`
 }
 
@@ -604,16 +568,8 @@ type BucketReplicationConfigArgs struct {
 	// ARN of the IAM role for Amazon S3 to assume when replicating the objects.
 	Role pulumi.StringInput
 	// List of configuration blocks describing the rules managing the replication. See below.
-	//
-	// > **NOTE:** Replication to multiple destination buckets requires that `priority` is specified in the `rule` object. If the corresponding rule requires no filter, an empty configuration block `filter {}` must be specified.
-	//
-	// > **NOTE:** Amazon S3's latest version of the replication configuration is V2, which includes the `filter` attribute for replication rules.
-	//
-	// > **NOTE:** The `existingObjectReplication` parameter is not supported by Amazon S3 at this time and should not be included in your `rule` configurations. Specifying this parameter will result in `MalformedXML` errors.
-	// To replicate existing objects, please refer to the [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) documentation in the Amazon S3 User Guide.
 	Rules BucketReplicationConfigRuleArrayInput
-	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token".
-	// For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
+	// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token". For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
 	Token pulumi.StringPtrInput
 }
 
@@ -720,19 +676,11 @@ func (o BucketReplicationConfigOutput) Role() pulumi.StringOutput {
 }
 
 // List of configuration blocks describing the rules managing the replication. See below.
-//
-// > **NOTE:** Replication to multiple destination buckets requires that `priority` is specified in the `rule` object. If the corresponding rule requires no filter, an empty configuration block `filter {}` must be specified.
-//
-// > **NOTE:** Amazon S3's latest version of the replication configuration is V2, which includes the `filter` attribute for replication rules.
-//
-// > **NOTE:** The `existingObjectReplication` parameter is not supported by Amazon S3 at this time and should not be included in your `rule` configurations. Specifying this parameter will result in `MalformedXML` errors.
-// To replicate existing objects, please refer to the [Replicating existing objects with S3 Batch Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-batch-replication-batch.html) documentation in the Amazon S3 User Guide.
 func (o BucketReplicationConfigOutput) Rules() BucketReplicationConfigRuleArrayOutput {
 	return o.ApplyT(func(v *BucketReplicationConfig) BucketReplicationConfigRuleArrayOutput { return v.Rules }).(BucketReplicationConfigRuleArrayOutput)
 }
 
-// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token".
-// For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
+// Token to allow replication to be enabled on an Object Lock-enabled bucket. You must contact AWS support for the bucket's "Object Lock token". For more details, see [Using S3 Object Lock with replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-managing.html#object-lock-managing-replication).
 func (o BucketReplicationConfigOutput) Token() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BucketReplicationConfig) pulumi.StringPtrOutput { return v.Token }).(pulumi.StringPtrOutput)
 }

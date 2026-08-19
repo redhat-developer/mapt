@@ -92,7 +92,7 @@ type VectorsVectorBucket struct {
 
 	// Date and time when the vector bucket was created.
 	CreationTime pulumi.StringOutput `pulumi:"creationTime"`
-	// Encryption configuration for the vector bucket. See Encryption Configuration below for more details.
+	// Encryption configuration for the vector bucket. See `encryptionConfiguration` below for more details.
 	EncryptionConfigurations VectorsVectorBucketEncryptionConfigurationArrayOutput `pulumi:"encryptionConfigurations"`
 	// Boolean that indicates all indexes and vectors should be deleted from the vector bucket *when the vector bucket is destroyed* so that the vector bucket can be destroyed without error. Once this parameter is set to `true`, there must be a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the vector bucket or destroying the vector bucket, this flag will not work.
 	ForceDestroy pulumi.BoolOutput `pulumi:"forceDestroy"`
@@ -100,7 +100,7 @@ type VectorsVectorBucket struct {
 	Region pulumi.StringOutput `pulumi:"region"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapOutput `pulumi:"tags"`
-	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapOutput `pulumi:"tagsAll"`
 	// ARN of the vector bucket.
 	VectorBucketArn pulumi.StringOutput `pulumi:"vectorBucketArn"`
@@ -145,7 +145,7 @@ func GetVectorsVectorBucket(ctx *pulumi.Context,
 type vectorsVectorBucketState struct {
 	// Date and time when the vector bucket was created.
 	CreationTime *string `pulumi:"creationTime"`
-	// Encryption configuration for the vector bucket. See Encryption Configuration below for more details.
+	// Encryption configuration for the vector bucket. See `encryptionConfiguration` below for more details.
 	EncryptionConfigurations []VectorsVectorBucketEncryptionConfiguration `pulumi:"encryptionConfigurations"`
 	// Boolean that indicates all indexes and vectors should be deleted from the vector bucket *when the vector bucket is destroyed* so that the vector bucket can be destroyed without error. Once this parameter is set to `true`, there must be a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the vector bucket or destroying the vector bucket, this flag will not work.
 	ForceDestroy *bool `pulumi:"forceDestroy"`
@@ -153,7 +153,7 @@ type vectorsVectorBucketState struct {
 	Region *string `pulumi:"region"`
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags map[string]string `pulumi:"tags"`
-	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll map[string]string `pulumi:"tagsAll"`
 	// ARN of the vector bucket.
 	VectorBucketArn *string `pulumi:"vectorBucketArn"`
@@ -166,7 +166,7 @@ type vectorsVectorBucketState struct {
 type VectorsVectorBucketState struct {
 	// Date and time when the vector bucket was created.
 	CreationTime pulumi.StringPtrInput
-	// Encryption configuration for the vector bucket. See Encryption Configuration below for more details.
+	// Encryption configuration for the vector bucket. See `encryptionConfiguration` below for more details.
 	EncryptionConfigurations VectorsVectorBucketEncryptionConfigurationArrayInput
 	// Boolean that indicates all indexes and vectors should be deleted from the vector bucket *when the vector bucket is destroyed* so that the vector bucket can be destroyed without error. Once this parameter is set to `true`, there must be a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the vector bucket or destroying the vector bucket, this flag will not work.
 	ForceDestroy pulumi.BoolPtrInput
@@ -174,7 +174,7 @@ type VectorsVectorBucketState struct {
 	Region pulumi.StringPtrInput
 	// Key-value map of resource tags. If configured with a provider `defaultTags` configuration block present, tags with matching keys will overwrite those defined at the provider-level.
 	Tags pulumi.StringMapInput
-	// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+	// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 	TagsAll pulumi.StringMapInput
 	// ARN of the vector bucket.
 	VectorBucketArn pulumi.StringPtrInput
@@ -189,7 +189,7 @@ func (VectorsVectorBucketState) ElementType() reflect.Type {
 }
 
 type vectorsVectorBucketArgs struct {
-	// Encryption configuration for the vector bucket. See Encryption Configuration below for more details.
+	// Encryption configuration for the vector bucket. See `encryptionConfiguration` below for more details.
 	EncryptionConfigurations []VectorsVectorBucketEncryptionConfiguration `pulumi:"encryptionConfigurations"`
 	// Boolean that indicates all indexes and vectors should be deleted from the vector bucket *when the vector bucket is destroyed* so that the vector bucket can be destroyed without error. Once this parameter is set to `true`, there must be a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the vector bucket or destroying the vector bucket, this flag will not work.
 	ForceDestroy *bool `pulumi:"forceDestroy"`
@@ -205,7 +205,7 @@ type vectorsVectorBucketArgs struct {
 
 // The set of arguments for constructing a VectorsVectorBucket resource.
 type VectorsVectorBucketArgs struct {
-	// Encryption configuration for the vector bucket. See Encryption Configuration below for more details.
+	// Encryption configuration for the vector bucket. See `encryptionConfiguration` below for more details.
 	EncryptionConfigurations VectorsVectorBucketEncryptionConfigurationArrayInput
 	// Boolean that indicates all indexes and vectors should be deleted from the vector bucket *when the vector bucket is destroyed* so that the vector bucket can be destroyed without error. Once this parameter is set to `true`, there must be a successful `pulumi up` run before a destroy is required to update this value in the resource state. Without a successful `pulumi up` after this parameter is set, this flag will have no effect. If setting this field in the same operation that would require replacing the vector bucket or destroying the vector bucket, this flag will not work.
 	ForceDestroy pulumi.BoolPtrInput
@@ -311,7 +311,7 @@ func (o VectorsVectorBucketOutput) CreationTime() pulumi.StringOutput {
 	return o.ApplyT(func(v *VectorsVectorBucket) pulumi.StringOutput { return v.CreationTime }).(pulumi.StringOutput)
 }
 
-// Encryption configuration for the vector bucket. See Encryption Configuration below for more details.
+// Encryption configuration for the vector bucket. See `encryptionConfiguration` below for more details.
 func (o VectorsVectorBucketOutput) EncryptionConfigurations() VectorsVectorBucketEncryptionConfigurationArrayOutput {
 	return o.ApplyT(func(v *VectorsVectorBucket) VectorsVectorBucketEncryptionConfigurationArrayOutput {
 		return v.EncryptionConfigurations
@@ -333,7 +333,7 @@ func (o VectorsVectorBucketOutput) Tags() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VectorsVectorBucket) pulumi.StringMapOutput { return v.Tags }).(pulumi.StringMapOutput)
 }
 
-// A map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
+// Map of tags assigned to the resource, including those inherited from the provider `defaultTags` configuration block.
 func (o VectorsVectorBucketOutput) TagsAll() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *VectorsVectorBucket) pulumi.StringMapOutput { return v.TagsAll }).(pulumi.StringMapOutput)
 }

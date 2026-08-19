@@ -12,7 +12,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// Use the `awsPrefixListEntry` resource to manage a managed prefix list entry.
+// Use the `ec2.ManagedPrefixListEntry` resource to manage a managed prefix list entry.
 //
 // > **NOTE:** Pulumi currently provides two resources for managing Managed Prefix Lists and Managed Prefix List Entries. The standalone resource, Managed Prefix List Entry, is used to manage a single entry. The Managed Prefix List resource is used to manage multiple entries defined in-line. It is important to note that you cannot use a Managed Prefix List with in-line rules in conjunction with any Managed Prefix List Entry resources. This will result in a conflict of entries and will cause the entries to be overwritten.
 //
@@ -48,7 +48,7 @@ import (
 //			_, err = ec2.NewManagedPrefixListEntry(ctx, "entry_1", &ec2.ManagedPrefixListEntryArgs{
 //				Cidr:         pulumi.Any(exampleAwsVpc.CidrBlock),
 //				Description:  pulumi.String("Primary"),
-//				PrefixListId: example.ID(),
+//				PrefixListId: example.ID().ToIDOutput().ToStringOutput(),
 //			})
 //			if err != nil {
 //				return err

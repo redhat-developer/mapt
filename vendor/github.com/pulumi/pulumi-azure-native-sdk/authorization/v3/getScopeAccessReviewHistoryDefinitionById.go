@@ -41,7 +41,7 @@ type LookupScopeAccessReviewHistoryDefinitionByIdResult struct {
 	Decisions []string `pulumi:"decisions"`
 	// The display name for the history definition.
 	DisplayName *string `pulumi:"displayName"`
-	// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id string `pulumi:"id"`
 	// Set of access review history instances for this history definition.
 	Instances []AccessReviewHistoryInstanceResponse `pulumi:"instances"`
@@ -128,7 +128,7 @@ func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) DisplayName() 
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
 }
 
-// Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+// Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 func (o LookupScopeAccessReviewHistoryDefinitionByIdResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupScopeAccessReviewHistoryDefinitionByIdResult) string { return v.Id }).(pulumi.StringOutput)
 }
