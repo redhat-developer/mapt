@@ -22,6 +22,7 @@ spec:
     - name: ocp-snc-credentials
       secret:
         secretName: $(params.secret-ocp-snc-credentials)
+        optional: true
     - name: cluster-info
       emptyDir: {}
 
@@ -43,8 +44,13 @@ spec:
           region: ${region}
           bucket: ${bucket}
     - name: secret-ocp-snc-credentials
+      default: "non-existent-secret"
       description: |
         ocp secret holding the ocp snc credentials. Secret should be accessible to this task.
+        Not required for the destroy operation.
+
+        As this credentials are optional we set a non-existent name for the secret which
+        will be mounted as an empty volume
 
         ---
         apiVersion: v1
