@@ -6,11 +6,12 @@ import (
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 
+	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 // Create a instance profile based on a list of policies
-func InstanceProfile(ctx *pulumi.Context, prefix, id *string, policiesARNs []string) (*iam.InstanceProfile, error) {
+func InstanceProfile(ctx *pulumi.Context, mCtx *mc.Context, prefix, id *string, policiesARNs []string) (*iam.InstanceProfile, error) {
 	r, err := iam.NewRole(ctx,
 		resourcesUtil.GetResourceName(*prefix, *id, "ec2-role"),
 		&iam.RoleArgs{
@@ -24,6 +25,7 @@ func InstanceProfile(ctx *pulumi.Context, prefix, id *string, policiesARNs []str
 				}
 			]
 		}`),
+			Tags: mCtx.ResourceTags(),
 		})
 	if err != nil {
 		return nil, err
@@ -40,9 +42,11 @@ func InstanceProfile(ctx *pulumi.Context, prefix, id *string, policiesARNs []str
 		}
 	}
 	return iam.NewInstanceProfile(ctx,
-		resourcesUtil.GetResourceName(*prefix, *id, "instance-profie"),
+		resourcesUtil.GetResourceName(*prefix, *id, "instance-profile"),
 		&iam.InstanceProfileArgs{
-			Role: r})
+			Role: r,
+			Tags: mCtx.ResourceTags(),
+		})
 }
 
 func (r *iamRequestArgs) deploy(ctx *pulumi.Context) error {

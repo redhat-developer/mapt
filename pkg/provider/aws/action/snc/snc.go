@@ -213,7 +213,7 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Instance profile required by logic within userdata
-	iProfile, err := iam.InstanceProfile(ctx, r.prefix, &apiSNC.OCPSNCID, requiredPolicies)
+	iProfile, err := iam.InstanceProfile(ctx, r.mCtx, r.prefix, &apiSNC.OCPSNCID, requiredPolicies)
 	if err != nil {
 		return err
 	}
