@@ -34,6 +34,10 @@ GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)
 GOARCH := $(shell go env GOARCH)
 
+# Add default target
+.PHONY: default
+default: install
+
 # Tools
 TOOLS_DIR := tools
 include tools/tools.mk
@@ -56,10 +60,6 @@ define tkn_update
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-windows-desktop.yaml > tkn/infra-azure-windows-desktop.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-ibmcloud-ibm-gaudi.yaml > tkn/infra-ibmcloud-ibm-gaudi.yaml
 endef
-
-# Add default target
-.PHONY: default
-default: install
 
 # Create and update the vendor directory
 .PHONY: vendor
