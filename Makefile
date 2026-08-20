@@ -16,6 +16,7 @@ GITLAB_RUNNER ?= 19.3.0
 OTELCOL_VERSION ?= 0.151.0
 
 # Go and compilation related variables
+export GOTOOLCHAIN ?= auto
 GOPATH ?= $(shell go env GOPATH)
 BUILD_DIR ?= out
 SOURCE_DIRS = cmd pkg
