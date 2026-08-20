@@ -182,9 +182,6 @@ processors:
       - key: appcode
         value: "{{.AppCode}}"
         action: upsert
-      - key: com.redhat.otel.auth_token
-        value: "${env:OTEL_AUTH_TOKEN}"
-        action: upsert
       - key: arch
         value: "{{.Arch}}"
         action: upsert
@@ -196,6 +193,8 @@ processors:
 exporters:
   otlphttp:
     endpoint: "{{.Endpoint}}"
+    headers:
+      Authorization: "Bearer ${env:OTEL_AUTH_TOKEN}"
     tls:
       insecure_skip_verify: true
 service:
