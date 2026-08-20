@@ -91,6 +91,12 @@ spec:
     - name: memory
       description: Amount of RAM for the cloud instance in GiB (default 64)
       default: '64'
+    - name: compute-sizes
+      description: Comma seperated list of sizes for the machines to be requested. If set this takes precedence over compute by args
+      default: ""
+    - name: compute-families
+      description: Comma-separated allowlist of AWS instance family prefixes (e.g. m5,m6i,m7i). Empty means no restriction. Only used when compute-sizes is not set.
+      default: ""
     - name: nested-virt
       description: Use cloud instance that has nested virtualization support
       default: 'false'
@@ -220,8 +226,13 @@ spec:
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/cluster-info "
           cmd+="--arch $(params.arch) "
-          cmd+="--cpus $(params.cpus) "
-          cmd+="--memory $(params.memory) "
+          if [[ $(params.compute-sizes) != "" ]]; then
+            cmd+="--compute-sizes '$(params.compute-sizes)' "
+          else
+            cmd+="--cpus '$(params.cpus)' "
+            cmd+="--memory '$(params.memory)' "
+            cmd+="--compute-families '$(params.compute-families)' "
+          fi
           if [[ $(params.nested-virt) == "true" ]]; then
             cmd+="--nested-virt "
           fi
