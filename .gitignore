@@ -3,6 +3,7 @@ out/
 .run*
 manifest.json
 ami-id
+hacks
 Pulumi*.yaml
 /tools/bin/**
 !/tools/bin/.gitkeep
