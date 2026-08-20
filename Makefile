@@ -16,6 +16,7 @@ GITLAB_RUNNER ?= 19.3.0
 OTELCOL_VERSION ?= 0.151.0
 
 # Go and compilation related variables
+export GOTOOLCHAIN ?= auto
 GOPATH ?= $(shell go env GOPATH)
 BUILD_DIR ?= out
 SOURCE_DIRS = cmd pkg
@@ -33,6 +34,10 @@ LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)
 GOARCH := $(shell go env GOARCH)
+
+# Add default target
+.PHONY: default
+default: install
 
 # Tools
 TOOLS_DIR := tools
@@ -56,10 +61,6 @@ define tkn_update
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-azure-windows-desktop.yaml > tkn/infra-azure-windows-desktop.yaml
 	sed -e 's%<IMAGE>%$(1)%g' -e 's%<VERSION>%$(2)%g' tkn/template/infra-ibmcloud-ibm-gaudi.yaml > tkn/infra-ibmcloud-ibm-gaudi.yaml
 endef
-
-# Add default target
-.PHONY: default
-default: install
 
 # Create and update the vendor directory
 .PHONY: vendor
