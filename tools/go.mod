@@ -11,7 +11,7 @@ replace (
 require github.com/golangci/golangci-lint/v2 v2.12.2
 
 require (
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/golangci/gofmt v0.0.0-20250106114630-d62b90e6713d // indirect
 )
 
@@ -38,20 +38,20 @@ require (
 )
 
 require (
-	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
+	dev.gaijin.team/go/exhaustruct/v5 v5.0.3 // indirect
 	dev.gaijin.team/go/golib v0.8.1 // indirect
 	github.com/AdminBenni/iota-mixing v1.0.0 // indirect
 	github.com/MirrexOne/unqueryvet v1.5.4 // indirect
 	github.com/alexkohler/prealloc v1.1.0 // indirect
 	github.com/alfatraining/structtag v1.0.0 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
+	github.com/bombsimon/wsl/v5 v5.9.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.2 // indirect
 	github.com/golangci/asciicheck v0.5.0 // indirect
 	github.com/gostaticanalysis/nilerr v0.1.2 // indirect
 	github.com/nunnatsa/ginkgolinter v0.23.1 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
+	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 )
 
 require (
