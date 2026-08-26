@@ -129,6 +129,7 @@ func instance(ctx *pulumi.Context, mCtx *mc.Context, args *instaceArgs) (*ec2.In
 		VpcSecurityGroupIds:      args.securityGroups,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(diskSize),
+			Tags:       mCtx.ResourceTags(),
 		},
 		Tags: mCtx.ResourceTags(),
 	}

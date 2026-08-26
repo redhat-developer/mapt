@@ -116,6 +116,7 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		VpcSecurityGroupIds:      r.SecurityGroups,
 		RootBlockDevice: ec2.InstanceRootBlockDeviceArgs{
 			VolumeSize: pulumi.Int(volSize),
+			Tags:       r.MCtx.ResourceTags(),
 		},
 		Tags: r.MCtx.ResourceTags(),
 	}
@@ -243,6 +244,20 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			Overrides: overrides,
 		},
 	}
+	asgTags := autoscaling.GroupTagArray{
+		&autoscaling.GroupTagArgs{
+			Key:               pulumi.String("Name"),
+			Value:             pulumi.String(resourcesUtil.GetResourceName(r.Prefix, r.ID, "asg")),
+			PropagateAtLaunch: pulumi.Bool(true),
+		},
+	}
+	for key, value := range r.MCtx.ResourceTags() {
+		asgTags = append(asgTags, &autoscaling.GroupTagArgs{
+			Key:               pulumi.String(key),
+			Value:             value,
+			PropagateAtLaunch: pulumi.Bool(true),
+		})
+	}
 	return autoscaling.NewGroup(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ID, "asg"),
 		&autoscaling.GroupArgs{
@@ -262,13 +277,7 @@ func (r ComputeRequest) spotInstance(ctx *pulumi.Context) (*autoscaling.Group, e
 			// Skip waiting for instances to fully terminate on destroy;
 			// these are ephemeral machines so there is no need to drain.
 			ForceDelete: pulumi.Bool(true),
-			Tags: autoscaling.GroupTagArray{
-				&autoscaling.GroupTagArgs{
-					Key:               pulumi.String("Name"),
-					Value:             pulumi.String(resourcesUtil.GetResourceName(r.Prefix, r.ID, "asg")),
-					PropagateAtLaunch: pulumi.Bool(true),
-				},
-			},
+			Tags:        asgTags,
 		},
 		pulumi.Timeouts(&pulumi.CustomTimeouts{
 			Delete: "30m"}),
