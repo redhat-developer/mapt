@@ -47,7 +47,7 @@ type VpcV1 struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-08-13`.
+	// and `2026-08-19`.
 	Version *string
 }
 
@@ -68,7 +68,7 @@ type VpcV1Options struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-08-13`.
+	// and `2026-08-19`.
 	Version *string
 }
 
@@ -133,7 +133,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2026-08-04")
+		options.Version = core.StringPtr("2026-08-18")
 	}
 
 	service = &VpcV1{
@@ -36564,7 +36564,7 @@ func (vpc *VpcV1) UpdateVPNServerRouteWithContext(ctx context.Context, updateVPN
 	return
 }
 func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "2026-08-04")
+	return core.NewProblemComponent(DefaultServiceName, "2026-08-18")
 }
 
 // AccountIdentity : Identifies an account by a unique property.
@@ -49314,8 +49314,19 @@ type CreateLoadBalancerPoolOptions struct {
 	// The load balancer identifier.
 	LoadBalancerID *string `json:"load_balancer_id" validate:"required,ne="`
 
-	// The load balancing algorithm. The `least_connections` algorithm is only supported for load balancers that have
-	// `availability` with value `subnet` in the profile.
+	// The load balancing algorithm.
+	//
+	// - `least_connections`: Routes traffic to the pool member with the least active
+	//   connections. Supported by `application` and `network` family load balancers that
+	//   have `availability` with value `subnet` in the profile.
+	// - `round_robin`: Distributes traffic sequentially across pool members. Supported by
+	//   `application` and `network` family load balancers.
+	// - `weighted_round_robin`: Distributes traffic across pool members proportionally to
+	//   configured member weights. Supported by `application` and `network`
+	//   family load balancers.
+	// - `weighted_forwarding`: Forwards the layer 4 packets across backend pools
+	//   proportionally to configured member weights. Supported by `network` family
+	//   load balancers with an `asymmetric_routing_supported` value of `true`.
 	Algorithm *string `json:"algorithm" validate:"required"`
 
 	// The health monitor of this pool.
@@ -49388,11 +49399,23 @@ type CreateLoadBalancerPoolOptions struct {
 }
 
 // Constants associated with the CreateLoadBalancerPoolOptions.Algorithm property.
-// The load balancing algorithm. The `least_connections` algorithm is only supported for load balancers that have
-// `availability` with value `subnet` in the profile.
+// The load balancing algorithm.
+//
+//   - `least_connections`: Routes traffic to the pool member with the least active
+//     connections. Supported by `application` and `network` family load balancers that
+//     have `availability` with value `subnet` in the profile.
+//   - `round_robin`: Distributes traffic sequentially across pool members. Supported by
+//     `application` and `network` family load balancers.
+//   - `weighted_round_robin`: Distributes traffic across pool members proportionally to
+//     configured member weights. Supported by `application` and `network`
+//     family load balancers.
+//   - `weighted_forwarding`: Forwards the layer 4 packets across backend pools
+//     proportionally to configured member weights. Supported by `network` family
+//     load balancers with an `asymmetric_routing_supported` value of `true`.
 const (
 	CreateLoadBalancerPoolOptionsAlgorithmLeastConnectionsConst   = "least_connections"
 	CreateLoadBalancerPoolOptionsAlgorithmRoundRobinConst         = "round_robin"
+	CreateLoadBalancerPoolOptionsAlgorithmWeightedForwardingConst = "weighted_forwarding"
 	CreateLoadBalancerPoolOptionsAlgorithmWeightedRoundRobinConst = "weighted_round_robin"
 )
 
@@ -82260,6 +82283,9 @@ type LoadBalancer struct {
 	// Indicates whether this load balancer supports advanced health checks.
 	AdvancedHealthChecksSupported *bool `json:"advanced_health_checks_supported" validate:"required"`
 
+	// Indicates whether this load balancer supports asymmetric routing.
+	AsymmetricRoutingSupported *bool `json:"asymmetric_routing_supported" validate:"required"`
+
 	// The load balancer pool members attached to this load balancer.
 	AttachedLoadBalancerPoolMembers []LoadBalancerPoolMemberReference `json:"attached_load_balancer_pool_members" validate:"required"`
 
@@ -82485,6 +82511,11 @@ func UnmarshalLoadBalancer(m map[string]json.RawMessage, result interface{}) (er
 	err = core.UnmarshalPrimitive(m, "advanced_health_checks_supported", &obj.AdvancedHealthChecksSupported)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "advanced_health_checks_supported-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "asymmetric_routing_supported", &obj.AsymmetricRoutingSupported)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "asymmetric_routing_supported-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "attached_load_balancer_pool_members", &obj.AttachedLoadBalancerPoolMembers, UnmarshalLoadBalancerPoolMemberReference)
@@ -84600,13 +84631,13 @@ func UnmarshalLoadBalancerListenerPolicyTarget(m map[string]json.RawMessage, res
 
 // LoadBalancerListenerPolicyTargetPatch : - If `action` is `forward_to_listener`, specify a `LoadBalancerListenerIdentity` for a
 //
-//		listener in this load balancer.
-//	  - If `action` is `forward_to_pool`, specify a `LoadBalancerPoolIdentity` for a pool in
-//	    this load balancer.
-//	  - If `action` is `https_redirect`, specify a
-//	    `LoadBalancerListenerPolicyHTTPSRedirectPatch` for a listener in this load balancer
-//	    with a `protocol` of `https`.
-//	  - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
+//	listener in this load balancer.
+//   - If `action` is `forward_to_pool`, specify a `LoadBalancerPoolIdentity` for a pool in
+//     this load balancer.
+//   - If `action` is `https_redirect`, specify a
+//     `LoadBalancerListenerPolicyHTTPSRedirectPatch` for a listener in this load balancer
+//     with a `protocol` of `https`.
+//   - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
 //
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentity
@@ -84725,14 +84756,14 @@ func (loadBalancerListenerPolicyTargetPatch *LoadBalancerListenerPolicyTargetPat
 
 // LoadBalancerListenerPolicyTargetPrototype : - If `action` is `forward_to_listener`, specify a `LoadBalancerListenerIdentity` in this
 //
-//		load balancer to forward to.
-//	  - If `action` is `forward_to_pool`, use `LoadBalancerPoolIdentity` to specify a pool in
-//	    this load balancer to forward to.
-//	  - If `action` is `https_redirect`, use
-//	    `LoadBalancerListenerPolicyHTTPSRedirectPrototype` to specify a listener on this
-//	    load balancer to redirect to.
-//	  - If `action` is `redirect`, use `LoadBalancerListenerPolicyRedirectURLPrototype`to
-//	    specify a URL to redirect to.
+//	load balancer to forward to.
+//   - If `action` is `forward_to_pool`, use `LoadBalancerPoolIdentity` to specify a pool in
+//     this load balancer to forward to.
+//   - If `action` is `https_redirect`, use
+//     `LoadBalancerListenerPolicyHTTPSRedirectPrototype` to specify a listener on this
+//     load balancer to redirect to.
+//   - If `action` is `redirect`, use `LoadBalancerListenerPolicyRedirectURLPrototype`to
+//     specify a URL to redirect to.
 //
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentity
@@ -85348,6 +85379,7 @@ type LoadBalancerPool struct {
 const (
 	LoadBalancerPoolAlgorithmLeastConnectionsConst   = "least_connections"
 	LoadBalancerPoolAlgorithmRoundRobinConst         = "round_robin"
+	LoadBalancerPoolAlgorithmWeightedForwardingConst = "weighted_forwarding"
 	LoadBalancerPoolAlgorithmWeightedRoundRobinConst = "weighted_round_robin"
 )
 
@@ -87156,8 +87188,19 @@ func (loadBalancerPoolMemberTargetPrototype *LoadBalancerPoolMemberTargetPrototy
 
 // LoadBalancerPoolPatch : LoadBalancerPoolPatch struct
 type LoadBalancerPoolPatch struct {
-	// The load balancing algorithm. The `least_connections` algorithm is only supported for load balancers that have
-	// `availability` with value `subnet` in the profile.
+	// The load balancing algorithm.
+	//
+	// - `least_connections`: Routes traffic to the pool member with the least active
+	//   connections. Supported by `application` and `network` family load balancers that
+	//   have `availability` with value `subnet` in the profile.
+	// - `round_robin`: Distributes traffic sequentially across pool members. Supported by
+	//   `application` and `network` family load balancers.
+	// - `weighted_round_robin`: Distributes traffic across pool members proportionally to
+	//   configured member weights. Supported by `application` and `network`
+	//   family load balancers.
+	// - `weighted_forwarding`: Forwards the layer 4 packets across backend pools
+	//   proportionally to configured member weights. Supported by `network` family
+	//   load balancers with an `asymmetric_routing_supported` value of `true`.
 	Algorithm *string `json:"algorithm,omitempty"`
 
 	// The client authentication to use for this pool.
@@ -87222,11 +87265,23 @@ type LoadBalancerPoolPatch struct {
 }
 
 // Constants associated with the LoadBalancerPoolPatch.Algorithm property.
-// The load balancing algorithm. The `least_connections` algorithm is only supported for load balancers that have
-// `availability` with value `subnet` in the profile.
+// The load balancing algorithm.
+//
+//   - `least_connections`: Routes traffic to the pool member with the least active
+//     connections. Supported by `application` and `network` family load balancers that
+//     have `availability` with value `subnet` in the profile.
+//   - `round_robin`: Distributes traffic sequentially across pool members. Supported by
+//     `application` and `network` family load balancers.
+//   - `weighted_round_robin`: Distributes traffic across pool members proportionally to
+//     configured member weights. Supported by `application` and `network`
+//     family load balancers.
+//   - `weighted_forwarding`: Forwards the layer 4 packets across backend pools
+//     proportionally to configured member weights. Supported by `network` family
+//     load balancers with an `asymmetric_routing_supported` value of `true`.
 const (
 	LoadBalancerPoolPatchAlgorithmLeastConnectionsConst   = "least_connections"
 	LoadBalancerPoolPatchAlgorithmRoundRobinConst         = "round_robin"
+	LoadBalancerPoolPatchAlgorithmWeightedForwardingConst = "weighted_forwarding"
 	LoadBalancerPoolPatchAlgorithmWeightedRoundRobinConst = "weighted_round_robin"
 )
 
@@ -87348,8 +87403,19 @@ func (loadBalancerPoolPatch *LoadBalancerPoolPatch) AsPatch() (_patch map[string
 
 // LoadBalancerPoolPrototypeLoadBalancerContext : LoadBalancerPoolPrototypeLoadBalancerContext struct
 type LoadBalancerPoolPrototypeLoadBalancerContext struct {
-	// The load balancing algorithm. The `least_connections` algorithm is only supported for load balancers that have
-	// `availability` with value `subnet` in the profile.
+	// The load balancing algorithm.
+	//
+	// - `least_connections`: Routes traffic to the pool member with the least active
+	//   connections. Supported by `application` and `network` family load balancers that
+	//   have `availability` with value `subnet` in the profile.
+	// - `round_robin`: Distributes traffic sequentially across pool members. Supported by
+	//   `application` and `network` family load balancers.
+	// - `weighted_round_robin`: Distributes traffic across pool members proportionally to
+	//   configured member weights. Supported by `application` and `network`
+	//   family load balancers.
+	// - `weighted_forwarding`: Forwards the layer 4 packets across backend pools
+	//   proportionally to configured member weights. Supported by `network` family
+	//   load balancers with an `asymmetric_routing_supported` value of `true`.
 	Algorithm *string `json:"algorithm" validate:"required"`
 
 	// The client authentication to use for this pool.
@@ -87414,11 +87480,23 @@ type LoadBalancerPoolPrototypeLoadBalancerContext struct {
 }
 
 // Constants associated with the LoadBalancerPoolPrototypeLoadBalancerContext.Algorithm property.
-// The load balancing algorithm. The `least_connections` algorithm is only supported for load balancers that have
-// `availability` with value `subnet` in the profile.
+// The load balancing algorithm.
+//
+//   - `least_connections`: Routes traffic to the pool member with the least active
+//     connections. Supported by `application` and `network` family load balancers that
+//     have `availability` with value `subnet` in the profile.
+//   - `round_robin`: Distributes traffic sequentially across pool members. Supported by
+//     `application` and `network` family load balancers.
+//   - `weighted_round_robin`: Distributes traffic across pool members proportionally to
+//     configured member weights. Supported by `application` and `network`
+//     family load balancers.
+//   - `weighted_forwarding`: Forwards the layer 4 packets across backend pools
+//     proportionally to configured member weights. Supported by `network` family
+//     load balancers with an `asymmetric_routing_supported` value of `true`.
 const (
 	LoadBalancerPoolPrototypeLoadBalancerContextAlgorithmLeastConnectionsConst   = "least_connections"
 	LoadBalancerPoolPrototypeLoadBalancerContextAlgorithmRoundRobinConst         = "round_robin"
+	LoadBalancerPoolPrototypeLoadBalancerContextAlgorithmWeightedForwardingConst = "weighted_forwarding"
 	LoadBalancerPoolPrototypeLoadBalancerContextAlgorithmWeightedRoundRobinConst = "weighted_round_robin"
 )
 
@@ -87836,6 +87914,8 @@ type LoadBalancerProfile struct {
 
 	AdvancedHealthChecksSupported LoadBalancerProfileAdvancedHealthCheckSupportedIntf `json:"advanced_health_checks_supported" validate:"required"`
 
+	AsymmetricRoutingSupported LoadBalancerProfileAsymmetricRoutingSupportedIntf `json:"asymmetric_routing_supported" validate:"required"`
+
 	Availability LoadBalancerProfileAvailabilityIntf `json:"availability" validate:"required"`
 
 	FailsafePolicyActions LoadBalancerProfileFailsafePolicyActionsIntf `json:"failsafe_policy_actions" validate:"required"`
@@ -87896,6 +87976,11 @@ func UnmarshalLoadBalancerProfile(m map[string]json.RawMessage, result interface
 	err = core.UnmarshalModel(m, "advanced_health_checks_supported", &obj.AdvancedHealthChecksSupported, UnmarshalLoadBalancerProfileAdvancedHealthCheckSupported)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "advanced_health_checks_supported-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "asymmetric_routing_supported", &obj.AsymmetricRoutingSupported, UnmarshalLoadBalancerProfileAsymmetricRoutingSupported)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "asymmetric_routing_supported-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "availability", &obj.Availability, UnmarshalLoadBalancerProfileAvailability)
@@ -88052,6 +88137,49 @@ type LoadBalancerProfileAdvancedHealthCheckSupportedIntf interface {
 // UnmarshalLoadBalancerProfileAdvancedHealthCheckSupported unmarshals an instance of LoadBalancerProfileAdvancedHealthCheckSupported from the specified map of raw messages.
 func UnmarshalLoadBalancerProfileAdvancedHealthCheckSupported(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerProfileAdvancedHealthCheckSupported)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileAsymmetricRoutingSupported : LoadBalancerProfileAsymmetricRoutingSupported struct
+// Models which "extend" this model:
+// - LoadBalancerProfileAsymmetricRoutingSupportedFixed
+// - LoadBalancerProfileAsymmetricRoutingSupportedDependent
+type LoadBalancerProfileAsymmetricRoutingSupported struct {
+	// The type for this profile field.
+	Type *string `json:"type,omitempty"`
+
+	// The value for this profile field.
+	Value *bool `json:"value,omitempty"`
+}
+
+// Constants associated with the LoadBalancerProfileAsymmetricRoutingSupported.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileAsymmetricRoutingSupportedTypeFixedConst = "fixed"
+)
+
+func (*LoadBalancerProfileAsymmetricRoutingSupported) isaLoadBalancerProfileAsymmetricRoutingSupported() bool {
+	return true
+}
+
+type LoadBalancerProfileAsymmetricRoutingSupportedIntf interface {
+	isaLoadBalancerProfileAsymmetricRoutingSupported() bool
+}
+
+// UnmarshalLoadBalancerProfileAsymmetricRoutingSupported unmarshals an instance of LoadBalancerProfileAsymmetricRoutingSupported from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileAsymmetricRoutingSupported(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileAsymmetricRoutingSupported)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
@@ -143237,6 +143365,72 @@ func (*LoadBalancerProfileAdvancedHealthCheckSupportedFixed) isaLoadBalancerProf
 // UnmarshalLoadBalancerProfileAdvancedHealthCheckSupportedFixed unmarshals an instance of LoadBalancerProfileAdvancedHealthCheckSupportedFixed from the specified map of raw messages.
 func UnmarshalLoadBalancerProfileAdvancedHealthCheckSupportedFixed(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LoadBalancerProfileAdvancedHealthCheckSupportedFixed)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "value", &obj.Value)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "value-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileAsymmetricRoutingSupportedDependent : The asymmetric routing support for a load balancer with this profile depends on its configuration.
+// This model "extends" LoadBalancerProfileAsymmetricRoutingSupported
+type LoadBalancerProfileAsymmetricRoutingSupportedDependent struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+}
+
+// Constants associated with the LoadBalancerProfileAsymmetricRoutingSupportedDependent.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileAsymmetricRoutingSupportedDependentTypeDependentConst = "dependent"
+)
+
+func (*LoadBalancerProfileAsymmetricRoutingSupportedDependent) isaLoadBalancerProfileAsymmetricRoutingSupported() bool {
+	return true
+}
+
+// UnmarshalLoadBalancerProfileAsymmetricRoutingSupportedDependent unmarshals an instance of LoadBalancerProfileAsymmetricRoutingSupportedDependent from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileAsymmetricRoutingSupportedDependent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileAsymmetricRoutingSupportedDependent)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// LoadBalancerProfileAsymmetricRoutingSupportedFixed : The asymmetric routing support for a load balancer with this profile.
+// This model "extends" LoadBalancerProfileAsymmetricRoutingSupported
+type LoadBalancerProfileAsymmetricRoutingSupportedFixed struct {
+	// The type for this profile field.
+	Type *string `json:"type" validate:"required"`
+
+	// The value for this profile field.
+	Value *bool `json:"value" validate:"required"`
+}
+
+// Constants associated with the LoadBalancerProfileAsymmetricRoutingSupportedFixed.Type property.
+// The type for this profile field.
+const (
+	LoadBalancerProfileAsymmetricRoutingSupportedFixedTypeFixedConst = "fixed"
+)
+
+func (*LoadBalancerProfileAsymmetricRoutingSupportedFixed) isaLoadBalancerProfileAsymmetricRoutingSupported() bool {
+	return true
+}
+
+// UnmarshalLoadBalancerProfileAsymmetricRoutingSupportedFixed unmarshals an instance of LoadBalancerProfileAsymmetricRoutingSupportedFixed from the specified map of raw messages.
+func UnmarshalLoadBalancerProfileAsymmetricRoutingSupportedFixed(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LoadBalancerProfileAsymmetricRoutingSupportedFixed)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
