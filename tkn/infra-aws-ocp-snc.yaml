@@ -243,12 +243,20 @@ spec:
         export AWS_DEFAULT_REGION=$(cat /opt/aws-credentials/region)
         BUCKET=$(cat /opt/aws-credentials/bucket)
 
+        # Support temporary session tokens (SAML/STS credentials)
+        if [[ -f /opt/aws-credentials/session-token ]]; then
+          export AWS_SESSION_TOKEN=$(cat /opt/aws-credentials/session-token)
+        fi
+
         # If debug add verbosity and print masked credentials
         if [[ $(params.debug) == "true" ]]; then
           echo "AWS_ACCESS_KEY_ID=$(mask_credential "$AWS_ACCESS_KEY_ID")"
           echo "AWS_SECRET_ACCESS_KEY=$(mask_credential "$AWS_SECRET_ACCESS_KEY")"
           echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
           echo "BUCKET=$BUCKET"
+          if [[ -n "${AWS_SESSION_TOKEN:-}" ]]; then
+            echo "AWS_SESSION_TOKEN=$(mask_credential "$AWS_SESSION_TOKEN")"
+          fi
           set -xeuo pipefail
         fi
 
