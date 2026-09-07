@@ -1,3 +1,14 @@
+# v1.323.0 (2026-08-25)
+
+* **Feature**: Fleet feature to support Capacity Reservation Resource Groups with Amazon EC2 Capacity Blocks and interruptible Capacity Reservations
+* **Dependency Update**: Update to smithy-go v1.27.10.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.322.0 (2026-08-20)
+
+* **Feature**: EC2 marks UEFI instance metadata field as sensitive.
+* **Dependency Update**: Updated to the latest SDK module versions
+
 # v1.321.3 (2026-08-18)
 
 * **Documentation**: Doc release for CreateImage support for instances with local snapshots in Outpost
