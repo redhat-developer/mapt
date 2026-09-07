@@ -230,6 +230,11 @@ func CleanupState(mCtx *mc.Context) error {
 	if mCtx.IsKeepState() {
 		return nil
 	}
+	// Pulumi manages local state backends itself. The explicit cleanup below is
+	// only needed for state stored in S3.
+	if !data.ValidateS3Path(mCtx.BackedURL()) {
+		return nil
+	}
 
 	bucket, key, parseErr := parseS3BackedURL(mCtx)
 	if parseErr != nil {
