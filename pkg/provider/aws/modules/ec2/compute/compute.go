@@ -92,15 +92,16 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 			Eip:              r.Eip,
 			Dependencies:     []pulumi.Resource{asg, r.LB, r.Eip}}, err
 	}
-	i, err := r.onDemandInstance(ctx)
+	i, eipAssociation, err := r.onDemandInstance(ctx)
 	return &Compute{
 		Instance:     i,
 		Eip:          r.Eip,
-		Dependencies: []pulumi.Resource{i, r.Eip}}, err
+		// Commands use the EIP, so they must not start before it is attached.
+		Dependencies: []pulumi.Resource{eipAssociation}}, err
 }
 
 // Create on demand instance
-func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, error) {
+func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, *ec2.EipAssociation, error) {
 	volSize := diskSize
 	if r.DiskSize != nil {
 		volSize = *r.DiskSize
@@ -133,18 +134,18 @@ func (r *ComputeRequest) onDemandInstance(ctx *pulumi.Context) (*ec2.Instance, e
 		&args,
 		pulumi.DependsOn(r.DependsOn))
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	_, err = ec2.NewEipAssociation(ctx,
+	eipAssociation, err := ec2.NewEipAssociation(ctx,
 		resourcesUtil.GetResourceName(r.Prefix, r.ID, "instance-eip"),
 		&ec2.EipAssociationArgs{
 			InstanceId:   instance.ID(),
 			AllocationId: r.Eip.ID(),
 		})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return instance, nil
+	return instance, eipAssociation, nil
 }
 
 // create asg with 1 instance forced by spot
