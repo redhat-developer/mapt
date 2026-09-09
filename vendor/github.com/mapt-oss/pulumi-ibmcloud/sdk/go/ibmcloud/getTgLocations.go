@@ -29,10 +29,8 @@ type GetTgLocationsResult struct {
 }
 
 func GetTgLocationsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetTgLocationsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetTgLocationsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getTgLocations:getTgLocations", nil, GetTgLocationsResultOutput{}, options).(GetTgLocationsResultOutput), nil
-	}).(GetTgLocationsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getTgLocations:getTgLocations", nil, GetTgLocationsResultOutput{}, options).(GetTgLocationsResultOutput)
 }
 
 // A collection of values returned by getTgLocations.

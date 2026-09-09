@@ -40,12 +40,8 @@ type LookupPiVolumeCloneResult struct {
 }
 
 func LookupPiVolumeCloneOutput(ctx *pulumi.Context, args LookupPiVolumeCloneOutputArgs, opts ...pulumi.InvokeOption) LookupPiVolumeCloneResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiVolumeCloneResultOutput, error) {
-			args := v.(LookupPiVolumeCloneArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVolumeClone:getPiVolumeClone", args, LookupPiVolumeCloneResultOutput{}, options).(LookupPiVolumeCloneResultOutput), nil
-		}).(LookupPiVolumeCloneResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVolumeClone:getPiVolumeClone", args, LookupPiVolumeCloneResultOutput{}, options).(LookupPiVolumeCloneResultOutput)
 }
 
 // A collection of arguments for invoking getPiVolumeClone.

@@ -29,8 +29,6 @@ type IamAccountSettingsTemplate struct {
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// Entity tag for this templateId-version combination.
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
-	// History of the Template.
-	Histories IamAccountSettingsTemplateHistoryArrayOutput `pulumi:"histories"`
 	// Template last modified at.
 	LastModifiedAt pulumi.StringOutput `pulumi:"lastModifiedAt"`
 	// IAMid of the identity that made the latest modification.
@@ -88,8 +86,6 @@ type iamAccountSettingsTemplateState struct {
 	Description *string `pulumi:"description"`
 	// Entity tag for this templateId-version combination.
 	EntityTag *string `pulumi:"entityTag"`
-	// History of the Template.
-	Histories []IamAccountSettingsTemplateHistory `pulumi:"histories"`
 	// Template last modified at.
 	LastModifiedAt *string `pulumi:"lastModifiedAt"`
 	// IAMid of the identity that made the latest modification.
@@ -118,8 +114,6 @@ type IamAccountSettingsTemplateState struct {
 	Description pulumi.StringPtrInput
 	// Entity tag for this templateId-version combination.
 	EntityTag pulumi.StringPtrInput
-	// History of the Template.
-	Histories IamAccountSettingsTemplateHistoryArrayInput
 	// Template last modified at.
 	LastModifiedAt pulumi.StringPtrInput
 	// IAMid of the identity that made the latest modification.
@@ -241,11 +235,6 @@ func (o IamAccountSettingsTemplateOutput) Description() pulumi.StringPtrOutput {
 // Entity tag for this templateId-version combination.
 func (o IamAccountSettingsTemplateOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamAccountSettingsTemplate) pulumi.StringOutput { return v.EntityTag }).(pulumi.StringOutput)
-}
-
-// History of the Template.
-func (o IamAccountSettingsTemplateOutput) Histories() IamAccountSettingsTemplateHistoryArrayOutput {
-	return o.ApplyT(func(v *IamAccountSettingsTemplate) IamAccountSettingsTemplateHistoryArrayOutput { return v.Histories }).(IamAccountSettingsTemplateHistoryArrayOutput)
 }
 
 // Template last modified at.

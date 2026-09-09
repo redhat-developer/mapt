@@ -36,6 +36,7 @@ type LookupIsSecurityGroupRuleResult struct {
 	Id                string                         `pulumi:"id"`
 	IpVersion         string                         `pulumi:"ipVersion"`
 	Locals            []GetIsSecurityGroupRuleLocal  `pulumi:"locals"`
+	Name              string                         `pulumi:"name"`
 	PortMax           int                            `pulumi:"portMax"`
 	PortMin           int                            `pulumi:"portMin"`
 	Protocol          string                         `pulumi:"protocol"`
@@ -46,12 +47,8 @@ type LookupIsSecurityGroupRuleResult struct {
 }
 
 func LookupIsSecurityGroupRuleOutput(ctx *pulumi.Context, args LookupIsSecurityGroupRuleOutputArgs, opts ...pulumi.InvokeOption) LookupIsSecurityGroupRuleResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsSecurityGroupRuleResultOutput, error) {
-			args := v.(LookupIsSecurityGroupRuleArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSecurityGroupRule:getIsSecurityGroupRule", args, LookupIsSecurityGroupRuleResultOutput{}, options).(LookupIsSecurityGroupRuleResultOutput), nil
-		}).(LookupIsSecurityGroupRuleResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSecurityGroupRule:getIsSecurityGroupRule", args, LookupIsSecurityGroupRuleResultOutput{}, options).(LookupIsSecurityGroupRuleResultOutput)
 }
 
 // A collection of arguments for invoking getIsSecurityGroupRule.
@@ -102,6 +99,10 @@ func (o LookupIsSecurityGroupRuleResultOutput) IpVersion() pulumi.StringOutput {
 
 func (o LookupIsSecurityGroupRuleResultOutput) Locals() GetIsSecurityGroupRuleLocalArrayOutput {
 	return o.ApplyT(func(v LookupIsSecurityGroupRuleResult) []GetIsSecurityGroupRuleLocal { return v.Locals }).(GetIsSecurityGroupRuleLocalArrayOutput)
+}
+
+func (o LookupIsSecurityGroupRuleResultOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupIsSecurityGroupRuleResult) string { return v.Name }).(pulumi.StringOutput)
 }
 
 func (o LookupIsSecurityGroupRuleResultOutput) PortMax() pulumi.IntOutput {

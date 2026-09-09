@@ -1,0 +1,56 @@
+#cloud-config
+ntp:
+  enabled: true
+  servers:
+    - 0.pool.ntp.org
+    - 1.pool.ntp.org
+    - 2.pool.ntp.org
+    - 3.pool.ntp.org
+write_files:
+- content: |
+    # kind-config.yaml
+    kind: Cluster
+    apiVersion: kind.x-k8s.io/v1alpha4
+    kubeadmConfigPatches:
+    - |
+      kind: ClusterConfiguration
+      apiServer:
+        certSANs:
+        - "{{ .PublicIP }}"
+    - |
+      kind: InitConfiguration
+      nodeRegistration:
+        kubeletExtraArgs:
+          node-labels: "ingress-ready=true"
+          system-reserved: memory=8Gi
+    nodes:
+    - role: control-plane
+      extraPortMappings:
+      - containerPort: 6443
+        hostPort: 6443
+        protocol: TCP
+      - containerPort: 30010
+        hostPort: 8888
+        protocol: TCP
+      - containerPort: 30011
+        hostPort: 9443
+        protocol: TCP{{- range .ExtraPortMappings }}
+      - containerPort: {{ .ContainerPort }}
+        hostPort: {{ .HostPort }}
+        protocol: {{ .Protocol }}{{- end }}
+  path: /root/kind-config.yaml
+  permissions: '0644'
+runcmd:
+  - apt-get update -y
+  - apt-get install -y podman
+  - bash -c "curl -sSLo /usr/local/bin/kubectl https://dl.k8s.io/release/$(curl -sSL https://dl.k8s.io/release/stable.txt)/bin/linux/{{ .Arch }}/kubectl && chmod +x /usr/local/bin/kubectl"
+  - sysctl fs.inotify.max_user_watches=524288
+  - sysctl fs.inotify.max_user_instances=512
+  - curl -Lo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}
+  - chmod +x /usr/local/bin/kind
+  - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
+  - podman update --pids-limit 4096 kind-mapt-control-plane
+  - cmdKubeconfig="kind get kubeconfig --name kind-mapt > kubeconfig"
+  - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig kubeconfig get node >/dev/null 2>&1"
+  - until eval $cmdCheckCluster; do sleep 5; eval $cmdKubeconfig; done
+  - kind get kubeconfig --name kind-mapt > /home/{{ .Username }}/kubeconfig

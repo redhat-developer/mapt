@@ -40,12 +40,8 @@ type LookupPiWorkspaceResult struct {
 }
 
 func LookupPiWorkspaceOutput(ctx *pulumi.Context, args LookupPiWorkspaceOutputArgs, opts ...pulumi.InvokeOption) LookupPiWorkspaceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiWorkspaceResultOutput, error) {
-			args := v.(LookupPiWorkspaceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiWorkspace:getPiWorkspace", args, LookupPiWorkspaceResultOutput{}, options).(LookupPiWorkspaceResultOutput), nil
-		}).(LookupPiWorkspaceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiWorkspace:getPiWorkspace", args, LookupPiWorkspaceResultOutput{}, options).(LookupPiWorkspaceResultOutput)
 }
 
 // A collection of arguments for invoking getPiWorkspace.

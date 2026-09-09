@@ -38,12 +38,8 @@ type GetIsSharesResult struct {
 }
 
 func GetIsSharesOutput(ctx *pulumi.Context, args GetIsSharesOutputArgs, opts ...pulumi.InvokeOption) GetIsSharesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSharesResultOutput, error) {
-			args := v.(GetIsSharesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShares:getIsShares", args, GetIsSharesResultOutput{}, options).(GetIsSharesResultOutput), nil
-		}).(GetIsSharesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShares:getIsShares", args, GetIsSharesResultOutput{}, options).(GetIsSharesResultOutput)
 }
 
 // A collection of arguments for invoking getIsShares.

@@ -35,12 +35,8 @@ type GetIsBareMetalServerNetworkInterfacesResult struct {
 }
 
 func GetIsBareMetalServerNetworkInterfacesOutput(ctx *pulumi.Context, args GetIsBareMetalServerNetworkInterfacesOutputArgs, opts ...pulumi.InvokeOption) GetIsBareMetalServerNetworkInterfacesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsBareMetalServerNetworkInterfacesResultOutput, error) {
-			args := v.(GetIsBareMetalServerNetworkInterfacesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkInterfaces:getIsBareMetalServerNetworkInterfaces", args, GetIsBareMetalServerNetworkInterfacesResultOutput{}, options).(GetIsBareMetalServerNetworkInterfacesResultOutput), nil
-		}).(GetIsBareMetalServerNetworkInterfacesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkInterfaces:getIsBareMetalServerNetworkInterfaces", args, GetIsBareMetalServerNetworkInterfacesResultOutput{}, options).(GetIsBareMetalServerNetworkInterfacesResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServerNetworkInterfaces.

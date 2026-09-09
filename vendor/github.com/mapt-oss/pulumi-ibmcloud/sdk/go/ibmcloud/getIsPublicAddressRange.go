@@ -47,12 +47,8 @@ type LookupIsPublicAddressRangeResult struct {
 }
 
 func LookupIsPublicAddressRangeOutput(ctx *pulumi.Context, args LookupIsPublicAddressRangeOutputArgs, opts ...pulumi.InvokeOption) LookupIsPublicAddressRangeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsPublicAddressRangeResultOutput, error) {
-			args := v.(LookupIsPublicAddressRangeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsPublicAddressRange:getIsPublicAddressRange", args, LookupIsPublicAddressRangeResultOutput{}, options).(LookupIsPublicAddressRangeResultOutput), nil
-		}).(LookupIsPublicAddressRangeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPublicAddressRange:getIsPublicAddressRange", args, LookupIsPublicAddressRangeResultOutput{}, options).(LookupIsPublicAddressRangeResultOutput)
 }
 
 // A collection of arguments for invoking getIsPublicAddressRange.

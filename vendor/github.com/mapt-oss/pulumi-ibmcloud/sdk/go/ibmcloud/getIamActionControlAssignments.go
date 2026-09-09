@@ -37,12 +37,8 @@ type GetIamActionControlAssignmentsResult struct {
 }
 
 func GetIamActionControlAssignmentsOutput(ctx *pulumi.Context, args GetIamActionControlAssignmentsOutputArgs, opts ...pulumi.InvokeOption) GetIamActionControlAssignmentsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamActionControlAssignmentsResultOutput, error) {
-			args := v.(GetIamActionControlAssignmentsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamActionControlAssignments:getIamActionControlAssignments", args, GetIamActionControlAssignmentsResultOutput{}, options).(GetIamActionControlAssignmentsResultOutput), nil
-		}).(GetIamActionControlAssignmentsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamActionControlAssignments:getIamActionControlAssignments", args, GetIamActionControlAssignmentsResultOutput{}, options).(GetIamActionControlAssignmentsResultOutput)
 }
 
 // A collection of arguments for invoking getIamActionControlAssignments.

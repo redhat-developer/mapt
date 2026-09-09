@@ -35,12 +35,8 @@ type GetIsImageInstanceProfilesResult struct {
 }
 
 func GetIsImageInstanceProfilesOutput(ctx *pulumi.Context, args GetIsImageInstanceProfilesOutputArgs, opts ...pulumi.InvokeOption) GetIsImageInstanceProfilesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsImageInstanceProfilesResultOutput, error) {
-			args := v.(GetIsImageInstanceProfilesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsImageInstanceProfiles:getIsImageInstanceProfiles", args, GetIsImageInstanceProfilesResultOutput{}, options).(GetIsImageInstanceProfilesResultOutput), nil
-		}).(GetIsImageInstanceProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsImageInstanceProfiles:getIsImageInstanceProfiles", args, GetIsImageInstanceProfilesResultOutput{}, options).(GetIsImageInstanceProfilesResultOutput)
 }
 
 // A collection of arguments for invoking getIsImageInstanceProfiles.

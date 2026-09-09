@@ -39,12 +39,8 @@ type GetPiSapProfilesResult struct {
 }
 
 func GetPiSapProfilesOutput(ctx *pulumi.Context, args GetPiSapProfilesOutputArgs, opts ...pulumi.InvokeOption) GetPiSapProfilesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiSapProfilesResultOutput, error) {
-			args := v.(GetPiSapProfilesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSapProfiles:getPiSapProfiles", args, GetPiSapProfilesResultOutput{}, options).(GetPiSapProfilesResultOutput), nil
-		}).(GetPiSapProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSapProfiles:getPiSapProfiles", args, GetPiSapProfilesResultOutput{}, options).(GetPiSapProfilesResultOutput)
 }
 
 // A collection of arguments for invoking getPiSapProfiles.

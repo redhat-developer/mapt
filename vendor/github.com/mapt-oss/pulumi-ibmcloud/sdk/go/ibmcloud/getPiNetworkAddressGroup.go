@@ -40,12 +40,8 @@ type LookupPiNetworkAddressGroupResult struct {
 }
 
 func LookupPiNetworkAddressGroupOutput(ctx *pulumi.Context, args LookupPiNetworkAddressGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPiNetworkAddressGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiNetworkAddressGroupResultOutput, error) {
-			args := v.(LookupPiNetworkAddressGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiNetworkAddressGroup:getPiNetworkAddressGroup", args, LookupPiNetworkAddressGroupResultOutput{}, options).(LookupPiNetworkAddressGroupResultOutput), nil
-		}).(LookupPiNetworkAddressGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiNetworkAddressGroup:getPiNetworkAddressGroup", args, LookupPiNetworkAddressGroupResultOutput{}, options).(LookupPiNetworkAddressGroupResultOutput)
 }
 
 // A collection of arguments for invoking getPiNetworkAddressGroup.

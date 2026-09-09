@@ -35,12 +35,8 @@ type GetIsVirtualEndpointGatewayIpsResult struct {
 }
 
 func GetIsVirtualEndpointGatewayIpsOutput(ctx *pulumi.Context, args GetIsVirtualEndpointGatewayIpsOutputArgs, opts ...pulumi.InvokeOption) GetIsVirtualEndpointGatewayIpsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVirtualEndpointGatewayIpsResultOutput, error) {
-			args := v.(GetIsVirtualEndpointGatewayIpsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVirtualEndpointGatewayIps:getIsVirtualEndpointGatewayIps", args, GetIsVirtualEndpointGatewayIpsResultOutput{}, options).(GetIsVirtualEndpointGatewayIpsResultOutput), nil
-		}).(GetIsVirtualEndpointGatewayIpsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVirtualEndpointGatewayIps:getIsVirtualEndpointGatewayIps", args, GetIsVirtualEndpointGatewayIpsResultOutput{}, options).(GetIsVirtualEndpointGatewayIpsResultOutput)
 }
 
 // A collection of arguments for invoking getIsVirtualEndpointGatewayIps.

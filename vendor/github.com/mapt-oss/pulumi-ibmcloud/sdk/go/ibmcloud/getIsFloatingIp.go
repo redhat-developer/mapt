@@ -42,12 +42,8 @@ type LookupIsFloatingIpResult struct {
 }
 
 func LookupIsFloatingIpOutput(ctx *pulumi.Context, args LookupIsFloatingIpOutputArgs, opts ...pulumi.InvokeOption) LookupIsFloatingIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsFloatingIpResultOutput, error) {
-			args := v.(LookupIsFloatingIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsFloatingIp:getIsFloatingIp", args, LookupIsFloatingIpResultOutput{}, options).(LookupIsFloatingIpResultOutput), nil
-		}).(LookupIsFloatingIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsFloatingIp:getIsFloatingIp", args, LookupIsFloatingIpResultOutput{}, options).(LookupIsFloatingIpResultOutput)
 }
 
 // A collection of arguments for invoking getIsFloatingIp.

@@ -39,12 +39,8 @@ type GetIsShareSnapshotsResult struct {
 }
 
 func GetIsShareSnapshotsOutput(ctx *pulumi.Context, args GetIsShareSnapshotsOutputArgs, opts ...pulumi.InvokeOption) GetIsShareSnapshotsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsShareSnapshotsResultOutput, error) {
-			args := v.(GetIsShareSnapshotsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShareSnapshots:getIsShareSnapshots", args, GetIsShareSnapshotsResultOutput{}, options).(GetIsShareSnapshotsResultOutput), nil
-		}).(GetIsShareSnapshotsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShareSnapshots:getIsShareSnapshots", args, GetIsShareSnapshotsResultOutput{}, options).(GetIsShareSnapshotsResultOutput)
 }
 
 // A collection of arguments for invoking getIsShareSnapshots.

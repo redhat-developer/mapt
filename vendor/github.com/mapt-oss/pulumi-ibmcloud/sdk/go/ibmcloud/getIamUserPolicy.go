@@ -39,12 +39,8 @@ type LookupIamUserPolicyResult struct {
 }
 
 func LookupIamUserPolicyOutput(ctx *pulumi.Context, args LookupIamUserPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupIamUserPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamUserPolicyResultOutput, error) {
-			args := v.(LookupIamUserPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamUserPolicy:getIamUserPolicy", args, LookupIamUserPolicyResultOutput{}, options).(LookupIamUserPolicyResultOutput), nil
-		}).(LookupIamUserPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamUserPolicy:getIamUserPolicy", args, LookupIamUserPolicyResultOutput{}, options).(LookupIamUserPolicyResultOutput)
 }
 
 // A collection of arguments for invoking getIamUserPolicy.

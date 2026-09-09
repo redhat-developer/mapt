@@ -49,12 +49,8 @@ type LookupIsBackupPolicyPlanResult struct {
 }
 
 func LookupIsBackupPolicyPlanOutput(ctx *pulumi.Context, args LookupIsBackupPolicyPlanOutputArgs, opts ...pulumi.InvokeOption) LookupIsBackupPolicyPlanResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsBackupPolicyPlanResultOutput, error) {
-			args := v.(LookupIsBackupPolicyPlanArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBackupPolicyPlan:getIsBackupPolicyPlan", args, LookupIsBackupPolicyPlanResultOutput{}, options).(LookupIsBackupPolicyPlanResultOutput), nil
-		}).(LookupIsBackupPolicyPlanResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBackupPolicyPlan:getIsBackupPolicyPlan", args, LookupIsBackupPolicyPlanResultOutput{}, options).(LookupIsBackupPolicyPlanResultOutput)
 }
 
 // A collection of arguments for invoking getIsBackupPolicyPlan.

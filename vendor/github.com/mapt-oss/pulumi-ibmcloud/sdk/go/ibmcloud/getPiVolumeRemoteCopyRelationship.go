@@ -51,12 +51,8 @@ type GetPiVolumeRemoteCopyRelationshipResult struct {
 }
 
 func GetPiVolumeRemoteCopyRelationshipOutput(ctx *pulumi.Context, args GetPiVolumeRemoteCopyRelationshipOutputArgs, opts ...pulumi.InvokeOption) GetPiVolumeRemoteCopyRelationshipResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiVolumeRemoteCopyRelationshipResultOutput, error) {
-			args := v.(GetPiVolumeRemoteCopyRelationshipArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVolumeRemoteCopyRelationship:getPiVolumeRemoteCopyRelationship", args, GetPiVolumeRemoteCopyRelationshipResultOutput{}, options).(GetPiVolumeRemoteCopyRelationshipResultOutput), nil
-		}).(GetPiVolumeRemoteCopyRelationshipResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVolumeRemoteCopyRelationship:getPiVolumeRemoteCopyRelationship", args, GetPiVolumeRemoteCopyRelationshipResultOutput{}, options).(GetPiVolumeRemoteCopyRelationshipResultOutput)
 }
 
 // A collection of arguments for invoking getPiVolumeRemoteCopyRelationship.

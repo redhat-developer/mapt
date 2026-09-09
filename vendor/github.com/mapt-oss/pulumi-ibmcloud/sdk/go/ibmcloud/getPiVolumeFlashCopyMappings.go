@@ -37,12 +37,8 @@ type GetPiVolumeFlashCopyMappingsResult struct {
 }
 
 func GetPiVolumeFlashCopyMappingsOutput(ctx *pulumi.Context, args GetPiVolumeFlashCopyMappingsOutputArgs, opts ...pulumi.InvokeOption) GetPiVolumeFlashCopyMappingsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiVolumeFlashCopyMappingsResultOutput, error) {
-			args := v.(GetPiVolumeFlashCopyMappingsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVolumeFlashCopyMappings:getPiVolumeFlashCopyMappings", args, GetPiVolumeFlashCopyMappingsResultOutput{}, options).(GetPiVolumeFlashCopyMappingsResultOutput), nil
-		}).(GetPiVolumeFlashCopyMappingsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVolumeFlashCopyMappings:getPiVolumeFlashCopyMappings", args, GetPiVolumeFlashCopyMappingsResultOutput{}, options).(GetPiVolumeFlashCopyMappingsResultOutput)
 }
 
 // A collection of arguments for invoking getPiVolumeFlashCopyMappings.

@@ -7,7 +7,6 @@ import (
 	"context"
 	"reflect"
 
-	"errors"
 	"github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -16,17 +15,29 @@ type IsIpsecPolicy struct {
 	pulumi.CustomResourceState
 
 	// Authentication alorothm
+	//
+	// Deprecated: `authenticationAlgorithm` is deprecated in favor of `authenticationAlgorithms`. The existing `authenticationAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `authenticationAlgorithms`. Use `authenticationAlgorithms` to configure multiple authentication algorithms. This enhancement adds support for multi-algorithm authentication while preserving compatibility with earlier single-algorithm configurations.
 	AuthenticationAlgorithm pulumi.StringOutput `pulumi:"authenticationAlgorithm"`
+	// The authentication algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	AuthenticationAlgorithms pulumi.StringArrayOutput `pulumi:"authenticationAlgorithms"`
 	// IPSEC encapsulation mode
 	EncapsulationMode pulumi.StringOutput `pulumi:"encapsulationMode"`
 	// Encryption algorithm
+	//
+	// Deprecated: `encryptionAlgorithm` is deprecated in favor of `encryptionAlgorithms`. The existing `encryptionAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `encryptionAlgorithms`. Use `encryptionAlgorithms` to configure multiple encryption algorithms. This enhancement adds support for multi-algorithm encryption while preserving compatibility with earlier single-algorithm configurations.
 	EncryptionAlgorithm pulumi.StringOutput `pulumi:"encryptionAlgorithm"`
+	// The encryption algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	EncryptionAlgorithms pulumi.StringArrayOutput `pulumi:"encryptionAlgorithms"`
 	// IPSEC key lifetime
 	KeyLifetime pulumi.IntPtrOutput `pulumi:"keyLifetime"`
 	// IPSEC name
 	Name pulumi.StringOutput `pulumi:"name"`
 	// PFS info
+	//
+	// Deprecated: `pfs` is deprecated in favor of `pfsGroups`. The existing `pfs` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `pfsGroups`. Use `pfsGroups` to configure multiple Perfect Forward Secrecy (PFS) groups. This enhancement adds support for multi-group PFS configurations while preserving compatibility with earlier single-group configurations.
 	Pfs pulumi.StringOutput `pulumi:"pfs"`
+	// The Perfect Forward Secrecy groups to use for IPsec negotiation.The order of the Perfect Forward Secrecy groups in this array indicates their priority for negotiation, with each Perfect Forward Secrecy group having priority over the one after it.
+	PfsGroups pulumi.StringArrayOutput `pulumi:"pfsGroups"`
 	// The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance
 	ResourceControllerUrl pulumi.StringOutput `pulumi:"resourceControllerUrl"`
 	// The crn of the resource
@@ -46,18 +57,9 @@ type IsIpsecPolicy struct {
 func NewIsIpsecPolicy(ctx *pulumi.Context,
 	name string, args *IsIpsecPolicyArgs, opts ...pulumi.ResourceOption) (*IsIpsecPolicy, error) {
 	if args == nil {
-		return nil, errors.New("missing one or more required arguments")
+		args = &IsIpsecPolicyArgs{}
 	}
 
-	if args.AuthenticationAlgorithm == nil {
-		return nil, errors.New("invalid value for required argument 'AuthenticationAlgorithm'")
-	}
-	if args.EncryptionAlgorithm == nil {
-		return nil, errors.New("invalid value for required argument 'EncryptionAlgorithm'")
-	}
-	if args.Pfs == nil {
-		return nil, errors.New("invalid value for required argument 'Pfs'")
-	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource IsIpsecPolicy
 	err := ctx.RegisterResource("ibmcloud:index/isIpsecPolicy:IsIpsecPolicy", name, args, &resource, opts...)
@@ -82,17 +84,29 @@ func GetIsIpsecPolicy(ctx *pulumi.Context,
 // Input properties used for looking up and filtering IsIpsecPolicy resources.
 type isIpsecPolicyState struct {
 	// Authentication alorothm
+	//
+	// Deprecated: `authenticationAlgorithm` is deprecated in favor of `authenticationAlgorithms`. The existing `authenticationAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `authenticationAlgorithms`. Use `authenticationAlgorithms` to configure multiple authentication algorithms. This enhancement adds support for multi-algorithm authentication while preserving compatibility with earlier single-algorithm configurations.
 	AuthenticationAlgorithm *string `pulumi:"authenticationAlgorithm"`
+	// The authentication algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	AuthenticationAlgorithms []string `pulumi:"authenticationAlgorithms"`
 	// IPSEC encapsulation mode
 	EncapsulationMode *string `pulumi:"encapsulationMode"`
 	// Encryption algorithm
+	//
+	// Deprecated: `encryptionAlgorithm` is deprecated in favor of `encryptionAlgorithms`. The existing `encryptionAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `encryptionAlgorithms`. Use `encryptionAlgorithms` to configure multiple encryption algorithms. This enhancement adds support for multi-algorithm encryption while preserving compatibility with earlier single-algorithm configurations.
 	EncryptionAlgorithm *string `pulumi:"encryptionAlgorithm"`
+	// The encryption algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	EncryptionAlgorithms []string `pulumi:"encryptionAlgorithms"`
 	// IPSEC key lifetime
 	KeyLifetime *int `pulumi:"keyLifetime"`
 	// IPSEC name
 	Name *string `pulumi:"name"`
 	// PFS info
+	//
+	// Deprecated: `pfs` is deprecated in favor of `pfsGroups`. The existing `pfs` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `pfsGroups`. Use `pfsGroups` to configure multiple Perfect Forward Secrecy (PFS) groups. This enhancement adds support for multi-group PFS configurations while preserving compatibility with earlier single-group configurations.
 	Pfs *string `pulumi:"pfs"`
+	// The Perfect Forward Secrecy groups to use for IPsec negotiation.The order of the Perfect Forward Secrecy groups in this array indicates their priority for negotiation, with each Perfect Forward Secrecy group having priority over the one after it.
+	PfsGroups []string `pulumi:"pfsGroups"`
 	// The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance
 	ResourceControllerUrl *string `pulumi:"resourceControllerUrl"`
 	// The crn of the resource
@@ -110,17 +124,29 @@ type isIpsecPolicyState struct {
 
 type IsIpsecPolicyState struct {
 	// Authentication alorothm
+	//
+	// Deprecated: `authenticationAlgorithm` is deprecated in favor of `authenticationAlgorithms`. The existing `authenticationAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `authenticationAlgorithms`. Use `authenticationAlgorithms` to configure multiple authentication algorithms. This enhancement adds support for multi-algorithm authentication while preserving compatibility with earlier single-algorithm configurations.
 	AuthenticationAlgorithm pulumi.StringPtrInput
+	// The authentication algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	AuthenticationAlgorithms pulumi.StringArrayInput
 	// IPSEC encapsulation mode
 	EncapsulationMode pulumi.StringPtrInput
 	// Encryption algorithm
+	//
+	// Deprecated: `encryptionAlgorithm` is deprecated in favor of `encryptionAlgorithms`. The existing `encryptionAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `encryptionAlgorithms`. Use `encryptionAlgorithms` to configure multiple encryption algorithms. This enhancement adds support for multi-algorithm encryption while preserving compatibility with earlier single-algorithm configurations.
 	EncryptionAlgorithm pulumi.StringPtrInput
+	// The encryption algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	EncryptionAlgorithms pulumi.StringArrayInput
 	// IPSEC key lifetime
 	KeyLifetime pulumi.IntPtrInput
 	// IPSEC name
 	Name pulumi.StringPtrInput
 	// PFS info
+	//
+	// Deprecated: `pfs` is deprecated in favor of `pfsGroups`. The existing `pfs` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `pfsGroups`. Use `pfsGroups` to configure multiple Perfect Forward Secrecy (PFS) groups. This enhancement adds support for multi-group PFS configurations while preserving compatibility with earlier single-group configurations.
 	Pfs pulumi.StringPtrInput
+	// The Perfect Forward Secrecy groups to use for IPsec negotiation.The order of the Perfect Forward Secrecy groups in this array indicates their priority for negotiation, with each Perfect Forward Secrecy group having priority over the one after it.
+	PfsGroups pulumi.StringArrayInput
 	// The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance
 	ResourceControllerUrl pulumi.StringPtrInput
 	// The crn of the resource
@@ -142,15 +168,27 @@ func (IsIpsecPolicyState) ElementType() reflect.Type {
 
 type isIpsecPolicyArgs struct {
 	// Authentication alorothm
-	AuthenticationAlgorithm string `pulumi:"authenticationAlgorithm"`
+	//
+	// Deprecated: `authenticationAlgorithm` is deprecated in favor of `authenticationAlgorithms`. The existing `authenticationAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `authenticationAlgorithms`. Use `authenticationAlgorithms` to configure multiple authentication algorithms. This enhancement adds support for multi-algorithm authentication while preserving compatibility with earlier single-algorithm configurations.
+	AuthenticationAlgorithm *string `pulumi:"authenticationAlgorithm"`
+	// The authentication algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	AuthenticationAlgorithms []string `pulumi:"authenticationAlgorithms"`
 	// Encryption algorithm
-	EncryptionAlgorithm string `pulumi:"encryptionAlgorithm"`
+	//
+	// Deprecated: `encryptionAlgorithm` is deprecated in favor of `encryptionAlgorithms`. The existing `encryptionAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `encryptionAlgorithms`. Use `encryptionAlgorithms` to configure multiple encryption algorithms. This enhancement adds support for multi-algorithm encryption while preserving compatibility with earlier single-algorithm configurations.
+	EncryptionAlgorithm *string `pulumi:"encryptionAlgorithm"`
+	// The encryption algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	EncryptionAlgorithms []string `pulumi:"encryptionAlgorithms"`
 	// IPSEC key lifetime
 	KeyLifetime *int `pulumi:"keyLifetime"`
 	// IPSEC name
 	Name *string `pulumi:"name"`
 	// PFS info
-	Pfs string `pulumi:"pfs"`
+	//
+	// Deprecated: `pfs` is deprecated in favor of `pfsGroups`. The existing `pfs` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `pfsGroups`. Use `pfsGroups` to configure multiple Perfect Forward Secrecy (PFS) groups. This enhancement adds support for multi-group PFS configurations while preserving compatibility with earlier single-group configurations.
+	Pfs *string `pulumi:"pfs"`
+	// The Perfect Forward Secrecy groups to use for IPsec negotiation.The order of the Perfect Forward Secrecy groups in this array indicates their priority for negotiation, with each Perfect Forward Secrecy group having priority over the one after it.
+	PfsGroups []string `pulumi:"pfsGroups"`
 	// Resource group info
 	ResourceGroup *string `pulumi:"resourceGroup"`
 }
@@ -158,15 +196,27 @@ type isIpsecPolicyArgs struct {
 // The set of arguments for constructing a IsIpsecPolicy resource.
 type IsIpsecPolicyArgs struct {
 	// Authentication alorothm
-	AuthenticationAlgorithm pulumi.StringInput
+	//
+	// Deprecated: `authenticationAlgorithm` is deprecated in favor of `authenticationAlgorithms`. The existing `authenticationAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `authenticationAlgorithms`. Use `authenticationAlgorithms` to configure multiple authentication algorithms. This enhancement adds support for multi-algorithm authentication while preserving compatibility with earlier single-algorithm configurations.
+	AuthenticationAlgorithm pulumi.StringPtrInput
+	// The authentication algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	AuthenticationAlgorithms pulumi.StringArrayInput
 	// Encryption algorithm
-	EncryptionAlgorithm pulumi.StringInput
+	//
+	// Deprecated: `encryptionAlgorithm` is deprecated in favor of `encryptionAlgorithms`. The existing `encryptionAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `encryptionAlgorithms`. Use `encryptionAlgorithms` to configure multiple encryption algorithms. This enhancement adds support for multi-algorithm encryption while preserving compatibility with earlier single-algorithm configurations.
+	EncryptionAlgorithm pulumi.StringPtrInput
+	// The encryption algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+	EncryptionAlgorithms pulumi.StringArrayInput
 	// IPSEC key lifetime
 	KeyLifetime pulumi.IntPtrInput
 	// IPSEC name
 	Name pulumi.StringPtrInput
 	// PFS info
-	Pfs pulumi.StringInput
+	//
+	// Deprecated: `pfs` is deprecated in favor of `pfsGroups`. The existing `pfs` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `pfsGroups`. Use `pfsGroups` to configure multiple Perfect Forward Secrecy (PFS) groups. This enhancement adds support for multi-group PFS configurations while preserving compatibility with earlier single-group configurations.
+	Pfs pulumi.StringPtrInput
+	// The Perfect Forward Secrecy groups to use for IPsec negotiation.The order of the Perfect Forward Secrecy groups in this array indicates their priority for negotiation, with each Perfect Forward Secrecy group having priority over the one after it.
+	PfsGroups pulumi.StringArrayInput
 	// Resource group info
 	ResourceGroup pulumi.StringPtrInput
 }
@@ -209,8 +259,15 @@ func (o IsIpsecPolicyOutput) ToIsIpsecPolicyOutputWithContext(ctx context.Contex
 }
 
 // Authentication alorothm
+//
+// Deprecated: `authenticationAlgorithm` is deprecated in favor of `authenticationAlgorithms`. The existing `authenticationAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `authenticationAlgorithms`. Use `authenticationAlgorithms` to configure multiple authentication algorithms. This enhancement adds support for multi-algorithm authentication while preserving compatibility with earlier single-algorithm configurations.
 func (o IsIpsecPolicyOutput) AuthenticationAlgorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsIpsecPolicy) pulumi.StringOutput { return v.AuthenticationAlgorithm }).(pulumi.StringOutput)
+}
+
+// The authentication algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+func (o IsIpsecPolicyOutput) AuthenticationAlgorithms() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsIpsecPolicy) pulumi.StringArrayOutput { return v.AuthenticationAlgorithms }).(pulumi.StringArrayOutput)
 }
 
 // IPSEC encapsulation mode
@@ -219,8 +276,15 @@ func (o IsIpsecPolicyOutput) EncapsulationMode() pulumi.StringOutput {
 }
 
 // Encryption algorithm
+//
+// Deprecated: `encryptionAlgorithm` is deprecated in favor of `encryptionAlgorithms`. The existing `encryptionAlgorithm` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `encryptionAlgorithms`. Use `encryptionAlgorithms` to configure multiple encryption algorithms. This enhancement adds support for multi-algorithm encryption while preserving compatibility with earlier single-algorithm configurations.
 func (o IsIpsecPolicyOutput) EncryptionAlgorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsIpsecPolicy) pulumi.StringOutput { return v.EncryptionAlgorithm }).(pulumi.StringOutput)
+}
+
+// The encryption algorithms to use for IPsec Negotiation.The order of the algorithms in this array indicates their priority for negotiation, with each algorithm having priority over the one after it.
+func (o IsIpsecPolicyOutput) EncryptionAlgorithms() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsIpsecPolicy) pulumi.StringArrayOutput { return v.EncryptionAlgorithms }).(pulumi.StringArrayOutput)
 }
 
 // IPSEC key lifetime
@@ -234,8 +298,15 @@ func (o IsIpsecPolicyOutput) Name() pulumi.StringOutput {
 }
 
 // PFS info
+//
+// Deprecated: `pfs` is deprecated in favor of `pfsGroups`. The existing `pfs` field will continue to function without any behavior changes to maintain backward compatibility. No migration is required for existing configurations, for newer use `pfsGroups`. Use `pfsGroups` to configure multiple Perfect Forward Secrecy (PFS) groups. This enhancement adds support for multi-group PFS configurations while preserving compatibility with earlier single-group configurations.
 func (o IsIpsecPolicyOutput) Pfs() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsIpsecPolicy) pulumi.StringOutput { return v.Pfs }).(pulumi.StringOutput)
+}
+
+// The Perfect Forward Secrecy groups to use for IPsec negotiation.The order of the Perfect Forward Secrecy groups in this array indicates their priority for negotiation, with each Perfect Forward Secrecy group having priority over the one after it.
+func (o IsIpsecPolicyOutput) PfsGroups() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsIpsecPolicy) pulumi.StringArrayOutput { return v.PfsGroups }).(pulumi.StringArrayOutput)
 }
 
 // The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance

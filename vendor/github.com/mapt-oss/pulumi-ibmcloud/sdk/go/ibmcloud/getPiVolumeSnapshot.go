@@ -44,12 +44,8 @@ type GetPiVolumeSnapshotResult struct {
 }
 
 func GetPiVolumeSnapshotOutput(ctx *pulumi.Context, args GetPiVolumeSnapshotOutputArgs, opts ...pulumi.InvokeOption) GetPiVolumeSnapshotResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiVolumeSnapshotResultOutput, error) {
-			args := v.(GetPiVolumeSnapshotArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVolumeSnapshot:getPiVolumeSnapshot", args, GetPiVolumeSnapshotResultOutput{}, options).(GetPiVolumeSnapshotResultOutput), nil
-		}).(GetPiVolumeSnapshotResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVolumeSnapshot:getPiVolumeSnapshot", args, GetPiVolumeSnapshotResultOutput{}, options).(GetPiVolumeSnapshotResultOutput)
 }
 
 // A collection of arguments for invoking getPiVolumeSnapshot.

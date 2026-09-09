@@ -39,12 +39,8 @@ type GetIamUserMfaEnrollmentsResult struct {
 }
 
 func GetIamUserMfaEnrollmentsOutput(ctx *pulumi.Context, args GetIamUserMfaEnrollmentsOutputArgs, opts ...pulumi.InvokeOption) GetIamUserMfaEnrollmentsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamUserMfaEnrollmentsResultOutput, error) {
-			args := v.(GetIamUserMfaEnrollmentsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamUserMfaEnrollments:getIamUserMfaEnrollments", args, GetIamUserMfaEnrollmentsResultOutput{}, options).(GetIamUserMfaEnrollmentsResultOutput), nil
-		}).(GetIamUserMfaEnrollmentsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamUserMfaEnrollments:getIamUserMfaEnrollments", args, GetIamUserMfaEnrollmentsResultOutput{}, options).(GetIamUserMfaEnrollmentsResultOutput)
 }
 
 // A collection of arguments for invoking getIamUserMfaEnrollments.

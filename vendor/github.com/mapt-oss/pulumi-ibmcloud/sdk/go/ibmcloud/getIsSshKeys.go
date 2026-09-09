@@ -29,10 +29,8 @@ type GetIsSshKeysResult struct {
 }
 
 func GetIsSshKeysOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsSshKeysResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsSshKeysResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsSshKeys:getIsSshKeys", nil, GetIsSshKeysResultOutput{}, options).(GetIsSshKeysResultOutput), nil
-	}).(GetIsSshKeysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSshKeys:getIsSshKeys", nil, GetIsSshKeysResultOutput{}, options).(GetIsSshKeysResultOutput)
 }
 
 // A collection of values returned by getIsSshKeys.

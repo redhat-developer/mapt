@@ -42,12 +42,8 @@ type LookupIsInstanceGroupMembershipResult struct {
 }
 
 func LookupIsInstanceGroupMembershipOutput(ctx *pulumi.Context, args LookupIsInstanceGroupMembershipOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceGroupMembershipResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceGroupMembershipResultOutput, error) {
-			args := v.(LookupIsInstanceGroupMembershipArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroupMembership:getIsInstanceGroupMembership", args, LookupIsInstanceGroupMembershipResultOutput{}, options).(LookupIsInstanceGroupMembershipResultOutput), nil
-		}).(LookupIsInstanceGroupMembershipResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroupMembership:getIsInstanceGroupMembership", args, LookupIsInstanceGroupMembershipResultOutput{}, options).(LookupIsInstanceGroupMembershipResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceGroupMembership.

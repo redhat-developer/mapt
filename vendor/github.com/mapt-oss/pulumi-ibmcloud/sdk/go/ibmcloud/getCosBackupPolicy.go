@@ -40,12 +40,8 @@ type LookupCosBackupPolicyResult struct {
 }
 
 func LookupCosBackupPolicyOutput(ctx *pulumi.Context, args LookupCosBackupPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupCosBackupPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupCosBackupPolicyResultOutput, error) {
-			args := v.(LookupCosBackupPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getCosBackupPolicy:getCosBackupPolicy", args, LookupCosBackupPolicyResultOutput{}, options).(LookupCosBackupPolicyResultOutput), nil
-		}).(LookupCosBackupPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getCosBackupPolicy:getCosBackupPolicy", args, LookupCosBackupPolicyResultOutput{}, options).(LookupCosBackupPolicyResultOutput)
 }
 
 // A collection of arguments for invoking getCosBackupPolicy.

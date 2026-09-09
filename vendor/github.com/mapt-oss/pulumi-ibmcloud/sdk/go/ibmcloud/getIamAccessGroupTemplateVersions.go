@@ -38,12 +38,8 @@ type GetIamAccessGroupTemplateVersionsResult struct {
 }
 
 func GetIamAccessGroupTemplateVersionsOutput(ctx *pulumi.Context, args GetIamAccessGroupTemplateVersionsOutputArgs, opts ...pulumi.InvokeOption) GetIamAccessGroupTemplateVersionsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamAccessGroupTemplateVersionsResultOutput, error) {
-			args := v.(GetIamAccessGroupTemplateVersionsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroupTemplateVersions:getIamAccessGroupTemplateVersions", args, GetIamAccessGroupTemplateVersionsResultOutput{}, options).(GetIamAccessGroupTemplateVersionsResultOutput), nil
-		}).(GetIamAccessGroupTemplateVersionsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroupTemplateVersions:getIamAccessGroupTemplateVersions", args, GetIamAccessGroupTemplateVersionsResultOutput{}, options).(GetIamAccessGroupTemplateVersionsResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccessGroupTemplateVersions.

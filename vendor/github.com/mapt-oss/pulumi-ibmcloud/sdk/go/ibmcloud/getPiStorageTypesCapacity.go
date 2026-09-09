@@ -36,12 +36,8 @@ type GetPiStorageTypesCapacityResult struct {
 }
 
 func GetPiStorageTypesCapacityOutput(ctx *pulumi.Context, args GetPiStorageTypesCapacityOutputArgs, opts ...pulumi.InvokeOption) GetPiStorageTypesCapacityResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiStorageTypesCapacityResultOutput, error) {
-			args := v.(GetPiStorageTypesCapacityArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiStorageTypesCapacity:getPiStorageTypesCapacity", args, GetPiStorageTypesCapacityResultOutput{}, options).(GetPiStorageTypesCapacityResultOutput), nil
-		}).(GetPiStorageTypesCapacityResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiStorageTypesCapacity:getPiStorageTypesCapacity", args, GetPiStorageTypesCapacityResultOutput{}, options).(GetPiStorageTypesCapacityResultOutput)
 }
 
 // A collection of arguments for invoking getPiStorageTypesCapacity.

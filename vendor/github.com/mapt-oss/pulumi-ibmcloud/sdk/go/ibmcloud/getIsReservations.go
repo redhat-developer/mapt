@@ -39,12 +39,8 @@ type GetIsReservationsResult struct {
 }
 
 func GetIsReservationsOutput(ctx *pulumi.Context, args GetIsReservationsOutputArgs, opts ...pulumi.InvokeOption) GetIsReservationsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsReservationsResultOutput, error) {
-			args := v.(GetIsReservationsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsReservations:getIsReservations", args, GetIsReservationsResultOutput{}, options).(GetIsReservationsResultOutput), nil
-		}).(GetIsReservationsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsReservations:getIsReservations", args, GetIsReservationsResultOutput{}, options).(GetIsReservationsResultOutput)
 }
 
 // A collection of arguments for invoking getIsReservations.

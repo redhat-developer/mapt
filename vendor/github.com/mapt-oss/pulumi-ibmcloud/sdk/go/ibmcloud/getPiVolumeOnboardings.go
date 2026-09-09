@@ -35,12 +35,8 @@ type GetPiVolumeOnboardingsResult struct {
 }
 
 func GetPiVolumeOnboardingsOutput(ctx *pulumi.Context, args GetPiVolumeOnboardingsOutputArgs, opts ...pulumi.InvokeOption) GetPiVolumeOnboardingsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiVolumeOnboardingsResultOutput, error) {
-			args := v.(GetPiVolumeOnboardingsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVolumeOnboardings:getPiVolumeOnboardings", args, GetPiVolumeOnboardingsResultOutput{}, options).(GetPiVolumeOnboardingsResultOutput), nil
-		}).(GetPiVolumeOnboardingsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVolumeOnboardings:getPiVolumeOnboardings", args, GetPiVolumeOnboardingsResultOutput{}, options).(GetPiVolumeOnboardingsResultOutput)
 }
 
 // A collection of arguments for invoking getPiVolumeOnboardings.

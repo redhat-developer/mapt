@@ -43,12 +43,8 @@ type LookupIsBareMetalServerInitializationResult struct {
 }
 
 func LookupIsBareMetalServerInitializationOutput(ctx *pulumi.Context, args LookupIsBareMetalServerInitializationOutputArgs, opts ...pulumi.InvokeOption) LookupIsBareMetalServerInitializationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsBareMetalServerInitializationResultOutput, error) {
-			args := v.(LookupIsBareMetalServerInitializationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerInitialization:getIsBareMetalServerInitialization", args, LookupIsBareMetalServerInitializationResultOutput{}, options).(LookupIsBareMetalServerInitializationResultOutput), nil
-		}).(LookupIsBareMetalServerInitializationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerInitialization:getIsBareMetalServerInitialization", args, LookupIsBareMetalServerInitializationResultOutput{}, options).(LookupIsBareMetalServerInitializationResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServerInitialization.

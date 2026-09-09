@@ -47,12 +47,8 @@ type LookupIsLbListenerPolicyRuleResult struct {
 }
 
 func LookupIsLbListenerPolicyRuleOutput(ctx *pulumi.Context, args LookupIsLbListenerPolicyRuleOutputArgs, opts ...pulumi.InvokeOption) LookupIsLbListenerPolicyRuleResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsLbListenerPolicyRuleResultOutput, error) {
-			args := v.(LookupIsLbListenerPolicyRuleArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbListenerPolicyRule:getIsLbListenerPolicyRule", args, LookupIsLbListenerPolicyRuleResultOutput{}, options).(LookupIsLbListenerPolicyRuleResultOutput), nil
-		}).(LookupIsLbListenerPolicyRuleResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbListenerPolicyRule:getIsLbListenerPolicyRule", args, LookupIsLbListenerPolicyRuleResultOutput{}, options).(LookupIsLbListenerPolicyRuleResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbListenerPolicyRule.

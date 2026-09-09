@@ -21,6 +21,8 @@ type PiWorkspace struct {
 	PiDatacenter pulumi.StringOutput `pulumi:"piDatacenter"`
 	// A descriptive name used to identify the workspace.
 	PiName pulumi.StringOutput `pulumi:"piName"`
+	// Parameters to pass to the workspace. For example: sharedImages = true.
+	PiParameters pulumi.StringMapOutput `pulumi:"piParameters"`
 	// Plan associated with the offering; Valid values are public or private.
 	PiPlan pulumi.StringPtrOutput `pulumi:"piPlan"`
 	// The ID of the resource group where you want to create the workspace. You can retrieve the value from data source ibm_resource_group.
@@ -78,6 +80,8 @@ type piWorkspaceState struct {
 	PiDatacenter *string `pulumi:"piDatacenter"`
 	// A descriptive name used to identify the workspace.
 	PiName *string `pulumi:"piName"`
+	// Parameters to pass to the workspace. For example: sharedImages = true.
+	PiParameters map[string]string `pulumi:"piParameters"`
 	// Plan associated with the offering; Valid values are public or private.
 	PiPlan *string `pulumi:"piPlan"`
 	// The ID of the resource group where you want to create the workspace. You can retrieve the value from data source ibm_resource_group.
@@ -97,6 +101,8 @@ type PiWorkspaceState struct {
 	PiDatacenter pulumi.StringPtrInput
 	// A descriptive name used to identify the workspace.
 	PiName pulumi.StringPtrInput
+	// Parameters to pass to the workspace. For example: sharedImages = true.
+	PiParameters pulumi.StringMapInput
 	// Plan associated with the offering; Valid values are public or private.
 	PiPlan pulumi.StringPtrInput
 	// The ID of the resource group where you want to create the workspace. You can retrieve the value from data source ibm_resource_group.
@@ -118,6 +124,8 @@ type piWorkspaceArgs struct {
 	PiDatacenter string `pulumi:"piDatacenter"`
 	// A descriptive name used to identify the workspace.
 	PiName string `pulumi:"piName"`
+	// Parameters to pass to the workspace. For example: sharedImages = true.
+	PiParameters map[string]string `pulumi:"piParameters"`
 	// Plan associated with the offering; Valid values are public or private.
 	PiPlan *string `pulumi:"piPlan"`
 	// The ID of the resource group where you want to create the workspace. You can retrieve the value from data source ibm_resource_group.
@@ -132,6 +140,8 @@ type PiWorkspaceArgs struct {
 	PiDatacenter pulumi.StringInput
 	// A descriptive name used to identify the workspace.
 	PiName pulumi.StringInput
+	// Parameters to pass to the workspace. For example: sharedImages = true.
+	PiParameters pulumi.StringMapInput
 	// Plan associated with the offering; Valid values are public or private.
 	PiPlan pulumi.StringPtrInput
 	// The ID of the resource group where you want to create the workspace. You can retrieve the value from data source ibm_resource_group.
@@ -190,6 +200,11 @@ func (o PiWorkspaceOutput) PiDatacenter() pulumi.StringOutput {
 // A descriptive name used to identify the workspace.
 func (o PiWorkspaceOutput) PiName() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiWorkspace) pulumi.StringOutput { return v.PiName }).(pulumi.StringOutput)
+}
+
+// Parameters to pass to the workspace. For example: sharedImages = true.
+func (o PiWorkspaceOutput) PiParameters() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *PiWorkspace) pulumi.StringMapOutput { return v.PiParameters }).(pulumi.StringMapOutput)
 }
 
 // Plan associated with the offering; Valid values are public or private.

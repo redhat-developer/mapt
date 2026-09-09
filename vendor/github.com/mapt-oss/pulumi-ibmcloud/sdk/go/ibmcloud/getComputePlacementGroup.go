@@ -38,12 +38,8 @@ type LookupComputePlacementGroupResult struct {
 }
 
 func LookupComputePlacementGroupOutput(ctx *pulumi.Context, args LookupComputePlacementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupComputePlacementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupComputePlacementGroupResultOutput, error) {
-			args := v.(LookupComputePlacementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getComputePlacementGroup:getComputePlacementGroup", args, LookupComputePlacementGroupResultOutput{}, options).(LookupComputePlacementGroupResultOutput), nil
-		}).(LookupComputePlacementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getComputePlacementGroup:getComputePlacementGroup", args, LookupComputePlacementGroupResultOutput{}, options).(LookupComputePlacementGroupResultOutput)
 }
 
 // A collection of arguments for invoking getComputePlacementGroup.

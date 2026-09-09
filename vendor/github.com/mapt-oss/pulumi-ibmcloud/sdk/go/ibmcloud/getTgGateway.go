@@ -43,12 +43,8 @@ type LookupTgGatewayResult struct {
 }
 
 func LookupTgGatewayOutput(ctx *pulumi.Context, args LookupTgGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupTgGatewayResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTgGatewayResultOutput, error) {
-			args := v.(LookupTgGatewayArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getTgGateway:getTgGateway", args, LookupTgGatewayResultOutput{}, options).(LookupTgGatewayResultOutput), nil
-		}).(LookupTgGatewayResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getTgGateway:getTgGateway", args, LookupTgGatewayResultOutput{}, options).(LookupTgGatewayResultOutput)
 }
 
 // A collection of arguments for invoking getTgGateway.

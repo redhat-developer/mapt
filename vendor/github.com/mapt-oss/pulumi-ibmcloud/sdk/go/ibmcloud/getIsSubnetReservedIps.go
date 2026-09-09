@@ -36,12 +36,8 @@ type GetIsSubnetReservedIpsResult struct {
 }
 
 func GetIsSubnetReservedIpsOutput(ctx *pulumi.Context, args GetIsSubnetReservedIpsOutputArgs, opts ...pulumi.InvokeOption) GetIsSubnetReservedIpsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSubnetReservedIpsResultOutput, error) {
-			args := v.(GetIsSubnetReservedIpsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSubnetReservedIps:getIsSubnetReservedIps", args, GetIsSubnetReservedIpsResultOutput{}, options).(GetIsSubnetReservedIpsResultOutput), nil
-		}).(GetIsSubnetReservedIpsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSubnetReservedIps:getIsSubnetReservedIps", args, GetIsSubnetReservedIpsResultOutput{}, options).(GetIsSubnetReservedIpsResultOutput)
 }
 
 // A collection of arguments for invoking getIsSubnetReservedIps.

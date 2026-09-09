@@ -44,7 +44,7 @@ type IsClusterNetworkInterface struct {
 	ResourceType pulumi.StringOutput `pulumi:"resourceType"`
 	// The associated cluster network subnet. Required if `primaryIp` does not specify a clusternetwork subnet reserved IP identity.
 	Subnet IsClusterNetworkInterfaceSubnetOutput `pulumi:"subnet"`
-	// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Targets IsClusterNetworkInterfaceTargetArrayOutput `pulumi:"targets"`
 	// The VPC this cluster network interface resides in.
 	Vpcs IsClusterNetworkInterfaceVpcArrayOutput `pulumi:"vpcs"`
@@ -114,7 +114,7 @@ type isClusterNetworkInterfaceState struct {
 	ResourceType *string `pulumi:"resourceType"`
 	// The associated cluster network subnet. Required if `primaryIp` does not specify a clusternetwork subnet reserved IP identity.
 	Subnet *IsClusterNetworkInterfaceSubnet `pulumi:"subnet"`
-	// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Targets []IsClusterNetworkInterfaceTarget `pulumi:"targets"`
 	// The VPC this cluster network interface resides in.
 	Vpcs []IsClusterNetworkInterfaceVpc `pulumi:"vpcs"`
@@ -152,7 +152,7 @@ type IsClusterNetworkInterfaceState struct {
 	ResourceType pulumi.StringPtrInput
 	// The associated cluster network subnet. Required if `primaryIp` does not specify a clusternetwork subnet reserved IP identity.
 	Subnet IsClusterNetworkInterfaceSubnetPtrInput
-	// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Targets IsClusterNetworkInterfaceTargetArrayInput
 	// The VPC this cluster network interface resides in.
 	Vpcs IsClusterNetworkInterfaceVpcArrayInput
@@ -300,7 +300,7 @@ func (o IsClusterNetworkInterfaceOutput) Subnet() IsClusterNetworkInterfaceSubne
 	return o.ApplyT(func(v *IsClusterNetworkInterface) IsClusterNetworkInterfaceSubnetOutput { return v.Subnet }).(IsClusterNetworkInterfaceSubnetOutput)
 }
 
-// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// The target of this cluster network interface.If absent, this cluster network interface is not attached to a target.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkInterfaceOutput) Targets() IsClusterNetworkInterfaceTargetArrayOutput {
 	return o.ApplyT(func(v *IsClusterNetworkInterface) IsClusterNetworkInterfaceTargetArrayOutput { return v.Targets }).(IsClusterNetworkInterfaceTargetArrayOutput)
 }

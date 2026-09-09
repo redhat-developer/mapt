@@ -72,12 +72,8 @@ type LookupIsShareResult struct {
 }
 
 func LookupIsShareOutput(ctx *pulumi.Context, args LookupIsShareOutputArgs, opts ...pulumi.InvokeOption) LookupIsShareResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsShareResultOutput, error) {
-			args := v.(LookupIsShareArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShare:getIsShare", args, LookupIsShareResultOutput{}, options).(LookupIsShareResultOutput), nil
-		}).(LookupIsShareResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShare:getIsShare", args, LookupIsShareResultOutput{}, options).(LookupIsShareResultOutput)
 }
 
 // A collection of arguments for invoking getIsShare.

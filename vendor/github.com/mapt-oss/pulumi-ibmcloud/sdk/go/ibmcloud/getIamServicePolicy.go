@@ -43,12 +43,8 @@ type LookupIamServicePolicyResult struct {
 }
 
 func LookupIamServicePolicyOutput(ctx *pulumi.Context, args LookupIamServicePolicyOutputArgs, opts ...pulumi.InvokeOption) LookupIamServicePolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamServicePolicyResultOutput, error) {
-			args := v.(LookupIamServicePolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamServicePolicy:getIamServicePolicy", args, LookupIamServicePolicyResultOutput{}, options).(LookupIamServicePolicyResultOutput), nil
-		}).(LookupIamServicePolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamServicePolicy:getIamServicePolicy", args, LookupIamServicePolicyResultOutput{}, options).(LookupIamServicePolicyResultOutput)
 }
 
 // A collection of arguments for invoking getIamServicePolicy.

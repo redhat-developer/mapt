@@ -32,10 +32,8 @@ type GetIamAuthTokenResult struct {
 }
 
 func GetIamAuthTokenOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIamAuthTokenResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIamAuthTokenResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIamAuthToken:getIamAuthToken", nil, GetIamAuthTokenResultOutput{}, options).(GetIamAuthTokenResultOutput), nil
-	}).(GetIamAuthTokenResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAuthToken:getIamAuthToken", nil, GetIamAuthTokenResultOutput{}, options).(GetIamAuthTokenResultOutput)
 }
 
 // A collection of values returned by getIamAuthToken.

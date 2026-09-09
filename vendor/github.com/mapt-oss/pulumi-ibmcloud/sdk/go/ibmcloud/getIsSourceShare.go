@@ -38,12 +38,8 @@ type GetIsSourceShareResult struct {
 }
 
 func GetIsSourceShareOutput(ctx *pulumi.Context, args GetIsSourceShareOutputArgs, opts ...pulumi.InvokeOption) GetIsSourceShareResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSourceShareResultOutput, error) {
-			args := v.(GetIsSourceShareArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSourceShare:getIsSourceShare", args, GetIsSourceShareResultOutput{}, options).(GetIsSourceShareResultOutput), nil
-		}).(GetIsSourceShareResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSourceShare:getIsSourceShare", args, GetIsSourceShareResultOutput{}, options).(GetIsSourceShareResultOutput)
 }
 
 // A collection of arguments for invoking getIsSourceShare.

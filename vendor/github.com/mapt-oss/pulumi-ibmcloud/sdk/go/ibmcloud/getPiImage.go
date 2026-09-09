@@ -23,42 +23,50 @@ func LookupPiImage(ctx *pulumi.Context, args *LookupPiImageArgs, opts ...pulumi.
 
 // A collection of arguments for invoking getPiImage.
 type LookupPiImageArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiImageName       string `pulumi:"piImageName"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiImageId         *string `pulumi:"piImageId"`
+	// Deprecated: The piImageName field is deprecated. Please use piImageId instead
+	PiImageName *string `pulumi:"piImageName"`
 }
 
 // A collection of values returned by getPiImage.
 type LookupPiImageResult struct {
-	Architecture string `pulumi:"architecture"`
-	Crn          string `pulumi:"crn"`
-	Hypervisor   string `pulumi:"hypervisor"`
+	Architecture    string `pulumi:"architecture"`
+	ContainerFormat string `pulumi:"containerFormat"`
+	Crn             string `pulumi:"crn"`
+	DiskFormat      string `pulumi:"diskFormat"`
+	Endianness      string `pulumi:"endianness"`
+	Hypervisor      string `pulumi:"hypervisor"`
 	// The provider-assigned unique ID for this managed resource.
-	Id                string   `pulumi:"id"`
-	ImageType         string   `pulumi:"imageType"`
-	OperatingSystem   string   `pulumi:"operatingSystem"`
-	PiCloudInstanceId string   `pulumi:"piCloudInstanceId"`
-	PiImageName       string   `pulumi:"piImageName"`
-	Size              int      `pulumi:"size"`
-	SourceChecksum    string   `pulumi:"sourceChecksum"`
-	State             string   `pulumi:"state"`
-	StoragePool       string   `pulumi:"storagePool"`
-	StorageType       string   `pulumi:"storageType"`
-	UserTags          []string `pulumi:"userTags"`
+	Id                string  `pulumi:"id"`
+	ImageType         string  `pulumi:"imageType"`
+	Name              string  `pulumi:"name"`
+	OperatingSystem   string  `pulumi:"operatingSystem"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiImageId         *string `pulumi:"piImageId"`
+	// Deprecated: The piImageName field is deprecated. Please use piImageId instead
+	PiImageName    *string            `pulumi:"piImageName"`
+	Shared         bool               `pulumi:"shared"`
+	Size           int                `pulumi:"size"`
+	SourceChecksum string             `pulumi:"sourceChecksum"`
+	State          string             `pulumi:"state"`
+	StoragePool    string             `pulumi:"storagePool"`
+	StorageType    string             `pulumi:"storageType"`
+	UserTags       []string           `pulumi:"userTags"`
+	Volumes        []GetPiImageVolume `pulumi:"volumes"`
 }
 
 func LookupPiImageOutput(ctx *pulumi.Context, args LookupPiImageOutputArgs, opts ...pulumi.InvokeOption) LookupPiImageResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiImageResultOutput, error) {
-			args := v.(LookupPiImageArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiImage:getPiImage", args, LookupPiImageResultOutput{}, options).(LookupPiImageResultOutput), nil
-		}).(LookupPiImageResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiImage:getPiImage", args, LookupPiImageResultOutput{}, options).(LookupPiImageResultOutput)
 }
 
 // A collection of arguments for invoking getPiImage.
 type LookupPiImageOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
-	PiImageName       pulumi.StringInput `pulumi:"piImageName"`
+	PiCloudInstanceId pulumi.StringInput    `pulumi:"piCloudInstanceId"`
+	PiImageId         pulumi.StringPtrInput `pulumi:"piImageId"`
+	// Deprecated: The piImageName field is deprecated. Please use piImageId instead
+	PiImageName pulumi.StringPtrInput `pulumi:"piImageName"`
 }
 
 func (LookupPiImageOutputArgs) ElementType() reflect.Type {
@@ -84,8 +92,20 @@ func (o LookupPiImageResultOutput) Architecture() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiImageResult) string { return v.Architecture }).(pulumi.StringOutput)
 }
 
+func (o LookupPiImageResultOutput) ContainerFormat() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupPiImageResult) string { return v.ContainerFormat }).(pulumi.StringOutput)
+}
+
 func (o LookupPiImageResultOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiImageResult) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+func (o LookupPiImageResultOutput) DiskFormat() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupPiImageResult) string { return v.DiskFormat }).(pulumi.StringOutput)
+}
+
+func (o LookupPiImageResultOutput) Endianness() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupPiImageResult) string { return v.Endianness }).(pulumi.StringOutput)
 }
 
 func (o LookupPiImageResultOutput) Hypervisor() pulumi.StringOutput {
@@ -101,6 +121,10 @@ func (o LookupPiImageResultOutput) ImageType() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiImageResult) string { return v.ImageType }).(pulumi.StringOutput)
 }
 
+func (o LookupPiImageResultOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupPiImageResult) string { return v.Name }).(pulumi.StringOutput)
+}
+
 func (o LookupPiImageResultOutput) OperatingSystem() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiImageResult) string { return v.OperatingSystem }).(pulumi.StringOutput)
 }
@@ -109,8 +133,17 @@ func (o LookupPiImageResultOutput) PiCloudInstanceId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiImageResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
 }
 
-func (o LookupPiImageResultOutput) PiImageName() pulumi.StringOutput {
-	return o.ApplyT(func(v LookupPiImageResult) string { return v.PiImageName }).(pulumi.StringOutput)
+func (o LookupPiImageResultOutput) PiImageId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupPiImageResult) *string { return v.PiImageId }).(pulumi.StringPtrOutput)
+}
+
+// Deprecated: The piImageName field is deprecated. Please use piImageId instead
+func (o LookupPiImageResultOutput) PiImageName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupPiImageResult) *string { return v.PiImageName }).(pulumi.StringPtrOutput)
+}
+
+func (o LookupPiImageResultOutput) Shared() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupPiImageResult) bool { return v.Shared }).(pulumi.BoolOutput)
 }
 
 func (o LookupPiImageResultOutput) Size() pulumi.IntOutput {
@@ -135,6 +168,10 @@ func (o LookupPiImageResultOutput) StorageType() pulumi.StringOutput {
 
 func (o LookupPiImageResultOutput) UserTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupPiImageResult) []string { return v.UserTags }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupPiImageResultOutput) Volumes() GetPiImageVolumeArrayOutput {
+	return o.ApplyT(func(v LookupPiImageResult) []GetPiImageVolume { return v.Volumes }).(GetPiImageVolumeArrayOutput)
 }
 
 func init() {

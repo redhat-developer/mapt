@@ -29,10 +29,8 @@ type GetIsOperatingSystemsResult struct {
 }
 
 func GetIsOperatingSystemsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsOperatingSystemsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsOperatingSystemsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsOperatingSystems:getIsOperatingSystems", nil, GetIsOperatingSystemsResultOutput{}, options).(GetIsOperatingSystemsResultOutput), nil
-	}).(GetIsOperatingSystemsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsOperatingSystems:getIsOperatingSystems", nil, GetIsOperatingSystemsResultOutput{}, options).(GetIsOperatingSystemsResultOutput)
 }
 
 // A collection of values returned by getIsOperatingSystems.

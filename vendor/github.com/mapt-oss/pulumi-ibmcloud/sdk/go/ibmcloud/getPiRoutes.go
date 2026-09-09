@@ -35,12 +35,8 @@ type GetPiRoutesResult struct {
 }
 
 func GetPiRoutesOutput(ctx *pulumi.Context, args GetPiRoutesOutputArgs, opts ...pulumi.InvokeOption) GetPiRoutesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiRoutesResultOutput, error) {
-			args := v.(GetPiRoutesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiRoutes:getPiRoutes", args, GetPiRoutesResultOutput{}, options).(GetPiRoutesResultOutput), nil
-		}).(GetPiRoutesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiRoutes:getPiRoutes", args, GetPiRoutesResultOutput{}, options).(GetPiRoutesResultOutput)
 }
 
 // A collection of arguments for invoking getPiRoutes.

@@ -48,12 +48,8 @@ type LookupPiNetworkPeerRouteFilterResult struct {
 }
 
 func LookupPiNetworkPeerRouteFilterOutput(ctx *pulumi.Context, args LookupPiNetworkPeerRouteFilterOutputArgs, opts ...pulumi.InvokeOption) LookupPiNetworkPeerRouteFilterResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiNetworkPeerRouteFilterResultOutput, error) {
-			args := v.(LookupPiNetworkPeerRouteFilterArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiNetworkPeerRouteFilter:getPiNetworkPeerRouteFilter", args, LookupPiNetworkPeerRouteFilterResultOutput{}, options).(LookupPiNetworkPeerRouteFilterResultOutput), nil
-		}).(LookupPiNetworkPeerRouteFilterResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiNetworkPeerRouteFilter:getPiNetworkPeerRouteFilter", args, LookupPiNetworkPeerRouteFilterResultOutput{}, options).(LookupPiNetworkPeerRouteFilterResultOutput)
 }
 
 // A collection of arguments for invoking getPiNetworkPeerRouteFilter.

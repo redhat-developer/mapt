@@ -37,12 +37,8 @@ type GetIsVpnGatewayConnectionLocalCidrsResult struct {
 }
 
 func GetIsVpnGatewayConnectionLocalCidrsOutput(ctx *pulumi.Context, args GetIsVpnGatewayConnectionLocalCidrsOutputArgs, opts ...pulumi.InvokeOption) GetIsVpnGatewayConnectionLocalCidrsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVpnGatewayConnectionLocalCidrsResultOutput, error) {
-			args := v.(GetIsVpnGatewayConnectionLocalCidrsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpnGatewayConnectionLocalCidrs:getIsVpnGatewayConnectionLocalCidrs", args, GetIsVpnGatewayConnectionLocalCidrsResultOutput{}, options).(GetIsVpnGatewayConnectionLocalCidrsResultOutput), nil
-		}).(GetIsVpnGatewayConnectionLocalCidrsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpnGatewayConnectionLocalCidrs:getIsVpnGatewayConnectionLocalCidrs", args, GetIsVpnGatewayConnectionLocalCidrsResultOutput{}, options).(GetIsVpnGatewayConnectionLocalCidrsResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpnGatewayConnectionLocalCidrs.

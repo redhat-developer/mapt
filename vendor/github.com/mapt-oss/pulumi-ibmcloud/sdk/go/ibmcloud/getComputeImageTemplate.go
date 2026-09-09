@@ -33,12 +33,8 @@ type GetComputeImageTemplateResult struct {
 }
 
 func GetComputeImageTemplateOutput(ctx *pulumi.Context, args GetComputeImageTemplateOutputArgs, opts ...pulumi.InvokeOption) GetComputeImageTemplateResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetComputeImageTemplateResultOutput, error) {
-			args := v.(GetComputeImageTemplateArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getComputeImageTemplate:getComputeImageTemplate", args, GetComputeImageTemplateResultOutput{}, options).(GetComputeImageTemplateResultOutput), nil
-		}).(GetComputeImageTemplateResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getComputeImageTemplate:getComputeImageTemplate", args, GetComputeImageTemplateResultOutput{}, options).(GetComputeImageTemplateResultOutput)
 }
 
 // A collection of arguments for invoking getComputeImageTemplate.

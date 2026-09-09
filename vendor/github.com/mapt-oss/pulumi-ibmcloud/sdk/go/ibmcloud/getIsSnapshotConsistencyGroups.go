@@ -23,6 +23,7 @@ func GetIsSnapshotConsistencyGroups(ctx *pulumi.Context, args *GetIsSnapshotCons
 
 // A collection of arguments for invoking getIsSnapshotConsistencyGroups.
 type GetIsSnapshotConsistencyGroupsArgs struct {
+	BackupPolicyJob  *string `pulumi:"backupPolicyJob"`
 	BackupPolicyPlan *string `pulumi:"backupPolicyPlan"`
 	Name             *string `pulumi:"name"`
 	ResourceGroup    *string `pulumi:"resourceGroup"`
@@ -30,6 +31,7 @@ type GetIsSnapshotConsistencyGroupsArgs struct {
 
 // A collection of values returned by getIsSnapshotConsistencyGroups.
 type GetIsSnapshotConsistencyGroupsResult struct {
+	BackupPolicyJob  *string `pulumi:"backupPolicyJob"`
 	BackupPolicyPlan *string `pulumi:"backupPolicyPlan"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                        string                                                   `pulumi:"id"`
@@ -39,16 +41,13 @@ type GetIsSnapshotConsistencyGroupsResult struct {
 }
 
 func GetIsSnapshotConsistencyGroupsOutput(ctx *pulumi.Context, args GetIsSnapshotConsistencyGroupsOutputArgs, opts ...pulumi.InvokeOption) GetIsSnapshotConsistencyGroupsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSnapshotConsistencyGroupsResultOutput, error) {
-			args := v.(GetIsSnapshotConsistencyGroupsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotConsistencyGroups:getIsSnapshotConsistencyGroups", args, GetIsSnapshotConsistencyGroupsResultOutput{}, options).(GetIsSnapshotConsistencyGroupsResultOutput), nil
-		}).(GetIsSnapshotConsistencyGroupsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotConsistencyGroups:getIsSnapshotConsistencyGroups", args, GetIsSnapshotConsistencyGroupsResultOutput{}, options).(GetIsSnapshotConsistencyGroupsResultOutput)
 }
 
 // A collection of arguments for invoking getIsSnapshotConsistencyGroups.
 type GetIsSnapshotConsistencyGroupsOutputArgs struct {
+	BackupPolicyJob  pulumi.StringPtrInput `pulumi:"backupPolicyJob"`
 	BackupPolicyPlan pulumi.StringPtrInput `pulumi:"backupPolicyPlan"`
 	Name             pulumi.StringPtrInput `pulumi:"name"`
 	ResourceGroup    pulumi.StringPtrInput `pulumi:"resourceGroup"`
@@ -71,6 +70,10 @@ func (o GetIsSnapshotConsistencyGroupsResultOutput) ToGetIsSnapshotConsistencyGr
 
 func (o GetIsSnapshotConsistencyGroupsResultOutput) ToGetIsSnapshotConsistencyGroupsResultOutputWithContext(ctx context.Context) GetIsSnapshotConsistencyGroupsResultOutput {
 	return o
+}
+
+func (o GetIsSnapshotConsistencyGroupsResultOutput) BackupPolicyJob() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetIsSnapshotConsistencyGroupsResult) *string { return v.BackupPolicyJob }).(pulumi.StringPtrOutput)
 }
 
 func (o GetIsSnapshotConsistencyGroupsResultOutput) BackupPolicyPlan() pulumi.StringPtrOutput {

@@ -15,7 +15,8 @@ type IamTrustedProfile struct {
 	pulumi.CustomResourceState
 
 	// ID of the account that this trusted profile belong to.
-	AccountId pulumi.StringOutput `pulumi:"accountId"`
+	AccountId  pulumi.StringOutput                  `pulumi:"accountId"`
+	Activities IamTrustedProfileActivityArrayOutput `pulumi:"activities"`
 	// ID of the assignment that was used to create an enterprise-managed trusted profile in your account. When returned, this indicates that the trusted profile is created from and managed by a template in the root enterprise account.
 	AssignmentId pulumi.StringOutput `pulumi:"assignmentId"`
 	// If set contains a date time string of the creation date in ISO format.
@@ -24,6 +25,8 @@ type IamTrustedProfile struct {
 	Crn pulumi.StringOutput `pulumi:"crn"`
 	// The optional description of the trusted profile. The 'description' property is only available if a description was provided during a create of a trusted profile.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
+	// The optional email of the trusted profile. The 'email' property is only available if an email was provided during a create of a trusted profile.
+	Email pulumi.StringPtrOutput `pulumi:"email"`
 	// Version of the trusted profile details object. You need to specify this value when updating the trusted profile to avoid stale updates.
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
 	// History of the trusted profile.
@@ -75,7 +78,8 @@ func GetIamTrustedProfile(ctx *pulumi.Context,
 // Input properties used for looking up and filtering IamTrustedProfile resources.
 type iamTrustedProfileState struct {
 	// ID of the account that this trusted profile belong to.
-	AccountId *string `pulumi:"accountId"`
+	AccountId  *string                     `pulumi:"accountId"`
+	Activities []IamTrustedProfileActivity `pulumi:"activities"`
 	// ID of the assignment that was used to create an enterprise-managed trusted profile in your account. When returned, this indicates that the trusted profile is created from and managed by a template in the root enterprise account.
 	AssignmentId *string `pulumi:"assignmentId"`
 	// If set contains a date time string of the creation date in ISO format.
@@ -84,6 +88,8 @@ type iamTrustedProfileState struct {
 	Crn *string `pulumi:"crn"`
 	// The optional description of the trusted profile. The 'description' property is only available if a description was provided during a create of a trusted profile.
 	Description *string `pulumi:"description"`
+	// The optional email of the trusted profile. The 'email' property is only available if an email was provided during a create of a trusted profile.
+	Email *string `pulumi:"email"`
 	// Version of the trusted profile details object. You need to specify this value when updating the trusted profile to avoid stale updates.
 	EntityTag *string `pulumi:"entityTag"`
 	// History of the trusted profile.
@@ -106,7 +112,8 @@ type iamTrustedProfileState struct {
 
 type IamTrustedProfileState struct {
 	// ID of the account that this trusted profile belong to.
-	AccountId pulumi.StringPtrInput
+	AccountId  pulumi.StringPtrInput
+	Activities IamTrustedProfileActivityArrayInput
 	// ID of the assignment that was used to create an enterprise-managed trusted profile in your account. When returned, this indicates that the trusted profile is created from and managed by a template in the root enterprise account.
 	AssignmentId pulumi.StringPtrInput
 	// If set contains a date time string of the creation date in ISO format.
@@ -115,6 +122,8 @@ type IamTrustedProfileState struct {
 	Crn pulumi.StringPtrInput
 	// The optional description of the trusted profile. The 'description' property is only available if a description was provided during a create of a trusted profile.
 	Description pulumi.StringPtrInput
+	// The optional email of the trusted profile. The 'email' property is only available if an email was provided during a create of a trusted profile.
+	Email pulumi.StringPtrInput
 	// Version of the trusted profile details object. You need to specify this value when updating the trusted profile to avoid stale updates.
 	EntityTag pulumi.StringPtrInput
 	// History of the trusted profile.
@@ -142,6 +151,8 @@ func (IamTrustedProfileState) ElementType() reflect.Type {
 type iamTrustedProfileArgs struct {
 	// The optional description of the trusted profile. The 'description' property is only available if a description was provided during a create of a trusted profile.
 	Description *string `pulumi:"description"`
+	// The optional email of the trusted profile. The 'email' property is only available if an email was provided during a create of a trusted profile.
+	Email *string `pulumi:"email"`
 	// Name of the trusted profile. The name is checked for uniqueness. Therefore trusted profiles with the same names can not exist in the same account.
 	Name *string `pulumi:"name"`
 }
@@ -150,6 +161,8 @@ type iamTrustedProfileArgs struct {
 type IamTrustedProfileArgs struct {
 	// The optional description of the trusted profile. The 'description' property is only available if a description was provided during a create of a trusted profile.
 	Description pulumi.StringPtrInput
+	// The optional email of the trusted profile. The 'email' property is only available if an email was provided during a create of a trusted profile.
+	Email pulumi.StringPtrInput
 	// Name of the trusted profile. The name is checked for uniqueness. Therefore trusted profiles with the same names can not exist in the same account.
 	Name pulumi.StringPtrInput
 }
@@ -196,6 +209,10 @@ func (o IamTrustedProfileOutput) AccountId() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamTrustedProfile) pulumi.StringOutput { return v.AccountId }).(pulumi.StringOutput)
 }
 
+func (o IamTrustedProfileOutput) Activities() IamTrustedProfileActivityArrayOutput {
+	return o.ApplyT(func(v *IamTrustedProfile) IamTrustedProfileActivityArrayOutput { return v.Activities }).(IamTrustedProfileActivityArrayOutput)
+}
+
 // ID of the assignment that was used to create an enterprise-managed trusted profile in your account. When returned, this indicates that the trusted profile is created from and managed by a template in the root enterprise account.
 func (o IamTrustedProfileOutput) AssignmentId() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamTrustedProfile) pulumi.StringOutput { return v.AssignmentId }).(pulumi.StringOutput)
@@ -214,6 +231,11 @@ func (o IamTrustedProfileOutput) Crn() pulumi.StringOutput {
 // The optional description of the trusted profile. The 'description' property is only available if a description was provided during a create of a trusted profile.
 func (o IamTrustedProfileOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IamTrustedProfile) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The optional email of the trusted profile. The 'email' property is only available if an email was provided during a create of a trusted profile.
+func (o IamTrustedProfileOutput) Email() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamTrustedProfile) pulumi.StringPtrOutput { return v.Email }).(pulumi.StringPtrOutput)
 }
 
 // Version of the trusted profile details object. You need to specify this value when updating the trusted profile to avoid stale updates.

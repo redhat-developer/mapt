@@ -49,12 +49,8 @@ type LookupIsSshKeyResult struct {
 }
 
 func LookupIsSshKeyOutput(ctx *pulumi.Context, args LookupIsSshKeyOutputArgs, opts ...pulumi.InvokeOption) LookupIsSshKeyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsSshKeyResultOutput, error) {
-			args := v.(LookupIsSshKeyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSshKey:getIsSshKey", args, LookupIsSshKeyResultOutput{}, options).(LookupIsSshKeyResultOutput), nil
-		}).(LookupIsSshKeyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSshKey:getIsSshKey", args, LookupIsSshKeyResultOutput{}, options).(LookupIsSshKeyResultOutput)
 }
 
 // A collection of arguments for invoking getIsSshKey.

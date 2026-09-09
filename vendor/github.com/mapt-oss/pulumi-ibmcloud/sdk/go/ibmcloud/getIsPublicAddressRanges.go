@@ -35,12 +35,8 @@ type GetIsPublicAddressRangesResult struct {
 }
 
 func GetIsPublicAddressRangesOutput(ctx *pulumi.Context, args GetIsPublicAddressRangesOutputArgs, opts ...pulumi.InvokeOption) GetIsPublicAddressRangesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsPublicAddressRangesResultOutput, error) {
-			args := v.(GetIsPublicAddressRangesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsPublicAddressRanges:getIsPublicAddressRanges", args, GetIsPublicAddressRangesResultOutput{}, options).(GetIsPublicAddressRangesResultOutput), nil
-		}).(GetIsPublicAddressRangesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPublicAddressRanges:getIsPublicAddressRanges", args, GetIsPublicAddressRangesResultOutput{}, options).(GetIsPublicAddressRangesResultOutput)
 }
 
 // A collection of arguments for invoking getIsPublicAddressRanges.

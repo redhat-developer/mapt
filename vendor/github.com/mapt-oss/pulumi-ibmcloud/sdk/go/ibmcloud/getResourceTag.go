@@ -39,12 +39,8 @@ type LookupResourceTagResult struct {
 }
 
 func LookupResourceTagOutput(ctx *pulumi.Context, args LookupResourceTagOutputArgs, opts ...pulumi.InvokeOption) LookupResourceTagResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupResourceTagResultOutput, error) {
-			args := v.(LookupResourceTagArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getResourceTag:getResourceTag", args, LookupResourceTagResultOutput{}, options).(LookupResourceTagResultOutput), nil
-		}).(LookupResourceTagResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getResourceTag:getResourceTag", args, LookupResourceTagResultOutput{}, options).(LookupResourceTagResultOutput)
 }
 
 // A collection of arguments for invoking getResourceTag.

@@ -38,6 +38,10 @@ type IsImage struct {
 	File pulumi.IntOutput `pulumi:"file"`
 	// Image Href value
 	Href pulumi.StringOutput `pulumi:"href"`
+	// Specifies the minimum lifecycle status that an image must reach before Terraform considers the resource creation successful and proceeds. This allows users to control when the IsImage resource should complete its provisioning cycle.
+	MinimumAcceptableStatus pulumi.StringPtrOutput `pulumi:"minimumAcceptableStatus"`
+	// The minimum size (in gigabytes) of a volume onto which this image may be provisioned.
+	MinimumProvisionedSize pulumi.IntOutput `pulumi:"minimumProvisionedSize"`
 	// Image name
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The obsolescence date and time (UTC) for this image. If absent, no obsolescence date and time has been set.
@@ -70,6 +74,8 @@ type IsImage struct {
 	UserDataFormat pulumi.StringOutput `pulumi:"userDataFormat"`
 	// Whether the image is publicly visible or private to the account
 	Visibility pulumi.StringOutput `pulumi:"visibility"`
+	// The zones in which this image is available for use.If the image has a status of `available` or `deprecated`, this will include all zones in the region.If the image has a status of `partiallyAvailable`, this will include one or more zones in the region.If the image has a status of `failed`, `obsolete`, `pending`, or `unusable`, this will be empty.
+	Zones IsImageZoneArrayOutput `pulumi:"zones"`
 }
 
 // NewIsImage registers a new resource with the given unique name, arguments, and options.
@@ -126,6 +132,10 @@ type isImageState struct {
 	File *int `pulumi:"file"`
 	// Image Href value
 	Href *string `pulumi:"href"`
+	// Specifies the minimum lifecycle status that an image must reach before Terraform considers the resource creation successful and proceeds. This allows users to control when the IsImage resource should complete its provisioning cycle.
+	MinimumAcceptableStatus *string `pulumi:"minimumAcceptableStatus"`
+	// The minimum size (in gigabytes) of a volume onto which this image may be provisioned.
+	MinimumProvisionedSize *int `pulumi:"minimumProvisionedSize"`
 	// Image name
 	Name *string `pulumi:"name"`
 	// The obsolescence date and time (UTC) for this image. If absent, no obsolescence date and time has been set.
@@ -158,6 +168,8 @@ type isImageState struct {
 	UserDataFormat *string `pulumi:"userDataFormat"`
 	// Whether the image is publicly visible or private to the account
 	Visibility *string `pulumi:"visibility"`
+	// The zones in which this image is available for use.If the image has a status of `available` or `deprecated`, this will include all zones in the region.If the image has a status of `partiallyAvailable`, this will include one or more zones in the region.If the image has a status of `failed`, `obsolete`, `pending`, or `unusable`, this will be empty.
+	Zones []IsImageZone `pulumi:"zones"`
 }
 
 type IsImageState struct {
@@ -185,6 +197,10 @@ type IsImageState struct {
 	File pulumi.IntPtrInput
 	// Image Href value
 	Href pulumi.StringPtrInput
+	// Specifies the minimum lifecycle status that an image must reach before Terraform considers the resource creation successful and proceeds. This allows users to control when the IsImage resource should complete its provisioning cycle.
+	MinimumAcceptableStatus pulumi.StringPtrInput
+	// The minimum size (in gigabytes) of a volume onto which this image may be provisioned.
+	MinimumProvisionedSize pulumi.IntPtrInput
 	// Image name
 	Name pulumi.StringPtrInput
 	// The obsolescence date and time (UTC) for this image. If absent, no obsolescence date and time has been set.
@@ -217,6 +233,8 @@ type IsImageState struct {
 	UserDataFormat pulumi.StringPtrInput
 	// Whether the image is publicly visible or private to the account
 	Visibility pulumi.StringPtrInput
+	// The zones in which this image is available for use.If the image has a status of `available` or `deprecated`, this will include all zones in the region.If the image has a status of `partiallyAvailable`, this will include one or more zones in the region.If the image has a status of `failed`, `obsolete`, `pending`, or `unusable`, this will be empty.
+	Zones IsImageZoneArrayInput
 }
 
 func (IsImageState) ElementType() reflect.Type {
@@ -238,6 +256,8 @@ type isImageArgs struct {
 	EncryptionKey *string `pulumi:"encryptionKey"`
 	// Image Href value
 	Href *string `pulumi:"href"`
+	// Specifies the minimum lifecycle status that an image must reach before Terraform considers the resource creation successful and proceeds. This allows users to control when the IsImage resource should complete its provisioning cycle.
+	MinimumAcceptableStatus *string `pulumi:"minimumAcceptableStatus"`
 	// Image name
 	Name *string `pulumi:"name"`
 	// The obsolescence date and time (UTC) for this image. If absent, no obsolescence date and time has been set.
@@ -270,6 +290,8 @@ type IsImageArgs struct {
 	EncryptionKey pulumi.StringPtrInput
 	// Image Href value
 	Href pulumi.StringPtrInput
+	// Specifies the minimum lifecycle status that an image must reach before Terraform considers the resource creation successful and proceeds. This allows users to control when the IsImage resource should complete its provisioning cycle.
+	MinimumAcceptableStatus pulumi.StringPtrInput
 	// Image name
 	Name pulumi.StringPtrInput
 	// The obsolescence date and time (UTC) for this image. If absent, no obsolescence date and time has been set.
@@ -383,6 +405,16 @@ func (o IsImageOutput) Href() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsImage) pulumi.StringOutput { return v.Href }).(pulumi.StringOutput)
 }
 
+// Specifies the minimum lifecycle status that an image must reach before Terraform considers the resource creation successful and proceeds. This allows users to control when the IsImage resource should complete its provisioning cycle.
+func (o IsImageOutput) MinimumAcceptableStatus() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsImage) pulumi.StringPtrOutput { return v.MinimumAcceptableStatus }).(pulumi.StringPtrOutput)
+}
+
+// The minimum size (in gigabytes) of a volume onto which this image may be provisioned.
+func (o IsImageOutput) MinimumProvisionedSize() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsImage) pulumi.IntOutput { return v.MinimumProvisionedSize }).(pulumi.IntOutput)
+}
+
 // Image name
 func (o IsImageOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsImage) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
@@ -461,6 +493,11 @@ func (o IsImageOutput) UserDataFormat() pulumi.StringOutput {
 // Whether the image is publicly visible or private to the account
 func (o IsImageOutput) Visibility() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsImage) pulumi.StringOutput { return v.Visibility }).(pulumi.StringOutput)
+}
+
+// The zones in which this image is available for use.If the image has a status of `available` or `deprecated`, this will include all zones in the region.If the image has a status of `partiallyAvailable`, this will include one or more zones in the region.If the image has a status of `failed`, `obsolete`, `pending`, or `unusable`, this will be empty.
+func (o IsImageOutput) Zones() IsImageZoneArrayOutput {
+	return o.ApplyT(func(v *IsImage) IsImageZoneArrayOutput { return v.Zones }).(IsImageZoneArrayOutput)
 }
 
 func init() {

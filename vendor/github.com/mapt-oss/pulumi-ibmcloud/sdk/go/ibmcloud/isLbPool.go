@@ -17,10 +17,14 @@ type IsLbPool struct {
 
 	// Load Balancer Pool algorithm
 	Algorithm pulumi.StringOutput `pulumi:"algorithm"`
+	// The client authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ClientAuthentication IsLbPoolClientAuthenticationPtrOutput `pulumi:"clientAuthentication"`
 	// The failsafe policy to use for this pool.If unspecified, the default failsafe policy action from the profile will be used.
 	FailsafePolicy IsLbPoolFailsafePolicyOutput `pulumi:"failsafePolicy"`
 	// Load Blancer health delay time period
 	HealthDelay pulumi.IntOutput `pulumi:"healthDelay"`
+	// The health monitor of this pool.If this pool has a member targeting a load balancer then:- If the targeted load balancer has multiple subnets, this health monitor is used to  direct traffic to the available subnets.- The health checks spawned by this health monitor is handled as any other traffic  (that is, subject to the configuration of listeners and pools on the target load  balancer).- This health monitor does not affect how pool member health is determined within the  target load balancer.For more information, see [Private Path network load balancer frequently askedquestions](https://cloud.ibm.com/docs/vpc?topic=vpc-nlb-faqs#ppnlb-faqs).
+	HealthMonitor IsLbPoolHealthMonitorOutput `pulumi:"healthMonitor"`
 	// Health monitor Port the LB Pool
 	HealthMonitorPort pulumi.IntOutput `pulumi:"healthMonitorPort"`
 	// Health monitor URL of LB Pool
@@ -45,6 +49,8 @@ type IsLbPool struct {
 	ProxyProtocol pulumi.StringOutput `pulumi:"proxyProtocol"`
 	// The crn of the LB resource
 	RelatedCrn pulumi.StringOutput `pulumi:"relatedCrn"`
+	// The server authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ServerAuthentication IsLbPoolServerAuthenticationOutput `pulumi:"serverAuthentication"`
 	// Load Balancer Pool session persisence app cookie name.
 	SessionPersistenceAppCookieName pulumi.StringPtrOutput `pulumi:"sessionPersistenceAppCookieName"`
 	// Load Balancer Pool session persisence http cookie name.
@@ -106,10 +112,14 @@ func GetIsLbPool(ctx *pulumi.Context,
 type isLbPoolState struct {
 	// Load Balancer Pool algorithm
 	Algorithm *string `pulumi:"algorithm"`
+	// The client authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ClientAuthentication *IsLbPoolClientAuthentication `pulumi:"clientAuthentication"`
 	// The failsafe policy to use for this pool.If unspecified, the default failsafe policy action from the profile will be used.
 	FailsafePolicy *IsLbPoolFailsafePolicy `pulumi:"failsafePolicy"`
 	// Load Blancer health delay time period
 	HealthDelay *int `pulumi:"healthDelay"`
+	// The health monitor of this pool.If this pool has a member targeting a load balancer then:- If the targeted load balancer has multiple subnets, this health monitor is used to  direct traffic to the available subnets.- The health checks spawned by this health monitor is handled as any other traffic  (that is, subject to the configuration of listeners and pools on the target load  balancer).- This health monitor does not affect how pool member health is determined within the  target load balancer.For more information, see [Private Path network load balancer frequently askedquestions](https://cloud.ibm.com/docs/vpc?topic=vpc-nlb-faqs#ppnlb-faqs).
+	HealthMonitor *IsLbPoolHealthMonitor `pulumi:"healthMonitor"`
 	// Health monitor Port the LB Pool
 	HealthMonitorPort *int `pulumi:"healthMonitorPort"`
 	// Health monitor URL of LB Pool
@@ -134,6 +144,8 @@ type isLbPoolState struct {
 	ProxyProtocol *string `pulumi:"proxyProtocol"`
 	// The crn of the LB resource
 	RelatedCrn *string `pulumi:"relatedCrn"`
+	// The server authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ServerAuthentication *IsLbPoolServerAuthentication `pulumi:"serverAuthentication"`
 	// Load Balancer Pool session persisence app cookie name.
 	SessionPersistenceAppCookieName *string `pulumi:"sessionPersistenceAppCookieName"`
 	// Load Balancer Pool session persisence http cookie name.
@@ -145,10 +157,14 @@ type isLbPoolState struct {
 type IsLbPoolState struct {
 	// Load Balancer Pool algorithm
 	Algorithm pulumi.StringPtrInput
+	// The client authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ClientAuthentication IsLbPoolClientAuthenticationPtrInput
 	// The failsafe policy to use for this pool.If unspecified, the default failsafe policy action from the profile will be used.
 	FailsafePolicy IsLbPoolFailsafePolicyPtrInput
 	// Load Blancer health delay time period
 	HealthDelay pulumi.IntPtrInput
+	// The health monitor of this pool.If this pool has a member targeting a load balancer then:- If the targeted load balancer has multiple subnets, this health monitor is used to  direct traffic to the available subnets.- The health checks spawned by this health monitor is handled as any other traffic  (that is, subject to the configuration of listeners and pools on the target load  balancer).- This health monitor does not affect how pool member health is determined within the  target load balancer.For more information, see [Private Path network load balancer frequently askedquestions](https://cloud.ibm.com/docs/vpc?topic=vpc-nlb-faqs#ppnlb-faqs).
+	HealthMonitor IsLbPoolHealthMonitorPtrInput
 	// Health monitor Port the LB Pool
 	HealthMonitorPort pulumi.IntPtrInput
 	// Health monitor URL of LB Pool
@@ -173,6 +189,8 @@ type IsLbPoolState struct {
 	ProxyProtocol pulumi.StringPtrInput
 	// The crn of the LB resource
 	RelatedCrn pulumi.StringPtrInput
+	// The server authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ServerAuthentication IsLbPoolServerAuthenticationPtrInput
 	// Load Balancer Pool session persisence app cookie name.
 	SessionPersistenceAppCookieName pulumi.StringPtrInput
 	// Load Balancer Pool session persisence http cookie name.
@@ -188,10 +206,14 @@ func (IsLbPoolState) ElementType() reflect.Type {
 type isLbPoolArgs struct {
 	// Load Balancer Pool algorithm
 	Algorithm string `pulumi:"algorithm"`
+	// The client authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ClientAuthentication *IsLbPoolClientAuthentication `pulumi:"clientAuthentication"`
 	// The failsafe policy to use for this pool.If unspecified, the default failsafe policy action from the profile will be used.
 	FailsafePolicy *IsLbPoolFailsafePolicy `pulumi:"failsafePolicy"`
 	// Load Blancer health delay time period
 	HealthDelay int `pulumi:"healthDelay"`
+	// The health monitor of this pool.If this pool has a member targeting a load balancer then:- If the targeted load balancer has multiple subnets, this health monitor is used to  direct traffic to the available subnets.- The health checks spawned by this health monitor is handled as any other traffic  (that is, subject to the configuration of listeners and pools on the target load  balancer).- This health monitor does not affect how pool member health is determined within the  target load balancer.For more information, see [Private Path network load balancer frequently askedquestions](https://cloud.ibm.com/docs/vpc?topic=vpc-nlb-faqs#ppnlb-faqs).
+	HealthMonitor *IsLbPoolHealthMonitor `pulumi:"healthMonitor"`
 	// Health monitor Port the LB Pool
 	HealthMonitorPort *int `pulumi:"healthMonitorPort"`
 	// Health monitor URL of LB Pool
@@ -210,6 +232,8 @@ type isLbPoolArgs struct {
 	Protocol string `pulumi:"protocol"`
 	// PROXY protocol setting for this pool
 	ProxyProtocol *string `pulumi:"proxyProtocol"`
+	// The server authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ServerAuthentication *IsLbPoolServerAuthentication `pulumi:"serverAuthentication"`
 	// Load Balancer Pool session persisence app cookie name.
 	SessionPersistenceAppCookieName *string `pulumi:"sessionPersistenceAppCookieName"`
 	// Load Balancer Pool session persisence type.
@@ -220,10 +244,14 @@ type isLbPoolArgs struct {
 type IsLbPoolArgs struct {
 	// Load Balancer Pool algorithm
 	Algorithm pulumi.StringInput
+	// The client authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ClientAuthentication IsLbPoolClientAuthenticationPtrInput
 	// The failsafe policy to use for this pool.If unspecified, the default failsafe policy action from the profile will be used.
 	FailsafePolicy IsLbPoolFailsafePolicyPtrInput
 	// Load Blancer health delay time period
 	HealthDelay pulumi.IntInput
+	// The health monitor of this pool.If this pool has a member targeting a load balancer then:- If the targeted load balancer has multiple subnets, this health monitor is used to  direct traffic to the available subnets.- The health checks spawned by this health monitor is handled as any other traffic  (that is, subject to the configuration of listeners and pools on the target load  balancer).- This health monitor does not affect how pool member health is determined within the  target load balancer.For more information, see [Private Path network load balancer frequently askedquestions](https://cloud.ibm.com/docs/vpc?topic=vpc-nlb-faqs#ppnlb-faqs).
+	HealthMonitor IsLbPoolHealthMonitorPtrInput
 	// Health monitor Port the LB Pool
 	HealthMonitorPort pulumi.IntPtrInput
 	// Health monitor URL of LB Pool
@@ -242,6 +270,8 @@ type IsLbPoolArgs struct {
 	Protocol pulumi.StringInput
 	// PROXY protocol setting for this pool
 	ProxyProtocol pulumi.StringPtrInput
+	// The server authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+	ServerAuthentication IsLbPoolServerAuthenticationPtrInput
 	// Load Balancer Pool session persisence app cookie name.
 	SessionPersistenceAppCookieName pulumi.StringPtrInput
 	// Load Balancer Pool session persisence type.
@@ -290,6 +320,11 @@ func (o IsLbPoolOutput) Algorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsLbPool) pulumi.StringOutput { return v.Algorithm }).(pulumi.StringOutput)
 }
 
+// The client authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+func (o IsLbPoolOutput) ClientAuthentication() IsLbPoolClientAuthenticationPtrOutput {
+	return o.ApplyT(func(v *IsLbPool) IsLbPoolClientAuthenticationPtrOutput { return v.ClientAuthentication }).(IsLbPoolClientAuthenticationPtrOutput)
+}
+
 // The failsafe policy to use for this pool.If unspecified, the default failsafe policy action from the profile will be used.
 func (o IsLbPoolOutput) FailsafePolicy() IsLbPoolFailsafePolicyOutput {
 	return o.ApplyT(func(v *IsLbPool) IsLbPoolFailsafePolicyOutput { return v.FailsafePolicy }).(IsLbPoolFailsafePolicyOutput)
@@ -298,6 +333,11 @@ func (o IsLbPoolOutput) FailsafePolicy() IsLbPoolFailsafePolicyOutput {
 // Load Blancer health delay time period
 func (o IsLbPoolOutput) HealthDelay() pulumi.IntOutput {
 	return o.ApplyT(func(v *IsLbPool) pulumi.IntOutput { return v.HealthDelay }).(pulumi.IntOutput)
+}
+
+// The health monitor of this pool.If this pool has a member targeting a load balancer then:- If the targeted load balancer has multiple subnets, this health monitor is used to  direct traffic to the available subnets.- The health checks spawned by this health monitor is handled as any other traffic  (that is, subject to the configuration of listeners and pools on the target load  balancer).- This health monitor does not affect how pool member health is determined within the  target load balancer.For more information, see [Private Path network load balancer frequently askedquestions](https://cloud.ibm.com/docs/vpc?topic=vpc-nlb-faqs#ppnlb-faqs).
+func (o IsLbPoolOutput) HealthMonitor() IsLbPoolHealthMonitorOutput {
+	return o.ApplyT(func(v *IsLbPool) IsLbPoolHealthMonitorOutput { return v.HealthMonitor }).(IsLbPoolHealthMonitorOutput)
 }
 
 // Health monitor Port the LB Pool
@@ -358,6 +398,11 @@ func (o IsLbPoolOutput) ProxyProtocol() pulumi.StringOutput {
 // The crn of the LB resource
 func (o IsLbPoolOutput) RelatedCrn() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsLbPool) pulumi.StringOutput { return v.RelatedCrn }).(pulumi.StringOutput)
+}
+
+// The server authentication to use for this pool. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https.
+func (o IsLbPoolOutput) ServerAuthentication() IsLbPoolServerAuthenticationOutput {
+	return o.ApplyT(func(v *IsLbPool) IsLbPoolServerAuthenticationOutput { return v.ServerAuthentication }).(IsLbPoolServerAuthenticationOutput)
 }
 
 // Load Balancer Pool session persisence app cookie name.

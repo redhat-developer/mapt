@@ -35,12 +35,8 @@ type GetIsInstanceDisksResult struct {
 }
 
 func GetIsInstanceDisksOutput(ctx *pulumi.Context, args GetIsInstanceDisksOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceDisksResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceDisksResultOutput, error) {
-			args := v.(GetIsInstanceDisksArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceDisks:getIsInstanceDisks", args, GetIsInstanceDisksResultOutput{}, options).(GetIsInstanceDisksResultOutput), nil
-		}).(GetIsInstanceDisksResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceDisks:getIsInstanceDisks", args, GetIsInstanceDisksResultOutput{}, options).(GetIsInstanceDisksResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceDisks.

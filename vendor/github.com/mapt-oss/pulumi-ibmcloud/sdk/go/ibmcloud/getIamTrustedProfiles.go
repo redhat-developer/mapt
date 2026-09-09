@@ -39,12 +39,8 @@ type GetIamTrustedProfilesResult struct {
 }
 
 func GetIamTrustedProfilesOutput(ctx *pulumi.Context, args GetIamTrustedProfilesOutputArgs, opts ...pulumi.InvokeOption) GetIamTrustedProfilesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamTrustedProfilesResultOutput, error) {
-			args := v.(GetIamTrustedProfilesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfiles:getIamTrustedProfiles", args, GetIamTrustedProfilesResultOutput{}, options).(GetIamTrustedProfilesResultOutput), nil
-		}).(GetIamTrustedProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfiles:getIamTrustedProfiles", args, GetIamTrustedProfilesResultOutput{}, options).(GetIamTrustedProfilesResultOutput)
 }
 
 // A collection of arguments for invoking getIamTrustedProfiles.

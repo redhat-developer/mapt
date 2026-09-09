@@ -14,7 +14,7 @@ import (
 type IamApiKey struct {
 	pulumi.CustomResourceState
 
-	// The account ID of the API key.
+	// ID of the account that this API key authenticates for.
 	AccountId pulumi.StringOutput `pulumi:"accountId"`
 	// You can optionally passthrough the API key value for this API key. If passed, NO validation of that apiKey value is done, i.e. the value can be non-URL safe. If omitted, the API key management will create an URL safe opaque API key value. The value of the API key is checked for uniqueness. Please ensure enough variations when passing in this value.
 	Apikey pulumi.StringOutput `pulumi:"apikey"`
@@ -32,6 +32,8 @@ type IamApiKey struct {
 	EntityLock pulumi.StringPtrOutput `pulumi:"entityLock"`
 	// Version of the API Key details object. You need to specify this value when updating the API key to avoid stale updates.
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. **WARNING** An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key’s locked status or any other state.
+	ExpiresAt pulumi.StringPtrOutput `pulumi:"expiresAt"`
 	// File where api key is to be stored
 	File pulumi.StringPtrOutput `pulumi:"file"`
 	// The iamId that this API key authenticates.
@@ -83,7 +85,7 @@ func GetIamApiKey(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering IamApiKey resources.
 type iamApiKeyState struct {
-	// The account ID of the API key.
+	// ID of the account that this API key authenticates for.
 	AccountId *string `pulumi:"accountId"`
 	// You can optionally passthrough the API key value for this API key. If passed, NO validation of that apiKey value is done, i.e. the value can be non-URL safe. If omitted, the API key management will create an URL safe opaque API key value. The value of the API key is checked for uniqueness. Please ensure enough variations when passing in this value.
 	Apikey *string `pulumi:"apikey"`
@@ -101,6 +103,8 @@ type iamApiKeyState struct {
 	EntityLock *string `pulumi:"entityLock"`
 	// Version of the API Key details object. You need to specify this value when updating the API key to avoid stale updates.
 	EntityTag *string `pulumi:"entityTag"`
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. **WARNING** An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key’s locked status or any other state.
+	ExpiresAt *string `pulumi:"expiresAt"`
 	// File where api key is to be stored
 	File *string `pulumi:"file"`
 	// The iamId that this API key authenticates.
@@ -116,7 +120,7 @@ type iamApiKeyState struct {
 }
 
 type IamApiKeyState struct {
-	// The account ID of the API key.
+	// ID of the account that this API key authenticates for.
 	AccountId pulumi.StringPtrInput
 	// You can optionally passthrough the API key value for this API key. If passed, NO validation of that apiKey value is done, i.e. the value can be non-URL safe. If omitted, the API key management will create an URL safe opaque API key value. The value of the API key is checked for uniqueness. Please ensure enough variations when passing in this value.
 	Apikey pulumi.StringPtrInput
@@ -134,6 +138,8 @@ type IamApiKeyState struct {
 	EntityLock pulumi.StringPtrInput
 	// Version of the API Key details object. You need to specify this value when updating the API key to avoid stale updates.
 	EntityTag pulumi.StringPtrInput
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. **WARNING** An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key’s locked status or any other state.
+	ExpiresAt pulumi.StringPtrInput
 	// File where api key is to be stored
 	File pulumi.StringPtrInput
 	// The iamId that this API key authenticates.
@@ -159,6 +165,8 @@ type iamApiKeyArgs struct {
 	Description *string `pulumi:"description"`
 	// Indicates if the API key is locked for further write operations. False by default.
 	EntityLock *string `pulumi:"entityLock"`
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. **WARNING** An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key’s locked status or any other state.
+	ExpiresAt *string `pulumi:"expiresAt"`
 	// File where api key is to be stored
 	File *string `pulumi:"file"`
 	// Name of the API key. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the API key.
@@ -175,6 +183,8 @@ type IamApiKeyArgs struct {
 	Description pulumi.StringPtrInput
 	// Indicates if the API key is locked for further write operations. False by default.
 	EntityLock pulumi.StringPtrInput
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. **WARNING** An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key’s locked status or any other state.
+	ExpiresAt pulumi.StringPtrInput
 	// File where api key is to be stored
 	File pulumi.StringPtrInput
 	// Name of the API key. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the API key.
@@ -220,7 +230,7 @@ func (o IamApiKeyOutput) ToIamApiKeyOutputWithContext(ctx context.Context) IamAp
 	return o
 }
 
-// The account ID of the API key.
+// ID of the account that this API key authenticates for.
 func (o IamApiKeyOutput) AccountId() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamApiKey) pulumi.StringOutput { return v.AccountId }).(pulumi.StringOutput)
 }
@@ -263,6 +273,11 @@ func (o IamApiKeyOutput) EntityLock() pulumi.StringPtrOutput {
 // Version of the API Key details object. You need to specify this value when updating the API key to avoid stale updates.
 func (o IamApiKeyOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamApiKey) pulumi.StringOutput { return v.EntityTag }).(pulumi.StringOutput)
+}
+
+// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. **WARNING** An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key’s locked status or any other state.
+func (o IamApiKeyOutput) ExpiresAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamApiKey) pulumi.StringPtrOutput { return v.ExpiresAt }).(pulumi.StringPtrOutput)
 }
 
 // File where api key is to be stored

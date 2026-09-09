@@ -29,17 +29,19 @@ type LookupIsVpnGatewayArgs struct {
 
 // A collection of values returned by getIsVpnGateway.
 type LookupIsVpnGatewayResult struct {
-	AccessTags    []string                        `pulumi:"accessTags"`
-	Connections   []GetIsVpnGatewayConnectionType `pulumi:"connections"`
-	CreatedAt     string                          `pulumi:"createdAt"`
-	Crn           string                          `pulumi:"crn"`
-	HealthReasons []GetIsVpnGatewayHealthReason   `pulumi:"healthReasons"`
-	HealthState   string                          `pulumi:"healthState"`
-	Href          string                          `pulumi:"href"`
+	AccessTags      []string                        `pulumi:"accessTags"`
+	AdvertisedCidrs []string                        `pulumi:"advertisedCidrs"`
+	Connections     []GetIsVpnGatewayConnectionType `pulumi:"connections"`
+	CreatedAt       string                          `pulumi:"createdAt"`
+	Crn             string                          `pulumi:"crn"`
+	HealthReasons   []GetIsVpnGatewayHealthReason   `pulumi:"healthReasons"`
+	HealthState     string                          `pulumi:"healthState"`
+	Href            string                          `pulumi:"href"`
 	// The provider-assigned unique ID for this managed resource.
 	Id               string                           `pulumi:"id"`
 	LifecycleReasons []GetIsVpnGatewayLifecycleReason `pulumi:"lifecycleReasons"`
 	LifecycleState   string                           `pulumi:"lifecycleState"`
+	LocalAsn         int                              `pulumi:"localAsn"`
 	Members          []GetIsVpnGatewayMember          `pulumi:"members"`
 	Mode             string                           `pulumi:"mode"`
 	Name             string                           `pulumi:"name"`
@@ -54,12 +56,8 @@ type LookupIsVpnGatewayResult struct {
 }
 
 func LookupIsVpnGatewayOutput(ctx *pulumi.Context, args LookupIsVpnGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupIsVpnGatewayResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVpnGatewayResultOutput, error) {
-			args := v.(LookupIsVpnGatewayArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpnGateway:getIsVpnGateway", args, LookupIsVpnGatewayResultOutput{}, options).(LookupIsVpnGatewayResultOutput), nil
-		}).(LookupIsVpnGatewayResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpnGateway:getIsVpnGateway", args, LookupIsVpnGatewayResultOutput{}, options).(LookupIsVpnGatewayResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpnGateway.
@@ -89,6 +87,10 @@ func (o LookupIsVpnGatewayResultOutput) ToLookupIsVpnGatewayResultOutputWithCont
 
 func (o LookupIsVpnGatewayResultOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupIsVpnGatewayResult) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupIsVpnGatewayResultOutput) AdvertisedCidrs() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupIsVpnGatewayResult) []string { return v.AdvertisedCidrs }).(pulumi.StringArrayOutput)
 }
 
 func (o LookupIsVpnGatewayResultOutput) Connections() GetIsVpnGatewayConnectionTypeArrayOutput {
@@ -126,6 +128,10 @@ func (o LookupIsVpnGatewayResultOutput) LifecycleReasons() GetIsVpnGatewayLifecy
 
 func (o LookupIsVpnGatewayResultOutput) LifecycleState() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsVpnGatewayResult) string { return v.LifecycleState }).(pulumi.StringOutput)
+}
+
+func (o LookupIsVpnGatewayResultOutput) LocalAsn() pulumi.IntOutput {
+	return o.ApplyT(func(v LookupIsVpnGatewayResult) int { return v.LocalAsn }).(pulumi.IntOutput)
 }
 
 func (o LookupIsVpnGatewayResultOutput) Members() GetIsVpnGatewayMemberArrayOutput {

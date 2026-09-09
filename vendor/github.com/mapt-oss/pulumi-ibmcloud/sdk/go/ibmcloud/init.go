@@ -101,18 +101,32 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IamAuthorizationPolicyDetach{}
 	case "ibmcloud:index/iamCustomRole:IamCustomRole":
 		r = &IamCustomRole{}
+	case "ibmcloud:index/iamIdentityPreference:IamIdentityPreference":
+		r = &IamIdentityPreference{}
+	case "ibmcloud:index/iamIdp:IamIdp":
+		r = &IamIdp{}
+	case "ibmcloud:index/iamIdpAccountSetting:IamIdpAccountSetting":
+		r = &IamIdpAccountSetting{}
 	case "ibmcloud:index/iamPolicyAssignment:IamPolicyAssignment":
 		r = &IamPolicyAssignment{}
 	case "ibmcloud:index/iamPolicyTemplate:IamPolicyTemplate":
 		r = &IamPolicyTemplate{}
 	case "ibmcloud:index/iamPolicyTemplateVersion:IamPolicyTemplateVersion":
 		r = &IamPolicyTemplateVersion{}
+	case "ibmcloud:index/iamRoleAssignment:IamRoleAssignment":
+		r = &IamRoleAssignment{}
+	case "ibmcloud:index/iamRoleTemplate:IamRoleTemplate":
+		r = &IamRoleTemplate{}
+	case "ibmcloud:index/iamRoleTemplateVersion:IamRoleTemplateVersion":
+		r = &IamRoleTemplateVersion{}
 	case "ibmcloud:index/iamServiceApiKey:IamServiceApiKey":
 		r = &IamServiceApiKey{}
 	case "ibmcloud:index/iamServiceId:IamServiceId":
 		r = &IamServiceId{}
 	case "ibmcloud:index/iamServicePolicy:IamServicePolicy":
 		r = &IamServicePolicy{}
+	case "ibmcloud:index/iamServiceidGroup:IamServiceidGroup":
+		r = &IamServiceidGroup{}
 	case "ibmcloud:index/iamTrustedProfile:IamTrustedProfile":
 		r = &IamTrustedProfile{}
 	case "ibmcloud:index/iamTrustedProfileClaimRule:IamTrustedProfileClaimRule":
@@ -207,6 +221,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IsInstanceNetworkInterface{}
 	case "ibmcloud:index/isInstanceNetworkInterfaceFloatingIp:IsInstanceNetworkInterfaceFloatingIp":
 		r = &IsInstanceNetworkInterfaceFloatingIp{}
+	case "ibmcloud:index/isInstanceReinitialize:IsInstanceReinitialize":
+		r = &IsInstanceReinitialize{}
+	case "ibmcloud:index/isInstanceSoftwareAttachment:IsInstanceSoftwareAttachment":
+		r = &IsInstanceSoftwareAttachment{}
 	case "ibmcloud:index/isInstanceTemplate:IsInstanceTemplate":
 		r = &IsInstanceTemplate{}
 	case "ibmcloud:index/isInstanceVolumeAttachment:IsInstanceVolumeAttachment":
@@ -287,6 +305,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IsVirtualEndpointGateway{}
 	case "ibmcloud:index/isVirtualEndpointGatewayIp:IsVirtualEndpointGatewayIp":
 		r = &IsVirtualEndpointGatewayIp{}
+	case "ibmcloud:index/isVirtualEndpointGatewayResourceBinding:IsVirtualEndpointGatewayResourceBinding":
+		r = &IsVirtualEndpointGatewayResourceBinding{}
 	case "ibmcloud:index/isVirtualNetworkInterface:IsVirtualNetworkInterface":
 		r = &IsVirtualNetworkInterface{}
 	case "ibmcloud:index/isVirtualNetworkInterfaceFloatingIp:IsVirtualNetworkInterfaceFloatingIp":
@@ -295,6 +315,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IsVirtualNetworkInterfaceIp{}
 	case "ibmcloud:index/isVolume:IsVolume":
 		r = &IsVolume{}
+	case "ibmcloud:index/isVolumeJob:IsVolumeJob":
+		r = &IsVolumeJob{}
+	case "ibmcloud:index/isVolumeJobCancel:IsVolumeJobCancel":
+		r = &IsVolumeJobCancel{}
 	case "ibmcloud:index/isVpc:IsVpc":
 		r = &IsVpc{}
 	case "ibmcloud:index/isVpcAddressPrefix:IsVpcAddressPrefix":
@@ -307,6 +331,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &IsVpcRoutingTableRoute{}
 	case "ibmcloud:index/isVpnGateway:IsVpnGateway":
 		r = &IsVpnGateway{}
+	case "ibmcloud:index/isVpnGatewayAdvertisedCidr:IsVpnGatewayAdvertisedCidr":
+		r = &IsVpnGatewayAdvertisedCidr{}
 	case "ibmcloud:index/isVpnGatewayConnection:IsVpnGatewayConnection":
 		r = &IsVpnGatewayConnection{}
 	case "ibmcloud:index/isVpnServer:IsVpnServer":
@@ -341,6 +367,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &PiInstanceAction{}
 	case "ibmcloud:index/piInstanceSnapshot:PiInstanceSnapshot":
 		r = &PiInstanceSnapshot{}
+	case "ibmcloud:index/piInstanceVpmemVolumes:PiInstanceVpmemVolumes":
+		r = &PiInstanceVpmemVolumes{}
 	case "ibmcloud:index/piIpsecPolicy:PiIpsecPolicy":
 		r = &PiIpsecPolicy{}
 	case "ibmcloud:index/piKey:PiKey":
@@ -401,6 +429,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ResourceInstance{}
 	case "ibmcloud:index/resourceKey:ResourceKey":
 		r = &ResourceKey{}
+	case "ibmcloud:index/resourceReclamationDelete:ResourceReclamationDelete":
+		r = &ResourceReclamationDelete{}
 	case "ibmcloud:index/resourceTag:ResourceTag":
 		r = &ResourceTag{}
 	case "ibmcloud:index/tgConnection:TgConnection":
@@ -648,6 +678,21 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
+		"index/iamIdentityPreference",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/iamIdp",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/iamIdpAccountSetting",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
 		"index/iamPolicyAssignment",
 		&module{version},
 	)
@@ -663,6 +708,21 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
+		"index/iamRoleAssignment",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/iamRoleTemplate",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/iamRoleTemplateVersion",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
 		"index/iamServiceApiKey",
 		&module{version},
 	)
@@ -674,6 +734,11 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/iamServicePolicy",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/iamServiceidGroup",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -913,6 +978,16 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
+		"index/isInstanceReinitialize",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/isInstanceSoftwareAttachment",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
 		"index/isInstanceTemplate",
 		&module{version},
 	)
@@ -1113,6 +1188,11 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
+		"index/isVirtualEndpointGatewayResourceBinding",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
 		"index/isVirtualNetworkInterface",
 		&module{version},
 	)
@@ -1129,6 +1209,16 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/isVolume",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/isVolumeJob",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/isVolumeJobCancel",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -1159,6 +1249,11 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/isVpnGateway",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/isVpnGatewayAdvertisedCidr",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -1244,6 +1339,11 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/piInstanceSnapshot",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/piInstanceVpmemVolumes",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -1394,6 +1494,11 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/resourceKey",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/resourceReclamationDelete",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

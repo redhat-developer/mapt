@@ -35,12 +35,8 @@ type GetIamTrustedProfileClaimRulesResult struct {
 }
 
 func GetIamTrustedProfileClaimRulesOutput(ctx *pulumi.Context, args GetIamTrustedProfileClaimRulesOutputArgs, opts ...pulumi.InvokeOption) GetIamTrustedProfileClaimRulesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamTrustedProfileClaimRulesResultOutput, error) {
-			args := v.(GetIamTrustedProfileClaimRulesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileClaimRules:getIamTrustedProfileClaimRules", args, GetIamTrustedProfileClaimRulesResultOutput{}, options).(GetIamTrustedProfileClaimRulesResultOutput), nil
-		}).(GetIamTrustedProfileClaimRulesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileClaimRules:getIamTrustedProfileClaimRules", args, GetIamTrustedProfileClaimRulesResultOutput{}, options).(GetIamTrustedProfileClaimRulesResultOutput)
 }
 
 // A collection of arguments for invoking getIamTrustedProfileClaimRules.

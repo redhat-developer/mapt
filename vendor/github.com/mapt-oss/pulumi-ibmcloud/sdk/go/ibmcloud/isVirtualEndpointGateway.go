@@ -18,11 +18,15 @@ type IsVirtualEndpointGateway struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayOutput `pulumi:"accessTags"`
 	// Indicates whether to allow this endpoint gateway to participate in DNS resolution bindings with a VPC that has dns.enable_hub set to true.
+	//
+	// Deprecated: This field has been deprecated in favor of `dnsResolutionBindingMode` and will be removed in a future version. Migration: false='disabled', true='primary'. The new field also supports 'per_resource_binding' for advanced DNS sharing scenarios. Please update your configuration to use `dnsResolutionBindingMode`.
 	AllowDnsResolutionBinding pulumi.BoolOutput `pulumi:"allowDnsResolutionBinding"`
 	// Endpoint gateway created date and time
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
 	// The CRN for this Endpoint gateway
 	Crn pulumi.StringOutput `pulumi:"crn"`
+	// The DNS resolution binding mode used for this endpoint gateway:- `disabled`: The endpoint gateway is not participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing).- `primary`: The endpoint gateway is participating in [DNS sharing for VPE gateways]   (https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway resides in   has a DNS resolution binding to another VPC.- `perResourceBinding`: The endpoint gateway is participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway   resides in has a DNS resolution binding to another VPC, and resource binding is   enabled for the `target` service.
+	DnsResolutionBindingMode pulumi.StringOutput `pulumi:"dnsResolutionBindingMode"`
 	// Endpoint gateway health state
 	HealthState pulumi.StringOutput `pulumi:"healthState"`
 	// Endpoint gateway IPs
@@ -88,11 +92,15 @@ type isVirtualEndpointGatewayState struct {
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
 	// Indicates whether to allow this endpoint gateway to participate in DNS resolution bindings with a VPC that has dns.enable_hub set to true.
+	//
+	// Deprecated: This field has been deprecated in favor of `dnsResolutionBindingMode` and will be removed in a future version. Migration: false='disabled', true='primary'. The new field also supports 'per_resource_binding' for advanced DNS sharing scenarios. Please update your configuration to use `dnsResolutionBindingMode`.
 	AllowDnsResolutionBinding *bool `pulumi:"allowDnsResolutionBinding"`
 	// Endpoint gateway created date and time
 	CreatedAt *string `pulumi:"createdAt"`
 	// The CRN for this Endpoint gateway
 	Crn *string `pulumi:"crn"`
+	// The DNS resolution binding mode used for this endpoint gateway:- `disabled`: The endpoint gateway is not participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing).- `primary`: The endpoint gateway is participating in [DNS sharing for VPE gateways]   (https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway resides in   has a DNS resolution binding to another VPC.- `perResourceBinding`: The endpoint gateway is participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway   resides in has a DNS resolution binding to another VPC, and resource binding is   enabled for the `target` service.
+	DnsResolutionBindingMode *string `pulumi:"dnsResolutionBindingMode"`
 	// Endpoint gateway health state
 	HealthState *string `pulumi:"healthState"`
 	// Endpoint gateway IPs
@@ -123,11 +131,15 @@ type IsVirtualEndpointGatewayState struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
 	// Indicates whether to allow this endpoint gateway to participate in DNS resolution bindings with a VPC that has dns.enable_hub set to true.
+	//
+	// Deprecated: This field has been deprecated in favor of `dnsResolutionBindingMode` and will be removed in a future version. Migration: false='disabled', true='primary'. The new field also supports 'per_resource_binding' for advanced DNS sharing scenarios. Please update your configuration to use `dnsResolutionBindingMode`.
 	AllowDnsResolutionBinding pulumi.BoolPtrInput
 	// Endpoint gateway created date and time
 	CreatedAt pulumi.StringPtrInput
 	// The CRN for this Endpoint gateway
 	Crn pulumi.StringPtrInput
+	// The DNS resolution binding mode used for this endpoint gateway:- `disabled`: The endpoint gateway is not participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing).- `primary`: The endpoint gateway is participating in [DNS sharing for VPE gateways]   (https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway resides in   has a DNS resolution binding to another VPC.- `perResourceBinding`: The endpoint gateway is participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway   resides in has a DNS resolution binding to another VPC, and resource binding is   enabled for the `target` service.
+	DnsResolutionBindingMode pulumi.StringPtrInput
 	// Endpoint gateway health state
 	HealthState pulumi.StringPtrInput
 	// Endpoint gateway IPs
@@ -162,7 +174,11 @@ type isVirtualEndpointGatewayArgs struct {
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
 	// Indicates whether to allow this endpoint gateway to participate in DNS resolution bindings with a VPC that has dns.enable_hub set to true.
+	//
+	// Deprecated: This field has been deprecated in favor of `dnsResolutionBindingMode` and will be removed in a future version. Migration: false='disabled', true='primary'. The new field also supports 'per_resource_binding' for advanced DNS sharing scenarios. Please update your configuration to use `dnsResolutionBindingMode`.
 	AllowDnsResolutionBinding *bool `pulumi:"allowDnsResolutionBinding"`
+	// The DNS resolution binding mode used for this endpoint gateway:- `disabled`: The endpoint gateway is not participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing).- `primary`: The endpoint gateway is participating in [DNS sharing for VPE gateways]   (https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway resides in   has a DNS resolution binding to another VPC.- `perResourceBinding`: The endpoint gateway is participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway   resides in has a DNS resolution binding to another VPC, and resource binding is   enabled for the `target` service.
+	DnsResolutionBindingMode *string `pulumi:"dnsResolutionBindingMode"`
 	// Endpoint gateway IPs
 	Ips []IsVirtualEndpointGatewayIpType `pulumi:"ips"`
 	// Endpoint gateway name
@@ -184,7 +200,11 @@ type IsVirtualEndpointGatewayArgs struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
 	// Indicates whether to allow this endpoint gateway to participate in DNS resolution bindings with a VPC that has dns.enable_hub set to true.
+	//
+	// Deprecated: This field has been deprecated in favor of `dnsResolutionBindingMode` and will be removed in a future version. Migration: false='disabled', true='primary'. The new field also supports 'per_resource_binding' for advanced DNS sharing scenarios. Please update your configuration to use `dnsResolutionBindingMode`.
 	AllowDnsResolutionBinding pulumi.BoolPtrInput
+	// The DNS resolution binding mode used for this endpoint gateway:- `disabled`: The endpoint gateway is not participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing).- `primary`: The endpoint gateway is participating in [DNS sharing for VPE gateways]   (https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway resides in   has a DNS resolution binding to another VPC.- `perResourceBinding`: The endpoint gateway is participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway   resides in has a DNS resolution binding to another VPC, and resource binding is   enabled for the `target` service.
+	DnsResolutionBindingMode pulumi.StringPtrInput
 	// Endpoint gateway IPs
 	Ips IsVirtualEndpointGatewayIpTypeArrayInput
 	// Endpoint gateway name
@@ -244,6 +264,8 @@ func (o IsVirtualEndpointGatewayOutput) AccessTags() pulumi.StringArrayOutput {
 }
 
 // Indicates whether to allow this endpoint gateway to participate in DNS resolution bindings with a VPC that has dns.enable_hub set to true.
+//
+// Deprecated: This field has been deprecated in favor of `dnsResolutionBindingMode` and will be removed in a future version. Migration: false='disabled', true='primary'. The new field also supports 'per_resource_binding' for advanced DNS sharing scenarios. Please update your configuration to use `dnsResolutionBindingMode`.
 func (o IsVirtualEndpointGatewayOutput) AllowDnsResolutionBinding() pulumi.BoolOutput {
 	return o.ApplyT(func(v *IsVirtualEndpointGateway) pulumi.BoolOutput { return v.AllowDnsResolutionBinding }).(pulumi.BoolOutput)
 }
@@ -256,6 +278,11 @@ func (o IsVirtualEndpointGatewayOutput) CreatedAt() pulumi.StringOutput {
 // The CRN for this Endpoint gateway
 func (o IsVirtualEndpointGatewayOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsVirtualEndpointGateway) pulumi.StringOutput { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The DNS resolution binding mode used for this endpoint gateway:- `disabled`: The endpoint gateway is not participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing).- `primary`: The endpoint gateway is participating in [DNS sharing for VPE gateways]   (https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway resides in   has a DNS resolution binding to another VPC.- `perResourceBinding`: The endpoint gateway is participating in [DNS sharing for VPE   gateways](https://cloud.ibm.com/docs/vpc?topic=vpc-vpe-dns-sharing) if the VPC this endpoint gateway   resides in has a DNS resolution binding to another VPC, and resource binding is   enabled for the `target` service.
+func (o IsVirtualEndpointGatewayOutput) DnsResolutionBindingMode() pulumi.StringOutput {
+	return o.ApplyT(func(v *IsVirtualEndpointGateway) pulumi.StringOutput { return v.DnsResolutionBindingMode }).(pulumi.StringOutput)
 }
 
 // Endpoint gateway health state

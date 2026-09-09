@@ -44,12 +44,8 @@ type LookupIsInstanceGroupManagerResult struct {
 }
 
 func LookupIsInstanceGroupManagerOutput(ctx *pulumi.Context, args LookupIsInstanceGroupManagerOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceGroupManagerResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceGroupManagerResultOutput, error) {
-			args := v.(LookupIsInstanceGroupManagerArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroupManager:getIsInstanceGroupManager", args, LookupIsInstanceGroupManagerResultOutput{}, options).(LookupIsInstanceGroupManagerResultOutput), nil
-		}).(LookupIsInstanceGroupManagerResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroupManager:getIsInstanceGroupManager", args, LookupIsInstanceGroupManagerResultOutput{}, options).(LookupIsInstanceGroupManagerResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceGroupManager.

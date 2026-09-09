@@ -403,9 +403,7 @@ func (s *SchemaOrArray) ContainsType(name string) bool {
 
 // MarshalJSON converts this schema object or array into JSON structure.
 func (s SchemaOrArray) MarshalJSON() ([]byte, error) {
-	if s.Schemas != nil {
-		// an empty array is still the array form: marshalling it as the single form
-		// would yield "null", which is not a schema
+	if len(s.Schemas) > 0 {
 		return json.Marshal(s.Schemas)
 	}
 	return json.Marshal(s.Schema)

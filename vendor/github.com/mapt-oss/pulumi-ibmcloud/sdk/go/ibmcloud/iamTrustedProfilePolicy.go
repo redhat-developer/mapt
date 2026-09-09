@@ -20,13 +20,13 @@ type IamTrustedProfilePolicy struct {
 	// Description of the Policy
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// IAM ID of Trusted Profile
-	IamId pulumi.StringPtrOutput `pulumi:"iamId"`
+	IamId pulumi.StringOutput `pulumi:"iamId"`
 	// Pattern rule follows for time-based condition
 	Pattern pulumi.StringPtrOutput `pulumi:"pattern"`
 	// UUID of Trusted Profile
 	//
 	// Deprecated: This field is deprecated and will be removed starting with this 1.82.0 release. Please use iamId field instead.
-	ProfileId pulumi.StringPtrOutput `pulumi:"profileId"`
+	ProfileId pulumi.StringOutput `pulumi:"profileId"`
 	// Set resource attributes.
 	ResourceAttributes IamTrustedProfilePolicyResourceAttributeArrayOutput `pulumi:"resourceAttributes"`
 	// Set access management tags.
@@ -244,8 +244,8 @@ func (o IamTrustedProfilePolicyOutput) Description() pulumi.StringPtrOutput {
 }
 
 // IAM ID of Trusted Profile
-func (o IamTrustedProfilePolicyOutput) IamId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IamTrustedProfilePolicy) pulumi.StringPtrOutput { return v.IamId }).(pulumi.StringPtrOutput)
+func (o IamTrustedProfilePolicyOutput) IamId() pulumi.StringOutput {
+	return o.ApplyT(func(v *IamTrustedProfilePolicy) pulumi.StringOutput { return v.IamId }).(pulumi.StringOutput)
 }
 
 // Pattern rule follows for time-based condition
@@ -256,8 +256,8 @@ func (o IamTrustedProfilePolicyOutput) Pattern() pulumi.StringPtrOutput {
 // UUID of Trusted Profile
 //
 // Deprecated: This field is deprecated and will be removed starting with this 1.82.0 release. Please use iamId field instead.
-func (o IamTrustedProfilePolicyOutput) ProfileId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IamTrustedProfilePolicy) pulumi.StringPtrOutput { return v.ProfileId }).(pulumi.StringPtrOutput)
+func (o IamTrustedProfilePolicyOutput) ProfileId() pulumi.StringOutput {
+	return o.ApplyT(func(v *IamTrustedProfilePolicy) pulumi.StringOutput { return v.ProfileId }).(pulumi.StringOutput)
 }
 
 // Set resource attributes.

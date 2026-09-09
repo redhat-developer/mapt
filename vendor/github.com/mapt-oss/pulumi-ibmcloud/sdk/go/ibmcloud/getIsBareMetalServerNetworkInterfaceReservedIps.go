@@ -38,12 +38,8 @@ type GetIsBareMetalServerNetworkInterfaceReservedIpsResult struct {
 }
 
 func GetIsBareMetalServerNetworkInterfaceReservedIpsOutput(ctx *pulumi.Context, args GetIsBareMetalServerNetworkInterfaceReservedIpsOutputArgs, opts ...pulumi.InvokeOption) GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput, error) {
-			args := v.(GetIsBareMetalServerNetworkInterfaceReservedIpsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkInterfaceReservedIps:getIsBareMetalServerNetworkInterfaceReservedIps", args, GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput{}, options).(GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput), nil
-		}).(GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkInterfaceReservedIps:getIsBareMetalServerNetworkInterfaceReservedIps", args, GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput{}, options).(GetIsBareMetalServerNetworkInterfaceReservedIpsResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServerNetworkInterfaceReservedIps.

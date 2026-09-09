@@ -29,10 +29,8 @@ type GetIsVolumeProfilesResult struct {
 }
 
 func GetIsVolumeProfilesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsVolumeProfilesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsVolumeProfilesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsVolumeProfiles:getIsVolumeProfiles", nil, GetIsVolumeProfilesResultOutput{}, options).(GetIsVolumeProfilesResultOutput), nil
-	}).(GetIsVolumeProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVolumeProfiles:getIsVolumeProfiles", nil, GetIsVolumeProfilesResultOutput{}, options).(GetIsVolumeProfilesResultOutput)
 }
 
 // A collection of values returned by getIsVolumeProfiles.

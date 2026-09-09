@@ -40,12 +40,8 @@ type LookupIsSecurityGroupTargetResult struct {
 }
 
 func LookupIsSecurityGroupTargetOutput(ctx *pulumi.Context, args LookupIsSecurityGroupTargetOutputArgs, opts ...pulumi.InvokeOption) LookupIsSecurityGroupTargetResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsSecurityGroupTargetResultOutput, error) {
-			args := v.(LookupIsSecurityGroupTargetArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSecurityGroupTarget:getIsSecurityGroupTarget", args, LookupIsSecurityGroupTargetResultOutput{}, options).(LookupIsSecurityGroupTargetResultOutput), nil
-		}).(LookupIsSecurityGroupTargetResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSecurityGroupTarget:getIsSecurityGroupTarget", args, LookupIsSecurityGroupTargetResultOutput{}, options).(LookupIsSecurityGroupTargetResultOutput)
 }
 
 // A collection of arguments for invoking getIsSecurityGroupTarget.

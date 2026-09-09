@@ -35,12 +35,8 @@ type GetIsInstanceNetworkAttachmentsResult struct {
 }
 
 func GetIsInstanceNetworkAttachmentsOutput(ctx *pulumi.Context, args GetIsInstanceNetworkAttachmentsOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceNetworkAttachmentsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceNetworkAttachmentsResultOutput, error) {
-			args := v.(GetIsInstanceNetworkAttachmentsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceNetworkAttachments:getIsInstanceNetworkAttachments", args, GetIsInstanceNetworkAttachmentsResultOutput{}, options).(GetIsInstanceNetworkAttachmentsResultOutput), nil
-		}).(GetIsInstanceNetworkAttachmentsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceNetworkAttachments:getIsInstanceNetworkAttachments", args, GetIsInstanceNetworkAttachmentsResultOutput{}, options).(GetIsInstanceNetworkAttachmentsResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceNetworkAttachments.

@@ -43,12 +43,8 @@ type LookupIsInstanceClusterNetworkAttachmentResult struct {
 }
 
 func LookupIsInstanceClusterNetworkAttachmentOutput(ctx *pulumi.Context, args LookupIsInstanceClusterNetworkAttachmentOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceClusterNetworkAttachmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceClusterNetworkAttachmentResultOutput, error) {
-			args := v.(LookupIsInstanceClusterNetworkAttachmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceClusterNetworkAttachment:getIsInstanceClusterNetworkAttachment", args, LookupIsInstanceClusterNetworkAttachmentResultOutput{}, options).(LookupIsInstanceClusterNetworkAttachmentResultOutput), nil
-		}).(LookupIsInstanceClusterNetworkAttachmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceClusterNetworkAttachment:getIsInstanceClusterNetworkAttachment", args, LookupIsInstanceClusterNetworkAttachmentResultOutput{}, options).(LookupIsInstanceClusterNetworkAttachmentResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceClusterNetworkAttachment.

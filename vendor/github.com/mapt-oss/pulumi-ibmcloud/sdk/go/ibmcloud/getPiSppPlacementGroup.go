@@ -41,12 +41,8 @@ type LookupPiSppPlacementGroupResult struct {
 }
 
 func LookupPiSppPlacementGroupOutput(ctx *pulumi.Context, args LookupPiSppPlacementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPiSppPlacementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiSppPlacementGroupResultOutput, error) {
-			args := v.(LookupPiSppPlacementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSppPlacementGroup:getPiSppPlacementGroup", args, LookupPiSppPlacementGroupResultOutput{}, options).(LookupPiSppPlacementGroupResultOutput), nil
-		}).(LookupPiSppPlacementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSppPlacementGroup:getPiSppPlacementGroup", args, LookupPiSppPlacementGroupResultOutput{}, options).(LookupPiSppPlacementGroupResultOutput)
 }
 
 // A collection of arguments for invoking getPiSppPlacementGroup.

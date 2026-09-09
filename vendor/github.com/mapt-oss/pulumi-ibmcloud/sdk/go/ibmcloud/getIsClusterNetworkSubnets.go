@@ -39,12 +39,8 @@ type GetIsClusterNetworkSubnetsResult struct {
 }
 
 func GetIsClusterNetworkSubnetsOutput(ctx *pulumi.Context, args GetIsClusterNetworkSubnetsOutputArgs, opts ...pulumi.InvokeOption) GetIsClusterNetworkSubnetsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsClusterNetworkSubnetsResultOutput, error) {
-			args := v.(GetIsClusterNetworkSubnetsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkSubnets:getIsClusterNetworkSubnets", args, GetIsClusterNetworkSubnetsResultOutput{}, options).(GetIsClusterNetworkSubnetsResultOutput), nil
-		}).(GetIsClusterNetworkSubnetsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkSubnets:getIsClusterNetworkSubnets", args, GetIsClusterNetworkSubnetsResultOutput{}, options).(GetIsClusterNetworkSubnetsResultOutput)
 }
 
 // A collection of arguments for invoking getIsClusterNetworkSubnets.

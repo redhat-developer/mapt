@@ -36,12 +36,8 @@ type GetPiDisasterRecoveryLocationResult struct {
 }
 
 func GetPiDisasterRecoveryLocationOutput(ctx *pulumi.Context, args GetPiDisasterRecoveryLocationOutputArgs, opts ...pulumi.InvokeOption) GetPiDisasterRecoveryLocationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiDisasterRecoveryLocationResultOutput, error) {
-			args := v.(GetPiDisasterRecoveryLocationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiDisasterRecoveryLocation:getPiDisasterRecoveryLocation", args, GetPiDisasterRecoveryLocationResultOutput{}, options).(GetPiDisasterRecoveryLocationResultOutput), nil
-		}).(GetPiDisasterRecoveryLocationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiDisasterRecoveryLocation:getPiDisasterRecoveryLocation", args, GetPiDisasterRecoveryLocationResultOutput{}, options).(GetPiDisasterRecoveryLocationResultOutput)
 }
 
 // A collection of arguments for invoking getPiDisasterRecoveryLocation.

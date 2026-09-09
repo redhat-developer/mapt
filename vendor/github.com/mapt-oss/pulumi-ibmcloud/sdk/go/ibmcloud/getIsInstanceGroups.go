@@ -29,10 +29,8 @@ type GetIsInstanceGroupsResult struct {
 }
 
 func GetIsInstanceGroupsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsInstanceGroupsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsInstanceGroupsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroups:getIsInstanceGroups", nil, GetIsInstanceGroupsResultOutput{}, options).(GetIsInstanceGroupsResultOutput), nil
-	}).(GetIsInstanceGroupsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroups:getIsInstanceGroups", nil, GetIsInstanceGroupsResultOutput{}, options).(GetIsInstanceGroupsResultOutput)
 }
 
 // A collection of values returned by getIsInstanceGroups.

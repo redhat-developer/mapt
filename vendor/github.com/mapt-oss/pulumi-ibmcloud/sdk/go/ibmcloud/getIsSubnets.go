@@ -47,12 +47,8 @@ type GetIsSubnetsResult struct {
 }
 
 func GetIsSubnetsOutput(ctx *pulumi.Context, args GetIsSubnetsOutputArgs, opts ...pulumi.InvokeOption) GetIsSubnetsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSubnetsResultOutput, error) {
-			args := v.(GetIsSubnetsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSubnets:getIsSubnets", args, GetIsSubnetsResultOutput{}, options).(GetIsSubnetsResultOutput), nil
-		}).(GetIsSubnetsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSubnets:getIsSubnets", args, GetIsSubnetsResultOutput{}, options).(GetIsSubnetsResultOutput)
 }
 
 // A collection of arguments for invoking getIsSubnets.

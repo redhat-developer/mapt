@@ -19,27 +19,42 @@ type IsNetworkAclRule struct {
 	Action pulumi.StringOutput `pulumi:"action"`
 	// The rule that this rule is immediately before. If absent, this is the last rule.
 	Before pulumi.StringOutput `pulumi:"before"`
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code pulumi.IntOutput `pulumi:"code"`
 	// The destination CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Destination pulumi.StringOutput `pulumi:"destination"`
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction pulumi.StringOutput `pulumi:"direction"`
 	// The url of the rule.
-	Href pulumi.StringOutput           `pulumi:"href"`
-	Icmp IsNetworkAclRuleIcmpPtrOutput `pulumi:"icmp"`
+	Href pulumi.StringOutput `pulumi:"href"`
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Icmp IsNetworkAclRuleIcmpOutput `pulumi:"icmp"`
 	// The IP version for this rule.
 	IpVersion pulumi.StringOutput `pulumi:"ipVersion"`
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name pulumi.StringOutput `pulumi:"name"`
 	// Network ACL id
 	NetworkAcl pulumi.StringOutput `pulumi:"networkAcl"`
-	// The protocol of the rule.
+	// The highest port in the range of ports to be matched
+	PortMax pulumi.IntOutput `pulumi:"portMax"`
+	// The lowest port in the range of ports to be matched
+	PortMin pulumi.IntOutput `pulumi:"portMin"`
+	// The name of the network protocol
 	Protocol pulumi.StringOutput `pulumi:"protocol"`
 	// The network acl rule id.
 	RuleId pulumi.StringOutput `pulumi:"ruleId"`
 	// The source CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
-	Source pulumi.StringOutput          `pulumi:"source"`
-	Tcp    IsNetworkAclRuleTcpPtrOutput `pulumi:"tcp"`
-	Udp    IsNetworkAclRuleUdpPtrOutput `pulumi:"udp"`
+	Source pulumi.StringOutput `pulumi:"source"`
+	// The highest port in the range of ports to be matched
+	SourcePortMax pulumi.IntOutput `pulumi:"sourcePortMax"`
+	// The lowest port in the range of ports to be matched
+	SourcePortMin pulumi.IntOutput `pulumi:"sourcePortMin"`
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp IsNetworkAclRuleTcpOutput `pulumi:"tcp"`
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type pulumi.IntOutput `pulumi:"type"`
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp IsNetworkAclRuleUdpOutput `pulumi:"udp"`
 }
 
 // NewIsNetworkAclRule registers a new resource with the given unique name, arguments, and options.
@@ -91,12 +106,15 @@ type isNetworkAclRuleState struct {
 	Action *string `pulumi:"action"`
 	// The rule that this rule is immediately before. If absent, this is the last rule.
 	Before *string `pulumi:"before"`
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code *int `pulumi:"code"`
 	// The destination CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Destination *string `pulumi:"destination"`
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction *string `pulumi:"direction"`
 	// The url of the rule.
-	Href *string               `pulumi:"href"`
+	Href *string `pulumi:"href"`
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp *IsNetworkAclRuleIcmp `pulumi:"icmp"`
 	// The IP version for this rule.
 	IpVersion *string `pulumi:"ipVersion"`
@@ -104,14 +122,26 @@ type isNetworkAclRuleState struct {
 	Name *string `pulumi:"name"`
 	// Network ACL id
 	NetworkAcl *string `pulumi:"networkAcl"`
-	// The protocol of the rule.
+	// The highest port in the range of ports to be matched
+	PortMax *int `pulumi:"portMax"`
+	// The lowest port in the range of ports to be matched
+	PortMin *int `pulumi:"portMin"`
+	// The name of the network protocol
 	Protocol *string `pulumi:"protocol"`
 	// The network acl rule id.
 	RuleId *string `pulumi:"ruleId"`
 	// The source CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
-	Source *string              `pulumi:"source"`
-	Tcp    *IsNetworkAclRuleTcp `pulumi:"tcp"`
-	Udp    *IsNetworkAclRuleUdp `pulumi:"udp"`
+	Source *string `pulumi:"source"`
+	// The highest port in the range of ports to be matched
+	SourcePortMax *int `pulumi:"sourcePortMax"`
+	// The lowest port in the range of ports to be matched
+	SourcePortMin *int `pulumi:"sourcePortMin"`
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp *IsNetworkAclRuleTcp `pulumi:"tcp"`
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type *int `pulumi:"type"`
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp *IsNetworkAclRuleUdp `pulumi:"udp"`
 }
 
 type IsNetworkAclRuleState struct {
@@ -119,12 +149,15 @@ type IsNetworkAclRuleState struct {
 	Action pulumi.StringPtrInput
 	// The rule that this rule is immediately before. If absent, this is the last rule.
 	Before pulumi.StringPtrInput
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code pulumi.IntPtrInput
 	// The destination CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Destination pulumi.StringPtrInput
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction pulumi.StringPtrInput
 	// The url of the rule.
 	Href pulumi.StringPtrInput
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp IsNetworkAclRuleIcmpPtrInput
 	// The IP version for this rule.
 	IpVersion pulumi.StringPtrInput
@@ -132,14 +165,26 @@ type IsNetworkAclRuleState struct {
 	Name pulumi.StringPtrInput
 	// Network ACL id
 	NetworkAcl pulumi.StringPtrInput
-	// The protocol of the rule.
+	// The highest port in the range of ports to be matched
+	PortMax pulumi.IntPtrInput
+	// The lowest port in the range of ports to be matched
+	PortMin pulumi.IntPtrInput
+	// The name of the network protocol
 	Protocol pulumi.StringPtrInput
 	// The network acl rule id.
 	RuleId pulumi.StringPtrInput
 	// The source CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Source pulumi.StringPtrInput
-	Tcp    IsNetworkAclRuleTcpPtrInput
-	Udp    IsNetworkAclRuleUdpPtrInput
+	// The highest port in the range of ports to be matched
+	SourcePortMax pulumi.IntPtrInput
+	// The lowest port in the range of ports to be matched
+	SourcePortMin pulumi.IntPtrInput
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp IsNetworkAclRuleTcpPtrInput
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type pulumi.IntPtrInput
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp IsNetworkAclRuleUdpPtrInput
 }
 
 func (IsNetworkAclRuleState) ElementType() reflect.Type {
@@ -151,19 +196,36 @@ type isNetworkAclRuleArgs struct {
 	Action string `pulumi:"action"`
 	// The rule that this rule is immediately before. If absent, this is the last rule.
 	Before *string `pulumi:"before"`
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code *int `pulumi:"code"`
 	// The destination CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Destination string `pulumi:"destination"`
 	// Direction of traffic to enforce, either inbound or outbound
-	Direction string                `pulumi:"direction"`
-	Icmp      *IsNetworkAclRuleIcmp `pulumi:"icmp"`
+	Direction string `pulumi:"direction"`
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Icmp *IsNetworkAclRuleIcmp `pulumi:"icmp"`
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name *string `pulumi:"name"`
 	// Network ACL id
 	NetworkAcl string `pulumi:"networkAcl"`
+	// The highest port in the range of ports to be matched
+	PortMax *int `pulumi:"portMax"`
+	// The lowest port in the range of ports to be matched
+	PortMin *int `pulumi:"portMin"`
+	// The name of the network protocol
+	Protocol *string `pulumi:"protocol"`
 	// The source CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
-	Source string               `pulumi:"source"`
-	Tcp    *IsNetworkAclRuleTcp `pulumi:"tcp"`
-	Udp    *IsNetworkAclRuleUdp `pulumi:"udp"`
+	Source string `pulumi:"source"`
+	// The highest port in the range of ports to be matched
+	SourcePortMax *int `pulumi:"sourcePortMax"`
+	// The lowest port in the range of ports to be matched
+	SourcePortMin *int `pulumi:"sourcePortMin"`
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp *IsNetworkAclRuleTcp `pulumi:"tcp"`
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type *int `pulumi:"type"`
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp *IsNetworkAclRuleUdp `pulumi:"udp"`
 }
 
 // The set of arguments for constructing a IsNetworkAclRule resource.
@@ -172,19 +234,36 @@ type IsNetworkAclRuleArgs struct {
 	Action pulumi.StringInput
 	// The rule that this rule is immediately before. If absent, this is the last rule.
 	Before pulumi.StringPtrInput
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code pulumi.IntPtrInput
 	// The destination CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Destination pulumi.StringInput
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction pulumi.StringInput
-	Icmp      IsNetworkAclRuleIcmpPtrInput
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Icmp IsNetworkAclRuleIcmpPtrInput
 	// The user-defined name for this rule. Names must be unique within the network ACL the rule resides in. If unspecified, the name will be a hyphenated list of randomly-selected words.
 	Name pulumi.StringPtrInput
 	// Network ACL id
 	NetworkAcl pulumi.StringInput
+	// The highest port in the range of ports to be matched
+	PortMax pulumi.IntPtrInput
+	// The lowest port in the range of ports to be matched
+	PortMin pulumi.IntPtrInput
+	// The name of the network protocol
+	Protocol pulumi.StringPtrInput
 	// The source CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 	Source pulumi.StringInput
-	Tcp    IsNetworkAclRuleTcpPtrInput
-	Udp    IsNetworkAclRuleUdpPtrInput
+	// The highest port in the range of ports to be matched
+	SourcePortMax pulumi.IntPtrInput
+	// The lowest port in the range of ports to be matched
+	SourcePortMin pulumi.IntPtrInput
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp IsNetworkAclRuleTcpPtrInput
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type pulumi.IntPtrInput
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp IsNetworkAclRuleUdpPtrInput
 }
 
 func (IsNetworkAclRuleArgs) ElementType() reflect.Type {
@@ -234,6 +313,11 @@ func (o IsNetworkAclRuleOutput) Before() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.StringOutput { return v.Before }).(pulumi.StringOutput)
 }
 
+// The ICMP traffic code to allow. Valid values from 0 to 255.
+func (o IsNetworkAclRuleOutput) Code() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.IntOutput { return v.Code }).(pulumi.IntOutput)
+}
+
 // The destination CIDR block. The CIDR block 0.0.0.0/0 applies to all addresses.
 func (o IsNetworkAclRuleOutput) Destination() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.StringOutput { return v.Destination }).(pulumi.StringOutput)
@@ -249,8 +333,9 @@ func (o IsNetworkAclRuleOutput) Href() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.StringOutput { return v.Href }).(pulumi.StringOutput)
 }
 
-func (o IsNetworkAclRuleOutput) Icmp() IsNetworkAclRuleIcmpPtrOutput {
-	return o.ApplyT(func(v *IsNetworkAclRule) IsNetworkAclRuleIcmpPtrOutput { return v.Icmp }).(IsNetworkAclRuleIcmpPtrOutput)
+// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
+func (o IsNetworkAclRuleOutput) Icmp() IsNetworkAclRuleIcmpOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) IsNetworkAclRuleIcmpOutput { return v.Icmp }).(IsNetworkAclRuleIcmpOutput)
 }
 
 // The IP version for this rule.
@@ -268,7 +353,17 @@ func (o IsNetworkAclRuleOutput) NetworkAcl() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.StringOutput { return v.NetworkAcl }).(pulumi.StringOutput)
 }
 
-// The protocol of the rule.
+// The highest port in the range of ports to be matched
+func (o IsNetworkAclRuleOutput) PortMax() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.IntOutput { return v.PortMax }).(pulumi.IntOutput)
+}
+
+// The lowest port in the range of ports to be matched
+func (o IsNetworkAclRuleOutput) PortMin() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.IntOutput { return v.PortMin }).(pulumi.IntOutput)
+}
+
+// The name of the network protocol
 func (o IsNetworkAclRuleOutput) Protocol() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.StringOutput { return v.Protocol }).(pulumi.StringOutput)
 }
@@ -283,12 +378,29 @@ func (o IsNetworkAclRuleOutput) Source() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.StringOutput { return v.Source }).(pulumi.StringOutput)
 }
 
-func (o IsNetworkAclRuleOutput) Tcp() IsNetworkAclRuleTcpPtrOutput {
-	return o.ApplyT(func(v *IsNetworkAclRule) IsNetworkAclRuleTcpPtrOutput { return v.Tcp }).(IsNetworkAclRuleTcpPtrOutput)
+// The highest port in the range of ports to be matched
+func (o IsNetworkAclRuleOutput) SourcePortMax() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.IntOutput { return v.SourcePortMax }).(pulumi.IntOutput)
 }
 
-func (o IsNetworkAclRuleOutput) Udp() IsNetworkAclRuleUdpPtrOutput {
-	return o.ApplyT(func(v *IsNetworkAclRule) IsNetworkAclRuleUdpPtrOutput { return v.Udp }).(IsNetworkAclRuleUdpPtrOutput)
+// The lowest port in the range of ports to be matched
+func (o IsNetworkAclRuleOutput) SourcePortMin() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.IntOutput { return v.SourcePortMin }).(pulumi.IntOutput)
+}
+
+// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+func (o IsNetworkAclRuleOutput) Tcp() IsNetworkAclRuleTcpOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) IsNetworkAclRuleTcpOutput { return v.Tcp }).(IsNetworkAclRuleTcpOutput)
+}
+
+// The ICMP traffic type to allow. Valid values from 0 to 254.
+func (o IsNetworkAclRuleOutput) Type() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) pulumi.IntOutput { return v.Type }).(pulumi.IntOutput)
+}
+
+// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+func (o IsNetworkAclRuleOutput) Udp() IsNetworkAclRuleUdpOutput {
+	return o.ApplyT(func(v *IsNetworkAclRule) IsNetworkAclRuleUdpOutput { return v.Udp }).(IsNetworkAclRuleUdpOutput)
 }
 
 func init() {

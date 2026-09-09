@@ -50,12 +50,8 @@ type LookupPiCloudConnectionResult struct {
 }
 
 func LookupPiCloudConnectionOutput(ctx *pulumi.Context, args LookupPiCloudConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupPiCloudConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiCloudConnectionResultOutput, error) {
-			args := v.(LookupPiCloudConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiCloudConnection:getPiCloudConnection", args, LookupPiCloudConnectionResultOutput{}, options).(LookupPiCloudConnectionResultOutput), nil
-		}).(LookupPiCloudConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiCloudConnection:getPiCloudConnection", args, LookupPiCloudConnectionResultOutput{}, options).(LookupPiCloudConnectionResultOutput)
 }
 
 // A collection of arguments for invoking getPiCloudConnection.

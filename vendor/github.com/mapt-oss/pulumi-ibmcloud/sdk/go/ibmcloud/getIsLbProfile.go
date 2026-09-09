@@ -28,12 +28,18 @@ type GetIsLbProfileArgs struct {
 
 // A collection of values returned by getIsLbProfile.
 type GetIsLbProfileResult struct {
-	AccessModes           []GetIsLbProfileAccessMode           `pulumi:"accessModes"`
-	FailsafePolicyActions []GetIsLbProfileFailsafePolicyAction `pulumi:"failsafePolicyActions"`
-	Family                string                               `pulumi:"family"`
-	Href                  string                               `pulumi:"href"`
+	AccessModes                    []GetIsLbProfileAccessMode                    `pulumi:"accessModes"`
+	AdvancedHealthChecksSupporteds []GetIsLbProfileAdvancedHealthChecksSupported `pulumi:"advancedHealthChecksSupporteds"`
+	AsymmetricRoutingSupported     bool                                          `pulumi:"asymmetricRoutingSupported"`
+	AsymmetricRoutingSupportedType string                                        `pulumi:"asymmetricRoutingSupportedType"`
+	FailsafePolicyActions          []GetIsLbProfileFailsafePolicyAction          `pulumi:"failsafePolicyActions"`
+	Family                         string                                        `pulumi:"family"`
+	FqdnPoolMembersSupporteds      []GetIsLbProfileFqdnPoolMembersSupported      `pulumi:"fqdnPoolMembersSupporteds"`
+	Href                           string                                        `pulumi:"href"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                             string                                        `pulumi:"id"`
+	MtlsSupported                  bool                                          `pulumi:"mtlsSupported"`
+	MtlsSupportedType              string                                        `pulumi:"mtlsSupportedType"`
 	Name                           string                                        `pulumi:"name"`
 	RouteModeSupported             bool                                          `pulumi:"routeModeSupported"`
 	RouteModeType                  string                                        `pulumi:"routeModeType"`
@@ -44,12 +50,8 @@ type GetIsLbProfileResult struct {
 }
 
 func GetIsLbProfileOutput(ctx *pulumi.Context, args GetIsLbProfileOutputArgs, opts ...pulumi.InvokeOption) GetIsLbProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsLbProfileResultOutput, error) {
-			args := v.(GetIsLbProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbProfile:getIsLbProfile", args, GetIsLbProfileResultOutput{}, options).(GetIsLbProfileResultOutput), nil
-		}).(GetIsLbProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbProfile:getIsLbProfile", args, GetIsLbProfileResultOutput{}, options).(GetIsLbProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbProfile.
@@ -80,12 +82,32 @@ func (o GetIsLbProfileResultOutput) AccessModes() GetIsLbProfileAccessModeArrayO
 	return o.ApplyT(func(v GetIsLbProfileResult) []GetIsLbProfileAccessMode { return v.AccessModes }).(GetIsLbProfileAccessModeArrayOutput)
 }
 
+func (o GetIsLbProfileResultOutput) AdvancedHealthChecksSupporteds() GetIsLbProfileAdvancedHealthChecksSupportedArrayOutput {
+	return o.ApplyT(func(v GetIsLbProfileResult) []GetIsLbProfileAdvancedHealthChecksSupported {
+		return v.AdvancedHealthChecksSupporteds
+	}).(GetIsLbProfileAdvancedHealthChecksSupportedArrayOutput)
+}
+
+func (o GetIsLbProfileResultOutput) AsymmetricRoutingSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIsLbProfileResult) bool { return v.AsymmetricRoutingSupported }).(pulumi.BoolOutput)
+}
+
+func (o GetIsLbProfileResultOutput) AsymmetricRoutingSupportedType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsLbProfileResult) string { return v.AsymmetricRoutingSupportedType }).(pulumi.StringOutput)
+}
+
 func (o GetIsLbProfileResultOutput) FailsafePolicyActions() GetIsLbProfileFailsafePolicyActionArrayOutput {
 	return o.ApplyT(func(v GetIsLbProfileResult) []GetIsLbProfileFailsafePolicyAction { return v.FailsafePolicyActions }).(GetIsLbProfileFailsafePolicyActionArrayOutput)
 }
 
 func (o GetIsLbProfileResultOutput) Family() pulumi.StringOutput {
 	return o.ApplyT(func(v GetIsLbProfileResult) string { return v.Family }).(pulumi.StringOutput)
+}
+
+func (o GetIsLbProfileResultOutput) FqdnPoolMembersSupporteds() GetIsLbProfileFqdnPoolMembersSupportedArrayOutput {
+	return o.ApplyT(func(v GetIsLbProfileResult) []GetIsLbProfileFqdnPoolMembersSupported {
+		return v.FqdnPoolMembersSupporteds
+	}).(GetIsLbProfileFqdnPoolMembersSupportedArrayOutput)
 }
 
 func (o GetIsLbProfileResultOutput) Href() pulumi.StringOutput {
@@ -95,6 +117,14 @@ func (o GetIsLbProfileResultOutput) Href() pulumi.StringOutput {
 // The provider-assigned unique ID for this managed resource.
 func (o GetIsLbProfileResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetIsLbProfileResult) string { return v.Id }).(pulumi.StringOutput)
+}
+
+func (o GetIsLbProfileResultOutput) MtlsSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIsLbProfileResult) bool { return v.MtlsSupported }).(pulumi.BoolOutput)
+}
+
+func (o GetIsLbProfileResultOutput) MtlsSupportedType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsLbProfileResult) string { return v.MtlsSupportedType }).(pulumi.StringOutput)
 }
 
 func (o GetIsLbProfileResultOutput) Name() pulumi.StringOutput {

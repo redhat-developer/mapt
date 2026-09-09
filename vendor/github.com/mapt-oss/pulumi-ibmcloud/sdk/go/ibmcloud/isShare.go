@@ -86,7 +86,7 @@ type IsShare struct {
 	SourceShare pulumi.StringOutput `pulumi:"sourceShare"`
 	// The CRN of the source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
 	SourceShareCrn pulumi.StringOutput `pulumi:"sourceShareCrn"`
-	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
+	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
 	SourceSnapshot IsShareSourceSnapshotOutput `pulumi:"sourceSnapshot"`
 	// The storage generation for this share
 	StorageGeneration pulumi.IntOutput `pulumi:"storageGeneration"`
@@ -198,7 +198,7 @@ type isShareState struct {
 	SourceShare *string `pulumi:"sourceShare"`
 	// The CRN of the source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
 	SourceShareCrn *string `pulumi:"sourceShareCrn"`
-	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
+	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
 	SourceSnapshot *IsShareSourceSnapshot `pulumi:"sourceSnapshot"`
 	// The storage generation for this share
 	StorageGeneration *int `pulumi:"storageGeneration"`
@@ -281,7 +281,7 @@ type IsShareState struct {
 	SourceShare pulumi.StringPtrInput
 	// The CRN of the source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
 	SourceShareCrn pulumi.StringPtrInput
-	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
+	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
 	SourceSnapshot IsShareSourceSnapshotPtrInput
 	// The storage generation for this share
 	StorageGeneration pulumi.IntPtrInput
@@ -332,7 +332,7 @@ type isShareArgs struct {
 	SourceShare *string `pulumi:"sourceShare"`
 	// The CRN of the source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
 	SourceShareCrn *string `pulumi:"sourceShareCrn"`
-	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
+	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
 	SourceSnapshot *IsShareSourceSnapshot `pulumi:"sourceSnapshot"`
 	// User Tags for the file share
 	Tags []string `pulumi:"tags"`
@@ -378,7 +378,7 @@ type IsShareArgs struct {
 	SourceShare pulumi.StringPtrInput
 	// The CRN of the source file share for this replica file share. The specified file share must not already have a replica, and must not be a replica.
 	SourceShareCrn pulumi.StringPtrInput
-	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
+	// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
 	SourceSnapshot IsShareSourceSnapshotPtrInput
 	// User Tags for the file share
 	Tags pulumi.StringArrayInput
@@ -603,7 +603,7 @@ func (o IsShareOutput) SourceShareCrn() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsShare) pulumi.StringOutput { return v.SourceShareCrn }).(pulumi.StringOutput)
 }
 
-// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
+// The snapshot from which this share was cloned.This property will be present when the share was created from a snapshot.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in thefuture.
 func (o IsShareOutput) SourceSnapshot() IsShareSourceSnapshotOutput {
 	return o.ApplyT(func(v *IsShare) IsShareSourceSnapshotOutput { return v.SourceSnapshot }).(IsShareSourceSnapshotOutput)
 }

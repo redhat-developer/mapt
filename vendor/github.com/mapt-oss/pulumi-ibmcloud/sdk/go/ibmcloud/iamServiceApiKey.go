@@ -29,6 +29,8 @@ type IamServiceApiKey struct {
 	Description pulumi.StringOutput `pulumi:"description"`
 	// Version of the API Key details object
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. WARNING An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key's locked status or any other state.
+	ExpiresAt pulumi.StringPtrOutput `pulumi:"expiresAt"`
 	// File where api key is to be stored
 	File pulumi.StringPtrOutput `pulumi:"file"`
 	// The service iamId that this API key authenticates
@@ -97,6 +99,8 @@ type iamServiceApiKeyState struct {
 	Description *string `pulumi:"description"`
 	// Version of the API Key details object
 	EntityTag *string `pulumi:"entityTag"`
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. WARNING An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key's locked status or any other state.
+	ExpiresAt *string `pulumi:"expiresAt"`
 	// File where api key is to be stored
 	File *string `pulumi:"file"`
 	// The service iamId that this API key authenticates
@@ -126,6 +130,8 @@ type IamServiceApiKeyState struct {
 	Description pulumi.StringPtrInput
 	// Version of the API Key details object
 	EntityTag pulumi.StringPtrInput
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. WARNING An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key's locked status or any other state.
+	ExpiresAt pulumi.StringPtrInput
 	// File where api key is to be stored
 	File pulumi.StringPtrInput
 	// The service iamId that this API key authenticates
@@ -149,6 +155,8 @@ type iamServiceApiKeyArgs struct {
 	Apikey *string `pulumi:"apikey"`
 	// description of the API key
 	Description *string `pulumi:"description"`
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. WARNING An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key's locked status or any other state.
+	ExpiresAt *string `pulumi:"expiresAt"`
 	// File where api key is to be stored
 	File *string `pulumi:"file"`
 	// The service iamId that this API key authenticates
@@ -167,6 +175,8 @@ type IamServiceApiKeyArgs struct {
 	Apikey pulumi.StringPtrInput
 	// description of the API key
 	Description pulumi.StringPtrInput
+	// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. WARNING An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key's locked status or any other state.
+	ExpiresAt pulumi.StringPtrInput
 	// File where api key is to be stored
 	File pulumi.StringPtrInput
 	// The service iamId that this API key authenticates
@@ -249,6 +259,11 @@ func (o IamServiceApiKeyOutput) Description() pulumi.StringOutput {
 // Version of the API Key details object
 func (o IamServiceApiKeyOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamServiceApiKey) pulumi.StringOutput { return v.EntityTag }).(pulumi.StringOutput)
+}
+
+// Date and time when the API key becomes invalid, ISO 8601 datetime in the format 'yyyy-MM-ddTHH:mm+0000'. WARNING An API key will be permanently and irrevocably deleted when both the expiresAt and modifiedAt timestamps are more than ninety (90) days in the past, regardless of the key's locked status or any other state.
+func (o IamServiceApiKeyOutput) ExpiresAt() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamServiceApiKey) pulumi.StringPtrOutput { return v.ExpiresAt }).(pulumi.StringPtrOutput)
 }
 
 // File where api key is to be stored

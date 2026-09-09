@@ -29,10 +29,8 @@ type LookupIamPolicyTemplateResult struct {
 }
 
 func LookupIamPolicyTemplateOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) LookupIamPolicyTemplateResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (LookupIamPolicyTemplateResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIamPolicyTemplate:getIamPolicyTemplate", nil, LookupIamPolicyTemplateResultOutput{}, options).(LookupIamPolicyTemplateResultOutput), nil
-	}).(LookupIamPolicyTemplateResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamPolicyTemplate:getIamPolicyTemplate", nil, LookupIamPolicyTemplateResultOutput{}, options).(LookupIamPolicyTemplateResultOutput)
 }
 
 // A collection of values returned by getIamPolicyTemplate.

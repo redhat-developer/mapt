@@ -31,6 +31,8 @@ type IsLbPoolMember struct {
 	RelatedCrn pulumi.StringOutput `pulumi:"relatedCrn"`
 	// Load balancer pool member target address
 	TargetAddress pulumi.StringOutput `pulumi:"targetAddress"`
+	// The fully qualified domain name (FQDN) to target. The load balancer must have fqdnPoolMembersSupported set to true. Member health checks will fail if the FQDN cannot be resolved.
+	TargetFqdn pulumi.StringOutput `pulumi:"targetFqdn"`
 	// Load balancer pool member target id
 	TargetId pulumi.StringOutput `pulumi:"targetId"`
 	// Load balcner pool member weight
@@ -92,6 +94,8 @@ type isLbPoolMemberState struct {
 	RelatedCrn *string `pulumi:"relatedCrn"`
 	// Load balancer pool member target address
 	TargetAddress *string `pulumi:"targetAddress"`
+	// The fully qualified domain name (FQDN) to target. The load balancer must have fqdnPoolMembersSupported set to true. Member health checks will fail if the FQDN cannot be resolved.
+	TargetFqdn *string `pulumi:"targetFqdn"`
 	// Load balancer pool member target id
 	TargetId *string `pulumi:"targetId"`
 	// Load balcner pool member weight
@@ -115,6 +119,8 @@ type IsLbPoolMemberState struct {
 	RelatedCrn pulumi.StringPtrInput
 	// Load balancer pool member target address
 	TargetAddress pulumi.StringPtrInput
+	// The fully qualified domain name (FQDN) to target. The load balancer must have fqdnPoolMembersSupported set to true. Member health checks will fail if the FQDN cannot be resolved.
+	TargetFqdn pulumi.StringPtrInput
 	// Load balancer pool member target id
 	TargetId pulumi.StringPtrInput
 	// Load balcner pool member weight
@@ -134,6 +140,8 @@ type isLbPoolMemberArgs struct {
 	Port int `pulumi:"port"`
 	// Load balancer pool member target address
 	TargetAddress *string `pulumi:"targetAddress"`
+	// The fully qualified domain name (FQDN) to target. The load balancer must have fqdnPoolMembersSupported set to true. Member health checks will fail if the FQDN cannot be resolved.
+	TargetFqdn *string `pulumi:"targetFqdn"`
 	// Load balancer pool member target id
 	TargetId *string `pulumi:"targetId"`
 	// Load balcner pool member weight
@@ -150,6 +158,8 @@ type IsLbPoolMemberArgs struct {
 	Port pulumi.IntInput
 	// Load balancer pool member target address
 	TargetAddress pulumi.StringPtrInput
+	// The fully qualified domain name (FQDN) to target. The load balancer must have fqdnPoolMembersSupported set to true. Member health checks will fail if the FQDN cannot be resolved.
+	TargetFqdn pulumi.StringPtrInput
 	// Load balancer pool member target id
 	TargetId pulumi.StringPtrInput
 	// Load balcner pool member weight
@@ -231,6 +241,11 @@ func (o IsLbPoolMemberOutput) RelatedCrn() pulumi.StringOutput {
 // Load balancer pool member target address
 func (o IsLbPoolMemberOutput) TargetAddress() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsLbPoolMember) pulumi.StringOutput { return v.TargetAddress }).(pulumi.StringOutput)
+}
+
+// The fully qualified domain name (FQDN) to target. The load balancer must have fqdnPoolMembersSupported set to true. Member health checks will fail if the FQDN cannot be resolved.
+func (o IsLbPoolMemberOutput) TargetFqdn() pulumi.StringOutput {
+	return o.ApplyT(func(v *IsLbPoolMember) pulumi.StringOutput { return v.TargetFqdn }).(pulumi.StringOutput)
 }
 
 // Load balancer pool member target id

@@ -41,12 +41,8 @@ type LookupTgRouteReportResult struct {
 }
 
 func LookupTgRouteReportOutput(ctx *pulumi.Context, args LookupTgRouteReportOutputArgs, opts ...pulumi.InvokeOption) LookupTgRouteReportResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTgRouteReportResultOutput, error) {
-			args := v.(LookupTgRouteReportArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getTgRouteReport:getTgRouteReport", args, LookupTgRouteReportResultOutput{}, options).(LookupTgRouteReportResultOutput), nil
-		}).(LookupTgRouteReportResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getTgRouteReport:getTgRouteReport", args, LookupTgRouteReportResultOutput{}, options).(LookupTgRouteReportResultOutput)
 }
 
 // A collection of arguments for invoking getTgRouteReport.

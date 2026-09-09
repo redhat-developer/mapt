@@ -47,12 +47,8 @@ type LookupIsFlowLogResult struct {
 }
 
 func LookupIsFlowLogOutput(ctx *pulumi.Context, args LookupIsFlowLogOutputArgs, opts ...pulumi.InvokeOption) LookupIsFlowLogResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsFlowLogResultOutput, error) {
-			args := v.(LookupIsFlowLogArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsFlowLog:getIsFlowLog", args, LookupIsFlowLogResultOutput{}, options).(LookupIsFlowLogResultOutput), nil
-		}).(LookupIsFlowLogResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsFlowLog:getIsFlowLog", args, LookupIsFlowLogResultOutput{}, options).(LookupIsFlowLogResultOutput)
 }
 
 // A collection of arguments for invoking getIsFlowLog.

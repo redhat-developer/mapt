@@ -17,6 +17,8 @@ type PiNetworkInterface struct {
 
 	// The network interface's crn.
 	Crn pulumi.StringOutput `pulumi:"crn"`
+	// The external ip address for pub-vlan networks.
+	ExternalIp pulumi.StringOutput `pulumi:"externalIp"`
 	// The attached instance to this network interface.
 	Instances PiNetworkInterfaceInstanceArrayOutput `pulumi:"instances"`
 	// The ip address of this network interface.
@@ -87,6 +89,8 @@ func GetPiNetworkInterface(ctx *pulumi.Context,
 type piNetworkInterfaceState struct {
 	// The network interface's crn.
 	Crn *string `pulumi:"crn"`
+	// The external ip address for pub-vlan networks.
+	ExternalIp *string `pulumi:"externalIp"`
 	// The attached instance to this network interface.
 	Instances []PiNetworkInterfaceInstance `pulumi:"instances"`
 	// The ip address of this network interface.
@@ -122,6 +126,8 @@ type piNetworkInterfaceState struct {
 type PiNetworkInterfaceState struct {
 	// The network interface's crn.
 	Crn pulumi.StringPtrInput
+	// The external ip address for pub-vlan networks.
+	ExternalIp pulumi.StringPtrInput
 	// The attached instance to this network interface.
 	Instances PiNetworkInterfaceInstanceArrayInput
 	// The ip address of this network interface.
@@ -233,6 +239,11 @@ func (o PiNetworkInterfaceOutput) ToPiNetworkInterfaceOutputWithContext(ctx cont
 // The network interface's crn.
 func (o PiNetworkInterfaceOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiNetworkInterface) pulumi.StringOutput { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The external ip address for pub-vlan networks.
+func (o PiNetworkInterfaceOutput) ExternalIp() pulumi.StringOutput {
+	return o.ApplyT(func(v *PiNetworkInterface) pulumi.StringOutput { return v.ExternalIp }).(pulumi.StringOutput)
 }
 
 // The attached instance to this network interface.

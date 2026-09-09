@@ -26,7 +26,7 @@ type IsClusterNetworkSubnet struct {
 	Etag      pulumi.StringOutput `pulumi:"etag"`
 	// The URL for this cluster network subnet.
 	Href pulumi.StringOutput `pulumi:"href"`
-	// The IP version for this cluster network subnet.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The IP version for this cluster network subnet.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	IpVersion pulumi.StringOutput `pulumi:"ipVersion"`
 	// The IPv4 range of this cluster network subnet, expressed in CIDR format.
 	Ipv4CidrBlock pulumi.StringOutput `pulumi:"ipv4CidrBlock"`
@@ -86,7 +86,7 @@ type isClusterNetworkSubnetState struct {
 	Etag      *string `pulumi:"etag"`
 	// The URL for this cluster network subnet.
 	Href *string `pulumi:"href"`
-	// The IP version for this cluster network subnet.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The IP version for this cluster network subnet.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	IpVersion *string `pulumi:"ipVersion"`
 	// The IPv4 range of this cluster network subnet, expressed in CIDR format.
 	Ipv4CidrBlock *string `pulumi:"ipv4CidrBlock"`
@@ -114,7 +114,7 @@ type IsClusterNetworkSubnetState struct {
 	Etag      pulumi.StringPtrInput
 	// The URL for this cluster network subnet.
 	Href pulumi.StringPtrInput
-	// The IP version for this cluster network subnet.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The IP version for this cluster network subnet.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	IpVersion pulumi.StringPtrInput
 	// The IPv4 range of this cluster network subnet, expressed in CIDR format.
 	Ipv4CidrBlock pulumi.StringPtrInput
@@ -137,7 +137,7 @@ func (IsClusterNetworkSubnetState) ElementType() reflect.Type {
 type isClusterNetworkSubnetArgs struct {
 	// The cluster network identifier.
 	ClusterNetworkId string `pulumi:"clusterNetworkId"`
-	// The IP version for this cluster network subnet.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The IP version for this cluster network subnet.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	IpVersion *string `pulumi:"ipVersion"`
 	// The IPv4 range of this cluster network subnet, expressed in CIDR format.
 	Ipv4CidrBlock *string `pulumi:"ipv4CidrBlock"`
@@ -151,7 +151,7 @@ type isClusterNetworkSubnetArgs struct {
 type IsClusterNetworkSubnetArgs struct {
 	// The cluster network identifier.
 	ClusterNetworkId pulumi.StringInput
-	// The IP version for this cluster network subnet.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The IP version for this cluster network subnet.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	IpVersion pulumi.StringPtrInput
 	// The IPv4 range of this cluster network subnet, expressed in CIDR format.
 	Ipv4CidrBlock pulumi.StringPtrInput
@@ -227,7 +227,7 @@ func (o IsClusterNetworkSubnetOutput) Href() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsClusterNetworkSubnet) pulumi.StringOutput { return v.Href }).(pulumi.StringOutput)
 }
 
-// The IP version for this cluster network subnet.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// The IP version for this cluster network subnet.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkSubnetOutput) IpVersion() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsClusterNetworkSubnet) pulumi.StringOutput { return v.IpVersion }).(pulumi.StringOutput)
 }

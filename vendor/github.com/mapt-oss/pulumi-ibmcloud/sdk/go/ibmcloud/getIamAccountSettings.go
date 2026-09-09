@@ -51,12 +51,8 @@ type LookupIamAccountSettingsResult struct {
 }
 
 func LookupIamAccountSettingsOutput(ctx *pulumi.Context, args LookupIamAccountSettingsOutputArgs, opts ...pulumi.InvokeOption) LookupIamAccountSettingsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamAccountSettingsResultOutput, error) {
-			args := v.(LookupIamAccountSettingsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccountSettings:getIamAccountSettings", args, LookupIamAccountSettingsResultOutput{}, options).(LookupIamAccountSettingsResultOutput), nil
-		}).(LookupIamAccountSettingsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccountSettings:getIamAccountSettings", args, LookupIamAccountSettingsResultOutput{}, options).(LookupIamAccountSettingsResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccountSettings.

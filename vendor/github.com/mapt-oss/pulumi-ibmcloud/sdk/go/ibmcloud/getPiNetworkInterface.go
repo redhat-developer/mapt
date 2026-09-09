@@ -30,7 +30,8 @@ type LookupPiNetworkInterfaceArgs struct {
 
 // A collection of values returned by getPiNetworkInterface.
 type LookupPiNetworkInterfaceResult struct {
-	Crn string `pulumi:"crn"`
+	Crn        string `pulumi:"crn"`
+	ExternalIp string `pulumi:"externalIp"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                 string                          `pulumi:"id"`
 	Instances          []GetPiNetworkInterfaceInstance `pulumi:"instances"`
@@ -49,12 +50,8 @@ type LookupPiNetworkInterfaceResult struct {
 }
 
 func LookupPiNetworkInterfaceOutput(ctx *pulumi.Context, args LookupPiNetworkInterfaceOutputArgs, opts ...pulumi.InvokeOption) LookupPiNetworkInterfaceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiNetworkInterfaceResultOutput, error) {
-			args := v.(LookupPiNetworkInterfaceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiNetworkInterface:getPiNetworkInterface", args, LookupPiNetworkInterfaceResultOutput{}, options).(LookupPiNetworkInterfaceResultOutput), nil
-		}).(LookupPiNetworkInterfaceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiNetworkInterface:getPiNetworkInterface", args, LookupPiNetworkInterfaceResultOutput{}, options).(LookupPiNetworkInterfaceResultOutput)
 }
 
 // A collection of arguments for invoking getPiNetworkInterface.
@@ -85,6 +82,10 @@ func (o LookupPiNetworkInterfaceResultOutput) ToLookupPiNetworkInterfaceResultOu
 
 func (o LookupPiNetworkInterfaceResultOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiNetworkInterfaceResult) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+func (o LookupPiNetworkInterfaceResultOutput) ExternalIp() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupPiNetworkInterfaceResult) string { return v.ExternalIp }).(pulumi.StringOutput)
 }
 
 // The provider-assigned unique ID for this managed resource.

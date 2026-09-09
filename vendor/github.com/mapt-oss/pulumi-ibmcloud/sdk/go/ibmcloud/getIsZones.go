@@ -38,12 +38,8 @@ type GetIsZonesResult struct {
 }
 
 func GetIsZonesOutput(ctx *pulumi.Context, args GetIsZonesOutputArgs, opts ...pulumi.InvokeOption) GetIsZonesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsZonesResultOutput, error) {
-			args := v.(GetIsZonesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsZones:getIsZones", args, GetIsZonesResultOutput{}, options).(GetIsZonesResultOutput), nil
-		}).(GetIsZonesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsZones:getIsZones", args, GetIsZonesResultOutput{}, options).(GetIsZonesResultOutput)
 }
 
 // A collection of arguments for invoking getIsZones.

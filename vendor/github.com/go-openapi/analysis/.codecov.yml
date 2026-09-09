@@ -7,8 +7,3 @@ coverage:
     patch:
       default:
         target: 80%
-
-ignore:
- - "testdata"
- - "internal/antest"
- - "internal/testintegration"

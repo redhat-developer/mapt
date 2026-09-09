@@ -1,0 +1,318 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-ibmcloud-kind
+  labels:
+    app.kubernetes.io/version: "1.0.0-dev"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, ibmcloud, kind
+    tekton.dev/displayName: "ibmcloud manager"
+    tekton.dev/platforms: "linux/amd64"
+spec:
+  description: |
+    Task provision a single-node Kind (Kubernetes in Docker) cluster on an
+    Ubuntu 24.04 x86_64 VM on IBM Cloud VPC.
+
+  volumes:
+    - name: ibmcloud-credentials
+      secret:
+        secretName: $(params.secret-ibmcloud-credentials)
+    - name: cluster-info
+      emptyDir: {}
+
+  params:
+    - name: secret-ibmcloud-credentials
+      description: |
+        ocp secret holding the ibm cloud credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: ibmcloud-${name}
+        type: Opaque
+        data:
+          api-key: ${IBMCLOUD_API_KEY}
+          region: ${IC_REGION}
+          cos-access-key: ${IBMCLOUD_COS_ACCESS_KEY_ID}
+          cos-secret-key: ${IBMCLOUD_COS_SECRET_ACCESS_KEY}
+          bucket: ${bucket}
+
+    # Mapt params
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result
+    # naming
+    - name: cluster-access-secret-name
+      type: string
+      default: ""
+      description: |
+        Once the target is provisioned the config to connect is added to a secret
+        check results. If this param is set the secret will be created with the name set
+        otherwise it will be created with a random name.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: "PipelineRun"
+      description: |
+        The type of resource that should own the generated SpaceRequest.
+        Deletion of this resource will trigger deletion of the SpaceRequest.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      default: ""
+      description: |
+        The name of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.name)`
+        or `$(context.taskRun.name)` depending on the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      default: ""
+      description: |
+        The uid of the resource that should own the generated SpaceRequest.
+        This should either be passed the value of `$(context.pipelineRun.uid)`
+        or `$(context.taskRun.uid)` depending on the value of `ownerKind`.
+
+    # IBM Cloud location params
+    - name: zone
+      description: IBM Cloud availability zone (e.g. us-south-2). Sets IC_ZONE. Required for create.
+      default: ""
+
+    # VM type params
+    - name: cpus
+      description: Number of CPUs for the cloud instance (default 8)
+      default: "8"
+    - name: memory
+      description: Amount of RAM for the cloud instance in GiB (default 32)
+      default: "32"
+    - name: disk-size
+      description: Disk size in GB for the cloud instance (default 200)
+      default: "200"
+
+    # Kind params
+    - name: version
+      description: Kubernetes version for the Kind cluster (e.g. v1.34). If not set, uses the default.
+      default: ""
+    - name: extra-port-mappings
+      description: |
+        Additional port mappings for the Kind cluster. JSON array of objects with
+        containerPort, hostPort, and protocol fields.
+        Example: '[{"containerPort":8080,"hostPort":8080,"protocol":"TCP"}]'
+      default: ""
+
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: ""
+
+    # Spot params
+    - name: spot
+      description: |
+        Request a spot virtual server instance. Spot instances may be preempted
+        by IBM Cloud when capacity is needed; the instance will be stopped on
+        preemption. Ignored for destroy operations.
+        Allowed values: true, false
+      default: "false"
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
+      default: "false"
+    - name: force-destroy
+      description: |
+        If force-destroy is set the command will destroy even if there is a lock.
+        Allowed values: true, false
+      default: "false"
+    - name: keep-state
+      description: |
+        Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
+        Allowed values: true, false
+      default: "false"
+
+  results:
+    - name: cluster-access-secret
+      description: |
+        ocp secret holding the information to connect to the cluster and the underlying VM.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+          type: Opaque
+          data:
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
+            kubeconfig: ${kubeconfig}
+
+  steps:
+    - name: provisioner
+      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      imagePullPolicy: Always
+      env:
+        - name: HOME
+          value: /opt/mapt/run
+      volumeMounts:
+        - name: ibmcloud-credentials
+          mountPath: /opt/ibmcloud-credentials
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      script: |
+        #!/bin/bash
+
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
+        export IBMCLOUD_API_KEY=$(cat /opt/ibmcloud-credentials/api-key)
+        export IC_REGION=$(cat /opt/ibmcloud-credentials/region)
+        export IBMCLOUD_COS_ACCESS_KEY_ID=$(cat /opt/ibmcloud-credentials/cos-access-key)
+        export IBMCLOUD_COS_SECRET_ACCESS_KEY=$(cat /opt/ibmcloud-credentials/cos-secret-key)
+        BUCKET=$(cat /opt/ibmcloud-credentials/bucket)
+
+        if [[ "$(params.zone)" != "" ]]; then
+          export IC_ZONE="$(params.zone)"
+        fi
+
+        # If debug add verbosity and print masked credentials
+        if [[ "$(params.debug)" == "true" ]]; then
+          echo "IBMCLOUD_API_KEY=$(mask_credential "$IBMCLOUD_API_KEY")"
+          echo "IC_REGION=$IC_REGION"
+          echo "IC_ZONE=${IC_ZONE:-}"
+          echo "IBMCLOUD_COS_ACCESS_KEY_ID=$(mask_credential "$IBMCLOUD_COS_ACCESS_KEY_ID")"
+          echo "IBMCLOUD_COS_SECRET_ACCESS_KEY=$(mask_credential "$IBMCLOUD_COS_SECRET_ACCESS_KEY")"
+          echo "BUCKET=$BUCKET"
+          set -xeuo pipefail
+        fi
+
+        if [[ "$(params.operation)" == "create" ]]; then
+          if [[ "$(params.ownerName)" == "" || "$(params.ownerUid)" == "" ]]; then
+            echo "Parameter ownerName and ownerUid is recommended when creating instance"
+          fi
+        fi
+
+        # Run mapt
+        args=(ibmcloud kind "$(params.operation)"
+          --project-name "mapt-ibmcloud-kind-$(params.id)"
+          --backed-url "s3://${BUCKET}/mapt/kind/$(params.id)"
+        )
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          args+=(--debug)
+        fi
+
+        if [[ "$(params.operation)" == "create" ]]; then
+          args+=(
+            --conn-details-output /opt/cluster-info
+            --cpus "$(params.cpus)"
+            --memory "$(params.memory)"
+            --disk-size "$(params.disk-size)"
+          )
+          if [[ "$(params.spot)" == "true" ]]; then
+            args+=(--spot)
+          fi
+          if [[ "$(params.version)" != "" ]]; then
+            args+=(--version "$(params.version)")
+          fi
+          if [[ "$(params.extra-port-mappings)" != "" ]]; then
+            args+=(--extra-port-mappings "$(params.extra-port-mappings)")
+          fi
+          if [[ "$(params.tags)" != "" ]]; then
+            args+=(--tags "$(params.tags)")
+          fi
+        fi
+
+        if [[ "$(params.operation)" == "destroy" ]]; then
+          if [[ "$(params.keep-state)" == "true" ]]; then
+            args+=(--keep-state)
+          fi
+          if [[ "$(params.force-destroy)" == "true" ]]; then
+            args+=(--force-destroy)
+          fi
+        fi
+
+        mapt "${args[@]}"
+
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "100m"
+        limits:
+          memory: "2Gi"
+          cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:v4.15@sha256:9dbec69c215a4041a49bec977a7c2013b5bafe335201d5e983422f30a7e434a2
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+      volumeMounts:
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      workingDir: /opt/cluster-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ "$(params.operation)" == "create" ]]; then
+        export SECRETNAME="generateName: mapt-ibmcloud-kind-"
+        if [[ "$(params.cluster-access-secret-name)" != "" ]]; then
+          export SECRETNAME="name: $(params.cluster-access-secret-name)"
+        fi
+        cat <<EOF > cluster-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: $NAMESPACE
+        EOF
+        if [[ "$OWNER_NAME" != "" && "$OWNER_UID" != "" ]]; then
+        cat <<EOF >> cluster-info.yaml
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: $OWNER_KIND
+            name: $OWNER_NAME
+            uid: $OWNER_UID
+        EOF
+        fi
+        cat <<EOF >> cluster-info.yaml
+        type: Opaque
+        data:
+          host: $(cat /opt/cluster-info/host | tr -d '\n\r' | base64 -w0)
+          username: $(cat /opt/cluster-info/username | tr -d '\n\r' | base64 -w0)
+          id_rsa: $(cat /opt/cluster-info/id_rsa | base64 -w0)
+          kubeconfig: $(cat /opt/cluster-info/kubeconfig | base64 -w0)
+        EOF
+
+        if [[ "$(params.debug)" == "true" ]]; then
+          ls -la /opt/cluster-info/
+        fi
+
+        NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
+        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)
+        fi

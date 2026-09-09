@@ -39,12 +39,8 @@ type LookupIamAccessGroupPolicyResult struct {
 }
 
 func LookupIamAccessGroupPolicyOutput(ctx *pulumi.Context, args LookupIamAccessGroupPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupIamAccessGroupPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamAccessGroupPolicyResultOutput, error) {
-			args := v.(LookupIamAccessGroupPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroupPolicy:getIamAccessGroupPolicy", args, LookupIamAccessGroupPolicyResultOutput{}, options).(LookupIamAccessGroupPolicyResultOutput), nil
-		}).(LookupIamAccessGroupPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroupPolicy:getIamAccessGroupPolicy", args, LookupIamAccessGroupPolicyResultOutput{}, options).(LookupIamAccessGroupPolicyResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccessGroupPolicy.

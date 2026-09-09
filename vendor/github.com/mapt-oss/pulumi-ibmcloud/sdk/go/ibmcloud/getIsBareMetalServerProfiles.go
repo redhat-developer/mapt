@@ -29,10 +29,8 @@ type GetIsBareMetalServerProfilesResult struct {
 }
 
 func GetIsBareMetalServerProfilesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsBareMetalServerProfilesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsBareMetalServerProfilesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerProfiles:getIsBareMetalServerProfiles", nil, GetIsBareMetalServerProfilesResultOutput{}, options).(GetIsBareMetalServerProfilesResultOutput), nil
-	}).(GetIsBareMetalServerProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerProfiles:getIsBareMetalServerProfiles", nil, GetIsBareMetalServerProfilesResultOutput{}, options).(GetIsBareMetalServerProfilesResultOutput)
 }
 
 // A collection of values returned by getIsBareMetalServerProfiles.

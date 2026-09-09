@@ -23,32 +23,34 @@ func GetPiConsoleLanguages(ctx *pulumi.Context, args *GetPiConsoleLanguagesArgs,
 
 // A collection of arguments for invoking getPiConsoleLanguages.
 type GetPiConsoleLanguagesArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string `pulumi:"piInstanceName"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
 }
 
 // A collection of values returned by getPiConsoleLanguages.
 type GetPiConsoleLanguagesResult struct {
 	ConsoleLanguages []GetPiConsoleLanguagesConsoleLanguage `pulumi:"consoleLanguages"`
 	// The provider-assigned unique ID for this managed resource.
-	Id                string `pulumi:"id"`
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string `pulumi:"piInstanceName"`
+	Id                string  `pulumi:"id"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
 }
 
 func GetPiConsoleLanguagesOutput(ctx *pulumi.Context, args GetPiConsoleLanguagesOutputArgs, opts ...pulumi.InvokeOption) GetPiConsoleLanguagesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiConsoleLanguagesResultOutput, error) {
-			args := v.(GetPiConsoleLanguagesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiConsoleLanguages:getPiConsoleLanguages", args, GetPiConsoleLanguagesResultOutput{}, options).(GetPiConsoleLanguagesResultOutput), nil
-		}).(GetPiConsoleLanguagesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiConsoleLanguages:getPiConsoleLanguages", args, GetPiConsoleLanguagesResultOutput{}, options).(GetPiConsoleLanguagesResultOutput)
 }
 
 // A collection of arguments for invoking getPiConsoleLanguages.
 type GetPiConsoleLanguagesOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
-	PiInstanceName    pulumi.StringInput `pulumi:"piInstanceName"`
+	PiCloudInstanceId pulumi.StringInput    `pulumi:"piCloudInstanceId"`
+	PiInstanceId      pulumi.StringPtrInput `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName pulumi.StringPtrInput `pulumi:"piInstanceName"`
 }
 
 func (GetPiConsoleLanguagesOutputArgs) ElementType() reflect.Type {
@@ -83,8 +85,13 @@ func (o GetPiConsoleLanguagesResultOutput) PiCloudInstanceId() pulumi.StringOutp
 	return o.ApplyT(func(v GetPiConsoleLanguagesResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
 }
 
-func (o GetPiConsoleLanguagesResultOutput) PiInstanceName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiConsoleLanguagesResult) string { return v.PiInstanceName }).(pulumi.StringOutput)
+func (o GetPiConsoleLanguagesResultOutput) PiInstanceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiConsoleLanguagesResult) *string { return v.PiInstanceId }).(pulumi.StringPtrOutput)
+}
+
+// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+func (o GetPiConsoleLanguagesResultOutput) PiInstanceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiConsoleLanguagesResult) *string { return v.PiInstanceName }).(pulumi.StringPtrOutput)
 }
 
 func init() {

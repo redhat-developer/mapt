@@ -47,12 +47,8 @@ type LookupIsDedicatedHostDiskResult struct {
 }
 
 func LookupIsDedicatedHostDiskOutput(ctx *pulumi.Context, args LookupIsDedicatedHostDiskOutputArgs, opts ...pulumi.InvokeOption) LookupIsDedicatedHostDiskResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsDedicatedHostDiskResultOutput, error) {
-			args := v.(LookupIsDedicatedHostDiskArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsDedicatedHostDisk:getIsDedicatedHostDisk", args, LookupIsDedicatedHostDiskResultOutput{}, options).(LookupIsDedicatedHostDiskResultOutput), nil
-		}).(LookupIsDedicatedHostDiskResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsDedicatedHostDisk:getIsDedicatedHostDisk", args, LookupIsDedicatedHostDiskResultOutput{}, options).(LookupIsDedicatedHostDiskResultOutput)
 }
 
 // A collection of arguments for invoking getIsDedicatedHostDisk.

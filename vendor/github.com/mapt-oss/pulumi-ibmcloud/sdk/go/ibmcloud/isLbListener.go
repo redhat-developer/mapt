@@ -19,6 +19,8 @@ type IsLbListener struct {
 	AcceptProxyProtocol pulumi.BoolOutput `pulumi:"acceptProxyProtocol"`
 	// certificate instance for the Loadbalancer
 	CertificateInstance pulumi.StringPtrOutput `pulumi:"certificateInstance"`
+	// The client authentication to use for this listener. Supported by load balancers with mtlsSupported set to true. The listener must have a protocol of https.
+	ClientAuthentication IsLbListenerClientAuthenticationPtrOutput `pulumi:"clientAuthentication"`
 	// Connection limit for Loadbalancer
 	ConnectionLimit pulumi.IntPtrOutput `pulumi:"connectionLimit"`
 	// Loadbalancer default pool info
@@ -96,6 +98,8 @@ type isLbListenerState struct {
 	AcceptProxyProtocol *bool `pulumi:"acceptProxyProtocol"`
 	// certificate instance for the Loadbalancer
 	CertificateInstance *string `pulumi:"certificateInstance"`
+	// The client authentication to use for this listener. Supported by load balancers with mtlsSupported set to true. The listener must have a protocol of https.
+	ClientAuthentication *IsLbListenerClientAuthentication `pulumi:"clientAuthentication"`
 	// Connection limit for Loadbalancer
 	ConnectionLimit *int `pulumi:"connectionLimit"`
 	// Loadbalancer default pool info
@@ -138,6 +142,8 @@ type IsLbListenerState struct {
 	AcceptProxyProtocol pulumi.BoolPtrInput
 	// certificate instance for the Loadbalancer
 	CertificateInstance pulumi.StringPtrInput
+	// The client authentication to use for this listener. Supported by load balancers with mtlsSupported set to true. The listener must have a protocol of https.
+	ClientAuthentication IsLbListenerClientAuthenticationPtrInput
 	// Connection limit for Loadbalancer
 	ConnectionLimit pulumi.IntPtrInput
 	// Loadbalancer default pool info
@@ -184,6 +190,8 @@ type isLbListenerArgs struct {
 	AcceptProxyProtocol *bool `pulumi:"acceptProxyProtocol"`
 	// certificate instance for the Loadbalancer
 	CertificateInstance *string `pulumi:"certificateInstance"`
+	// The client authentication to use for this listener. Supported by load balancers with mtlsSupported set to true. The listener must have a protocol of https.
+	ClientAuthentication *IsLbListenerClientAuthentication `pulumi:"clientAuthentication"`
 	// Connection limit for Loadbalancer
 	ConnectionLimit *int `pulumi:"connectionLimit"`
 	// Loadbalancer default pool info
@@ -222,6 +230,8 @@ type IsLbListenerArgs struct {
 	AcceptProxyProtocol pulumi.BoolPtrInput
 	// certificate instance for the Loadbalancer
 	CertificateInstance pulumi.StringPtrInput
+	// The client authentication to use for this listener. Supported by load balancers with mtlsSupported set to true. The listener must have a protocol of https.
+	ClientAuthentication IsLbListenerClientAuthenticationPtrInput
 	// Connection limit for Loadbalancer
 	ConnectionLimit pulumi.IntPtrInput
 	// Loadbalancer default pool info
@@ -299,6 +309,11 @@ func (o IsLbListenerOutput) AcceptProxyProtocol() pulumi.BoolOutput {
 // certificate instance for the Loadbalancer
 func (o IsLbListenerOutput) CertificateInstance() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IsLbListener) pulumi.StringPtrOutput { return v.CertificateInstance }).(pulumi.StringPtrOutput)
+}
+
+// The client authentication to use for this listener. Supported by load balancers with mtlsSupported set to true. The listener must have a protocol of https.
+func (o IsLbListenerOutput) ClientAuthentication() IsLbListenerClientAuthenticationPtrOutput {
+	return o.ApplyT(func(v *IsLbListener) IsLbListenerClientAuthenticationPtrOutput { return v.ClientAuthentication }).(IsLbListenerClientAuthenticationPtrOutput)
 }
 
 // Connection limit for Loadbalancer

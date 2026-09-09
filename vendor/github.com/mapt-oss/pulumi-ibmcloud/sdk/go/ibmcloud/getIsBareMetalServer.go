@@ -67,12 +67,8 @@ type LookupIsBareMetalServerResult struct {
 }
 
 func LookupIsBareMetalServerOutput(ctx *pulumi.Context, args LookupIsBareMetalServerOutputArgs, opts ...pulumi.InvokeOption) LookupIsBareMetalServerResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsBareMetalServerResultOutput, error) {
-			args := v.(LookupIsBareMetalServerArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServer:getIsBareMetalServer", args, LookupIsBareMetalServerResultOutput{}, options).(LookupIsBareMetalServerResultOutput), nil
-		}).(LookupIsBareMetalServerResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServer:getIsBareMetalServer", args, LookupIsBareMetalServerResultOutput{}, options).(LookupIsBareMetalServerResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServer.

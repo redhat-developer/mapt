@@ -30,10 +30,8 @@ type GetIsDedicatedHostProfilesResult struct {
 }
 
 func GetIsDedicatedHostProfilesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsDedicatedHostProfilesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsDedicatedHostProfilesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsDedicatedHostProfiles:getIsDedicatedHostProfiles", nil, GetIsDedicatedHostProfilesResultOutput{}, options).(GetIsDedicatedHostProfilesResultOutput), nil
-	}).(GetIsDedicatedHostProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsDedicatedHostProfiles:getIsDedicatedHostProfiles", nil, GetIsDedicatedHostProfilesResultOutput{}, options).(GetIsDedicatedHostProfilesResultOutput)
 }
 
 // A collection of values returned by getIsDedicatedHostProfiles.

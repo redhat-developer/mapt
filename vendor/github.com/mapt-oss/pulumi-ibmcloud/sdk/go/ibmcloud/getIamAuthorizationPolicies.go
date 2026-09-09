@@ -39,12 +39,8 @@ type GetIamAuthorizationPoliciesResult struct {
 }
 
 func GetIamAuthorizationPoliciesOutput(ctx *pulumi.Context, args GetIamAuthorizationPoliciesOutputArgs, opts ...pulumi.InvokeOption) GetIamAuthorizationPoliciesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamAuthorizationPoliciesResultOutput, error) {
-			args := v.(GetIamAuthorizationPoliciesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAuthorizationPolicies:getIamAuthorizationPolicies", args, GetIamAuthorizationPoliciesResultOutput{}, options).(GetIamAuthorizationPoliciesResultOutput), nil
-		}).(GetIamAuthorizationPoliciesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAuthorizationPolicies:getIamAuthorizationPolicies", args, GetIamAuthorizationPoliciesResultOutput{}, options).(GetIamAuthorizationPoliciesResultOutput)
 }
 
 // A collection of arguments for invoking getIamAuthorizationPolicies.

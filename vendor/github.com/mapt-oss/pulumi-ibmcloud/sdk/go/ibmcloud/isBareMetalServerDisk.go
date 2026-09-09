@@ -25,7 +25,7 @@ type IsBareMetalServerDisk struct {
 	Disk pulumi.StringOutput `pulumi:"disk"`
 	// The URL for this bare metal server disk.
 	Href pulumi.StringOutput `pulumi:"href"`
-	// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	InterfaceType pulumi.StringOutput `pulumi:"interfaceType"`
 	// Bare metal server disk name
 	Name pulumi.StringOutput `pulumi:"name"`
@@ -81,7 +81,7 @@ type isBareMetalServerDiskState struct {
 	Disk *string `pulumi:"disk"`
 	// The URL for this bare metal server disk.
 	Href *string `pulumi:"href"`
-	// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	InterfaceType *string `pulumi:"interfaceType"`
 	// Bare metal server disk name
 	Name *string `pulumi:"name"`
@@ -102,7 +102,7 @@ type IsBareMetalServerDiskState struct {
 	Disk pulumi.StringPtrInput
 	// The URL for this bare metal server disk.
 	Href pulumi.StringPtrInput
-	// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	InterfaceType pulumi.StringPtrInput
 	// Bare metal server disk name
 	Name pulumi.StringPtrInput
@@ -197,7 +197,7 @@ func (o IsBareMetalServerDiskOutput) Href() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsBareMetalServerDisk) pulumi.StringOutput { return v.Href }).(pulumi.StringOutput)
 }
 
-// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// The disk attachment interface used:- `fcp`: Fiber Channel Protocol- `sata`: Serial Advanced Technology Attachment- `nvme`: Non-Volatile Memory ExpressThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsBareMetalServerDiskOutput) InterfaceType() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsBareMetalServerDisk) pulumi.StringOutput { return v.InterfaceType }).(pulumi.StringOutput)
 }

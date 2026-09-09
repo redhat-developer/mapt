@@ -68,12 +68,8 @@ type LookupIsVolumeResult struct {
 }
 
 func LookupIsVolumeOutput(ctx *pulumi.Context, args LookupIsVolumeOutputArgs, opts ...pulumi.InvokeOption) LookupIsVolumeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVolumeResultOutput, error) {
-			args := v.(LookupIsVolumeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVolume:getIsVolume", args, LookupIsVolumeResultOutput{}, options).(LookupIsVolumeResultOutput), nil
-		}).(LookupIsVolumeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVolume:getIsVolume", args, LookupIsVolumeResultOutput{}, options).(LookupIsVolumeResultOutput)
 }
 
 // A collection of arguments for invoking getIsVolume.

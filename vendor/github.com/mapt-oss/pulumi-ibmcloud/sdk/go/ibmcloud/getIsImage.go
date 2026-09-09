@@ -41,28 +41,26 @@ type LookupIsImageResult struct {
 	Encryption       string                      `pulumi:"encryption"`
 	EncryptionKey    string                      `pulumi:"encryptionKey"`
 	// The provider-assigned unique ID for this managed resource.
-	Id               string                      `pulumi:"id"`
-	Identifier       *string                     `pulumi:"identifier"`
-	Name             *string                     `pulumi:"name"`
-	ObsolescenceAt   string                      `pulumi:"obsolescenceAt"`
-	OperatingSystems []GetIsImageOperatingSystem `pulumi:"operatingSystems"`
-	Os               string                      `pulumi:"os"`
-	Remotes          []GetIsImageRemote          `pulumi:"remotes"`
-	ResourceGroups   []GetIsImageResourceGroup   `pulumi:"resourceGroups"`
-	SourceVolume     string                      `pulumi:"sourceVolume"`
-	Status           string                      `pulumi:"status"`
-	StatusReasons    []GetIsImageStatusReason    `pulumi:"statusReasons"`
-	UserDataFormat   string                      `pulumi:"userDataFormat"`
-	Visibility       *string                     `pulumi:"visibility"`
+	Id                     string                      `pulumi:"id"`
+	Identifier             *string                     `pulumi:"identifier"`
+	MinimumProvisionedSize int                         `pulumi:"minimumProvisionedSize"`
+	Name                   *string                     `pulumi:"name"`
+	ObsolescenceAt         string                      `pulumi:"obsolescenceAt"`
+	OperatingSystems       []GetIsImageOperatingSystem `pulumi:"operatingSystems"`
+	Os                     string                      `pulumi:"os"`
+	Remotes                []GetIsImageRemote          `pulumi:"remotes"`
+	ResourceGroups         []GetIsImageResourceGroup   `pulumi:"resourceGroups"`
+	SourceVolume           string                      `pulumi:"sourceVolume"`
+	Status                 string                      `pulumi:"status"`
+	StatusReasons          []GetIsImageStatusReason    `pulumi:"statusReasons"`
+	UserDataFormat         string                      `pulumi:"userDataFormat"`
+	Visibility             *string                     `pulumi:"visibility"`
+	Zones                  []GetIsImageZone            `pulumi:"zones"`
 }
 
 func LookupIsImageOutput(ctx *pulumi.Context, args LookupIsImageOutputArgs, opts ...pulumi.InvokeOption) LookupIsImageResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsImageResultOutput, error) {
-			args := v.(LookupIsImageArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsImage:getIsImage", args, LookupIsImageResultOutput{}, options).(LookupIsImageResultOutput), nil
-		}).(LookupIsImageResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsImage:getIsImage", args, LookupIsImageResultOutput{}, options).(LookupIsImageResultOutput)
 }
 
 // A collection of arguments for invoking getIsImage.
@@ -140,6 +138,10 @@ func (o LookupIsImageResultOutput) Identifier() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupIsImageResult) *string { return v.Identifier }).(pulumi.StringPtrOutput)
 }
 
+func (o LookupIsImageResultOutput) MinimumProvisionedSize() pulumi.IntOutput {
+	return o.ApplyT(func(v LookupIsImageResult) int { return v.MinimumProvisionedSize }).(pulumi.IntOutput)
+}
+
 func (o LookupIsImageResultOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupIsImageResult) *string { return v.Name }).(pulumi.StringPtrOutput)
 }
@@ -182,6 +184,10 @@ func (o LookupIsImageResultOutput) UserDataFormat() pulumi.StringOutput {
 
 func (o LookupIsImageResultOutput) Visibility() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupIsImageResult) *string { return v.Visibility }).(pulumi.StringPtrOutput)
+}
+
+func (o LookupIsImageResultOutput) Zones() GetIsImageZoneArrayOutput {
+	return o.ApplyT(func(v LookupIsImageResult) []GetIsImageZone { return v.Zones }).(GetIsImageZoneArrayOutput)
 }
 
 func init() {

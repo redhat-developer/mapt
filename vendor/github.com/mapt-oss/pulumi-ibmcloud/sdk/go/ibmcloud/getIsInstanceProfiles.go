@@ -29,10 +29,8 @@ type GetIsInstanceProfilesResult struct {
 }
 
 func GetIsInstanceProfilesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsInstanceProfilesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsInstanceProfilesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsInstanceProfiles:getIsInstanceProfiles", nil, GetIsInstanceProfilesResultOutput{}, options).(GetIsInstanceProfilesResultOutput), nil
-	}).(GetIsInstanceProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceProfiles:getIsInstanceProfiles", nil, GetIsInstanceProfilesResultOutput{}, options).(GetIsInstanceProfilesResultOutput)
 }
 
 // A collection of values returned by getIsInstanceProfiles.

@@ -45,12 +45,8 @@ type LookupTgConnectionPrefixFilterResult struct {
 }
 
 func LookupTgConnectionPrefixFilterOutput(ctx *pulumi.Context, args LookupTgConnectionPrefixFilterOutputArgs, opts ...pulumi.InvokeOption) LookupTgConnectionPrefixFilterResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTgConnectionPrefixFilterResultOutput, error) {
-			args := v.(LookupTgConnectionPrefixFilterArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getTgConnectionPrefixFilter:getTgConnectionPrefixFilter", args, LookupTgConnectionPrefixFilterResultOutput{}, options).(LookupTgConnectionPrefixFilterResultOutput), nil
-		}).(LookupTgConnectionPrefixFilterResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getTgConnectionPrefixFilter:getTgConnectionPrefixFilter", args, LookupTgConnectionPrefixFilterResultOutput{}, options).(LookupTgConnectionPrefixFilterResultOutput)
 }
 
 // A collection of arguments for invoking getTgConnectionPrefixFilter.

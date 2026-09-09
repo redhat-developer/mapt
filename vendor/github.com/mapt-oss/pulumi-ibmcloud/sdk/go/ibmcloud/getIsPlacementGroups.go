@@ -30,10 +30,8 @@ type GetIsPlacementGroupsResult struct {
 }
 
 func GetIsPlacementGroupsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsPlacementGroupsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsPlacementGroupsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsPlacementGroups:getIsPlacementGroups", nil, GetIsPlacementGroupsResultOutput{}, options).(GetIsPlacementGroupsResultOutput), nil
-	}).(GetIsPlacementGroupsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPlacementGroups:getIsPlacementGroups", nil, GetIsPlacementGroupsResultOutput{}, options).(GetIsPlacementGroupsResultOutput)
 }
 
 // A collection of values returned by getIsPlacementGroups.

@@ -41,12 +41,8 @@ type LookupComputeReservedCapacityResult struct {
 }
 
 func LookupComputeReservedCapacityOutput(ctx *pulumi.Context, args LookupComputeReservedCapacityOutputArgs, opts ...pulumi.InvokeOption) LookupComputeReservedCapacityResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupComputeReservedCapacityResultOutput, error) {
-			args := v.(LookupComputeReservedCapacityArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getComputeReservedCapacity:getComputeReservedCapacity", args, LookupComputeReservedCapacityResultOutput{}, options).(LookupComputeReservedCapacityResultOutput), nil
-		}).(LookupComputeReservedCapacityResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getComputeReservedCapacity:getComputeReservedCapacity", args, LookupComputeReservedCapacityResultOutput{}, options).(LookupComputeReservedCapacityResultOutput)
 }
 
 // A collection of arguments for invoking getComputeReservedCapacity.

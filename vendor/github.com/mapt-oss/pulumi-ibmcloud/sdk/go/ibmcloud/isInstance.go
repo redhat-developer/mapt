@@ -19,8 +19,13 @@ type IsInstance struct {
 	// Enables stopping of instance before deleting and waits till deletion is complete
 	Action pulumi.StringPtrOutput `pulumi:"action"`
 	// Auto delete volume along with instance
-	AutoDeleteVolume pulumi.BoolPtrOutput `pulumi:"autoDeleteVolume"`
+	AutoDeleteVolume pulumi.BoolPtrOutput         `pulumi:"autoDeleteVolume"`
+	Availability     IsInstanceAvailabilityOutput `pulumi:"availability"`
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy IsInstanceAvailabilityPolicyOutput `pulumi:"availabilityPolicy"`
 	// The availability policy to use for this virtual server instance
+	//
+	// Deprecated: Use availability_policy.0.host_failure instead. Existing configurations can continue using this attribute, switching attributes with the same value will not trigger change.
 	AvailabilityPolicyHostFailure pulumi.StringOutput `pulumi:"availabilityPolicyHostFailure"`
 	// The total bandwidth (in megabits per second) shared across the instance's network interfaces and storage volumes
 	Bandwidth  pulumi.IntOutput           `pulumi:"bandwidth"`
@@ -107,18 +112,23 @@ type IsInstance struct {
 	ResourceName pulumi.StringOutput `pulumi:"resourceName"`
 	// The status of the resource
 	ResourceStatus pulumi.StringOutput `pulumi:"resourceStatus"`
+	// The software attachments for this instance.
+	SoftwareAttachments IsInstanceSoftwareAttachmentTypeArrayOutput `pulumi:"softwareAttachments"`
 	// instance status
 	Status pulumi.StringOutput `pulumi:"status"`
 	// The reasons for the current status (if any).
 	StatusReasons IsInstanceStatusReasonArrayOutput `pulumi:"statusReasons"`
 	// list of tags for the instance
 	Tags pulumi.StringArrayOutput `pulumi:"tags"`
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore pulumi.IntOutput `pulumi:"threadsPerCore"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance network interfaces.
 	TotalNetworkBandwidth pulumi.IntOutput `pulumi:"totalNetworkBandwidth"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth pulumi.IntOutput `pulumi:"totalVolumeBandwidth"`
 	// User data given for the instance
-	UserData          pulumi.StringPtrOutput                    `pulumi:"userData"`
+	UserData pulumi.StringPtrOutput `pulumi:"userData"`
+	// The virtual server instance VCPU configuration.
 	Vcpus             IsInstanceVcpusArrayOutput                `pulumi:"vcpus"`
 	VolumeAttachments IsInstanceVolumeAttachmentTypeArrayOutput `pulumi:"volumeAttachments"`
 	// The volume bandwidth QoS mode for this virtual server instance.
@@ -169,8 +179,13 @@ type isInstanceState struct {
 	// Enables stopping of instance before deleting and waits till deletion is complete
 	Action *string `pulumi:"action"`
 	// Auto delete volume along with instance
-	AutoDeleteVolume *bool `pulumi:"autoDeleteVolume"`
+	AutoDeleteVolume *bool                   `pulumi:"autoDeleteVolume"`
+	Availability     *IsInstanceAvailability `pulumi:"availability"`
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy *IsInstanceAvailabilityPolicy `pulumi:"availabilityPolicy"`
 	// The availability policy to use for this virtual server instance
+	//
+	// Deprecated: Use availability_policy.0.host_failure instead. Existing configurations can continue using this attribute, switching attributes with the same value will not trigger change.
 	AvailabilityPolicyHostFailure *string `pulumi:"availabilityPolicyHostFailure"`
 	// The total bandwidth (in megabits per second) shared across the instance's network interfaces and storage volumes
 	Bandwidth  *int                  `pulumi:"bandwidth"`
@@ -257,18 +272,23 @@ type isInstanceState struct {
 	ResourceName *string `pulumi:"resourceName"`
 	// The status of the resource
 	ResourceStatus *string `pulumi:"resourceStatus"`
+	// The software attachments for this instance.
+	SoftwareAttachments []IsInstanceSoftwareAttachmentType `pulumi:"softwareAttachments"`
 	// instance status
 	Status *string `pulumi:"status"`
 	// The reasons for the current status (if any).
 	StatusReasons []IsInstanceStatusReason `pulumi:"statusReasons"`
 	// list of tags for the instance
 	Tags []string `pulumi:"tags"`
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore *int `pulumi:"threadsPerCore"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance network interfaces.
 	TotalNetworkBandwidth *int `pulumi:"totalNetworkBandwidth"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth *int `pulumi:"totalVolumeBandwidth"`
 	// User data given for the instance
-	UserData          *string                          `pulumi:"userData"`
+	UserData *string `pulumi:"userData"`
+	// The virtual server instance VCPU configuration.
 	Vcpus             []IsInstanceVcpus                `pulumi:"vcpus"`
 	VolumeAttachments []IsInstanceVolumeAttachmentType `pulumi:"volumeAttachments"`
 	// The volume bandwidth QoS mode for this virtual server instance.
@@ -291,7 +311,12 @@ type IsInstanceState struct {
 	Action pulumi.StringPtrInput
 	// Auto delete volume along with instance
 	AutoDeleteVolume pulumi.BoolPtrInput
+	Availability     IsInstanceAvailabilityPtrInput
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy IsInstanceAvailabilityPolicyPtrInput
 	// The availability policy to use for this virtual server instance
+	//
+	// Deprecated: Use availability_policy.0.host_failure instead. Existing configurations can continue using this attribute, switching attributes with the same value will not trigger change.
 	AvailabilityPolicyHostFailure pulumi.StringPtrInput
 	// The total bandwidth (in megabits per second) shared across the instance's network interfaces and storage volumes
 	Bandwidth  pulumi.IntPtrInput
@@ -378,18 +403,23 @@ type IsInstanceState struct {
 	ResourceName pulumi.StringPtrInput
 	// The status of the resource
 	ResourceStatus pulumi.StringPtrInput
+	// The software attachments for this instance.
+	SoftwareAttachments IsInstanceSoftwareAttachmentTypeArrayInput
 	// instance status
 	Status pulumi.StringPtrInput
 	// The reasons for the current status (if any).
 	StatusReasons IsInstanceStatusReasonArrayInput
 	// list of tags for the instance
 	Tags pulumi.StringArrayInput
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore pulumi.IntPtrInput
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance network interfaces.
 	TotalNetworkBandwidth pulumi.IntPtrInput
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth pulumi.IntPtrInput
 	// User data given for the instance
-	UserData          pulumi.StringPtrInput
+	UserData pulumi.StringPtrInput
+	// The virtual server instance VCPU configuration.
 	Vcpus             IsInstanceVcpusArrayInput
 	VolumeAttachments IsInstanceVolumeAttachmentTypeArrayInput
 	// The volume bandwidth QoS mode for this virtual server instance.
@@ -415,8 +445,13 @@ type isInstanceArgs struct {
 	// Enables stopping of instance before deleting and waits till deletion is complete
 	Action *string `pulumi:"action"`
 	// Auto delete volume along with instance
-	AutoDeleteVolume *bool `pulumi:"autoDeleteVolume"`
+	AutoDeleteVolume *bool                   `pulumi:"autoDeleteVolume"`
+	Availability     *IsInstanceAvailability `pulumi:"availability"`
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy *IsInstanceAvailabilityPolicy `pulumi:"availabilityPolicy"`
 	// The availability policy to use for this virtual server instance
+	//
+	// Deprecated: Use availability_policy.0.host_failure instead. Existing configurations can continue using this attribute, switching attributes with the same value will not trigger change.
 	AvailabilityPolicyHostFailure *string               `pulumi:"availabilityPolicyHostFailure"`
 	BootVolume                    *IsInstanceBootVolume `pulumi:"bootVolume"`
 	// The catalog offering or offering version to use when provisioning this virtual server instance. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
@@ -469,10 +504,14 @@ type isInstanceArgs struct {
 	ResourceGroup *string `pulumi:"resourceGroup"`
 	// list of tags for the instance
 	Tags []string `pulumi:"tags"`
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore *int `pulumi:"threadsPerCore"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth *int `pulumi:"totalVolumeBandwidth"`
 	// User data given for the instance
 	UserData *string `pulumi:"userData"`
+	// The virtual server instance VCPU configuration.
+	Vcpus []IsInstanceVcpus `pulumi:"vcpus"`
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode *string                     `pulumi:"volumeBandwidthQosMode"`
 	VolumePrototypes       []IsInstanceVolumePrototype `pulumi:"volumePrototypes"`
@@ -494,7 +533,12 @@ type IsInstanceArgs struct {
 	Action pulumi.StringPtrInput
 	// Auto delete volume along with instance
 	AutoDeleteVolume pulumi.BoolPtrInput
+	Availability     IsInstanceAvailabilityPtrInput
+	// The availability policy for this virtual server instance.
+	AvailabilityPolicy IsInstanceAvailabilityPolicyPtrInput
 	// The availability policy to use for this virtual server instance
+	//
+	// Deprecated: Use availability_policy.0.host_failure instead. Existing configurations can continue using this attribute, switching attributes with the same value will not trigger change.
 	AvailabilityPolicyHostFailure pulumi.StringPtrInput
 	BootVolume                    IsInstanceBootVolumePtrInput
 	// The catalog offering or offering version to use when provisioning this virtual server instance. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
@@ -547,10 +591,14 @@ type IsInstanceArgs struct {
 	ResourceGroup pulumi.StringPtrInput
 	// list of tags for the instance
 	Tags pulumi.StringArrayInput
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore pulumi.IntPtrInput
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth pulumi.IntPtrInput
 	// User data given for the instance
 	UserData pulumi.StringPtrInput
+	// The virtual server instance VCPU configuration.
+	Vcpus IsInstanceVcpusArrayInput
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode pulumi.StringPtrInput
 	VolumePrototypes       IsInstanceVolumePrototypeArrayInput
@@ -616,7 +664,18 @@ func (o IsInstanceOutput) AutoDeleteVolume() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *IsInstance) pulumi.BoolPtrOutput { return v.AutoDeleteVolume }).(pulumi.BoolPtrOutput)
 }
 
+func (o IsInstanceOutput) Availability() IsInstanceAvailabilityOutput {
+	return o.ApplyT(func(v *IsInstance) IsInstanceAvailabilityOutput { return v.Availability }).(IsInstanceAvailabilityOutput)
+}
+
+// The availability policy for this virtual server instance.
+func (o IsInstanceOutput) AvailabilityPolicy() IsInstanceAvailabilityPolicyOutput {
+	return o.ApplyT(func(v *IsInstance) IsInstanceAvailabilityPolicyOutput { return v.AvailabilityPolicy }).(IsInstanceAvailabilityPolicyOutput)
+}
+
 // The availability policy to use for this virtual server instance
+//
+// Deprecated: Use availability_policy.0.host_failure instead. Existing configurations can continue using this attribute, switching attributes with the same value will not trigger change.
 func (o IsInstanceOutput) AvailabilityPolicyHostFailure() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsInstance) pulumi.StringOutput { return v.AvailabilityPolicyHostFailure }).(pulumi.StringOutput)
 }
@@ -837,6 +896,11 @@ func (o IsInstanceOutput) ResourceStatus() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsInstance) pulumi.StringOutput { return v.ResourceStatus }).(pulumi.StringOutput)
 }
 
+// The software attachments for this instance.
+func (o IsInstanceOutput) SoftwareAttachments() IsInstanceSoftwareAttachmentTypeArrayOutput {
+	return o.ApplyT(func(v *IsInstance) IsInstanceSoftwareAttachmentTypeArrayOutput { return v.SoftwareAttachments }).(IsInstanceSoftwareAttachmentTypeArrayOutput)
+}
+
 // instance status
 func (o IsInstanceOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsInstance) pulumi.StringOutput { return v.Status }).(pulumi.StringOutput)
@@ -850,6 +914,11 @@ func (o IsInstanceOutput) StatusReasons() IsInstanceStatusReasonArrayOutput {
 // list of tags for the instance
 func (o IsInstanceOutput) Tags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IsInstance) pulumi.StringArrayOutput { return v.Tags }).(pulumi.StringArrayOutput)
+}
+
+// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+func (o IsInstanceOutput) ThreadsPerCore() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsInstance) pulumi.IntOutput { return v.ThreadsPerCore }).(pulumi.IntOutput)
 }
 
 // The amount of bandwidth (in megabits per second) allocated exclusively to instance network interfaces.
@@ -867,6 +936,7 @@ func (o IsInstanceOutput) UserData() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IsInstance) pulumi.StringPtrOutput { return v.UserData }).(pulumi.StringPtrOutput)
 }
 
+// The virtual server instance VCPU configuration.
 func (o IsInstanceOutput) Vcpus() IsInstanceVcpusArrayOutput {
 	return o.ApplyT(func(v *IsInstance) IsInstanceVcpusArrayOutput { return v.Vcpus }).(IsInstanceVcpusArrayOutput)
 }

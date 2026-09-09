@@ -39,12 +39,8 @@ type GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResult struct {
 }
 
 func GetIsPrivatePathServiceGatewayEndpointGatewayBindingsOutput(ctx *pulumi.Context, args GetIsPrivatePathServiceGatewayEndpointGatewayBindingsOutputArgs, opts ...pulumi.InvokeOption) GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput, error) {
-			args := v.(GetIsPrivatePathServiceGatewayEndpointGatewayBindingsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsPrivatePathServiceGatewayEndpointGatewayBindings:getIsPrivatePathServiceGatewayEndpointGatewayBindings", args, GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput{}, options).(GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput), nil
-		}).(GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPrivatePathServiceGatewayEndpointGatewayBindings:getIsPrivatePathServiceGatewayEndpointGatewayBindings", args, GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput{}, options).(GetIsPrivatePathServiceGatewayEndpointGatewayBindingsResultOutput)
 }
 
 // A collection of arguments for invoking getIsPrivatePathServiceGatewayEndpointGatewayBindings.

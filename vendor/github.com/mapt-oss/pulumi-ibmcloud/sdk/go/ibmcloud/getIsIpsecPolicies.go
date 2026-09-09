@@ -29,10 +29,8 @@ type GetIsIpsecPoliciesResult struct {
 }
 
 func GetIsIpsecPoliciesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsIpsecPoliciesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsIpsecPoliciesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsIpsecPolicies:getIsIpsecPolicies", nil, GetIsIpsecPoliciesResultOutput{}, options).(GetIsIpsecPoliciesResultOutput), nil
-	}).(GetIsIpsecPoliciesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsIpsecPolicies:getIsIpsecPolicies", nil, GetIsIpsecPoliciesResultOutput{}, options).(GetIsIpsecPoliciesResultOutput)
 }
 
 // A collection of values returned by getIsIpsecPolicies.

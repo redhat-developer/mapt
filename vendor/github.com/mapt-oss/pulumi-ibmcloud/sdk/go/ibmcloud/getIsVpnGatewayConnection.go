@@ -65,12 +65,8 @@ type LookupIsVpnGatewayConnectionResult struct {
 }
 
 func LookupIsVpnGatewayConnectionOutput(ctx *pulumi.Context, args LookupIsVpnGatewayConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupIsVpnGatewayConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVpnGatewayConnectionResultOutput, error) {
-			args := v.(LookupIsVpnGatewayConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpnGatewayConnection:getIsVpnGatewayConnection", args, LookupIsVpnGatewayConnectionResultOutput{}, options).(LookupIsVpnGatewayConnectionResultOutput), nil
-		}).(LookupIsVpnGatewayConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpnGatewayConnection:getIsVpnGatewayConnection", args, LookupIsVpnGatewayConnectionResultOutput{}, options).(LookupIsVpnGatewayConnectionResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpnGatewayConnection.

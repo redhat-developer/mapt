@@ -19,6 +19,10 @@ type IsLb struct {
 	AccessMode pulumi.StringOutput `pulumi:"accessMode"`
 	// List of access management tags
 	AccessTags pulumi.StringArrayOutput `pulumi:"accessTags"`
+	// Indicates whether this load balancer supports advanced health checks.
+	AdvancedHealthChecksSupported pulumi.BoolOutput `pulumi:"advancedHealthChecksSupported"`
+	// Indicates whether this load balancer supports asymmetric routing.
+	AsymmetricRoutingSupported pulumi.BoolOutput `pulumi:"asymmetricRoutingSupported"`
 	// The load balancer pool members attached to this load balancer.
 	AttachedLoadBalancerPoolMembers IsLbAttachedLoadBalancerPoolMemberArrayOutput `pulumi:"attachedLoadBalancerPoolMembers"`
 	// The availability of this load balancer
@@ -29,11 +33,15 @@ type IsLb struct {
 	Dns IsLbDnsPtrOutput `pulumi:"dns"`
 	// The supported `failsafe_policy.action` values for this load balancer's pools.
 	FailsafePolicyActions pulumi.StringArrayOutput `pulumi:"failsafePolicyActions"`
-	Hostname              pulumi.StringOutput      `pulumi:"hostname"`
+	// Indicates whether this load balancer supports pool members specified by their fully qualified domain names.
+	FqdnPoolMembersSupported pulumi.BoolOutput   `pulumi:"fqdnPoolMembersSupported"`
+	Hostname                 pulumi.StringOutput `pulumi:"hostname"`
 	// Indicates whether this load balancer supports instance groups.
 	InstanceGroupsSupported pulumi.BoolOutput `pulumi:"instanceGroupsSupported"`
 	// Logging of Load Balancer
 	Logging pulumi.BoolPtrOutput `pulumi:"logging"`
+	// Indicates whether this load balancer supports mTLS.
+	MtlsSupported pulumi.BoolOutput `pulumi:"mtlsSupported"`
 	// Load Balancer name
 	Name            pulumi.StringOutput `pulumi:"name"`
 	OperatingStatus pulumi.StringOutput `pulumi:"operatingStatus"`
@@ -106,6 +114,10 @@ type isLbState struct {
 	AccessMode *string `pulumi:"accessMode"`
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
+	// Indicates whether this load balancer supports advanced health checks.
+	AdvancedHealthChecksSupported *bool `pulumi:"advancedHealthChecksSupported"`
+	// Indicates whether this load balancer supports asymmetric routing.
+	AsymmetricRoutingSupported *bool `pulumi:"asymmetricRoutingSupported"`
 	// The load balancer pool members attached to this load balancer.
 	AttachedLoadBalancerPoolMembers []IsLbAttachedLoadBalancerPoolMember `pulumi:"attachedLoadBalancerPoolMembers"`
 	// The availability of this load balancer
@@ -116,11 +128,15 @@ type isLbState struct {
 	Dns *IsLbDns `pulumi:"dns"`
 	// The supported `failsafe_policy.action` values for this load balancer's pools.
 	FailsafePolicyActions []string `pulumi:"failsafePolicyActions"`
-	Hostname              *string  `pulumi:"hostname"`
+	// Indicates whether this load balancer supports pool members specified by their fully qualified domain names.
+	FqdnPoolMembersSupported *bool   `pulumi:"fqdnPoolMembersSupported"`
+	Hostname                 *string `pulumi:"hostname"`
 	// Indicates whether this load balancer supports instance groups.
 	InstanceGroupsSupported *bool `pulumi:"instanceGroupsSupported"`
 	// Logging of Load Balancer
 	Logging *bool `pulumi:"logging"`
+	// Indicates whether this load balancer supports mTLS.
+	MtlsSupported *bool `pulumi:"mtlsSupported"`
 	// Load Balancer name
 	Name            *string `pulumi:"name"`
 	OperatingStatus *string `pulumi:"operatingStatus"`
@@ -161,6 +177,10 @@ type IsLbState struct {
 	AccessMode pulumi.StringPtrInput
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
+	// Indicates whether this load balancer supports advanced health checks.
+	AdvancedHealthChecksSupported pulumi.BoolPtrInput
+	// Indicates whether this load balancer supports asymmetric routing.
+	AsymmetricRoutingSupported pulumi.BoolPtrInput
 	// The load balancer pool members attached to this load balancer.
 	AttachedLoadBalancerPoolMembers IsLbAttachedLoadBalancerPoolMemberArrayInput
 	// The availability of this load balancer
@@ -171,11 +191,15 @@ type IsLbState struct {
 	Dns IsLbDnsPtrInput
 	// The supported `failsafe_policy.action` values for this load balancer's pools.
 	FailsafePolicyActions pulumi.StringArrayInput
-	Hostname              pulumi.StringPtrInput
+	// Indicates whether this load balancer supports pool members specified by their fully qualified domain names.
+	FqdnPoolMembersSupported pulumi.BoolPtrInput
+	Hostname                 pulumi.StringPtrInput
 	// Indicates whether this load balancer supports instance groups.
 	InstanceGroupsSupported pulumi.BoolPtrInput
 	// Logging of Load Balancer
 	Logging pulumi.BoolPtrInput
+	// Indicates whether this load balancer supports mTLS.
+	MtlsSupported pulumi.BoolPtrInput
 	// Load Balancer name
 	Name            pulumi.StringPtrInput
 	OperatingStatus pulumi.StringPtrInput
@@ -309,6 +333,16 @@ func (o IsLbOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IsLb) pulumi.StringArrayOutput { return v.AccessTags }).(pulumi.StringArrayOutput)
 }
 
+// Indicates whether this load balancer supports advanced health checks.
+func (o IsLbOutput) AdvancedHealthChecksSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v *IsLb) pulumi.BoolOutput { return v.AdvancedHealthChecksSupported }).(pulumi.BoolOutput)
+}
+
+// Indicates whether this load balancer supports asymmetric routing.
+func (o IsLbOutput) AsymmetricRoutingSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v *IsLb) pulumi.BoolOutput { return v.AsymmetricRoutingSupported }).(pulumi.BoolOutput)
+}
+
 // The load balancer pool members attached to this load balancer.
 func (o IsLbOutput) AttachedLoadBalancerPoolMembers() IsLbAttachedLoadBalancerPoolMemberArrayOutput {
 	return o.ApplyT(func(v *IsLb) IsLbAttachedLoadBalancerPoolMemberArrayOutput { return v.AttachedLoadBalancerPoolMembers }).(IsLbAttachedLoadBalancerPoolMemberArrayOutput)
@@ -334,6 +368,11 @@ func (o IsLbOutput) FailsafePolicyActions() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IsLb) pulumi.StringArrayOutput { return v.FailsafePolicyActions }).(pulumi.StringArrayOutput)
 }
 
+// Indicates whether this load balancer supports pool members specified by their fully qualified domain names.
+func (o IsLbOutput) FqdnPoolMembersSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v *IsLb) pulumi.BoolOutput { return v.FqdnPoolMembersSupported }).(pulumi.BoolOutput)
+}
+
 func (o IsLbOutput) Hostname() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsLb) pulumi.StringOutput { return v.Hostname }).(pulumi.StringOutput)
 }
@@ -346,6 +385,11 @@ func (o IsLbOutput) InstanceGroupsSupported() pulumi.BoolOutput {
 // Logging of Load Balancer
 func (o IsLbOutput) Logging() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *IsLb) pulumi.BoolPtrOutput { return v.Logging }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates whether this load balancer supports mTLS.
+func (o IsLbOutput) MtlsSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v *IsLb) pulumi.BoolOutput { return v.MtlsSupported }).(pulumi.BoolOutput)
 }
 
 // Load Balancer name

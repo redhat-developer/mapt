@@ -30,17 +30,21 @@ type LookupIsLbArgs struct {
 type LookupIsLbResult struct {
 	AccessMode                      string                                  `pulumi:"accessMode"`
 	AccessTags                      []string                                `pulumi:"accessTags"`
+	AdvancedHealthChecksSupported   bool                                    `pulumi:"advancedHealthChecksSupported"`
+	AsymmetricRoutingSupported      bool                                    `pulumi:"asymmetricRoutingSupported"`
 	AttachedLoadBalancerPoolMembers []GetIsLbAttachedLoadBalancerPoolMember `pulumi:"attachedLoadBalancerPoolMembers"`
 	Availability                    string                                  `pulumi:"availability"`
 	Crn                             string                                  `pulumi:"crn"`
 	Dns                             []GetIsLbDn                             `pulumi:"dns"`
 	FailsafePolicyActions           []string                                `pulumi:"failsafePolicyActions"`
+	FqdnPoolMembersSupported        bool                                    `pulumi:"fqdnPoolMembersSupported"`
 	Hostname                        string                                  `pulumi:"hostname"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                                  string             `pulumi:"id"`
 	InstanceGroupsSupported             bool               `pulumi:"instanceGroupsSupported"`
 	Listeners                           []string           `pulumi:"listeners"`
 	Logging                             bool               `pulumi:"logging"`
+	MtlsSupported                       bool               `pulumi:"mtlsSupported"`
 	Name                                string             `pulumi:"name"`
 	OperatingStatus                     string             `pulumi:"operatingStatus"`
 	Pools                               []GetIsLbPoolType  `pulumi:"pools"`
@@ -64,12 +68,8 @@ type LookupIsLbResult struct {
 }
 
 func LookupIsLbOutput(ctx *pulumi.Context, args LookupIsLbOutputArgs, opts ...pulumi.InvokeOption) LookupIsLbResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsLbResultOutput, error) {
-			args := v.(LookupIsLbArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLb:getIsLb", args, LookupIsLbResultOutput{}, options).(LookupIsLbResultOutput), nil
-		}).(LookupIsLbResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLb:getIsLb", args, LookupIsLbResultOutput{}, options).(LookupIsLbResultOutput)
 }
 
 // A collection of arguments for invoking getIsLb.
@@ -104,6 +104,14 @@ func (o LookupIsLbResultOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupIsLbResult) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
 }
 
+func (o LookupIsLbResultOutput) AdvancedHealthChecksSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupIsLbResult) bool { return v.AdvancedHealthChecksSupported }).(pulumi.BoolOutput)
+}
+
+func (o LookupIsLbResultOutput) AsymmetricRoutingSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupIsLbResult) bool { return v.AsymmetricRoutingSupported }).(pulumi.BoolOutput)
+}
+
 func (o LookupIsLbResultOutput) AttachedLoadBalancerPoolMembers() GetIsLbAttachedLoadBalancerPoolMemberArrayOutput {
 	return o.ApplyT(func(v LookupIsLbResult) []GetIsLbAttachedLoadBalancerPoolMember {
 		return v.AttachedLoadBalancerPoolMembers
@@ -126,6 +134,10 @@ func (o LookupIsLbResultOutput) FailsafePolicyActions() pulumi.StringArrayOutput
 	return o.ApplyT(func(v LookupIsLbResult) []string { return v.FailsafePolicyActions }).(pulumi.StringArrayOutput)
 }
 
+func (o LookupIsLbResultOutput) FqdnPoolMembersSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupIsLbResult) bool { return v.FqdnPoolMembersSupported }).(pulumi.BoolOutput)
+}
+
 func (o LookupIsLbResultOutput) Hostname() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsLbResult) string { return v.Hostname }).(pulumi.StringOutput)
 }
@@ -145,6 +157,10 @@ func (o LookupIsLbResultOutput) Listeners() pulumi.StringArrayOutput {
 
 func (o LookupIsLbResultOutput) Logging() pulumi.BoolOutput {
 	return o.ApplyT(func(v LookupIsLbResult) bool { return v.Logging }).(pulumi.BoolOutput)
+}
+
+func (o LookupIsLbResultOutput) MtlsSupported() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupIsLbResult) bool { return v.MtlsSupported }).(pulumi.BoolOutput)
 }
 
 func (o LookupIsLbResultOutput) Name() pulumi.StringOutput {

@@ -44,12 +44,8 @@ type LookupIsDedicatedHostGroupResult struct {
 }
 
 func LookupIsDedicatedHostGroupOutput(ctx *pulumi.Context, args LookupIsDedicatedHostGroupOutputArgs, opts ...pulumi.InvokeOption) LookupIsDedicatedHostGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsDedicatedHostGroupResultOutput, error) {
-			args := v.(LookupIsDedicatedHostGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsDedicatedHostGroup:getIsDedicatedHostGroup", args, LookupIsDedicatedHostGroupResultOutput{}, options).(LookupIsDedicatedHostGroupResultOutput), nil
-		}).(LookupIsDedicatedHostGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsDedicatedHostGroup:getIsDedicatedHostGroup", args, LookupIsDedicatedHostGroupResultOutput{}, options).(LookupIsDedicatedHostGroupResultOutput)
 }
 
 // A collection of arguments for invoking getIsDedicatedHostGroup.

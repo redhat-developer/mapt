@@ -44,15 +44,15 @@ type CosBucket struct {
 	// sets a maximum amount of storage (in bytes) available for a bucket
 	HardQuota pulumi.IntPtrOutput `pulumi:"hardQuota"`
 	// CRN of the key you want to use data at rest encryption
-	KeyProtect pulumi.StringPtrOutput `pulumi:"keyProtect"`
+	KeyProtect pulumi.StringOutput `pulumi:"keyProtect"`
 	// CRN of the key you want to use data at rest encryption
-	KmsKeyCrn pulumi.StringPtrOutput `pulumi:"kmsKeyCrn"`
+	KmsKeyCrn pulumi.StringOutput `pulumi:"kmsKeyCrn"`
 	// Enables sending metrics to IBM Cloud Monitoring.All metrics are opt-in
 	MetricsMonitoring CosBucketMetricsMonitoringPtrOutput `pulumi:"metricsMonitoring"`
 	// Enable configuration expireRule to COS Bucket after a defined period of time
 	NoncurrentVersionExpiration CosBucketNoncurrentVersionExpirationPtrOutput `pulumi:"noncurrentVersionExpiration"`
 	// Enable objectlock for the bucket. When enabled, buckets within the container vault can have Object Lock Configuration applied to the bucket.
-	ObjectLock pulumi.BoolPtrOutput `pulumi:"objectLock"`
+	ObjectLock pulumi.BoolOutput `pulumi:"objectLock"`
 	// Protect objects from accidental deletion or overwrites. Versioning allows you to keep multiple versions of an object protecting from unintentional data loss.
 	ObjectVersioning CosBucketObjectVersioningPtrOutput `pulumi:"objectVersioning"`
 	// Region Location info.
@@ -444,13 +444,13 @@ func (o CosBucketOutput) HardQuota() pulumi.IntPtrOutput {
 }
 
 // CRN of the key you want to use data at rest encryption
-func (o CosBucketOutput) KeyProtect() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *CosBucket) pulumi.StringPtrOutput { return v.KeyProtect }).(pulumi.StringPtrOutput)
+func (o CosBucketOutput) KeyProtect() pulumi.StringOutput {
+	return o.ApplyT(func(v *CosBucket) pulumi.StringOutput { return v.KeyProtect }).(pulumi.StringOutput)
 }
 
 // CRN of the key you want to use data at rest encryption
-func (o CosBucketOutput) KmsKeyCrn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *CosBucket) pulumi.StringPtrOutput { return v.KmsKeyCrn }).(pulumi.StringPtrOutput)
+func (o CosBucketOutput) KmsKeyCrn() pulumi.StringOutput {
+	return o.ApplyT(func(v *CosBucket) pulumi.StringOutput { return v.KmsKeyCrn }).(pulumi.StringOutput)
 }
 
 // Enables sending metrics to IBM Cloud Monitoring.All metrics are opt-in
@@ -464,8 +464,8 @@ func (o CosBucketOutput) NoncurrentVersionExpiration() CosBucketNoncurrentVersio
 }
 
 // Enable objectlock for the bucket. When enabled, buckets within the container vault can have Object Lock Configuration applied to the bucket.
-func (o CosBucketOutput) ObjectLock() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *CosBucket) pulumi.BoolPtrOutput { return v.ObjectLock }).(pulumi.BoolPtrOutput)
+func (o CosBucketOutput) ObjectLock() pulumi.BoolOutput {
+	return o.ApplyT(func(v *CosBucket) pulumi.BoolOutput { return v.ObjectLock }).(pulumi.BoolOutput)
 }
 
 // Protect objects from accidental deletion or overwrites. Versioning allows you to keep multiple versions of an object protecting from unintentional data loss.

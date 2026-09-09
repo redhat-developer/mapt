@@ -35,12 +35,8 @@ type GetIsInstanceVolumeAttachmentsResult struct {
 }
 
 func GetIsInstanceVolumeAttachmentsOutput(ctx *pulumi.Context, args GetIsInstanceVolumeAttachmentsOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceVolumeAttachmentsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceVolumeAttachmentsResultOutput, error) {
-			args := v.(GetIsInstanceVolumeAttachmentsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceVolumeAttachments:getIsInstanceVolumeAttachments", args, GetIsInstanceVolumeAttachmentsResultOutput{}, options).(GetIsInstanceVolumeAttachmentsResultOutput), nil
-		}).(GetIsInstanceVolumeAttachmentsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceVolumeAttachments:getIsInstanceVolumeAttachments", args, GetIsInstanceVolumeAttachmentsResultOutput{}, options).(GetIsInstanceVolumeAttachmentsResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceVolumeAttachments.

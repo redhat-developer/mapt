@@ -23,9 +23,11 @@ func GetPiInstanceIp(ctx *pulumi.Context, args *GetPiInstanceIpArgs, opts ...pul
 
 // A collection of arguments for invoking getPiInstanceIp.
 type GetPiInstanceIpArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string `pulumi:"piInstanceName"`
-	PiNetworkName     string `pulumi:"piNetworkName"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
+	PiNetworkName  string  `pulumi:"piNetworkName"`
 }
 
 // A collection of values returned by getPiInstanceIp.
@@ -43,25 +45,25 @@ type GetPiInstanceIpResult struct {
 	NetworkSecurityGroupIds     []string `pulumi:"networkSecurityGroupIds"`
 	NetworkSecurityGroupsHreves []string `pulumi:"networkSecurityGroupsHreves"`
 	PiCloudInstanceId           string   `pulumi:"piCloudInstanceId"`
-	PiInstanceName              string   `pulumi:"piInstanceName"`
-	PiNetworkName               string   `pulumi:"piNetworkName"`
-	Type                        string   `pulumi:"type"`
+	PiInstanceId                *string  `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
+	PiNetworkName  string  `pulumi:"piNetworkName"`
+	Type           string  `pulumi:"type"`
 }
 
 func GetPiInstanceIpOutput(ctx *pulumi.Context, args GetPiInstanceIpOutputArgs, opts ...pulumi.InvokeOption) GetPiInstanceIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiInstanceIpResultOutput, error) {
-			args := v.(GetPiInstanceIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiInstanceIp:getPiInstanceIp", args, GetPiInstanceIpResultOutput{}, options).(GetPiInstanceIpResultOutput), nil
-		}).(GetPiInstanceIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiInstanceIp:getPiInstanceIp", args, GetPiInstanceIpResultOutput{}, options).(GetPiInstanceIpResultOutput)
 }
 
 // A collection of arguments for invoking getPiInstanceIp.
 type GetPiInstanceIpOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
-	PiInstanceName    pulumi.StringInput `pulumi:"piInstanceName"`
-	PiNetworkName     pulumi.StringInput `pulumi:"piNetworkName"`
+	PiCloudInstanceId pulumi.StringInput    `pulumi:"piCloudInstanceId"`
+	PiInstanceId      pulumi.StringPtrInput `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName pulumi.StringPtrInput `pulumi:"piInstanceName"`
+	PiNetworkName  pulumi.StringInput    `pulumi:"piNetworkName"`
 }
 
 func (GetPiInstanceIpOutputArgs) ElementType() reflect.Type {
@@ -129,8 +131,13 @@ func (o GetPiInstanceIpResultOutput) PiCloudInstanceId() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPiInstanceIpResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
 }
 
-func (o GetPiInstanceIpResultOutput) PiInstanceName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiInstanceIpResult) string { return v.PiInstanceName }).(pulumi.StringOutput)
+func (o GetPiInstanceIpResultOutput) PiInstanceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiInstanceIpResult) *string { return v.PiInstanceId }).(pulumi.StringPtrOutput)
+}
+
+// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+func (o GetPiInstanceIpResultOutput) PiInstanceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiInstanceIpResult) *string { return v.PiInstanceName }).(pulumi.StringPtrOutput)
 }
 
 func (o GetPiInstanceIpResultOutput) PiNetworkName() pulumi.StringOutput {

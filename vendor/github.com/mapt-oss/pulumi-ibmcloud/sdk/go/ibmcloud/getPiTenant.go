@@ -38,12 +38,8 @@ type GetPiTenantResult struct {
 }
 
 func GetPiTenantOutput(ctx *pulumi.Context, args GetPiTenantOutputArgs, opts ...pulumi.InvokeOption) GetPiTenantResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiTenantResultOutput, error) {
-			args := v.(GetPiTenantArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiTenant:getPiTenant", args, GetPiTenantResultOutput{}, options).(GetPiTenantResultOutput), nil
-		}).(GetPiTenantResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiTenant:getPiTenant", args, GetPiTenantResultOutput{}, options).(GetPiTenantResultOutput)
 }
 
 // A collection of arguments for invoking getPiTenant.
