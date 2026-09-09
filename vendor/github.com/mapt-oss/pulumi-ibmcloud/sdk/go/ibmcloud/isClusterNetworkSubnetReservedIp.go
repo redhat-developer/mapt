@@ -36,7 +36,7 @@ type IsClusterNetworkSubnetReservedIp struct {
 	LifecycleState pulumi.StringOutput `pulumi:"lifecycleState"`
 	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
 	Name pulumi.StringOutput `pulumi:"name"`
-	// The owner of the cluster network subnet reserved IPThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The owner of the cluster network subnet reserved IPThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Owner pulumi.StringOutput `pulumi:"owner"`
 	// The resource type.
 	ResourceType pulumi.StringOutput `pulumi:"resourceType"`
@@ -101,7 +101,7 @@ type isClusterNetworkSubnetReservedIpState struct {
 	LifecycleState *string `pulumi:"lifecycleState"`
 	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
 	Name *string `pulumi:"name"`
-	// The owner of the cluster network subnet reserved IPThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The owner of the cluster network subnet reserved IPThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Owner *string `pulumi:"owner"`
 	// The resource type.
 	ResourceType *string `pulumi:"resourceType"`
@@ -131,7 +131,7 @@ type IsClusterNetworkSubnetReservedIpState struct {
 	LifecycleState pulumi.StringPtrInput
 	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
 	Name pulumi.StringPtrInput
-	// The owner of the cluster network subnet reserved IPThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The owner of the cluster network subnet reserved IPThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Owner pulumi.StringPtrInput
 	// The resource type.
 	ResourceType pulumi.StringPtrInput
@@ -265,7 +265,7 @@ func (o IsClusterNetworkSubnetReservedIpOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsClusterNetworkSubnetReservedIp) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
-// The owner of the cluster network subnet reserved IPThe enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// The owner of the cluster network subnet reserved IPThe enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkSubnetReservedIpOutput) Owner() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsClusterNetworkSubnetReservedIp) pulumi.StringOutput { return v.Owner }).(pulumi.StringOutput)
 }

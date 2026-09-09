@@ -46,12 +46,8 @@ type LookupIsNetworkAclResult struct {
 }
 
 func LookupIsNetworkAclOutput(ctx *pulumi.Context, args LookupIsNetworkAclOutputArgs, opts ...pulumi.InvokeOption) LookupIsNetworkAclResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsNetworkAclResultOutput, error) {
-			args := v.(LookupIsNetworkAclArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsNetworkAcl:getIsNetworkAcl", args, LookupIsNetworkAclResultOutput{}, options).(LookupIsNetworkAclResultOutput), nil
-		}).(LookupIsNetworkAclResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsNetworkAcl:getIsNetworkAcl", args, LookupIsNetworkAclResultOutput{}, options).(LookupIsNetworkAclResultOutput)
 }
 
 // A collection of arguments for invoking getIsNetworkAcl.

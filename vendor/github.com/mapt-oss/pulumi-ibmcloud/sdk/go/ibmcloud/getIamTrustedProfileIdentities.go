@@ -36,12 +36,8 @@ type LookupIamTrustedProfileIdentitiesResult struct {
 }
 
 func LookupIamTrustedProfileIdentitiesOutput(ctx *pulumi.Context, args LookupIamTrustedProfileIdentitiesOutputArgs, opts ...pulumi.InvokeOption) LookupIamTrustedProfileIdentitiesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamTrustedProfileIdentitiesResultOutput, error) {
-			args := v.(LookupIamTrustedProfileIdentitiesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileIdentities:getIamTrustedProfileIdentities", args, LookupIamTrustedProfileIdentitiesResultOutput{}, options).(LookupIamTrustedProfileIdentitiesResultOutput), nil
-		}).(LookupIamTrustedProfileIdentitiesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileIdentities:getIamTrustedProfileIdentities", args, LookupIamTrustedProfileIdentitiesResultOutput{}, options).(LookupIamTrustedProfileIdentitiesResultOutput)
 }
 
 // A collection of arguments for invoking getIamTrustedProfileIdentities.

@@ -29,10 +29,8 @@ type GetIsIkePoliciesResult struct {
 }
 
 func GetIsIkePoliciesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsIkePoliciesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsIkePoliciesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsIkePolicies:getIsIkePolicies", nil, GetIsIkePoliciesResultOutput{}, options).(GetIsIkePoliciesResultOutput), nil
-	}).(GetIsIkePoliciesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsIkePolicies:getIsIkePolicies", nil, GetIsIkePoliciesResultOutput{}, options).(GetIsIkePoliciesResultOutput)
 }
 
 // A collection of values returned by getIsIkePolicies.

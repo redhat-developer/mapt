@@ -17,7 +17,7 @@ type IamTrustedProfileClaimRule struct {
 
 	// Conditions of this claim rule.
 	Conditions IamTrustedProfileClaimRuleConditionArrayOutput `pulumi:"conditions"`
-	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, IKS_SA, ROKS_SA.
+	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType pulumi.StringPtrOutput `pulumi:"crType"`
 	// If set contains a date time string of the creation date in ISO format.
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
@@ -80,7 +80,7 @@ func GetIamTrustedProfileClaimRule(ctx *pulumi.Context,
 type iamTrustedProfileClaimRuleState struct {
 	// Conditions of this claim rule.
 	Conditions []IamTrustedProfileClaimRuleCondition `pulumi:"conditions"`
-	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, IKS_SA, ROKS_SA.
+	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType *string `pulumi:"crType"`
 	// If set contains a date time string of the creation date in ISO format.
 	CreatedAt *string `pulumi:"createdAt"`
@@ -105,7 +105,7 @@ type iamTrustedProfileClaimRuleState struct {
 type IamTrustedProfileClaimRuleState struct {
 	// Conditions of this claim rule.
 	Conditions IamTrustedProfileClaimRuleConditionArrayInput
-	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, IKS_SA, ROKS_SA.
+	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType pulumi.StringPtrInput
 	// If set contains a date time string of the creation date in ISO format.
 	CreatedAt pulumi.StringPtrInput
@@ -134,7 +134,7 @@ func (IamTrustedProfileClaimRuleState) ElementType() reflect.Type {
 type iamTrustedProfileClaimRuleArgs struct {
 	// Conditions of this claim rule.
 	Conditions []IamTrustedProfileClaimRuleCondition `pulumi:"conditions"`
-	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, IKS_SA, ROKS_SA.
+	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType *string `pulumi:"crType"`
 	// Session expiration in seconds.
 	Expiration *int `pulumi:"expiration"`
@@ -152,7 +152,7 @@ type iamTrustedProfileClaimRuleArgs struct {
 type IamTrustedProfileClaimRuleArgs struct {
 	// Conditions of this claim rule.
 	Conditions IamTrustedProfileClaimRuleConditionArrayInput
-	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, IKS_SA, ROKS_SA.
+	// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType pulumi.StringPtrInput
 	// Session expiration in seconds.
 	Expiration pulumi.IntPtrInput
@@ -210,7 +210,7 @@ func (o IamTrustedProfileClaimRuleOutput) Conditions() IamTrustedProfileClaimRul
 	}).(IamTrustedProfileClaimRuleConditionArrayOutput)
 }
 
-// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, IKS_SA, ROKS_SA.
+// The compute resource type. Not required if type is Profile-SAML. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 func (o IamTrustedProfileClaimRuleOutput) CrType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IamTrustedProfileClaimRule) pulumi.StringPtrOutput { return v.CrType }).(pulumi.StringPtrOutput)
 }

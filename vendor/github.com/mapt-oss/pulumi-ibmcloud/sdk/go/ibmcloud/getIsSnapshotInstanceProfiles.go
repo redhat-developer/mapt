@@ -35,12 +35,8 @@ type GetIsSnapshotInstanceProfilesResult struct {
 }
 
 func GetIsSnapshotInstanceProfilesOutput(ctx *pulumi.Context, args GetIsSnapshotInstanceProfilesOutputArgs, opts ...pulumi.InvokeOption) GetIsSnapshotInstanceProfilesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSnapshotInstanceProfilesResultOutput, error) {
-			args := v.(GetIsSnapshotInstanceProfilesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotInstanceProfiles:getIsSnapshotInstanceProfiles", args, GetIsSnapshotInstanceProfilesResultOutput{}, options).(GetIsSnapshotInstanceProfilesResultOutput), nil
-		}).(GetIsSnapshotInstanceProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotInstanceProfiles:getIsSnapshotInstanceProfiles", args, GetIsSnapshotInstanceProfilesResultOutput{}, options).(GetIsSnapshotInstanceProfilesResultOutput)
 }
 
 // A collection of arguments for invoking getIsSnapshotInstanceProfiles.

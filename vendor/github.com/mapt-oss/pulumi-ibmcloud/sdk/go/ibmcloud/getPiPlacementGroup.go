@@ -45,12 +45,8 @@ type LookupPiPlacementGroupResult struct {
 }
 
 func LookupPiPlacementGroupOutput(ctx *pulumi.Context, args LookupPiPlacementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPiPlacementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiPlacementGroupResultOutput, error) {
-			args := v.(LookupPiPlacementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiPlacementGroup:getPiPlacementGroup", args, LookupPiPlacementGroupResultOutput{}, options).(LookupPiPlacementGroupResultOutput), nil
-		}).(LookupPiPlacementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiPlacementGroup:getPiPlacementGroup", args, LookupPiPlacementGroupResultOutput{}, options).(LookupPiPlacementGroupResultOutput)
 }
 
 // A collection of arguments for invoking getPiPlacementGroup.

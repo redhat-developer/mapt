@@ -47,12 +47,8 @@ type LookupIsSubnetReservedIpResult struct {
 }
 
 func LookupIsSubnetReservedIpOutput(ctx *pulumi.Context, args LookupIsSubnetReservedIpOutputArgs, opts ...pulumi.InvokeOption) LookupIsSubnetReservedIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsSubnetReservedIpResultOutput, error) {
-			args := v.(LookupIsSubnetReservedIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSubnetReservedIp:getIsSubnetReservedIp", args, LookupIsSubnetReservedIpResultOutput{}, options).(LookupIsSubnetReservedIpResultOutput), nil
-		}).(LookupIsSubnetReservedIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSubnetReservedIp:getIsSubnetReservedIp", args, LookupIsSubnetReservedIpResultOutput{}, options).(LookupIsSubnetReservedIpResultOutput)
 }
 
 // A collection of arguments for invoking getIsSubnetReservedIp.

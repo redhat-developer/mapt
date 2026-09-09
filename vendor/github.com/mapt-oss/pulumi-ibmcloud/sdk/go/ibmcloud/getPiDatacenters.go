@@ -35,12 +35,8 @@ type GetPiDatacentersResult struct {
 }
 
 func GetPiDatacentersOutput(ctx *pulumi.Context, args GetPiDatacentersOutputArgs, opts ...pulumi.InvokeOption) GetPiDatacentersResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiDatacentersResultOutput, error) {
-			args := v.(GetPiDatacentersArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiDatacenters:getPiDatacenters", args, GetPiDatacentersResultOutput{}, options).(GetPiDatacentersResultOutput), nil
-		}).(GetPiDatacentersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiDatacenters:getPiDatacenters", args, GetPiDatacentersResultOutput{}, options).(GetPiDatacentersResultOutput)
 }
 
 // A collection of arguments for invoking getPiDatacenters.

@@ -29,10 +29,8 @@ type GetTgGatewaysResult struct {
 }
 
 func GetTgGatewaysOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetTgGatewaysResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetTgGatewaysResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getTgGateways:getTgGateways", nil, GetTgGatewaysResultOutput{}, options).(GetTgGatewaysResultOutput), nil
-	}).(GetTgGatewaysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getTgGateways:getTgGateways", nil, GetTgGatewaysResultOutput{}, options).(GetTgGatewaysResultOutput)
 }
 
 // A collection of values returned by getTgGateways.

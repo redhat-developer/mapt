@@ -35,12 +35,8 @@ type GetIsBareMetalServerNetworkAttachmentsResult struct {
 }
 
 func GetIsBareMetalServerNetworkAttachmentsOutput(ctx *pulumi.Context, args GetIsBareMetalServerNetworkAttachmentsOutputArgs, opts ...pulumi.InvokeOption) GetIsBareMetalServerNetworkAttachmentsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsBareMetalServerNetworkAttachmentsResultOutput, error) {
-			args := v.(GetIsBareMetalServerNetworkAttachmentsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkAttachments:getIsBareMetalServerNetworkAttachments", args, GetIsBareMetalServerNetworkAttachmentsResultOutput{}, options).(GetIsBareMetalServerNetworkAttachmentsResultOutput), nil
-		}).(GetIsBareMetalServerNetworkAttachmentsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkAttachments:getIsBareMetalServerNetworkAttachments", args, GetIsBareMetalServerNetworkAttachmentsResultOutput{}, options).(GetIsBareMetalServerNetworkAttachmentsResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServerNetworkAttachments.

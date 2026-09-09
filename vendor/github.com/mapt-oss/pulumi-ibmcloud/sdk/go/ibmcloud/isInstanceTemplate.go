@@ -15,8 +15,11 @@ import (
 type IsInstanceTemplate struct {
 	pulumi.CustomResourceState
 
-	// The availability policy to use for this virtual server instance
-	AvailabilityPolicyHostFailure pulumi.StringOutput                `pulumi:"availabilityPolicyHostFailure"`
+	Availability IsInstanceTemplateAvailabilityPtrOutput `pulumi:"availability"`
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy IsInstanceTemplateAvailabilityPolicyPtrOutput `pulumi:"availabilityPolicy"`
+	// The availability policy to use for this virtual server instance template
+	AvailabilityPolicyHostFailure pulumi.StringPtrOutput             `pulumi:"availabilityPolicyHostFailure"`
 	BootVolume                    IsInstanceTemplateBootVolumeOutput `pulumi:"bootVolume"`
 	// The catalog offering or offering version to use when provisioning this virtual server instance template. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
 	CatalogOffering IsInstanceTemplateCatalogOfferingPtrOutput `pulumi:"catalogOffering"`
@@ -64,10 +67,13 @@ type IsInstanceTemplate struct {
 	ReservationAffinities IsInstanceTemplateReservationAffinityArrayOutput `pulumi:"reservationAffinities"`
 	// Instance template resource group
 	ResourceGroup pulumi.StringOutput `pulumi:"resourceGroup"`
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore pulumi.IntOutput `pulumi:"threadsPerCore"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth pulumi.IntPtrOutput `pulumi:"totalVolumeBandwidth"`
 	// User data given for the instance
 	UserData          pulumi.StringPtrOutput                        `pulumi:"userData"`
+	Vcpu              IsInstanceTemplateVcpuPtrOutput               `pulumi:"vcpu"`
 	VolumeAttachments IsInstanceTemplateVolumeAttachmentArrayOutput `pulumi:"volumeAttachments"`
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode pulumi.StringPtrOutput `pulumi:"volumeBandwidthQosMode"`
@@ -119,7 +125,10 @@ func GetIsInstanceTemplate(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering IsInstanceTemplate resources.
 type isInstanceTemplateState struct {
-	// The availability policy to use for this virtual server instance
+	Availability *IsInstanceTemplateAvailability `pulumi:"availability"`
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *IsInstanceTemplateAvailabilityPolicy `pulumi:"availabilityPolicy"`
+	// The availability policy to use for this virtual server instance template
 	AvailabilityPolicyHostFailure *string                       `pulumi:"availabilityPolicyHostFailure"`
 	BootVolume                    *IsInstanceTemplateBootVolume `pulumi:"bootVolume"`
 	// The catalog offering or offering version to use when provisioning this virtual server instance template. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
@@ -168,10 +177,13 @@ type isInstanceTemplateState struct {
 	ReservationAffinities []IsInstanceTemplateReservationAffinity `pulumi:"reservationAffinities"`
 	// Instance template resource group
 	ResourceGroup *string `pulumi:"resourceGroup"`
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore *int `pulumi:"threadsPerCore"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth *int `pulumi:"totalVolumeBandwidth"`
 	// User data given for the instance
 	UserData          *string                              `pulumi:"userData"`
+	Vcpu              *IsInstanceTemplateVcpu              `pulumi:"vcpu"`
 	VolumeAttachments []IsInstanceTemplateVolumeAttachment `pulumi:"volumeAttachments"`
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode *string `pulumi:"volumeBandwidthQosMode"`
@@ -182,7 +194,10 @@ type isInstanceTemplateState struct {
 }
 
 type IsInstanceTemplateState struct {
-	// The availability policy to use for this virtual server instance
+	Availability IsInstanceTemplateAvailabilityPtrInput
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy IsInstanceTemplateAvailabilityPolicyPtrInput
+	// The availability policy to use for this virtual server instance template
 	AvailabilityPolicyHostFailure pulumi.StringPtrInput
 	BootVolume                    IsInstanceTemplateBootVolumePtrInput
 	// The catalog offering or offering version to use when provisioning this virtual server instance template. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
@@ -231,10 +246,13 @@ type IsInstanceTemplateState struct {
 	ReservationAffinities IsInstanceTemplateReservationAffinityArrayInput
 	// Instance template resource group
 	ResourceGroup pulumi.StringPtrInput
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore pulumi.IntPtrInput
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth pulumi.IntPtrInput
 	// User data given for the instance
 	UserData          pulumi.StringPtrInput
+	Vcpu              IsInstanceTemplateVcpuPtrInput
 	VolumeAttachments IsInstanceTemplateVolumeAttachmentArrayInput
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode pulumi.StringPtrInput
@@ -249,7 +267,10 @@ func (IsInstanceTemplateState) ElementType() reflect.Type {
 }
 
 type isInstanceTemplateArgs struct {
-	// The availability policy to use for this virtual server instance
+	Availability *IsInstanceTemplateAvailability `pulumi:"availability"`
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy *IsInstanceTemplateAvailabilityPolicy `pulumi:"availabilityPolicy"`
+	// The availability policy to use for this virtual server instance template
 	AvailabilityPolicyHostFailure *string                       `pulumi:"availabilityPolicyHostFailure"`
 	BootVolume                    *IsInstanceTemplateBootVolume `pulumi:"bootVolume"`
 	// The catalog offering or offering version to use when provisioning this virtual server instance template. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
@@ -294,10 +315,13 @@ type isInstanceTemplateArgs struct {
 	ReservationAffinities []IsInstanceTemplateReservationAffinity `pulumi:"reservationAffinities"`
 	// Instance template resource group
 	ResourceGroup *string `pulumi:"resourceGroup"`
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore *int `pulumi:"threadsPerCore"`
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth *int `pulumi:"totalVolumeBandwidth"`
 	// User data given for the instance
 	UserData          *string                              `pulumi:"userData"`
+	Vcpu              *IsInstanceTemplateVcpu              `pulumi:"vcpu"`
 	VolumeAttachments []IsInstanceTemplateVolumeAttachment `pulumi:"volumeAttachments"`
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode *string `pulumi:"volumeBandwidthQosMode"`
@@ -309,7 +333,10 @@ type isInstanceTemplateArgs struct {
 
 // The set of arguments for constructing a IsInstanceTemplate resource.
 type IsInstanceTemplateArgs struct {
-	// The availability policy to use for this virtual server instance
+	Availability IsInstanceTemplateAvailabilityPtrInput
+	// The availability policy to use for this virtual server instance.
+	AvailabilityPolicy IsInstanceTemplateAvailabilityPolicyPtrInput
+	// The availability policy to use for this virtual server instance template
 	AvailabilityPolicyHostFailure pulumi.StringPtrInput
 	BootVolume                    IsInstanceTemplateBootVolumePtrInput
 	// The catalog offering or offering version to use when provisioning this virtual server instance template. If an offering is specified, the latest version of that offering will be used. The specified offering or offering version may be in a different account in the same enterprise, subject to IAM policies.
@@ -354,10 +381,13 @@ type IsInstanceTemplateArgs struct {
 	ReservationAffinities IsInstanceTemplateReservationAffinityArrayInput
 	// Instance template resource group
 	ResourceGroup pulumi.StringPtrInput
+	// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+	ThreadsPerCore pulumi.IntPtrInput
 	// The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 	TotalVolumeBandwidth pulumi.IntPtrInput
 	// User data given for the instance
 	UserData          pulumi.StringPtrInput
+	Vcpu              IsInstanceTemplateVcpuPtrInput
 	VolumeAttachments IsInstanceTemplateVolumeAttachmentArrayInput
 	// The volume bandwidth QoS mode for this virtual server instance.
 	VolumeBandwidthQosMode pulumi.StringPtrInput
@@ -404,9 +434,18 @@ func (o IsInstanceTemplateOutput) ToIsInstanceTemplateOutputWithContext(ctx cont
 	return o
 }
 
-// The availability policy to use for this virtual server instance
-func (o IsInstanceTemplateOutput) AvailabilityPolicyHostFailure() pulumi.StringOutput {
-	return o.ApplyT(func(v *IsInstanceTemplate) pulumi.StringOutput { return v.AvailabilityPolicyHostFailure }).(pulumi.StringOutput)
+func (o IsInstanceTemplateOutput) Availability() IsInstanceTemplateAvailabilityPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplate) IsInstanceTemplateAvailabilityPtrOutput { return v.Availability }).(IsInstanceTemplateAvailabilityPtrOutput)
+}
+
+// The availability policy to use for this virtual server instance.
+func (o IsInstanceTemplateOutput) AvailabilityPolicy() IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplate) IsInstanceTemplateAvailabilityPolicyPtrOutput { return v.AvailabilityPolicy }).(IsInstanceTemplateAvailabilityPolicyPtrOutput)
+}
+
+// The availability policy to use for this virtual server instance template
+func (o IsInstanceTemplateOutput) AvailabilityPolicyHostFailure() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplate) pulumi.StringPtrOutput { return v.AvailabilityPolicyHostFailure }).(pulumi.StringPtrOutput)
 }
 
 func (o IsInstanceTemplateOutput) BootVolume() IsInstanceTemplateBootVolumeOutput {
@@ -538,6 +577,11 @@ func (o IsInstanceTemplateOutput) ResourceGroup() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsInstanceTemplate) pulumi.StringOutput { return v.ResourceGroup }).(pulumi.StringOutput)
 }
 
+// The threads per core to use for this virtual server instance. Must be one of the values in the profile's threads_per_core.values. If unspecified, the default threads per core from the profile will be used.
+func (o IsInstanceTemplateOutput) ThreadsPerCore() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsInstanceTemplate) pulumi.IntOutput { return v.ThreadsPerCore }).(pulumi.IntOutput)
+}
+
 // The amount of bandwidth (in megabits per second) allocated exclusively to instance storage volumes
 func (o IsInstanceTemplateOutput) TotalVolumeBandwidth() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *IsInstanceTemplate) pulumi.IntPtrOutput { return v.TotalVolumeBandwidth }).(pulumi.IntPtrOutput)
@@ -546,6 +590,10 @@ func (o IsInstanceTemplateOutput) TotalVolumeBandwidth() pulumi.IntPtrOutput {
 // User data given for the instance
 func (o IsInstanceTemplateOutput) UserData() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IsInstanceTemplate) pulumi.StringPtrOutput { return v.UserData }).(pulumi.StringPtrOutput)
+}
+
+func (o IsInstanceTemplateOutput) Vcpu() IsInstanceTemplateVcpuPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplate) IsInstanceTemplateVcpuPtrOutput { return v.Vcpu }).(IsInstanceTemplateVcpuPtrOutput)
 }
 
 func (o IsInstanceTemplateOutput) VolumeAttachments() IsInstanceTemplateVolumeAttachmentArrayOutput {

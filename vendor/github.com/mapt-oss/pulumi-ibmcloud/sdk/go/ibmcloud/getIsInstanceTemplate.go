@@ -29,6 +29,8 @@ type LookupIsInstanceTemplateArgs struct {
 
 // A collection of values returned by getIsInstanceTemplate.
 type LookupIsInstanceTemplateResult struct {
+	Availabilities                []GetIsInstanceTemplateAvailability             `pulumi:"availabilities"`
+	AvailabilityPolicies          []GetIsInstanceTemplateAvailabilityPolicy       `pulumi:"availabilityPolicies"`
 	AvailabilityPolicyHostFailure string                                          `pulumi:"availabilityPolicyHostFailure"`
 	BootVolumeAttachments         []GetIsInstanceTemplateBootVolumeAttachment     `pulumi:"bootVolumeAttachments"`
 	CatalogOfferings              []GetIsInstanceTemplateCatalogOffering          `pulumi:"catalogOfferings"`
@@ -55,8 +57,10 @@ type LookupIsInstanceTemplateResult struct {
 	Profile                   string                                          `pulumi:"profile"`
 	ReservationAffinities     []GetIsInstanceTemplateReservationAffinity      `pulumi:"reservationAffinities"`
 	ResourceGroup             string                                          `pulumi:"resourceGroup"`
+	ThreadsPerCore            int                                             `pulumi:"threadsPerCore"`
 	TotalVolumeBandwidth      int                                             `pulumi:"totalVolumeBandwidth"`
 	UserData                  string                                          `pulumi:"userData"`
+	Vcpus                     []GetIsInstanceTemplateVcpus                    `pulumi:"vcpus"`
 	VolumeAttachments         []GetIsInstanceTemplateVolumeAttachment         `pulumi:"volumeAttachments"`
 	VolumeBandwidthQosMode    string                                          `pulumi:"volumeBandwidthQosMode"`
 	Vpc                       string                                          `pulumi:"vpc"`
@@ -64,12 +68,8 @@ type LookupIsInstanceTemplateResult struct {
 }
 
 func LookupIsInstanceTemplateOutput(ctx *pulumi.Context, args LookupIsInstanceTemplateOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceTemplateResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceTemplateResultOutput, error) {
-			args := v.(LookupIsInstanceTemplateArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceTemplate:getIsInstanceTemplate", args, LookupIsInstanceTemplateResultOutput{}, options).(LookupIsInstanceTemplateResultOutput), nil
-		}).(LookupIsInstanceTemplateResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceTemplate:getIsInstanceTemplate", args, LookupIsInstanceTemplateResultOutput{}, options).(LookupIsInstanceTemplateResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceTemplate.
@@ -95,6 +95,16 @@ func (o LookupIsInstanceTemplateResultOutput) ToLookupIsInstanceTemplateResultOu
 
 func (o LookupIsInstanceTemplateResultOutput) ToLookupIsInstanceTemplateResultOutputWithContext(ctx context.Context) LookupIsInstanceTemplateResultOutput {
 	return o
+}
+
+func (o LookupIsInstanceTemplateResultOutput) Availabilities() GetIsInstanceTemplateAvailabilityArrayOutput {
+	return o.ApplyT(func(v LookupIsInstanceTemplateResult) []GetIsInstanceTemplateAvailability { return v.Availabilities }).(GetIsInstanceTemplateAvailabilityArrayOutput)
+}
+
+func (o LookupIsInstanceTemplateResultOutput) AvailabilityPolicies() GetIsInstanceTemplateAvailabilityPolicyArrayOutput {
+	return o.ApplyT(func(v LookupIsInstanceTemplateResult) []GetIsInstanceTemplateAvailabilityPolicy {
+		return v.AvailabilityPolicies
+	}).(GetIsInstanceTemplateAvailabilityPolicyArrayOutput)
 }
 
 func (o LookupIsInstanceTemplateResultOutput) AvailabilityPolicyHostFailure() pulumi.StringOutput {
@@ -218,12 +228,20 @@ func (o LookupIsInstanceTemplateResultOutput) ResourceGroup() pulumi.StringOutpu
 	return o.ApplyT(func(v LookupIsInstanceTemplateResult) string { return v.ResourceGroup }).(pulumi.StringOutput)
 }
 
+func (o LookupIsInstanceTemplateResultOutput) ThreadsPerCore() pulumi.IntOutput {
+	return o.ApplyT(func(v LookupIsInstanceTemplateResult) int { return v.ThreadsPerCore }).(pulumi.IntOutput)
+}
+
 func (o LookupIsInstanceTemplateResultOutput) TotalVolumeBandwidth() pulumi.IntOutput {
 	return o.ApplyT(func(v LookupIsInstanceTemplateResult) int { return v.TotalVolumeBandwidth }).(pulumi.IntOutput)
 }
 
 func (o LookupIsInstanceTemplateResultOutput) UserData() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsInstanceTemplateResult) string { return v.UserData }).(pulumi.StringOutput)
+}
+
+func (o LookupIsInstanceTemplateResultOutput) Vcpus() GetIsInstanceTemplateVcpusArrayOutput {
+	return o.ApplyT(func(v LookupIsInstanceTemplateResult) []GetIsInstanceTemplateVcpus { return v.Vcpus }).(GetIsInstanceTemplateVcpusArrayOutput)
 }
 
 func (o LookupIsInstanceTemplateResultOutput) VolumeAttachments() GetIsInstanceTemplateVolumeAttachmentArrayOutput {

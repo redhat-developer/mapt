@@ -21,6 +21,8 @@ type CosBucketObject struct {
 	BucketCrn pulumi.StringOutput `pulumi:"bucketCrn"`
 	// COS bucket location
 	BucketLocation pulumi.StringOutput `pulumi:"bucketLocation"`
+	// Allows deleting or modifying object versions locked with GOVERNANCE mode. Required to bypass governance-mode retention when updating or deleting objects.
+	BypassGovernanceRetention pulumi.BoolPtrOutput `pulumi:"bypassGovernanceRetention"`
 	// COS object content
 	Content pulumi.StringPtrOutput `pulumi:"content"`
 	// COS object content in base64 encoding
@@ -99,6 +101,8 @@ type cosBucketObjectState struct {
 	BucketCrn *string `pulumi:"bucketCrn"`
 	// COS bucket location
 	BucketLocation *string `pulumi:"bucketLocation"`
+	// Allows deleting or modifying object versions locked with GOVERNANCE mode. Required to bypass governance-mode retention when updating or deleting objects.
+	BypassGovernanceRetention *bool `pulumi:"bypassGovernanceRetention"`
 	// COS object content
 	Content *string `pulumi:"content"`
 	// COS object content in base64 encoding
@@ -139,6 +143,8 @@ type CosBucketObjectState struct {
 	BucketCrn pulumi.StringPtrInput
 	// COS bucket location
 	BucketLocation pulumi.StringPtrInput
+	// Allows deleting or modifying object versions locked with GOVERNANCE mode. Required to bypass governance-mode retention when updating or deleting objects.
+	BypassGovernanceRetention pulumi.BoolPtrInput
 	// COS object content
 	Content pulumi.StringPtrInput
 	// COS object content in base64 encoding
@@ -181,6 +187,8 @@ type cosBucketObjectArgs struct {
 	BucketCrn string `pulumi:"bucketCrn"`
 	// COS bucket location
 	BucketLocation string `pulumi:"bucketLocation"`
+	// Allows deleting or modifying object versions locked with GOVERNANCE mode. Required to bypass governance-mode retention when updating or deleting objects.
+	BypassGovernanceRetention *bool `pulumi:"bypassGovernanceRetention"`
 	// COS object content
 	Content *string `pulumi:"content"`
 	// COS object content in base64 encoding
@@ -211,6 +219,8 @@ type CosBucketObjectArgs struct {
 	BucketCrn pulumi.StringInput
 	// COS bucket location
 	BucketLocation pulumi.StringInput
+	// Allows deleting or modifying object versions locked with GOVERNANCE mode. Required to bypass governance-mode retention when updating or deleting objects.
+	BypassGovernanceRetention pulumi.BoolPtrInput
 	// COS object content
 	Content pulumi.StringPtrInput
 	// COS object content in base64 encoding
@@ -285,6 +295,11 @@ func (o CosBucketObjectOutput) BucketCrn() pulumi.StringOutput {
 // COS bucket location
 func (o CosBucketObjectOutput) BucketLocation() pulumi.StringOutput {
 	return o.ApplyT(func(v *CosBucketObject) pulumi.StringOutput { return v.BucketLocation }).(pulumi.StringOutput)
+}
+
+// Allows deleting or modifying object versions locked with GOVERNANCE mode. Required to bypass governance-mode retention when updating or deleting objects.
+func (o CosBucketObjectOutput) BypassGovernanceRetention() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *CosBucketObject) pulumi.BoolPtrOutput { return v.BypassGovernanceRetention }).(pulumi.BoolPtrOutput)
 }
 
 // COS object content

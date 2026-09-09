@@ -35,12 +35,8 @@ type GetPiDhcpsResult struct {
 }
 
 func GetPiDhcpsOutput(ctx *pulumi.Context, args GetPiDhcpsOutputArgs, opts ...pulumi.InvokeOption) GetPiDhcpsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiDhcpsResultOutput, error) {
-			args := v.(GetPiDhcpsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiDhcps:getPiDhcps", args, GetPiDhcpsResultOutput{}, options).(GetPiDhcpsResultOutput), nil
-		}).(GetPiDhcpsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiDhcps:getPiDhcps", args, GetPiDhcpsResultOutput{}, options).(GetPiDhcpsResultOutput)
 }
 
 // A collection of arguments for invoking getPiDhcps.

@@ -40,12 +40,8 @@ type LookupIamPolicyTemplateVersionResult struct {
 }
 
 func LookupIamPolicyTemplateVersionOutput(ctx *pulumi.Context, args LookupIamPolicyTemplateVersionOutputArgs, opts ...pulumi.InvokeOption) LookupIamPolicyTemplateVersionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamPolicyTemplateVersionResultOutput, error) {
-			args := v.(LookupIamPolicyTemplateVersionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamPolicyTemplateVersion:getIamPolicyTemplateVersion", args, LookupIamPolicyTemplateVersionResultOutput{}, options).(LookupIamPolicyTemplateVersionResultOutput), nil
-		}).(LookupIamPolicyTemplateVersionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamPolicyTemplateVersion:getIamPolicyTemplateVersion", args, LookupIamPolicyTemplateVersionResultOutput{}, options).(LookupIamPolicyTemplateVersionResultOutput)
 }
 
 // A collection of arguments for invoking getIamPolicyTemplateVersion.

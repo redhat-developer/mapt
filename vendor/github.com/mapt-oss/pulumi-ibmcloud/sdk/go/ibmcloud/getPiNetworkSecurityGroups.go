@@ -35,12 +35,8 @@ type GetPiNetworkSecurityGroupsResult struct {
 }
 
 func GetPiNetworkSecurityGroupsOutput(ctx *pulumi.Context, args GetPiNetworkSecurityGroupsOutputArgs, opts ...pulumi.InvokeOption) GetPiNetworkSecurityGroupsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiNetworkSecurityGroupsResultOutput, error) {
-			args := v.(GetPiNetworkSecurityGroupsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiNetworkSecurityGroups:getPiNetworkSecurityGroups", args, GetPiNetworkSecurityGroupsResultOutput{}, options).(GetPiNetworkSecurityGroupsResultOutput), nil
-		}).(GetPiNetworkSecurityGroupsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiNetworkSecurityGroups:getPiNetworkSecurityGroups", args, GetPiNetworkSecurityGroupsResultOutput{}, options).(GetPiNetworkSecurityGroupsResultOutput)
 }
 
 // A collection of arguments for invoking getPiNetworkSecurityGroups.

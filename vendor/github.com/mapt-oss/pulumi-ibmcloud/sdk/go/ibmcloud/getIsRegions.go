@@ -29,10 +29,8 @@ type GetIsRegionsResult struct {
 }
 
 func GetIsRegionsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsRegionsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsRegionsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsRegions:getIsRegions", nil, GetIsRegionsResultOutput{}, options).(GetIsRegionsResultOutput), nil
-	}).(GetIsRegionsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsRegions:getIsRegions", nil, GetIsRegionsResultOutput{}, options).(GetIsRegionsResultOutput)
 }
 
 // A collection of values returned by getIsRegions.

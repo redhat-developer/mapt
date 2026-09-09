@@ -38,12 +38,8 @@ type GetIsInstanceNetworkInterfaceReservedIpsResult struct {
 }
 
 func GetIsInstanceNetworkInterfaceReservedIpsOutput(ctx *pulumi.Context, args GetIsInstanceNetworkInterfaceReservedIpsOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceNetworkInterfaceReservedIpsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceNetworkInterfaceReservedIpsResultOutput, error) {
-			args := v.(GetIsInstanceNetworkInterfaceReservedIpsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceNetworkInterfaceReservedIps:getIsInstanceNetworkInterfaceReservedIps", args, GetIsInstanceNetworkInterfaceReservedIpsResultOutput{}, options).(GetIsInstanceNetworkInterfaceReservedIpsResultOutput), nil
-		}).(GetIsInstanceNetworkInterfaceReservedIpsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceNetworkInterfaceReservedIps:getIsInstanceNetworkInterfaceReservedIps", args, GetIsInstanceNetworkInterfaceReservedIpsResultOutput{}, options).(GetIsInstanceNetworkInterfaceReservedIpsResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceNetworkInterfaceReservedIps.

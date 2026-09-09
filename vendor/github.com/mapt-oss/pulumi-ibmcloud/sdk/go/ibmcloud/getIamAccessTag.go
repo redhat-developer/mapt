@@ -35,12 +35,8 @@ type LookupIamAccessTagResult struct {
 }
 
 func LookupIamAccessTagOutput(ctx *pulumi.Context, args LookupIamAccessTagOutputArgs, opts ...pulumi.InvokeOption) LookupIamAccessTagResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamAccessTagResultOutput, error) {
-			args := v.(LookupIamAccessTagArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccessTag:getIamAccessTag", args, LookupIamAccessTagResultOutput{}, options).(LookupIamAccessTagResultOutput), nil
-		}).(LookupIamAccessTagResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccessTag:getIamAccessTag", args, LookupIamAccessTagResultOutput{}, options).(LookupIamAccessTagResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccessTag.

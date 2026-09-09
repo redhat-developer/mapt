@@ -35,6 +35,7 @@ type LookupIamApiKeyResult struct {
 	Crn         string `pulumi:"crn"`
 	Description string `pulumi:"description"`
 	EntityTag   string `pulumi:"entityTag"`
+	ExpiresAt   string `pulumi:"expiresAt"`
 	IamId       string `pulumi:"iamId"`
 	// The provider-assigned unique ID for this managed resource.
 	Id         string `pulumi:"id"`
@@ -44,12 +45,8 @@ type LookupIamApiKeyResult struct {
 }
 
 func LookupIamApiKeyOutput(ctx *pulumi.Context, args LookupIamApiKeyOutputArgs, opts ...pulumi.InvokeOption) LookupIamApiKeyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamApiKeyResultOutput, error) {
-			args := v.(LookupIamApiKeyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamApiKey:getIamApiKey", args, LookupIamApiKeyResultOutput{}, options).(LookupIamApiKeyResultOutput), nil
-		}).(LookupIamApiKeyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamApiKey:getIamApiKey", args, LookupIamApiKeyResultOutput{}, options).(LookupIamApiKeyResultOutput)
 }
 
 // A collection of arguments for invoking getIamApiKey.
@@ -102,6 +99,10 @@ func (o LookupIamApiKeyResultOutput) Description() pulumi.StringOutput {
 
 func (o LookupIamApiKeyResultOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIamApiKeyResult) string { return v.EntityTag }).(pulumi.StringOutput)
+}
+
+func (o LookupIamApiKeyResultOutput) ExpiresAt() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupIamApiKeyResult) string { return v.ExpiresAt }).(pulumi.StringOutput)
 }
 
 func (o LookupIamApiKeyResultOutput) IamId() pulumi.StringOutput {

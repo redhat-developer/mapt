@@ -52,6 +52,8 @@ type PiImage struct {
 	PiImageStoragePool pulumi.StringPtrOutput `pulumi:"piImageStoragePool"`
 	// Type of storage; If not specified, default is tier3
 	PiImageStorageType pulumi.StringPtrOutput `pulumi:"piImageStorageType"`
+	// Checks the checksum file from the COS bucket against the one computed on the downloaded image.
+	PiSourceChecksum pulumi.BoolPtrOutput `pulumi:"piSourceChecksum"`
 	// The user tags attached to this resource.
 	PiUserTags pulumi.StringArrayOutput `pulumi:"piUserTags"`
 }
@@ -137,6 +139,8 @@ type piImageState struct {
 	PiImageStoragePool *string `pulumi:"piImageStoragePool"`
 	// Type of storage; If not specified, default is tier3
 	PiImageStorageType *string `pulumi:"piImageStorageType"`
+	// Checks the checksum file from the COS bucket against the one computed on the downloaded image.
+	PiSourceChecksum *bool `pulumi:"piSourceChecksum"`
 	// The user tags attached to this resource.
 	PiUserTags []string `pulumi:"piUserTags"`
 }
@@ -179,6 +183,8 @@ type PiImageState struct {
 	PiImageStoragePool pulumi.StringPtrInput
 	// Type of storage; If not specified, default is tier3
 	PiImageStorageType pulumi.StringPtrInput
+	// Checks the checksum file from the COS bucket against the one computed on the downloaded image.
+	PiSourceChecksum pulumi.BoolPtrInput
 	// The user tags attached to this resource.
 	PiUserTags pulumi.StringArrayInput
 }
@@ -221,6 +227,8 @@ type piImageArgs struct {
 	PiImageStoragePool *string `pulumi:"piImageStoragePool"`
 	// Type of storage; If not specified, default is tier3
 	PiImageStorageType *string `pulumi:"piImageStorageType"`
+	// Checks the checksum file from the COS bucket against the one computed on the downloaded image.
+	PiSourceChecksum *bool `pulumi:"piSourceChecksum"`
 	// The user tags attached to this resource.
 	PiUserTags []string `pulumi:"piUserTags"`
 }
@@ -260,6 +268,8 @@ type PiImageArgs struct {
 	PiImageStoragePool pulumi.StringPtrInput
 	// Type of storage; If not specified, default is tier3
 	PiImageStorageType pulumi.StringPtrInput
+	// Checks the checksum file from the COS bucket against the one computed on the downloaded image.
+	PiSourceChecksum pulumi.BoolPtrInput
 	// The user tags attached to this resource.
 	PiUserTags pulumi.StringArrayInput
 }
@@ -393,6 +403,11 @@ func (o PiImageOutput) PiImageStoragePool() pulumi.StringPtrOutput {
 // Type of storage; If not specified, default is tier3
 func (o PiImageOutput) PiImageStorageType() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PiImage) pulumi.StringPtrOutput { return v.PiImageStorageType }).(pulumi.StringPtrOutput)
+}
+
+// Checks the checksum file from the COS bucket against the one computed on the downloaded image.
+func (o PiImageOutput) PiSourceChecksum() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *PiImage) pulumi.BoolPtrOutput { return v.PiSourceChecksum }).(pulumi.BoolPtrOutput)
 }
 
 // The user tags attached to this resource.

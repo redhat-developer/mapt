@@ -23,32 +23,34 @@ func GetPiPvmSnapshots(ctx *pulumi.Context, args *GetPiPvmSnapshotsArgs, opts ..
 
 // A collection of arguments for invoking getPiPvmSnapshots.
 type GetPiPvmSnapshotsArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string `pulumi:"piInstanceName"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
 }
 
 // A collection of values returned by getPiPvmSnapshots.
 type GetPiPvmSnapshotsResult struct {
 	// The provider-assigned unique ID for this managed resource.
-	Id                string                         `pulumi:"id"`
-	PiCloudInstanceId string                         `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string                         `pulumi:"piInstanceName"`
-	PvmSnapshots      []GetPiPvmSnapshotsPvmSnapshot `pulumi:"pvmSnapshots"`
+	Id                string  `pulumi:"id"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string                        `pulumi:"piInstanceName"`
+	PvmSnapshots   []GetPiPvmSnapshotsPvmSnapshot `pulumi:"pvmSnapshots"`
 }
 
 func GetPiPvmSnapshotsOutput(ctx *pulumi.Context, args GetPiPvmSnapshotsOutputArgs, opts ...pulumi.InvokeOption) GetPiPvmSnapshotsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiPvmSnapshotsResultOutput, error) {
-			args := v.(GetPiPvmSnapshotsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiPvmSnapshots:getPiPvmSnapshots", args, GetPiPvmSnapshotsResultOutput{}, options).(GetPiPvmSnapshotsResultOutput), nil
-		}).(GetPiPvmSnapshotsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiPvmSnapshots:getPiPvmSnapshots", args, GetPiPvmSnapshotsResultOutput{}, options).(GetPiPvmSnapshotsResultOutput)
 }
 
 // A collection of arguments for invoking getPiPvmSnapshots.
 type GetPiPvmSnapshotsOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
-	PiInstanceName    pulumi.StringInput `pulumi:"piInstanceName"`
+	PiCloudInstanceId pulumi.StringInput    `pulumi:"piCloudInstanceId"`
+	PiInstanceId      pulumi.StringPtrInput `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName pulumi.StringPtrInput `pulumi:"piInstanceName"`
 }
 
 func (GetPiPvmSnapshotsOutputArgs) ElementType() reflect.Type {
@@ -79,8 +81,13 @@ func (o GetPiPvmSnapshotsResultOutput) PiCloudInstanceId() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPiPvmSnapshotsResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
 }
 
-func (o GetPiPvmSnapshotsResultOutput) PiInstanceName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiPvmSnapshotsResult) string { return v.PiInstanceName }).(pulumi.StringOutput)
+func (o GetPiPvmSnapshotsResultOutput) PiInstanceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiPvmSnapshotsResult) *string { return v.PiInstanceId }).(pulumi.StringPtrOutput)
+}
+
+// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+func (o GetPiPvmSnapshotsResultOutput) PiInstanceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiPvmSnapshotsResult) *string { return v.PiInstanceName }).(pulumi.StringPtrOutput)
 }
 
 func (o GetPiPvmSnapshotsResultOutput) PvmSnapshots() GetPiPvmSnapshotsPvmSnapshotArrayOutput {

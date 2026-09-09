@@ -41,12 +41,8 @@ type GetIamPolicyAssignmentsResult struct {
 }
 
 func GetIamPolicyAssignmentsOutput(ctx *pulumi.Context, args GetIamPolicyAssignmentsOutputArgs, opts ...pulumi.InvokeOption) GetIamPolicyAssignmentsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamPolicyAssignmentsResultOutput, error) {
-			args := v.(GetIamPolicyAssignmentsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamPolicyAssignments:getIamPolicyAssignments", args, GetIamPolicyAssignmentsResultOutput{}, options).(GetIamPolicyAssignmentsResultOutput), nil
-		}).(GetIamPolicyAssignmentsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamPolicyAssignments:getIamPolicyAssignments", args, GetIamPolicyAssignmentsResultOutput{}, options).(GetIamPolicyAssignmentsResultOutput)
 }
 
 // A collection of arguments for invoking getIamPolicyAssignments.

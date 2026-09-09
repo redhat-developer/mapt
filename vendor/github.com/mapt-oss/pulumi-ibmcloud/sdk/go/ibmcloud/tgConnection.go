@@ -19,6 +19,8 @@ type TgConnection struct {
 	BaseConnectionId pulumi.StringOutput `pulumi:"baseConnectionId"`
 	// The type of network the unbound gre tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'.
 	BaseNetworkType pulumi.StringOutput `pulumi:"baseNetworkType"`
+	// The networkType 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels
+	Cidr pulumi.StringPtrOutput `pulumi:"cidr"`
 	// The Transit Gateway Connection identifier
 	ConnectionId pulumi.StringOutput `pulumi:"connectionId"`
 	// The date and time that this connection was created
@@ -37,7 +39,7 @@ type TgConnection struct {
 	NetworkAccountId pulumi.StringOutput `pulumi:"networkAccountId"`
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' or 'directlink' or 'power_virtual_server'. The value of this is the CRN of the VPC or direct link or powerVirtualServer gateway to be connected. This field is required to be unspecified for network type 'classic', 'gre_tunnel', and 'unbound_gre_tunnel'.
 	NetworkId pulumi.StringOutput `pulumi:"networkId"`
-	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre)
+	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre,vpn_gateway)
 	NetworkType pulumi.StringOutput `pulumi:"networkType"`
 	// The crn of the transit gateway
 	RelatedCrn pulumi.StringOutput `pulumi:"relatedCrn"`
@@ -55,7 +57,7 @@ type TgConnection struct {
 	Tunnels TgConnectionTunnelArrayOutput `pulumi:"tunnels"`
 	// The date and time that this connection was last updated
 	UpdatedAt pulumi.StringOutput `pulumi:"updatedAt"`
-	// Location of GRE tunnel. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	// Location of connection. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections and optional for network type 'vpn_gateway' connections
 	Zone pulumi.StringPtrOutput `pulumi:"zone"`
 }
 
@@ -99,6 +101,8 @@ type tgConnectionState struct {
 	BaseConnectionId *string `pulumi:"baseConnectionId"`
 	// The type of network the unbound gre tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'.
 	BaseNetworkType *string `pulumi:"baseNetworkType"`
+	// The networkType 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels
+	Cidr *string `pulumi:"cidr"`
 	// The Transit Gateway Connection identifier
 	ConnectionId *string `pulumi:"connectionId"`
 	// The date and time that this connection was created
@@ -117,7 +121,7 @@ type tgConnectionState struct {
 	NetworkAccountId *string `pulumi:"networkAccountId"`
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' or 'directlink' or 'power_virtual_server'. The value of this is the CRN of the VPC or direct link or powerVirtualServer gateway to be connected. This field is required to be unspecified for network type 'classic', 'gre_tunnel', and 'unbound_gre_tunnel'.
 	NetworkId *string `pulumi:"networkId"`
-	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre)
+	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre,vpn_gateway)
 	NetworkType *string `pulumi:"networkType"`
 	// The crn of the transit gateway
 	RelatedCrn *string `pulumi:"relatedCrn"`
@@ -135,7 +139,7 @@ type tgConnectionState struct {
 	Tunnels []TgConnectionTunnel `pulumi:"tunnels"`
 	// The date and time that this connection was last updated
 	UpdatedAt *string `pulumi:"updatedAt"`
-	// Location of GRE tunnel. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	// Location of connection. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections and optional for network type 'vpn_gateway' connections
 	Zone *string `pulumi:"zone"`
 }
 
@@ -144,6 +148,8 @@ type TgConnectionState struct {
 	BaseConnectionId pulumi.StringPtrInput
 	// The type of network the unbound gre tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'.
 	BaseNetworkType pulumi.StringPtrInput
+	// The networkType 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels
+	Cidr pulumi.StringPtrInput
 	// The Transit Gateway Connection identifier
 	ConnectionId pulumi.StringPtrInput
 	// The date and time that this connection was created
@@ -162,7 +168,7 @@ type TgConnectionState struct {
 	NetworkAccountId pulumi.StringPtrInput
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' or 'directlink' or 'power_virtual_server'. The value of this is the CRN of the VPC or direct link or powerVirtualServer gateway to be connected. This field is required to be unspecified for network type 'classic', 'gre_tunnel', and 'unbound_gre_tunnel'.
 	NetworkId pulumi.StringPtrInput
-	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre)
+	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre,vpn_gateway)
 	NetworkType pulumi.StringPtrInput
 	// The crn of the transit gateway
 	RelatedCrn pulumi.StringPtrInput
@@ -180,7 +186,7 @@ type TgConnectionState struct {
 	Tunnels TgConnectionTunnelArrayInput
 	// The date and time that this connection was last updated
 	UpdatedAt pulumi.StringPtrInput
-	// Location of GRE tunnel. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	// Location of connection. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections and optional for network type 'vpn_gateway' connections
 	Zone pulumi.StringPtrInput
 }
 
@@ -193,6 +199,8 @@ type tgConnectionArgs struct {
 	BaseConnectionId *string `pulumi:"baseConnectionId"`
 	// The type of network the unbound gre tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'.
 	BaseNetworkType *string `pulumi:"baseNetworkType"`
+	// The networkType 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels
+	Cidr *string `pulumi:"cidr"`
 	// Whether to permit or deny the prefix filter
 	DefaultPrefixFilter *string `pulumi:"defaultPrefixFilter"`
 	// The Transit Gateway identifier
@@ -207,7 +215,7 @@ type tgConnectionArgs struct {
 	NetworkAccountId *string `pulumi:"networkAccountId"`
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' or 'directlink' or 'power_virtual_server'. The value of this is the CRN of the VPC or direct link or powerVirtualServer gateway to be connected. This field is required to be unspecified for network type 'classic', 'gre_tunnel', and 'unbound_gre_tunnel'.
 	NetworkId *string `pulumi:"networkId"`
-	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre)
+	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre,vpn_gateway)
 	NetworkType string `pulumi:"networkType"`
 	// The remote network BGP ASN. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	RemoteBgpAsn *int `pulumi:"remoteBgpAsn"`
@@ -217,7 +225,7 @@ type tgConnectionArgs struct {
 	RemoteTunnelIp *string `pulumi:"remoteTunnelIp"`
 	// List of GRE tunnels for a transit gateway redundant GRE tunnel connection. This field is required for 'redundant_gre' connections
 	Tunnels []TgConnectionTunnel `pulumi:"tunnels"`
-	// Location of GRE tunnel. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	// Location of connection. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections and optional for network type 'vpn_gateway' connections
 	Zone *string `pulumi:"zone"`
 }
 
@@ -227,6 +235,8 @@ type TgConnectionArgs struct {
 	BaseConnectionId pulumi.StringPtrInput
 	// The type of network the unbound gre tunnel is targeting. This field is required for network type 'unbound_gre_tunnel'.
 	BaseNetworkType pulumi.StringPtrInput
+	// The networkType 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels
+	Cidr pulumi.StringPtrInput
 	// Whether to permit or deny the prefix filter
 	DefaultPrefixFilter pulumi.StringPtrInput
 	// The Transit Gateway identifier
@@ -241,7 +251,7 @@ type TgConnectionArgs struct {
 	NetworkAccountId pulumi.StringPtrInput
 	// The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' or 'directlink' or 'power_virtual_server'. The value of this is the CRN of the VPC or direct link or powerVirtualServer gateway to be connected. This field is required to be unspecified for network type 'classic', 'gre_tunnel', and 'unbound_gre_tunnel'.
 	NetworkId pulumi.StringPtrInput
-	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre)
+	// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre,vpn_gateway)
 	NetworkType pulumi.StringInput
 	// The remote network BGP ASN. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
 	RemoteBgpAsn pulumi.IntPtrInput
@@ -251,7 +261,7 @@ type TgConnectionArgs struct {
 	RemoteTunnelIp pulumi.StringPtrInput
 	// List of GRE tunnels for a transit gateway redundant GRE tunnel connection. This field is required for 'redundant_gre' connections
 	Tunnels TgConnectionTunnelArrayInput
-	// Location of GRE tunnel. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+	// Location of connection. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections and optional for network type 'vpn_gateway' connections
 	Zone pulumi.StringPtrInput
 }
 
@@ -302,6 +312,11 @@ func (o TgConnectionOutput) BaseNetworkType() pulumi.StringOutput {
 	return o.ApplyT(func(v *TgConnection) pulumi.StringOutput { return v.BaseNetworkType }).(pulumi.StringOutput)
 }
 
+// The networkType 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels
+func (o TgConnectionOutput) Cidr() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *TgConnection) pulumi.StringPtrOutput { return v.Cidr }).(pulumi.StringPtrOutput)
+}
+
 // The Transit Gateway Connection identifier
 func (o TgConnectionOutput) ConnectionId() pulumi.StringOutput {
 	return o.ApplyT(func(v *TgConnection) pulumi.StringOutput { return v.ConnectionId }).(pulumi.StringOutput)
@@ -347,7 +362,7 @@ func (o TgConnectionOutput) NetworkId() pulumi.StringOutput {
 	return o.ApplyT(func(v *TgConnection) pulumi.StringOutput { return v.NetworkId }).(pulumi.StringOutput)
 }
 
-// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre)
+// Defines what type of network is connected via this connection. Allowable values (classic,directlink,vpc,gre_tunnel,unbound_gre_tunnel,power_virtual_server,redundant_gre,vpn_gateway)
 func (o TgConnectionOutput) NetworkType() pulumi.StringOutput {
 	return o.ApplyT(func(v *TgConnection) pulumi.StringOutput { return v.NetworkType }).(pulumi.StringOutput)
 }
@@ -392,7 +407,7 @@ func (o TgConnectionOutput) UpdatedAt() pulumi.StringOutput {
 	return o.ApplyT(func(v *TgConnection) pulumi.StringOutput { return v.UpdatedAt }).(pulumi.StringOutput)
 }
 
-// Location of GRE tunnel. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+// Location of connection. This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections and optional for network type 'vpn_gateway' connections
 func (o TgConnectionOutput) Zone() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *TgConnection) pulumi.StringPtrOutput { return v.Zone }).(pulumi.StringPtrOutput)
 }

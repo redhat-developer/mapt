@@ -29,10 +29,8 @@ type GetIsClusterNetworkProfilesResult struct {
 }
 
 func GetIsClusterNetworkProfilesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsClusterNetworkProfilesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsClusterNetworkProfilesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkProfiles:getIsClusterNetworkProfiles", nil, GetIsClusterNetworkProfilesResultOutput{}, options).(GetIsClusterNetworkProfilesResultOutput), nil
-	}).(GetIsClusterNetworkProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkProfiles:getIsClusterNetworkProfiles", nil, GetIsClusterNetworkProfilesResultOutput{}, options).(GetIsClusterNetworkProfilesResultOutput)
 }
 
 // A collection of values returned by getIsClusterNetworkProfiles.

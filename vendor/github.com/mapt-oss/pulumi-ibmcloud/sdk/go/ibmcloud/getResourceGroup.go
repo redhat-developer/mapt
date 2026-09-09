@@ -23,16 +23,16 @@ func LookupResourceGroup(ctx *pulumi.Context, args *LookupResourceGroupArgs, opt
 
 // A collection of arguments for invoking getResourceGroup.
 type LookupResourceGroupArgs struct {
+	Id        *string `pulumi:"id"`
 	IsDefault *bool   `pulumi:"isDefault"`
 	Name      *string `pulumi:"name"`
 }
 
 // A collection of values returned by getResourceGroup.
 type LookupResourceGroupResult struct {
-	AccountId string `pulumi:"accountId"`
-	CreatedAt string `pulumi:"createdAt"`
-	Crn       string `pulumi:"crn"`
-	// The provider-assigned unique ID for this managed resource.
+	AccountId         string   `pulumi:"accountId"`
+	CreatedAt         string   `pulumi:"createdAt"`
+	Crn               string   `pulumi:"crn"`
 	Id                string   `pulumi:"id"`
 	IsDefault         bool     `pulumi:"isDefault"`
 	Name              string   `pulumi:"name"`
@@ -46,16 +46,13 @@ type LookupResourceGroupResult struct {
 }
 
 func LookupResourceGroupOutput(ctx *pulumi.Context, args LookupResourceGroupOutputArgs, opts ...pulumi.InvokeOption) LookupResourceGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupResourceGroupResultOutput, error) {
-			args := v.(LookupResourceGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getResourceGroup:getResourceGroup", args, LookupResourceGroupResultOutput{}, options).(LookupResourceGroupResultOutput), nil
-		}).(LookupResourceGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getResourceGroup:getResourceGroup", args, LookupResourceGroupResultOutput{}, options).(LookupResourceGroupResultOutput)
 }
 
 // A collection of arguments for invoking getResourceGroup.
 type LookupResourceGroupOutputArgs struct {
+	Id        pulumi.StringPtrInput `pulumi:"id"`
 	IsDefault pulumi.BoolPtrInput   `pulumi:"isDefault"`
 	Name      pulumi.StringPtrInput `pulumi:"name"`
 }
@@ -91,7 +88,6 @@ func (o LookupResourceGroupResultOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupResourceGroupResult) string { return v.Crn }).(pulumi.StringOutput)
 }
 
-// The provider-assigned unique ID for this managed resource.
 func (o LookupResourceGroupResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupResourceGroupResult) string { return v.Id }).(pulumi.StringOutput)
 }

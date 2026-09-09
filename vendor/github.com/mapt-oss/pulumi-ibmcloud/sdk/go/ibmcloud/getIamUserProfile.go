@@ -44,12 +44,8 @@ type GetIamUserProfileResult struct {
 }
 
 func GetIamUserProfileOutput(ctx *pulumi.Context, args GetIamUserProfileOutputArgs, opts ...pulumi.InvokeOption) GetIamUserProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamUserProfileResultOutput, error) {
-			args := v.(GetIamUserProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamUserProfile:getIamUserProfile", args, GetIamUserProfileResultOutput{}, options).(GetIamUserProfileResultOutput), nil
-		}).(GetIamUserProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamUserProfile:getIamUserProfile", args, GetIamUserProfileResultOutput{}, options).(GetIamUserProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIamUserProfile.

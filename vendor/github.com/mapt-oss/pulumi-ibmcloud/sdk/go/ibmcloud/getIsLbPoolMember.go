@@ -45,12 +45,8 @@ type LookupIsLbPoolMemberResult struct {
 }
 
 func LookupIsLbPoolMemberOutput(ctx *pulumi.Context, args LookupIsLbPoolMemberOutputArgs, opts ...pulumi.InvokeOption) LookupIsLbPoolMemberResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsLbPoolMemberResultOutput, error) {
-			args := v.(LookupIsLbPoolMemberArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbPoolMember:getIsLbPoolMember", args, LookupIsLbPoolMemberResultOutput{}, options).(LookupIsLbPoolMemberResultOutput), nil
-		}).(LookupIsLbPoolMemberResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbPoolMember:getIsLbPoolMember", args, LookupIsLbPoolMemberResultOutput{}, options).(LookupIsLbPoolMemberResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbPoolMember.

@@ -51,6 +51,8 @@ type PiInstance struct {
 	PiAffinityPolicy pulumi.StringPtrOutput `pulumi:"piAffinityPolicy"`
 	// Volume (ID or Name) to base storage affinity policy against; required if requesting affinity and piAffinityInstance is not provided
 	PiAffinityVolume pulumi.StringPtrOutput `pulumi:"piAffinityVolume"`
+	// Indicates if the server allows server to be restarted from remote
+	PiAllowRemoteRestart pulumi.BoolOutput `pulumi:"piAllowRemoteRestart"`
 	// List of pvmInstances to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityVolumes is not provided
 	PiAntiAffinityInstances pulumi.StringArrayOutput `pulumi:"piAntiAffinityInstances"`
 	// List of volumes to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityInstances is not provided
@@ -59,6 +61,8 @@ type PiInstance struct {
 	PiBootVolumeReplicationEnabled pulumi.BoolPtrOutput `pulumi:"piBootVolumeReplicationEnabled"`
 	// This is the Power Instance id that is assigned to the account
 	PiCloudInstanceId pulumi.StringOutput `pulumi:"piCloudInstanceId"`
+	// default IAM trusted profile to use for this virtual server instance.
+	PiDefaultTrustedProfile PiInstancePiDefaultTrustedProfileOutput `pulumi:"piDefaultTrustedProfile"`
 	// The deployment of a dedicated host.
 	PiDeploymentTarget PiInstancePiDeploymentTargetPtrOutput `pulumi:"piDeploymentTarget"`
 	// Custom Deployment Type Information
@@ -77,10 +81,12 @@ type PiInstance struct {
 	PiInstanceName pulumi.StringOutput `pulumi:"piInstanceName"`
 	// SSH key name
 	PiKeyPairName pulumi.StringPtrOutput `pulumi:"piKeyPairName"`
-	// The VTL license repository capacity TB value
+	// The VTL license repository capacity TiB value
 	PiLicenseRepositoryCapacity pulumi.IntOutput `pulumi:"piLicenseRepositoryCapacity"`
 	// Memory size
 	PiMemory pulumi.Float64Output `pulumi:"piMemory"`
+	// The metadata service configuration for the instance.
+	PiMetadataService PiInstancePiMetadataServiceOutput `pulumi:"piMetadataService"`
 	// List of one or more networks to attach to the instance
 	PiNetworks PiInstancePiNetworkArrayOutput `pulumi:"piNetworks"`
 	// Pin Policy of the instance
@@ -117,7 +123,7 @@ type PiInstance struct {
 	PiStoragePoolAffinity pulumi.BoolPtrOutput `pulumi:"piStoragePoolAffinity"`
 	// Storage type for server deployment; if piStorageType is not provided the storage type will default to tier3
 	PiStorageType pulumi.StringOutput `pulumi:"piStorageType"`
-	// The type of system on which to create the VM (e980/e1080/e1150/e1180/s922/s1022/s1122).
+	// The type of system on which to create the VM.
 	PiSysType pulumi.StringOutput `pulumi:"piSysType"`
 	// Base64 encoded data to be passed in for invoking a cloud init script
 	PiUserData pulumi.StringPtrOutput `pulumi:"piUserData"`
@@ -131,6 +137,8 @@ type PiInstance struct {
 	PiVirtualSerialNumber PiInstancePiVirtualSerialNumberPtrOutput `pulumi:"piVirtualSerialNumber"`
 	// List of PI volumes
 	PiVolumeIds pulumi.StringArrayOutput `pulumi:"piVolumeIds"`
+	// List of one or more vPMEM volumes to attach to the instance.
+	PiVpmemVolumes PiInstancePiVpmemVolumeArrayOutput `pulumi:"piVpmemVolumes"`
 	// PIN Policy of the Instance
 	PinPolicy pulumi.StringOutput `pulumi:"pinPolicy"`
 	// Progress of the operation
@@ -139,6 +147,8 @@ type PiInstance struct {
 	SharedProcessorPoolId pulumi.StringOutput `pulumi:"sharedProcessorPoolId"`
 	// PI instance status
 	Status pulumi.StringOutput `pulumi:"status"`
+	// List of vPMEM volumes.
+	VpmemVolumes PiInstanceVpmemVolumeArrayOutput `pulumi:"vpmemVolumes"`
 }
 
 // NewPiInstance registers a new resource with the given unique name, arguments, and options.
@@ -219,6 +229,8 @@ type piInstanceState struct {
 	PiAffinityPolicy *string `pulumi:"piAffinityPolicy"`
 	// Volume (ID or Name) to base storage affinity policy against; required if requesting affinity and piAffinityInstance is not provided
 	PiAffinityVolume *string `pulumi:"piAffinityVolume"`
+	// Indicates if the server allows server to be restarted from remote
+	PiAllowRemoteRestart *bool `pulumi:"piAllowRemoteRestart"`
 	// List of pvmInstances to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityVolumes is not provided
 	PiAntiAffinityInstances []string `pulumi:"piAntiAffinityInstances"`
 	// List of volumes to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityInstances is not provided
@@ -227,6 +239,8 @@ type piInstanceState struct {
 	PiBootVolumeReplicationEnabled *bool `pulumi:"piBootVolumeReplicationEnabled"`
 	// This is the Power Instance id that is assigned to the account
 	PiCloudInstanceId *string `pulumi:"piCloudInstanceId"`
+	// default IAM trusted profile to use for this virtual server instance.
+	PiDefaultTrustedProfile *PiInstancePiDefaultTrustedProfile `pulumi:"piDefaultTrustedProfile"`
 	// The deployment of a dedicated host.
 	PiDeploymentTarget *PiInstancePiDeploymentTarget `pulumi:"piDeploymentTarget"`
 	// Custom Deployment Type Information
@@ -245,10 +259,12 @@ type piInstanceState struct {
 	PiInstanceName *string `pulumi:"piInstanceName"`
 	// SSH key name
 	PiKeyPairName *string `pulumi:"piKeyPairName"`
-	// The VTL license repository capacity TB value
+	// The VTL license repository capacity TiB value
 	PiLicenseRepositoryCapacity *int `pulumi:"piLicenseRepositoryCapacity"`
 	// Memory size
 	PiMemory *float64 `pulumi:"piMemory"`
+	// The metadata service configuration for the instance.
+	PiMetadataService *PiInstancePiMetadataService `pulumi:"piMetadataService"`
 	// List of one or more networks to attach to the instance
 	PiNetworks []PiInstancePiNetwork `pulumi:"piNetworks"`
 	// Pin Policy of the instance
@@ -285,7 +301,7 @@ type piInstanceState struct {
 	PiStoragePoolAffinity *bool `pulumi:"piStoragePoolAffinity"`
 	// Storage type for server deployment; if piStorageType is not provided the storage type will default to tier3
 	PiStorageType *string `pulumi:"piStorageType"`
-	// The type of system on which to create the VM (e980/e1080/e1150/e1180/s922/s1022/s1122).
+	// The type of system on which to create the VM.
 	PiSysType *string `pulumi:"piSysType"`
 	// Base64 encoded data to be passed in for invoking a cloud init script
 	PiUserData *string `pulumi:"piUserData"`
@@ -299,6 +315,8 @@ type piInstanceState struct {
 	PiVirtualSerialNumber *PiInstancePiVirtualSerialNumber `pulumi:"piVirtualSerialNumber"`
 	// List of PI volumes
 	PiVolumeIds []string `pulumi:"piVolumeIds"`
+	// List of one or more vPMEM volumes to attach to the instance.
+	PiVpmemVolumes []PiInstancePiVpmemVolume `pulumi:"piVpmemVolumes"`
 	// PIN Policy of the Instance
 	PinPolicy *string `pulumi:"pinPolicy"`
 	// Progress of the operation
@@ -307,6 +325,8 @@ type piInstanceState struct {
 	SharedProcessorPoolId *string `pulumi:"sharedProcessorPoolId"`
 	// PI instance status
 	Status *string `pulumi:"status"`
+	// List of vPMEM volumes.
+	VpmemVolumes []PiInstanceVpmemVolume `pulumi:"vpmemVolumes"`
 }
 
 type PiInstanceState struct {
@@ -346,6 +366,8 @@ type PiInstanceState struct {
 	PiAffinityPolicy pulumi.StringPtrInput
 	// Volume (ID or Name) to base storage affinity policy against; required if requesting affinity and piAffinityInstance is not provided
 	PiAffinityVolume pulumi.StringPtrInput
+	// Indicates if the server allows server to be restarted from remote
+	PiAllowRemoteRestart pulumi.BoolPtrInput
 	// List of pvmInstances to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityVolumes is not provided
 	PiAntiAffinityInstances pulumi.StringArrayInput
 	// List of volumes to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityInstances is not provided
@@ -354,6 +376,8 @@ type PiInstanceState struct {
 	PiBootVolumeReplicationEnabled pulumi.BoolPtrInput
 	// This is the Power Instance id that is assigned to the account
 	PiCloudInstanceId pulumi.StringPtrInput
+	// default IAM trusted profile to use for this virtual server instance.
+	PiDefaultTrustedProfile PiInstancePiDefaultTrustedProfilePtrInput
 	// The deployment of a dedicated host.
 	PiDeploymentTarget PiInstancePiDeploymentTargetPtrInput
 	// Custom Deployment Type Information
@@ -372,10 +396,12 @@ type PiInstanceState struct {
 	PiInstanceName pulumi.StringPtrInput
 	// SSH key name
 	PiKeyPairName pulumi.StringPtrInput
-	// The VTL license repository capacity TB value
+	// The VTL license repository capacity TiB value
 	PiLicenseRepositoryCapacity pulumi.IntPtrInput
 	// Memory size
 	PiMemory pulumi.Float64PtrInput
+	// The metadata service configuration for the instance.
+	PiMetadataService PiInstancePiMetadataServicePtrInput
 	// List of one or more networks to attach to the instance
 	PiNetworks PiInstancePiNetworkArrayInput
 	// Pin Policy of the instance
@@ -412,7 +438,7 @@ type PiInstanceState struct {
 	PiStoragePoolAffinity pulumi.BoolPtrInput
 	// Storage type for server deployment; if piStorageType is not provided the storage type will default to tier3
 	PiStorageType pulumi.StringPtrInput
-	// The type of system on which to create the VM (e980/e1080/e1150/e1180/s922/s1022/s1122).
+	// The type of system on which to create the VM.
 	PiSysType pulumi.StringPtrInput
 	// Base64 encoded data to be passed in for invoking a cloud init script
 	PiUserData pulumi.StringPtrInput
@@ -426,6 +452,8 @@ type PiInstanceState struct {
 	PiVirtualSerialNumber PiInstancePiVirtualSerialNumberPtrInput
 	// List of PI volumes
 	PiVolumeIds pulumi.StringArrayInput
+	// List of one or more vPMEM volumes to attach to the instance.
+	PiVpmemVolumes PiInstancePiVpmemVolumeArrayInput
 	// PIN Policy of the Instance
 	PinPolicy pulumi.StringPtrInput
 	// Progress of the operation
@@ -434,6 +462,8 @@ type PiInstanceState struct {
 	SharedProcessorPoolId pulumi.StringPtrInput
 	// PI instance status
 	Status pulumi.StringPtrInput
+	// List of vPMEM volumes.
+	VpmemVolumes PiInstanceVpmemVolumeArrayInput
 }
 
 func (PiInstanceState) ElementType() reflect.Type {
@@ -447,6 +477,8 @@ type piInstanceArgs struct {
 	PiAffinityPolicy *string `pulumi:"piAffinityPolicy"`
 	// Volume (ID or Name) to base storage affinity policy against; required if requesting affinity and piAffinityInstance is not provided
 	PiAffinityVolume *string `pulumi:"piAffinityVolume"`
+	// Indicates if the server allows server to be restarted from remote
+	PiAllowRemoteRestart *bool `pulumi:"piAllowRemoteRestart"`
 	// List of pvmInstances to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityVolumes is not provided
 	PiAntiAffinityInstances []string `pulumi:"piAntiAffinityInstances"`
 	// List of volumes to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityInstances is not provided
@@ -455,6 +487,8 @@ type piInstanceArgs struct {
 	PiBootVolumeReplicationEnabled *bool `pulumi:"piBootVolumeReplicationEnabled"`
 	// This is the Power Instance id that is assigned to the account
 	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
+	// default IAM trusted profile to use for this virtual server instance.
+	PiDefaultTrustedProfile *PiInstancePiDefaultTrustedProfile `pulumi:"piDefaultTrustedProfile"`
 	// The deployment of a dedicated host.
 	PiDeploymentTarget *PiInstancePiDeploymentTarget `pulumi:"piDeploymentTarget"`
 	// Custom Deployment Type Information
@@ -473,10 +507,12 @@ type piInstanceArgs struct {
 	PiInstanceName string `pulumi:"piInstanceName"`
 	// SSH key name
 	PiKeyPairName *string `pulumi:"piKeyPairName"`
-	// The VTL license repository capacity TB value
+	// The VTL license repository capacity TiB value
 	PiLicenseRepositoryCapacity *int `pulumi:"piLicenseRepositoryCapacity"`
 	// Memory size
 	PiMemory *float64 `pulumi:"piMemory"`
+	// The metadata service configuration for the instance.
+	PiMetadataService *PiInstancePiMetadataService `pulumi:"piMetadataService"`
 	// List of one or more networks to attach to the instance
 	PiNetworks []PiInstancePiNetwork `pulumi:"piNetworks"`
 	// Pin Policy of the instance
@@ -513,7 +549,7 @@ type piInstanceArgs struct {
 	PiStoragePoolAffinity *bool `pulumi:"piStoragePoolAffinity"`
 	// Storage type for server deployment; if piStorageType is not provided the storage type will default to tier3
 	PiStorageType *string `pulumi:"piStorageType"`
-	// The type of system on which to create the VM (e980/e1080/e1150/e1180/s922/s1022/s1122).
+	// The type of system on which to create the VM.
 	PiSysType *string `pulumi:"piSysType"`
 	// Base64 encoded data to be passed in for invoking a cloud init script
 	PiUserData *string `pulumi:"piUserData"`
@@ -527,6 +563,8 @@ type piInstanceArgs struct {
 	PiVirtualSerialNumber *PiInstancePiVirtualSerialNumber `pulumi:"piVirtualSerialNumber"`
 	// List of PI volumes
 	PiVolumeIds []string `pulumi:"piVolumeIds"`
+	// List of one or more vPMEM volumes to attach to the instance.
+	PiVpmemVolumes []PiInstancePiVpmemVolume `pulumi:"piVpmemVolumes"`
 }
 
 // The set of arguments for constructing a PiInstance resource.
@@ -537,6 +575,8 @@ type PiInstanceArgs struct {
 	PiAffinityPolicy pulumi.StringPtrInput
 	// Volume (ID or Name) to base storage affinity policy against; required if requesting affinity and piAffinityInstance is not provided
 	PiAffinityVolume pulumi.StringPtrInput
+	// Indicates if the server allows server to be restarted from remote
+	PiAllowRemoteRestart pulumi.BoolPtrInput
 	// List of pvmInstances to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityVolumes is not provided
 	PiAntiAffinityInstances pulumi.StringArrayInput
 	// List of volumes to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityInstances is not provided
@@ -545,6 +585,8 @@ type PiInstanceArgs struct {
 	PiBootVolumeReplicationEnabled pulumi.BoolPtrInput
 	// This is the Power Instance id that is assigned to the account
 	PiCloudInstanceId pulumi.StringInput
+	// default IAM trusted profile to use for this virtual server instance.
+	PiDefaultTrustedProfile PiInstancePiDefaultTrustedProfilePtrInput
 	// The deployment of a dedicated host.
 	PiDeploymentTarget PiInstancePiDeploymentTargetPtrInput
 	// Custom Deployment Type Information
@@ -563,10 +605,12 @@ type PiInstanceArgs struct {
 	PiInstanceName pulumi.StringInput
 	// SSH key name
 	PiKeyPairName pulumi.StringPtrInput
-	// The VTL license repository capacity TB value
+	// The VTL license repository capacity TiB value
 	PiLicenseRepositoryCapacity pulumi.IntPtrInput
 	// Memory size
 	PiMemory pulumi.Float64PtrInput
+	// The metadata service configuration for the instance.
+	PiMetadataService PiInstancePiMetadataServicePtrInput
 	// List of one or more networks to attach to the instance
 	PiNetworks PiInstancePiNetworkArrayInput
 	// Pin Policy of the instance
@@ -603,7 +647,7 @@ type PiInstanceArgs struct {
 	PiStoragePoolAffinity pulumi.BoolPtrInput
 	// Storage type for server deployment; if piStorageType is not provided the storage type will default to tier3
 	PiStorageType pulumi.StringPtrInput
-	// The type of system on which to create the VM (e980/e1080/e1150/e1180/s922/s1022/s1122).
+	// The type of system on which to create the VM.
 	PiSysType pulumi.StringPtrInput
 	// Base64 encoded data to be passed in for invoking a cloud init script
 	PiUserData pulumi.StringPtrInput
@@ -617,6 +661,8 @@ type PiInstanceArgs struct {
 	PiVirtualSerialNumber PiInstancePiVirtualSerialNumberPtrInput
 	// List of PI volumes
 	PiVolumeIds pulumi.StringArrayInput
+	// List of one or more vPMEM volumes to attach to the instance.
+	PiVpmemVolumes PiInstancePiVpmemVolumeArrayInput
 }
 
 func (PiInstanceArgs) ElementType() reflect.Type {
@@ -746,6 +792,11 @@ func (o PiInstanceOutput) PiAffinityVolume() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringPtrOutput { return v.PiAffinityVolume }).(pulumi.StringPtrOutput)
 }
 
+// Indicates if the server allows server to be restarted from remote
+func (o PiInstanceOutput) PiAllowRemoteRestart() pulumi.BoolOutput {
+	return o.ApplyT(func(v *PiInstance) pulumi.BoolOutput { return v.PiAllowRemoteRestart }).(pulumi.BoolOutput)
+}
+
 // List of pvmInstances to base storage anti-affinity policy against; required if requesting anti-affinity and piAntiAffinityVolumes is not provided
 func (o PiInstanceOutput) PiAntiAffinityInstances() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringArrayOutput { return v.PiAntiAffinityInstances }).(pulumi.StringArrayOutput)
@@ -764,6 +815,11 @@ func (o PiInstanceOutput) PiBootVolumeReplicationEnabled() pulumi.BoolPtrOutput 
 // This is the Power Instance id that is assigned to the account
 func (o PiInstanceOutput) PiCloudInstanceId() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringOutput { return v.PiCloudInstanceId }).(pulumi.StringOutput)
+}
+
+// default IAM trusted profile to use for this virtual server instance.
+func (o PiInstanceOutput) PiDefaultTrustedProfile() PiInstancePiDefaultTrustedProfileOutput {
+	return o.ApplyT(func(v *PiInstance) PiInstancePiDefaultTrustedProfileOutput { return v.PiDefaultTrustedProfile }).(PiInstancePiDefaultTrustedProfileOutput)
 }
 
 // The deployment of a dedicated host.
@@ -811,7 +867,7 @@ func (o PiInstanceOutput) PiKeyPairName() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringPtrOutput { return v.PiKeyPairName }).(pulumi.StringPtrOutput)
 }
 
-// The VTL license repository capacity TB value
+// The VTL license repository capacity TiB value
 func (o PiInstanceOutput) PiLicenseRepositoryCapacity() pulumi.IntOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.IntOutput { return v.PiLicenseRepositoryCapacity }).(pulumi.IntOutput)
 }
@@ -819,6 +875,11 @@ func (o PiInstanceOutput) PiLicenseRepositoryCapacity() pulumi.IntOutput {
 // Memory size
 func (o PiInstanceOutput) PiMemory() pulumi.Float64Output {
 	return o.ApplyT(func(v *PiInstance) pulumi.Float64Output { return v.PiMemory }).(pulumi.Float64Output)
+}
+
+// The metadata service configuration for the instance.
+func (o PiInstanceOutput) PiMetadataService() PiInstancePiMetadataServiceOutput {
+	return o.ApplyT(func(v *PiInstance) PiInstancePiMetadataServiceOutput { return v.PiMetadataService }).(PiInstancePiMetadataServiceOutput)
 }
 
 // List of one or more networks to attach to the instance
@@ -911,7 +972,7 @@ func (o PiInstanceOutput) PiStorageType() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringOutput { return v.PiStorageType }).(pulumi.StringOutput)
 }
 
-// The type of system on which to create the VM (e980/e1080/e1150/e1180/s922/s1022/s1122).
+// The type of system on which to create the VM.
 func (o PiInstanceOutput) PiSysType() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringOutput { return v.PiSysType }).(pulumi.StringOutput)
 }
@@ -946,6 +1007,11 @@ func (o PiInstanceOutput) PiVolumeIds() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringArrayOutput { return v.PiVolumeIds }).(pulumi.StringArrayOutput)
 }
 
+// List of one or more vPMEM volumes to attach to the instance.
+func (o PiInstanceOutput) PiVpmemVolumes() PiInstancePiVpmemVolumeArrayOutput {
+	return o.ApplyT(func(v *PiInstance) PiInstancePiVpmemVolumeArrayOutput { return v.PiVpmemVolumes }).(PiInstancePiVpmemVolumeArrayOutput)
+}
+
 // PIN Policy of the Instance
 func (o PiInstanceOutput) PinPolicy() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringOutput { return v.PinPolicy }).(pulumi.StringOutput)
@@ -964,6 +1030,11 @@ func (o PiInstanceOutput) SharedProcessorPoolId() pulumi.StringOutput {
 // PI instance status
 func (o PiInstanceOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiInstance) pulumi.StringOutput { return v.Status }).(pulumi.StringOutput)
+}
+
+// List of vPMEM volumes.
+func (o PiInstanceOutput) VpmemVolumes() PiInstanceVpmemVolumeArrayOutput {
+	return o.ApplyT(func(v *PiInstance) PiInstanceVpmemVolumeArrayOutput { return v.VpmemVolumes }).(PiInstanceVpmemVolumeArrayOutput)
 }
 
 func init() {

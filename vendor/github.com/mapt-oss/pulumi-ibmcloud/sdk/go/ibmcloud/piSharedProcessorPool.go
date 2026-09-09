@@ -33,7 +33,7 @@ type PiSharedProcessorPool struct {
 	PiCloudInstanceId pulumi.StringOutput `pulumi:"piCloudInstanceId"`
 	// The host id of a host in a host group (only available for dedicated hosts).
 	PiHostId pulumi.StringPtrOutput `pulumi:"piHostId"`
-	// Host group of the shared processor pool. Valid values are 'e980', 'e1080', 'e1180', 's922', 's1022' and 's1122'.
+	// Host group of the shared processor pool.
 	PiSharedProcessorPoolHostGroup pulumi.StringOutput `pulumi:"piSharedProcessorPoolHostGroup"`
 	// The name of the shared processor pool.
 	PiSharedProcessorPoolName pulumi.StringOutput `pulumi:"piSharedProcessorPoolName"`
@@ -119,7 +119,7 @@ type piSharedProcessorPoolState struct {
 	PiCloudInstanceId *string `pulumi:"piCloudInstanceId"`
 	// The host id of a host in a host group (only available for dedicated hosts).
 	PiHostId *string `pulumi:"piHostId"`
-	// Host group of the shared processor pool. Valid values are 'e980', 'e1080', 'e1180', 's922', 's1022' and 's1122'.
+	// Host group of the shared processor pool.
 	PiSharedProcessorPoolHostGroup *string `pulumi:"piSharedProcessorPoolHostGroup"`
 	// The name of the shared processor pool.
 	PiSharedProcessorPoolName *string `pulumi:"piSharedProcessorPoolName"`
@@ -164,7 +164,7 @@ type PiSharedProcessorPoolState struct {
 	PiCloudInstanceId pulumi.StringPtrInput
 	// The host id of a host in a host group (only available for dedicated hosts).
 	PiHostId pulumi.StringPtrInput
-	// Host group of the shared processor pool. Valid values are 'e980', 'e1080', 'e1180', 's922', 's1022' and 's1122'.
+	// Host group of the shared processor pool.
 	PiSharedProcessorPoolHostGroup pulumi.StringPtrInput
 	// The name of the shared processor pool.
 	PiSharedProcessorPoolName pulumi.StringPtrInput
@@ -199,7 +199,7 @@ type piSharedProcessorPoolArgs struct {
 	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
 	// The host id of a host in a host group (only available for dedicated hosts).
 	PiHostId *string `pulumi:"piHostId"`
-	// Host group of the shared processor pool. Valid values are 'e980', 'e1080', 'e1180', 's922', 's1022' and 's1122'.
+	// Host group of the shared processor pool.
 	PiSharedProcessorPoolHostGroup string `pulumi:"piSharedProcessorPoolHostGroup"`
 	// The name of the shared processor pool.
 	PiSharedProcessorPoolName string `pulumi:"piSharedProcessorPoolName"`
@@ -225,7 +225,7 @@ type PiSharedProcessorPoolArgs struct {
 	PiCloudInstanceId pulumi.StringInput
 	// The host id of a host in a host group (only available for dedicated hosts).
 	PiHostId pulumi.StringPtrInput
-	// Host group of the shared processor pool. Valid values are 'e980', 'e1080', 'e1180', 's922', 's1022' and 's1122'.
+	// Host group of the shared processor pool.
 	PiSharedProcessorPoolHostGroup pulumi.StringInput
 	// The name of the shared processor pool.
 	PiSharedProcessorPoolName pulumi.StringInput
@@ -327,7 +327,7 @@ func (o PiSharedProcessorPoolOutput) PiHostId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *PiSharedProcessorPool) pulumi.StringPtrOutput { return v.PiHostId }).(pulumi.StringPtrOutput)
 }
 
-// Host group of the shared processor pool. Valid values are 'e980', 'e1080', 'e1180', 's922', 's1022' and 's1122'.
+// Host group of the shared processor pool.
 func (o PiSharedProcessorPoolOutput) PiSharedProcessorPoolHostGroup() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiSharedProcessorPool) pulumi.StringOutput { return v.PiSharedProcessorPoolHostGroup }).(pulumi.StringOutput)
 }

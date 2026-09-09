@@ -35,12 +35,8 @@ type GetPiNetworkPeerInterfacesResult struct {
 }
 
 func GetPiNetworkPeerInterfacesOutput(ctx *pulumi.Context, args GetPiNetworkPeerInterfacesOutputArgs, opts ...pulumi.InvokeOption) GetPiNetworkPeerInterfacesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiNetworkPeerInterfacesResultOutput, error) {
-			args := v.(GetPiNetworkPeerInterfacesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiNetworkPeerInterfaces:getPiNetworkPeerInterfaces", args, GetPiNetworkPeerInterfacesResultOutput{}, options).(GetPiNetworkPeerInterfacesResultOutput), nil
-		}).(GetPiNetworkPeerInterfacesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiNetworkPeerInterfaces:getPiNetworkPeerInterfaces", args, GetPiNetworkPeerInterfacesResultOutput{}, options).(GetPiNetworkPeerInterfacesResultOutput)
 }
 
 // A collection of arguments for invoking getPiNetworkPeerInterfaces.

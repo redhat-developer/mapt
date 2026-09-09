@@ -41,12 +41,8 @@ type LookupCosBackupVaultResult struct {
 }
 
 func LookupCosBackupVaultOutput(ctx *pulumi.Context, args LookupCosBackupVaultOutputArgs, opts ...pulumi.InvokeOption) LookupCosBackupVaultResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupCosBackupVaultResultOutput, error) {
-			args := v.(LookupCosBackupVaultArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getCosBackupVault:getCosBackupVault", args, LookupCosBackupVaultResultOutput{}, options).(LookupCosBackupVaultResultOutput), nil
-		}).(LookupCosBackupVaultResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getCosBackupVault:getCosBackupVault", args, LookupCosBackupVaultResultOutput{}, options).(LookupCosBackupVaultResultOutput)
 }
 
 // A collection of arguments for invoking getCosBackupVault.

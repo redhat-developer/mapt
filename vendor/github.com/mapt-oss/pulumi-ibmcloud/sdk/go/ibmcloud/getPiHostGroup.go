@@ -41,12 +41,8 @@ type LookupPiHostGroupResult struct {
 }
 
 func LookupPiHostGroupOutput(ctx *pulumi.Context, args LookupPiHostGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPiHostGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiHostGroupResultOutput, error) {
-			args := v.(LookupPiHostGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiHostGroup:getPiHostGroup", args, LookupPiHostGroupResultOutput{}, options).(LookupPiHostGroupResultOutput), nil
-		}).(LookupPiHostGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiHostGroup:getPiHostGroup", args, LookupPiHostGroupResultOutput{}, options).(LookupPiHostGroupResultOutput)
 }
 
 // A collection of arguments for invoking getPiHostGroup.

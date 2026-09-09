@@ -60,10 +60,9 @@ func NewSecurityGroupWithSSH(ctx *pulumi.Context, args *SecurityGroupArgs) (*ibm
 			Group:     sg.ID(),
 			Direction: pulumi.String("inbound"),
 			Remote:    pulumi.String("0.0.0.0/0"),
-			Tcp: &ibmcloud.IsSecurityGroupRuleTcpArgs{
-				PortMin: pulumi.Int(22),
-				PortMax: pulumi.Int(22),
-			},
+			Protocol: pulumi.String("tcp"),
+			PortMin:  pulumi.Int(22),
+			PortMax:  pulumi.Int(22),
 		})
 	if err != nil {
 		return nil, err

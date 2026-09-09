@@ -38,12 +38,8 @@ type GetPiPublicNetworkResult struct {
 }
 
 func GetPiPublicNetworkOutput(ctx *pulumi.Context, args GetPiPublicNetworkOutputArgs, opts ...pulumi.InvokeOption) GetPiPublicNetworkResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiPublicNetworkResultOutput, error) {
-			args := v.(GetPiPublicNetworkArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiPublicNetwork:getPiPublicNetwork", args, GetPiPublicNetworkResultOutput{}, options).(GetPiPublicNetworkResultOutput), nil
-		}).(GetPiPublicNetworkResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiPublicNetwork:getPiPublicNetwork", args, GetPiPublicNetworkResultOutput{}, options).(GetPiPublicNetworkResultOutput)
 }
 
 // A collection of arguments for invoking getPiPublicNetwork.

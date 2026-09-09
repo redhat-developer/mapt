@@ -17,16 +17,12 @@ type IamAccountSettingsTemplateAssignment struct {
 
 	// Enterprise account Id.
 	AccountId pulumi.StringOutput `pulumi:"accountId"`
-	// Context with key properties for problem determination.
-	Contexts IamAccountSettingsTemplateAssignmentContextArrayOutput `pulumi:"contexts"`
 	// Assignment created at.
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
 	// IAMid of the identity that created the assignment.
 	CreatedById pulumi.StringOutput `pulumi:"createdById"`
 	// Entity tag for this assignment record.
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
-	// Assignment history.
-	Histories IamAccountSettingsTemplateAssignmentHistoryArrayOutput `pulumi:"histories"`
 	// Href.
 	Href pulumi.StringOutput `pulumi:"href"`
 	// Assignment modified at.
@@ -91,16 +87,12 @@ func GetIamAccountSettingsTemplateAssignment(ctx *pulumi.Context,
 type iamAccountSettingsTemplateAssignmentState struct {
 	// Enterprise account Id.
 	AccountId *string `pulumi:"accountId"`
-	// Context with key properties for problem determination.
-	Contexts []IamAccountSettingsTemplateAssignmentContext `pulumi:"contexts"`
 	// Assignment created at.
 	CreatedAt *string `pulumi:"createdAt"`
 	// IAMid of the identity that created the assignment.
 	CreatedById *string `pulumi:"createdById"`
 	// Entity tag for this assignment record.
 	EntityTag *string `pulumi:"entityTag"`
-	// Assignment history.
-	Histories []IamAccountSettingsTemplateAssignmentHistory `pulumi:"histories"`
 	// Href.
 	Href *string `pulumi:"href"`
 	// Assignment modified at.
@@ -124,16 +116,12 @@ type iamAccountSettingsTemplateAssignmentState struct {
 type IamAccountSettingsTemplateAssignmentState struct {
 	// Enterprise account Id.
 	AccountId pulumi.StringPtrInput
-	// Context with key properties for problem determination.
-	Contexts IamAccountSettingsTemplateAssignmentContextArrayInput
 	// Assignment created at.
 	CreatedAt pulumi.StringPtrInput
 	// IAMid of the identity that created the assignment.
 	CreatedById pulumi.StringPtrInput
 	// Entity tag for this assignment record.
 	EntityTag pulumi.StringPtrInput
-	// Assignment history.
-	Histories IamAccountSettingsTemplateAssignmentHistoryArrayInput
 	// Href.
 	Href pulumi.StringPtrInput
 	// Assignment modified at.
@@ -223,13 +211,6 @@ func (o IamAccountSettingsTemplateAssignmentOutput) AccountId() pulumi.StringOut
 	return o.ApplyT(func(v *IamAccountSettingsTemplateAssignment) pulumi.StringOutput { return v.AccountId }).(pulumi.StringOutput)
 }
 
-// Context with key properties for problem determination.
-func (o IamAccountSettingsTemplateAssignmentOutput) Contexts() IamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return o.ApplyT(func(v *IamAccountSettingsTemplateAssignment) IamAccountSettingsTemplateAssignmentContextArrayOutput {
-		return v.Contexts
-	}).(IamAccountSettingsTemplateAssignmentContextArrayOutput)
-}
-
 // Assignment created at.
 func (o IamAccountSettingsTemplateAssignmentOutput) CreatedAt() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamAccountSettingsTemplateAssignment) pulumi.StringOutput { return v.CreatedAt }).(pulumi.StringOutput)
@@ -243,13 +224,6 @@ func (o IamAccountSettingsTemplateAssignmentOutput) CreatedById() pulumi.StringO
 // Entity tag for this assignment record.
 func (o IamAccountSettingsTemplateAssignmentOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamAccountSettingsTemplateAssignment) pulumi.StringOutput { return v.EntityTag }).(pulumi.StringOutput)
-}
-
-// Assignment history.
-func (o IamAccountSettingsTemplateAssignmentOutput) Histories() IamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return o.ApplyT(func(v *IamAccountSettingsTemplateAssignment) IamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-		return v.Histories
-	}).(IamAccountSettingsTemplateAssignmentHistoryArrayOutput)
 }
 
 // Href.

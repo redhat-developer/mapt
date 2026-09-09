@@ -57,12 +57,8 @@ type LookupComputeVmInstanceResult struct {
 }
 
 func LookupComputeVmInstanceOutput(ctx *pulumi.Context, args LookupComputeVmInstanceOutputArgs, opts ...pulumi.InvokeOption) LookupComputeVmInstanceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupComputeVmInstanceResultOutput, error) {
-			args := v.(LookupComputeVmInstanceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getComputeVmInstance:getComputeVmInstance", args, LookupComputeVmInstanceResultOutput{}, options).(LookupComputeVmInstanceResultOutput), nil
-		}).(LookupComputeVmInstanceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getComputeVmInstance:getComputeVmInstance", args, LookupComputeVmInstanceResultOutput{}, options).(LookupComputeVmInstanceResultOutput)
 }
 
 // A collection of arguments for invoking getComputeVmInstance.

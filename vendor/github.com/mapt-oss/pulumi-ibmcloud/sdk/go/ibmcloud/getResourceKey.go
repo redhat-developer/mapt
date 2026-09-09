@@ -46,12 +46,8 @@ type LookupResourceKeyResult struct {
 }
 
 func LookupResourceKeyOutput(ctx *pulumi.Context, args LookupResourceKeyOutputArgs, opts ...pulumi.InvokeOption) LookupResourceKeyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupResourceKeyResultOutput, error) {
-			args := v.(LookupResourceKeyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getResourceKey:getResourceKey", args, LookupResourceKeyResultOutput{}, options).(LookupResourceKeyResultOutput), nil
-		}).(LookupResourceKeyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getResourceKey:getResourceKey", args, LookupResourceKeyResultOutput{}, options).(LookupResourceKeyResultOutput)
 }
 
 // A collection of arguments for invoking getResourceKey.

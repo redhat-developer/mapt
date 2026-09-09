@@ -37,12 +37,8 @@ type GetIsVpcAddressPrefixesResult struct {
 }
 
 func GetIsVpcAddressPrefixesOutput(ctx *pulumi.Context, args GetIsVpcAddressPrefixesOutputArgs, opts ...pulumi.InvokeOption) GetIsVpcAddressPrefixesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVpcAddressPrefixesResultOutput, error) {
-			args := v.(GetIsVpcAddressPrefixesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpcAddressPrefixes:getIsVpcAddressPrefixes", args, GetIsVpcAddressPrefixesResultOutput{}, options).(GetIsVpcAddressPrefixesResultOutput), nil
-		}).(GetIsVpcAddressPrefixesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpcAddressPrefixes:getIsVpcAddressPrefixes", args, GetIsVpcAddressPrefixesResultOutput{}, options).(GetIsVpcAddressPrefixesResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpcAddressPrefixes.

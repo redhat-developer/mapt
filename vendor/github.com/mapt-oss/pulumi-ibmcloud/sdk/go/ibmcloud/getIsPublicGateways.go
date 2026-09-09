@@ -35,12 +35,8 @@ type GetIsPublicGatewaysResult struct {
 }
 
 func GetIsPublicGatewaysOutput(ctx *pulumi.Context, args GetIsPublicGatewaysOutputArgs, opts ...pulumi.InvokeOption) GetIsPublicGatewaysResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsPublicGatewaysResultOutput, error) {
-			args := v.(GetIsPublicGatewaysArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsPublicGateways:getIsPublicGateways", args, GetIsPublicGatewaysResultOutput{}, options).(GetIsPublicGatewaysResultOutput), nil
-		}).(GetIsPublicGatewaysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPublicGateways:getIsPublicGateways", args, GetIsPublicGatewaysResultOutput{}, options).(GetIsPublicGatewaysResultOutput)
 }
 
 // A collection of arguments for invoking getIsPublicGateways.

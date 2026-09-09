@@ -2,6 +2,7 @@ package ibmcloud
 
 import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/ibmcloud/hosts"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/ibmcloud/services"
 	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -31,6 +32,7 @@ func GetCmd() *cobra.Command {
 	c.AddCommand(
 		hosts.IBMGaudiCmd(),
 		hosts.IBMPowerCmd(),
-		hosts.IBMZCmd())
+		hosts.IBMZCmd(),
+		services.GetKindCmd())
 	return c
 }

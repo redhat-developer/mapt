@@ -35,12 +35,8 @@ type GetIsImageBareMetalServerProfilesResult struct {
 }
 
 func GetIsImageBareMetalServerProfilesOutput(ctx *pulumi.Context, args GetIsImageBareMetalServerProfilesOutputArgs, opts ...pulumi.InvokeOption) GetIsImageBareMetalServerProfilesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsImageBareMetalServerProfilesResultOutput, error) {
-			args := v.(GetIsImageBareMetalServerProfilesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsImageBareMetalServerProfiles:getIsImageBareMetalServerProfiles", args, GetIsImageBareMetalServerProfilesResultOutput{}, options).(GetIsImageBareMetalServerProfilesResultOutput), nil
-		}).(GetIsImageBareMetalServerProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsImageBareMetalServerProfiles:getIsImageBareMetalServerProfiles", args, GetIsImageBareMetalServerProfilesResultOutput{}, options).(GetIsImageBareMetalServerProfilesResultOutput)
 }
 
 // A collection of arguments for invoking getIsImageBareMetalServerProfiles.

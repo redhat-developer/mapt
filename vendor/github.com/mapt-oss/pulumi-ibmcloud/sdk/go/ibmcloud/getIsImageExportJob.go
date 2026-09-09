@@ -49,12 +49,8 @@ type LookupIsImageExportJobResult struct {
 }
 
 func LookupIsImageExportJobOutput(ctx *pulumi.Context, args LookupIsImageExportJobOutputArgs, opts ...pulumi.InvokeOption) LookupIsImageExportJobResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsImageExportJobResultOutput, error) {
-			args := v.(LookupIsImageExportJobArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsImageExportJob:getIsImageExportJob", args, LookupIsImageExportJobResultOutput{}, options).(LookupIsImageExportJobResultOutput), nil
-		}).(LookupIsImageExportJobResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsImageExportJob:getIsImageExportJob", args, LookupIsImageExportJobResultOutput{}, options).(LookupIsImageExportJobResultOutput)
 }
 
 // A collection of arguments for invoking getIsImageExportJob.

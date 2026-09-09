@@ -15,12 +15,14 @@ import (
 type IamTrustedProfileLink struct {
 	pulumi.CustomResourceState
 
-	// The compute resource type. Valid values are VSI, BMS, IKS_SA, ROKS_SA, CE.
+	// The compute resource type. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType pulumi.StringOutput `pulumi:"crType"`
 	// If set contains a date time string of the creation date in ISO format.
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
 	// version of the link.
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
+	// Flag to indicate that the link provides cross account access. If not provided then the account scope of the CRN must match the Profile's account.
+	IsCrossAccount pulumi.BoolPtrOutput `pulumi:"isCrossAccount"`
 	// Link details.
 	Link IamTrustedProfileLinkLinkOutput `pulumi:"link"`
 	// the unique identifier of the link.
@@ -72,12 +74,14 @@ func GetIamTrustedProfileLink(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering IamTrustedProfileLink resources.
 type iamTrustedProfileLinkState struct {
-	// The compute resource type. Valid values are VSI, BMS, IKS_SA, ROKS_SA, CE.
+	// The compute resource type. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType *string `pulumi:"crType"`
 	// If set contains a date time string of the creation date in ISO format.
 	CreatedAt *string `pulumi:"createdAt"`
 	// version of the link.
 	EntityTag *string `pulumi:"entityTag"`
+	// Flag to indicate that the link provides cross account access. If not provided then the account scope of the CRN must match the Profile's account.
+	IsCrossAccount *bool `pulumi:"isCrossAccount"`
 	// Link details.
 	Link *IamTrustedProfileLinkLink `pulumi:"link"`
 	// the unique identifier of the link.
@@ -91,12 +95,14 @@ type iamTrustedProfileLinkState struct {
 }
 
 type IamTrustedProfileLinkState struct {
-	// The compute resource type. Valid values are VSI, BMS, IKS_SA, ROKS_SA, CE.
+	// The compute resource type. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType pulumi.StringPtrInput
 	// If set contains a date time string of the creation date in ISO format.
 	CreatedAt pulumi.StringPtrInput
 	// version of the link.
 	EntityTag pulumi.StringPtrInput
+	// Flag to indicate that the link provides cross account access. If not provided then the account scope of the CRN must match the Profile's account.
+	IsCrossAccount pulumi.BoolPtrInput
 	// Link details.
 	Link IamTrustedProfileLinkLinkPtrInput
 	// the unique identifier of the link.
@@ -114,8 +120,10 @@ func (IamTrustedProfileLinkState) ElementType() reflect.Type {
 }
 
 type iamTrustedProfileLinkArgs struct {
-	// The compute resource type. Valid values are VSI, BMS, IKS_SA, ROKS_SA, CE.
+	// The compute resource type. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType string `pulumi:"crType"`
+	// Flag to indicate that the link provides cross account access. If not provided then the account scope of the CRN must match the Profile's account.
+	IsCrossAccount *bool `pulumi:"isCrossAccount"`
 	// Link details.
 	Link IamTrustedProfileLinkLink `pulumi:"link"`
 	// Optional name of the Link.
@@ -126,8 +134,10 @@ type iamTrustedProfileLinkArgs struct {
 
 // The set of arguments for constructing a IamTrustedProfileLink resource.
 type IamTrustedProfileLinkArgs struct {
-	// The compute resource type. Valid values are VSI, BMS, IKS_SA, ROKS_SA, CE.
+	// The compute resource type. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 	CrType pulumi.StringInput
+	// Flag to indicate that the link provides cross account access. If not provided then the account scope of the CRN must match the Profile's account.
+	IsCrossAccount pulumi.BoolPtrInput
 	// Link details.
 	Link IamTrustedProfileLinkLinkInput
 	// Optional name of the Link.
@@ -173,7 +183,7 @@ func (o IamTrustedProfileLinkOutput) ToIamTrustedProfileLinkOutputWithContext(ct
 	return o
 }
 
-// The compute resource type. Valid values are VSI, BMS, IKS_SA, ROKS_SA, CE.
+// The compute resource type. Valid values are VSI, PVS, BMS, IKS_SA, ROKS_SA, CE.
 func (o IamTrustedProfileLinkOutput) CrType() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamTrustedProfileLink) pulumi.StringOutput { return v.CrType }).(pulumi.StringOutput)
 }
@@ -186,6 +196,11 @@ func (o IamTrustedProfileLinkOutput) CreatedAt() pulumi.StringOutput {
 // version of the link.
 func (o IamTrustedProfileLinkOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamTrustedProfileLink) pulumi.StringOutput { return v.EntityTag }).(pulumi.StringOutput)
+}
+
+// Flag to indicate that the link provides cross account access. If not provided then the account scope of the CRN must match the Profile's account.
+func (o IamTrustedProfileLinkOutput) IsCrossAccount() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamTrustedProfileLink) pulumi.BoolPtrOutput { return v.IsCrossAccount }).(pulumi.BoolPtrOutput)
 }
 
 // Link details.

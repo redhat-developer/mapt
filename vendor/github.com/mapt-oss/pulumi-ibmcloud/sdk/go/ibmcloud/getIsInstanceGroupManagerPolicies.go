@@ -37,12 +37,8 @@ type GetIsInstanceGroupManagerPoliciesResult struct {
 }
 
 func GetIsInstanceGroupManagerPoliciesOutput(ctx *pulumi.Context, args GetIsInstanceGroupManagerPoliciesOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceGroupManagerPoliciesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceGroupManagerPoliciesResultOutput, error) {
-			args := v.(GetIsInstanceGroupManagerPoliciesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroupManagerPolicies:getIsInstanceGroupManagerPolicies", args, GetIsInstanceGroupManagerPoliciesResultOutput{}, options).(GetIsInstanceGroupManagerPoliciesResultOutput), nil
-		}).(GetIsInstanceGroupManagerPoliciesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceGroupManagerPolicies:getIsInstanceGroupManagerPolicies", args, GetIsInstanceGroupManagerPoliciesResultOutput{}, options).(GetIsInstanceGroupManagerPoliciesResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceGroupManagerPolicies.

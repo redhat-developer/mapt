@@ -35,12 +35,8 @@ type GetPiKeysResult struct {
 }
 
 func GetPiKeysOutput(ctx *pulumi.Context, args GetPiKeysOutputArgs, opts ...pulumi.InvokeOption) GetPiKeysResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiKeysResultOutput, error) {
-			args := v.(GetPiKeysArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiKeys:getPiKeys", args, GetPiKeysResultOutput{}, options).(GetPiKeysResultOutput), nil
-		}).(GetPiKeysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiKeys:getPiKeys", args, GetPiKeysResultOutput{}, options).(GetPiKeysResultOutput)
 }
 
 // A collection of arguments for invoking getPiKeys.

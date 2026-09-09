@@ -35,12 +35,8 @@ type GetPiSharedProcessorPoolsResult struct {
 }
 
 func GetPiSharedProcessorPoolsOutput(ctx *pulumi.Context, args GetPiSharedProcessorPoolsOutputArgs, opts ...pulumi.InvokeOption) GetPiSharedProcessorPoolsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiSharedProcessorPoolsResultOutput, error) {
-			args := v.(GetPiSharedProcessorPoolsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSharedProcessorPools:getPiSharedProcessorPools", args, GetPiSharedProcessorPoolsResultOutput{}, options).(GetPiSharedProcessorPoolsResultOutput), nil
-		}).(GetPiSharedProcessorPoolsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSharedProcessorPools:getPiSharedProcessorPools", args, GetPiSharedProcessorPoolsResultOutput{}, options).(GetPiSharedProcessorPoolsResultOutput)
 }
 
 // A collection of arguments for invoking getPiSharedProcessorPools.

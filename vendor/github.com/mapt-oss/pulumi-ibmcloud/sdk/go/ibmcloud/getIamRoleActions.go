@@ -39,12 +39,8 @@ type GetIamRoleActionsResult struct {
 }
 
 func GetIamRoleActionsOutput(ctx *pulumi.Context, args GetIamRoleActionsOutputArgs, opts ...pulumi.InvokeOption) GetIamRoleActionsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamRoleActionsResultOutput, error) {
-			args := v.(GetIamRoleActionsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamRoleActions:getIamRoleActions", args, GetIamRoleActionsResultOutput{}, options).(GetIamRoleActionsResultOutput), nil
-		}).(GetIamRoleActionsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamRoleActions:getIamRoleActions", args, GetIamRoleActionsResultOutput{}, options).(GetIamRoleActionsResultOutput)
 }
 
 // A collection of arguments for invoking getIamRoleActions.

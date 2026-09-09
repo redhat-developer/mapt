@@ -45,12 +45,8 @@ type GetIsVolumesResult struct {
 }
 
 func GetIsVolumesOutput(ctx *pulumi.Context, args GetIsVolumesOutputArgs, opts ...pulumi.InvokeOption) GetIsVolumesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVolumesResultOutput, error) {
-			args := v.(GetIsVolumesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVolumes:getIsVolumes", args, GetIsVolumesResultOutput{}, options).(GetIsVolumesResultOutput), nil
-		}).(GetIsVolumesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVolumes:getIsVolumes", args, GetIsVolumesResultOutput{}, options).(GetIsVolumesResultOutput)
 }
 
 // A collection of arguments for invoking getIsVolumes.

@@ -35,12 +35,8 @@ type GetPiHostGroupsResult struct {
 }
 
 func GetPiHostGroupsOutput(ctx *pulumi.Context, args GetPiHostGroupsOutputArgs, opts ...pulumi.InvokeOption) GetPiHostGroupsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiHostGroupsResultOutput, error) {
-			args := v.(GetPiHostGroupsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiHostGroups:getPiHostGroups", args, GetPiHostGroupsResultOutput{}, options).(GetPiHostGroupsResultOutput), nil
-		}).(GetPiHostGroupsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiHostGroups:getPiHostGroups", args, GetPiHostGroupsResultOutput{}, options).(GetPiHostGroupsResultOutput)
 }
 
 // A collection of arguments for invoking getPiHostGroups.

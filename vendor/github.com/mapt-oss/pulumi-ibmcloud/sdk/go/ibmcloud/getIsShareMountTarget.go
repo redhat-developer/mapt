@@ -53,12 +53,8 @@ type LookupIsShareMountTargetResult struct {
 }
 
 func LookupIsShareMountTargetOutput(ctx *pulumi.Context, args LookupIsShareMountTargetOutputArgs, opts ...pulumi.InvokeOption) LookupIsShareMountTargetResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsShareMountTargetResultOutput, error) {
-			args := v.(LookupIsShareMountTargetArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShareMountTarget:getIsShareMountTarget", args, LookupIsShareMountTargetResultOutput{}, options).(LookupIsShareMountTargetResultOutput), nil
-		}).(LookupIsShareMountTargetResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShareMountTarget:getIsShareMountTarget", args, LookupIsShareMountTargetResultOutput{}, options).(LookupIsShareMountTargetResultOutput)
 }
 
 // A collection of arguments for invoking getIsShareMountTarget.

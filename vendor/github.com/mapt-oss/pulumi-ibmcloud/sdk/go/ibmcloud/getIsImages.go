@@ -47,12 +47,8 @@ type GetIsImagesResult struct {
 }
 
 func GetIsImagesOutput(ctx *pulumi.Context, args GetIsImagesOutputArgs, opts ...pulumi.InvokeOption) GetIsImagesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsImagesResultOutput, error) {
-			args := v.(GetIsImagesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsImages:getIsImages", args, GetIsImagesResultOutput{}, options).(GetIsImagesResultOutput), nil
-		}).(GetIsImagesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsImages:getIsImages", args, GetIsImagesResultOutput{}, options).(GetIsImagesResultOutput)
 }
 
 // A collection of arguments for invoking getIsImages.

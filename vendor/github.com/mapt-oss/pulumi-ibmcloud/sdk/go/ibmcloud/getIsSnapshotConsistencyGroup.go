@@ -32,6 +32,7 @@ type LookupIsSnapshotConsistencyGroupArgs struct {
 // A collection of values returned by getIsSnapshotConsistencyGroup.
 type LookupIsSnapshotConsistencyGroupResult struct {
 	AccessTags              []string                                        `pulumi:"accessTags"`
+	BackupPolicyJobs        []GetIsSnapshotConsistencyGroupBackupPolicyJob  `pulumi:"backupPolicyJobs"`
 	BackupPolicyPlans       []GetIsSnapshotConsistencyGroupBackupPolicyPlan `pulumi:"backupPolicyPlans"`
 	CreatedAt               string                                          `pulumi:"createdAt"`
 	Crn                     string                                          `pulumi:"crn"`
@@ -50,12 +51,8 @@ type LookupIsSnapshotConsistencyGroupResult struct {
 }
 
 func LookupIsSnapshotConsistencyGroupOutput(ctx *pulumi.Context, args LookupIsSnapshotConsistencyGroupOutputArgs, opts ...pulumi.InvokeOption) LookupIsSnapshotConsistencyGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsSnapshotConsistencyGroupResultOutput, error) {
-			args := v.(LookupIsSnapshotConsistencyGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotConsistencyGroup:getIsSnapshotConsistencyGroup", args, LookupIsSnapshotConsistencyGroupResultOutput{}, options).(LookupIsSnapshotConsistencyGroupResultOutput), nil
-		}).(LookupIsSnapshotConsistencyGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotConsistencyGroup:getIsSnapshotConsistencyGroup", args, LookupIsSnapshotConsistencyGroupResultOutput{}, options).(LookupIsSnapshotConsistencyGroupResultOutput)
 }
 
 // A collection of arguments for invoking getIsSnapshotConsistencyGroup.
@@ -87,6 +84,12 @@ func (o LookupIsSnapshotConsistencyGroupResultOutput) ToLookupIsSnapshotConsiste
 
 func (o LookupIsSnapshotConsistencyGroupResultOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupIsSnapshotConsistencyGroupResult) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupIsSnapshotConsistencyGroupResultOutput) BackupPolicyJobs() GetIsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+	return o.ApplyT(func(v LookupIsSnapshotConsistencyGroupResult) []GetIsSnapshotConsistencyGroupBackupPolicyJob {
+		return v.BackupPolicyJobs
+	}).(GetIsSnapshotConsistencyGroupBackupPolicyJobArrayOutput)
 }
 
 func (o LookupIsSnapshotConsistencyGroupResultOutput) BackupPolicyPlans() GetIsSnapshotConsistencyGroupBackupPolicyPlanArrayOutput {

@@ -36,12 +36,8 @@ type GetIsInstanceNetworkInterfacesResult struct {
 }
 
 func GetIsInstanceNetworkInterfacesOutput(ctx *pulumi.Context, args GetIsInstanceNetworkInterfacesOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceNetworkInterfacesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceNetworkInterfacesResultOutput, error) {
-			args := v.(GetIsInstanceNetworkInterfacesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceNetworkInterfaces:getIsInstanceNetworkInterfaces", args, GetIsInstanceNetworkInterfacesResultOutput{}, options).(GetIsInstanceNetworkInterfacesResultOutput), nil
-		}).(GetIsInstanceNetworkInterfacesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceNetworkInterfaces:getIsInstanceNetworkInterfaces", args, GetIsInstanceNetworkInterfacesResultOutput{}, options).(GetIsInstanceNetworkInterfacesResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceNetworkInterfaces.

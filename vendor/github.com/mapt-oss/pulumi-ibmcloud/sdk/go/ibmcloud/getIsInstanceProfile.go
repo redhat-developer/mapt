@@ -31,6 +31,7 @@ type GetIsInstanceProfileResult struct {
 	Architecture                   string                                              `pulumi:"architecture"`
 	ArchitectureType               string                                              `pulumi:"architectureType"`
 	ArchitectureValues             []string                                            `pulumi:"architectureValues"`
+	AvailabilityClasses            []GetIsInstanceProfileAvailabilityClass             `pulumi:"availabilityClasses"`
 	Bandwidths                     []GetIsInstanceProfileBandwidth                     `pulumi:"bandwidths"`
 	ClusterNetworkAttachmentCounts []GetIsInstanceProfileClusterNetworkAttachmentCount `pulumi:"clusterNetworkAttachmentCounts"`
 	ConfidentialComputeModes       []GetIsInstanceProfileConfidentialComputeMode       `pulumi:"confidentialComputeModes"`
@@ -46,6 +47,7 @@ type GetIsInstanceProfileResult struct {
 	Memories                        []GetIsInstanceProfileMemory                         `pulumi:"memories"`
 	Name                            string                                               `pulumi:"name"`
 	NetworkAttachmentCounts         []GetIsInstanceProfileNetworkAttachmentCount         `pulumi:"networkAttachmentCounts"`
+	NetworkBandwidthModes           []GetIsInstanceProfileNetworkBandwidthMode           `pulumi:"networkBandwidthModes"`
 	NetworkInterfaceCounts          []GetIsInstanceProfileNetworkInterfaceCount          `pulumi:"networkInterfaceCounts"`
 	NumaCounts                      []GetIsInstanceProfileNumaCount                      `pulumi:"numaCounts"`
 	PortSpeeds                      []GetIsInstanceProfilePortSpeed                      `pulumi:"portSpeeds"`
@@ -53,20 +55,22 @@ type GetIsInstanceProfileResult struct {
 	SecureBootModes                 []GetIsInstanceProfileSecureBootMode                 `pulumi:"secureBootModes"`
 	Status                          string                                               `pulumi:"status"`
 	SupportedClusterNetworkProfiles []GetIsInstanceProfileSupportedClusterNetworkProfile `pulumi:"supportedClusterNetworkProfiles"`
-	TotalVolumeBandwidths           []GetIsInstanceProfileTotalVolumeBandwidth           `pulumi:"totalVolumeBandwidths"`
-	VcpuArchitectures               []GetIsInstanceProfileVcpuArchitecture               `pulumi:"vcpuArchitectures"`
-	VcpuCounts                      []GetIsInstanceProfileVcpuCount                      `pulumi:"vcpuCounts"`
-	VcpuManufacturers               []GetIsInstanceProfileVcpuManufacturer               `pulumi:"vcpuManufacturers"`
-	VolumeBandwidthQosModes         []GetIsInstanceProfileVolumeBandwidthQosMode         `pulumi:"volumeBandwidthQosModes"`
+	// Deprecated: The supportedVcpuCount attribute is deprecated and will be removed in a future release. Use vcpuCount instead, which exposes the same permitted values via its `values` sub-attribute when `type` is `enum`.
+	SupportedVcpuCounts     []GetIsInstanceProfileSupportedVcpuCount     `pulumi:"supportedVcpuCounts"`
+	ThreadsPerCores         []GetIsInstanceProfileThreadsPerCore         `pulumi:"threadsPerCores"`
+	TotalVolumeBandwidths   []GetIsInstanceProfileTotalVolumeBandwidth   `pulumi:"totalVolumeBandwidths"`
+	VcpuArchitectures       []GetIsInstanceProfileVcpuArchitecture       `pulumi:"vcpuArchitectures"`
+	VcpuBurstLimits         []GetIsInstanceProfileVcpuBurstLimit         `pulumi:"vcpuBurstLimits"`
+	VcpuCounts              []GetIsInstanceProfileVcpuCount              `pulumi:"vcpuCounts"`
+	VcpuManufacturers       []GetIsInstanceProfileVcpuManufacturer       `pulumi:"vcpuManufacturers"`
+	VcpuPercentages         []GetIsInstanceProfileVcpuPercentage         `pulumi:"vcpuPercentages"`
+	VolumeBandwidthQosModes []GetIsInstanceProfileVolumeBandwidthQosMode `pulumi:"volumeBandwidthQosModes"`
+	Zones                   []GetIsInstanceProfileZone                   `pulumi:"zones"`
 }
 
 func GetIsInstanceProfileOutput(ctx *pulumi.Context, args GetIsInstanceProfileOutputArgs, opts ...pulumi.InvokeOption) GetIsInstanceProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstanceProfileResultOutput, error) {
-			args := v.(GetIsInstanceProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceProfile:getIsInstanceProfile", args, GetIsInstanceProfileResultOutput{}, options).(GetIsInstanceProfileResultOutput), nil
-		}).(GetIsInstanceProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceProfile:getIsInstanceProfile", args, GetIsInstanceProfileResultOutput{}, options).(GetIsInstanceProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceProfile.
@@ -103,6 +107,12 @@ func (o GetIsInstanceProfileResultOutput) ArchitectureType() pulumi.StringOutput
 
 func (o GetIsInstanceProfileResultOutput) ArchitectureValues() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []string { return v.ArchitectureValues }).(pulumi.StringArrayOutput)
+}
+
+func (o GetIsInstanceProfileResultOutput) AvailabilityClasses() GetIsInstanceProfileAvailabilityClassArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileAvailabilityClass {
+		return v.AvailabilityClasses
+	}).(GetIsInstanceProfileAvailabilityClassArrayOutput)
 }
 
 func (o GetIsInstanceProfileResultOutput) Bandwidths() GetIsInstanceProfileBandwidthArrayOutput {
@@ -168,6 +178,12 @@ func (o GetIsInstanceProfileResultOutput) NetworkAttachmentCounts() GetIsInstanc
 	}).(GetIsInstanceProfileNetworkAttachmentCountArrayOutput)
 }
 
+func (o GetIsInstanceProfileResultOutput) NetworkBandwidthModes() GetIsInstanceProfileNetworkBandwidthModeArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileNetworkBandwidthMode {
+		return v.NetworkBandwidthModes
+	}).(GetIsInstanceProfileNetworkBandwidthModeArrayOutput)
+}
+
 func (o GetIsInstanceProfileResultOutput) NetworkInterfaceCounts() GetIsInstanceProfileNetworkInterfaceCountArrayOutput {
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileNetworkInterfaceCount {
 		return v.NetworkInterfaceCounts
@@ -200,6 +216,17 @@ func (o GetIsInstanceProfileResultOutput) SupportedClusterNetworkProfiles() GetI
 	}).(GetIsInstanceProfileSupportedClusterNetworkProfileArrayOutput)
 }
 
+// Deprecated: The supportedVcpuCount attribute is deprecated and will be removed in a future release. Use vcpuCount instead, which exposes the same permitted values via its `values` sub-attribute when `type` is `enum`.
+func (o GetIsInstanceProfileResultOutput) SupportedVcpuCounts() GetIsInstanceProfileSupportedVcpuCountArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileSupportedVcpuCount {
+		return v.SupportedVcpuCounts
+	}).(GetIsInstanceProfileSupportedVcpuCountArrayOutput)
+}
+
+func (o GetIsInstanceProfileResultOutput) ThreadsPerCores() GetIsInstanceProfileThreadsPerCoreArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileThreadsPerCore { return v.ThreadsPerCores }).(GetIsInstanceProfileThreadsPerCoreArrayOutput)
+}
+
 func (o GetIsInstanceProfileResultOutput) TotalVolumeBandwidths() GetIsInstanceProfileTotalVolumeBandwidthArrayOutput {
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileTotalVolumeBandwidth {
 		return v.TotalVolumeBandwidths
@@ -210,6 +237,10 @@ func (o GetIsInstanceProfileResultOutput) VcpuArchitectures() GetIsInstanceProfi
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileVcpuArchitecture { return v.VcpuArchitectures }).(GetIsInstanceProfileVcpuArchitectureArrayOutput)
 }
 
+func (o GetIsInstanceProfileResultOutput) VcpuBurstLimits() GetIsInstanceProfileVcpuBurstLimitArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileVcpuBurstLimit { return v.VcpuBurstLimits }).(GetIsInstanceProfileVcpuBurstLimitArrayOutput)
+}
+
 func (o GetIsInstanceProfileResultOutput) VcpuCounts() GetIsInstanceProfileVcpuCountArrayOutput {
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileVcpuCount { return v.VcpuCounts }).(GetIsInstanceProfileVcpuCountArrayOutput)
 }
@@ -218,10 +249,18 @@ func (o GetIsInstanceProfileResultOutput) VcpuManufacturers() GetIsInstanceProfi
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileVcpuManufacturer { return v.VcpuManufacturers }).(GetIsInstanceProfileVcpuManufacturerArrayOutput)
 }
 
+func (o GetIsInstanceProfileResultOutput) VcpuPercentages() GetIsInstanceProfileVcpuPercentageArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileVcpuPercentage { return v.VcpuPercentages }).(GetIsInstanceProfileVcpuPercentageArrayOutput)
+}
+
 func (o GetIsInstanceProfileResultOutput) VolumeBandwidthQosModes() GetIsInstanceProfileVolumeBandwidthQosModeArrayOutput {
 	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileVolumeBandwidthQosMode {
 		return v.VolumeBandwidthQosModes
 	}).(GetIsInstanceProfileVolumeBandwidthQosModeArrayOutput)
+}
+
+func (o GetIsInstanceProfileResultOutput) Zones() GetIsInstanceProfileZoneArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceProfileResult) []GetIsInstanceProfileZone { return v.Zones }).(GetIsInstanceProfileZoneArrayOutput)
 }
 
 func init() {

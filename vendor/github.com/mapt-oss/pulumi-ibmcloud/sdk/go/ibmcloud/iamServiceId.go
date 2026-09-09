@@ -14,17 +14,24 @@ import (
 type IamServiceId struct {
 	pulumi.CustomResourceState
 
-	// crn of the serviceID
+	// ID of the account.
+	AccountId pulumi.StringOutput `pulumi:"accountId"`
+	// If set contains a date time string of the creation date in ISO format.
+	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
+	// Cloud Resource Name of the item. Example Cloud Resource Name: 'crn:v1:bluemix:public:iam-identity:us-south:a/myaccount::serviceid:1234-5678-9012'.
 	Crn pulumi.StringOutput `pulumi:"crn"`
-	// Description of the serviceID
+	// The optional description of the Service Id. The 'description' property is only available if a description was provided during a create of a Service Id.
 	Description pulumi.StringPtrOutput `pulumi:"description"`
-	// The IAM ID of the serviceID
-	IamId  pulumi.StringOutput `pulumi:"iamId"`
-	Locked pulumi.BoolOutput   `pulumi:"locked"`
-	// Name of the serviceID
+	// Cloud wide identifier for identities of this service ID.
+	IamId pulumi.StringOutput `pulumi:"iamId"`
+	// The service ID cannot be changed if set to true.
+	Locked pulumi.BoolOutput `pulumi:"locked"`
+	// If set contains a date time string of the last modification date in ISO format.
+	ModifiedAt pulumi.StringOutput `pulumi:"modifiedAt"`
+	// Name of the Service Id. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the Service Id.
 	Name pulumi.StringOutput      `pulumi:"name"`
 	Tags pulumi.StringArrayOutput `pulumi:"tags"`
-	// version of the serviceID
+	// Version of the ServiceID object.
 	Version pulumi.StringOutput `pulumi:"version"`
 }
 
@@ -58,32 +65,46 @@ func GetIamServiceId(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering IamServiceId resources.
 type iamServiceIdState struct {
-	// crn of the serviceID
+	// ID of the account.
+	AccountId *string `pulumi:"accountId"`
+	// If set contains a date time string of the creation date in ISO format.
+	CreatedAt *string `pulumi:"createdAt"`
+	// Cloud Resource Name of the item. Example Cloud Resource Name: 'crn:v1:bluemix:public:iam-identity:us-south:a/myaccount::serviceid:1234-5678-9012'.
 	Crn *string `pulumi:"crn"`
-	// Description of the serviceID
+	// The optional description of the Service Id. The 'description' property is only available if a description was provided during a create of a Service Id.
 	Description *string `pulumi:"description"`
-	// The IAM ID of the serviceID
-	IamId  *string `pulumi:"iamId"`
-	Locked *bool   `pulumi:"locked"`
-	// Name of the serviceID
+	// Cloud wide identifier for identities of this service ID.
+	IamId *string `pulumi:"iamId"`
+	// The service ID cannot be changed if set to true.
+	Locked *bool `pulumi:"locked"`
+	// If set contains a date time string of the last modification date in ISO format.
+	ModifiedAt *string `pulumi:"modifiedAt"`
+	// Name of the Service Id. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the Service Id.
 	Name *string  `pulumi:"name"`
 	Tags []string `pulumi:"tags"`
-	// version of the serviceID
+	// Version of the ServiceID object.
 	Version *string `pulumi:"version"`
 }
 
 type IamServiceIdState struct {
-	// crn of the serviceID
+	// ID of the account.
+	AccountId pulumi.StringPtrInput
+	// If set contains a date time string of the creation date in ISO format.
+	CreatedAt pulumi.StringPtrInput
+	// Cloud Resource Name of the item. Example Cloud Resource Name: 'crn:v1:bluemix:public:iam-identity:us-south:a/myaccount::serviceid:1234-5678-9012'.
 	Crn pulumi.StringPtrInput
-	// Description of the serviceID
+	// The optional description of the Service Id. The 'description' property is only available if a description was provided during a create of a Service Id.
 	Description pulumi.StringPtrInput
-	// The IAM ID of the serviceID
-	IamId  pulumi.StringPtrInput
+	// Cloud wide identifier for identities of this service ID.
+	IamId pulumi.StringPtrInput
+	// The service ID cannot be changed if set to true.
 	Locked pulumi.BoolPtrInput
-	// Name of the serviceID
+	// If set contains a date time string of the last modification date in ISO format.
+	ModifiedAt pulumi.StringPtrInput
+	// Name of the Service Id. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the Service Id.
 	Name pulumi.StringPtrInput
 	Tags pulumi.StringArrayInput
-	// version of the serviceID
+	// Version of the ServiceID object.
 	Version pulumi.StringPtrInput
 }
 
@@ -92,18 +113,18 @@ func (IamServiceIdState) ElementType() reflect.Type {
 }
 
 type iamServiceIdArgs struct {
-	// Description of the serviceID
+	// The optional description of the Service Id. The 'description' property is only available if a description was provided during a create of a Service Id.
 	Description *string `pulumi:"description"`
-	// Name of the serviceID
+	// Name of the Service Id. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the Service Id.
 	Name *string  `pulumi:"name"`
 	Tags []string `pulumi:"tags"`
 }
 
 // The set of arguments for constructing a IamServiceId resource.
 type IamServiceIdArgs struct {
-	// Description of the serviceID
+	// The optional description of the Service Id. The 'description' property is only available if a description was provided during a create of a Service Id.
 	Description pulumi.StringPtrInput
-	// Name of the serviceID
+	// Name of the Service Id. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the Service Id.
 	Name pulumi.StringPtrInput
 	Tags pulumi.StringArrayInput
 }
@@ -145,26 +166,42 @@ func (o IamServiceIdOutput) ToIamServiceIdOutputWithContext(ctx context.Context)
 	return o
 }
 
-// crn of the serviceID
+// ID of the account.
+func (o IamServiceIdOutput) AccountId() pulumi.StringOutput {
+	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.AccountId }).(pulumi.StringOutput)
+}
+
+// If set contains a date time string of the creation date in ISO format.
+func (o IamServiceIdOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// Cloud Resource Name of the item. Example Cloud Resource Name: 'crn:v1:bluemix:public:iam-identity:us-south:a/myaccount::serviceid:1234-5678-9012'.
 func (o IamServiceIdOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.Crn }).(pulumi.StringOutput)
 }
 
-// Description of the serviceID
+// The optional description of the Service Id. The 'description' property is only available if a description was provided during a create of a Service Id.
 func (o IamServiceIdOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
 }
 
-// The IAM ID of the serviceID
+// Cloud wide identifier for identities of this service ID.
 func (o IamServiceIdOutput) IamId() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.IamId }).(pulumi.StringOutput)
 }
 
+// The service ID cannot be changed if set to true.
 func (o IamServiceIdOutput) Locked() pulumi.BoolOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.BoolOutput { return v.Locked }).(pulumi.BoolOutput)
 }
 
-// Name of the serviceID
+// If set contains a date time string of the last modification date in ISO format.
+func (o IamServiceIdOutput) ModifiedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.ModifiedAt }).(pulumi.StringOutput)
+}
+
+// Name of the Service Id. The name is not checked for uniqueness. Therefore multiple names with the same value can exist. Access is done via the UUID of the Service Id.
 func (o IamServiceIdOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
@@ -173,7 +210,7 @@ func (o IamServiceIdOutput) Tags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.StringArrayOutput { return v.Tags }).(pulumi.StringArrayOutput)
 }
 
-// version of the serviceID
+// Version of the ServiceID object.
 func (o IamServiceIdOutput) Version() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamServiceId) pulumi.StringOutput { return v.Version }).(pulumi.StringOutput)
 }

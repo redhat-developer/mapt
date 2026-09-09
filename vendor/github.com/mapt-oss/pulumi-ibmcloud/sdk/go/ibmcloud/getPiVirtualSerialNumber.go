@@ -39,12 +39,8 @@ type LookupPiVirtualSerialNumberResult struct {
 }
 
 func LookupPiVirtualSerialNumberOutput(ctx *pulumi.Context, args LookupPiVirtualSerialNumberOutputArgs, opts ...pulumi.InvokeOption) LookupPiVirtualSerialNumberResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiVirtualSerialNumberResultOutput, error) {
-			args := v.(LookupPiVirtualSerialNumberArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVirtualSerialNumber:getPiVirtualSerialNumber", args, LookupPiVirtualSerialNumberResultOutput{}, options).(LookupPiVirtualSerialNumberResultOutput), nil
-		}).(LookupPiVirtualSerialNumberResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVirtualSerialNumber:getPiVirtualSerialNumber", args, LookupPiVirtualSerialNumberResultOutput{}, options).(LookupPiVirtualSerialNumberResultOutput)
 }
 
 // A collection of arguments for invoking getPiVirtualSerialNumber.

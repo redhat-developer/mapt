@@ -17,6 +17,8 @@ type IsSnapshotConsistencyGroup struct {
 
 	// List of access management tags
 	AccessTags pulumi.StringArrayOutput `pulumi:"accessTags"`
+	// If present, the backup policy job that created this snapshot consistency group. Snapshot consistency groups with the same backup policy job identifier represent snapshots of the same instance across different storage generations.
+	BackupPolicyJobs IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput `pulumi:"backupPolicyJobs"`
 	// If present, the backup policy plan which created this snapshot consistency group.
 	BackupPolicyPlans IsSnapshotConsistencyGroupBackupPolicyPlanArrayOutput `pulumi:"backupPolicyPlans"`
 	// The date and time that this snapshot consistency group was created.
@@ -80,6 +82,8 @@ func GetIsSnapshotConsistencyGroup(ctx *pulumi.Context,
 type isSnapshotConsistencyGroupState struct {
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
+	// If present, the backup policy job that created this snapshot consistency group. Snapshot consistency groups with the same backup policy job identifier represent snapshots of the same instance across different storage generations.
+	BackupPolicyJobs []IsSnapshotConsistencyGroupBackupPolicyJob `pulumi:"backupPolicyJobs"`
 	// If present, the backup policy plan which created this snapshot consistency group.
 	BackupPolicyPlans []IsSnapshotConsistencyGroupBackupPolicyPlan `pulumi:"backupPolicyPlans"`
 	// The date and time that this snapshot consistency group was created.
@@ -111,6 +115,8 @@ type isSnapshotConsistencyGroupState struct {
 type IsSnapshotConsistencyGroupState struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
+	// If present, the backup policy job that created this snapshot consistency group. Snapshot consistency groups with the same backup policy job identifier represent snapshots of the same instance across different storage generations.
+	BackupPolicyJobs IsSnapshotConsistencyGroupBackupPolicyJobArrayInput
 	// If present, the backup policy plan which created this snapshot consistency group.
 	BackupPolicyPlans IsSnapshotConsistencyGroupBackupPolicyPlanArrayInput
 	// The date and time that this snapshot consistency group was created.
@@ -214,6 +220,13 @@ func (o IsSnapshotConsistencyGroupOutput) ToIsSnapshotConsistencyGroupOutputWith
 // List of access management tags
 func (o IsSnapshotConsistencyGroupOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IsSnapshotConsistencyGroup) pulumi.StringArrayOutput { return v.AccessTags }).(pulumi.StringArrayOutput)
+}
+
+// If present, the backup policy job that created this snapshot consistency group. Snapshot consistency groups with the same backup policy job identifier represent snapshots of the same instance across different storage generations.
+func (o IsSnapshotConsistencyGroupOutput) BackupPolicyJobs() IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+	return o.ApplyT(func(v *IsSnapshotConsistencyGroup) IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+		return v.BackupPolicyJobs
+	}).(IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput)
 }
 
 // If present, the backup policy plan which created this snapshot consistency group.

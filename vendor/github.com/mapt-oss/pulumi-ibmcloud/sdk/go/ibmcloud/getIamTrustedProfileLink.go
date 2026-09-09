@@ -33,21 +33,18 @@ type LookupIamTrustedProfileLinkResult struct {
 	CreatedAt string `pulumi:"createdAt"`
 	EntityTag string `pulumi:"entityTag"`
 	// The provider-assigned unique ID for this managed resource.
-	Id         string                         `pulumi:"id"`
-	LinkId     string                         `pulumi:"linkId"`
-	Links      []GetIamTrustedProfileLinkLink `pulumi:"links"`
-	ModifiedAt string                         `pulumi:"modifiedAt"`
-	Name       string                         `pulumi:"name"`
-	ProfileId  string                         `pulumi:"profileId"`
+	Id             string                         `pulumi:"id"`
+	IsCrossAccount bool                           `pulumi:"isCrossAccount"`
+	LinkId         string                         `pulumi:"linkId"`
+	Links          []GetIamTrustedProfileLinkLink `pulumi:"links"`
+	ModifiedAt     string                         `pulumi:"modifiedAt"`
+	Name           string                         `pulumi:"name"`
+	ProfileId      string                         `pulumi:"profileId"`
 }
 
 func LookupIamTrustedProfileLinkOutput(ctx *pulumi.Context, args LookupIamTrustedProfileLinkOutputArgs, opts ...pulumi.InvokeOption) LookupIamTrustedProfileLinkResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamTrustedProfileLinkResultOutput, error) {
-			args := v.(LookupIamTrustedProfileLinkArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileLink:getIamTrustedProfileLink", args, LookupIamTrustedProfileLinkResultOutput{}, options).(LookupIamTrustedProfileLinkResultOutput), nil
-		}).(LookupIamTrustedProfileLinkResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileLink:getIamTrustedProfileLink", args, LookupIamTrustedProfileLinkResultOutput{}, options).(LookupIamTrustedProfileLinkResultOutput)
 }
 
 // A collection of arguments for invoking getIamTrustedProfileLink.
@@ -90,6 +87,10 @@ func (o LookupIamTrustedProfileLinkResultOutput) EntityTag() pulumi.StringOutput
 // The provider-assigned unique ID for this managed resource.
 func (o LookupIamTrustedProfileLinkResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIamTrustedProfileLinkResult) string { return v.Id }).(pulumi.StringOutput)
+}
+
+func (o LookupIamTrustedProfileLinkResultOutput) IsCrossAccount() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupIamTrustedProfileLinkResult) bool { return v.IsCrossAccount }).(pulumi.BoolOutput)
 }
 
 func (o LookupIamTrustedProfileLinkResultOutput) LinkId() pulumi.StringOutput {

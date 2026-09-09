@@ -51,12 +51,8 @@ type GetIsVpcDefaultRoutingTableResult struct {
 }
 
 func GetIsVpcDefaultRoutingTableOutput(ctx *pulumi.Context, args GetIsVpcDefaultRoutingTableOutputArgs, opts ...pulumi.InvokeOption) GetIsVpcDefaultRoutingTableResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVpcDefaultRoutingTableResultOutput, error) {
-			args := v.(GetIsVpcDefaultRoutingTableArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpcDefaultRoutingTable:getIsVpcDefaultRoutingTable", args, GetIsVpcDefaultRoutingTableResultOutput{}, options).(GetIsVpcDefaultRoutingTableResultOutput), nil
-		}).(GetIsVpcDefaultRoutingTableResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpcDefaultRoutingTable:getIsVpcDefaultRoutingTable", args, GetIsVpcDefaultRoutingTableResultOutput{}, options).(GetIsVpcDefaultRoutingTableResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpcDefaultRoutingTable.

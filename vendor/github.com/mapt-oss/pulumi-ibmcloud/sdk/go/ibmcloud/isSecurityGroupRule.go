@@ -15,17 +15,24 @@ import (
 type IsSecurityGroupRule struct {
 	pulumi.CustomResourceState
 
+	Code pulumi.IntOutput `pulumi:"code"`
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction pulumi.StringOutput `pulumi:"direction"`
 	// Security group id
 	Group pulumi.StringOutput `pulumi:"group"`
 	// protocol=icmp
-	Icmp IsSecurityGroupRuleIcmpPtrOutput `pulumi:"icmp"`
+	//
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Icmp IsSecurityGroupRuleIcmpOutput `pulumi:"icmp"`
 	// IP version: ipv4
 	IpVersion pulumi.StringPtrOutput `pulumi:"ipVersion"`
 	// Security group id: an IP address, a CIDR block, or a single security group identifier
 	Local pulumi.StringOutput `pulumi:"local"`
-	// The Security Group Rule Protocol
+	// The name for this security group rule. The name must not be used by another rule in the security group. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name    pulumi.StringOutput `pulumi:"name"`
+	PortMax pulumi.IntOutput    `pulumi:"portMax"`
+	PortMin pulumi.IntOutput    `pulumi:"portMin"`
+	// The name of the network protocol
 	Protocol pulumi.StringOutput `pulumi:"protocol"`
 	// The crn of the Security Group
 	RelatedCrn pulumi.StringOutput `pulumi:"relatedCrn"`
@@ -34,9 +41,14 @@ type IsSecurityGroupRule struct {
 	// Rule id
 	RuleId pulumi.StringOutput `pulumi:"ruleId"`
 	// protocol=tcp
-	Tcp IsSecurityGroupRuleTcpPtrOutput `pulumi:"tcp"`
+	//
+	// Deprecated: tcp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Tcp  IsSecurityGroupRuleTcpOutput `pulumi:"tcp"`
+	Type pulumi.IntOutput             `pulumi:"type"`
 	// protocol=udp
-	Udp IsSecurityGroupRuleUdpPtrOutput `pulumi:"udp"`
+	//
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', and 'port_max' instead.
+	Udp IsSecurityGroupRuleUdpOutput `pulumi:"udp"`
 }
 
 // NewIsSecurityGroupRule registers a new resource with the given unique name, arguments, and options.
@@ -75,17 +87,24 @@ func GetIsSecurityGroupRule(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering IsSecurityGroupRule resources.
 type isSecurityGroupRuleState struct {
+	Code *int `pulumi:"code"`
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction *string `pulumi:"direction"`
 	// Security group id
 	Group *string `pulumi:"group"`
 	// protocol=icmp
+	//
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp *IsSecurityGroupRuleIcmp `pulumi:"icmp"`
 	// IP version: ipv4
 	IpVersion *string `pulumi:"ipVersion"`
 	// Security group id: an IP address, a CIDR block, or a single security group identifier
 	Local *string `pulumi:"local"`
-	// The Security Group Rule Protocol
+	// The name for this security group rule. The name must not be used by another rule in the security group. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name    *string `pulumi:"name"`
+	PortMax *int    `pulumi:"portMax"`
+	PortMin *int    `pulumi:"portMin"`
+	// The name of the network protocol
 	Protocol *string `pulumi:"protocol"`
 	// The crn of the Security Group
 	RelatedCrn *string `pulumi:"relatedCrn"`
@@ -94,23 +113,35 @@ type isSecurityGroupRuleState struct {
 	// Rule id
 	RuleId *string `pulumi:"ruleId"`
 	// protocol=tcp
-	Tcp *IsSecurityGroupRuleTcp `pulumi:"tcp"`
+	//
+	// Deprecated: tcp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Tcp  *IsSecurityGroupRuleTcp `pulumi:"tcp"`
+	Type *int                    `pulumi:"type"`
 	// protocol=udp
+	//
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', and 'port_max' instead.
 	Udp *IsSecurityGroupRuleUdp `pulumi:"udp"`
 }
 
 type IsSecurityGroupRuleState struct {
+	Code pulumi.IntPtrInput
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction pulumi.StringPtrInput
 	// Security group id
 	Group pulumi.StringPtrInput
 	// protocol=icmp
+	//
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp IsSecurityGroupRuleIcmpPtrInput
 	// IP version: ipv4
 	IpVersion pulumi.StringPtrInput
 	// Security group id: an IP address, a CIDR block, or a single security group identifier
 	Local pulumi.StringPtrInput
-	// The Security Group Rule Protocol
+	// The name for this security group rule. The name must not be used by another rule in the security group. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name    pulumi.StringPtrInput
+	PortMax pulumi.IntPtrInput
+	PortMin pulumi.IntPtrInput
+	// The name of the network protocol
 	Protocol pulumi.StringPtrInput
 	// The crn of the Security Group
 	RelatedCrn pulumi.StringPtrInput
@@ -119,8 +150,13 @@ type IsSecurityGroupRuleState struct {
 	// Rule id
 	RuleId pulumi.StringPtrInput
 	// protocol=tcp
-	Tcp IsSecurityGroupRuleTcpPtrInput
+	//
+	// Deprecated: tcp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Tcp  IsSecurityGroupRuleTcpPtrInput
+	Type pulumi.IntPtrInput
 	// protocol=udp
+	//
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', and 'port_max' instead.
 	Udp IsSecurityGroupRuleUdpPtrInput
 }
 
@@ -129,41 +165,69 @@ func (IsSecurityGroupRuleState) ElementType() reflect.Type {
 }
 
 type isSecurityGroupRuleArgs struct {
+	Code *int `pulumi:"code"`
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction string `pulumi:"direction"`
 	// Security group id
 	Group string `pulumi:"group"`
 	// protocol=icmp
+	//
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp *IsSecurityGroupRuleIcmp `pulumi:"icmp"`
 	// IP version: ipv4
 	IpVersion *string `pulumi:"ipVersion"`
 	// Security group id: an IP address, a CIDR block, or a single security group identifier
 	Local *string `pulumi:"local"`
+	// The name for this security group rule. The name must not be used by another rule in the security group. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name    *string `pulumi:"name"`
+	PortMax *int    `pulumi:"portMax"`
+	PortMin *int    `pulumi:"portMin"`
+	// The name of the network protocol
+	Protocol *string `pulumi:"protocol"`
 	// Security group local ip: an IP address, a CIDR block
 	Remote *string `pulumi:"remote"`
 	// protocol=tcp
-	Tcp *IsSecurityGroupRuleTcp `pulumi:"tcp"`
+	//
+	// Deprecated: tcp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Tcp  *IsSecurityGroupRuleTcp `pulumi:"tcp"`
+	Type *int                    `pulumi:"type"`
 	// protocol=udp
+	//
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', and 'port_max' instead.
 	Udp *IsSecurityGroupRuleUdp `pulumi:"udp"`
 }
 
 // The set of arguments for constructing a IsSecurityGroupRule resource.
 type IsSecurityGroupRuleArgs struct {
+	Code pulumi.IntPtrInput
 	// Direction of traffic to enforce, either inbound or outbound
 	Direction pulumi.StringInput
 	// Security group id
 	Group pulumi.StringInput
 	// protocol=icmp
+	//
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp IsSecurityGroupRuleIcmpPtrInput
 	// IP version: ipv4
 	IpVersion pulumi.StringPtrInput
 	// Security group id: an IP address, a CIDR block, or a single security group identifier
 	Local pulumi.StringPtrInput
+	// The name for this security group rule. The name must not be used by another rule in the security group. If unspecified, the name will be a hyphenated list of randomly-selected words.
+	Name    pulumi.StringPtrInput
+	PortMax pulumi.IntPtrInput
+	PortMin pulumi.IntPtrInput
+	// The name of the network protocol
+	Protocol pulumi.StringPtrInput
 	// Security group local ip: an IP address, a CIDR block
 	Remote pulumi.StringPtrInput
 	// protocol=tcp
-	Tcp IsSecurityGroupRuleTcpPtrInput
+	//
+	// Deprecated: tcp is deprecated, use 'protocol', 'code', and 'type' instead.
+	Tcp  IsSecurityGroupRuleTcpPtrInput
+	Type pulumi.IntPtrInput
 	// protocol=udp
+	//
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', and 'port_max' instead.
 	Udp IsSecurityGroupRuleUdpPtrInput
 }
 
@@ -204,6 +268,10 @@ func (o IsSecurityGroupRuleOutput) ToIsSecurityGroupRuleOutputWithContext(ctx co
 	return o
 }
 
+func (o IsSecurityGroupRuleOutput) Code() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.IntOutput { return v.Code }).(pulumi.IntOutput)
+}
+
 // Direction of traffic to enforce, either inbound or outbound
 func (o IsSecurityGroupRuleOutput) Direction() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.StringOutput { return v.Direction }).(pulumi.StringOutput)
@@ -215,8 +283,10 @@ func (o IsSecurityGroupRuleOutput) Group() pulumi.StringOutput {
 }
 
 // protocol=icmp
-func (o IsSecurityGroupRuleOutput) Icmp() IsSecurityGroupRuleIcmpPtrOutput {
-	return o.ApplyT(func(v *IsSecurityGroupRule) IsSecurityGroupRuleIcmpPtrOutput { return v.Icmp }).(IsSecurityGroupRuleIcmpPtrOutput)
+//
+// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
+func (o IsSecurityGroupRuleOutput) Icmp() IsSecurityGroupRuleIcmpOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) IsSecurityGroupRuleIcmpOutput { return v.Icmp }).(IsSecurityGroupRuleIcmpOutput)
 }
 
 // IP version: ipv4
@@ -229,7 +299,20 @@ func (o IsSecurityGroupRuleOutput) Local() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.StringOutput { return v.Local }).(pulumi.StringOutput)
 }
 
-// The Security Group Rule Protocol
+// The name for this security group rule. The name must not be used by another rule in the security group. If unspecified, the name will be a hyphenated list of randomly-selected words.
+func (o IsSecurityGroupRuleOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
+}
+
+func (o IsSecurityGroupRuleOutput) PortMax() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.IntOutput { return v.PortMax }).(pulumi.IntOutput)
+}
+
+func (o IsSecurityGroupRuleOutput) PortMin() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.IntOutput { return v.PortMin }).(pulumi.IntOutput)
+}
+
+// The name of the network protocol
 func (o IsSecurityGroupRuleOutput) Protocol() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.StringOutput { return v.Protocol }).(pulumi.StringOutput)
 }
@@ -250,13 +333,21 @@ func (o IsSecurityGroupRuleOutput) RuleId() pulumi.StringOutput {
 }
 
 // protocol=tcp
-func (o IsSecurityGroupRuleOutput) Tcp() IsSecurityGroupRuleTcpPtrOutput {
-	return o.ApplyT(func(v *IsSecurityGroupRule) IsSecurityGroupRuleTcpPtrOutput { return v.Tcp }).(IsSecurityGroupRuleTcpPtrOutput)
+//
+// Deprecated: tcp is deprecated, use 'protocol', 'code', and 'type' instead.
+func (o IsSecurityGroupRuleOutput) Tcp() IsSecurityGroupRuleTcpOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) IsSecurityGroupRuleTcpOutput { return v.Tcp }).(IsSecurityGroupRuleTcpOutput)
+}
+
+func (o IsSecurityGroupRuleOutput) Type() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) pulumi.IntOutput { return v.Type }).(pulumi.IntOutput)
 }
 
 // protocol=udp
-func (o IsSecurityGroupRuleOutput) Udp() IsSecurityGroupRuleUdpPtrOutput {
-	return o.ApplyT(func(v *IsSecurityGroupRule) IsSecurityGroupRuleUdpPtrOutput { return v.Udp }).(IsSecurityGroupRuleUdpPtrOutput)
+//
+// Deprecated: udp is deprecated, use 'protocol', 'port_min', and 'port_max' instead.
+func (o IsSecurityGroupRuleOutput) Udp() IsSecurityGroupRuleUdpOutput {
+	return o.ApplyT(func(v *IsSecurityGroupRule) IsSecurityGroupRuleUdpOutput { return v.Udp }).(IsSecurityGroupRuleUdpOutput)
 }
 
 func init() {

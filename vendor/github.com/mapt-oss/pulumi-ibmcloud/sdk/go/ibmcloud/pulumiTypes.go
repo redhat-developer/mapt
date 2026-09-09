@@ -3593,7 +3593,7 @@ func (o CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRulePtr
 type CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaultRetention struct {
 	// Retention period in terms of days after which the object can be deleted.
 	Days *int `pulumi:"days"`
-	// Retention modes apply different levels of protection to the objects.
+	// Retention modes apply different levels of protection to the objects. Valid values: COMPLIANCE, GOVERNANCE.
 	Mode string `pulumi:"mode"`
 	// Retention period in terms of years after which the object can be deleted.
 	Years *int `pulumi:"years"`
@@ -3613,7 +3613,7 @@ type CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaul
 type CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaultRetentionArgs struct {
 	// Retention period in terms of days after which the object can be deleted.
 	Days pulumi.IntPtrInput `pulumi:"days"`
-	// Retention modes apply different levels of protection to the objects.
+	// Retention modes apply different levels of protection to the objects. Valid values: COMPLIANCE, GOVERNANCE.
 	Mode pulumi.StringInput `pulumi:"mode"`
 	// Retention period in terms of years after which the object can be deleted.
 	Years pulumi.IntPtrInput `pulumi:"years"`
@@ -3703,7 +3703,7 @@ func (o CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDef
 	}).(pulumi.IntPtrOutput)
 }
 
-// Retention modes apply different levels of protection to the objects.
+// Retention modes apply different levels of protection to the objects. Valid values: COMPLIANCE, GOVERNANCE.
 func (o CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaultRetentionOutput) Mode() pulumi.StringOutput {
 	return o.ApplyT(func(v CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaultRetention) string {
 		return v.Mode
@@ -3751,7 +3751,7 @@ func (o CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDef
 	}).(pulumi.IntPtrOutput)
 }
 
-// Retention modes apply different levels of protection to the objects.
+// Retention modes apply different levels of protection to the objects. Valid values: COMPLIANCE, GOVERNANCE.
 func (o CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaultRetentionPtrOutput) Mode() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *CosBucketObjectLockConfigurationObjectLockConfigurationObjectLockRuleDefaultRetention) *string {
 		if v == nil {
@@ -11279,339 +11279,10 @@ func (o IamAccountSettingsTemplateAccountSettingsUserMfaArrayOutput) Index(i pul
 	}).(IamAccountSettingsTemplateAccountSettingsUserMfaOutput)
 }
 
-type IamAccountSettingsTemplateAssignmentContext struct {
-	// The cluster name.
-	ClusterName *string `pulumi:"clusterName"`
-	// The elapsed time in msec.
-	ElapsedTime *string `pulumi:"elapsedTime"`
-	// The finish time of the request.
-	EndTime *string `pulumi:"endTime"`
-	// The host of the server instance processing the request.
-	Host *string `pulumi:"host"`
-	// The instance ID of the server instance processing the request.
-	InstanceId *string `pulumi:"instanceId"`
-	// The operation of the inbound REST request.
-	Operation *string `pulumi:"operation"`
-	// The start time of the request.
-	StartTime *string `pulumi:"startTime"`
-	// The thread ID of the server instance processing the request.
-	ThreadId *string `pulumi:"threadId"`
-	// The transaction ID of the inbound REST request.
-	TransactionId *string `pulumi:"transactionId"`
-	// The URL of that cluster.
-	Url *string `pulumi:"url"`
-	// The user agent of the inbound REST request.
-	UserAgent *string `pulumi:"userAgent"`
-}
-
-// IamAccountSettingsTemplateAssignmentContextInput is an input type that accepts IamAccountSettingsTemplateAssignmentContextArgs and IamAccountSettingsTemplateAssignmentContextOutput values.
-// You can construct a concrete instance of `IamAccountSettingsTemplateAssignmentContextInput` via:
-//
-//	IamAccountSettingsTemplateAssignmentContextArgs{...}
-type IamAccountSettingsTemplateAssignmentContextInput interface {
-	pulumi.Input
-
-	ToIamAccountSettingsTemplateAssignmentContextOutput() IamAccountSettingsTemplateAssignmentContextOutput
-	ToIamAccountSettingsTemplateAssignmentContextOutputWithContext(context.Context) IamAccountSettingsTemplateAssignmentContextOutput
-}
-
-type IamAccountSettingsTemplateAssignmentContextArgs struct {
-	// The cluster name.
-	ClusterName pulumi.StringPtrInput `pulumi:"clusterName"`
-	// The elapsed time in msec.
-	ElapsedTime pulumi.StringPtrInput `pulumi:"elapsedTime"`
-	// The finish time of the request.
-	EndTime pulumi.StringPtrInput `pulumi:"endTime"`
-	// The host of the server instance processing the request.
-	Host pulumi.StringPtrInput `pulumi:"host"`
-	// The instance ID of the server instance processing the request.
-	InstanceId pulumi.StringPtrInput `pulumi:"instanceId"`
-	// The operation of the inbound REST request.
-	Operation pulumi.StringPtrInput `pulumi:"operation"`
-	// The start time of the request.
-	StartTime pulumi.StringPtrInput `pulumi:"startTime"`
-	// The thread ID of the server instance processing the request.
-	ThreadId pulumi.StringPtrInput `pulumi:"threadId"`
-	// The transaction ID of the inbound REST request.
-	TransactionId pulumi.StringPtrInput `pulumi:"transactionId"`
-	// The URL of that cluster.
-	Url pulumi.StringPtrInput `pulumi:"url"`
-	// The user agent of the inbound REST request.
-	UserAgent pulumi.StringPtrInput `pulumi:"userAgent"`
-}
-
-func (IamAccountSettingsTemplateAssignmentContextArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (i IamAccountSettingsTemplateAssignmentContextArgs) ToIamAccountSettingsTemplateAssignmentContextOutput() IamAccountSettingsTemplateAssignmentContextOutput {
-	return i.ToIamAccountSettingsTemplateAssignmentContextOutputWithContext(context.Background())
-}
-
-func (i IamAccountSettingsTemplateAssignmentContextArgs) ToIamAccountSettingsTemplateAssignmentContextOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentContextOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamAccountSettingsTemplateAssignmentContextOutput)
-}
-
-// IamAccountSettingsTemplateAssignmentContextArrayInput is an input type that accepts IamAccountSettingsTemplateAssignmentContextArray and IamAccountSettingsTemplateAssignmentContextArrayOutput values.
-// You can construct a concrete instance of `IamAccountSettingsTemplateAssignmentContextArrayInput` via:
-//
-//	IamAccountSettingsTemplateAssignmentContextArray{ IamAccountSettingsTemplateAssignmentContextArgs{...} }
-type IamAccountSettingsTemplateAssignmentContextArrayInput interface {
-	pulumi.Input
-
-	ToIamAccountSettingsTemplateAssignmentContextArrayOutput() IamAccountSettingsTemplateAssignmentContextArrayOutput
-	ToIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(context.Context) IamAccountSettingsTemplateAssignmentContextArrayOutput
-}
-
-type IamAccountSettingsTemplateAssignmentContextArray []IamAccountSettingsTemplateAssignmentContextInput
-
-func (IamAccountSettingsTemplateAssignmentContextArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (i IamAccountSettingsTemplateAssignmentContextArray) ToIamAccountSettingsTemplateAssignmentContextArrayOutput() IamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return i.ToIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(context.Background())
-}
-
-func (i IamAccountSettingsTemplateAssignmentContextArray) ToIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamAccountSettingsTemplateAssignmentContextArrayOutput)
-}
-
-type IamAccountSettingsTemplateAssignmentContextOutput struct{ *pulumi.OutputState }
-
-func (IamAccountSettingsTemplateAssignmentContextOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (o IamAccountSettingsTemplateAssignmentContextOutput) ToIamAccountSettingsTemplateAssignmentContextOutput() IamAccountSettingsTemplateAssignmentContextOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateAssignmentContextOutput) ToIamAccountSettingsTemplateAssignmentContextOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentContextOutput {
-	return o
-}
-
-// The cluster name.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) ClusterName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.ClusterName }).(pulumi.StringPtrOutput)
-}
-
-// The elapsed time in msec.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) ElapsedTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.ElapsedTime }).(pulumi.StringPtrOutput)
-}
-
-// The finish time of the request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) EndTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.EndTime }).(pulumi.StringPtrOutput)
-}
-
-// The host of the server instance processing the request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) Host() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.Host }).(pulumi.StringPtrOutput)
-}
-
-// The instance ID of the server instance processing the request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) InstanceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.InstanceId }).(pulumi.StringPtrOutput)
-}
-
-// The operation of the inbound REST request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) Operation() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.Operation }).(pulumi.StringPtrOutput)
-}
-
-// The start time of the request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) StartTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.StartTime }).(pulumi.StringPtrOutput)
-}
-
-// The thread ID of the server instance processing the request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) ThreadId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.ThreadId }).(pulumi.StringPtrOutput)
-}
-
-// The transaction ID of the inbound REST request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) TransactionId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.TransactionId }).(pulumi.StringPtrOutput)
-}
-
-// The URL of that cluster.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) Url() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.Url }).(pulumi.StringPtrOutput)
-}
-
-// The user agent of the inbound REST request.
-func (o IamAccountSettingsTemplateAssignmentContextOutput) UserAgent() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentContext) *string { return v.UserAgent }).(pulumi.StringPtrOutput)
-}
-
-type IamAccountSettingsTemplateAssignmentContextArrayOutput struct{ *pulumi.OutputState }
-
-func (IamAccountSettingsTemplateAssignmentContextArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (o IamAccountSettingsTemplateAssignmentContextArrayOutput) ToIamAccountSettingsTemplateAssignmentContextArrayOutput() IamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateAssignmentContextArrayOutput) ToIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateAssignmentContextArrayOutput) Index(i pulumi.IntInput) IamAccountSettingsTemplateAssignmentContextOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamAccountSettingsTemplateAssignmentContext {
-		return vs[0].([]IamAccountSettingsTemplateAssignmentContext)[vs[1].(int)]
-	}).(IamAccountSettingsTemplateAssignmentContextOutput)
-}
-
-type IamAccountSettingsTemplateAssignmentHistory struct {
-	// Action of the history entry.
-	Action *string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId *string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount *string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message *string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp *string `pulumi:"timestamp"`
-}
-
-// IamAccountSettingsTemplateAssignmentHistoryInput is an input type that accepts IamAccountSettingsTemplateAssignmentHistoryArgs and IamAccountSettingsTemplateAssignmentHistoryOutput values.
-// You can construct a concrete instance of `IamAccountSettingsTemplateAssignmentHistoryInput` via:
-//
-//	IamAccountSettingsTemplateAssignmentHistoryArgs{...}
-type IamAccountSettingsTemplateAssignmentHistoryInput interface {
-	pulumi.Input
-
-	ToIamAccountSettingsTemplateAssignmentHistoryOutput() IamAccountSettingsTemplateAssignmentHistoryOutput
-	ToIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(context.Context) IamAccountSettingsTemplateAssignmentHistoryOutput
-}
-
-type IamAccountSettingsTemplateAssignmentHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringPtrInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringPtrInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringPtrInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringPtrInput `pulumi:"timestamp"`
-}
-
-func (IamAccountSettingsTemplateAssignmentHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (i IamAccountSettingsTemplateAssignmentHistoryArgs) ToIamAccountSettingsTemplateAssignmentHistoryOutput() IamAccountSettingsTemplateAssignmentHistoryOutput {
-	return i.ToIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(context.Background())
-}
-
-func (i IamAccountSettingsTemplateAssignmentHistoryArgs) ToIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamAccountSettingsTemplateAssignmentHistoryOutput)
-}
-
-// IamAccountSettingsTemplateAssignmentHistoryArrayInput is an input type that accepts IamAccountSettingsTemplateAssignmentHistoryArray and IamAccountSettingsTemplateAssignmentHistoryArrayOutput values.
-// You can construct a concrete instance of `IamAccountSettingsTemplateAssignmentHistoryArrayInput` via:
-//
-//	IamAccountSettingsTemplateAssignmentHistoryArray{ IamAccountSettingsTemplateAssignmentHistoryArgs{...} }
-type IamAccountSettingsTemplateAssignmentHistoryArrayInput interface {
-	pulumi.Input
-
-	ToIamAccountSettingsTemplateAssignmentHistoryArrayOutput() IamAccountSettingsTemplateAssignmentHistoryArrayOutput
-	ToIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(context.Context) IamAccountSettingsTemplateAssignmentHistoryArrayOutput
-}
-
-type IamAccountSettingsTemplateAssignmentHistoryArray []IamAccountSettingsTemplateAssignmentHistoryInput
-
-func (IamAccountSettingsTemplateAssignmentHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (i IamAccountSettingsTemplateAssignmentHistoryArray) ToIamAccountSettingsTemplateAssignmentHistoryArrayOutput() IamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return i.ToIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i IamAccountSettingsTemplateAssignmentHistoryArray) ToIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamAccountSettingsTemplateAssignmentHistoryArrayOutput)
-}
-
-type IamAccountSettingsTemplateAssignmentHistoryOutput struct{ *pulumi.OutputState }
-
-func (IamAccountSettingsTemplateAssignmentHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) ToIamAccountSettingsTemplateAssignmentHistoryOutput() IamAccountSettingsTemplateAssignmentHistoryOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) ToIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) Action() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentHistory) *string { return v.Action }).(pulumi.StringPtrOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) IamId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentHistory) *string { return v.IamId }).(pulumi.StringPtrOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) IamIdAccount() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentHistory) *string { return v.IamIdAccount }).(pulumi.StringPtrOutput)
-}
-
-// Message which summarizes the executed action.
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentHistory) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Params of the history entry.
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o IamAccountSettingsTemplateAssignmentHistoryOutput) Timestamp() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentHistory) *string { return v.Timestamp }).(pulumi.StringPtrOutput)
-}
-
-type IamAccountSettingsTemplateAssignmentHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (IamAccountSettingsTemplateAssignmentHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (o IamAccountSettingsTemplateAssignmentHistoryArrayOutput) ToIamAccountSettingsTemplateAssignmentHistoryArrayOutput() IamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateAssignmentHistoryArrayOutput) ToIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) IamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateAssignmentHistoryArrayOutput) Index(i pulumi.IntInput) IamAccountSettingsTemplateAssignmentHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamAccountSettingsTemplateAssignmentHistory {
-		return vs[0].([]IamAccountSettingsTemplateAssignmentHistory)[vs[1].(int)]
-	}).(IamAccountSettingsTemplateAssignmentHistoryOutput)
-}
-
 type IamAccountSettingsTemplateAssignmentResource struct {
 	AccountSettings []IamAccountSettingsTemplateAssignmentResourceAccountSetting `pulumi:"accountSettings"`
 	// Target account where the IAM resource is created.
-	Target string `pulumi:"target"`
+	Target *string `pulumi:"target"`
 }
 
 // IamAccountSettingsTemplateAssignmentResourceInput is an input type that accepts IamAccountSettingsTemplateAssignmentResourceArgs and IamAccountSettingsTemplateAssignmentResourceOutput values.
@@ -11628,7 +11299,7 @@ type IamAccountSettingsTemplateAssignmentResourceInput interface {
 type IamAccountSettingsTemplateAssignmentResourceArgs struct {
 	AccountSettings IamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput `pulumi:"accountSettings"`
 	// Target account where the IAM resource is created.
-	Target pulumi.StringInput `pulumi:"target"`
+	Target pulumi.StringPtrInput `pulumi:"target"`
 }
 
 func (IamAccountSettingsTemplateAssignmentResourceArgs) ElementType() reflect.Type {
@@ -11689,8 +11360,8 @@ func (o IamAccountSettingsTemplateAssignmentResourceOutput) AccountSettings() Ia
 }
 
 // Target account where the IAM resource is created.
-func (o IamAccountSettingsTemplateAssignmentResourceOutput) Target() pulumi.StringOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentResource) string { return v.Target }).(pulumi.StringOutput)
+func (o IamAccountSettingsTemplateAssignmentResourceOutput) Target() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamAccountSettingsTemplateAssignmentResource) *string { return v.Target }).(pulumi.StringPtrOutput)
 }
 
 type IamAccountSettingsTemplateAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
@@ -12057,148 +11728,6 @@ func (o IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreate
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated {
 		return vs[0].([]IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)[vs[1].(int)]
 	}).(IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput)
-}
-
-type IamAccountSettingsTemplateHistory struct {
-	// Action of the history entry.
-	Action *string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId *string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount *string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message *string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp *string `pulumi:"timestamp"`
-}
-
-// IamAccountSettingsTemplateHistoryInput is an input type that accepts IamAccountSettingsTemplateHistoryArgs and IamAccountSettingsTemplateHistoryOutput values.
-// You can construct a concrete instance of `IamAccountSettingsTemplateHistoryInput` via:
-//
-//	IamAccountSettingsTemplateHistoryArgs{...}
-type IamAccountSettingsTemplateHistoryInput interface {
-	pulumi.Input
-
-	ToIamAccountSettingsTemplateHistoryOutput() IamAccountSettingsTemplateHistoryOutput
-	ToIamAccountSettingsTemplateHistoryOutputWithContext(context.Context) IamAccountSettingsTemplateHistoryOutput
-}
-
-type IamAccountSettingsTemplateHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringPtrInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringPtrInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringPtrInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringPtrInput `pulumi:"timestamp"`
-}
-
-func (IamAccountSettingsTemplateHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (i IamAccountSettingsTemplateHistoryArgs) ToIamAccountSettingsTemplateHistoryOutput() IamAccountSettingsTemplateHistoryOutput {
-	return i.ToIamAccountSettingsTemplateHistoryOutputWithContext(context.Background())
-}
-
-func (i IamAccountSettingsTemplateHistoryArgs) ToIamAccountSettingsTemplateHistoryOutputWithContext(ctx context.Context) IamAccountSettingsTemplateHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamAccountSettingsTemplateHistoryOutput)
-}
-
-// IamAccountSettingsTemplateHistoryArrayInput is an input type that accepts IamAccountSettingsTemplateHistoryArray and IamAccountSettingsTemplateHistoryArrayOutput values.
-// You can construct a concrete instance of `IamAccountSettingsTemplateHistoryArrayInput` via:
-//
-//	IamAccountSettingsTemplateHistoryArray{ IamAccountSettingsTemplateHistoryArgs{...} }
-type IamAccountSettingsTemplateHistoryArrayInput interface {
-	pulumi.Input
-
-	ToIamAccountSettingsTemplateHistoryArrayOutput() IamAccountSettingsTemplateHistoryArrayOutput
-	ToIamAccountSettingsTemplateHistoryArrayOutputWithContext(context.Context) IamAccountSettingsTemplateHistoryArrayOutput
-}
-
-type IamAccountSettingsTemplateHistoryArray []IamAccountSettingsTemplateHistoryInput
-
-func (IamAccountSettingsTemplateHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (i IamAccountSettingsTemplateHistoryArray) ToIamAccountSettingsTemplateHistoryArrayOutput() IamAccountSettingsTemplateHistoryArrayOutput {
-	return i.ToIamAccountSettingsTemplateHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i IamAccountSettingsTemplateHistoryArray) ToIamAccountSettingsTemplateHistoryArrayOutputWithContext(ctx context.Context) IamAccountSettingsTemplateHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamAccountSettingsTemplateHistoryArrayOutput)
-}
-
-type IamAccountSettingsTemplateHistoryOutput struct{ *pulumi.OutputState }
-
-func (IamAccountSettingsTemplateHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (o IamAccountSettingsTemplateHistoryOutput) ToIamAccountSettingsTemplateHistoryOutput() IamAccountSettingsTemplateHistoryOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateHistoryOutput) ToIamAccountSettingsTemplateHistoryOutputWithContext(ctx context.Context) IamAccountSettingsTemplateHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o IamAccountSettingsTemplateHistoryOutput) Action() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateHistory) *string { return v.Action }).(pulumi.StringPtrOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o IamAccountSettingsTemplateHistoryOutput) IamId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateHistory) *string { return v.IamId }).(pulumi.StringPtrOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o IamAccountSettingsTemplateHistoryOutput) IamIdAccount() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateHistory) *string { return v.IamIdAccount }).(pulumi.StringPtrOutput)
-}
-
-// Message which summarizes the executed action.
-func (o IamAccountSettingsTemplateHistoryOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateHistory) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Params of the history entry.
-func (o IamAccountSettingsTemplateHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o IamAccountSettingsTemplateHistoryOutput) Timestamp() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamAccountSettingsTemplateHistory) *string { return v.Timestamp }).(pulumi.StringPtrOutput)
-}
-
-type IamAccountSettingsTemplateHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (IamAccountSettingsTemplateHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (o IamAccountSettingsTemplateHistoryArrayOutput) ToIamAccountSettingsTemplateHistoryArrayOutput() IamAccountSettingsTemplateHistoryArrayOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateHistoryArrayOutput) ToIamAccountSettingsTemplateHistoryArrayOutputWithContext(ctx context.Context) IamAccountSettingsTemplateHistoryArrayOutput {
-	return o
-}
-
-func (o IamAccountSettingsTemplateHistoryArrayOutput) Index(i pulumi.IntInput) IamAccountSettingsTemplateHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamAccountSettingsTemplateHistory {
-		return vs[0].([]IamAccountSettingsTemplateHistory)[vs[1].(int)]
-	}).(IamAccountSettingsTemplateHistoryOutput)
 }
 
 type IamAccountSettingsUserMfa struct {
@@ -13773,6 +13302,1124 @@ func (o IamAuthorizationPolicySubjectAttributeArrayOutput) Index(i pulumi.IntInp
 	}).(IamAuthorizationPolicySubjectAttributeOutput)
 }
 
+type IamIdpProperties struct {
+	// Identity Provider configuration.
+	Idp *IamIdpPropertiesIdp `pulumi:"idp"`
+	// Service Provider configuration.
+	Sp *IamIdpPropertiesSp `pulumi:"sp"`
+}
+
+// IamIdpPropertiesInput is an input type that accepts IamIdpPropertiesArgs and IamIdpPropertiesOutput values.
+// You can construct a concrete instance of `IamIdpPropertiesInput` via:
+//
+//	IamIdpPropertiesArgs{...}
+type IamIdpPropertiesInput interface {
+	pulumi.Input
+
+	ToIamIdpPropertiesOutput() IamIdpPropertiesOutput
+	ToIamIdpPropertiesOutputWithContext(context.Context) IamIdpPropertiesOutput
+}
+
+type IamIdpPropertiesArgs struct {
+	// Identity Provider configuration.
+	Idp IamIdpPropertiesIdpPtrInput `pulumi:"idp"`
+	// Service Provider configuration.
+	Sp IamIdpPropertiesSpPtrInput `pulumi:"sp"`
+}
+
+func (IamIdpPropertiesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpProperties)(nil)).Elem()
+}
+
+func (i IamIdpPropertiesArgs) ToIamIdpPropertiesOutput() IamIdpPropertiesOutput {
+	return i.ToIamIdpPropertiesOutputWithContext(context.Background())
+}
+
+func (i IamIdpPropertiesArgs) ToIamIdpPropertiesOutputWithContext(ctx context.Context) IamIdpPropertiesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesOutput)
+}
+
+func (i IamIdpPropertiesArgs) ToIamIdpPropertiesPtrOutput() IamIdpPropertiesPtrOutput {
+	return i.ToIamIdpPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i IamIdpPropertiesArgs) ToIamIdpPropertiesPtrOutputWithContext(ctx context.Context) IamIdpPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesOutput).ToIamIdpPropertiesPtrOutputWithContext(ctx)
+}
+
+// IamIdpPropertiesPtrInput is an input type that accepts IamIdpPropertiesArgs, IamIdpPropertiesPtr and IamIdpPropertiesPtrOutput values.
+// You can construct a concrete instance of `IamIdpPropertiesPtrInput` via:
+//
+//	        IamIdpPropertiesArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamIdpPropertiesPtrInput interface {
+	pulumi.Input
+
+	ToIamIdpPropertiesPtrOutput() IamIdpPropertiesPtrOutput
+	ToIamIdpPropertiesPtrOutputWithContext(context.Context) IamIdpPropertiesPtrOutput
+}
+
+type iamIdpPropertiesPtrType IamIdpPropertiesArgs
+
+func IamIdpPropertiesPtr(v *IamIdpPropertiesArgs) IamIdpPropertiesPtrInput {
+	return (*iamIdpPropertiesPtrType)(v)
+}
+
+func (*iamIdpPropertiesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpProperties)(nil)).Elem()
+}
+
+func (i *iamIdpPropertiesPtrType) ToIamIdpPropertiesPtrOutput() IamIdpPropertiesPtrOutput {
+	return i.ToIamIdpPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (i *iamIdpPropertiesPtrType) ToIamIdpPropertiesPtrOutputWithContext(ctx context.Context) IamIdpPropertiesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesPtrOutput)
+}
+
+type IamIdpPropertiesOutput struct{ *pulumi.OutputState }
+
+func (IamIdpPropertiesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpProperties)(nil)).Elem()
+}
+
+func (o IamIdpPropertiesOutput) ToIamIdpPropertiesOutput() IamIdpPropertiesOutput {
+	return o
+}
+
+func (o IamIdpPropertiesOutput) ToIamIdpPropertiesOutputWithContext(ctx context.Context) IamIdpPropertiesOutput {
+	return o
+}
+
+func (o IamIdpPropertiesOutput) ToIamIdpPropertiesPtrOutput() IamIdpPropertiesPtrOutput {
+	return o.ToIamIdpPropertiesPtrOutputWithContext(context.Background())
+}
+
+func (o IamIdpPropertiesOutput) ToIamIdpPropertiesPtrOutputWithContext(ctx context.Context) IamIdpPropertiesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamIdpProperties) *IamIdpProperties {
+		return &v
+	}).(IamIdpPropertiesPtrOutput)
+}
+
+// Identity Provider configuration.
+func (o IamIdpPropertiesOutput) Idp() IamIdpPropertiesIdpPtrOutput {
+	return o.ApplyT(func(v IamIdpProperties) *IamIdpPropertiesIdp { return v.Idp }).(IamIdpPropertiesIdpPtrOutput)
+}
+
+// Service Provider configuration.
+func (o IamIdpPropertiesOutput) Sp() IamIdpPropertiesSpPtrOutput {
+	return o.ApplyT(func(v IamIdpProperties) *IamIdpPropertiesSp { return v.Sp }).(IamIdpPropertiesSpPtrOutput)
+}
+
+type IamIdpPropertiesPtrOutput struct{ *pulumi.OutputState }
+
+func (IamIdpPropertiesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpProperties)(nil)).Elem()
+}
+
+func (o IamIdpPropertiesPtrOutput) ToIamIdpPropertiesPtrOutput() IamIdpPropertiesPtrOutput {
+	return o
+}
+
+func (o IamIdpPropertiesPtrOutput) ToIamIdpPropertiesPtrOutputWithContext(ctx context.Context) IamIdpPropertiesPtrOutput {
+	return o
+}
+
+func (o IamIdpPropertiesPtrOutput) Elem() IamIdpPropertiesOutput {
+	return o.ApplyT(func(v *IamIdpProperties) IamIdpProperties {
+		if v != nil {
+			return *v
+		}
+		var ret IamIdpProperties
+		return ret
+	}).(IamIdpPropertiesOutput)
+}
+
+// Identity Provider configuration.
+func (o IamIdpPropertiesPtrOutput) Idp() IamIdpPropertiesIdpPtrOutput {
+	return o.ApplyT(func(v *IamIdpProperties) *IamIdpPropertiesIdp {
+		if v == nil {
+			return nil
+		}
+		return v.Idp
+	}).(IamIdpPropertiesIdpPtrOutput)
+}
+
+// Service Provider configuration.
+func (o IamIdpPropertiesPtrOutput) Sp() IamIdpPropertiesSpPtrOutput {
+	return o.ApplyT(func(v *IamIdpProperties) *IamIdpPropertiesSp {
+		if v == nil {
+			return nil
+		}
+		return v.Sp
+	}).(IamIdpPropertiesSpPtrOutput)
+}
+
+type IamIdpPropertiesIdp struct {
+	// SAML IDP entity ID. Required for SAML when xmlImport is false.
+	EntityId *string `pulumi:"entityId"`
+	// SAML IDP logout URL (optional).
+	LogoutUrl *string `pulumi:"logoutUrl"`
+	// Redirect binding URL. Required for SAML when xmlImport is false.
+	RedirectBindingUrl *string `pulumi:"redirectBindingUrl"`
+	// Indicates if IDP wants requests to be signed.
+	WantRequestSigned *bool `pulumi:"wantRequestSigned"`
+	// Flag indicating if IdP should be imported from metadata.xml.
+	XmlImport *bool `pulumi:"xmlImport"`
+}
+
+// IamIdpPropertiesIdpInput is an input type that accepts IamIdpPropertiesIdpArgs and IamIdpPropertiesIdpOutput values.
+// You can construct a concrete instance of `IamIdpPropertiesIdpInput` via:
+//
+//	IamIdpPropertiesIdpArgs{...}
+type IamIdpPropertiesIdpInput interface {
+	pulumi.Input
+
+	ToIamIdpPropertiesIdpOutput() IamIdpPropertiesIdpOutput
+	ToIamIdpPropertiesIdpOutputWithContext(context.Context) IamIdpPropertiesIdpOutput
+}
+
+type IamIdpPropertiesIdpArgs struct {
+	// SAML IDP entity ID. Required for SAML when xmlImport is false.
+	EntityId pulumi.StringPtrInput `pulumi:"entityId"`
+	// SAML IDP logout URL (optional).
+	LogoutUrl pulumi.StringPtrInput `pulumi:"logoutUrl"`
+	// Redirect binding URL. Required for SAML when xmlImport is false.
+	RedirectBindingUrl pulumi.StringPtrInput `pulumi:"redirectBindingUrl"`
+	// Indicates if IDP wants requests to be signed.
+	WantRequestSigned pulumi.BoolPtrInput `pulumi:"wantRequestSigned"`
+	// Flag indicating if IdP should be imported from metadata.xml.
+	XmlImport pulumi.BoolPtrInput `pulumi:"xmlImport"`
+}
+
+func (IamIdpPropertiesIdpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpPropertiesIdp)(nil)).Elem()
+}
+
+func (i IamIdpPropertiesIdpArgs) ToIamIdpPropertiesIdpOutput() IamIdpPropertiesIdpOutput {
+	return i.ToIamIdpPropertiesIdpOutputWithContext(context.Background())
+}
+
+func (i IamIdpPropertiesIdpArgs) ToIamIdpPropertiesIdpOutputWithContext(ctx context.Context) IamIdpPropertiesIdpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesIdpOutput)
+}
+
+func (i IamIdpPropertiesIdpArgs) ToIamIdpPropertiesIdpPtrOutput() IamIdpPropertiesIdpPtrOutput {
+	return i.ToIamIdpPropertiesIdpPtrOutputWithContext(context.Background())
+}
+
+func (i IamIdpPropertiesIdpArgs) ToIamIdpPropertiesIdpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesIdpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesIdpOutput).ToIamIdpPropertiesIdpPtrOutputWithContext(ctx)
+}
+
+// IamIdpPropertiesIdpPtrInput is an input type that accepts IamIdpPropertiesIdpArgs, IamIdpPropertiesIdpPtr and IamIdpPropertiesIdpPtrOutput values.
+// You can construct a concrete instance of `IamIdpPropertiesIdpPtrInput` via:
+//
+//	        IamIdpPropertiesIdpArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamIdpPropertiesIdpPtrInput interface {
+	pulumi.Input
+
+	ToIamIdpPropertiesIdpPtrOutput() IamIdpPropertiesIdpPtrOutput
+	ToIamIdpPropertiesIdpPtrOutputWithContext(context.Context) IamIdpPropertiesIdpPtrOutput
+}
+
+type iamIdpPropertiesIdpPtrType IamIdpPropertiesIdpArgs
+
+func IamIdpPropertiesIdpPtr(v *IamIdpPropertiesIdpArgs) IamIdpPropertiesIdpPtrInput {
+	return (*iamIdpPropertiesIdpPtrType)(v)
+}
+
+func (*iamIdpPropertiesIdpPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpPropertiesIdp)(nil)).Elem()
+}
+
+func (i *iamIdpPropertiesIdpPtrType) ToIamIdpPropertiesIdpPtrOutput() IamIdpPropertiesIdpPtrOutput {
+	return i.ToIamIdpPropertiesIdpPtrOutputWithContext(context.Background())
+}
+
+func (i *iamIdpPropertiesIdpPtrType) ToIamIdpPropertiesIdpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesIdpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesIdpPtrOutput)
+}
+
+type IamIdpPropertiesIdpOutput struct{ *pulumi.OutputState }
+
+func (IamIdpPropertiesIdpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpPropertiesIdp)(nil)).Elem()
+}
+
+func (o IamIdpPropertiesIdpOutput) ToIamIdpPropertiesIdpOutput() IamIdpPropertiesIdpOutput {
+	return o
+}
+
+func (o IamIdpPropertiesIdpOutput) ToIamIdpPropertiesIdpOutputWithContext(ctx context.Context) IamIdpPropertiesIdpOutput {
+	return o
+}
+
+func (o IamIdpPropertiesIdpOutput) ToIamIdpPropertiesIdpPtrOutput() IamIdpPropertiesIdpPtrOutput {
+	return o.ToIamIdpPropertiesIdpPtrOutputWithContext(context.Background())
+}
+
+func (o IamIdpPropertiesIdpOutput) ToIamIdpPropertiesIdpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesIdpPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamIdpPropertiesIdp) *IamIdpPropertiesIdp {
+		return &v
+	}).(IamIdpPropertiesIdpPtrOutput)
+}
+
+// SAML IDP entity ID. Required for SAML when xmlImport is false.
+func (o IamIdpPropertiesIdpOutput) EntityId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesIdp) *string { return v.EntityId }).(pulumi.StringPtrOutput)
+}
+
+// SAML IDP logout URL (optional).
+func (o IamIdpPropertiesIdpOutput) LogoutUrl() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesIdp) *string { return v.LogoutUrl }).(pulumi.StringPtrOutput)
+}
+
+// Redirect binding URL. Required for SAML when xmlImport is false.
+func (o IamIdpPropertiesIdpOutput) RedirectBindingUrl() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesIdp) *string { return v.RedirectBindingUrl }).(pulumi.StringPtrOutput)
+}
+
+// Indicates if IDP wants requests to be signed.
+func (o IamIdpPropertiesIdpOutput) WantRequestSigned() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesIdp) *bool { return v.WantRequestSigned }).(pulumi.BoolPtrOutput)
+}
+
+// Flag indicating if IdP should be imported from metadata.xml.
+func (o IamIdpPropertiesIdpOutput) XmlImport() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesIdp) *bool { return v.XmlImport }).(pulumi.BoolPtrOutput)
+}
+
+type IamIdpPropertiesIdpPtrOutput struct{ *pulumi.OutputState }
+
+func (IamIdpPropertiesIdpPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpPropertiesIdp)(nil)).Elem()
+}
+
+func (o IamIdpPropertiesIdpPtrOutput) ToIamIdpPropertiesIdpPtrOutput() IamIdpPropertiesIdpPtrOutput {
+	return o
+}
+
+func (o IamIdpPropertiesIdpPtrOutput) ToIamIdpPropertiesIdpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesIdpPtrOutput {
+	return o
+}
+
+func (o IamIdpPropertiesIdpPtrOutput) Elem() IamIdpPropertiesIdpOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesIdp) IamIdpPropertiesIdp {
+		if v != nil {
+			return *v
+		}
+		var ret IamIdpPropertiesIdp
+		return ret
+	}).(IamIdpPropertiesIdpOutput)
+}
+
+// SAML IDP entity ID. Required for SAML when xmlImport is false.
+func (o IamIdpPropertiesIdpPtrOutput) EntityId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesIdp) *string {
+		if v == nil {
+			return nil
+		}
+		return v.EntityId
+	}).(pulumi.StringPtrOutput)
+}
+
+// SAML IDP logout URL (optional).
+func (o IamIdpPropertiesIdpPtrOutput) LogoutUrl() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesIdp) *string {
+		if v == nil {
+			return nil
+		}
+		return v.LogoutUrl
+	}).(pulumi.StringPtrOutput)
+}
+
+// Redirect binding URL. Required for SAML when xmlImport is false.
+func (o IamIdpPropertiesIdpPtrOutput) RedirectBindingUrl() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesIdp) *string {
+		if v == nil {
+			return nil
+		}
+		return v.RedirectBindingUrl
+	}).(pulumi.StringPtrOutput)
+}
+
+// Indicates if IDP wants requests to be signed.
+func (o IamIdpPropertiesIdpPtrOutput) WantRequestSigned() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesIdp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.WantRequestSigned
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Flag indicating if IdP should be imported from metadata.xml.
+func (o IamIdpPropertiesIdpPtrOutput) XmlImport() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesIdp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.XmlImport
+	}).(pulumi.BoolPtrOutput)
+}
+
+type IamIdpPropertiesSp struct {
+	// Indicates if responses should be encrypted.
+	EncryptResponse *bool `pulumi:"encryptResponse"`
+	// Enables IDP-initiated login.
+	IdpInitiatedLoginEnabled *bool `pulumi:"idpInitiatedLoginEnabled"`
+	// URLs for IDP-initiated login.
+	IdpInitiatedUrls []string `pulumi:"idpInitiatedUrls"`
+	// Enables logout URL when available.
+	LogoutUrlEnabledWhenAvailable *bool `pulumi:"logoutUrlEnabledWhenAvailable"`
+	// Indicates if SP wants assertions to be signed.
+	WantAssertionSigned *bool `pulumi:"wantAssertionSigned"`
+	// Indicates if SP wants responses to be signed.
+	WantResponseSigned *bool `pulumi:"wantResponseSigned"`
+}
+
+// IamIdpPropertiesSpInput is an input type that accepts IamIdpPropertiesSpArgs and IamIdpPropertiesSpOutput values.
+// You can construct a concrete instance of `IamIdpPropertiesSpInput` via:
+//
+//	IamIdpPropertiesSpArgs{...}
+type IamIdpPropertiesSpInput interface {
+	pulumi.Input
+
+	ToIamIdpPropertiesSpOutput() IamIdpPropertiesSpOutput
+	ToIamIdpPropertiesSpOutputWithContext(context.Context) IamIdpPropertiesSpOutput
+}
+
+type IamIdpPropertiesSpArgs struct {
+	// Indicates if responses should be encrypted.
+	EncryptResponse pulumi.BoolPtrInput `pulumi:"encryptResponse"`
+	// Enables IDP-initiated login.
+	IdpInitiatedLoginEnabled pulumi.BoolPtrInput `pulumi:"idpInitiatedLoginEnabled"`
+	// URLs for IDP-initiated login.
+	IdpInitiatedUrls pulumi.StringArrayInput `pulumi:"idpInitiatedUrls"`
+	// Enables logout URL when available.
+	LogoutUrlEnabledWhenAvailable pulumi.BoolPtrInput `pulumi:"logoutUrlEnabledWhenAvailable"`
+	// Indicates if SP wants assertions to be signed.
+	WantAssertionSigned pulumi.BoolPtrInput `pulumi:"wantAssertionSigned"`
+	// Indicates if SP wants responses to be signed.
+	WantResponseSigned pulumi.BoolPtrInput `pulumi:"wantResponseSigned"`
+}
+
+func (IamIdpPropertiesSpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpPropertiesSp)(nil)).Elem()
+}
+
+func (i IamIdpPropertiesSpArgs) ToIamIdpPropertiesSpOutput() IamIdpPropertiesSpOutput {
+	return i.ToIamIdpPropertiesSpOutputWithContext(context.Background())
+}
+
+func (i IamIdpPropertiesSpArgs) ToIamIdpPropertiesSpOutputWithContext(ctx context.Context) IamIdpPropertiesSpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesSpOutput)
+}
+
+func (i IamIdpPropertiesSpArgs) ToIamIdpPropertiesSpPtrOutput() IamIdpPropertiesSpPtrOutput {
+	return i.ToIamIdpPropertiesSpPtrOutputWithContext(context.Background())
+}
+
+func (i IamIdpPropertiesSpArgs) ToIamIdpPropertiesSpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesSpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesSpOutput).ToIamIdpPropertiesSpPtrOutputWithContext(ctx)
+}
+
+// IamIdpPropertiesSpPtrInput is an input type that accepts IamIdpPropertiesSpArgs, IamIdpPropertiesSpPtr and IamIdpPropertiesSpPtrOutput values.
+// You can construct a concrete instance of `IamIdpPropertiesSpPtrInput` via:
+//
+//	        IamIdpPropertiesSpArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamIdpPropertiesSpPtrInput interface {
+	pulumi.Input
+
+	ToIamIdpPropertiesSpPtrOutput() IamIdpPropertiesSpPtrOutput
+	ToIamIdpPropertiesSpPtrOutputWithContext(context.Context) IamIdpPropertiesSpPtrOutput
+}
+
+type iamIdpPropertiesSpPtrType IamIdpPropertiesSpArgs
+
+func IamIdpPropertiesSpPtr(v *IamIdpPropertiesSpArgs) IamIdpPropertiesSpPtrInput {
+	return (*iamIdpPropertiesSpPtrType)(v)
+}
+
+func (*iamIdpPropertiesSpPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpPropertiesSp)(nil)).Elem()
+}
+
+func (i *iamIdpPropertiesSpPtrType) ToIamIdpPropertiesSpPtrOutput() IamIdpPropertiesSpPtrOutput {
+	return i.ToIamIdpPropertiesSpPtrOutputWithContext(context.Background())
+}
+
+func (i *iamIdpPropertiesSpPtrType) ToIamIdpPropertiesSpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesSpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpPropertiesSpPtrOutput)
+}
+
+type IamIdpPropertiesSpOutput struct{ *pulumi.OutputState }
+
+func (IamIdpPropertiesSpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpPropertiesSp)(nil)).Elem()
+}
+
+func (o IamIdpPropertiesSpOutput) ToIamIdpPropertiesSpOutput() IamIdpPropertiesSpOutput {
+	return o
+}
+
+func (o IamIdpPropertiesSpOutput) ToIamIdpPropertiesSpOutputWithContext(ctx context.Context) IamIdpPropertiesSpOutput {
+	return o
+}
+
+func (o IamIdpPropertiesSpOutput) ToIamIdpPropertiesSpPtrOutput() IamIdpPropertiesSpPtrOutput {
+	return o.ToIamIdpPropertiesSpPtrOutputWithContext(context.Background())
+}
+
+func (o IamIdpPropertiesSpOutput) ToIamIdpPropertiesSpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesSpPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamIdpPropertiesSp) *IamIdpPropertiesSp {
+		return &v
+	}).(IamIdpPropertiesSpPtrOutput)
+}
+
+// Indicates if responses should be encrypted.
+func (o IamIdpPropertiesSpOutput) EncryptResponse() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesSp) *bool { return v.EncryptResponse }).(pulumi.BoolPtrOutput)
+}
+
+// Enables IDP-initiated login.
+func (o IamIdpPropertiesSpOutput) IdpInitiatedLoginEnabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesSp) *bool { return v.IdpInitiatedLoginEnabled }).(pulumi.BoolPtrOutput)
+}
+
+// URLs for IDP-initiated login.
+func (o IamIdpPropertiesSpOutput) IdpInitiatedUrls() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v IamIdpPropertiesSp) []string { return v.IdpInitiatedUrls }).(pulumi.StringArrayOutput)
+}
+
+// Enables logout URL when available.
+func (o IamIdpPropertiesSpOutput) LogoutUrlEnabledWhenAvailable() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesSp) *bool { return v.LogoutUrlEnabledWhenAvailable }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if SP wants assertions to be signed.
+func (o IamIdpPropertiesSpOutput) WantAssertionSigned() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesSp) *bool { return v.WantAssertionSigned }).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if SP wants responses to be signed.
+func (o IamIdpPropertiesSpOutput) WantResponseSigned() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpPropertiesSp) *bool { return v.WantResponseSigned }).(pulumi.BoolPtrOutput)
+}
+
+type IamIdpPropertiesSpPtrOutput struct{ *pulumi.OutputState }
+
+func (IamIdpPropertiesSpPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpPropertiesSp)(nil)).Elem()
+}
+
+func (o IamIdpPropertiesSpPtrOutput) ToIamIdpPropertiesSpPtrOutput() IamIdpPropertiesSpPtrOutput {
+	return o
+}
+
+func (o IamIdpPropertiesSpPtrOutput) ToIamIdpPropertiesSpPtrOutputWithContext(ctx context.Context) IamIdpPropertiesSpPtrOutput {
+	return o
+}
+
+func (o IamIdpPropertiesSpPtrOutput) Elem() IamIdpPropertiesSpOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) IamIdpPropertiesSp {
+		if v != nil {
+			return *v
+		}
+		var ret IamIdpPropertiesSp
+		return ret
+	}).(IamIdpPropertiesSpOutput)
+}
+
+// Indicates if responses should be encrypted.
+func (o IamIdpPropertiesSpPtrOutput) EncryptResponse() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EncryptResponse
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Enables IDP-initiated login.
+func (o IamIdpPropertiesSpPtrOutput) IdpInitiatedLoginEnabled() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.IdpInitiatedLoginEnabled
+	}).(pulumi.BoolPtrOutput)
+}
+
+// URLs for IDP-initiated login.
+func (o IamIdpPropertiesSpPtrOutput) IdpInitiatedUrls() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) []string {
+		if v == nil {
+			return nil
+		}
+		return v.IdpInitiatedUrls
+	}).(pulumi.StringArrayOutput)
+}
+
+// Enables logout URL when available.
+func (o IamIdpPropertiesSpPtrOutput) LogoutUrlEnabledWhenAvailable() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.LogoutUrlEnabledWhenAvailable
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if SP wants assertions to be signed.
+func (o IamIdpPropertiesSpPtrOutput) WantAssertionSigned() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.WantAssertionSigned
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Indicates if SP wants responses to be signed.
+func (o IamIdpPropertiesSpPtrOutput) WantResponseSigned() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpPropertiesSp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.WantResponseSigned
+	}).(pulumi.BoolPtrOutput)
+}
+
+type IamIdpSecrets struct {
+	// Identity Provider secrets.
+	Idp *IamIdpSecretsIdp `pulumi:"idp"`
+	// Service Provider secrets.
+	Sp *IamIdpSecretsSp `pulumi:"sp"`
+}
+
+// IamIdpSecretsInput is an input type that accepts IamIdpSecretsArgs and IamIdpSecretsOutput values.
+// You can construct a concrete instance of `IamIdpSecretsInput` via:
+//
+//	IamIdpSecretsArgs{...}
+type IamIdpSecretsInput interface {
+	pulumi.Input
+
+	ToIamIdpSecretsOutput() IamIdpSecretsOutput
+	ToIamIdpSecretsOutputWithContext(context.Context) IamIdpSecretsOutput
+}
+
+type IamIdpSecretsArgs struct {
+	// Identity Provider secrets.
+	Idp IamIdpSecretsIdpPtrInput `pulumi:"idp"`
+	// Service Provider secrets.
+	Sp IamIdpSecretsSpPtrInput `pulumi:"sp"`
+}
+
+func (IamIdpSecretsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpSecrets)(nil)).Elem()
+}
+
+func (i IamIdpSecretsArgs) ToIamIdpSecretsOutput() IamIdpSecretsOutput {
+	return i.ToIamIdpSecretsOutputWithContext(context.Background())
+}
+
+func (i IamIdpSecretsArgs) ToIamIdpSecretsOutputWithContext(ctx context.Context) IamIdpSecretsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsOutput)
+}
+
+func (i IamIdpSecretsArgs) ToIamIdpSecretsPtrOutput() IamIdpSecretsPtrOutput {
+	return i.ToIamIdpSecretsPtrOutputWithContext(context.Background())
+}
+
+func (i IamIdpSecretsArgs) ToIamIdpSecretsPtrOutputWithContext(ctx context.Context) IamIdpSecretsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsOutput).ToIamIdpSecretsPtrOutputWithContext(ctx)
+}
+
+// IamIdpSecretsPtrInput is an input type that accepts IamIdpSecretsArgs, IamIdpSecretsPtr and IamIdpSecretsPtrOutput values.
+// You can construct a concrete instance of `IamIdpSecretsPtrInput` via:
+//
+//	        IamIdpSecretsArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamIdpSecretsPtrInput interface {
+	pulumi.Input
+
+	ToIamIdpSecretsPtrOutput() IamIdpSecretsPtrOutput
+	ToIamIdpSecretsPtrOutputWithContext(context.Context) IamIdpSecretsPtrOutput
+}
+
+type iamIdpSecretsPtrType IamIdpSecretsArgs
+
+func IamIdpSecretsPtr(v *IamIdpSecretsArgs) IamIdpSecretsPtrInput {
+	return (*iamIdpSecretsPtrType)(v)
+}
+
+func (*iamIdpSecretsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpSecrets)(nil)).Elem()
+}
+
+func (i *iamIdpSecretsPtrType) ToIamIdpSecretsPtrOutput() IamIdpSecretsPtrOutput {
+	return i.ToIamIdpSecretsPtrOutputWithContext(context.Background())
+}
+
+func (i *iamIdpSecretsPtrType) ToIamIdpSecretsPtrOutputWithContext(ctx context.Context) IamIdpSecretsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsPtrOutput)
+}
+
+type IamIdpSecretsOutput struct{ *pulumi.OutputState }
+
+func (IamIdpSecretsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpSecrets)(nil)).Elem()
+}
+
+func (o IamIdpSecretsOutput) ToIamIdpSecretsOutput() IamIdpSecretsOutput {
+	return o
+}
+
+func (o IamIdpSecretsOutput) ToIamIdpSecretsOutputWithContext(ctx context.Context) IamIdpSecretsOutput {
+	return o
+}
+
+func (o IamIdpSecretsOutput) ToIamIdpSecretsPtrOutput() IamIdpSecretsPtrOutput {
+	return o.ToIamIdpSecretsPtrOutputWithContext(context.Background())
+}
+
+func (o IamIdpSecretsOutput) ToIamIdpSecretsPtrOutputWithContext(ctx context.Context) IamIdpSecretsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamIdpSecrets) *IamIdpSecrets {
+		return &v
+	}).(IamIdpSecretsPtrOutput)
+}
+
+// Identity Provider secrets.
+func (o IamIdpSecretsOutput) Idp() IamIdpSecretsIdpPtrOutput {
+	return o.ApplyT(func(v IamIdpSecrets) *IamIdpSecretsIdp { return v.Idp }).(IamIdpSecretsIdpPtrOutput)
+}
+
+// Service Provider secrets.
+func (o IamIdpSecretsOutput) Sp() IamIdpSecretsSpPtrOutput {
+	return o.ApplyT(func(v IamIdpSecrets) *IamIdpSecretsSp { return v.Sp }).(IamIdpSecretsSpPtrOutput)
+}
+
+type IamIdpSecretsPtrOutput struct{ *pulumi.OutputState }
+
+func (IamIdpSecretsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpSecrets)(nil)).Elem()
+}
+
+func (o IamIdpSecretsPtrOutput) ToIamIdpSecretsPtrOutput() IamIdpSecretsPtrOutput {
+	return o
+}
+
+func (o IamIdpSecretsPtrOutput) ToIamIdpSecretsPtrOutputWithContext(ctx context.Context) IamIdpSecretsPtrOutput {
+	return o
+}
+
+func (o IamIdpSecretsPtrOutput) Elem() IamIdpSecretsOutput {
+	return o.ApplyT(func(v *IamIdpSecrets) IamIdpSecrets {
+		if v != nil {
+			return *v
+		}
+		var ret IamIdpSecrets
+		return ret
+	}).(IamIdpSecretsOutput)
+}
+
+// Identity Provider secrets.
+func (o IamIdpSecretsPtrOutput) Idp() IamIdpSecretsIdpPtrOutput {
+	return o.ApplyT(func(v *IamIdpSecrets) *IamIdpSecretsIdp {
+		if v == nil {
+			return nil
+		}
+		return v.Idp
+	}).(IamIdpSecretsIdpPtrOutput)
+}
+
+// Service Provider secrets.
+func (o IamIdpSecretsPtrOutput) Sp() IamIdpSecretsSpPtrOutput {
+	return o.ApplyT(func(v *IamIdpSecrets) *IamIdpSecretsSp {
+		if v == nil {
+			return nil
+		}
+		return v.Sp
+	}).(IamIdpSecretsSpPtrOutput)
+}
+
+type IamIdpSecretsIdp struct {
+	// Flag indicating if secrets should be imported from metadata.xml.
+	XmlImport *bool `pulumi:"xmlImport"`
+}
+
+// IamIdpSecretsIdpInput is an input type that accepts IamIdpSecretsIdpArgs and IamIdpSecretsIdpOutput values.
+// You can construct a concrete instance of `IamIdpSecretsIdpInput` via:
+//
+//	IamIdpSecretsIdpArgs{...}
+type IamIdpSecretsIdpInput interface {
+	pulumi.Input
+
+	ToIamIdpSecretsIdpOutput() IamIdpSecretsIdpOutput
+	ToIamIdpSecretsIdpOutputWithContext(context.Context) IamIdpSecretsIdpOutput
+}
+
+type IamIdpSecretsIdpArgs struct {
+	// Flag indicating if secrets should be imported from metadata.xml.
+	XmlImport pulumi.BoolPtrInput `pulumi:"xmlImport"`
+}
+
+func (IamIdpSecretsIdpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpSecretsIdp)(nil)).Elem()
+}
+
+func (i IamIdpSecretsIdpArgs) ToIamIdpSecretsIdpOutput() IamIdpSecretsIdpOutput {
+	return i.ToIamIdpSecretsIdpOutputWithContext(context.Background())
+}
+
+func (i IamIdpSecretsIdpArgs) ToIamIdpSecretsIdpOutputWithContext(ctx context.Context) IamIdpSecretsIdpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsIdpOutput)
+}
+
+func (i IamIdpSecretsIdpArgs) ToIamIdpSecretsIdpPtrOutput() IamIdpSecretsIdpPtrOutput {
+	return i.ToIamIdpSecretsIdpPtrOutputWithContext(context.Background())
+}
+
+func (i IamIdpSecretsIdpArgs) ToIamIdpSecretsIdpPtrOutputWithContext(ctx context.Context) IamIdpSecretsIdpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsIdpOutput).ToIamIdpSecretsIdpPtrOutputWithContext(ctx)
+}
+
+// IamIdpSecretsIdpPtrInput is an input type that accepts IamIdpSecretsIdpArgs, IamIdpSecretsIdpPtr and IamIdpSecretsIdpPtrOutput values.
+// You can construct a concrete instance of `IamIdpSecretsIdpPtrInput` via:
+//
+//	        IamIdpSecretsIdpArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamIdpSecretsIdpPtrInput interface {
+	pulumi.Input
+
+	ToIamIdpSecretsIdpPtrOutput() IamIdpSecretsIdpPtrOutput
+	ToIamIdpSecretsIdpPtrOutputWithContext(context.Context) IamIdpSecretsIdpPtrOutput
+}
+
+type iamIdpSecretsIdpPtrType IamIdpSecretsIdpArgs
+
+func IamIdpSecretsIdpPtr(v *IamIdpSecretsIdpArgs) IamIdpSecretsIdpPtrInput {
+	return (*iamIdpSecretsIdpPtrType)(v)
+}
+
+func (*iamIdpSecretsIdpPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpSecretsIdp)(nil)).Elem()
+}
+
+func (i *iamIdpSecretsIdpPtrType) ToIamIdpSecretsIdpPtrOutput() IamIdpSecretsIdpPtrOutput {
+	return i.ToIamIdpSecretsIdpPtrOutputWithContext(context.Background())
+}
+
+func (i *iamIdpSecretsIdpPtrType) ToIamIdpSecretsIdpPtrOutputWithContext(ctx context.Context) IamIdpSecretsIdpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsIdpPtrOutput)
+}
+
+type IamIdpSecretsIdpOutput struct{ *pulumi.OutputState }
+
+func (IamIdpSecretsIdpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpSecretsIdp)(nil)).Elem()
+}
+
+func (o IamIdpSecretsIdpOutput) ToIamIdpSecretsIdpOutput() IamIdpSecretsIdpOutput {
+	return o
+}
+
+func (o IamIdpSecretsIdpOutput) ToIamIdpSecretsIdpOutputWithContext(ctx context.Context) IamIdpSecretsIdpOutput {
+	return o
+}
+
+func (o IamIdpSecretsIdpOutput) ToIamIdpSecretsIdpPtrOutput() IamIdpSecretsIdpPtrOutput {
+	return o.ToIamIdpSecretsIdpPtrOutputWithContext(context.Background())
+}
+
+func (o IamIdpSecretsIdpOutput) ToIamIdpSecretsIdpPtrOutputWithContext(ctx context.Context) IamIdpSecretsIdpPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamIdpSecretsIdp) *IamIdpSecretsIdp {
+		return &v
+	}).(IamIdpSecretsIdpPtrOutput)
+}
+
+// Flag indicating if secrets should be imported from metadata.xml.
+func (o IamIdpSecretsIdpOutput) XmlImport() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IamIdpSecretsIdp) *bool { return v.XmlImport }).(pulumi.BoolPtrOutput)
+}
+
+type IamIdpSecretsIdpPtrOutput struct{ *pulumi.OutputState }
+
+func (IamIdpSecretsIdpPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpSecretsIdp)(nil)).Elem()
+}
+
+func (o IamIdpSecretsIdpPtrOutput) ToIamIdpSecretsIdpPtrOutput() IamIdpSecretsIdpPtrOutput {
+	return o
+}
+
+func (o IamIdpSecretsIdpPtrOutput) ToIamIdpSecretsIdpPtrOutputWithContext(ctx context.Context) IamIdpSecretsIdpPtrOutput {
+	return o
+}
+
+func (o IamIdpSecretsIdpPtrOutput) Elem() IamIdpSecretsIdpOutput {
+	return o.ApplyT(func(v *IamIdpSecretsIdp) IamIdpSecretsIdp {
+		if v != nil {
+			return *v
+		}
+		var ret IamIdpSecretsIdp
+		return ret
+	}).(IamIdpSecretsIdpOutput)
+}
+
+// Flag indicating if secrets should be imported from metadata.xml.
+func (o IamIdpSecretsIdpPtrOutput) XmlImport() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IamIdpSecretsIdp) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.XmlImport
+	}).(pulumi.BoolPtrOutput)
+}
+
+type IamIdpSecretsSp struct {
+}
+
+// IamIdpSecretsSpInput is an input type that accepts IamIdpSecretsSpArgs and IamIdpSecretsSpOutput values.
+// You can construct a concrete instance of `IamIdpSecretsSpInput` via:
+//
+//	IamIdpSecretsSpArgs{...}
+type IamIdpSecretsSpInput interface {
+	pulumi.Input
+
+	ToIamIdpSecretsSpOutput() IamIdpSecretsSpOutput
+	ToIamIdpSecretsSpOutputWithContext(context.Context) IamIdpSecretsSpOutput
+}
+
+type IamIdpSecretsSpArgs struct {
+}
+
+func (IamIdpSecretsSpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpSecretsSp)(nil)).Elem()
+}
+
+func (i IamIdpSecretsSpArgs) ToIamIdpSecretsSpOutput() IamIdpSecretsSpOutput {
+	return i.ToIamIdpSecretsSpOutputWithContext(context.Background())
+}
+
+func (i IamIdpSecretsSpArgs) ToIamIdpSecretsSpOutputWithContext(ctx context.Context) IamIdpSecretsSpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsSpOutput)
+}
+
+func (i IamIdpSecretsSpArgs) ToIamIdpSecretsSpPtrOutput() IamIdpSecretsSpPtrOutput {
+	return i.ToIamIdpSecretsSpPtrOutputWithContext(context.Background())
+}
+
+func (i IamIdpSecretsSpArgs) ToIamIdpSecretsSpPtrOutputWithContext(ctx context.Context) IamIdpSecretsSpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsSpOutput).ToIamIdpSecretsSpPtrOutputWithContext(ctx)
+}
+
+// IamIdpSecretsSpPtrInput is an input type that accepts IamIdpSecretsSpArgs, IamIdpSecretsSpPtr and IamIdpSecretsSpPtrOutput values.
+// You can construct a concrete instance of `IamIdpSecretsSpPtrInput` via:
+//
+//	        IamIdpSecretsSpArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamIdpSecretsSpPtrInput interface {
+	pulumi.Input
+
+	ToIamIdpSecretsSpPtrOutput() IamIdpSecretsSpPtrOutput
+	ToIamIdpSecretsSpPtrOutputWithContext(context.Context) IamIdpSecretsSpPtrOutput
+}
+
+type iamIdpSecretsSpPtrType IamIdpSecretsSpArgs
+
+func IamIdpSecretsSpPtr(v *IamIdpSecretsSpArgs) IamIdpSecretsSpPtrInput {
+	return (*iamIdpSecretsSpPtrType)(v)
+}
+
+func (*iamIdpSecretsSpPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpSecretsSp)(nil)).Elem()
+}
+
+func (i *iamIdpSecretsSpPtrType) ToIamIdpSecretsSpPtrOutput() IamIdpSecretsSpPtrOutput {
+	return i.ToIamIdpSecretsSpPtrOutputWithContext(context.Background())
+}
+
+func (i *iamIdpSecretsSpPtrType) ToIamIdpSecretsSpPtrOutputWithContext(ctx context.Context) IamIdpSecretsSpPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpSecretsSpPtrOutput)
+}
+
+type IamIdpSecretsSpOutput struct{ *pulumi.OutputState }
+
+func (IamIdpSecretsSpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpSecretsSp)(nil)).Elem()
+}
+
+func (o IamIdpSecretsSpOutput) ToIamIdpSecretsSpOutput() IamIdpSecretsSpOutput {
+	return o
+}
+
+func (o IamIdpSecretsSpOutput) ToIamIdpSecretsSpOutputWithContext(ctx context.Context) IamIdpSecretsSpOutput {
+	return o
+}
+
+func (o IamIdpSecretsSpOutput) ToIamIdpSecretsSpPtrOutput() IamIdpSecretsSpPtrOutput {
+	return o.ToIamIdpSecretsSpPtrOutputWithContext(context.Background())
+}
+
+func (o IamIdpSecretsSpOutput) ToIamIdpSecretsSpPtrOutputWithContext(ctx context.Context) IamIdpSecretsSpPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamIdpSecretsSp) *IamIdpSecretsSp {
+		return &v
+	}).(IamIdpSecretsSpPtrOutput)
+}
+
+type IamIdpSecretsSpPtrOutput struct{ *pulumi.OutputState }
+
+func (IamIdpSecretsSpPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamIdpSecretsSp)(nil)).Elem()
+}
+
+func (o IamIdpSecretsSpPtrOutput) ToIamIdpSecretsSpPtrOutput() IamIdpSecretsSpPtrOutput {
+	return o
+}
+
+func (o IamIdpSecretsSpPtrOutput) ToIamIdpSecretsSpPtrOutputWithContext(ctx context.Context) IamIdpSecretsSpPtrOutput {
+	return o
+}
+
+func (o IamIdpSecretsSpPtrOutput) Elem() IamIdpSecretsSpOutput {
+	return o.ApplyT(func(v *IamIdpSecretsSp) IamIdpSecretsSp {
+		if v != nil {
+			return *v
+		}
+		var ret IamIdpSecretsSp
+		return ret
+	}).(IamIdpSecretsSpOutput)
+}
+
+type IamIdpShareScope struct {
+	// ID of the account or enterprise.
+	Id *string `pulumi:"id"`
+	// Type of share scope. Valid values: account, enterprise.
+	Type *string `pulumi:"type"`
+}
+
+// IamIdpShareScopeInput is an input type that accepts IamIdpShareScopeArgs and IamIdpShareScopeOutput values.
+// You can construct a concrete instance of `IamIdpShareScopeInput` via:
+//
+//	IamIdpShareScopeArgs{...}
+type IamIdpShareScopeInput interface {
+	pulumi.Input
+
+	ToIamIdpShareScopeOutput() IamIdpShareScopeOutput
+	ToIamIdpShareScopeOutputWithContext(context.Context) IamIdpShareScopeOutput
+}
+
+type IamIdpShareScopeArgs struct {
+	// ID of the account or enterprise.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// Type of share scope. Valid values: account, enterprise.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (IamIdpShareScopeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpShareScope)(nil)).Elem()
+}
+
+func (i IamIdpShareScopeArgs) ToIamIdpShareScopeOutput() IamIdpShareScopeOutput {
+	return i.ToIamIdpShareScopeOutputWithContext(context.Background())
+}
+
+func (i IamIdpShareScopeArgs) ToIamIdpShareScopeOutputWithContext(ctx context.Context) IamIdpShareScopeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpShareScopeOutput)
+}
+
+// IamIdpShareScopeArrayInput is an input type that accepts IamIdpShareScopeArray and IamIdpShareScopeArrayOutput values.
+// You can construct a concrete instance of `IamIdpShareScopeArrayInput` via:
+//
+//	IamIdpShareScopeArray{ IamIdpShareScopeArgs{...} }
+type IamIdpShareScopeArrayInput interface {
+	pulumi.Input
+
+	ToIamIdpShareScopeArrayOutput() IamIdpShareScopeArrayOutput
+	ToIamIdpShareScopeArrayOutputWithContext(context.Context) IamIdpShareScopeArrayOutput
+}
+
+type IamIdpShareScopeArray []IamIdpShareScopeInput
+
+func (IamIdpShareScopeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamIdpShareScope)(nil)).Elem()
+}
+
+func (i IamIdpShareScopeArray) ToIamIdpShareScopeArrayOutput() IamIdpShareScopeArrayOutput {
+	return i.ToIamIdpShareScopeArrayOutputWithContext(context.Background())
+}
+
+func (i IamIdpShareScopeArray) ToIamIdpShareScopeArrayOutputWithContext(ctx context.Context) IamIdpShareScopeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamIdpShareScopeArrayOutput)
+}
+
+type IamIdpShareScopeOutput struct{ *pulumi.OutputState }
+
+func (IamIdpShareScopeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamIdpShareScope)(nil)).Elem()
+}
+
+func (o IamIdpShareScopeOutput) ToIamIdpShareScopeOutput() IamIdpShareScopeOutput {
+	return o
+}
+
+func (o IamIdpShareScopeOutput) ToIamIdpShareScopeOutputWithContext(ctx context.Context) IamIdpShareScopeOutput {
+	return o
+}
+
+// ID of the account or enterprise.
+func (o IamIdpShareScopeOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamIdpShareScope) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// Type of share scope. Valid values: account, enterprise.
+func (o IamIdpShareScopeOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamIdpShareScope) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type IamIdpShareScopeArrayOutput struct{ *pulumi.OutputState }
+
+func (IamIdpShareScopeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamIdpShareScope)(nil)).Elem()
+}
+
+func (o IamIdpShareScopeArrayOutput) ToIamIdpShareScopeArrayOutput() IamIdpShareScopeArrayOutput {
+	return o
+}
+
+func (o IamIdpShareScopeArrayOutput) ToIamIdpShareScopeArrayOutputWithContext(ctx context.Context) IamIdpShareScopeArrayOutput {
+	return o
+}
+
+func (o IamIdpShareScopeArrayOutput) Index(i pulumi.IntInput) IamIdpShareScopeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamIdpShareScope {
+		return vs[0].([]IamIdpShareScope)[vs[1].(int)]
+	}).(IamIdpShareScopeOutput)
+}
+
 type IamPolicyAssignmentResource struct {
 	// Set of properties for the assigned resource.
 	Policies []IamPolicyAssignmentResourcePolicy `pulumi:"policies"`
@@ -14751,6 +15398,8 @@ type IamPolicyTemplatePolicy struct {
 	Pattern *string `pulumi:"pattern"`
 	// The resource attributes to which the policy grants access.
 	Resources []IamPolicyTemplatePolicyResource `pulumi:"resources"`
+	// Role template references for assignment.
+	RoleTemplateReferences []IamPolicyTemplatePolicyRoleTemplateReference `pulumi:"roleTemplateReferences"`
 	// Role names of the policy definition
 	Roles []string `pulumi:"roles"`
 	// Rule conditions enforced by the policy
@@ -14781,6 +15430,8 @@ type IamPolicyTemplatePolicyArgs struct {
 	Pattern pulumi.StringPtrInput `pulumi:"pattern"`
 	// The resource attributes to which the policy grants access.
 	Resources IamPolicyTemplatePolicyResourceArrayInput `pulumi:"resources"`
+	// Role template references for assignment.
+	RoleTemplateReferences IamPolicyTemplatePolicyRoleTemplateReferenceArrayInput `pulumi:"roleTemplateReferences"`
 	// Role names of the policy definition
 	Roles pulumi.StringArrayInput `pulumi:"roles"`
 	// Rule conditions enforced by the policy
@@ -14885,6 +15536,13 @@ func (o IamPolicyTemplatePolicyOutput) Resources() IamPolicyTemplatePolicyResour
 	return o.ApplyT(func(v IamPolicyTemplatePolicy) []IamPolicyTemplatePolicyResource { return v.Resources }).(IamPolicyTemplatePolicyResourceArrayOutput)
 }
 
+// Role template references for assignment.
+func (o IamPolicyTemplatePolicyOutput) RoleTemplateReferences() IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput {
+	return o.ApplyT(func(v IamPolicyTemplatePolicy) []IamPolicyTemplatePolicyRoleTemplateReference {
+		return v.RoleTemplateReferences
+	}).(IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput)
+}
+
 // Role names of the policy definition
 func (o IamPolicyTemplatePolicyOutput) Roles() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v IamPolicyTemplatePolicy) []string { return v.Roles }).(pulumi.StringArrayOutput)
@@ -14962,6 +15620,16 @@ func (o IamPolicyTemplatePolicyPtrOutput) Resources() IamPolicyTemplatePolicyRes
 		}
 		return v.Resources
 	}).(IamPolicyTemplatePolicyResourceArrayOutput)
+}
+
+// Role template references for assignment.
+func (o IamPolicyTemplatePolicyPtrOutput) RoleTemplateReferences() IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput {
+	return o.ApplyT(func(v *IamPolicyTemplatePolicy) []IamPolicyTemplatePolicyRoleTemplateReference {
+		if v == nil {
+			return nil
+		}
+		return v.RoleTemplateReferences
+	}).(IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput)
 }
 
 // Role names of the policy definition
@@ -15350,6 +16018,112 @@ func (o IamPolicyTemplatePolicyResourceTagArrayOutput) Index(i pulumi.IntInput) 
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamPolicyTemplatePolicyResourceTag {
 		return vs[0].([]IamPolicyTemplatePolicyResourceTag)[vs[1].(int)]
 	}).(IamPolicyTemplatePolicyResourceTagOutput)
+}
+
+type IamPolicyTemplatePolicyRoleTemplateReference struct {
+	// Role template id
+	Id string `pulumi:"id"`
+	// Role template version
+	Version string `pulumi:"version"`
+}
+
+// IamPolicyTemplatePolicyRoleTemplateReferenceInput is an input type that accepts IamPolicyTemplatePolicyRoleTemplateReferenceArgs and IamPolicyTemplatePolicyRoleTemplateReferenceOutput values.
+// You can construct a concrete instance of `IamPolicyTemplatePolicyRoleTemplateReferenceInput` via:
+//
+//	IamPolicyTemplatePolicyRoleTemplateReferenceArgs{...}
+type IamPolicyTemplatePolicyRoleTemplateReferenceInput interface {
+	pulumi.Input
+
+	ToIamPolicyTemplatePolicyRoleTemplateReferenceOutput() IamPolicyTemplatePolicyRoleTemplateReferenceOutput
+	ToIamPolicyTemplatePolicyRoleTemplateReferenceOutputWithContext(context.Context) IamPolicyTemplatePolicyRoleTemplateReferenceOutput
+}
+
+type IamPolicyTemplatePolicyRoleTemplateReferenceArgs struct {
+	// Role template id
+	Id pulumi.StringInput `pulumi:"id"`
+	// Role template version
+	Version pulumi.StringInput `pulumi:"version"`
+}
+
+func (IamPolicyTemplatePolicyRoleTemplateReferenceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamPolicyTemplatePolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (i IamPolicyTemplatePolicyRoleTemplateReferenceArgs) ToIamPolicyTemplatePolicyRoleTemplateReferenceOutput() IamPolicyTemplatePolicyRoleTemplateReferenceOutput {
+	return i.ToIamPolicyTemplatePolicyRoleTemplateReferenceOutputWithContext(context.Background())
+}
+
+func (i IamPolicyTemplatePolicyRoleTemplateReferenceArgs) ToIamPolicyTemplatePolicyRoleTemplateReferenceOutputWithContext(ctx context.Context) IamPolicyTemplatePolicyRoleTemplateReferenceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamPolicyTemplatePolicyRoleTemplateReferenceOutput)
+}
+
+// IamPolicyTemplatePolicyRoleTemplateReferenceArrayInput is an input type that accepts IamPolicyTemplatePolicyRoleTemplateReferenceArray and IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput values.
+// You can construct a concrete instance of `IamPolicyTemplatePolicyRoleTemplateReferenceArrayInput` via:
+//
+//	IamPolicyTemplatePolicyRoleTemplateReferenceArray{ IamPolicyTemplatePolicyRoleTemplateReferenceArgs{...} }
+type IamPolicyTemplatePolicyRoleTemplateReferenceArrayInput interface {
+	pulumi.Input
+
+	ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput() IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput
+	ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutputWithContext(context.Context) IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput
+}
+
+type IamPolicyTemplatePolicyRoleTemplateReferenceArray []IamPolicyTemplatePolicyRoleTemplateReferenceInput
+
+func (IamPolicyTemplatePolicyRoleTemplateReferenceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamPolicyTemplatePolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (i IamPolicyTemplatePolicyRoleTemplateReferenceArray) ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput() IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput {
+	return i.ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutputWithContext(context.Background())
+}
+
+func (i IamPolicyTemplatePolicyRoleTemplateReferenceArray) ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutputWithContext(ctx context.Context) IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput)
+}
+
+type IamPolicyTemplatePolicyRoleTemplateReferenceOutput struct{ *pulumi.OutputState }
+
+func (IamPolicyTemplatePolicyRoleTemplateReferenceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamPolicyTemplatePolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceOutput) ToIamPolicyTemplatePolicyRoleTemplateReferenceOutput() IamPolicyTemplatePolicyRoleTemplateReferenceOutput {
+	return o
+}
+
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceOutput) ToIamPolicyTemplatePolicyRoleTemplateReferenceOutputWithContext(ctx context.Context) IamPolicyTemplatePolicyRoleTemplateReferenceOutput {
+	return o
+}
+
+// Role template id
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v IamPolicyTemplatePolicyRoleTemplateReference) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Role template version
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceOutput) Version() pulumi.StringOutput {
+	return o.ApplyT(func(v IamPolicyTemplatePolicyRoleTemplateReference) string { return v.Version }).(pulumi.StringOutput)
+}
+
+type IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput struct{ *pulumi.OutputState }
+
+func (IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamPolicyTemplatePolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput) ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput() IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput {
+	return o
+}
+
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput) ToIamPolicyTemplatePolicyRoleTemplateReferenceArrayOutputWithContext(ctx context.Context) IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput {
+	return o
+}
+
+func (o IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput) Index(i pulumi.IntInput) IamPolicyTemplatePolicyRoleTemplateReferenceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamPolicyTemplatePolicyRoleTemplateReference {
+		return vs[0].([]IamPolicyTemplatePolicyRoleTemplateReference)[vs[1].(int)]
+	}).(IamPolicyTemplatePolicyRoleTemplateReferenceOutput)
 }
 
 type IamPolicyTemplatePolicyRuleCondition struct {
@@ -15812,6 +16586,8 @@ type IamPolicyTemplateVersionPolicy struct {
 	Pattern *string `pulumi:"pattern"`
 	// The resource attributes to which the policy grants access.
 	Resource *IamPolicyTemplateVersionPolicyResource `pulumi:"resource"`
+	// Role template references for assignment.
+	RoleTemplateReferences []IamPolicyTemplateVersionPolicyRoleTemplateReference `pulumi:"roleTemplateReferences"`
 	// Role names of the policy definition
 	Roles []string `pulumi:"roles"`
 	// Rule conditions enforced by the policy
@@ -15842,6 +16618,8 @@ type IamPolicyTemplateVersionPolicyArgs struct {
 	Pattern pulumi.StringPtrInput `pulumi:"pattern"`
 	// The resource attributes to which the policy grants access.
 	Resource IamPolicyTemplateVersionPolicyResourcePtrInput `pulumi:"resource"`
+	// Role template references for assignment.
+	RoleTemplateReferences IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayInput `pulumi:"roleTemplateReferences"`
 	// Role names of the policy definition
 	Roles pulumi.StringArrayInput `pulumi:"roles"`
 	// Rule conditions enforced by the policy
@@ -15946,6 +16724,13 @@ func (o IamPolicyTemplateVersionPolicyOutput) Resource() IamPolicyTemplateVersio
 	return o.ApplyT(func(v IamPolicyTemplateVersionPolicy) *IamPolicyTemplateVersionPolicyResource { return v.Resource }).(IamPolicyTemplateVersionPolicyResourcePtrOutput)
 }
 
+// Role template references for assignment.
+func (o IamPolicyTemplateVersionPolicyOutput) RoleTemplateReferences() IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput {
+	return o.ApplyT(func(v IamPolicyTemplateVersionPolicy) []IamPolicyTemplateVersionPolicyRoleTemplateReference {
+		return v.RoleTemplateReferences
+	}).(IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput)
+}
+
 // Role names of the policy definition
 func (o IamPolicyTemplateVersionPolicyOutput) Roles() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v IamPolicyTemplateVersionPolicy) []string { return v.Roles }).(pulumi.StringArrayOutput)
@@ -16025,6 +16810,16 @@ func (o IamPolicyTemplateVersionPolicyPtrOutput) Resource() IamPolicyTemplateVer
 		}
 		return v.Resource
 	}).(IamPolicyTemplateVersionPolicyResourcePtrOutput)
+}
+
+// Role template references for assignment.
+func (o IamPolicyTemplateVersionPolicyPtrOutput) RoleTemplateReferences() IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput {
+	return o.ApplyT(func(v *IamPolicyTemplateVersionPolicy) []IamPolicyTemplateVersionPolicyRoleTemplateReference {
+		if v == nil {
+			return nil
+		}
+		return v.RoleTemplateReferences
+	}).(IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput)
 }
 
 // Role names of the policy definition
@@ -16465,6 +17260,112 @@ func (o IamPolicyTemplateVersionPolicyResourceTagArrayOutput) Index(i pulumi.Int
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamPolicyTemplateVersionPolicyResourceTag {
 		return vs[0].([]IamPolicyTemplateVersionPolicyResourceTag)[vs[1].(int)]
 	}).(IamPolicyTemplateVersionPolicyResourceTagOutput)
+}
+
+type IamPolicyTemplateVersionPolicyRoleTemplateReference struct {
+	// Role template id
+	Id string `pulumi:"id"`
+	// Role template version
+	Version string `pulumi:"version"`
+}
+
+// IamPolicyTemplateVersionPolicyRoleTemplateReferenceInput is an input type that accepts IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs and IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput values.
+// You can construct a concrete instance of `IamPolicyTemplateVersionPolicyRoleTemplateReferenceInput` via:
+//
+//	IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs{...}
+type IamPolicyTemplateVersionPolicyRoleTemplateReferenceInput interface {
+	pulumi.Input
+
+	ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput() IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput
+	ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutputWithContext(context.Context) IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput
+}
+
+type IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs struct {
+	// Role template id
+	Id pulumi.StringInput `pulumi:"id"`
+	// Role template version
+	Version pulumi.StringInput `pulumi:"version"`
+}
+
+func (IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamPolicyTemplateVersionPolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (i IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput() IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput {
+	return i.ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutputWithContext(context.Background())
+}
+
+func (i IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutputWithContext(ctx context.Context) IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput)
+}
+
+// IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayInput is an input type that accepts IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray and IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput values.
+// You can construct a concrete instance of `IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayInput` via:
+//
+//	IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray{ IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs{...} }
+type IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayInput interface {
+	pulumi.Input
+
+	ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput() IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput
+	ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutputWithContext(context.Context) IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput
+}
+
+type IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray []IamPolicyTemplateVersionPolicyRoleTemplateReferenceInput
+
+func (IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamPolicyTemplateVersionPolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (i IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput() IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput {
+	return i.ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutputWithContext(context.Background())
+}
+
+func (i IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutputWithContext(ctx context.Context) IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput)
+}
+
+type IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput struct{ *pulumi.OutputState }
+
+func (IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamPolicyTemplateVersionPolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput() IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput {
+	return o
+}
+
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceOutputWithContext(ctx context.Context) IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput {
+	return o
+}
+
+// Role template id
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v IamPolicyTemplateVersionPolicyRoleTemplateReference) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Role template version
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput) Version() pulumi.StringOutput {
+	return o.ApplyT(func(v IamPolicyTemplateVersionPolicyRoleTemplateReference) string { return v.Version }).(pulumi.StringOutput)
+}
+
+type IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput struct{ *pulumi.OutputState }
+
+func (IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamPolicyTemplateVersionPolicyRoleTemplateReference)(nil)).Elem()
+}
+
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput() IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput {
+	return o
+}
+
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput) ToIamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutputWithContext(ctx context.Context) IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput {
+	return o
+}
+
+func (o IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput) Index(i pulumi.IntInput) IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamPolicyTemplateVersionPolicyRoleTemplateReference {
+		return vs[0].([]IamPolicyTemplateVersionPolicyRoleTemplateReference)[vs[1].(int)]
+	}).(IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput)
 }
 
 type IamPolicyTemplateVersionPolicyRuleCondition struct {
@@ -16920,6 +17821,1500 @@ func (o IamPolicyTemplateVersionPolicySubjectAttributeArrayOutput) Index(i pulum
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamPolicyTemplateVersionPolicySubjectAttribute {
 		return vs[0].([]IamPolicyTemplateVersionPolicySubjectAttribute)[vs[1].(int)]
 	}).(IamPolicyTemplateVersionPolicySubjectAttributeOutput)
+}
+
+type IamRoleAssignmentResource struct {
+	// Set of properties of the assigned resource or error message if assignment failed.
+	Roles []IamRoleAssignmentResourceRole `pulumi:"roles"`
+	// assignment target details
+	Target map[string]string `pulumi:"target"`
+}
+
+// IamRoleAssignmentResourceInput is an input type that accepts IamRoleAssignmentResourceArgs and IamRoleAssignmentResourceOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceInput` via:
+//
+//	IamRoleAssignmentResourceArgs{...}
+type IamRoleAssignmentResourceInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceOutput() IamRoleAssignmentResourceOutput
+	ToIamRoleAssignmentResourceOutputWithContext(context.Context) IamRoleAssignmentResourceOutput
+}
+
+type IamRoleAssignmentResourceArgs struct {
+	// Set of properties of the assigned resource or error message if assignment failed.
+	Roles IamRoleAssignmentResourceRoleArrayInput `pulumi:"roles"`
+	// assignment target details
+	Target pulumi.StringMapInput `pulumi:"target"`
+}
+
+func (IamRoleAssignmentResourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResource)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceArgs) ToIamRoleAssignmentResourceOutput() IamRoleAssignmentResourceOutput {
+	return i.ToIamRoleAssignmentResourceOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceArgs) ToIamRoleAssignmentResourceOutputWithContext(ctx context.Context) IamRoleAssignmentResourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceOutput)
+}
+
+// IamRoleAssignmentResourceArrayInput is an input type that accepts IamRoleAssignmentResourceArray and IamRoleAssignmentResourceArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceArrayInput` via:
+//
+//	IamRoleAssignmentResourceArray{ IamRoleAssignmentResourceArgs{...} }
+type IamRoleAssignmentResourceArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceArrayOutput() IamRoleAssignmentResourceArrayOutput
+	ToIamRoleAssignmentResourceArrayOutputWithContext(context.Context) IamRoleAssignmentResourceArrayOutput
+}
+
+type IamRoleAssignmentResourceArray []IamRoleAssignmentResourceInput
+
+func (IamRoleAssignmentResourceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResource)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceArray) ToIamRoleAssignmentResourceArrayOutput() IamRoleAssignmentResourceArrayOutput {
+	return i.ToIamRoleAssignmentResourceArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceArray) ToIamRoleAssignmentResourceArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceArrayOutput)
+}
+
+type IamRoleAssignmentResourceOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResource)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceOutput) ToIamRoleAssignmentResourceOutput() IamRoleAssignmentResourceOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceOutput) ToIamRoleAssignmentResourceOutputWithContext(ctx context.Context) IamRoleAssignmentResourceOutput {
+	return o
+}
+
+// Set of properties of the assigned resource or error message if assignment failed.
+func (o IamRoleAssignmentResourceOutput) Roles() IamRoleAssignmentResourceRoleArrayOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResource) []IamRoleAssignmentResourceRole { return v.Roles }).(IamRoleAssignmentResourceRoleArrayOutput)
+}
+
+// assignment target details
+func (o IamRoleAssignmentResourceOutput) Target() pulumi.StringMapOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResource) map[string]string { return v.Target }).(pulumi.StringMapOutput)
+}
+
+type IamRoleAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResource)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceArrayOutput) ToIamRoleAssignmentResourceArrayOutput() IamRoleAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceArrayOutput) ToIamRoleAssignmentResourceArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResource {
+		return vs[0].([]IamRoleAssignmentResource)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceOutput)
+}
+
+type IamRoleAssignmentResourceRole struct {
+	// The error response from API.
+	ErrorMessages []IamRoleAssignmentResourceRoleErrorMessage `pulumi:"errorMessages"`
+	// On success, it includes the role assigned.
+	ResourceCreateds []IamRoleAssignmentResourceRoleResourceCreated `pulumi:"resourceCreateds"`
+}
+
+// IamRoleAssignmentResourceRoleInput is an input type that accepts IamRoleAssignmentResourceRoleArgs and IamRoleAssignmentResourceRoleOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleInput` via:
+//
+//	IamRoleAssignmentResourceRoleArgs{...}
+type IamRoleAssignmentResourceRoleInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleOutput() IamRoleAssignmentResourceRoleOutput
+	ToIamRoleAssignmentResourceRoleOutputWithContext(context.Context) IamRoleAssignmentResourceRoleOutput
+}
+
+type IamRoleAssignmentResourceRoleArgs struct {
+	// The error response from API.
+	ErrorMessages IamRoleAssignmentResourceRoleErrorMessageArrayInput `pulumi:"errorMessages"`
+	// On success, it includes the role assigned.
+	ResourceCreateds IamRoleAssignmentResourceRoleResourceCreatedArrayInput `pulumi:"resourceCreateds"`
+}
+
+func (IamRoleAssignmentResourceRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRole)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleArgs) ToIamRoleAssignmentResourceRoleOutput() IamRoleAssignmentResourceRoleOutput {
+	return i.ToIamRoleAssignmentResourceRoleOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleArgs) ToIamRoleAssignmentResourceRoleOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleOutput)
+}
+
+// IamRoleAssignmentResourceRoleArrayInput is an input type that accepts IamRoleAssignmentResourceRoleArray and IamRoleAssignmentResourceRoleArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleArrayInput` via:
+//
+//	IamRoleAssignmentResourceRoleArray{ IamRoleAssignmentResourceRoleArgs{...} }
+type IamRoleAssignmentResourceRoleArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleArrayOutput() IamRoleAssignmentResourceRoleArrayOutput
+	ToIamRoleAssignmentResourceRoleArrayOutputWithContext(context.Context) IamRoleAssignmentResourceRoleArrayOutput
+}
+
+type IamRoleAssignmentResourceRoleArray []IamRoleAssignmentResourceRoleInput
+
+func (IamRoleAssignmentResourceRoleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRole)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleArray) ToIamRoleAssignmentResourceRoleArrayOutput() IamRoleAssignmentResourceRoleArrayOutput {
+	return i.ToIamRoleAssignmentResourceRoleArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleArray) ToIamRoleAssignmentResourceRoleArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRole)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleOutput) ToIamRoleAssignmentResourceRoleOutput() IamRoleAssignmentResourceRoleOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleOutput) ToIamRoleAssignmentResourceRoleOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleOutput {
+	return o
+}
+
+// The error response from API.
+func (o IamRoleAssignmentResourceRoleOutput) ErrorMessages() IamRoleAssignmentResourceRoleErrorMessageArrayOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRole) []IamRoleAssignmentResourceRoleErrorMessage {
+		return v.ErrorMessages
+	}).(IamRoleAssignmentResourceRoleErrorMessageArrayOutput)
+}
+
+// On success, it includes the role assigned.
+func (o IamRoleAssignmentResourceRoleOutput) ResourceCreateds() IamRoleAssignmentResourceRoleResourceCreatedArrayOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRole) []IamRoleAssignmentResourceRoleResourceCreated {
+		return v.ResourceCreateds
+	}).(IamRoleAssignmentResourceRoleResourceCreatedArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRole)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleArrayOutput) ToIamRoleAssignmentResourceRoleArrayOutput() IamRoleAssignmentResourceRoleArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleArrayOutput) ToIamRoleAssignmentResourceRoleArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceRoleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResourceRole {
+		return vs[0].([]IamRoleAssignmentResourceRole)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceRoleOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessage struct {
+	// Internal status code for the error.
+	Code *string `pulumi:"code"`
+	// Internal error code.
+	ErrorCode *string `pulumi:"errorCode"`
+	// The errors encountered during the response.
+	Errors []IamRoleAssignmentResourceRoleErrorMessageError `pulumi:"errors"`
+	// Error message detailing the nature of the error.
+	Message *string `pulumi:"message"`
+	// Name of the error.
+	Name *string `pulumi:"name"`
+	// The HTTP error code of the response.
+	StatusCode *int `pulumi:"statusCode"`
+	// The unique transaction ID for the request.
+	Trace *string `pulumi:"trace"`
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageArgs and IamRoleAssignmentResourceRoleErrorMessageOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageArgs{...}
+type IamRoleAssignmentResourceRoleErrorMessageInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageOutput() IamRoleAssignmentResourceRoleErrorMessageOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageArgs struct {
+	// Internal status code for the error.
+	Code pulumi.StringPtrInput `pulumi:"code"`
+	// Internal error code.
+	ErrorCode pulumi.StringPtrInput `pulumi:"errorCode"`
+	// The errors encountered during the response.
+	Errors IamRoleAssignmentResourceRoleErrorMessageErrorArrayInput `pulumi:"errors"`
+	// Error message detailing the nature of the error.
+	Message pulumi.StringPtrInput `pulumi:"message"`
+	// Name of the error.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	// The HTTP error code of the response.
+	StatusCode pulumi.IntPtrInput `pulumi:"statusCode"`
+	// The unique transaction ID for the request.
+	Trace pulumi.StringPtrInput `pulumi:"trace"`
+}
+
+func (IamRoleAssignmentResourceRoleErrorMessageArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessage)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageArgs) ToIamRoleAssignmentResourceRoleErrorMessageOutput() IamRoleAssignmentResourceRoleErrorMessageOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageArgs) ToIamRoleAssignmentResourceRoleErrorMessageOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageOutput)
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageArrayInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageArray and IamRoleAssignmentResourceRoleErrorMessageArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageArrayInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageArray{ IamRoleAssignmentResourceRoleErrorMessageArgs{...} }
+type IamRoleAssignmentResourceRoleErrorMessageArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageArrayOutput() IamRoleAssignmentResourceRoleErrorMessageArrayOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageArrayOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageArrayOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageArray []IamRoleAssignmentResourceRoleErrorMessageInput
+
+func (IamRoleAssignmentResourceRoleErrorMessageArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessage)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageArray) ToIamRoleAssignmentResourceRoleErrorMessageArrayOutput() IamRoleAssignmentResourceRoleErrorMessageArrayOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageArray) ToIamRoleAssignmentResourceRoleErrorMessageArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessage)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) ToIamRoleAssignmentResourceRoleErrorMessageOutput() IamRoleAssignmentResourceRoleErrorMessageOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) ToIamRoleAssignmentResourceRoleErrorMessageOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageOutput {
+	return o
+}
+
+// Internal status code for the error.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) Code() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) *string { return v.Code }).(pulumi.StringPtrOutput)
+}
+
+// Internal error code.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) ErrorCode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) *string { return v.ErrorCode }).(pulumi.StringPtrOutput)
+}
+
+// The errors encountered during the response.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) Errors() IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) []IamRoleAssignmentResourceRoleErrorMessageError {
+		return v.Errors
+	}).(IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput)
+}
+
+// Error message detailing the nature of the error.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) *string { return v.Message }).(pulumi.StringPtrOutput)
+}
+
+// Name of the error.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The HTTP error code of the response.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) StatusCode() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) *int { return v.StatusCode }).(pulumi.IntPtrOutput)
+}
+
+// The unique transaction ID for the request.
+func (o IamRoleAssignmentResourceRoleErrorMessageOutput) Trace() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessage) *string { return v.Trace }).(pulumi.StringPtrOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessage)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageArrayOutput() IamRoleAssignmentResourceRoleErrorMessageArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceRoleErrorMessageOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResourceRoleErrorMessage {
+		return vs[0].([]IamRoleAssignmentResourceRoleErrorMessage)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceRoleErrorMessageOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageError struct {
+	// The API error code for the error.
+	Code *string `pulumi:"code"`
+	// Additional error details.
+	Details []IamRoleAssignmentResourceRoleErrorMessageErrorDetail `pulumi:"details"`
+	// The error message returned by the API.
+	Message *string `pulumi:"message"`
+	// Additional info for error.
+	MoreInfo *string `pulumi:"moreInfo"`
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageErrorInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageErrorArgs and IamRoleAssignmentResourceRoleErrorMessageErrorOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageErrorInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageErrorArgs{...}
+type IamRoleAssignmentResourceRoleErrorMessageErrorInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorOutput() IamRoleAssignmentResourceRoleErrorMessageErrorOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorArgs struct {
+	// The API error code for the error.
+	Code pulumi.StringPtrInput `pulumi:"code"`
+	// Additional error details.
+	Details IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayInput `pulumi:"details"`
+	// The error message returned by the API.
+	Message pulumi.StringPtrInput `pulumi:"message"`
+	// Additional info for error.
+	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
+}
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageError)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorArgs) ToIamRoleAssignmentResourceRoleErrorMessageErrorOutput() IamRoleAssignmentResourceRoleErrorMessageErrorOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageErrorOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorArgs) ToIamRoleAssignmentResourceRoleErrorMessageErrorOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageErrorOutput)
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageErrorArrayInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageErrorArray and IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageErrorArrayInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageErrorArray{ IamRoleAssignmentResourceRoleErrorMessageErrorArgs{...} }
+type IamRoleAssignmentResourceRoleErrorMessageErrorArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorArray []IamRoleAssignmentResourceRoleErrorMessageErrorInput
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessageError)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorArray) ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorArray) ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageError)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorOutput() IamRoleAssignmentResourceRoleErrorMessageErrorOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorOutput {
+	return o
+}
+
+// The API error code for the error.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorOutput) Code() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageError) *string { return v.Code }).(pulumi.StringPtrOutput)
+}
+
+// Additional error details.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorOutput) Details() IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageError) []IamRoleAssignmentResourceRoleErrorMessageErrorDetail {
+		return v.Details
+	}).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput)
+}
+
+// The error message returned by the API.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageError) *string { return v.Message }).(pulumi.StringPtrOutput)
+}
+
+// Additional info for error.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorOutput) MoreInfo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageError) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessageError)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceRoleErrorMessageErrorOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResourceRoleErrorMessageError {
+		return vs[0].([]IamRoleAssignmentResourceRoleErrorMessageError)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceRoleErrorMessageErrorOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetail struct {
+	// Details of conflicting resource.
+	ConflictsWiths []IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith `pulumi:"conflictsWiths"`
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageErrorDetailInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs and IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageErrorDetailInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs{...}
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs struct {
+	// Details of conflicting resource.
+	ConflictsWiths IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayInput `pulumi:"conflictsWiths"`
+}
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput)
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray and IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray{ IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs{...} }
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray []IamRoleAssignmentResourceRoleErrorMessageErrorDetailInput
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput {
+	return o
+}
+
+// Details of conflicting resource.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput) ConflictsWiths() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageErrorDetail) []IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith {
+		return v.ConflictsWiths
+	}).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResourceRoleErrorMessageErrorDetail {
+		return vs[0].([]IamRoleAssignmentResourceRoleErrorMessageErrorDetail)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith struct {
+	// The revision number of the resource.
+	Etag *string `pulumi:"etag"`
+	// The conflicting policy ID.
+	Policy *string `pulumi:"policy"`
+	// The conflicting role of ID.
+	Role *string `pulumi:"role"`
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs and IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs{...}
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs struct {
+	// The revision number of the resource.
+	Etag pulumi.StringPtrInput `pulumi:"etag"`
+	// The conflicting policy ID.
+	Policy pulumi.StringPtrInput `pulumi:"policy"`
+	// The conflicting role of ID.
+	Role pulumi.StringPtrInput `pulumi:"role"`
+}
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput)
+}
+
+// IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayInput is an input type that accepts IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray and IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayInput` via:
+//
+//	IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray{ IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs{...} }
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput
+	ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray []IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithInput
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput {
+	return i.ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput {
+	return o
+}
+
+// The revision number of the resource.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput) Etag() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith) *string { return v.Etag }).(pulumi.StringPtrOutput)
+}
+
+// The conflicting policy ID.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput) Policy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith) *string { return v.Policy }).(pulumi.StringPtrOutput)
+}
+
+// The conflicting role of ID.
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput) Role() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith) *string { return v.Role }).(pulumi.StringPtrOutput)
+}
+
+type IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput() IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput) ToIamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith {
+		return vs[0].([]IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWith)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput)
+}
+
+type IamRoleAssignmentResourceRoleResourceCreated struct {
+	// role id.
+	Id *string `pulumi:"id"`
+}
+
+// IamRoleAssignmentResourceRoleResourceCreatedInput is an input type that accepts IamRoleAssignmentResourceRoleResourceCreatedArgs and IamRoleAssignmentResourceRoleResourceCreatedOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleResourceCreatedInput` via:
+//
+//	IamRoleAssignmentResourceRoleResourceCreatedArgs{...}
+type IamRoleAssignmentResourceRoleResourceCreatedInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleResourceCreatedOutput() IamRoleAssignmentResourceRoleResourceCreatedOutput
+	ToIamRoleAssignmentResourceRoleResourceCreatedOutputWithContext(context.Context) IamRoleAssignmentResourceRoleResourceCreatedOutput
+}
+
+type IamRoleAssignmentResourceRoleResourceCreatedArgs struct {
+	// role id.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+}
+
+func (IamRoleAssignmentResourceRoleResourceCreatedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleResourceCreated)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleResourceCreatedArgs) ToIamRoleAssignmentResourceRoleResourceCreatedOutput() IamRoleAssignmentResourceRoleResourceCreatedOutput {
+	return i.ToIamRoleAssignmentResourceRoleResourceCreatedOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleResourceCreatedArgs) ToIamRoleAssignmentResourceRoleResourceCreatedOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleResourceCreatedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleResourceCreatedOutput)
+}
+
+// IamRoleAssignmentResourceRoleResourceCreatedArrayInput is an input type that accepts IamRoleAssignmentResourceRoleResourceCreatedArray and IamRoleAssignmentResourceRoleResourceCreatedArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentResourceRoleResourceCreatedArrayInput` via:
+//
+//	IamRoleAssignmentResourceRoleResourceCreatedArray{ IamRoleAssignmentResourceRoleResourceCreatedArgs{...} }
+type IamRoleAssignmentResourceRoleResourceCreatedArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutput() IamRoleAssignmentResourceRoleResourceCreatedArrayOutput
+	ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutputWithContext(context.Context) IamRoleAssignmentResourceRoleResourceCreatedArrayOutput
+}
+
+type IamRoleAssignmentResourceRoleResourceCreatedArray []IamRoleAssignmentResourceRoleResourceCreatedInput
+
+func (IamRoleAssignmentResourceRoleResourceCreatedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleResourceCreated)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentResourceRoleResourceCreatedArray) ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutput() IamRoleAssignmentResourceRoleResourceCreatedArrayOutput {
+	return i.ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentResourceRoleResourceCreatedArray) ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleResourceCreatedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentResourceRoleResourceCreatedArrayOutput)
+}
+
+type IamRoleAssignmentResourceRoleResourceCreatedOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleResourceCreatedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentResourceRoleResourceCreated)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleResourceCreatedOutput) ToIamRoleAssignmentResourceRoleResourceCreatedOutput() IamRoleAssignmentResourceRoleResourceCreatedOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleResourceCreatedOutput) ToIamRoleAssignmentResourceRoleResourceCreatedOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleResourceCreatedOutput {
+	return o
+}
+
+// role id.
+func (o IamRoleAssignmentResourceRoleResourceCreatedOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleAssignmentResourceRoleResourceCreated) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+type IamRoleAssignmentResourceRoleResourceCreatedArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentResourceRoleResourceCreatedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentResourceRoleResourceCreated)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentResourceRoleResourceCreatedArrayOutput) ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutput() IamRoleAssignmentResourceRoleResourceCreatedArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleResourceCreatedArrayOutput) ToIamRoleAssignmentResourceRoleResourceCreatedArrayOutputWithContext(ctx context.Context) IamRoleAssignmentResourceRoleResourceCreatedArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentResourceRoleResourceCreatedArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentResourceRoleResourceCreatedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentResourceRoleResourceCreated {
+		return vs[0].([]IamRoleAssignmentResourceRoleResourceCreated)[vs[1].(int)]
+	}).(IamRoleAssignmentResourceRoleResourceCreatedOutput)
+}
+
+type IamRoleAssignmentTarget struct {
+	// ID of the target account.
+	Id string `pulumi:"id"`
+	// Assignment target type.
+	Type string `pulumi:"type"`
+}
+
+// IamRoleAssignmentTargetInput is an input type that accepts IamRoleAssignmentTargetArgs and IamRoleAssignmentTargetOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentTargetInput` via:
+//
+//	IamRoleAssignmentTargetArgs{...}
+type IamRoleAssignmentTargetInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentTargetOutput() IamRoleAssignmentTargetOutput
+	ToIamRoleAssignmentTargetOutputWithContext(context.Context) IamRoleAssignmentTargetOutput
+}
+
+type IamRoleAssignmentTargetArgs struct {
+	// ID of the target account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Assignment target type.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (IamRoleAssignmentTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentTarget)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentTargetArgs) ToIamRoleAssignmentTargetOutput() IamRoleAssignmentTargetOutput {
+	return i.ToIamRoleAssignmentTargetOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentTargetArgs) ToIamRoleAssignmentTargetOutputWithContext(ctx context.Context) IamRoleAssignmentTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentTargetOutput)
+}
+
+// IamRoleAssignmentTargetArrayInput is an input type that accepts IamRoleAssignmentTargetArray and IamRoleAssignmentTargetArrayOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentTargetArrayInput` via:
+//
+//	IamRoleAssignmentTargetArray{ IamRoleAssignmentTargetArgs{...} }
+type IamRoleAssignmentTargetArrayInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentTargetArrayOutput() IamRoleAssignmentTargetArrayOutput
+	ToIamRoleAssignmentTargetArrayOutputWithContext(context.Context) IamRoleAssignmentTargetArrayOutput
+}
+
+type IamRoleAssignmentTargetArray []IamRoleAssignmentTargetInput
+
+func (IamRoleAssignmentTargetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentTarget)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentTargetArray) ToIamRoleAssignmentTargetArrayOutput() IamRoleAssignmentTargetArrayOutput {
+	return i.ToIamRoleAssignmentTargetArrayOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentTargetArray) ToIamRoleAssignmentTargetArrayOutputWithContext(ctx context.Context) IamRoleAssignmentTargetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentTargetArrayOutput)
+}
+
+type IamRoleAssignmentTargetOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentTarget)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentTargetOutput) ToIamRoleAssignmentTargetOutput() IamRoleAssignmentTargetOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTargetOutput) ToIamRoleAssignmentTargetOutputWithContext(ctx context.Context) IamRoleAssignmentTargetOutput {
+	return o
+}
+
+// ID of the target account.
+func (o IamRoleAssignmentTargetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleAssignmentTarget) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Assignment target type.
+func (o IamRoleAssignmentTargetOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleAssignmentTarget) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type IamRoleAssignmentTargetArrayOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentTargetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamRoleAssignmentTarget)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentTargetArrayOutput) ToIamRoleAssignmentTargetArrayOutput() IamRoleAssignmentTargetArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTargetArrayOutput) ToIamRoleAssignmentTargetArrayOutputWithContext(ctx context.Context) IamRoleAssignmentTargetArrayOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTargetArrayOutput) Index(i pulumi.IntInput) IamRoleAssignmentTargetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamRoleAssignmentTarget {
+		return vs[0].([]IamRoleAssignmentTarget)[vs[1].(int)]
+	}).(IamRoleAssignmentTargetOutput)
+}
+
+type IamRoleAssignmentTemplates struct {
+	// role template id.
+	Id string `pulumi:"id"`
+	// role template version.
+	Version string `pulumi:"version"`
+}
+
+// IamRoleAssignmentTemplatesInput is an input type that accepts IamRoleAssignmentTemplatesArgs and IamRoleAssignmentTemplatesOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentTemplatesInput` via:
+//
+//	IamRoleAssignmentTemplatesArgs{...}
+type IamRoleAssignmentTemplatesInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentTemplatesOutput() IamRoleAssignmentTemplatesOutput
+	ToIamRoleAssignmentTemplatesOutputWithContext(context.Context) IamRoleAssignmentTemplatesOutput
+}
+
+type IamRoleAssignmentTemplatesArgs struct {
+	// role template id.
+	Id pulumi.StringInput `pulumi:"id"`
+	// role template version.
+	Version pulumi.StringInput `pulumi:"version"`
+}
+
+func (IamRoleAssignmentTemplatesArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentTemplates)(nil)).Elem()
+}
+
+func (i IamRoleAssignmentTemplatesArgs) ToIamRoleAssignmentTemplatesOutput() IamRoleAssignmentTemplatesOutput {
+	return i.ToIamRoleAssignmentTemplatesOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentTemplatesArgs) ToIamRoleAssignmentTemplatesOutputWithContext(ctx context.Context) IamRoleAssignmentTemplatesOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentTemplatesOutput)
+}
+
+func (i IamRoleAssignmentTemplatesArgs) ToIamRoleAssignmentTemplatesPtrOutput() IamRoleAssignmentTemplatesPtrOutput {
+	return i.ToIamRoleAssignmentTemplatesPtrOutputWithContext(context.Background())
+}
+
+func (i IamRoleAssignmentTemplatesArgs) ToIamRoleAssignmentTemplatesPtrOutputWithContext(ctx context.Context) IamRoleAssignmentTemplatesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentTemplatesOutput).ToIamRoleAssignmentTemplatesPtrOutputWithContext(ctx)
+}
+
+// IamRoleAssignmentTemplatesPtrInput is an input type that accepts IamRoleAssignmentTemplatesArgs, IamRoleAssignmentTemplatesPtr and IamRoleAssignmentTemplatesPtrOutput values.
+// You can construct a concrete instance of `IamRoleAssignmentTemplatesPtrInput` via:
+//
+//	        IamRoleAssignmentTemplatesArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamRoleAssignmentTemplatesPtrInput interface {
+	pulumi.Input
+
+	ToIamRoleAssignmentTemplatesPtrOutput() IamRoleAssignmentTemplatesPtrOutput
+	ToIamRoleAssignmentTemplatesPtrOutputWithContext(context.Context) IamRoleAssignmentTemplatesPtrOutput
+}
+
+type iamRoleAssignmentTemplatesPtrType IamRoleAssignmentTemplatesArgs
+
+func IamRoleAssignmentTemplatesPtr(v *IamRoleAssignmentTemplatesArgs) IamRoleAssignmentTemplatesPtrInput {
+	return (*iamRoleAssignmentTemplatesPtrType)(v)
+}
+
+func (*iamRoleAssignmentTemplatesPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamRoleAssignmentTemplates)(nil)).Elem()
+}
+
+func (i *iamRoleAssignmentTemplatesPtrType) ToIamRoleAssignmentTemplatesPtrOutput() IamRoleAssignmentTemplatesPtrOutput {
+	return i.ToIamRoleAssignmentTemplatesPtrOutputWithContext(context.Background())
+}
+
+func (i *iamRoleAssignmentTemplatesPtrType) ToIamRoleAssignmentTemplatesPtrOutputWithContext(ctx context.Context) IamRoleAssignmentTemplatesPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleAssignmentTemplatesPtrOutput)
+}
+
+type IamRoleAssignmentTemplatesOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentTemplatesOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleAssignmentTemplates)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentTemplatesOutput) ToIamRoleAssignmentTemplatesOutput() IamRoleAssignmentTemplatesOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTemplatesOutput) ToIamRoleAssignmentTemplatesOutputWithContext(ctx context.Context) IamRoleAssignmentTemplatesOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTemplatesOutput) ToIamRoleAssignmentTemplatesPtrOutput() IamRoleAssignmentTemplatesPtrOutput {
+	return o.ToIamRoleAssignmentTemplatesPtrOutputWithContext(context.Background())
+}
+
+func (o IamRoleAssignmentTemplatesOutput) ToIamRoleAssignmentTemplatesPtrOutputWithContext(ctx context.Context) IamRoleAssignmentTemplatesPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamRoleAssignmentTemplates) *IamRoleAssignmentTemplates {
+		return &v
+	}).(IamRoleAssignmentTemplatesPtrOutput)
+}
+
+// role template id.
+func (o IamRoleAssignmentTemplatesOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleAssignmentTemplates) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// role template version.
+func (o IamRoleAssignmentTemplatesOutput) Version() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleAssignmentTemplates) string { return v.Version }).(pulumi.StringOutput)
+}
+
+type IamRoleAssignmentTemplatesPtrOutput struct{ *pulumi.OutputState }
+
+func (IamRoleAssignmentTemplatesPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamRoleAssignmentTemplates)(nil)).Elem()
+}
+
+func (o IamRoleAssignmentTemplatesPtrOutput) ToIamRoleAssignmentTemplatesPtrOutput() IamRoleAssignmentTemplatesPtrOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTemplatesPtrOutput) ToIamRoleAssignmentTemplatesPtrOutputWithContext(ctx context.Context) IamRoleAssignmentTemplatesPtrOutput {
+	return o
+}
+
+func (o IamRoleAssignmentTemplatesPtrOutput) Elem() IamRoleAssignmentTemplatesOutput {
+	return o.ApplyT(func(v *IamRoleAssignmentTemplates) IamRoleAssignmentTemplates {
+		if v != nil {
+			return *v
+		}
+		var ret IamRoleAssignmentTemplates
+		return ret
+	}).(IamRoleAssignmentTemplatesOutput)
+}
+
+// role template id.
+func (o IamRoleAssignmentTemplatesPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleAssignmentTemplates) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// role template version.
+func (o IamRoleAssignmentTemplatesPtrOutput) Version() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleAssignmentTemplates) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Version
+	}).(pulumi.StringPtrOutput)
+}
+
+type IamRoleTemplateRole struct {
+	// The actions of the role.
+	Actions []string `pulumi:"actions"`
+	// Description of the role.
+	Description *string `pulumi:"description"`
+	// The display the name of the role that is shown in the console.
+	DisplayName string `pulumi:"displayName"`
+	// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+	Name string `pulumi:"name"`
+	// The service name that the role refers.
+	ServiceName string `pulumi:"serviceName"`
+}
+
+// IamRoleTemplateRoleInput is an input type that accepts IamRoleTemplateRoleArgs and IamRoleTemplateRoleOutput values.
+// You can construct a concrete instance of `IamRoleTemplateRoleInput` via:
+//
+//	IamRoleTemplateRoleArgs{...}
+type IamRoleTemplateRoleInput interface {
+	pulumi.Input
+
+	ToIamRoleTemplateRoleOutput() IamRoleTemplateRoleOutput
+	ToIamRoleTemplateRoleOutputWithContext(context.Context) IamRoleTemplateRoleOutput
+}
+
+type IamRoleTemplateRoleArgs struct {
+	// The actions of the role.
+	Actions pulumi.StringArrayInput `pulumi:"actions"`
+	// Description of the role.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// The display the name of the role that is shown in the console.
+	DisplayName pulumi.StringInput `pulumi:"displayName"`
+	// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The service name that the role refers.
+	ServiceName pulumi.StringInput `pulumi:"serviceName"`
+}
+
+func (IamRoleTemplateRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleTemplateRole)(nil)).Elem()
+}
+
+func (i IamRoleTemplateRoleArgs) ToIamRoleTemplateRoleOutput() IamRoleTemplateRoleOutput {
+	return i.ToIamRoleTemplateRoleOutputWithContext(context.Background())
+}
+
+func (i IamRoleTemplateRoleArgs) ToIamRoleTemplateRoleOutputWithContext(ctx context.Context) IamRoleTemplateRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleTemplateRoleOutput)
+}
+
+func (i IamRoleTemplateRoleArgs) ToIamRoleTemplateRolePtrOutput() IamRoleTemplateRolePtrOutput {
+	return i.ToIamRoleTemplateRolePtrOutputWithContext(context.Background())
+}
+
+func (i IamRoleTemplateRoleArgs) ToIamRoleTemplateRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateRolePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleTemplateRoleOutput).ToIamRoleTemplateRolePtrOutputWithContext(ctx)
+}
+
+// IamRoleTemplateRolePtrInput is an input type that accepts IamRoleTemplateRoleArgs, IamRoleTemplateRolePtr and IamRoleTemplateRolePtrOutput values.
+// You can construct a concrete instance of `IamRoleTemplateRolePtrInput` via:
+//
+//	        IamRoleTemplateRoleArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamRoleTemplateRolePtrInput interface {
+	pulumi.Input
+
+	ToIamRoleTemplateRolePtrOutput() IamRoleTemplateRolePtrOutput
+	ToIamRoleTemplateRolePtrOutputWithContext(context.Context) IamRoleTemplateRolePtrOutput
+}
+
+type iamRoleTemplateRolePtrType IamRoleTemplateRoleArgs
+
+func IamRoleTemplateRolePtr(v *IamRoleTemplateRoleArgs) IamRoleTemplateRolePtrInput {
+	return (*iamRoleTemplateRolePtrType)(v)
+}
+
+func (*iamRoleTemplateRolePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamRoleTemplateRole)(nil)).Elem()
+}
+
+func (i *iamRoleTemplateRolePtrType) ToIamRoleTemplateRolePtrOutput() IamRoleTemplateRolePtrOutput {
+	return i.ToIamRoleTemplateRolePtrOutputWithContext(context.Background())
+}
+
+func (i *iamRoleTemplateRolePtrType) ToIamRoleTemplateRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateRolePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleTemplateRolePtrOutput)
+}
+
+type IamRoleTemplateRoleOutput struct{ *pulumi.OutputState }
+
+func (IamRoleTemplateRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleTemplateRole)(nil)).Elem()
+}
+
+func (o IamRoleTemplateRoleOutput) ToIamRoleTemplateRoleOutput() IamRoleTemplateRoleOutput {
+	return o
+}
+
+func (o IamRoleTemplateRoleOutput) ToIamRoleTemplateRoleOutputWithContext(ctx context.Context) IamRoleTemplateRoleOutput {
+	return o
+}
+
+func (o IamRoleTemplateRoleOutput) ToIamRoleTemplateRolePtrOutput() IamRoleTemplateRolePtrOutput {
+	return o.ToIamRoleTemplateRolePtrOutputWithContext(context.Background())
+}
+
+func (o IamRoleTemplateRoleOutput) ToIamRoleTemplateRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateRolePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamRoleTemplateRole) *IamRoleTemplateRole {
+		return &v
+	}).(IamRoleTemplateRolePtrOutput)
+}
+
+// The actions of the role.
+func (o IamRoleTemplateRoleOutput) Actions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v IamRoleTemplateRole) []string { return v.Actions }).(pulumi.StringArrayOutput)
+}
+
+// Description of the role.
+func (o IamRoleTemplateRoleOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleTemplateRole) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The display the name of the role that is shown in the console.
+func (o IamRoleTemplateRoleOutput) DisplayName() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleTemplateRole) string { return v.DisplayName }).(pulumi.StringOutput)
+}
+
+// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+func (o IamRoleTemplateRoleOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleTemplateRole) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The service name that the role refers.
+func (o IamRoleTemplateRoleOutput) ServiceName() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleTemplateRole) string { return v.ServiceName }).(pulumi.StringOutput)
+}
+
+type IamRoleTemplateRolePtrOutput struct{ *pulumi.OutputState }
+
+func (IamRoleTemplateRolePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamRoleTemplateRole)(nil)).Elem()
+}
+
+func (o IamRoleTemplateRolePtrOutput) ToIamRoleTemplateRolePtrOutput() IamRoleTemplateRolePtrOutput {
+	return o
+}
+
+func (o IamRoleTemplateRolePtrOutput) ToIamRoleTemplateRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateRolePtrOutput {
+	return o
+}
+
+func (o IamRoleTemplateRolePtrOutput) Elem() IamRoleTemplateRoleOutput {
+	return o.ApplyT(func(v *IamRoleTemplateRole) IamRoleTemplateRole {
+		if v != nil {
+			return *v
+		}
+		var ret IamRoleTemplateRole
+		return ret
+	}).(IamRoleTemplateRoleOutput)
+}
+
+// The actions of the role.
+func (o IamRoleTemplateRolePtrOutput) Actions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IamRoleTemplateRole) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Actions
+	}).(pulumi.StringArrayOutput)
+}
+
+// Description of the role.
+func (o IamRoleTemplateRolePtrOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateRole) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Description
+	}).(pulumi.StringPtrOutput)
+}
+
+// The display the name of the role that is shown in the console.
+func (o IamRoleTemplateRolePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateRole) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+func (o IamRoleTemplateRolePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateRole) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// The service name that the role refers.
+func (o IamRoleTemplateRolePtrOutput) ServiceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateRole) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ServiceName
+	}).(pulumi.StringPtrOutput)
+}
+
+type IamRoleTemplateVersionRole struct {
+	// The actions of the role.
+	Actions []string `pulumi:"actions"`
+	// Description of the role.
+	Description *string `pulumi:"description"`
+	// The display the name of the role that is shown in the console.
+	DisplayName string `pulumi:"displayName"`
+	// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+	Name *string `pulumi:"name"`
+	// The service name that the role refers.
+	ServiceName *string `pulumi:"serviceName"`
+}
+
+// IamRoleTemplateVersionRoleInput is an input type that accepts IamRoleTemplateVersionRoleArgs and IamRoleTemplateVersionRoleOutput values.
+// You can construct a concrete instance of `IamRoleTemplateVersionRoleInput` via:
+//
+//	IamRoleTemplateVersionRoleArgs{...}
+type IamRoleTemplateVersionRoleInput interface {
+	pulumi.Input
+
+	ToIamRoleTemplateVersionRoleOutput() IamRoleTemplateVersionRoleOutput
+	ToIamRoleTemplateVersionRoleOutputWithContext(context.Context) IamRoleTemplateVersionRoleOutput
+}
+
+type IamRoleTemplateVersionRoleArgs struct {
+	// The actions of the role.
+	Actions pulumi.StringArrayInput `pulumi:"actions"`
+	// Description of the role.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// The display the name of the role that is shown in the console.
+	DisplayName pulumi.StringInput `pulumi:"displayName"`
+	// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	// The service name that the role refers.
+	ServiceName pulumi.StringPtrInput `pulumi:"serviceName"`
+}
+
+func (IamRoleTemplateVersionRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleTemplateVersionRole)(nil)).Elem()
+}
+
+func (i IamRoleTemplateVersionRoleArgs) ToIamRoleTemplateVersionRoleOutput() IamRoleTemplateVersionRoleOutput {
+	return i.ToIamRoleTemplateVersionRoleOutputWithContext(context.Background())
+}
+
+func (i IamRoleTemplateVersionRoleArgs) ToIamRoleTemplateVersionRoleOutputWithContext(ctx context.Context) IamRoleTemplateVersionRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleTemplateVersionRoleOutput)
+}
+
+func (i IamRoleTemplateVersionRoleArgs) ToIamRoleTemplateVersionRolePtrOutput() IamRoleTemplateVersionRolePtrOutput {
+	return i.ToIamRoleTemplateVersionRolePtrOutputWithContext(context.Background())
+}
+
+func (i IamRoleTemplateVersionRoleArgs) ToIamRoleTemplateVersionRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateVersionRolePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleTemplateVersionRoleOutput).ToIamRoleTemplateVersionRolePtrOutputWithContext(ctx)
+}
+
+// IamRoleTemplateVersionRolePtrInput is an input type that accepts IamRoleTemplateVersionRoleArgs, IamRoleTemplateVersionRolePtr and IamRoleTemplateVersionRolePtrOutput values.
+// You can construct a concrete instance of `IamRoleTemplateVersionRolePtrInput` via:
+//
+//	        IamRoleTemplateVersionRoleArgs{...}
+//
+//	or:
+//
+//	        nil
+type IamRoleTemplateVersionRolePtrInput interface {
+	pulumi.Input
+
+	ToIamRoleTemplateVersionRolePtrOutput() IamRoleTemplateVersionRolePtrOutput
+	ToIamRoleTemplateVersionRolePtrOutputWithContext(context.Context) IamRoleTemplateVersionRolePtrOutput
+}
+
+type iamRoleTemplateVersionRolePtrType IamRoleTemplateVersionRoleArgs
+
+func IamRoleTemplateVersionRolePtr(v *IamRoleTemplateVersionRoleArgs) IamRoleTemplateVersionRolePtrInput {
+	return (*iamRoleTemplateVersionRolePtrType)(v)
+}
+
+func (*iamRoleTemplateVersionRolePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamRoleTemplateVersionRole)(nil)).Elem()
+}
+
+func (i *iamRoleTemplateVersionRolePtrType) ToIamRoleTemplateVersionRolePtrOutput() IamRoleTemplateVersionRolePtrOutput {
+	return i.ToIamRoleTemplateVersionRolePtrOutputWithContext(context.Background())
+}
+
+func (i *iamRoleTemplateVersionRolePtrType) ToIamRoleTemplateVersionRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateVersionRolePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamRoleTemplateVersionRolePtrOutput)
+}
+
+type IamRoleTemplateVersionRoleOutput struct{ *pulumi.OutputState }
+
+func (IamRoleTemplateVersionRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamRoleTemplateVersionRole)(nil)).Elem()
+}
+
+func (o IamRoleTemplateVersionRoleOutput) ToIamRoleTemplateVersionRoleOutput() IamRoleTemplateVersionRoleOutput {
+	return o
+}
+
+func (o IamRoleTemplateVersionRoleOutput) ToIamRoleTemplateVersionRoleOutputWithContext(ctx context.Context) IamRoleTemplateVersionRoleOutput {
+	return o
+}
+
+func (o IamRoleTemplateVersionRoleOutput) ToIamRoleTemplateVersionRolePtrOutput() IamRoleTemplateVersionRolePtrOutput {
+	return o.ToIamRoleTemplateVersionRolePtrOutputWithContext(context.Background())
+}
+
+func (o IamRoleTemplateVersionRoleOutput) ToIamRoleTemplateVersionRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateVersionRolePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IamRoleTemplateVersionRole) *IamRoleTemplateVersionRole {
+		return &v
+	}).(IamRoleTemplateVersionRolePtrOutput)
+}
+
+// The actions of the role.
+func (o IamRoleTemplateVersionRoleOutput) Actions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v IamRoleTemplateVersionRole) []string { return v.Actions }).(pulumi.StringArrayOutput)
+}
+
+// Description of the role.
+func (o IamRoleTemplateVersionRoleOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleTemplateVersionRole) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The display the name of the role that is shown in the console.
+func (o IamRoleTemplateVersionRoleOutput) DisplayName() pulumi.StringOutput {
+	return o.ApplyT(func(v IamRoleTemplateVersionRole) string { return v.DisplayName }).(pulumi.StringOutput)
+}
+
+// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+func (o IamRoleTemplateVersionRoleOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleTemplateVersionRole) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The service name that the role refers.
+func (o IamRoleTemplateVersionRoleOutput) ServiceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamRoleTemplateVersionRole) *string { return v.ServiceName }).(pulumi.StringPtrOutput)
+}
+
+type IamRoleTemplateVersionRolePtrOutput struct{ *pulumi.OutputState }
+
+func (IamRoleTemplateVersionRolePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IamRoleTemplateVersionRole)(nil)).Elem()
+}
+
+func (o IamRoleTemplateVersionRolePtrOutput) ToIamRoleTemplateVersionRolePtrOutput() IamRoleTemplateVersionRolePtrOutput {
+	return o
+}
+
+func (o IamRoleTemplateVersionRolePtrOutput) ToIamRoleTemplateVersionRolePtrOutputWithContext(ctx context.Context) IamRoleTemplateVersionRolePtrOutput {
+	return o
+}
+
+func (o IamRoleTemplateVersionRolePtrOutput) Elem() IamRoleTemplateVersionRoleOutput {
+	return o.ApplyT(func(v *IamRoleTemplateVersionRole) IamRoleTemplateVersionRole {
+		if v != nil {
+			return *v
+		}
+		var ret IamRoleTemplateVersionRole
+		return ret
+	}).(IamRoleTemplateVersionRoleOutput)
+}
+
+// The actions of the role.
+func (o IamRoleTemplateVersionRolePtrOutput) Actions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IamRoleTemplateVersionRole) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Actions
+	}).(pulumi.StringArrayOutput)
+}
+
+// Description of the role.
+func (o IamRoleTemplateVersionRolePtrOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateVersionRole) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Description
+	}).(pulumi.StringPtrOutput)
+}
+
+// The display the name of the role that is shown in the console.
+func (o IamRoleTemplateVersionRolePtrOutput) DisplayName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateVersionRole) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.DisplayName
+	}).(pulumi.StringPtrOutput)
+}
+
+// The name of the role that is used in the CRN. This must be alphanumeric and capitalized.
+func (o IamRoleTemplateVersionRolePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateVersionRole) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// The service name that the role refers.
+func (o IamRoleTemplateVersionRolePtrOutput) ServiceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IamRoleTemplateVersionRole) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ServiceName
+	}).(pulumi.StringPtrOutput)
 }
 
 type IamServicePolicyResourceAttribute struct {
@@ -17678,6 +20073,112 @@ func (o IamServicePolicyRuleConditionConditionArrayOutput) Index(i pulumi.IntInp
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamServicePolicyRuleConditionCondition {
 		return vs[0].([]IamServicePolicyRuleConditionCondition)[vs[1].(int)]
 	}).(IamServicePolicyRuleConditionConditionOutput)
+}
+
+type IamTrustedProfileActivity struct {
+	// Authentication count, number of times the entity was authenticated.
+	AuthnCount *int `pulumi:"authnCount"`
+	// Time when the entity was last authenticated.
+	LastAuthn *string `pulumi:"lastAuthn"`
+}
+
+// IamTrustedProfileActivityInput is an input type that accepts IamTrustedProfileActivityArgs and IamTrustedProfileActivityOutput values.
+// You can construct a concrete instance of `IamTrustedProfileActivityInput` via:
+//
+//	IamTrustedProfileActivityArgs{...}
+type IamTrustedProfileActivityInput interface {
+	pulumi.Input
+
+	ToIamTrustedProfileActivityOutput() IamTrustedProfileActivityOutput
+	ToIamTrustedProfileActivityOutputWithContext(context.Context) IamTrustedProfileActivityOutput
+}
+
+type IamTrustedProfileActivityArgs struct {
+	// Authentication count, number of times the entity was authenticated.
+	AuthnCount pulumi.IntPtrInput `pulumi:"authnCount"`
+	// Time when the entity was last authenticated.
+	LastAuthn pulumi.StringPtrInput `pulumi:"lastAuthn"`
+}
+
+func (IamTrustedProfileActivityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamTrustedProfileActivity)(nil)).Elem()
+}
+
+func (i IamTrustedProfileActivityArgs) ToIamTrustedProfileActivityOutput() IamTrustedProfileActivityOutput {
+	return i.ToIamTrustedProfileActivityOutputWithContext(context.Background())
+}
+
+func (i IamTrustedProfileActivityArgs) ToIamTrustedProfileActivityOutputWithContext(ctx context.Context) IamTrustedProfileActivityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileActivityOutput)
+}
+
+// IamTrustedProfileActivityArrayInput is an input type that accepts IamTrustedProfileActivityArray and IamTrustedProfileActivityArrayOutput values.
+// You can construct a concrete instance of `IamTrustedProfileActivityArrayInput` via:
+//
+//	IamTrustedProfileActivityArray{ IamTrustedProfileActivityArgs{...} }
+type IamTrustedProfileActivityArrayInput interface {
+	pulumi.Input
+
+	ToIamTrustedProfileActivityArrayOutput() IamTrustedProfileActivityArrayOutput
+	ToIamTrustedProfileActivityArrayOutputWithContext(context.Context) IamTrustedProfileActivityArrayOutput
+}
+
+type IamTrustedProfileActivityArray []IamTrustedProfileActivityInput
+
+func (IamTrustedProfileActivityArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamTrustedProfileActivity)(nil)).Elem()
+}
+
+func (i IamTrustedProfileActivityArray) ToIamTrustedProfileActivityArrayOutput() IamTrustedProfileActivityArrayOutput {
+	return i.ToIamTrustedProfileActivityArrayOutputWithContext(context.Background())
+}
+
+func (i IamTrustedProfileActivityArray) ToIamTrustedProfileActivityArrayOutputWithContext(ctx context.Context) IamTrustedProfileActivityArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileActivityArrayOutput)
+}
+
+type IamTrustedProfileActivityOutput struct{ *pulumi.OutputState }
+
+func (IamTrustedProfileActivityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IamTrustedProfileActivity)(nil)).Elem()
+}
+
+func (o IamTrustedProfileActivityOutput) ToIamTrustedProfileActivityOutput() IamTrustedProfileActivityOutput {
+	return o
+}
+
+func (o IamTrustedProfileActivityOutput) ToIamTrustedProfileActivityOutputWithContext(ctx context.Context) IamTrustedProfileActivityOutput {
+	return o
+}
+
+// Authentication count, number of times the entity was authenticated.
+func (o IamTrustedProfileActivityOutput) AuthnCount() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IamTrustedProfileActivity) *int { return v.AuthnCount }).(pulumi.IntPtrOutput)
+}
+
+// Time when the entity was last authenticated.
+func (o IamTrustedProfileActivityOutput) LastAuthn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamTrustedProfileActivity) *string { return v.LastAuthn }).(pulumi.StringPtrOutput)
+}
+
+type IamTrustedProfileActivityArrayOutput struct{ *pulumi.OutputState }
+
+func (IamTrustedProfileActivityArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IamTrustedProfileActivity)(nil)).Elem()
+}
+
+func (o IamTrustedProfileActivityArrayOutput) ToIamTrustedProfileActivityArrayOutput() IamTrustedProfileActivityArrayOutput {
+	return o
+}
+
+func (o IamTrustedProfileActivityArrayOutput) ToIamTrustedProfileActivityArrayOutputWithContext(ctx context.Context) IamTrustedProfileActivityArrayOutput {
+	return o
+}
+
+func (o IamTrustedProfileActivityArrayOutput) Index(i pulumi.IntInput) IamTrustedProfileActivityOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamTrustedProfileActivity {
+		return vs[0].([]IamTrustedProfileActivity)[vs[1].(int)]
+	}).(IamTrustedProfileActivityOutput)
 }
 
 type IamTrustedProfileClaimRuleCondition struct {
@@ -19043,341 +21544,12 @@ func (o IamTrustedProfilePolicyRuleConditionConditionArrayOutput) Index(i pulumi
 	}).(IamTrustedProfilePolicyRuleConditionConditionOutput)
 }
 
-type IamTrustedProfileTemplateAssignmentContext struct {
-	// The cluster name.
-	ClusterName *string `pulumi:"clusterName"`
-	// The elapsed time in msec.
-	ElapsedTime *string `pulumi:"elapsedTime"`
-	// The finish time of the request.
-	EndTime *string `pulumi:"endTime"`
-	// The host of the server instance processing the request.
-	Host *string `pulumi:"host"`
-	// The instance ID of the server instance processing the request.
-	InstanceId *string `pulumi:"instanceId"`
-	// The operation of the inbound REST request.
-	Operation *string `pulumi:"operation"`
-	// The start time of the request.
-	StartTime *string `pulumi:"startTime"`
-	// The thread ID of the server instance processing the request.
-	ThreadId *string `pulumi:"threadId"`
-	// The transaction ID of the inbound REST request.
-	TransactionId *string `pulumi:"transactionId"`
-	// The URL of that cluster.
-	Url *string `pulumi:"url"`
-	// The user agent of the inbound REST request.
-	UserAgent *string `pulumi:"userAgent"`
-}
-
-// IamTrustedProfileTemplateAssignmentContextInput is an input type that accepts IamTrustedProfileTemplateAssignmentContextArgs and IamTrustedProfileTemplateAssignmentContextOutput values.
-// You can construct a concrete instance of `IamTrustedProfileTemplateAssignmentContextInput` via:
-//
-//	IamTrustedProfileTemplateAssignmentContextArgs{...}
-type IamTrustedProfileTemplateAssignmentContextInput interface {
-	pulumi.Input
-
-	ToIamTrustedProfileTemplateAssignmentContextOutput() IamTrustedProfileTemplateAssignmentContextOutput
-	ToIamTrustedProfileTemplateAssignmentContextOutputWithContext(context.Context) IamTrustedProfileTemplateAssignmentContextOutput
-}
-
-type IamTrustedProfileTemplateAssignmentContextArgs struct {
-	// The cluster name.
-	ClusterName pulumi.StringPtrInput `pulumi:"clusterName"`
-	// The elapsed time in msec.
-	ElapsedTime pulumi.StringPtrInput `pulumi:"elapsedTime"`
-	// The finish time of the request.
-	EndTime pulumi.StringPtrInput `pulumi:"endTime"`
-	// The host of the server instance processing the request.
-	Host pulumi.StringPtrInput `pulumi:"host"`
-	// The instance ID of the server instance processing the request.
-	InstanceId pulumi.StringPtrInput `pulumi:"instanceId"`
-	// The operation of the inbound REST request.
-	Operation pulumi.StringPtrInput `pulumi:"operation"`
-	// The start time of the request.
-	StartTime pulumi.StringPtrInput `pulumi:"startTime"`
-	// The thread ID of the server instance processing the request.
-	ThreadId pulumi.StringPtrInput `pulumi:"threadId"`
-	// The transaction ID of the inbound REST request.
-	TransactionId pulumi.StringPtrInput `pulumi:"transactionId"`
-	// The URL of that cluster.
-	Url pulumi.StringPtrInput `pulumi:"url"`
-	// The user agent of the inbound REST request.
-	UserAgent pulumi.StringPtrInput `pulumi:"userAgent"`
-}
-
-func (IamTrustedProfileTemplateAssignmentContextArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamTrustedProfileTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (i IamTrustedProfileTemplateAssignmentContextArgs) ToIamTrustedProfileTemplateAssignmentContextOutput() IamTrustedProfileTemplateAssignmentContextOutput {
-	return i.ToIamTrustedProfileTemplateAssignmentContextOutputWithContext(context.Background())
-}
-
-func (i IamTrustedProfileTemplateAssignmentContextArgs) ToIamTrustedProfileTemplateAssignmentContextOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentContextOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileTemplateAssignmentContextOutput)
-}
-
-// IamTrustedProfileTemplateAssignmentContextArrayInput is an input type that accepts IamTrustedProfileTemplateAssignmentContextArray and IamTrustedProfileTemplateAssignmentContextArrayOutput values.
-// You can construct a concrete instance of `IamTrustedProfileTemplateAssignmentContextArrayInput` via:
-//
-//	IamTrustedProfileTemplateAssignmentContextArray{ IamTrustedProfileTemplateAssignmentContextArgs{...} }
-type IamTrustedProfileTemplateAssignmentContextArrayInput interface {
-	pulumi.Input
-
-	ToIamTrustedProfileTemplateAssignmentContextArrayOutput() IamTrustedProfileTemplateAssignmentContextArrayOutput
-	ToIamTrustedProfileTemplateAssignmentContextArrayOutputWithContext(context.Context) IamTrustedProfileTemplateAssignmentContextArrayOutput
-}
-
-type IamTrustedProfileTemplateAssignmentContextArray []IamTrustedProfileTemplateAssignmentContextInput
-
-func (IamTrustedProfileTemplateAssignmentContextArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamTrustedProfileTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (i IamTrustedProfileTemplateAssignmentContextArray) ToIamTrustedProfileTemplateAssignmentContextArrayOutput() IamTrustedProfileTemplateAssignmentContextArrayOutput {
-	return i.ToIamTrustedProfileTemplateAssignmentContextArrayOutputWithContext(context.Background())
-}
-
-func (i IamTrustedProfileTemplateAssignmentContextArray) ToIamTrustedProfileTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentContextArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileTemplateAssignmentContextArrayOutput)
-}
-
-type IamTrustedProfileTemplateAssignmentContextOutput struct{ *pulumi.OutputState }
-
-func (IamTrustedProfileTemplateAssignmentContextOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamTrustedProfileTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (o IamTrustedProfileTemplateAssignmentContextOutput) ToIamTrustedProfileTemplateAssignmentContextOutput() IamTrustedProfileTemplateAssignmentContextOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateAssignmentContextOutput) ToIamTrustedProfileTemplateAssignmentContextOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentContextOutput {
-	return o
-}
-
-// The cluster name.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) ClusterName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.ClusterName }).(pulumi.StringPtrOutput)
-}
-
-// The elapsed time in msec.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) ElapsedTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.ElapsedTime }).(pulumi.StringPtrOutput)
-}
-
-// The finish time of the request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) EndTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.EndTime }).(pulumi.StringPtrOutput)
-}
-
-// The host of the server instance processing the request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) Host() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.Host }).(pulumi.StringPtrOutput)
-}
-
-// The instance ID of the server instance processing the request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) InstanceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.InstanceId }).(pulumi.StringPtrOutput)
-}
-
-// The operation of the inbound REST request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) Operation() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.Operation }).(pulumi.StringPtrOutput)
-}
-
-// The start time of the request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) StartTime() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.StartTime }).(pulumi.StringPtrOutput)
-}
-
-// The thread ID of the server instance processing the request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) ThreadId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.ThreadId }).(pulumi.StringPtrOutput)
-}
-
-// The transaction ID of the inbound REST request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) TransactionId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.TransactionId }).(pulumi.StringPtrOutput)
-}
-
-// The URL of that cluster.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) Url() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.Url }).(pulumi.StringPtrOutput)
-}
-
-// The user agent of the inbound REST request.
-func (o IamTrustedProfileTemplateAssignmentContextOutput) UserAgent() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentContext) *string { return v.UserAgent }).(pulumi.StringPtrOutput)
-}
-
-type IamTrustedProfileTemplateAssignmentContextArrayOutput struct{ *pulumi.OutputState }
-
-func (IamTrustedProfileTemplateAssignmentContextArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamTrustedProfileTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (o IamTrustedProfileTemplateAssignmentContextArrayOutput) ToIamTrustedProfileTemplateAssignmentContextArrayOutput() IamTrustedProfileTemplateAssignmentContextArrayOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateAssignmentContextArrayOutput) ToIamTrustedProfileTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentContextArrayOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateAssignmentContextArrayOutput) Index(i pulumi.IntInput) IamTrustedProfileTemplateAssignmentContextOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamTrustedProfileTemplateAssignmentContext {
-		return vs[0].([]IamTrustedProfileTemplateAssignmentContext)[vs[1].(int)]
-	}).(IamTrustedProfileTemplateAssignmentContextOutput)
-}
-
-type IamTrustedProfileTemplateAssignmentHistory struct {
-	// Action of the history entry.
-	Action *string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId *string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount *string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message *string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp *string `pulumi:"timestamp"`
-}
-
-// IamTrustedProfileTemplateAssignmentHistoryInput is an input type that accepts IamTrustedProfileTemplateAssignmentHistoryArgs and IamTrustedProfileTemplateAssignmentHistoryOutput values.
-// You can construct a concrete instance of `IamTrustedProfileTemplateAssignmentHistoryInput` via:
-//
-//	IamTrustedProfileTemplateAssignmentHistoryArgs{...}
-type IamTrustedProfileTemplateAssignmentHistoryInput interface {
-	pulumi.Input
-
-	ToIamTrustedProfileTemplateAssignmentHistoryOutput() IamTrustedProfileTemplateAssignmentHistoryOutput
-	ToIamTrustedProfileTemplateAssignmentHistoryOutputWithContext(context.Context) IamTrustedProfileTemplateAssignmentHistoryOutput
-}
-
-type IamTrustedProfileTemplateAssignmentHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringPtrInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringPtrInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringPtrInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringPtrInput `pulumi:"timestamp"`
-}
-
-func (IamTrustedProfileTemplateAssignmentHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamTrustedProfileTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (i IamTrustedProfileTemplateAssignmentHistoryArgs) ToIamTrustedProfileTemplateAssignmentHistoryOutput() IamTrustedProfileTemplateAssignmentHistoryOutput {
-	return i.ToIamTrustedProfileTemplateAssignmentHistoryOutputWithContext(context.Background())
-}
-
-func (i IamTrustedProfileTemplateAssignmentHistoryArgs) ToIamTrustedProfileTemplateAssignmentHistoryOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileTemplateAssignmentHistoryOutput)
-}
-
-// IamTrustedProfileTemplateAssignmentHistoryArrayInput is an input type that accepts IamTrustedProfileTemplateAssignmentHistoryArray and IamTrustedProfileTemplateAssignmentHistoryArrayOutput values.
-// You can construct a concrete instance of `IamTrustedProfileTemplateAssignmentHistoryArrayInput` via:
-//
-//	IamTrustedProfileTemplateAssignmentHistoryArray{ IamTrustedProfileTemplateAssignmentHistoryArgs{...} }
-type IamTrustedProfileTemplateAssignmentHistoryArrayInput interface {
-	pulumi.Input
-
-	ToIamTrustedProfileTemplateAssignmentHistoryArrayOutput() IamTrustedProfileTemplateAssignmentHistoryArrayOutput
-	ToIamTrustedProfileTemplateAssignmentHistoryArrayOutputWithContext(context.Context) IamTrustedProfileTemplateAssignmentHistoryArrayOutput
-}
-
-type IamTrustedProfileTemplateAssignmentHistoryArray []IamTrustedProfileTemplateAssignmentHistoryInput
-
-func (IamTrustedProfileTemplateAssignmentHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamTrustedProfileTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (i IamTrustedProfileTemplateAssignmentHistoryArray) ToIamTrustedProfileTemplateAssignmentHistoryArrayOutput() IamTrustedProfileTemplateAssignmentHistoryArrayOutput {
-	return i.ToIamTrustedProfileTemplateAssignmentHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i IamTrustedProfileTemplateAssignmentHistoryArray) ToIamTrustedProfileTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileTemplateAssignmentHistoryArrayOutput)
-}
-
-type IamTrustedProfileTemplateAssignmentHistoryOutput struct{ *pulumi.OutputState }
-
-func (IamTrustedProfileTemplateAssignmentHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamTrustedProfileTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) ToIamTrustedProfileTemplateAssignmentHistoryOutput() IamTrustedProfileTemplateAssignmentHistoryOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) ToIamTrustedProfileTemplateAssignmentHistoryOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) Action() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentHistory) *string { return v.Action }).(pulumi.StringPtrOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) IamId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentHistory) *string { return v.IamId }).(pulumi.StringPtrOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) IamIdAccount() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentHistory) *string { return v.IamIdAccount }).(pulumi.StringPtrOutput)
-}
-
-// Message which summarizes the executed action.
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentHistory) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Params of the history entry.
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o IamTrustedProfileTemplateAssignmentHistoryOutput) Timestamp() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentHistory) *string { return v.Timestamp }).(pulumi.StringPtrOutput)
-}
-
-type IamTrustedProfileTemplateAssignmentHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (IamTrustedProfileTemplateAssignmentHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamTrustedProfileTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (o IamTrustedProfileTemplateAssignmentHistoryArrayOutput) ToIamTrustedProfileTemplateAssignmentHistoryArrayOutput() IamTrustedProfileTemplateAssignmentHistoryArrayOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateAssignmentHistoryArrayOutput) ToIamTrustedProfileTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) IamTrustedProfileTemplateAssignmentHistoryArrayOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateAssignmentHistoryArrayOutput) Index(i pulumi.IntInput) IamTrustedProfileTemplateAssignmentHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamTrustedProfileTemplateAssignmentHistory {
-		return vs[0].([]IamTrustedProfileTemplateAssignmentHistory)[vs[1].(int)]
-	}).(IamTrustedProfileTemplateAssignmentHistoryOutput)
-}
-
 type IamTrustedProfileTemplateAssignmentResource struct {
 	// Policy resource(s) included only for trusted profile assignments with policy references.
 	PolicyTemplateReferences []IamTrustedProfileTemplateAssignmentResourcePolicyTemplateReference `pulumi:"policyTemplateReferences"`
 	Profiles                 []IamTrustedProfileTemplateAssignmentResourceProfile                 `pulumi:"profiles"`
 	// Target account where the IAM resource is created.
-	Target string `pulumi:"target"`
+	Target *string `pulumi:"target"`
 }
 
 // IamTrustedProfileTemplateAssignmentResourceInput is an input type that accepts IamTrustedProfileTemplateAssignmentResourceArgs and IamTrustedProfileTemplateAssignmentResourceOutput values.
@@ -19396,7 +21568,7 @@ type IamTrustedProfileTemplateAssignmentResourceArgs struct {
 	PolicyTemplateReferences IamTrustedProfileTemplateAssignmentResourcePolicyTemplateReferenceArrayInput `pulumi:"policyTemplateReferences"`
 	Profiles                 IamTrustedProfileTemplateAssignmentResourceProfileArrayInput                 `pulumi:"profiles"`
 	// Target account where the IAM resource is created.
-	Target pulumi.StringInput `pulumi:"target"`
+	Target pulumi.StringPtrInput `pulumi:"target"`
 }
 
 func (IamTrustedProfileTemplateAssignmentResourceArgs) ElementType() reflect.Type {
@@ -19464,8 +21636,8 @@ func (o IamTrustedProfileTemplateAssignmentResourceOutput) Profiles() IamTrusted
 }
 
 // Target account where the IAM resource is created.
-func (o IamTrustedProfileTemplateAssignmentResourceOutput) Target() pulumi.StringOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentResource) string { return v.Target }).(pulumi.StringOutput)
+func (o IamTrustedProfileTemplateAssignmentResourceOutput) Target() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IamTrustedProfileTemplateAssignmentResource) *string { return v.Target }).(pulumi.StringPtrOutput)
 }
 
 type IamTrustedProfileTemplateAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
@@ -20212,148 +22384,6 @@ func (o IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedArrayOu
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamTrustedProfileTemplateAssignmentResourceProfileResourceCreated {
 		return vs[0].([]IamTrustedProfileTemplateAssignmentResourceProfileResourceCreated)[vs[1].(int)]
 	}).(IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedOutput)
-}
-
-type IamTrustedProfileTemplateHistory struct {
-	// Action of the history entry.
-	Action *string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId *string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount *string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message *string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp *string `pulumi:"timestamp"`
-}
-
-// IamTrustedProfileTemplateHistoryInput is an input type that accepts IamTrustedProfileTemplateHistoryArgs and IamTrustedProfileTemplateHistoryOutput values.
-// You can construct a concrete instance of `IamTrustedProfileTemplateHistoryInput` via:
-//
-//	IamTrustedProfileTemplateHistoryArgs{...}
-type IamTrustedProfileTemplateHistoryInput interface {
-	pulumi.Input
-
-	ToIamTrustedProfileTemplateHistoryOutput() IamTrustedProfileTemplateHistoryOutput
-	ToIamTrustedProfileTemplateHistoryOutputWithContext(context.Context) IamTrustedProfileTemplateHistoryOutput
-}
-
-type IamTrustedProfileTemplateHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringPtrInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringPtrInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringPtrInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringPtrInput `pulumi:"timestamp"`
-}
-
-func (IamTrustedProfileTemplateHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamTrustedProfileTemplateHistory)(nil)).Elem()
-}
-
-func (i IamTrustedProfileTemplateHistoryArgs) ToIamTrustedProfileTemplateHistoryOutput() IamTrustedProfileTemplateHistoryOutput {
-	return i.ToIamTrustedProfileTemplateHistoryOutputWithContext(context.Background())
-}
-
-func (i IamTrustedProfileTemplateHistoryArgs) ToIamTrustedProfileTemplateHistoryOutputWithContext(ctx context.Context) IamTrustedProfileTemplateHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileTemplateHistoryOutput)
-}
-
-// IamTrustedProfileTemplateHistoryArrayInput is an input type that accepts IamTrustedProfileTemplateHistoryArray and IamTrustedProfileTemplateHistoryArrayOutput values.
-// You can construct a concrete instance of `IamTrustedProfileTemplateHistoryArrayInput` via:
-//
-//	IamTrustedProfileTemplateHistoryArray{ IamTrustedProfileTemplateHistoryArgs{...} }
-type IamTrustedProfileTemplateHistoryArrayInput interface {
-	pulumi.Input
-
-	ToIamTrustedProfileTemplateHistoryArrayOutput() IamTrustedProfileTemplateHistoryArrayOutput
-	ToIamTrustedProfileTemplateHistoryArrayOutputWithContext(context.Context) IamTrustedProfileTemplateHistoryArrayOutput
-}
-
-type IamTrustedProfileTemplateHistoryArray []IamTrustedProfileTemplateHistoryInput
-
-func (IamTrustedProfileTemplateHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamTrustedProfileTemplateHistory)(nil)).Elem()
-}
-
-func (i IamTrustedProfileTemplateHistoryArray) ToIamTrustedProfileTemplateHistoryArrayOutput() IamTrustedProfileTemplateHistoryArrayOutput {
-	return i.ToIamTrustedProfileTemplateHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i IamTrustedProfileTemplateHistoryArray) ToIamTrustedProfileTemplateHistoryArrayOutputWithContext(ctx context.Context) IamTrustedProfileTemplateHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IamTrustedProfileTemplateHistoryArrayOutput)
-}
-
-type IamTrustedProfileTemplateHistoryOutput struct{ *pulumi.OutputState }
-
-func (IamTrustedProfileTemplateHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IamTrustedProfileTemplateHistory)(nil)).Elem()
-}
-
-func (o IamTrustedProfileTemplateHistoryOutput) ToIamTrustedProfileTemplateHistoryOutput() IamTrustedProfileTemplateHistoryOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateHistoryOutput) ToIamTrustedProfileTemplateHistoryOutputWithContext(ctx context.Context) IamTrustedProfileTemplateHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o IamTrustedProfileTemplateHistoryOutput) Action() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateHistory) *string { return v.Action }).(pulumi.StringPtrOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o IamTrustedProfileTemplateHistoryOutput) IamId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateHistory) *string { return v.IamId }).(pulumi.StringPtrOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o IamTrustedProfileTemplateHistoryOutput) IamIdAccount() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateHistory) *string { return v.IamIdAccount }).(pulumi.StringPtrOutput)
-}
-
-// Message which summarizes the executed action.
-func (o IamTrustedProfileTemplateHistoryOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateHistory) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Params of the history entry.
-func (o IamTrustedProfileTemplateHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o IamTrustedProfileTemplateHistoryOutput) Timestamp() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IamTrustedProfileTemplateHistory) *string { return v.Timestamp }).(pulumi.StringPtrOutput)
-}
-
-type IamTrustedProfileTemplateHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (IamTrustedProfileTemplateHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IamTrustedProfileTemplateHistory)(nil)).Elem()
-}
-
-func (o IamTrustedProfileTemplateHistoryArrayOutput) ToIamTrustedProfileTemplateHistoryArrayOutput() IamTrustedProfileTemplateHistoryArrayOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateHistoryArrayOutput) ToIamTrustedProfileTemplateHistoryArrayOutputWithContext(ctx context.Context) IamTrustedProfileTemplateHistoryArrayOutput {
-	return o
-}
-
-func (o IamTrustedProfileTemplateHistoryArrayOutput) Index(i pulumi.IntInput) IamTrustedProfileTemplateHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IamTrustedProfileTemplateHistory {
-		return vs[0].([]IamTrustedProfileTemplateHistory)[vs[1].(int)]
-	}).(IamTrustedProfileTemplateHistoryOutput)
 }
 
 type IamTrustedProfileTemplatePolicyTemplateReference struct {
@@ -30225,7 +32255,7 @@ func (o IsBareMetalServerTrustedPlatformModulePtrOutput) SupportedModes() pulumi
 }
 
 type IsClusterNetworkInterfaceLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code *string `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message *string `pulumi:"message"`
@@ -30245,7 +32275,7 @@ type IsClusterNetworkInterfaceLifecycleReasonInput interface {
 }
 
 type IsClusterNetworkInterfaceLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code pulumi.StringPtrInput `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message pulumi.StringPtrInput `pulumi:"message"`
@@ -30304,7 +32334,7 @@ func (o IsClusterNetworkInterfaceLifecycleReasonOutput) ToIsClusterNetworkInterf
 	return o
 }
 
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkInterfaceLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsClusterNetworkInterfaceLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
 }
@@ -31469,7 +33499,7 @@ func (o IsClusterNetworkInterfaceZoneArrayOutput) Index(i pulumi.IntInput) IsClu
 }
 
 type IsClusterNetworkLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code *string `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message *string `pulumi:"message"`
@@ -31489,7 +33519,7 @@ type IsClusterNetworkLifecycleReasonInput interface {
 }
 
 type IsClusterNetworkLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code pulumi.StringPtrInput `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message pulumi.StringPtrInput `pulumi:"message"`
@@ -31548,7 +33578,7 @@ func (o IsClusterNetworkLifecycleReasonOutput) ToIsClusterNetworkLifecycleReason
 	return o
 }
 
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsClusterNetworkLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
 }
@@ -31584,7 +33614,7 @@ func (o IsClusterNetworkLifecycleReasonArrayOutput) Index(i pulumi.IntInput) IsC
 }
 
 type IsClusterNetworkSubnetLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code *string `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message *string `pulumi:"message"`
@@ -31604,7 +33634,7 @@ type IsClusterNetworkSubnetLifecycleReasonInput interface {
 }
 
 type IsClusterNetworkSubnetLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code pulumi.StringPtrInput `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message pulumi.StringPtrInput `pulumi:"message"`
@@ -31663,7 +33693,7 @@ func (o IsClusterNetworkSubnetLifecycleReasonOutput) ToIsClusterNetworkSubnetLif
 	return o
 }
 
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkSubnetLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsClusterNetworkSubnetLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
 }
@@ -31855,7 +33885,7 @@ func (o IsClusterNetworkSubnetPrefixesPtrOutput) Cidr() pulumi.StringPtrOutput {
 }
 
 type IsClusterNetworkSubnetReservedIpLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code *string `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message *string `pulumi:"message"`
@@ -31875,7 +33905,7 @@ type IsClusterNetworkSubnetReservedIpLifecycleReasonInput interface {
 }
 
 type IsClusterNetworkSubnetReservedIpLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code pulumi.StringPtrInput `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message pulumi.StringPtrInput `pulumi:"message"`
@@ -31934,7 +33964,7 @@ func (o IsClusterNetworkSubnetReservedIpLifecycleReasonOutput) ToIsClusterNetwor
 	return o
 }
 
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsClusterNetworkSubnetReservedIpLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsClusterNetworkSubnetReservedIpLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
 }
@@ -35199,6 +37229,112 @@ func (o IsImageExportJobStorageObjectArrayOutput) Index(i pulumi.IntInput) IsIma
 	}).(IsImageExportJobStorageObjectOutput)
 }
 
+type IsImageZone struct {
+	// The URL for this zone.
+	Href *string `pulumi:"href"`
+	// The globally unique name for this zone.
+	Name *string `pulumi:"name"`
+}
+
+// IsImageZoneInput is an input type that accepts IsImageZoneArgs and IsImageZoneOutput values.
+// You can construct a concrete instance of `IsImageZoneInput` via:
+//
+//	IsImageZoneArgs{...}
+type IsImageZoneInput interface {
+	pulumi.Input
+
+	ToIsImageZoneOutput() IsImageZoneOutput
+	ToIsImageZoneOutputWithContext(context.Context) IsImageZoneOutput
+}
+
+type IsImageZoneArgs struct {
+	// The URL for this zone.
+	Href pulumi.StringPtrInput `pulumi:"href"`
+	// The globally unique name for this zone.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+}
+
+func (IsImageZoneArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsImageZone)(nil)).Elem()
+}
+
+func (i IsImageZoneArgs) ToIsImageZoneOutput() IsImageZoneOutput {
+	return i.ToIsImageZoneOutputWithContext(context.Background())
+}
+
+func (i IsImageZoneArgs) ToIsImageZoneOutputWithContext(ctx context.Context) IsImageZoneOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsImageZoneOutput)
+}
+
+// IsImageZoneArrayInput is an input type that accepts IsImageZoneArray and IsImageZoneArrayOutput values.
+// You can construct a concrete instance of `IsImageZoneArrayInput` via:
+//
+//	IsImageZoneArray{ IsImageZoneArgs{...} }
+type IsImageZoneArrayInput interface {
+	pulumi.Input
+
+	ToIsImageZoneArrayOutput() IsImageZoneArrayOutput
+	ToIsImageZoneArrayOutputWithContext(context.Context) IsImageZoneArrayOutput
+}
+
+type IsImageZoneArray []IsImageZoneInput
+
+func (IsImageZoneArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsImageZone)(nil)).Elem()
+}
+
+func (i IsImageZoneArray) ToIsImageZoneArrayOutput() IsImageZoneArrayOutput {
+	return i.ToIsImageZoneArrayOutputWithContext(context.Background())
+}
+
+func (i IsImageZoneArray) ToIsImageZoneArrayOutputWithContext(ctx context.Context) IsImageZoneArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsImageZoneArrayOutput)
+}
+
+type IsImageZoneOutput struct{ *pulumi.OutputState }
+
+func (IsImageZoneOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsImageZone)(nil)).Elem()
+}
+
+func (o IsImageZoneOutput) ToIsImageZoneOutput() IsImageZoneOutput {
+	return o
+}
+
+func (o IsImageZoneOutput) ToIsImageZoneOutputWithContext(ctx context.Context) IsImageZoneOutput {
+	return o
+}
+
+// The URL for this zone.
+func (o IsImageZoneOutput) Href() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsImageZone) *string { return v.Href }).(pulumi.StringPtrOutput)
+}
+
+// The globally unique name for this zone.
+func (o IsImageZoneOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsImageZone) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+type IsImageZoneArrayOutput struct{ *pulumi.OutputState }
+
+func (IsImageZoneArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsImageZone)(nil)).Elem()
+}
+
+func (o IsImageZoneArrayOutput) ToIsImageZoneArrayOutput() IsImageZoneArrayOutput {
+	return o
+}
+
+func (o IsImageZoneArrayOutput) ToIsImageZoneArrayOutputWithContext(ctx context.Context) IsImageZoneArrayOutput {
+	return o
+}
+
+func (o IsImageZoneArrayOutput) Index(i pulumi.IntInput) IsImageZoneOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsImageZone {
+		return vs[0].([]IsImageZone)[vs[1].(int)]
+	}).(IsImageZoneOutput)
+}
+
 type IsInstanceActionStatusReason struct {
 	// A snake case string succinctly identifying the status reason
 	Code *string `pulumi:"code"`
@@ -35312,6 +37448,299 @@ func (o IsInstanceActionStatusReasonArrayOutput) Index(i pulumi.IntInput) IsInst
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceActionStatusReason {
 		return vs[0].([]IsInstanceActionStatusReason)[vs[1].(int)]
 	}).(IsInstanceActionStatusReasonOutput)
+}
+
+type IsInstanceAvailability struct {
+	// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.See [virtual server instance availability class](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future. To change the availability class, the instance status must be stopping or stopped.
+	Class *string `pulumi:"class"`
+}
+
+// IsInstanceAvailabilityInput is an input type that accepts IsInstanceAvailabilityArgs and IsInstanceAvailabilityOutput values.
+// You can construct a concrete instance of `IsInstanceAvailabilityInput` via:
+//
+//	IsInstanceAvailabilityArgs{...}
+type IsInstanceAvailabilityInput interface {
+	pulumi.Input
+
+	ToIsInstanceAvailabilityOutput() IsInstanceAvailabilityOutput
+	ToIsInstanceAvailabilityOutputWithContext(context.Context) IsInstanceAvailabilityOutput
+}
+
+type IsInstanceAvailabilityArgs struct {
+	// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.See [virtual server instance availability class](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future. To change the availability class, the instance status must be stopping or stopped.
+	Class pulumi.StringPtrInput `pulumi:"class"`
+}
+
+func (IsInstanceAvailabilityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceAvailability)(nil)).Elem()
+}
+
+func (i IsInstanceAvailabilityArgs) ToIsInstanceAvailabilityOutput() IsInstanceAvailabilityOutput {
+	return i.ToIsInstanceAvailabilityOutputWithContext(context.Background())
+}
+
+func (i IsInstanceAvailabilityArgs) ToIsInstanceAvailabilityOutputWithContext(ctx context.Context) IsInstanceAvailabilityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceAvailabilityOutput)
+}
+
+func (i IsInstanceAvailabilityArgs) ToIsInstanceAvailabilityPtrOutput() IsInstanceAvailabilityPtrOutput {
+	return i.ToIsInstanceAvailabilityPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceAvailabilityArgs) ToIsInstanceAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceAvailabilityOutput).ToIsInstanceAvailabilityPtrOutputWithContext(ctx)
+}
+
+// IsInstanceAvailabilityPtrInput is an input type that accepts IsInstanceAvailabilityArgs, IsInstanceAvailabilityPtr and IsInstanceAvailabilityPtrOutput values.
+// You can construct a concrete instance of `IsInstanceAvailabilityPtrInput` via:
+//
+//	        IsInstanceAvailabilityArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceAvailabilityPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceAvailabilityPtrOutput() IsInstanceAvailabilityPtrOutput
+	ToIsInstanceAvailabilityPtrOutputWithContext(context.Context) IsInstanceAvailabilityPtrOutput
+}
+
+type isInstanceAvailabilityPtrType IsInstanceAvailabilityArgs
+
+func IsInstanceAvailabilityPtr(v *IsInstanceAvailabilityArgs) IsInstanceAvailabilityPtrInput {
+	return (*isInstanceAvailabilityPtrType)(v)
+}
+
+func (*isInstanceAvailabilityPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceAvailability)(nil)).Elem()
+}
+
+func (i *isInstanceAvailabilityPtrType) ToIsInstanceAvailabilityPtrOutput() IsInstanceAvailabilityPtrOutput {
+	return i.ToIsInstanceAvailabilityPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceAvailabilityPtrType) ToIsInstanceAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceAvailabilityPtrOutput)
+}
+
+type IsInstanceAvailabilityOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceAvailabilityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceAvailability)(nil)).Elem()
+}
+
+func (o IsInstanceAvailabilityOutput) ToIsInstanceAvailabilityOutput() IsInstanceAvailabilityOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityOutput) ToIsInstanceAvailabilityOutputWithContext(ctx context.Context) IsInstanceAvailabilityOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityOutput) ToIsInstanceAvailabilityPtrOutput() IsInstanceAvailabilityPtrOutput {
+	return o.ToIsInstanceAvailabilityPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceAvailabilityOutput) ToIsInstanceAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceAvailability) *IsInstanceAvailability {
+		return &v
+	}).(IsInstanceAvailabilityPtrOutput)
+}
+
+// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.See [virtual server instance availability class](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future. To change the availability class, the instance status must be stopping or stopped.
+func (o IsInstanceAvailabilityOutput) Class() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceAvailability) *string { return v.Class }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceAvailabilityPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceAvailabilityPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceAvailability)(nil)).Elem()
+}
+
+func (o IsInstanceAvailabilityPtrOutput) ToIsInstanceAvailabilityPtrOutput() IsInstanceAvailabilityPtrOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityPtrOutput) ToIsInstanceAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPtrOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityPtrOutput) Elem() IsInstanceAvailabilityOutput {
+	return o.ApplyT(func(v *IsInstanceAvailability) IsInstanceAvailability {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceAvailability
+		return ret
+	}).(IsInstanceAvailabilityOutput)
+}
+
+// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.See [virtual server instance availability class](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future. To change the availability class, the instance status must be stopping or stopped.
+func (o IsInstanceAvailabilityPtrOutput) Class() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceAvailability) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Class
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceAvailabilityPolicy struct {
+	// The action to perform if the compute host experiences a failure:- `restart`: Restart the virtual server instance- `stop`: Leave the virtual server instance stopped. See [handling host failures](https://cloud.ibm.com/docs/vpc?topic=vpc-host-failure-recovery-policies) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	HostFailure *string `pulumi:"hostFailure"`
+	// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Preemption *string `pulumi:"preemption"`
+}
+
+// IsInstanceAvailabilityPolicyInput is an input type that accepts IsInstanceAvailabilityPolicyArgs and IsInstanceAvailabilityPolicyOutput values.
+// You can construct a concrete instance of `IsInstanceAvailabilityPolicyInput` via:
+//
+//	IsInstanceAvailabilityPolicyArgs{...}
+type IsInstanceAvailabilityPolicyInput interface {
+	pulumi.Input
+
+	ToIsInstanceAvailabilityPolicyOutput() IsInstanceAvailabilityPolicyOutput
+	ToIsInstanceAvailabilityPolicyOutputWithContext(context.Context) IsInstanceAvailabilityPolicyOutput
+}
+
+type IsInstanceAvailabilityPolicyArgs struct {
+	// The action to perform if the compute host experiences a failure:- `restart`: Restart the virtual server instance- `stop`: Leave the virtual server instance stopped. See [handling host failures](https://cloud.ibm.com/docs/vpc?topic=vpc-host-failure-recovery-policies) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	HostFailure pulumi.StringPtrInput `pulumi:"hostFailure"`
+	// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Preemption pulumi.StringPtrInput `pulumi:"preemption"`
+}
+
+func (IsInstanceAvailabilityPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceAvailabilityPolicy)(nil)).Elem()
+}
+
+func (i IsInstanceAvailabilityPolicyArgs) ToIsInstanceAvailabilityPolicyOutput() IsInstanceAvailabilityPolicyOutput {
+	return i.ToIsInstanceAvailabilityPolicyOutputWithContext(context.Background())
+}
+
+func (i IsInstanceAvailabilityPolicyArgs) ToIsInstanceAvailabilityPolicyOutputWithContext(ctx context.Context) IsInstanceAvailabilityPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceAvailabilityPolicyOutput)
+}
+
+func (i IsInstanceAvailabilityPolicyArgs) ToIsInstanceAvailabilityPolicyPtrOutput() IsInstanceAvailabilityPolicyPtrOutput {
+	return i.ToIsInstanceAvailabilityPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceAvailabilityPolicyArgs) ToIsInstanceAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceAvailabilityPolicyOutput).ToIsInstanceAvailabilityPolicyPtrOutputWithContext(ctx)
+}
+
+// IsInstanceAvailabilityPolicyPtrInput is an input type that accepts IsInstanceAvailabilityPolicyArgs, IsInstanceAvailabilityPolicyPtr and IsInstanceAvailabilityPolicyPtrOutput values.
+// You can construct a concrete instance of `IsInstanceAvailabilityPolicyPtrInput` via:
+//
+//	        IsInstanceAvailabilityPolicyArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceAvailabilityPolicyPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceAvailabilityPolicyPtrOutput() IsInstanceAvailabilityPolicyPtrOutput
+	ToIsInstanceAvailabilityPolicyPtrOutputWithContext(context.Context) IsInstanceAvailabilityPolicyPtrOutput
+}
+
+type isInstanceAvailabilityPolicyPtrType IsInstanceAvailabilityPolicyArgs
+
+func IsInstanceAvailabilityPolicyPtr(v *IsInstanceAvailabilityPolicyArgs) IsInstanceAvailabilityPolicyPtrInput {
+	return (*isInstanceAvailabilityPolicyPtrType)(v)
+}
+
+func (*isInstanceAvailabilityPolicyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceAvailabilityPolicy)(nil)).Elem()
+}
+
+func (i *isInstanceAvailabilityPolicyPtrType) ToIsInstanceAvailabilityPolicyPtrOutput() IsInstanceAvailabilityPolicyPtrOutput {
+	return i.ToIsInstanceAvailabilityPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceAvailabilityPolicyPtrType) ToIsInstanceAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceAvailabilityPolicyPtrOutput)
+}
+
+type IsInstanceAvailabilityPolicyOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceAvailabilityPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceAvailabilityPolicy)(nil)).Elem()
+}
+
+func (o IsInstanceAvailabilityPolicyOutput) ToIsInstanceAvailabilityPolicyOutput() IsInstanceAvailabilityPolicyOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityPolicyOutput) ToIsInstanceAvailabilityPolicyOutputWithContext(ctx context.Context) IsInstanceAvailabilityPolicyOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityPolicyOutput) ToIsInstanceAvailabilityPolicyPtrOutput() IsInstanceAvailabilityPolicyPtrOutput {
+	return o.ToIsInstanceAvailabilityPolicyPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceAvailabilityPolicyOutput) ToIsInstanceAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPolicyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceAvailabilityPolicy) *IsInstanceAvailabilityPolicy {
+		return &v
+	}).(IsInstanceAvailabilityPolicyPtrOutput)
+}
+
+// The action to perform if the compute host experiences a failure:- `restart`: Restart the virtual server instance- `stop`: Leave the virtual server instance stopped. See [handling host failures](https://cloud.ibm.com/docs/vpc?topic=vpc-host-failure-recovery-policies) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsInstanceAvailabilityPolicyOutput) HostFailure() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceAvailabilityPolicy) *string { return v.HostFailure }).(pulumi.StringPtrOutput)
+}
+
+// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsInstanceAvailabilityPolicyOutput) Preemption() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceAvailabilityPolicy) *string { return v.Preemption }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceAvailabilityPolicyPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceAvailabilityPolicyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceAvailabilityPolicy)(nil)).Elem()
+}
+
+func (o IsInstanceAvailabilityPolicyPtrOutput) ToIsInstanceAvailabilityPolicyPtrOutput() IsInstanceAvailabilityPolicyPtrOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityPolicyPtrOutput) ToIsInstanceAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceAvailabilityPolicyPtrOutput {
+	return o
+}
+
+func (o IsInstanceAvailabilityPolicyPtrOutput) Elem() IsInstanceAvailabilityPolicyOutput {
+	return o.ApplyT(func(v *IsInstanceAvailabilityPolicy) IsInstanceAvailabilityPolicy {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceAvailabilityPolicy
+		return ret
+	}).(IsInstanceAvailabilityPolicyOutput)
+}
+
+// The action to perform if the compute host experiences a failure:- `restart`: Restart the virtual server instance- `stop`: Leave the virtual server instance stopped. See [handling host failures](https://cloud.ibm.com/docs/vpc?topic=vpc-host-failure-recovery-policies) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsInstanceAvailabilityPolicyPtrOutput) HostFailure() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceAvailabilityPolicy) *string {
+		if v == nil {
+			return nil
+		}
+		return v.HostFailure
+	}).(pulumi.StringPtrOutput)
+}
+
+// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsInstanceAvailabilityPolicyPtrOutput) Preemption() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceAvailabilityPolicy) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Preemption
+	}).(pulumi.StringPtrOutput)
 }
 
 type IsInstanceBootVolume struct {
@@ -37569,7 +39998,7 @@ func (o IsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedAr
 }
 
 type IsInstanceClusterNetworkAttachmentLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code *string `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message *string `pulumi:"message"`
@@ -37589,7 +40018,7 @@ type IsInstanceClusterNetworkAttachmentLifecycleReasonInput interface {
 }
 
 type IsInstanceClusterNetworkAttachmentLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code pulumi.StringPtrInput `pulumi:"code"`
 	// An explanation of the reason for this lifecycle state.
 	Message pulumi.StringPtrInput `pulumi:"message"`
@@ -37648,7 +40077,7 @@ func (o IsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ToIsInstanceClu
 	return o
 }
 
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsInstanceClusterNetworkAttachmentLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsInstanceClusterNetworkAttachmentLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
 }
@@ -43277,6 +45706,1418 @@ func (o IsInstancePrimaryNetworkInterfacePrimaryIpPtrOutput) ResourceType() pulu
 	}).(pulumi.StringPtrOutput)
 }
 
+type IsInstanceReinitializeBootVolumeAttachment struct {
+	// Indicates whether the volume will be deleted when the instance is deleted
+	DeleteVolumeOnInstanceDelete *bool `pulumi:"deleteVolumeOnInstanceDelete"`
+	// The name of the boot volume attachment
+	Name *string `pulumi:"name"`
+	// The boot volume attachment configuration for reinitialization by volume
+	Volume *IsInstanceReinitializeBootVolumeAttachmentVolume `pulumi:"volume"`
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentArgs and IsInstanceReinitializeBootVolumeAttachmentOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentInput` via:
+//
+//	IsInstanceReinitializeBootVolumeAttachmentArgs{...}
+type IsInstanceReinitializeBootVolumeAttachmentInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentOutput() IsInstanceReinitializeBootVolumeAttachmentOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentOutput
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentArgs struct {
+	// Indicates whether the volume will be deleted when the instance is deleted
+	DeleteVolumeOnInstanceDelete pulumi.BoolPtrInput `pulumi:"deleteVolumeOnInstanceDelete"`
+	// The name of the boot volume attachment
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	// The boot volume attachment configuration for reinitialization by volume
+	Volume IsInstanceReinitializeBootVolumeAttachmentVolumePtrInput `pulumi:"volume"`
+}
+
+func (IsInstanceReinitializeBootVolumeAttachmentArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachment)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentArgs) ToIsInstanceReinitializeBootVolumeAttachmentOutput() IsInstanceReinitializeBootVolumeAttachmentOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentArgs) ToIsInstanceReinitializeBootVolumeAttachmentOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentOutput)
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentArgs) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutput() IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentArgs) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentOutput).ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentPtrInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentArgs, IsInstanceReinitializeBootVolumeAttachmentPtr and IsInstanceReinitializeBootVolumeAttachmentPtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentPtrInput` via:
+//
+//	        IsInstanceReinitializeBootVolumeAttachmentArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeBootVolumeAttachmentPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentPtrOutput() IsInstanceReinitializeBootVolumeAttachmentPtrOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentPtrOutput
+}
+
+type isInstanceReinitializeBootVolumeAttachmentPtrType IsInstanceReinitializeBootVolumeAttachmentArgs
+
+func IsInstanceReinitializeBootVolumeAttachmentPtr(v *IsInstanceReinitializeBootVolumeAttachmentArgs) IsInstanceReinitializeBootVolumeAttachmentPtrInput {
+	return (*isInstanceReinitializeBootVolumeAttachmentPtrType)(v)
+}
+
+func (*isInstanceReinitializeBootVolumeAttachmentPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachment)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentPtrType) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutput() IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentPtrType) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachment)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) ToIsInstanceReinitializeBootVolumeAttachmentOutput() IsInstanceReinitializeBootVolumeAttachmentOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) ToIsInstanceReinitializeBootVolumeAttachmentOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutput() IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return o.ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeBootVolumeAttachment) *IsInstanceReinitializeBootVolumeAttachment {
+		return &v
+	}).(IsInstanceReinitializeBootVolumeAttachmentPtrOutput)
+}
+
+// Indicates whether the volume will be deleted when the instance is deleted
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) DeleteVolumeOnInstanceDelete() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachment) *bool { return v.DeleteVolumeOnInstanceDelete }).(pulumi.BoolPtrOutput)
+}
+
+// The name of the boot volume attachment
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachment) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The boot volume attachment configuration for reinitialization by volume
+func (o IsInstanceReinitializeBootVolumeAttachmentOutput) Volume() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachment) *IsInstanceReinitializeBootVolumeAttachmentVolume {
+		return v.Volume
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachment)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentPtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutput() IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentPtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentPtrOutput) Elem() IsInstanceReinitializeBootVolumeAttachmentOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachment) IsInstanceReinitializeBootVolumeAttachment {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeBootVolumeAttachment
+		return ret
+	}).(IsInstanceReinitializeBootVolumeAttachmentOutput)
+}
+
+// Indicates whether the volume will be deleted when the instance is deleted
+func (o IsInstanceReinitializeBootVolumeAttachmentPtrOutput) DeleteVolumeOnInstanceDelete() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachment) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.DeleteVolumeOnInstanceDelete
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The name of the boot volume attachment
+func (o IsInstanceReinitializeBootVolumeAttachmentPtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachment) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// The boot volume attachment configuration for reinitialization by volume
+func (o IsInstanceReinitializeBootVolumeAttachmentPtrOutput) Volume() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachment) *IsInstanceReinitializeBootVolumeAttachmentVolume {
+		if v == nil {
+			return nil
+		}
+		return v.Volume
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolume struct {
+	// The allowed use configuration for this volume
+	AllowedUse *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse `pulumi:"allowedUse"`
+	// The maximum bandwidth (in megabits per second) for the volume.
+	Bandwidth *int `pulumi:"bandwidth"`
+	// The capacity to use for the volume (in gigabytes).
+	Capacity *int `pulumi:"capacity"`
+	// The root key to use to wrap the data encryption key for the volume.
+	EncryptionKey *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey `pulumi:"encryptionKey"`
+	// The ID of the volume to attach as boot volume
+	Id *string `pulumi:"id"`
+	// The maximum I/O operations per second (IOPS) to use for this volume.
+	Iops *int `pulumi:"iops"`
+	// The name for this volume.
+	Name *string `pulumi:"name"`
+	// The profile for this volume.
+	Profile *IsInstanceReinitializeBootVolumeAttachmentVolumeProfile `pulumi:"profile"`
+	// The resource group to use for this volume.
+	ResourceGroup *string `pulumi:"resourceGroup"`
+	// The snapshot to use as a source for the volume's data. The specified snapshot may be in a different account, subject to IAM policies.
+	SourceSnapshot *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot `pulumi:"sourceSnapshot"`
+	// The user tags associated with this volume.
+	UserTags []string `pulumi:"userTags"`
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeArgs and IsInstanceReinitializeBootVolumeAttachmentVolumeOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeInput` via:
+//
+//	IsInstanceReinitializeBootVolumeAttachmentVolumeArgs{...}
+type IsInstanceReinitializeBootVolumeAttachmentVolumeInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeOutput
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeArgs struct {
+	// The allowed use configuration for this volume
+	AllowedUse IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrInput `pulumi:"allowedUse"`
+	// The maximum bandwidth (in megabits per second) for the volume.
+	Bandwidth pulumi.IntPtrInput `pulumi:"bandwidth"`
+	// The capacity to use for the volume (in gigabytes).
+	Capacity pulumi.IntPtrInput `pulumi:"capacity"`
+	// The root key to use to wrap the data encryption key for the volume.
+	EncryptionKey IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrInput `pulumi:"encryptionKey"`
+	// The ID of the volume to attach as boot volume
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// The maximum I/O operations per second (IOPS) to use for this volume.
+	Iops pulumi.IntPtrInput `pulumi:"iops"`
+	// The name for this volume.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	// The profile for this volume.
+	Profile IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrInput `pulumi:"profile"`
+	// The resource group to use for this volume.
+	ResourceGroup pulumi.StringPtrInput `pulumi:"resourceGroup"`
+	// The snapshot to use as a source for the volume's data. The specified snapshot may be in a different account, subject to IAM policies.
+	SourceSnapshot IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrInput `pulumi:"sourceSnapshot"`
+	// The user tags associated with this volume.
+	UserTags pulumi.StringArrayInput `pulumi:"userTags"`
+}
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolume)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeOutput)
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeOutput).ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumePtrInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeArgs, IsInstanceReinitializeBootVolumeAttachmentVolumePtr and IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumePtrInput` via:
+//
+//	        IsInstanceReinitializeBootVolumeAttachmentVolumeArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeBootVolumeAttachmentVolumePtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput
+}
+
+type isInstanceReinitializeBootVolumeAttachmentVolumePtrType IsInstanceReinitializeBootVolumeAttachmentVolumeArgs
+
+func IsInstanceReinitializeBootVolumeAttachmentVolumePtr(v *IsInstanceReinitializeBootVolumeAttachmentVolumeArgs) IsInstanceReinitializeBootVolumeAttachmentVolumePtrInput {
+	return (*isInstanceReinitializeBootVolumeAttachmentVolumePtrType)(v)
+}
+
+func (*isInstanceReinitializeBootVolumeAttachmentVolumePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolume)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumePtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumePtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolume)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return o.ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolume {
+		return &v
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput)
+}
+
+// The allowed use configuration for this volume
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) AllowedUse() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse {
+		return v.AllowedUse
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput)
+}
+
+// The maximum bandwidth (in megabits per second) for the volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) Bandwidth() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *int { return v.Bandwidth }).(pulumi.IntPtrOutput)
+}
+
+// The capacity to use for the volume (in gigabytes).
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) Capacity() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *int { return v.Capacity }).(pulumi.IntPtrOutput)
+}
+
+// The root key to use to wrap the data encryption key for the volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) EncryptionKey() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey {
+		return v.EncryptionKey
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput)
+}
+
+// The ID of the volume to attach as boot volume
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The maximum I/O operations per second (IOPS) to use for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) Iops() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *int { return v.Iops }).(pulumi.IntPtrOutput)
+}
+
+// The name for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The profile for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) Profile() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeProfile {
+		return v.Profile
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput)
+}
+
+// The resource group to use for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) ResourceGroup() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *string { return v.ResourceGroup }).(pulumi.StringPtrOutput)
+}
+
+// The snapshot to use as a source for the volume's data. The specified snapshot may be in a different account, subject to IAM policies.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) SourceSnapshot() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot {
+		return v.SourceSnapshot
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput)
+}
+
+// The user tags associated with this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeOutput) UserTags() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolume) []string { return v.UserTags }).(pulumi.StringArrayOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolume)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Elem() IsInstanceReinitializeBootVolumeAttachmentVolumeOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) IsInstanceReinitializeBootVolumeAttachmentVolume {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeBootVolumeAttachmentVolume
+		return ret
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeOutput)
+}
+
+// The allowed use configuration for this volume
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) AllowedUse() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse {
+		if v == nil {
+			return nil
+		}
+		return v.AllowedUse
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput)
+}
+
+// The maximum bandwidth (in megabits per second) for the volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Bandwidth() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Bandwidth
+	}).(pulumi.IntPtrOutput)
+}
+
+// The capacity to use for the volume (in gigabytes).
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Capacity() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Capacity
+	}).(pulumi.IntPtrOutput)
+}
+
+// The root key to use to wrap the data encryption key for the volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) EncryptionKey() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey {
+		if v == nil {
+			return nil
+		}
+		return v.EncryptionKey
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput)
+}
+
+// The ID of the volume to attach as boot volume
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// The maximum I/O operations per second (IOPS) to use for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Iops() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Iops
+	}).(pulumi.IntPtrOutput)
+}
+
+// The name for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+// The profile for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) Profile() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeProfile {
+		if v == nil {
+			return nil
+		}
+		return v.Profile
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput)
+}
+
+// The resource group to use for this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) ResourceGroup() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ResourceGroup
+	}).(pulumi.StringPtrOutput)
+}
+
+// The snapshot to use as a source for the volume's data. The specified snapshot may be in a different account, subject to IAM policies.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) SourceSnapshot() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot {
+		if v == nil {
+			return nil
+		}
+		return v.SourceSnapshot
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput)
+}
+
+// The user tags associated with this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput) UserTags() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolume) []string {
+		if v == nil {
+			return nil
+		}
+		return v.UserTags
+	}).(pulumi.StringArrayOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse struct {
+	// The API version with which to evaluate the expressions.
+	ApiVersion string `pulumi:"apiVersion"`
+	// The expression that must be satisfied by the properties of a bare metal server provisioned using the image data in this volume.
+	BareMetalServer *string `pulumi:"bareMetalServer"`
+	// The expression that must be satisfied by the properties of a virtual server instance provisioned using this volume.
+	Instance *string `pulumi:"instance"`
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs and IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseInput` via:
+//
+//	IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs{...}
+type IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs struct {
+	// The API version with which to evaluate the expressions.
+	ApiVersion pulumi.StringInput `pulumi:"apiVersion"`
+	// The expression that must be satisfied by the properties of a bare metal server provisioned using the image data in this volume.
+	BareMetalServer pulumi.StringPtrInput `pulumi:"bareMetalServer"`
+	// The expression that must be satisfied by the properties of a virtual server instance provisioned using this volume.
+	Instance pulumi.StringPtrInput `pulumi:"instance"`
+}
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput)
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput).ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs, IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtr and IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrInput` via:
+//
+//	        IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput
+}
+
+type isInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrType IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs
+
+func IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtr(v *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrInput {
+	return (*isInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrType)(v)
+}
+
+func (*isInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return o.ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse {
+		return &v
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput)
+}
+
+// The API version with which to evaluate the expressions.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) ApiVersion() pulumi.StringOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) string { return v.ApiVersion }).(pulumi.StringOutput)
+}
+
+// The expression that must be satisfied by the properties of a bare metal server provisioned using the image data in this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) BareMetalServer() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) *string { return v.BareMetalServer }).(pulumi.StringPtrOutput)
+}
+
+// The expression that must be satisfied by the properties of a virtual server instance provisioned using this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput) Instance() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) *string { return v.Instance }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) Elem() IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse
+		return ret
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput)
+}
+
+// The API version with which to evaluate the expressions.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) ApiVersion() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ApiVersion
+	}).(pulumi.StringPtrOutput)
+}
+
+// The expression that must be satisfied by the properties of a bare metal server provisioned using the image data in this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) BareMetalServer() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.BareMetalServer
+	}).(pulumi.StringPtrOutput)
+}
+
+// The expression that must be satisfied by the properties of a virtual server instance provisioned using this volume.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput) Instance() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Instance
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey struct {
+	// The CRN of the Key Protect Root Key for this resource.
+	Crn string `pulumi:"crn"`
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs and IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyInput` via:
+//
+//	IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs{...}
+type IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs struct {
+	// The CRN of the Key Protect Root Key for this resource.
+	Crn pulumi.StringInput `pulumi:"crn"`
+}
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput)
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput).ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs, IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtr and IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrInput` via:
+//
+//	        IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput
+}
+
+type isInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrType IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs
+
+func IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtr(v *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrInput {
+	return (*isInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrType)(v)
+}
+
+func (*isInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return o.ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey) *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey {
+		return &v
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput)
+}
+
+// The CRN of the Key Protect Root Key for this resource.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput) Elem() IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey) IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey
+		return ret
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput)
+}
+
+// The CRN of the Key Protect Root Key for this resource.
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKey) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Crn
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeProfile struct {
+	// The globally unique name for this volume profile
+	Name string `pulumi:"name"`
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeProfileInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs and IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeProfileInput` via:
+//
+//	IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs{...}
+type IsInstanceReinitializeBootVolumeAttachmentVolumeProfileInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs struct {
+	// The globally unique name for this volume profile
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeProfile)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput)
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput).ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs, IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtr and IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrInput` via:
+//
+//	        IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput
+}
+
+type isInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrType IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs
+
+func IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtr(v *IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs) IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrInput {
+	return (*isInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrType)(v)
+}
+
+func (*isInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeProfile)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeProfile)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return o.ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeBootVolumeAttachmentVolumeProfile) *IsInstanceReinitializeBootVolumeAttachmentVolumeProfile {
+		return &v
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput)
+}
+
+// The globally unique name for this volume profile
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolumeProfile) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeProfile)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput) Elem() IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeProfile) IsInstanceReinitializeBootVolumeAttachmentVolumeProfile {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeBootVolumeAttachmentVolumeProfile
+		return ret
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput)
+}
+
+// The globally unique name for this volume profile
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeProfile) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Name
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot struct {
+	// The ID of the snapshot
+	Id string `pulumi:"id"`
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs and IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotInput` via:
+//
+//	IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs{...}
+type IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs struct {
+	// The ID of the snapshot
+	Id pulumi.StringInput `pulumi:"id"`
+}
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput)
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput).ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrInput is an input type that accepts IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs, IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtr and IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrInput` via:
+//
+//	        IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput
+	ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput
+}
+
+type isInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrType IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs
+
+func IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtr(v *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrInput {
+	return (*isInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrType)(v)
+}
+
+func (*isInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return i.ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrType) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return o.ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot) *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot {
+		return &v
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput)
+}
+
+// The ID of the snapshot
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot) string { return v.Id }).(pulumi.StringOutput)
+}
+
+type IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput) ToIsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput) Elem() IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot) IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot
+		return ret
+	}).(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput)
+}
+
+// The ID of the snapshot
+func (o IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshot) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceReinitializeDefaultTrustedProfile struct {
+	// If set to true, the system will create a link to the specified target trusted profile.
+	AutoLink bool `pulumi:"autoLink"`
+	// The default trusted profile configuration to use for this virtual server instance.
+	Target IsInstanceReinitializeDefaultTrustedProfileTarget `pulumi:"target"`
+}
+
+// IsInstanceReinitializeDefaultTrustedProfileInput is an input type that accepts IsInstanceReinitializeDefaultTrustedProfileArgs and IsInstanceReinitializeDefaultTrustedProfileOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeDefaultTrustedProfileInput` via:
+//
+//	IsInstanceReinitializeDefaultTrustedProfileArgs{...}
+type IsInstanceReinitializeDefaultTrustedProfileInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeDefaultTrustedProfileOutput() IsInstanceReinitializeDefaultTrustedProfileOutput
+	ToIsInstanceReinitializeDefaultTrustedProfileOutputWithContext(context.Context) IsInstanceReinitializeDefaultTrustedProfileOutput
+}
+
+type IsInstanceReinitializeDefaultTrustedProfileArgs struct {
+	// If set to true, the system will create a link to the specified target trusted profile.
+	AutoLink pulumi.BoolInput `pulumi:"autoLink"`
+	// The default trusted profile configuration to use for this virtual server instance.
+	Target IsInstanceReinitializeDefaultTrustedProfileTargetInput `pulumi:"target"`
+}
+
+func (IsInstanceReinitializeDefaultTrustedProfileArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfile)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileArgs) ToIsInstanceReinitializeDefaultTrustedProfileOutput() IsInstanceReinitializeDefaultTrustedProfileOutput {
+	return i.ToIsInstanceReinitializeDefaultTrustedProfileOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileArgs) ToIsInstanceReinitializeDefaultTrustedProfileOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeDefaultTrustedProfileOutput)
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileArgs) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutput() IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return i.ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileArgs) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeDefaultTrustedProfileOutput).ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeDefaultTrustedProfilePtrInput is an input type that accepts IsInstanceReinitializeDefaultTrustedProfileArgs, IsInstanceReinitializeDefaultTrustedProfilePtr and IsInstanceReinitializeDefaultTrustedProfilePtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeDefaultTrustedProfilePtrInput` via:
+//
+//	        IsInstanceReinitializeDefaultTrustedProfileArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeDefaultTrustedProfilePtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeDefaultTrustedProfilePtrOutput() IsInstanceReinitializeDefaultTrustedProfilePtrOutput
+	ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(context.Context) IsInstanceReinitializeDefaultTrustedProfilePtrOutput
+}
+
+type isInstanceReinitializeDefaultTrustedProfilePtrType IsInstanceReinitializeDefaultTrustedProfileArgs
+
+func IsInstanceReinitializeDefaultTrustedProfilePtr(v *IsInstanceReinitializeDefaultTrustedProfileArgs) IsInstanceReinitializeDefaultTrustedProfilePtrInput {
+	return (*isInstanceReinitializeDefaultTrustedProfilePtrType)(v)
+}
+
+func (*isInstanceReinitializeDefaultTrustedProfilePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeDefaultTrustedProfile)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeDefaultTrustedProfilePtrType) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutput() IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return i.ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeDefaultTrustedProfilePtrType) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeDefaultTrustedProfilePtrOutput)
+}
+
+type IsInstanceReinitializeDefaultTrustedProfileOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeDefaultTrustedProfileOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfile)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileOutput) ToIsInstanceReinitializeDefaultTrustedProfileOutput() IsInstanceReinitializeDefaultTrustedProfileOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileOutput) ToIsInstanceReinitializeDefaultTrustedProfileOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileOutput) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutput() IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return o.ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileOutput) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeDefaultTrustedProfile) *IsInstanceReinitializeDefaultTrustedProfile {
+		return &v
+	}).(IsInstanceReinitializeDefaultTrustedProfilePtrOutput)
+}
+
+// If set to true, the system will create a link to the specified target trusted profile.
+func (o IsInstanceReinitializeDefaultTrustedProfileOutput) AutoLink() pulumi.BoolOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeDefaultTrustedProfile) bool { return v.AutoLink }).(pulumi.BoolOutput)
+}
+
+// The default trusted profile configuration to use for this virtual server instance.
+func (o IsInstanceReinitializeDefaultTrustedProfileOutput) Target() IsInstanceReinitializeDefaultTrustedProfileTargetOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeDefaultTrustedProfile) IsInstanceReinitializeDefaultTrustedProfileTarget {
+		return v.Target
+	}).(IsInstanceReinitializeDefaultTrustedProfileTargetOutput)
+}
+
+type IsInstanceReinitializeDefaultTrustedProfilePtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeDefaultTrustedProfilePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeDefaultTrustedProfile)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfilePtrOutput) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutput() IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfilePtrOutput) ToIsInstanceReinitializeDefaultTrustedProfilePtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfilePtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfilePtrOutput) Elem() IsInstanceReinitializeDefaultTrustedProfileOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeDefaultTrustedProfile) IsInstanceReinitializeDefaultTrustedProfile {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeDefaultTrustedProfile
+		return ret
+	}).(IsInstanceReinitializeDefaultTrustedProfileOutput)
+}
+
+// If set to true, the system will create a link to the specified target trusted profile.
+func (o IsInstanceReinitializeDefaultTrustedProfilePtrOutput) AutoLink() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeDefaultTrustedProfile) *bool {
+		if v == nil {
+			return nil
+		}
+		return &v.AutoLink
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The default trusted profile configuration to use for this virtual server instance.
+func (o IsInstanceReinitializeDefaultTrustedProfilePtrOutput) Target() IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeDefaultTrustedProfile) *IsInstanceReinitializeDefaultTrustedProfileTarget {
+		if v == nil {
+			return nil
+		}
+		return &v.Target
+	}).(IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput)
+}
+
+type IsInstanceReinitializeDefaultTrustedProfileTarget struct {
+	// The CRN for this trusted profile
+	Crn *string `pulumi:"crn"`
+	// The unique identifier for this trusted profile
+	Id *string `pulumi:"id"`
+}
+
+// IsInstanceReinitializeDefaultTrustedProfileTargetInput is an input type that accepts IsInstanceReinitializeDefaultTrustedProfileTargetArgs and IsInstanceReinitializeDefaultTrustedProfileTargetOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeDefaultTrustedProfileTargetInput` via:
+//
+//	IsInstanceReinitializeDefaultTrustedProfileTargetArgs{...}
+type IsInstanceReinitializeDefaultTrustedProfileTargetInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeDefaultTrustedProfileTargetOutput() IsInstanceReinitializeDefaultTrustedProfileTargetOutput
+	ToIsInstanceReinitializeDefaultTrustedProfileTargetOutputWithContext(context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetOutput
+}
+
+type IsInstanceReinitializeDefaultTrustedProfileTargetArgs struct {
+	// The CRN for this trusted profile
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+	// The unique identifier for this trusted profile
+	Id pulumi.StringPtrInput `pulumi:"id"`
+}
+
+func (IsInstanceReinitializeDefaultTrustedProfileTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfileTarget)(nil)).Elem()
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileTargetArgs) ToIsInstanceReinitializeDefaultTrustedProfileTargetOutput() IsInstanceReinitializeDefaultTrustedProfileTargetOutput {
+	return i.ToIsInstanceReinitializeDefaultTrustedProfileTargetOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileTargetArgs) ToIsInstanceReinitializeDefaultTrustedProfileTargetOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeDefaultTrustedProfileTargetOutput)
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileTargetArgs) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput() IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return i.ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceReinitializeDefaultTrustedProfileTargetArgs) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeDefaultTrustedProfileTargetOutput).ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(ctx)
+}
+
+// IsInstanceReinitializeDefaultTrustedProfileTargetPtrInput is an input type that accepts IsInstanceReinitializeDefaultTrustedProfileTargetArgs, IsInstanceReinitializeDefaultTrustedProfileTargetPtr and IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput values.
+// You can construct a concrete instance of `IsInstanceReinitializeDefaultTrustedProfileTargetPtrInput` via:
+//
+//	        IsInstanceReinitializeDefaultTrustedProfileTargetArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceReinitializeDefaultTrustedProfileTargetPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput() IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput
+	ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput
+}
+
+type isInstanceReinitializeDefaultTrustedProfileTargetPtrType IsInstanceReinitializeDefaultTrustedProfileTargetArgs
+
+func IsInstanceReinitializeDefaultTrustedProfileTargetPtr(v *IsInstanceReinitializeDefaultTrustedProfileTargetArgs) IsInstanceReinitializeDefaultTrustedProfileTargetPtrInput {
+	return (*isInstanceReinitializeDefaultTrustedProfileTargetPtrType)(v)
+}
+
+func (*isInstanceReinitializeDefaultTrustedProfileTargetPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeDefaultTrustedProfileTarget)(nil)).Elem()
+}
+
+func (i *isInstanceReinitializeDefaultTrustedProfileTargetPtrType) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput() IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return i.ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceReinitializeDefaultTrustedProfileTargetPtrType) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput)
+}
+
+type IsInstanceReinitializeDefaultTrustedProfileTargetOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeDefaultTrustedProfileTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfileTarget)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetOutput) ToIsInstanceReinitializeDefaultTrustedProfileTargetOutput() IsInstanceReinitializeDefaultTrustedProfileTargetOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetOutput) ToIsInstanceReinitializeDefaultTrustedProfileTargetOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetOutput) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput() IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return o.ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetOutput) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceReinitializeDefaultTrustedProfileTarget) *IsInstanceReinitializeDefaultTrustedProfileTarget {
+		return &v
+	}).(IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput)
+}
+
+// The CRN for this trusted profile
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeDefaultTrustedProfileTarget) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+// The unique identifier for this trusted profile
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceReinitializeDefaultTrustedProfileTarget) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceReinitializeDefaultTrustedProfileTarget)(nil)).Elem()
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput() IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput) ToIsInstanceReinitializeDefaultTrustedProfileTargetPtrOutputWithContext(ctx context.Context) IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput {
+	return o
+}
+
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput) Elem() IsInstanceReinitializeDefaultTrustedProfileTargetOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeDefaultTrustedProfileTarget) IsInstanceReinitializeDefaultTrustedProfileTarget {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceReinitializeDefaultTrustedProfileTarget
+		return ret
+	}).(IsInstanceReinitializeDefaultTrustedProfileTargetOutput)
+}
+
+// The CRN for this trusted profile
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeDefaultTrustedProfileTarget) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Crn
+	}).(pulumi.StringPtrOutput)
+}
+
+// The unique identifier for this trusted profile
+func (o IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceReinitializeDefaultTrustedProfileTarget) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
 type IsInstanceReservation struct {
 	// The CRN for this reservation.
 	Crn *string `pulumi:"crn"`
@@ -43863,6 +47704,1056 @@ func (o IsInstanceReservationDeletedArrayOutput) Index(i pulumi.IntInput) IsInst
 	}).(IsInstanceReservationDeletedOutput)
 }
 
+type IsInstanceSoftwareAttachmentType struct {
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []IsInstanceSoftwareAttachmentDeleted `pulumi:"deleteds"`
+	// The URL for this instance software attachment.
+	Href *string `pulumi:"href"`
+	// The unique identifier for this instance software attachment.
+	Id *string `pulumi:"id"`
+	// The name for this instance software attachment. The name is unique across all instance software attachments for the instance.
+	Name *string `pulumi:"name"`
+	// The resource type.
+	ResourceType *string `pulumi:"resourceType"`
+}
+
+// IsInstanceSoftwareAttachmentTypeInput is an input type that accepts IsInstanceSoftwareAttachmentTypeArgs and IsInstanceSoftwareAttachmentTypeOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentTypeInput` via:
+//
+//	IsInstanceSoftwareAttachmentTypeArgs{...}
+type IsInstanceSoftwareAttachmentTypeInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentTypeOutput() IsInstanceSoftwareAttachmentTypeOutput
+	ToIsInstanceSoftwareAttachmentTypeOutputWithContext(context.Context) IsInstanceSoftwareAttachmentTypeOutput
+}
+
+type IsInstanceSoftwareAttachmentTypeArgs struct {
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds IsInstanceSoftwareAttachmentDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this instance software attachment.
+	Href pulumi.StringPtrInput `pulumi:"href"`
+	// The unique identifier for this instance software attachment.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// The name for this instance software attachment. The name is unique across all instance software attachments for the instance.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
+}
+
+func (IsInstanceSoftwareAttachmentTypeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentType)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentTypeArgs) ToIsInstanceSoftwareAttachmentTypeOutput() IsInstanceSoftwareAttachmentTypeOutput {
+	return i.ToIsInstanceSoftwareAttachmentTypeOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentTypeArgs) ToIsInstanceSoftwareAttachmentTypeOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentTypeOutput)
+}
+
+// IsInstanceSoftwareAttachmentTypeArrayInput is an input type that accepts IsInstanceSoftwareAttachmentTypeArray and IsInstanceSoftwareAttachmentTypeArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentTypeArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentTypeArray{ IsInstanceSoftwareAttachmentTypeArgs{...} }
+type IsInstanceSoftwareAttachmentTypeArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentTypeArrayOutput() IsInstanceSoftwareAttachmentTypeArrayOutput
+	ToIsInstanceSoftwareAttachmentTypeArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentTypeArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentTypeArray []IsInstanceSoftwareAttachmentTypeInput
+
+func (IsInstanceSoftwareAttachmentTypeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentType)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentTypeArray) ToIsInstanceSoftwareAttachmentTypeArrayOutput() IsInstanceSoftwareAttachmentTypeArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentTypeArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentTypeArray) ToIsInstanceSoftwareAttachmentTypeArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentTypeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentTypeArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentTypeOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentType)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentTypeOutput) ToIsInstanceSoftwareAttachmentTypeOutput() IsInstanceSoftwareAttachmentTypeOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentTypeOutput) ToIsInstanceSoftwareAttachmentTypeOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentTypeOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o IsInstanceSoftwareAttachmentTypeOutput) Deleteds() IsInstanceSoftwareAttachmentDeletedArrayOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentType) []IsInstanceSoftwareAttachmentDeleted { return v.Deleteds }).(IsInstanceSoftwareAttachmentDeletedArrayOutput)
+}
+
+// The URL for this instance software attachment.
+func (o IsInstanceSoftwareAttachmentTypeOutput) Href() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentType) *string { return v.Href }).(pulumi.StringPtrOutput)
+}
+
+// The unique identifier for this instance software attachment.
+func (o IsInstanceSoftwareAttachmentTypeOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentType) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The name for this instance software attachment. The name is unique across all instance software attachments for the instance.
+func (o IsInstanceSoftwareAttachmentTypeOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentType) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The resource type.
+func (o IsInstanceSoftwareAttachmentTypeOutput) ResourceType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentType) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentTypeArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentTypeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentType)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentTypeArrayOutput) ToIsInstanceSoftwareAttachmentTypeArrayOutput() IsInstanceSoftwareAttachmentTypeArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentTypeArrayOutput) ToIsInstanceSoftwareAttachmentTypeArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentTypeArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentTypeArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentTypeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentType {
+		return vs[0].([]IsInstanceSoftwareAttachmentType)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentTypeOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOffering struct {
+	// The billing plan for the catalog offering version associated with this instance softwareattachment.If absent, no billing plan is associated with the catalog offering version (free).
+	Plans []IsInstanceSoftwareAttachmentCatalogOfferingPlan `pulumi:"plans"`
+	// The catalog offering version associated with this instance software attachment.
+	Versions []IsInstanceSoftwareAttachmentCatalogOfferingVersion `pulumi:"versions"`
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingArgs and IsInstanceSoftwareAttachmentCatalogOfferingOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingArgs{...}
+type IsInstanceSoftwareAttachmentCatalogOfferingInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingOutput() IsInstanceSoftwareAttachmentCatalogOfferingOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingArgs struct {
+	// The billing plan for the catalog offering version associated with this instance softwareattachment.If absent, no billing plan is associated with the catalog offering version (free).
+	Plans IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayInput `pulumi:"plans"`
+	// The catalog offering version associated with this instance software attachment.
+	Versions IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayInput `pulumi:"versions"`
+}
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOffering)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingOutput() IsInstanceSoftwareAttachmentCatalogOfferingOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingOutput)
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingArrayInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingArray and IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingArray{ IsInstanceSoftwareAttachmentCatalogOfferingArgs{...} }
+type IsInstanceSoftwareAttachmentCatalogOfferingArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingArray []IsInstanceSoftwareAttachmentCatalogOfferingInput
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOffering)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingArray) ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingArray) ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOffering)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingOutput() IsInstanceSoftwareAttachmentCatalogOfferingOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingOutput {
+	return o
+}
+
+// The billing plan for the catalog offering version associated with this instance softwareattachment.If absent, no billing plan is associated with the catalog offering version (free).
+func (o IsInstanceSoftwareAttachmentCatalogOfferingOutput) Plans() IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentCatalogOffering) []IsInstanceSoftwareAttachmentCatalogOfferingPlan {
+		return v.Plans
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput)
+}
+
+// The catalog offering version associated with this instance software attachment.
+func (o IsInstanceSoftwareAttachmentCatalogOfferingOutput) Versions() IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentCatalogOffering) []IsInstanceSoftwareAttachmentCatalogOfferingVersion {
+		return v.Versions
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOffering)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentCatalogOfferingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentCatalogOffering {
+		return vs[0].([]IsInstanceSoftwareAttachmentCatalogOffering)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlan struct {
+	// The CRN for this[catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering version's billing plan.
+	Crn *string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted `pulumi:"deleteds"`
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingPlanInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs and IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingPlanInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs{...}
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs struct {
+	// The CRN for this[catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering version's billing plan.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayInput `pulumi:"deleteds"`
+}
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlan)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput)
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingPlanArray and IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingPlanArray{ IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs{...} }
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanArray []IsInstanceSoftwareAttachmentCatalogOfferingPlanInput
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOfferingPlan)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanArray) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanArray) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlan)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput {
+	return o
+}
+
+// The CRN for this[catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering version's billing plan.
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentCatalogOfferingPlan) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput) Deleteds() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentCatalogOfferingPlan) []IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted {
+		return v.Deleteds
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOfferingPlan)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentCatalogOfferingPlan {
+		return vs[0].([]IsInstanceSoftwareAttachmentCatalogOfferingPlan)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted struct {
+	// A link to documentation about deleted resources.
+	MoreInfo *string `pulumi:"moreInfo"`
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs and IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs{...}
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs struct {
+	// A link to documentation about deleted resources.
+	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
+}
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput)
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray and IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray{ IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs{...} }
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray []IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedInput
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput {
+	return o
+}
+
+// A link to documentation about deleted resources.
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted {
+		return vs[0].([]IsInstanceSoftwareAttachmentCatalogOfferingPlanDeleted)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingVersion struct {
+	// The CRN for this version of a[catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	Crn *string `pulumi:"crn"`
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingVersionInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs and IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingVersionInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs{...}
+type IsInstanceSoftwareAttachmentCatalogOfferingVersionInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutput() IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs struct {
+	// The CRN for this version of a[catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+}
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingVersion)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutput() IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput)
+}
+
+// IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayInput is an input type that accepts IsInstanceSoftwareAttachmentCatalogOfferingVersionArray and IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentCatalogOfferingVersionArray{ IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs{...} }
+type IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput
+	ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingVersionArray []IsInstanceSoftwareAttachmentCatalogOfferingVersionInput
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingVersionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOfferingVersion)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingVersionArray) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentCatalogOfferingVersionArray) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingVersion)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutput() IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput {
+	return o
+}
+
+// The CRN for this version of a[catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering.
+func (o IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentCatalogOfferingVersion) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentCatalogOfferingVersion)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput() IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput) ToIsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentCatalogOfferingVersion {
+		return vs[0].([]IsInstanceSoftwareAttachmentCatalogOfferingVersion)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput)
+}
+
+type IsInstanceSoftwareAttachmentDeleted struct {
+	// A link to documentation about deleted resources.
+	MoreInfo *string `pulumi:"moreInfo"`
+}
+
+// IsInstanceSoftwareAttachmentDeletedInput is an input type that accepts IsInstanceSoftwareAttachmentDeletedArgs and IsInstanceSoftwareAttachmentDeletedOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentDeletedInput` via:
+//
+//	IsInstanceSoftwareAttachmentDeletedArgs{...}
+type IsInstanceSoftwareAttachmentDeletedInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentDeletedOutput() IsInstanceSoftwareAttachmentDeletedOutput
+	ToIsInstanceSoftwareAttachmentDeletedOutputWithContext(context.Context) IsInstanceSoftwareAttachmentDeletedOutput
+}
+
+type IsInstanceSoftwareAttachmentDeletedArgs struct {
+	// A link to documentation about deleted resources.
+	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
+}
+
+func (IsInstanceSoftwareAttachmentDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentDeleted)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentDeletedArgs) ToIsInstanceSoftwareAttachmentDeletedOutput() IsInstanceSoftwareAttachmentDeletedOutput {
+	return i.ToIsInstanceSoftwareAttachmentDeletedOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentDeletedArgs) ToIsInstanceSoftwareAttachmentDeletedOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentDeletedOutput)
+}
+
+// IsInstanceSoftwareAttachmentDeletedArrayInput is an input type that accepts IsInstanceSoftwareAttachmentDeletedArray and IsInstanceSoftwareAttachmentDeletedArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentDeletedArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentDeletedArray{ IsInstanceSoftwareAttachmentDeletedArgs{...} }
+type IsInstanceSoftwareAttachmentDeletedArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentDeletedArrayOutput() IsInstanceSoftwareAttachmentDeletedArrayOutput
+	ToIsInstanceSoftwareAttachmentDeletedArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentDeletedArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentDeletedArray []IsInstanceSoftwareAttachmentDeletedInput
+
+func (IsInstanceSoftwareAttachmentDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentDeleted)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentDeletedArray) ToIsInstanceSoftwareAttachmentDeletedArrayOutput() IsInstanceSoftwareAttachmentDeletedArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentDeletedArray) ToIsInstanceSoftwareAttachmentDeletedArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentDeletedArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentDeletedOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentDeleted)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentDeletedOutput) ToIsInstanceSoftwareAttachmentDeletedOutput() IsInstanceSoftwareAttachmentDeletedOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentDeletedOutput) ToIsInstanceSoftwareAttachmentDeletedOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentDeletedOutput {
+	return o
+}
+
+// A link to documentation about deleted resources.
+func (o IsInstanceSoftwareAttachmentDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentDeleted)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentDeletedArrayOutput) ToIsInstanceSoftwareAttachmentDeletedArrayOutput() IsInstanceSoftwareAttachmentDeletedArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentDeletedArrayOutput) ToIsInstanceSoftwareAttachmentDeletedArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentDeletedArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentDeletedArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentDeleted {
+		return vs[0].([]IsInstanceSoftwareAttachmentDeleted)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentDeletedOutput)
+}
+
+type IsInstanceSoftwareAttachmentEntitlement struct {
+	// The licensed software for this instance software attachment entitlement.
+	LicensedSoftwares []IsInstanceSoftwareAttachmentEntitlementLicensedSoftware `pulumi:"licensedSoftwares"`
+}
+
+// IsInstanceSoftwareAttachmentEntitlementInput is an input type that accepts IsInstanceSoftwareAttachmentEntitlementArgs and IsInstanceSoftwareAttachmentEntitlementOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentEntitlementInput` via:
+//
+//	IsInstanceSoftwareAttachmentEntitlementArgs{...}
+type IsInstanceSoftwareAttachmentEntitlementInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentEntitlementOutput() IsInstanceSoftwareAttachmentEntitlementOutput
+	ToIsInstanceSoftwareAttachmentEntitlementOutputWithContext(context.Context) IsInstanceSoftwareAttachmentEntitlementOutput
+}
+
+type IsInstanceSoftwareAttachmentEntitlementArgs struct {
+	// The licensed software for this instance software attachment entitlement.
+	LicensedSoftwares IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayInput `pulumi:"licensedSoftwares"`
+}
+
+func (IsInstanceSoftwareAttachmentEntitlementArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlement)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementArgs) ToIsInstanceSoftwareAttachmentEntitlementOutput() IsInstanceSoftwareAttachmentEntitlementOutput {
+	return i.ToIsInstanceSoftwareAttachmentEntitlementOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementArgs) ToIsInstanceSoftwareAttachmentEntitlementOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentEntitlementOutput)
+}
+
+// IsInstanceSoftwareAttachmentEntitlementArrayInput is an input type that accepts IsInstanceSoftwareAttachmentEntitlementArray and IsInstanceSoftwareAttachmentEntitlementArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentEntitlementArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentEntitlementArray{ IsInstanceSoftwareAttachmentEntitlementArgs{...} }
+type IsInstanceSoftwareAttachmentEntitlementArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentEntitlementArrayOutput() IsInstanceSoftwareAttachmentEntitlementArrayOutput
+	ToIsInstanceSoftwareAttachmentEntitlementArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentEntitlementArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentEntitlementArray []IsInstanceSoftwareAttachmentEntitlementInput
+
+func (IsInstanceSoftwareAttachmentEntitlementArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentEntitlement)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementArray) ToIsInstanceSoftwareAttachmentEntitlementArrayOutput() IsInstanceSoftwareAttachmentEntitlementArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentEntitlementArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementArray) ToIsInstanceSoftwareAttachmentEntitlementArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentEntitlementArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentEntitlementOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentEntitlementOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlement)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementOutput) ToIsInstanceSoftwareAttachmentEntitlementOutput() IsInstanceSoftwareAttachmentEntitlementOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementOutput) ToIsInstanceSoftwareAttachmentEntitlementOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementOutput {
+	return o
+}
+
+// The licensed software for this instance software attachment entitlement.
+func (o IsInstanceSoftwareAttachmentEntitlementOutput) LicensedSoftwares() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentEntitlement) []IsInstanceSoftwareAttachmentEntitlementLicensedSoftware {
+		return v.LicensedSoftwares
+	}).(IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentEntitlementArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentEntitlementArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentEntitlement)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementArrayOutput) ToIsInstanceSoftwareAttachmentEntitlementArrayOutput() IsInstanceSoftwareAttachmentEntitlementArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementArrayOutput) ToIsInstanceSoftwareAttachmentEntitlementArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentEntitlementOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentEntitlement {
+		return vs[0].([]IsInstanceSoftwareAttachmentEntitlement)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentEntitlementOutput)
+}
+
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftware struct {
+	// The SKU for this licensed software.
+	Sku *string `pulumi:"sku"`
+}
+
+// IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareInput is an input type that accepts IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs and IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareInput` via:
+//
+//	IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs{...}
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput
+	ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutputWithContext(context.Context) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput
+}
+
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs struct {
+	// The SKU for this licensed software.
+	Sku pulumi.StringPtrInput `pulumi:"sku"`
+}
+
+func (IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlementLicensedSoftware)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput {
+	return i.ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput)
+}
+
+// IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayInput is an input type that accepts IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray and IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray{ IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs{...} }
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput
+	ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray []IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareInput
+
+func (IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentEntitlementLicensedSoftware)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlementLicensedSoftware)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput {
+	return o
+}
+
+// The SKU for this licensed software.
+func (o IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput) Sku() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentEntitlementLicensedSoftware) *string { return v.Sku }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentEntitlementLicensedSoftware)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput() IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput) ToIsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentEntitlementLicensedSoftware {
+		return vs[0].([]IsInstanceSoftwareAttachmentEntitlementLicensedSoftware)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput)
+}
+
+type IsInstanceSoftwareAttachmentLifecycleReason struct {
+	// A reason code for this lifecycle state:- `failedRegistration`: the software instance's registration to Resource Controller,  which includes creation of any required software license(s), has failed. Delete the  instance and provision it again. If the problem persists, contact IBM Support.- `internalError`: internal error (contact IBM support)- `pendingRegistration`: the software instance's registration to Resource Controller,  and the creation of any required software license(s), is being processed.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code *string `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message *string `pulumi:"message"`
+	// A link to documentation about the reason for this lifecycle state.
+	MoreInfo *string `pulumi:"moreInfo"`
+}
+
+// IsInstanceSoftwareAttachmentLifecycleReasonInput is an input type that accepts IsInstanceSoftwareAttachmentLifecycleReasonArgs and IsInstanceSoftwareAttachmentLifecycleReasonOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentLifecycleReasonInput` via:
+//
+//	IsInstanceSoftwareAttachmentLifecycleReasonArgs{...}
+type IsInstanceSoftwareAttachmentLifecycleReasonInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentLifecycleReasonOutput() IsInstanceSoftwareAttachmentLifecycleReasonOutput
+	ToIsInstanceSoftwareAttachmentLifecycleReasonOutputWithContext(context.Context) IsInstanceSoftwareAttachmentLifecycleReasonOutput
+}
+
+type IsInstanceSoftwareAttachmentLifecycleReasonArgs struct {
+	// A reason code for this lifecycle state:- `failedRegistration`: the software instance's registration to Resource Controller,  which includes creation of any required software license(s), has failed. Delete the  instance and provision it again. If the problem persists, contact IBM Support.- `internalError`: internal error (contact IBM support)- `pendingRegistration`: the software instance's registration to Resource Controller,  and the creation of any required software license(s), is being processed.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code pulumi.StringPtrInput `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message pulumi.StringPtrInput `pulumi:"message"`
+	// A link to documentation about the reason for this lifecycle state.
+	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
+}
+
+func (IsInstanceSoftwareAttachmentLifecycleReasonArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentLifecycleReasonArgs) ToIsInstanceSoftwareAttachmentLifecycleReasonOutput() IsInstanceSoftwareAttachmentLifecycleReasonOutput {
+	return i.ToIsInstanceSoftwareAttachmentLifecycleReasonOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentLifecycleReasonArgs) ToIsInstanceSoftwareAttachmentLifecycleReasonOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentLifecycleReasonOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentLifecycleReasonOutput)
+}
+
+// IsInstanceSoftwareAttachmentLifecycleReasonArrayInput is an input type that accepts IsInstanceSoftwareAttachmentLifecycleReasonArray and IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentLifecycleReasonArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentLifecycleReasonArray{ IsInstanceSoftwareAttachmentLifecycleReasonArgs{...} }
+type IsInstanceSoftwareAttachmentLifecycleReasonArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutput() IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput
+	ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentLifecycleReasonArray []IsInstanceSoftwareAttachmentLifecycleReasonInput
+
+func (IsInstanceSoftwareAttachmentLifecycleReasonArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentLifecycleReasonArray) ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutput() IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentLifecycleReasonArray) ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentLifecycleReasonOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentLifecycleReasonOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentLifecycleReasonOutput) ToIsInstanceSoftwareAttachmentLifecycleReasonOutput() IsInstanceSoftwareAttachmentLifecycleReasonOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentLifecycleReasonOutput) ToIsInstanceSoftwareAttachmentLifecycleReasonOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentLifecycleReasonOutput {
+	return o
+}
+
+// A reason code for this lifecycle state:- `failedRegistration`: the software instance's registration to Resource Controller,  which includes creation of any required software license(s), has failed. Delete the  instance and provision it again. If the problem persists, contact IBM Support.- `internalError`: internal error (contact IBM support)- `pendingRegistration`: the software instance's registration to Resource Controller,  and the creation of any required software license(s), is being processed.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsInstanceSoftwareAttachmentLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
+}
+
+// An explanation of the reason for this lifecycle state.
+func (o IsInstanceSoftwareAttachmentLifecycleReasonOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentLifecycleReason) *string { return v.Message }).(pulumi.StringPtrOutput)
+}
+
+// A link to documentation about the reason for this lifecycle state.
+func (o IsInstanceSoftwareAttachmentLifecycleReasonOutput) MoreInfo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentLifecycleReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput) ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutput() IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput) ToIsInstanceSoftwareAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentLifecycleReasonOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentLifecycleReason {
+		return vs[0].([]IsInstanceSoftwareAttachmentLifecycleReason)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentLifecycleReasonOutput)
+}
+
+type IsInstanceSoftwareAttachmentOfferingInstance struct {
+	// The CRN for the software offering instance registered with Resource Controller that is associated with the instance software attachment.
+	Crn *string `pulumi:"crn"`
+}
+
+// IsInstanceSoftwareAttachmentOfferingInstanceInput is an input type that accepts IsInstanceSoftwareAttachmentOfferingInstanceArgs and IsInstanceSoftwareAttachmentOfferingInstanceOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentOfferingInstanceInput` via:
+//
+//	IsInstanceSoftwareAttachmentOfferingInstanceArgs{...}
+type IsInstanceSoftwareAttachmentOfferingInstanceInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentOfferingInstanceOutput() IsInstanceSoftwareAttachmentOfferingInstanceOutput
+	ToIsInstanceSoftwareAttachmentOfferingInstanceOutputWithContext(context.Context) IsInstanceSoftwareAttachmentOfferingInstanceOutput
+}
+
+type IsInstanceSoftwareAttachmentOfferingInstanceArgs struct {
+	// The CRN for the software offering instance registered with Resource Controller that is associated with the instance software attachment.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+}
+
+func (IsInstanceSoftwareAttachmentOfferingInstanceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentOfferingInstance)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentOfferingInstanceArgs) ToIsInstanceSoftwareAttachmentOfferingInstanceOutput() IsInstanceSoftwareAttachmentOfferingInstanceOutput {
+	return i.ToIsInstanceSoftwareAttachmentOfferingInstanceOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentOfferingInstanceArgs) ToIsInstanceSoftwareAttachmentOfferingInstanceOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentOfferingInstanceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentOfferingInstanceOutput)
+}
+
+// IsInstanceSoftwareAttachmentOfferingInstanceArrayInput is an input type that accepts IsInstanceSoftwareAttachmentOfferingInstanceArray and IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput values.
+// You can construct a concrete instance of `IsInstanceSoftwareAttachmentOfferingInstanceArrayInput` via:
+//
+//	IsInstanceSoftwareAttachmentOfferingInstanceArray{ IsInstanceSoftwareAttachmentOfferingInstanceArgs{...} }
+type IsInstanceSoftwareAttachmentOfferingInstanceArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutput() IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput
+	ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutputWithContext(context.Context) IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput
+}
+
+type IsInstanceSoftwareAttachmentOfferingInstanceArray []IsInstanceSoftwareAttachmentOfferingInstanceInput
+
+func (IsInstanceSoftwareAttachmentOfferingInstanceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentOfferingInstance)(nil)).Elem()
+}
+
+func (i IsInstanceSoftwareAttachmentOfferingInstanceArray) ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutput() IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput {
+	return i.ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceSoftwareAttachmentOfferingInstanceArray) ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput)
+}
+
+type IsInstanceSoftwareAttachmentOfferingInstanceOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentOfferingInstanceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceSoftwareAttachmentOfferingInstance)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentOfferingInstanceOutput) ToIsInstanceSoftwareAttachmentOfferingInstanceOutput() IsInstanceSoftwareAttachmentOfferingInstanceOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentOfferingInstanceOutput) ToIsInstanceSoftwareAttachmentOfferingInstanceOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentOfferingInstanceOutput {
+	return o
+}
+
+// The CRN for the software offering instance registered with Resource Controller that is associated with the instance software attachment.
+func (o IsInstanceSoftwareAttachmentOfferingInstanceOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceSoftwareAttachmentOfferingInstance) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceSoftwareAttachmentOfferingInstance)(nil)).Elem()
+}
+
+func (o IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput) ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutput() IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput) ToIsInstanceSoftwareAttachmentOfferingInstanceArrayOutputWithContext(ctx context.Context) IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput {
+	return o
+}
+
+func (o IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput) Index(i pulumi.IntInput) IsInstanceSoftwareAttachmentOfferingInstanceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceSoftwareAttachmentOfferingInstance {
+		return vs[0].([]IsInstanceSoftwareAttachmentOfferingInstance)[vs[1].(int)]
+	}).(IsInstanceSoftwareAttachmentOfferingInstanceOutput)
+}
+
 type IsInstanceStatusReason struct {
 	// A snake case string succinctly identifying the status reason
 	Code *string `pulumi:"code"`
@@ -43976,6 +48867,280 @@ func (o IsInstanceStatusReasonArrayOutput) Index(i pulumi.IntInput) IsInstanceSt
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceStatusReason {
 		return vs[0].([]IsInstanceStatusReason)[vs[1].(int)]
 	}).(IsInstanceStatusReasonOutput)
+}
+
+type IsInstanceTemplateAvailability struct {
+	// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.If `spot` is specified, the virtual server instance:- `reservation_affinity.policy` must be `disabled`- `placementTarget` must not specify a dedicated host or dedicated host group.
+	Class *string `pulumi:"class"`
+}
+
+// IsInstanceTemplateAvailabilityInput is an input type that accepts IsInstanceTemplateAvailabilityArgs and IsInstanceTemplateAvailabilityOutput values.
+// You can construct a concrete instance of `IsInstanceTemplateAvailabilityInput` via:
+//
+//	IsInstanceTemplateAvailabilityArgs{...}
+type IsInstanceTemplateAvailabilityInput interface {
+	pulumi.Input
+
+	ToIsInstanceTemplateAvailabilityOutput() IsInstanceTemplateAvailabilityOutput
+	ToIsInstanceTemplateAvailabilityOutputWithContext(context.Context) IsInstanceTemplateAvailabilityOutput
+}
+
+type IsInstanceTemplateAvailabilityArgs struct {
+	// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.If `spot` is specified, the virtual server instance:- `reservation_affinity.policy` must be `disabled`- `placementTarget` must not specify a dedicated host or dedicated host group.
+	Class pulumi.StringPtrInput `pulumi:"class"`
+}
+
+func (IsInstanceTemplateAvailabilityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceTemplateAvailability)(nil)).Elem()
+}
+
+func (i IsInstanceTemplateAvailabilityArgs) ToIsInstanceTemplateAvailabilityOutput() IsInstanceTemplateAvailabilityOutput {
+	return i.ToIsInstanceTemplateAvailabilityOutputWithContext(context.Background())
+}
+
+func (i IsInstanceTemplateAvailabilityArgs) ToIsInstanceTemplateAvailabilityOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateAvailabilityOutput)
+}
+
+func (i IsInstanceTemplateAvailabilityArgs) ToIsInstanceTemplateAvailabilityPtrOutput() IsInstanceTemplateAvailabilityPtrOutput {
+	return i.ToIsInstanceTemplateAvailabilityPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceTemplateAvailabilityArgs) ToIsInstanceTemplateAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateAvailabilityOutput).ToIsInstanceTemplateAvailabilityPtrOutputWithContext(ctx)
+}
+
+// IsInstanceTemplateAvailabilityPtrInput is an input type that accepts IsInstanceTemplateAvailabilityArgs, IsInstanceTemplateAvailabilityPtr and IsInstanceTemplateAvailabilityPtrOutput values.
+// You can construct a concrete instance of `IsInstanceTemplateAvailabilityPtrInput` via:
+//
+//	        IsInstanceTemplateAvailabilityArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceTemplateAvailabilityPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceTemplateAvailabilityPtrOutput() IsInstanceTemplateAvailabilityPtrOutput
+	ToIsInstanceTemplateAvailabilityPtrOutputWithContext(context.Context) IsInstanceTemplateAvailabilityPtrOutput
+}
+
+type isInstanceTemplateAvailabilityPtrType IsInstanceTemplateAvailabilityArgs
+
+func IsInstanceTemplateAvailabilityPtr(v *IsInstanceTemplateAvailabilityArgs) IsInstanceTemplateAvailabilityPtrInput {
+	return (*isInstanceTemplateAvailabilityPtrType)(v)
+}
+
+func (*isInstanceTemplateAvailabilityPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceTemplateAvailability)(nil)).Elem()
+}
+
+func (i *isInstanceTemplateAvailabilityPtrType) ToIsInstanceTemplateAvailabilityPtrOutput() IsInstanceTemplateAvailabilityPtrOutput {
+	return i.ToIsInstanceTemplateAvailabilityPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceTemplateAvailabilityPtrType) ToIsInstanceTemplateAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateAvailabilityPtrOutput)
+}
+
+type IsInstanceTemplateAvailabilityOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceTemplateAvailabilityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceTemplateAvailability)(nil)).Elem()
+}
+
+func (o IsInstanceTemplateAvailabilityOutput) ToIsInstanceTemplateAvailabilityOutput() IsInstanceTemplateAvailabilityOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityOutput) ToIsInstanceTemplateAvailabilityOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityOutput) ToIsInstanceTemplateAvailabilityPtrOutput() IsInstanceTemplateAvailabilityPtrOutput {
+	return o.ToIsInstanceTemplateAvailabilityPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceTemplateAvailabilityOutput) ToIsInstanceTemplateAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceTemplateAvailability) *IsInstanceTemplateAvailability {
+		return &v
+	}).(IsInstanceTemplateAvailabilityPtrOutput)
+}
+
+// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.If `spot` is specified, the virtual server instance:- `reservation_affinity.policy` must be `disabled`- `placementTarget` must not specify a dedicated host or dedicated host group.
+func (o IsInstanceTemplateAvailabilityOutput) Class() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceTemplateAvailability) *string { return v.Class }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceTemplateAvailabilityPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceTemplateAvailabilityPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceTemplateAvailability)(nil)).Elem()
+}
+
+func (o IsInstanceTemplateAvailabilityPtrOutput) ToIsInstanceTemplateAvailabilityPtrOutput() IsInstanceTemplateAvailabilityPtrOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityPtrOutput) ToIsInstanceTemplateAvailabilityPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPtrOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityPtrOutput) Elem() IsInstanceTemplateAvailabilityOutput {
+	return o.ApplyT(func(v *IsInstanceTemplateAvailability) IsInstanceTemplateAvailability {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceTemplateAvailability
+		return ret
+	}).(IsInstanceTemplateAvailabilityOutput)
+}
+
+// The availability class for the virtual server instance.- `spot`: The virtual server instance may be preempted.- `standard`: The virtual server instance will not be preempted.If `spot` is specified, the virtual server instance:- `reservation_affinity.policy` must be `disabled`- `placementTarget` must not specify a dedicated host or dedicated host group.
+func (o IsInstanceTemplateAvailabilityPtrOutput) Class() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplateAvailability) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Class
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceTemplateAvailabilityPolicy struct {
+	// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.
+	Preemption *string `pulumi:"preemption"`
+}
+
+// IsInstanceTemplateAvailabilityPolicyInput is an input type that accepts IsInstanceTemplateAvailabilityPolicyArgs and IsInstanceTemplateAvailabilityPolicyOutput values.
+// You can construct a concrete instance of `IsInstanceTemplateAvailabilityPolicyInput` via:
+//
+//	IsInstanceTemplateAvailabilityPolicyArgs{...}
+type IsInstanceTemplateAvailabilityPolicyInput interface {
+	pulumi.Input
+
+	ToIsInstanceTemplateAvailabilityPolicyOutput() IsInstanceTemplateAvailabilityPolicyOutput
+	ToIsInstanceTemplateAvailabilityPolicyOutputWithContext(context.Context) IsInstanceTemplateAvailabilityPolicyOutput
+}
+
+type IsInstanceTemplateAvailabilityPolicyArgs struct {
+	// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.
+	Preemption pulumi.StringPtrInput `pulumi:"preemption"`
+}
+
+func (IsInstanceTemplateAvailabilityPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceTemplateAvailabilityPolicy)(nil)).Elem()
+}
+
+func (i IsInstanceTemplateAvailabilityPolicyArgs) ToIsInstanceTemplateAvailabilityPolicyOutput() IsInstanceTemplateAvailabilityPolicyOutput {
+	return i.ToIsInstanceTemplateAvailabilityPolicyOutputWithContext(context.Background())
+}
+
+func (i IsInstanceTemplateAvailabilityPolicyArgs) ToIsInstanceTemplateAvailabilityPolicyOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateAvailabilityPolicyOutput)
+}
+
+func (i IsInstanceTemplateAvailabilityPolicyArgs) ToIsInstanceTemplateAvailabilityPolicyPtrOutput() IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return i.ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceTemplateAvailabilityPolicyArgs) ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateAvailabilityPolicyOutput).ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(ctx)
+}
+
+// IsInstanceTemplateAvailabilityPolicyPtrInput is an input type that accepts IsInstanceTemplateAvailabilityPolicyArgs, IsInstanceTemplateAvailabilityPolicyPtr and IsInstanceTemplateAvailabilityPolicyPtrOutput values.
+// You can construct a concrete instance of `IsInstanceTemplateAvailabilityPolicyPtrInput` via:
+//
+//	        IsInstanceTemplateAvailabilityPolicyArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceTemplateAvailabilityPolicyPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceTemplateAvailabilityPolicyPtrOutput() IsInstanceTemplateAvailabilityPolicyPtrOutput
+	ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(context.Context) IsInstanceTemplateAvailabilityPolicyPtrOutput
+}
+
+type isInstanceTemplateAvailabilityPolicyPtrType IsInstanceTemplateAvailabilityPolicyArgs
+
+func IsInstanceTemplateAvailabilityPolicyPtr(v *IsInstanceTemplateAvailabilityPolicyArgs) IsInstanceTemplateAvailabilityPolicyPtrInput {
+	return (*isInstanceTemplateAvailabilityPolicyPtrType)(v)
+}
+
+func (*isInstanceTemplateAvailabilityPolicyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceTemplateAvailabilityPolicy)(nil)).Elem()
+}
+
+func (i *isInstanceTemplateAvailabilityPolicyPtrType) ToIsInstanceTemplateAvailabilityPolicyPtrOutput() IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return i.ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceTemplateAvailabilityPolicyPtrType) ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateAvailabilityPolicyPtrOutput)
+}
+
+type IsInstanceTemplateAvailabilityPolicyOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceTemplateAvailabilityPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceTemplateAvailabilityPolicy)(nil)).Elem()
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyOutput) ToIsInstanceTemplateAvailabilityPolicyOutput() IsInstanceTemplateAvailabilityPolicyOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyOutput) ToIsInstanceTemplateAvailabilityPolicyOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPolicyOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyOutput) ToIsInstanceTemplateAvailabilityPolicyPtrOutput() IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return o.ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyOutput) ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceTemplateAvailabilityPolicy) *IsInstanceTemplateAvailabilityPolicy {
+		return &v
+	}).(IsInstanceTemplateAvailabilityPolicyPtrOutput)
+}
+
+// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.
+func (o IsInstanceTemplateAvailabilityPolicyOutput) Preemption() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsInstanceTemplateAvailabilityPolicy) *string { return v.Preemption }).(pulumi.StringPtrOutput)
+}
+
+type IsInstanceTemplateAvailabilityPolicyPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceTemplateAvailabilityPolicyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceTemplateAvailabilityPolicy)(nil)).Elem()
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyPtrOutput) ToIsInstanceTemplateAvailabilityPolicyPtrOutput() IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyPtrOutput) ToIsInstanceTemplateAvailabilityPolicyPtrOutputWithContext(ctx context.Context) IsInstanceTemplateAvailabilityPolicyPtrOutput {
+	return o
+}
+
+func (o IsInstanceTemplateAvailabilityPolicyPtrOutput) Elem() IsInstanceTemplateAvailabilityPolicyOutput {
+	return o.ApplyT(func(v *IsInstanceTemplateAvailabilityPolicy) IsInstanceTemplateAvailabilityPolicy {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceTemplateAvailabilityPolicy
+		return ret
+	}).(IsInstanceTemplateAvailabilityPolicyOutput)
+}
+
+// The action to perform if the virtual server instance is preempted:- `delete`: Delete the virtual server instance- `stop`: Leave the virtual server instance stopped. See [virtual server instance preemption](https://cloud.ibm.com/docs/vpc?topic=vpc-spot-instances-virtual-servers#spot-instances-preemption) for details.
+func (o IsInstanceTemplateAvailabilityPolicyPtrOutput) Preemption() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplateAvailabilityPolicy) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Preemption
+	}).(pulumi.StringPtrOutput)
 }
 
 type IsInstanceTemplateBootVolume struct {
@@ -48854,6 +54019,143 @@ func (o IsInstanceTemplateReservationAffinityPoolArrayOutput) Index(i pulumi.Int
 	}).(IsInstanceTemplateReservationAffinityPoolOutput)
 }
 
+type IsInstanceTemplateVcpu struct {
+	// The percentage of VCPU clock cycles allocated to the instance.The virtual server instance `vcpu.percentage` must be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is not `disabled`.If unspecified, the default for `vcpuPercentage` from the profile will be used.
+	Percentage *int `pulumi:"percentage"`
+}
+
+// IsInstanceTemplateVcpuInput is an input type that accepts IsInstanceTemplateVcpuArgs and IsInstanceTemplateVcpuOutput values.
+// You can construct a concrete instance of `IsInstanceTemplateVcpuInput` via:
+//
+//	IsInstanceTemplateVcpuArgs{...}
+type IsInstanceTemplateVcpuInput interface {
+	pulumi.Input
+
+	ToIsInstanceTemplateVcpuOutput() IsInstanceTemplateVcpuOutput
+	ToIsInstanceTemplateVcpuOutputWithContext(context.Context) IsInstanceTemplateVcpuOutput
+}
+
+type IsInstanceTemplateVcpuArgs struct {
+	// The percentage of VCPU clock cycles allocated to the instance.The virtual server instance `vcpu.percentage` must be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is not `disabled`.If unspecified, the default for `vcpuPercentage` from the profile will be used.
+	Percentage pulumi.IntPtrInput `pulumi:"percentage"`
+}
+
+func (IsInstanceTemplateVcpuArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceTemplateVcpu)(nil)).Elem()
+}
+
+func (i IsInstanceTemplateVcpuArgs) ToIsInstanceTemplateVcpuOutput() IsInstanceTemplateVcpuOutput {
+	return i.ToIsInstanceTemplateVcpuOutputWithContext(context.Background())
+}
+
+func (i IsInstanceTemplateVcpuArgs) ToIsInstanceTemplateVcpuOutputWithContext(ctx context.Context) IsInstanceTemplateVcpuOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateVcpuOutput)
+}
+
+func (i IsInstanceTemplateVcpuArgs) ToIsInstanceTemplateVcpuPtrOutput() IsInstanceTemplateVcpuPtrOutput {
+	return i.ToIsInstanceTemplateVcpuPtrOutputWithContext(context.Background())
+}
+
+func (i IsInstanceTemplateVcpuArgs) ToIsInstanceTemplateVcpuPtrOutputWithContext(ctx context.Context) IsInstanceTemplateVcpuPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateVcpuOutput).ToIsInstanceTemplateVcpuPtrOutputWithContext(ctx)
+}
+
+// IsInstanceTemplateVcpuPtrInput is an input type that accepts IsInstanceTemplateVcpuArgs, IsInstanceTemplateVcpuPtr and IsInstanceTemplateVcpuPtrOutput values.
+// You can construct a concrete instance of `IsInstanceTemplateVcpuPtrInput` via:
+//
+//	        IsInstanceTemplateVcpuArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsInstanceTemplateVcpuPtrInput interface {
+	pulumi.Input
+
+	ToIsInstanceTemplateVcpuPtrOutput() IsInstanceTemplateVcpuPtrOutput
+	ToIsInstanceTemplateVcpuPtrOutputWithContext(context.Context) IsInstanceTemplateVcpuPtrOutput
+}
+
+type isInstanceTemplateVcpuPtrType IsInstanceTemplateVcpuArgs
+
+func IsInstanceTemplateVcpuPtr(v *IsInstanceTemplateVcpuArgs) IsInstanceTemplateVcpuPtrInput {
+	return (*isInstanceTemplateVcpuPtrType)(v)
+}
+
+func (*isInstanceTemplateVcpuPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceTemplateVcpu)(nil)).Elem()
+}
+
+func (i *isInstanceTemplateVcpuPtrType) ToIsInstanceTemplateVcpuPtrOutput() IsInstanceTemplateVcpuPtrOutput {
+	return i.ToIsInstanceTemplateVcpuPtrOutputWithContext(context.Background())
+}
+
+func (i *isInstanceTemplateVcpuPtrType) ToIsInstanceTemplateVcpuPtrOutputWithContext(ctx context.Context) IsInstanceTemplateVcpuPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceTemplateVcpuPtrOutput)
+}
+
+type IsInstanceTemplateVcpuOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceTemplateVcpuOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceTemplateVcpu)(nil)).Elem()
+}
+
+func (o IsInstanceTemplateVcpuOutput) ToIsInstanceTemplateVcpuOutput() IsInstanceTemplateVcpuOutput {
+	return o
+}
+
+func (o IsInstanceTemplateVcpuOutput) ToIsInstanceTemplateVcpuOutputWithContext(ctx context.Context) IsInstanceTemplateVcpuOutput {
+	return o
+}
+
+func (o IsInstanceTemplateVcpuOutput) ToIsInstanceTemplateVcpuPtrOutput() IsInstanceTemplateVcpuPtrOutput {
+	return o.ToIsInstanceTemplateVcpuPtrOutputWithContext(context.Background())
+}
+
+func (o IsInstanceTemplateVcpuOutput) ToIsInstanceTemplateVcpuPtrOutputWithContext(ctx context.Context) IsInstanceTemplateVcpuPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsInstanceTemplateVcpu) *IsInstanceTemplateVcpu {
+		return &v
+	}).(IsInstanceTemplateVcpuPtrOutput)
+}
+
+// The percentage of VCPU clock cycles allocated to the instance.The virtual server instance `vcpu.percentage` must be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is not `disabled`.If unspecified, the default for `vcpuPercentage` from the profile will be used.
+func (o IsInstanceTemplateVcpuOutput) Percentage() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsInstanceTemplateVcpu) *int { return v.Percentage }).(pulumi.IntPtrOutput)
+}
+
+type IsInstanceTemplateVcpuPtrOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceTemplateVcpuPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsInstanceTemplateVcpu)(nil)).Elem()
+}
+
+func (o IsInstanceTemplateVcpuPtrOutput) ToIsInstanceTemplateVcpuPtrOutput() IsInstanceTemplateVcpuPtrOutput {
+	return o
+}
+
+func (o IsInstanceTemplateVcpuPtrOutput) ToIsInstanceTemplateVcpuPtrOutputWithContext(ctx context.Context) IsInstanceTemplateVcpuPtrOutput {
+	return o
+}
+
+func (o IsInstanceTemplateVcpuPtrOutput) Elem() IsInstanceTemplateVcpuOutput {
+	return o.ApplyT(func(v *IsInstanceTemplateVcpu) IsInstanceTemplateVcpu {
+		if v != nil {
+			return *v
+		}
+		var ret IsInstanceTemplateVcpu
+		return ret
+	}).(IsInstanceTemplateVcpuOutput)
+}
+
+// The percentage of VCPU clock cycles allocated to the instance.The virtual server instance `vcpu.percentage` must be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is not `disabled`.If unspecified, the default for `vcpuPercentage` from the profile will be used.
+func (o IsInstanceTemplateVcpuPtrOutput) Percentage() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *IsInstanceTemplateVcpu) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Percentage
+	}).(pulumi.IntPtrOutput)
+}
+
 type IsInstanceTemplateVolumeAttachment struct {
 	// If set to true, when deleting the instance the volume will also be deleted.
 	DeleteVolumeOnInstanceDelete bool `pulumi:"deleteVolumeOnInstanceDelete"`
@@ -49425,10 +54727,15 @@ func (o IsInstanceTemplateVolumeAttachmentVolumePrototypeAllowedUsePtrOutput) In
 }
 
 type IsInstanceVcpus struct {
-	Architecture *string `pulumi:"architecture"`
-	Count        *int    `pulumi:"count"`
-	// The VCPU manufacturer
+	// The VCPU architecture.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Architecture *string                `pulumi:"architecture"`
+	Bursts       []IsInstanceVcpusBurst `pulumi:"bursts"`
+	// The number of VCPUs assigned.
+	Count *int `pulumi:"count"`
+	// The VCPU manufacturer.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Manufacturer *string `pulumi:"manufacturer"`
+	// The percentage of VCPU time allocated to the virtual server instance.The virtual server instance `vcpu.percentage` will be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is `disabled`.
+	Percentage *int `pulumi:"percentage"`
 }
 
 // IsInstanceVcpusInput is an input type that accepts IsInstanceVcpusArgs and IsInstanceVcpusOutput values.
@@ -49443,10 +54750,15 @@ type IsInstanceVcpusInput interface {
 }
 
 type IsInstanceVcpusArgs struct {
-	Architecture pulumi.StringPtrInput `pulumi:"architecture"`
-	Count        pulumi.IntPtrInput    `pulumi:"count"`
-	// The VCPU manufacturer
+	// The VCPU architecture.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Architecture pulumi.StringPtrInput          `pulumi:"architecture"`
+	Bursts       IsInstanceVcpusBurstArrayInput `pulumi:"bursts"`
+	// The number of VCPUs assigned.
+	Count pulumi.IntPtrInput `pulumi:"count"`
+	// The VCPU manufacturer.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Manufacturer pulumi.StringPtrInput `pulumi:"manufacturer"`
+	// The percentage of VCPU time allocated to the virtual server instance.The virtual server instance `vcpu.percentage` will be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is `disabled`.
+	Percentage pulumi.IntPtrInput `pulumi:"percentage"`
 }
 
 func (IsInstanceVcpusArgs) ElementType() reflect.Type {
@@ -49500,17 +54812,28 @@ func (o IsInstanceVcpusOutput) ToIsInstanceVcpusOutputWithContext(ctx context.Co
 	return o
 }
 
+// The VCPU architecture.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsInstanceVcpusOutput) Architecture() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsInstanceVcpus) *string { return v.Architecture }).(pulumi.StringPtrOutput)
 }
 
+func (o IsInstanceVcpusOutput) Bursts() IsInstanceVcpusBurstArrayOutput {
+	return o.ApplyT(func(v IsInstanceVcpus) []IsInstanceVcpusBurst { return v.Bursts }).(IsInstanceVcpusBurstArrayOutput)
+}
+
+// The number of VCPUs assigned.
 func (o IsInstanceVcpusOutput) Count() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v IsInstanceVcpus) *int { return v.Count }).(pulumi.IntPtrOutput)
 }
 
-// The VCPU manufacturer
+// The VCPU manufacturer.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsInstanceVcpusOutput) Manufacturer() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsInstanceVcpus) *string { return v.Manufacturer }).(pulumi.StringPtrOutput)
+}
+
+// The percentage of VCPU time allocated to the virtual server instance.The virtual server instance `vcpu.percentage` will be `100` when:- The virtual server instance `placementTarget` is a dedicated host or dedicated  host group.- The virtual server instance `reservation_affinity.policy` is `disabled`.
+func (o IsInstanceVcpusOutput) Percentage() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsInstanceVcpus) *int { return v.Percentage }).(pulumi.IntPtrOutput)
 }
 
 type IsInstanceVcpusArrayOutput struct{ *pulumi.OutputState }
@@ -49531,6 +54854,103 @@ func (o IsInstanceVcpusArrayOutput) Index(i pulumi.IntInput) IsInstanceVcpusOutp
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceVcpus {
 		return vs[0].([]IsInstanceVcpus)[vs[1].(int)]
 	}).(IsInstanceVcpusOutput)
+}
+
+type IsInstanceVcpusBurst struct {
+	// The maximum percentage the virtual server instance will exceed its allocated share of VCPU time.The maximum value for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Limit *int `pulumi:"limit"`
+}
+
+// IsInstanceVcpusBurstInput is an input type that accepts IsInstanceVcpusBurstArgs and IsInstanceVcpusBurstOutput values.
+// You can construct a concrete instance of `IsInstanceVcpusBurstInput` via:
+//
+//	IsInstanceVcpusBurstArgs{...}
+type IsInstanceVcpusBurstInput interface {
+	pulumi.Input
+
+	ToIsInstanceVcpusBurstOutput() IsInstanceVcpusBurstOutput
+	ToIsInstanceVcpusBurstOutputWithContext(context.Context) IsInstanceVcpusBurstOutput
+}
+
+type IsInstanceVcpusBurstArgs struct {
+	// The maximum percentage the virtual server instance will exceed its allocated share of VCPU time.The maximum value for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Limit pulumi.IntPtrInput `pulumi:"limit"`
+}
+
+func (IsInstanceVcpusBurstArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceVcpusBurst)(nil)).Elem()
+}
+
+func (i IsInstanceVcpusBurstArgs) ToIsInstanceVcpusBurstOutput() IsInstanceVcpusBurstOutput {
+	return i.ToIsInstanceVcpusBurstOutputWithContext(context.Background())
+}
+
+func (i IsInstanceVcpusBurstArgs) ToIsInstanceVcpusBurstOutputWithContext(ctx context.Context) IsInstanceVcpusBurstOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceVcpusBurstOutput)
+}
+
+// IsInstanceVcpusBurstArrayInput is an input type that accepts IsInstanceVcpusBurstArray and IsInstanceVcpusBurstArrayOutput values.
+// You can construct a concrete instance of `IsInstanceVcpusBurstArrayInput` via:
+//
+//	IsInstanceVcpusBurstArray{ IsInstanceVcpusBurstArgs{...} }
+type IsInstanceVcpusBurstArrayInput interface {
+	pulumi.Input
+
+	ToIsInstanceVcpusBurstArrayOutput() IsInstanceVcpusBurstArrayOutput
+	ToIsInstanceVcpusBurstArrayOutputWithContext(context.Context) IsInstanceVcpusBurstArrayOutput
+}
+
+type IsInstanceVcpusBurstArray []IsInstanceVcpusBurstInput
+
+func (IsInstanceVcpusBurstArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceVcpusBurst)(nil)).Elem()
+}
+
+func (i IsInstanceVcpusBurstArray) ToIsInstanceVcpusBurstArrayOutput() IsInstanceVcpusBurstArrayOutput {
+	return i.ToIsInstanceVcpusBurstArrayOutputWithContext(context.Background())
+}
+
+func (i IsInstanceVcpusBurstArray) ToIsInstanceVcpusBurstArrayOutputWithContext(ctx context.Context) IsInstanceVcpusBurstArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsInstanceVcpusBurstArrayOutput)
+}
+
+type IsInstanceVcpusBurstOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceVcpusBurstOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsInstanceVcpusBurst)(nil)).Elem()
+}
+
+func (o IsInstanceVcpusBurstOutput) ToIsInstanceVcpusBurstOutput() IsInstanceVcpusBurstOutput {
+	return o
+}
+
+func (o IsInstanceVcpusBurstOutput) ToIsInstanceVcpusBurstOutputWithContext(ctx context.Context) IsInstanceVcpusBurstOutput {
+	return o
+}
+
+// The maximum percentage the virtual server instance will exceed its allocated share of VCPU time.The maximum value for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsInstanceVcpusBurstOutput) Limit() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsInstanceVcpusBurst) *int { return v.Limit }).(pulumi.IntPtrOutput)
+}
+
+type IsInstanceVcpusBurstArrayOutput struct{ *pulumi.OutputState }
+
+func (IsInstanceVcpusBurstArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsInstanceVcpusBurst)(nil)).Elem()
+}
+
+func (o IsInstanceVcpusBurstArrayOutput) ToIsInstanceVcpusBurstArrayOutput() IsInstanceVcpusBurstArrayOutput {
+	return o
+}
+
+func (o IsInstanceVcpusBurstArrayOutput) ToIsInstanceVcpusBurstArrayOutputWithContext(ctx context.Context) IsInstanceVcpusBurstArrayOutput {
+	return o
+}
+
+func (o IsInstanceVcpusBurstArrayOutput) Index(i pulumi.IntInput) IsInstanceVcpusBurstOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsInstanceVcpusBurst {
+		return vs[0].([]IsInstanceVcpusBurst)[vs[1].(int)]
+	}).(IsInstanceVcpusBurstOutput)
 }
 
 type IsInstanceVolumeAttachmentType struct {
@@ -50676,6 +56096,162 @@ func (o IsLbDnsPtrOutput) ZoneId() pulumi.StringPtrOutput {
 			return nil
 		}
 		return &v.ZoneId
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsLbListenerClientAuthentication struct {
+	// The certificate instance to use for the listener client certificate authority. Required if certificateRevocationList is specified.
+	CertificateAuthority string `pulumi:"certificateAuthority"`
+	// A PEM-encoded (with the label X509 CRL) certificate revocation list (CRL) to use for the listener. The CRL must be formatted using the X.509 standard as described in RFC 5280. If specified, certificateAuthority must also be specified.
+	CertificateRevocationList *string `pulumi:"certificateRevocationList"`
+}
+
+// IsLbListenerClientAuthenticationInput is an input type that accepts IsLbListenerClientAuthenticationArgs and IsLbListenerClientAuthenticationOutput values.
+// You can construct a concrete instance of `IsLbListenerClientAuthenticationInput` via:
+//
+//	IsLbListenerClientAuthenticationArgs{...}
+type IsLbListenerClientAuthenticationInput interface {
+	pulumi.Input
+
+	ToIsLbListenerClientAuthenticationOutput() IsLbListenerClientAuthenticationOutput
+	ToIsLbListenerClientAuthenticationOutputWithContext(context.Context) IsLbListenerClientAuthenticationOutput
+}
+
+type IsLbListenerClientAuthenticationArgs struct {
+	// The certificate instance to use for the listener client certificate authority. Required if certificateRevocationList is specified.
+	CertificateAuthority pulumi.StringInput `pulumi:"certificateAuthority"`
+	// A PEM-encoded (with the label X509 CRL) certificate revocation list (CRL) to use for the listener. The CRL must be formatted using the X.509 standard as described in RFC 5280. If specified, certificateAuthority must also be specified.
+	CertificateRevocationList pulumi.StringPtrInput `pulumi:"certificateRevocationList"`
+}
+
+func (IsLbListenerClientAuthenticationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbListenerClientAuthentication)(nil)).Elem()
+}
+
+func (i IsLbListenerClientAuthenticationArgs) ToIsLbListenerClientAuthenticationOutput() IsLbListenerClientAuthenticationOutput {
+	return i.ToIsLbListenerClientAuthenticationOutputWithContext(context.Background())
+}
+
+func (i IsLbListenerClientAuthenticationArgs) ToIsLbListenerClientAuthenticationOutputWithContext(ctx context.Context) IsLbListenerClientAuthenticationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbListenerClientAuthenticationOutput)
+}
+
+func (i IsLbListenerClientAuthenticationArgs) ToIsLbListenerClientAuthenticationPtrOutput() IsLbListenerClientAuthenticationPtrOutput {
+	return i.ToIsLbListenerClientAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (i IsLbListenerClientAuthenticationArgs) ToIsLbListenerClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbListenerClientAuthenticationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbListenerClientAuthenticationOutput).ToIsLbListenerClientAuthenticationPtrOutputWithContext(ctx)
+}
+
+// IsLbListenerClientAuthenticationPtrInput is an input type that accepts IsLbListenerClientAuthenticationArgs, IsLbListenerClientAuthenticationPtr and IsLbListenerClientAuthenticationPtrOutput values.
+// You can construct a concrete instance of `IsLbListenerClientAuthenticationPtrInput` via:
+//
+//	        IsLbListenerClientAuthenticationArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsLbListenerClientAuthenticationPtrInput interface {
+	pulumi.Input
+
+	ToIsLbListenerClientAuthenticationPtrOutput() IsLbListenerClientAuthenticationPtrOutput
+	ToIsLbListenerClientAuthenticationPtrOutputWithContext(context.Context) IsLbListenerClientAuthenticationPtrOutput
+}
+
+type isLbListenerClientAuthenticationPtrType IsLbListenerClientAuthenticationArgs
+
+func IsLbListenerClientAuthenticationPtr(v *IsLbListenerClientAuthenticationArgs) IsLbListenerClientAuthenticationPtrInput {
+	return (*isLbListenerClientAuthenticationPtrType)(v)
+}
+
+func (*isLbListenerClientAuthenticationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbListenerClientAuthentication)(nil)).Elem()
+}
+
+func (i *isLbListenerClientAuthenticationPtrType) ToIsLbListenerClientAuthenticationPtrOutput() IsLbListenerClientAuthenticationPtrOutput {
+	return i.ToIsLbListenerClientAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (i *isLbListenerClientAuthenticationPtrType) ToIsLbListenerClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbListenerClientAuthenticationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbListenerClientAuthenticationPtrOutput)
+}
+
+type IsLbListenerClientAuthenticationOutput struct{ *pulumi.OutputState }
+
+func (IsLbListenerClientAuthenticationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbListenerClientAuthentication)(nil)).Elem()
+}
+
+func (o IsLbListenerClientAuthenticationOutput) ToIsLbListenerClientAuthenticationOutput() IsLbListenerClientAuthenticationOutput {
+	return o
+}
+
+func (o IsLbListenerClientAuthenticationOutput) ToIsLbListenerClientAuthenticationOutputWithContext(ctx context.Context) IsLbListenerClientAuthenticationOutput {
+	return o
+}
+
+func (o IsLbListenerClientAuthenticationOutput) ToIsLbListenerClientAuthenticationPtrOutput() IsLbListenerClientAuthenticationPtrOutput {
+	return o.ToIsLbListenerClientAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (o IsLbListenerClientAuthenticationOutput) ToIsLbListenerClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbListenerClientAuthenticationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsLbListenerClientAuthentication) *IsLbListenerClientAuthentication {
+		return &v
+	}).(IsLbListenerClientAuthenticationPtrOutput)
+}
+
+// The certificate instance to use for the listener client certificate authority. Required if certificateRevocationList is specified.
+func (o IsLbListenerClientAuthenticationOutput) CertificateAuthority() pulumi.StringOutput {
+	return o.ApplyT(func(v IsLbListenerClientAuthentication) string { return v.CertificateAuthority }).(pulumi.StringOutput)
+}
+
+// A PEM-encoded (with the label X509 CRL) certificate revocation list (CRL) to use for the listener. The CRL must be formatted using the X.509 standard as described in RFC 5280. If specified, certificateAuthority must also be specified.
+func (o IsLbListenerClientAuthenticationOutput) CertificateRevocationList() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsLbListenerClientAuthentication) *string { return v.CertificateRevocationList }).(pulumi.StringPtrOutput)
+}
+
+type IsLbListenerClientAuthenticationPtrOutput struct{ *pulumi.OutputState }
+
+func (IsLbListenerClientAuthenticationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbListenerClientAuthentication)(nil)).Elem()
+}
+
+func (o IsLbListenerClientAuthenticationPtrOutput) ToIsLbListenerClientAuthenticationPtrOutput() IsLbListenerClientAuthenticationPtrOutput {
+	return o
+}
+
+func (o IsLbListenerClientAuthenticationPtrOutput) ToIsLbListenerClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbListenerClientAuthenticationPtrOutput {
+	return o
+}
+
+func (o IsLbListenerClientAuthenticationPtrOutput) Elem() IsLbListenerClientAuthenticationOutput {
+	return o.ApplyT(func(v *IsLbListenerClientAuthentication) IsLbListenerClientAuthentication {
+		if v != nil {
+			return *v
+		}
+		var ret IsLbListenerClientAuthentication
+		return ret
+	}).(IsLbListenerClientAuthenticationOutput)
+}
+
+// The certificate instance to use for the listener client certificate authority. Required if certificateRevocationList is specified.
+func (o IsLbListenerClientAuthenticationPtrOutput) CertificateAuthority() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbListenerClientAuthentication) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.CertificateAuthority
+	}).(pulumi.StringPtrOutput)
+}
+
+// A PEM-encoded (with the label X509 CRL) certificate revocation list (CRL) to use for the listener. The CRL must be formatted using the X.509 standard as described in RFC 5280. If specified, certificateAuthority must also be specified.
+func (o IsLbListenerClientAuthenticationPtrOutput) CertificateRevocationList() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbListenerClientAuthentication) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CertificateRevocationList
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -51892,12 +57468,149 @@ func (o IsLbListenerPolicyTargetListenerDeletedArrayOutput) Index(i pulumi.IntIn
 	}).(IsLbListenerPolicyTargetListenerDeletedOutput)
 }
 
+type IsLbPoolClientAuthentication struct {
+	// The CRN of the certificate instance to use for client authentication.
+	CertificateInstance string `pulumi:"certificateInstance"`
+}
+
+// IsLbPoolClientAuthenticationInput is an input type that accepts IsLbPoolClientAuthenticationArgs and IsLbPoolClientAuthenticationOutput values.
+// You can construct a concrete instance of `IsLbPoolClientAuthenticationInput` via:
+//
+//	IsLbPoolClientAuthenticationArgs{...}
+type IsLbPoolClientAuthenticationInput interface {
+	pulumi.Input
+
+	ToIsLbPoolClientAuthenticationOutput() IsLbPoolClientAuthenticationOutput
+	ToIsLbPoolClientAuthenticationOutputWithContext(context.Context) IsLbPoolClientAuthenticationOutput
+}
+
+type IsLbPoolClientAuthenticationArgs struct {
+	// The CRN of the certificate instance to use for client authentication.
+	CertificateInstance pulumi.StringInput `pulumi:"certificateInstance"`
+}
+
+func (IsLbPoolClientAuthenticationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolClientAuthentication)(nil)).Elem()
+}
+
+func (i IsLbPoolClientAuthenticationArgs) ToIsLbPoolClientAuthenticationOutput() IsLbPoolClientAuthenticationOutput {
+	return i.ToIsLbPoolClientAuthenticationOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolClientAuthenticationArgs) ToIsLbPoolClientAuthenticationOutputWithContext(ctx context.Context) IsLbPoolClientAuthenticationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolClientAuthenticationOutput)
+}
+
+func (i IsLbPoolClientAuthenticationArgs) ToIsLbPoolClientAuthenticationPtrOutput() IsLbPoolClientAuthenticationPtrOutput {
+	return i.ToIsLbPoolClientAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolClientAuthenticationArgs) ToIsLbPoolClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolClientAuthenticationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolClientAuthenticationOutput).ToIsLbPoolClientAuthenticationPtrOutputWithContext(ctx)
+}
+
+// IsLbPoolClientAuthenticationPtrInput is an input type that accepts IsLbPoolClientAuthenticationArgs, IsLbPoolClientAuthenticationPtr and IsLbPoolClientAuthenticationPtrOutput values.
+// You can construct a concrete instance of `IsLbPoolClientAuthenticationPtrInput` via:
+//
+//	        IsLbPoolClientAuthenticationArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsLbPoolClientAuthenticationPtrInput interface {
+	pulumi.Input
+
+	ToIsLbPoolClientAuthenticationPtrOutput() IsLbPoolClientAuthenticationPtrOutput
+	ToIsLbPoolClientAuthenticationPtrOutputWithContext(context.Context) IsLbPoolClientAuthenticationPtrOutput
+}
+
+type isLbPoolClientAuthenticationPtrType IsLbPoolClientAuthenticationArgs
+
+func IsLbPoolClientAuthenticationPtr(v *IsLbPoolClientAuthenticationArgs) IsLbPoolClientAuthenticationPtrInput {
+	return (*isLbPoolClientAuthenticationPtrType)(v)
+}
+
+func (*isLbPoolClientAuthenticationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolClientAuthentication)(nil)).Elem()
+}
+
+func (i *isLbPoolClientAuthenticationPtrType) ToIsLbPoolClientAuthenticationPtrOutput() IsLbPoolClientAuthenticationPtrOutput {
+	return i.ToIsLbPoolClientAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (i *isLbPoolClientAuthenticationPtrType) ToIsLbPoolClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolClientAuthenticationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolClientAuthenticationPtrOutput)
+}
+
+type IsLbPoolClientAuthenticationOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolClientAuthenticationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolClientAuthentication)(nil)).Elem()
+}
+
+func (o IsLbPoolClientAuthenticationOutput) ToIsLbPoolClientAuthenticationOutput() IsLbPoolClientAuthenticationOutput {
+	return o
+}
+
+func (o IsLbPoolClientAuthenticationOutput) ToIsLbPoolClientAuthenticationOutputWithContext(ctx context.Context) IsLbPoolClientAuthenticationOutput {
+	return o
+}
+
+func (o IsLbPoolClientAuthenticationOutput) ToIsLbPoolClientAuthenticationPtrOutput() IsLbPoolClientAuthenticationPtrOutput {
+	return o.ToIsLbPoolClientAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (o IsLbPoolClientAuthenticationOutput) ToIsLbPoolClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolClientAuthenticationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsLbPoolClientAuthentication) *IsLbPoolClientAuthentication {
+		return &v
+	}).(IsLbPoolClientAuthenticationPtrOutput)
+}
+
+// The CRN of the certificate instance to use for client authentication.
+func (o IsLbPoolClientAuthenticationOutput) CertificateInstance() pulumi.StringOutput {
+	return o.ApplyT(func(v IsLbPoolClientAuthentication) string { return v.CertificateInstance }).(pulumi.StringOutput)
+}
+
+type IsLbPoolClientAuthenticationPtrOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolClientAuthenticationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolClientAuthentication)(nil)).Elem()
+}
+
+func (o IsLbPoolClientAuthenticationPtrOutput) ToIsLbPoolClientAuthenticationPtrOutput() IsLbPoolClientAuthenticationPtrOutput {
+	return o
+}
+
+func (o IsLbPoolClientAuthenticationPtrOutput) ToIsLbPoolClientAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolClientAuthenticationPtrOutput {
+	return o
+}
+
+func (o IsLbPoolClientAuthenticationPtrOutput) Elem() IsLbPoolClientAuthenticationOutput {
+	return o.ApplyT(func(v *IsLbPoolClientAuthentication) IsLbPoolClientAuthentication {
+		if v != nil {
+			return *v
+		}
+		var ret IsLbPoolClientAuthentication
+		return ret
+	}).(IsLbPoolClientAuthenticationOutput)
+}
+
+// The CRN of the certificate instance to use for client authentication.
+func (o IsLbPoolClientAuthenticationPtrOutput) CertificateInstance() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolClientAuthentication) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.CertificateInstance
+	}).(pulumi.StringPtrOutput)
+}
+
 type IsLbPoolFailsafePolicy struct {
-	// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Action *string `pulumi:"action"`
 	// The healthy member count at which the failsafe policy action will be triggered. At present, this is always `0`, but may be modifiable in the future.
 	HealthyMemberThresholdCount *int `pulumi:"healthyMemberThresholdCount"`
-	// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Target *IsLbPoolFailsafePolicyTarget `pulumi:"target"`
 }
 
@@ -51913,11 +57626,11 @@ type IsLbPoolFailsafePolicyInput interface {
 }
 
 type IsLbPoolFailsafePolicyArgs struct {
-	// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Action pulumi.StringPtrInput `pulumi:"action"`
 	// The healthy member count at which the failsafe policy action will be triggered. At present, this is always `0`, but may be modifiable in the future.
 	HealthyMemberThresholdCount pulumi.IntPtrInput `pulumi:"healthyMemberThresholdCount"`
-	// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Target IsLbPoolFailsafePolicyTargetPtrInput `pulumi:"target"`
 }
 
@@ -51998,7 +57711,7 @@ func (o IsLbPoolFailsafePolicyOutput) ToIsLbPoolFailsafePolicyPtrOutputWithConte
 	}).(IsLbPoolFailsafePolicyPtrOutput)
 }
 
-// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsLbPoolFailsafePolicyOutput) Action() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsLbPoolFailsafePolicy) *string { return v.Action }).(pulumi.StringPtrOutput)
 }
@@ -52008,7 +57721,7 @@ func (o IsLbPoolFailsafePolicyOutput) HealthyMemberThresholdCount() pulumi.IntPt
 	return o.ApplyT(func(v IsLbPoolFailsafePolicy) *int { return v.HealthyMemberThresholdCount }).(pulumi.IntPtrOutput)
 }
 
-// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsLbPoolFailsafePolicyOutput) Target() IsLbPoolFailsafePolicyTargetPtrOutput {
 	return o.ApplyT(func(v IsLbPoolFailsafePolicy) *IsLbPoolFailsafePolicyTarget { return v.Target }).(IsLbPoolFailsafePolicyTargetPtrOutput)
 }
@@ -52037,7 +57750,7 @@ func (o IsLbPoolFailsafePolicyPtrOutput) Elem() IsLbPoolFailsafePolicyOutput {
 	}).(IsLbPoolFailsafePolicyOutput)
 }
 
-// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A load balancer failsafe policy action:- `forward`: Forwards requests to the `target` pool.- `fail`: Rejects requests with an HTTP `503` status code.The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsLbPoolFailsafePolicyPtrOutput) Action() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *IsLbPoolFailsafePolicy) *string {
 		if v == nil {
@@ -52057,7 +57770,7 @@ func (o IsLbPoolFailsafePolicyPtrOutput) HealthyMemberThresholdCount() pulumi.In
 	}).(pulumi.IntPtrOutput)
 }
 
-// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// If `action` is `forward`, the target pool to forward to.If `action` is `fail`, this property will be absent.The targets supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsLbPoolFailsafePolicyPtrOutput) Target() IsLbPoolFailsafePolicyTargetPtrOutput {
 	return o.ApplyT(func(v *IsLbPoolFailsafePolicy) *IsLbPoolFailsafePolicyTarget {
 		if v == nil {
@@ -52358,6 +58071,747 @@ func (o IsLbPoolFailsafePolicyTargetDeletedArrayOutput) Index(i pulumi.IntInput)
 	}).(IsLbPoolFailsafePolicyTargetDeletedOutput)
 }
 
+type IsLbPoolHealthMonitor struct {
+	Request  *IsLbPoolHealthMonitorRequest  `pulumi:"request"`
+	Response *IsLbPoolHealthMonitorResponse `pulumi:"response"`
+}
+
+// IsLbPoolHealthMonitorInput is an input type that accepts IsLbPoolHealthMonitorArgs and IsLbPoolHealthMonitorOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorInput` via:
+//
+//	IsLbPoolHealthMonitorArgs{...}
+type IsLbPoolHealthMonitorInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorOutput() IsLbPoolHealthMonitorOutput
+	ToIsLbPoolHealthMonitorOutputWithContext(context.Context) IsLbPoolHealthMonitorOutput
+}
+
+type IsLbPoolHealthMonitorArgs struct {
+	Request  IsLbPoolHealthMonitorRequestPtrInput  `pulumi:"request"`
+	Response IsLbPoolHealthMonitorResponsePtrInput `pulumi:"response"`
+}
+
+func (IsLbPoolHealthMonitorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitor)(nil)).Elem()
+}
+
+func (i IsLbPoolHealthMonitorArgs) ToIsLbPoolHealthMonitorOutput() IsLbPoolHealthMonitorOutput {
+	return i.ToIsLbPoolHealthMonitorOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorArgs) ToIsLbPoolHealthMonitorOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorOutput)
+}
+
+func (i IsLbPoolHealthMonitorArgs) ToIsLbPoolHealthMonitorPtrOutput() IsLbPoolHealthMonitorPtrOutput {
+	return i.ToIsLbPoolHealthMonitorPtrOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorArgs) ToIsLbPoolHealthMonitorPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorOutput).ToIsLbPoolHealthMonitorPtrOutputWithContext(ctx)
+}
+
+// IsLbPoolHealthMonitorPtrInput is an input type that accepts IsLbPoolHealthMonitorArgs, IsLbPoolHealthMonitorPtr and IsLbPoolHealthMonitorPtrOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorPtrInput` via:
+//
+//	        IsLbPoolHealthMonitorArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsLbPoolHealthMonitorPtrInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorPtrOutput() IsLbPoolHealthMonitorPtrOutput
+	ToIsLbPoolHealthMonitorPtrOutputWithContext(context.Context) IsLbPoolHealthMonitorPtrOutput
+}
+
+type isLbPoolHealthMonitorPtrType IsLbPoolHealthMonitorArgs
+
+func IsLbPoolHealthMonitorPtr(v *IsLbPoolHealthMonitorArgs) IsLbPoolHealthMonitorPtrInput {
+	return (*isLbPoolHealthMonitorPtrType)(v)
+}
+
+func (*isLbPoolHealthMonitorPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolHealthMonitor)(nil)).Elem()
+}
+
+func (i *isLbPoolHealthMonitorPtrType) ToIsLbPoolHealthMonitorPtrOutput() IsLbPoolHealthMonitorPtrOutput {
+	return i.ToIsLbPoolHealthMonitorPtrOutputWithContext(context.Background())
+}
+
+func (i *isLbPoolHealthMonitorPtrType) ToIsLbPoolHealthMonitorPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorPtrOutput)
+}
+
+type IsLbPoolHealthMonitorOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitor)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorOutput) ToIsLbPoolHealthMonitorOutput() IsLbPoolHealthMonitorOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorOutput) ToIsLbPoolHealthMonitorOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorOutput) ToIsLbPoolHealthMonitorPtrOutput() IsLbPoolHealthMonitorPtrOutput {
+	return o.ToIsLbPoolHealthMonitorPtrOutputWithContext(context.Background())
+}
+
+func (o IsLbPoolHealthMonitorOutput) ToIsLbPoolHealthMonitorPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsLbPoolHealthMonitor) *IsLbPoolHealthMonitor {
+		return &v
+	}).(IsLbPoolHealthMonitorPtrOutput)
+}
+
+func (o IsLbPoolHealthMonitorOutput) Request() IsLbPoolHealthMonitorRequestPtrOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitor) *IsLbPoolHealthMonitorRequest { return v.Request }).(IsLbPoolHealthMonitorRequestPtrOutput)
+}
+
+func (o IsLbPoolHealthMonitorOutput) Response() IsLbPoolHealthMonitorResponsePtrOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitor) *IsLbPoolHealthMonitorResponse { return v.Response }).(IsLbPoolHealthMonitorResponsePtrOutput)
+}
+
+type IsLbPoolHealthMonitorPtrOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolHealthMonitor)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorPtrOutput) ToIsLbPoolHealthMonitorPtrOutput() IsLbPoolHealthMonitorPtrOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorPtrOutput) ToIsLbPoolHealthMonitorPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorPtrOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorPtrOutput) Elem() IsLbPoolHealthMonitorOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitor) IsLbPoolHealthMonitor {
+		if v != nil {
+			return *v
+		}
+		var ret IsLbPoolHealthMonitor
+		return ret
+	}).(IsLbPoolHealthMonitorOutput)
+}
+
+func (o IsLbPoolHealthMonitorPtrOutput) Request() IsLbPoolHealthMonitorRequestPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitor) *IsLbPoolHealthMonitorRequest {
+		if v == nil {
+			return nil
+		}
+		return v.Request
+	}).(IsLbPoolHealthMonitorRequestPtrOutput)
+}
+
+func (o IsLbPoolHealthMonitorPtrOutput) Response() IsLbPoolHealthMonitorResponsePtrOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitor) *IsLbPoolHealthMonitorResponse {
+		if v == nil {
+			return nil
+		}
+		return v.Response
+	}).(IsLbPoolHealthMonitorResponsePtrOutput)
+}
+
+type IsLbPoolHealthMonitorRequest struct {
+	// The HTTP request body used for health checks.If absent, the health checks will ignore the request body.
+	Body *string `pulumi:"body"`
+	// The HTTP request headers used for health checks.If absent, the health checks will ignore the request headers.
+	Headers []IsLbPoolHealthMonitorRequestHeader `pulumi:"headers"`
+	// The HTTP request method used for health checks.
+	Method string `pulumi:"method"`
+}
+
+// IsLbPoolHealthMonitorRequestInput is an input type that accepts IsLbPoolHealthMonitorRequestArgs and IsLbPoolHealthMonitorRequestOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorRequestInput` via:
+//
+//	IsLbPoolHealthMonitorRequestArgs{...}
+type IsLbPoolHealthMonitorRequestInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorRequestOutput() IsLbPoolHealthMonitorRequestOutput
+	ToIsLbPoolHealthMonitorRequestOutputWithContext(context.Context) IsLbPoolHealthMonitorRequestOutput
+}
+
+type IsLbPoolHealthMonitorRequestArgs struct {
+	// The HTTP request body used for health checks.If absent, the health checks will ignore the request body.
+	Body pulumi.StringPtrInput `pulumi:"body"`
+	// The HTTP request headers used for health checks.If absent, the health checks will ignore the request headers.
+	Headers IsLbPoolHealthMonitorRequestHeaderArrayInput `pulumi:"headers"`
+	// The HTTP request method used for health checks.
+	Method pulumi.StringInput `pulumi:"method"`
+}
+
+func (IsLbPoolHealthMonitorRequestArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitorRequest)(nil)).Elem()
+}
+
+func (i IsLbPoolHealthMonitorRequestArgs) ToIsLbPoolHealthMonitorRequestOutput() IsLbPoolHealthMonitorRequestOutput {
+	return i.ToIsLbPoolHealthMonitorRequestOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorRequestArgs) ToIsLbPoolHealthMonitorRequestOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorRequestOutput)
+}
+
+func (i IsLbPoolHealthMonitorRequestArgs) ToIsLbPoolHealthMonitorRequestPtrOutput() IsLbPoolHealthMonitorRequestPtrOutput {
+	return i.ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorRequestArgs) ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorRequestOutput).ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(ctx)
+}
+
+// IsLbPoolHealthMonitorRequestPtrInput is an input type that accepts IsLbPoolHealthMonitorRequestArgs, IsLbPoolHealthMonitorRequestPtr and IsLbPoolHealthMonitorRequestPtrOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorRequestPtrInput` via:
+//
+//	        IsLbPoolHealthMonitorRequestArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsLbPoolHealthMonitorRequestPtrInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorRequestPtrOutput() IsLbPoolHealthMonitorRequestPtrOutput
+	ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(context.Context) IsLbPoolHealthMonitorRequestPtrOutput
+}
+
+type isLbPoolHealthMonitorRequestPtrType IsLbPoolHealthMonitorRequestArgs
+
+func IsLbPoolHealthMonitorRequestPtr(v *IsLbPoolHealthMonitorRequestArgs) IsLbPoolHealthMonitorRequestPtrInput {
+	return (*isLbPoolHealthMonitorRequestPtrType)(v)
+}
+
+func (*isLbPoolHealthMonitorRequestPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolHealthMonitorRequest)(nil)).Elem()
+}
+
+func (i *isLbPoolHealthMonitorRequestPtrType) ToIsLbPoolHealthMonitorRequestPtrOutput() IsLbPoolHealthMonitorRequestPtrOutput {
+	return i.ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(context.Background())
+}
+
+func (i *isLbPoolHealthMonitorRequestPtrType) ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorRequestPtrOutput)
+}
+
+type IsLbPoolHealthMonitorRequestOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorRequestOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitorRequest)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorRequestOutput) ToIsLbPoolHealthMonitorRequestOutput() IsLbPoolHealthMonitorRequestOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestOutput) ToIsLbPoolHealthMonitorRequestOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestOutput) ToIsLbPoolHealthMonitorRequestPtrOutput() IsLbPoolHealthMonitorRequestPtrOutput {
+	return o.ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(context.Background())
+}
+
+func (o IsLbPoolHealthMonitorRequestOutput) ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsLbPoolHealthMonitorRequest) *IsLbPoolHealthMonitorRequest {
+		return &v
+	}).(IsLbPoolHealthMonitorRequestPtrOutput)
+}
+
+// The HTTP request body used for health checks.If absent, the health checks will ignore the request body.
+func (o IsLbPoolHealthMonitorRequestOutput) Body() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorRequest) *string { return v.Body }).(pulumi.StringPtrOutput)
+}
+
+// The HTTP request headers used for health checks.If absent, the health checks will ignore the request headers.
+func (o IsLbPoolHealthMonitorRequestOutput) Headers() IsLbPoolHealthMonitorRequestHeaderArrayOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorRequest) []IsLbPoolHealthMonitorRequestHeader { return v.Headers }).(IsLbPoolHealthMonitorRequestHeaderArrayOutput)
+}
+
+// The HTTP request method used for health checks.
+func (o IsLbPoolHealthMonitorRequestOutput) Method() pulumi.StringOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorRequest) string { return v.Method }).(pulumi.StringOutput)
+}
+
+type IsLbPoolHealthMonitorRequestPtrOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorRequestPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolHealthMonitorRequest)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorRequestPtrOutput) ToIsLbPoolHealthMonitorRequestPtrOutput() IsLbPoolHealthMonitorRequestPtrOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestPtrOutput) ToIsLbPoolHealthMonitorRequestPtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestPtrOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestPtrOutput) Elem() IsLbPoolHealthMonitorRequestOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorRequest) IsLbPoolHealthMonitorRequest {
+		if v != nil {
+			return *v
+		}
+		var ret IsLbPoolHealthMonitorRequest
+		return ret
+	}).(IsLbPoolHealthMonitorRequestOutput)
+}
+
+// The HTTP request body used for health checks.If absent, the health checks will ignore the request body.
+func (o IsLbPoolHealthMonitorRequestPtrOutput) Body() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorRequest) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Body
+	}).(pulumi.StringPtrOutput)
+}
+
+// The HTTP request headers used for health checks.If absent, the health checks will ignore the request headers.
+func (o IsLbPoolHealthMonitorRequestPtrOutput) Headers() IsLbPoolHealthMonitorRequestHeaderArrayOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorRequest) []IsLbPoolHealthMonitorRequestHeader {
+		if v == nil {
+			return nil
+		}
+		return v.Headers
+	}).(IsLbPoolHealthMonitorRequestHeaderArrayOutput)
+}
+
+// The HTTP request method used for health checks.
+func (o IsLbPoolHealthMonitorRequestPtrOutput) Method() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorRequest) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Method
+	}).(pulumi.StringPtrOutput)
+}
+
+type IsLbPoolHealthMonitorRequestHeader struct {
+	// The field of an HTTP request header used for health checks.
+	Field *string `pulumi:"field"`
+	// The value of an HTTP request header used for health checks.
+	Value *string `pulumi:"value"`
+}
+
+// IsLbPoolHealthMonitorRequestHeaderInput is an input type that accepts IsLbPoolHealthMonitorRequestHeaderArgs and IsLbPoolHealthMonitorRequestHeaderOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorRequestHeaderInput` via:
+//
+//	IsLbPoolHealthMonitorRequestHeaderArgs{...}
+type IsLbPoolHealthMonitorRequestHeaderInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorRequestHeaderOutput() IsLbPoolHealthMonitorRequestHeaderOutput
+	ToIsLbPoolHealthMonitorRequestHeaderOutputWithContext(context.Context) IsLbPoolHealthMonitorRequestHeaderOutput
+}
+
+type IsLbPoolHealthMonitorRequestHeaderArgs struct {
+	// The field of an HTTP request header used for health checks.
+	Field pulumi.StringPtrInput `pulumi:"field"`
+	// The value of an HTTP request header used for health checks.
+	Value pulumi.StringPtrInput `pulumi:"value"`
+}
+
+func (IsLbPoolHealthMonitorRequestHeaderArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitorRequestHeader)(nil)).Elem()
+}
+
+func (i IsLbPoolHealthMonitorRequestHeaderArgs) ToIsLbPoolHealthMonitorRequestHeaderOutput() IsLbPoolHealthMonitorRequestHeaderOutput {
+	return i.ToIsLbPoolHealthMonitorRequestHeaderOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorRequestHeaderArgs) ToIsLbPoolHealthMonitorRequestHeaderOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestHeaderOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorRequestHeaderOutput)
+}
+
+// IsLbPoolHealthMonitorRequestHeaderArrayInput is an input type that accepts IsLbPoolHealthMonitorRequestHeaderArray and IsLbPoolHealthMonitorRequestHeaderArrayOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorRequestHeaderArrayInput` via:
+//
+//	IsLbPoolHealthMonitorRequestHeaderArray{ IsLbPoolHealthMonitorRequestHeaderArgs{...} }
+type IsLbPoolHealthMonitorRequestHeaderArrayInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorRequestHeaderArrayOutput() IsLbPoolHealthMonitorRequestHeaderArrayOutput
+	ToIsLbPoolHealthMonitorRequestHeaderArrayOutputWithContext(context.Context) IsLbPoolHealthMonitorRequestHeaderArrayOutput
+}
+
+type IsLbPoolHealthMonitorRequestHeaderArray []IsLbPoolHealthMonitorRequestHeaderInput
+
+func (IsLbPoolHealthMonitorRequestHeaderArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsLbPoolHealthMonitorRequestHeader)(nil)).Elem()
+}
+
+func (i IsLbPoolHealthMonitorRequestHeaderArray) ToIsLbPoolHealthMonitorRequestHeaderArrayOutput() IsLbPoolHealthMonitorRequestHeaderArrayOutput {
+	return i.ToIsLbPoolHealthMonitorRequestHeaderArrayOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorRequestHeaderArray) ToIsLbPoolHealthMonitorRequestHeaderArrayOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestHeaderArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorRequestHeaderArrayOutput)
+}
+
+type IsLbPoolHealthMonitorRequestHeaderOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorRequestHeaderOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitorRequestHeader)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorRequestHeaderOutput) ToIsLbPoolHealthMonitorRequestHeaderOutput() IsLbPoolHealthMonitorRequestHeaderOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestHeaderOutput) ToIsLbPoolHealthMonitorRequestHeaderOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestHeaderOutput {
+	return o
+}
+
+// The field of an HTTP request header used for health checks.
+func (o IsLbPoolHealthMonitorRequestHeaderOutput) Field() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorRequestHeader) *string { return v.Field }).(pulumi.StringPtrOutput)
+}
+
+// The value of an HTTP request header used for health checks.
+func (o IsLbPoolHealthMonitorRequestHeaderOutput) Value() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorRequestHeader) *string { return v.Value }).(pulumi.StringPtrOutput)
+}
+
+type IsLbPoolHealthMonitorRequestHeaderArrayOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorRequestHeaderArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsLbPoolHealthMonitorRequestHeader)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorRequestHeaderArrayOutput) ToIsLbPoolHealthMonitorRequestHeaderArrayOutput() IsLbPoolHealthMonitorRequestHeaderArrayOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestHeaderArrayOutput) ToIsLbPoolHealthMonitorRequestHeaderArrayOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorRequestHeaderArrayOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorRequestHeaderArrayOutput) Index(i pulumi.IntInput) IsLbPoolHealthMonitorRequestHeaderOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsLbPoolHealthMonitorRequestHeader {
+		return vs[0].([]IsLbPoolHealthMonitorRequestHeader)[vs[1].(int)]
+	}).(IsLbPoolHealthMonitorRequestHeaderOutput)
+}
+
+type IsLbPoolHealthMonitorResponse struct {
+	// The PCRE-flavor regular expression that HTTP response bodies must match for successful health checks.If absent, health checks will ignore any response body.
+	BodyRegex *string `pulumi:"bodyRegex"`
+	// The HTTP response codes expected for successful health checks.
+	Codes []string `pulumi:"codes"`
+}
+
+// IsLbPoolHealthMonitorResponseInput is an input type that accepts IsLbPoolHealthMonitorResponseArgs and IsLbPoolHealthMonitorResponseOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorResponseInput` via:
+//
+//	IsLbPoolHealthMonitorResponseArgs{...}
+type IsLbPoolHealthMonitorResponseInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorResponseOutput() IsLbPoolHealthMonitorResponseOutput
+	ToIsLbPoolHealthMonitorResponseOutputWithContext(context.Context) IsLbPoolHealthMonitorResponseOutput
+}
+
+type IsLbPoolHealthMonitorResponseArgs struct {
+	// The PCRE-flavor regular expression that HTTP response bodies must match for successful health checks.If absent, health checks will ignore any response body.
+	BodyRegex pulumi.StringPtrInput `pulumi:"bodyRegex"`
+	// The HTTP response codes expected for successful health checks.
+	Codes pulumi.StringArrayInput `pulumi:"codes"`
+}
+
+func (IsLbPoolHealthMonitorResponseArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitorResponse)(nil)).Elem()
+}
+
+func (i IsLbPoolHealthMonitorResponseArgs) ToIsLbPoolHealthMonitorResponseOutput() IsLbPoolHealthMonitorResponseOutput {
+	return i.ToIsLbPoolHealthMonitorResponseOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorResponseArgs) ToIsLbPoolHealthMonitorResponseOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorResponseOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorResponseOutput)
+}
+
+func (i IsLbPoolHealthMonitorResponseArgs) ToIsLbPoolHealthMonitorResponsePtrOutput() IsLbPoolHealthMonitorResponsePtrOutput {
+	return i.ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolHealthMonitorResponseArgs) ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorResponsePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorResponseOutput).ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(ctx)
+}
+
+// IsLbPoolHealthMonitorResponsePtrInput is an input type that accepts IsLbPoolHealthMonitorResponseArgs, IsLbPoolHealthMonitorResponsePtr and IsLbPoolHealthMonitorResponsePtrOutput values.
+// You can construct a concrete instance of `IsLbPoolHealthMonitorResponsePtrInput` via:
+//
+//	        IsLbPoolHealthMonitorResponseArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsLbPoolHealthMonitorResponsePtrInput interface {
+	pulumi.Input
+
+	ToIsLbPoolHealthMonitorResponsePtrOutput() IsLbPoolHealthMonitorResponsePtrOutput
+	ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(context.Context) IsLbPoolHealthMonitorResponsePtrOutput
+}
+
+type isLbPoolHealthMonitorResponsePtrType IsLbPoolHealthMonitorResponseArgs
+
+func IsLbPoolHealthMonitorResponsePtr(v *IsLbPoolHealthMonitorResponseArgs) IsLbPoolHealthMonitorResponsePtrInput {
+	return (*isLbPoolHealthMonitorResponsePtrType)(v)
+}
+
+func (*isLbPoolHealthMonitorResponsePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolHealthMonitorResponse)(nil)).Elem()
+}
+
+func (i *isLbPoolHealthMonitorResponsePtrType) ToIsLbPoolHealthMonitorResponsePtrOutput() IsLbPoolHealthMonitorResponsePtrOutput {
+	return i.ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(context.Background())
+}
+
+func (i *isLbPoolHealthMonitorResponsePtrType) ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorResponsePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolHealthMonitorResponsePtrOutput)
+}
+
+type IsLbPoolHealthMonitorResponseOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorResponseOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolHealthMonitorResponse)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorResponseOutput) ToIsLbPoolHealthMonitorResponseOutput() IsLbPoolHealthMonitorResponseOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorResponseOutput) ToIsLbPoolHealthMonitorResponseOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorResponseOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorResponseOutput) ToIsLbPoolHealthMonitorResponsePtrOutput() IsLbPoolHealthMonitorResponsePtrOutput {
+	return o.ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(context.Background())
+}
+
+func (o IsLbPoolHealthMonitorResponseOutput) ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorResponsePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsLbPoolHealthMonitorResponse) *IsLbPoolHealthMonitorResponse {
+		return &v
+	}).(IsLbPoolHealthMonitorResponsePtrOutput)
+}
+
+// The PCRE-flavor regular expression that HTTP response bodies must match for successful health checks.If absent, health checks will ignore any response body.
+func (o IsLbPoolHealthMonitorResponseOutput) BodyRegex() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorResponse) *string { return v.BodyRegex }).(pulumi.StringPtrOutput)
+}
+
+// The HTTP response codes expected for successful health checks.
+func (o IsLbPoolHealthMonitorResponseOutput) Codes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v IsLbPoolHealthMonitorResponse) []string { return v.Codes }).(pulumi.StringArrayOutput)
+}
+
+type IsLbPoolHealthMonitorResponsePtrOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolHealthMonitorResponsePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolHealthMonitorResponse)(nil)).Elem()
+}
+
+func (o IsLbPoolHealthMonitorResponsePtrOutput) ToIsLbPoolHealthMonitorResponsePtrOutput() IsLbPoolHealthMonitorResponsePtrOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorResponsePtrOutput) ToIsLbPoolHealthMonitorResponsePtrOutputWithContext(ctx context.Context) IsLbPoolHealthMonitorResponsePtrOutput {
+	return o
+}
+
+func (o IsLbPoolHealthMonitorResponsePtrOutput) Elem() IsLbPoolHealthMonitorResponseOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorResponse) IsLbPoolHealthMonitorResponse {
+		if v != nil {
+			return *v
+		}
+		var ret IsLbPoolHealthMonitorResponse
+		return ret
+	}).(IsLbPoolHealthMonitorResponseOutput)
+}
+
+// The PCRE-flavor regular expression that HTTP response bodies must match for successful health checks.If absent, health checks will ignore any response body.
+func (o IsLbPoolHealthMonitorResponsePtrOutput) BodyRegex() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorResponse) *string {
+		if v == nil {
+			return nil
+		}
+		return v.BodyRegex
+	}).(pulumi.StringPtrOutput)
+}
+
+// The HTTP response codes expected for successful health checks.
+func (o IsLbPoolHealthMonitorResponsePtrOutput) Codes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsLbPoolHealthMonitorResponse) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Codes
+	}).(pulumi.StringArrayOutput)
+}
+
+type IsLbPoolServerAuthentication struct {
+	// The backend server certificate authority instance to use for server certificate verification. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https. If specified, verifyCertificate must be true.
+	CertificateAuthority *string `pulumi:"certificateAuthority"`
+	// Indicates whether server certificate verification is enabled. If set to true, the backend server certificate is verified by: certificateAuthority if specified, the system default certificate authorities, if certificateAuthority is not specified.
+	VerifyCertificate *bool `pulumi:"verifyCertificate"`
+}
+
+// IsLbPoolServerAuthenticationInput is an input type that accepts IsLbPoolServerAuthenticationArgs and IsLbPoolServerAuthenticationOutput values.
+// You can construct a concrete instance of `IsLbPoolServerAuthenticationInput` via:
+//
+//	IsLbPoolServerAuthenticationArgs{...}
+type IsLbPoolServerAuthenticationInput interface {
+	pulumi.Input
+
+	ToIsLbPoolServerAuthenticationOutput() IsLbPoolServerAuthenticationOutput
+	ToIsLbPoolServerAuthenticationOutputWithContext(context.Context) IsLbPoolServerAuthenticationOutput
+}
+
+type IsLbPoolServerAuthenticationArgs struct {
+	// The backend server certificate authority instance to use for server certificate verification. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https. If specified, verifyCertificate must be true.
+	CertificateAuthority pulumi.StringPtrInput `pulumi:"certificateAuthority"`
+	// Indicates whether server certificate verification is enabled. If set to true, the backend server certificate is verified by: certificateAuthority if specified, the system default certificate authorities, if certificateAuthority is not specified.
+	VerifyCertificate pulumi.BoolPtrInput `pulumi:"verifyCertificate"`
+}
+
+func (IsLbPoolServerAuthenticationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolServerAuthentication)(nil)).Elem()
+}
+
+func (i IsLbPoolServerAuthenticationArgs) ToIsLbPoolServerAuthenticationOutput() IsLbPoolServerAuthenticationOutput {
+	return i.ToIsLbPoolServerAuthenticationOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolServerAuthenticationArgs) ToIsLbPoolServerAuthenticationOutputWithContext(ctx context.Context) IsLbPoolServerAuthenticationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolServerAuthenticationOutput)
+}
+
+func (i IsLbPoolServerAuthenticationArgs) ToIsLbPoolServerAuthenticationPtrOutput() IsLbPoolServerAuthenticationPtrOutput {
+	return i.ToIsLbPoolServerAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (i IsLbPoolServerAuthenticationArgs) ToIsLbPoolServerAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolServerAuthenticationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolServerAuthenticationOutput).ToIsLbPoolServerAuthenticationPtrOutputWithContext(ctx)
+}
+
+// IsLbPoolServerAuthenticationPtrInput is an input type that accepts IsLbPoolServerAuthenticationArgs, IsLbPoolServerAuthenticationPtr and IsLbPoolServerAuthenticationPtrOutput values.
+// You can construct a concrete instance of `IsLbPoolServerAuthenticationPtrInput` via:
+//
+//	        IsLbPoolServerAuthenticationArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsLbPoolServerAuthenticationPtrInput interface {
+	pulumi.Input
+
+	ToIsLbPoolServerAuthenticationPtrOutput() IsLbPoolServerAuthenticationPtrOutput
+	ToIsLbPoolServerAuthenticationPtrOutputWithContext(context.Context) IsLbPoolServerAuthenticationPtrOutput
+}
+
+type isLbPoolServerAuthenticationPtrType IsLbPoolServerAuthenticationArgs
+
+func IsLbPoolServerAuthenticationPtr(v *IsLbPoolServerAuthenticationArgs) IsLbPoolServerAuthenticationPtrInput {
+	return (*isLbPoolServerAuthenticationPtrType)(v)
+}
+
+func (*isLbPoolServerAuthenticationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolServerAuthentication)(nil)).Elem()
+}
+
+func (i *isLbPoolServerAuthenticationPtrType) ToIsLbPoolServerAuthenticationPtrOutput() IsLbPoolServerAuthenticationPtrOutput {
+	return i.ToIsLbPoolServerAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (i *isLbPoolServerAuthenticationPtrType) ToIsLbPoolServerAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolServerAuthenticationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsLbPoolServerAuthenticationPtrOutput)
+}
+
+type IsLbPoolServerAuthenticationOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolServerAuthenticationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsLbPoolServerAuthentication)(nil)).Elem()
+}
+
+func (o IsLbPoolServerAuthenticationOutput) ToIsLbPoolServerAuthenticationOutput() IsLbPoolServerAuthenticationOutput {
+	return o
+}
+
+func (o IsLbPoolServerAuthenticationOutput) ToIsLbPoolServerAuthenticationOutputWithContext(ctx context.Context) IsLbPoolServerAuthenticationOutput {
+	return o
+}
+
+func (o IsLbPoolServerAuthenticationOutput) ToIsLbPoolServerAuthenticationPtrOutput() IsLbPoolServerAuthenticationPtrOutput {
+	return o.ToIsLbPoolServerAuthenticationPtrOutputWithContext(context.Background())
+}
+
+func (o IsLbPoolServerAuthenticationOutput) ToIsLbPoolServerAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolServerAuthenticationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsLbPoolServerAuthentication) *IsLbPoolServerAuthentication {
+		return &v
+	}).(IsLbPoolServerAuthenticationPtrOutput)
+}
+
+// The backend server certificate authority instance to use for server certificate verification. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https. If specified, verifyCertificate must be true.
+func (o IsLbPoolServerAuthenticationOutput) CertificateAuthority() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsLbPoolServerAuthentication) *string { return v.CertificateAuthority }).(pulumi.StringPtrOutput)
+}
+
+// Indicates whether server certificate verification is enabled. If set to true, the backend server certificate is verified by: certificateAuthority if specified, the system default certificate authorities, if certificateAuthority is not specified.
+func (o IsLbPoolServerAuthenticationOutput) VerifyCertificate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v IsLbPoolServerAuthentication) *bool { return v.VerifyCertificate }).(pulumi.BoolPtrOutput)
+}
+
+type IsLbPoolServerAuthenticationPtrOutput struct{ *pulumi.OutputState }
+
+func (IsLbPoolServerAuthenticationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsLbPoolServerAuthentication)(nil)).Elem()
+}
+
+func (o IsLbPoolServerAuthenticationPtrOutput) ToIsLbPoolServerAuthenticationPtrOutput() IsLbPoolServerAuthenticationPtrOutput {
+	return o
+}
+
+func (o IsLbPoolServerAuthenticationPtrOutput) ToIsLbPoolServerAuthenticationPtrOutputWithContext(ctx context.Context) IsLbPoolServerAuthenticationPtrOutput {
+	return o
+}
+
+func (o IsLbPoolServerAuthenticationPtrOutput) Elem() IsLbPoolServerAuthenticationOutput {
+	return o.ApplyT(func(v *IsLbPoolServerAuthentication) IsLbPoolServerAuthentication {
+		if v != nil {
+			return *v
+		}
+		var ret IsLbPoolServerAuthentication
+		return ret
+	}).(IsLbPoolServerAuthenticationOutput)
+}
+
+// The backend server certificate authority instance to use for server certificate verification. Supported by load balancers with mtlsSupported set to true. The pool must have a protocol of https. If specified, verifyCertificate must be true.
+func (o IsLbPoolServerAuthenticationPtrOutput) CertificateAuthority() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolServerAuthentication) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CertificateAuthority
+	}).(pulumi.StringPtrOutput)
+}
+
+// Indicates whether server certificate verification is enabled. If set to true, the backend server certificate is verified by: certificateAuthority if specified, the system default certificate authorities, if certificateAuthority is not specified.
+func (o IsLbPoolServerAuthenticationPtrOutput) VerifyCertificate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IsLbPoolServerAuthentication) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.VerifyCertificate
+	}).(pulumi.BoolPtrOutput)
+}
+
 type IsLbPrivateIp struct {
 	// The IP address to reserve, which must not already be reserved on the subnet.
 	Address *string `pulumi:"address"`
@@ -52492,18 +58946,35 @@ func (o IsLbPrivateIpArrayOutput) Index(i pulumi.IntInput) IsLbPrivateIpOutput {
 }
 
 type IsNetworkAclRuleType struct {
-	Action      string `pulumi:"action"`
+	Action string `pulumi:"action"`
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code        *int   `pulumi:"code"`
 	Destination string `pulumi:"destination"`
 	// Direction of traffic to enforce, either inbound or outbound
-	Direction string                `pulumi:"direction"`
+	Direction string `pulumi:"direction"`
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp      *IsNetworkAclRuleIcmp `pulumi:"icmp"`
 	Id        *string               `pulumi:"id"`
 	IpVersion *string               `pulumi:"ipVersion"`
 	Name      string                `pulumi:"name"`
-	Source    string                `pulumi:"source"`
-	Subnets   *int                  `pulumi:"subnets"`
-	Tcp       *IsNetworkAclRuleTcp  `pulumi:"tcp"`
-	Udp       *IsNetworkAclRuleUdp  `pulumi:"udp"`
+	// The highest port in the range of ports to be matched
+	PortMax *int `pulumi:"portMax"`
+	// The lowest port in the range of ports to be matched
+	PortMin *int `pulumi:"portMin"`
+	// The name of the network protocol
+	Protocol *string `pulumi:"protocol"`
+	Source   string  `pulumi:"source"`
+	// The highest port in the range of ports to be matched
+	SourcePortMax *int `pulumi:"sourcePortMax"`
+	// The lowest port in the range of ports to be matched
+	SourcePortMin *int `pulumi:"sourcePortMin"`
+	Subnets       *int `pulumi:"subnets"`
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp *IsNetworkAclRuleTcp `pulumi:"tcp"`
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type *int `pulumi:"type"`
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp *IsNetworkAclRuleUdp `pulumi:"udp"`
 }
 
 // IsNetworkAclRuleTypeInput is an input type that accepts IsNetworkAclRuleTypeArgs and IsNetworkAclRuleTypeOutput values.
@@ -52518,18 +58989,35 @@ type IsNetworkAclRuleTypeInput interface {
 }
 
 type IsNetworkAclRuleTypeArgs struct {
-	Action      pulumi.StringInput `pulumi:"action"`
+	Action pulumi.StringInput `pulumi:"action"`
+	// The ICMP traffic code to allow. Valid values from 0 to 255.
+	Code        pulumi.IntPtrInput `pulumi:"code"`
 	Destination pulumi.StringInput `pulumi:"destination"`
 	// Direction of traffic to enforce, either inbound or outbound
-	Direction pulumi.StringInput           `pulumi:"direction"`
+	Direction pulumi.StringInput `pulumi:"direction"`
+	// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 	Icmp      IsNetworkAclRuleIcmpPtrInput `pulumi:"icmp"`
 	Id        pulumi.StringPtrInput        `pulumi:"id"`
 	IpVersion pulumi.StringPtrInput        `pulumi:"ipVersion"`
 	Name      pulumi.StringInput           `pulumi:"name"`
-	Source    pulumi.StringInput           `pulumi:"source"`
-	Subnets   pulumi.IntPtrInput           `pulumi:"subnets"`
-	Tcp       IsNetworkAclRuleTcpPtrInput  `pulumi:"tcp"`
-	Udp       IsNetworkAclRuleUdpPtrInput  `pulumi:"udp"`
+	// The highest port in the range of ports to be matched
+	PortMax pulumi.IntPtrInput `pulumi:"portMax"`
+	// The lowest port in the range of ports to be matched
+	PortMin pulumi.IntPtrInput `pulumi:"portMin"`
+	// The name of the network protocol
+	Protocol pulumi.StringPtrInput `pulumi:"protocol"`
+	Source   pulumi.StringInput    `pulumi:"source"`
+	// The highest port in the range of ports to be matched
+	SourcePortMax pulumi.IntPtrInput `pulumi:"sourcePortMax"`
+	// The lowest port in the range of ports to be matched
+	SourcePortMin pulumi.IntPtrInput `pulumi:"sourcePortMin"`
+	Subnets       pulumi.IntPtrInput `pulumi:"subnets"`
+	// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Tcp IsNetworkAclRuleTcpPtrInput `pulumi:"tcp"`
+	// The ICMP traffic type to allow. Valid values from 0 to 254.
+	Type pulumi.IntPtrInput `pulumi:"type"`
+	// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
+	Udp IsNetworkAclRuleUdpPtrInput `pulumi:"udp"`
 }
 
 func (IsNetworkAclRuleTypeArgs) ElementType() reflect.Type {
@@ -52587,6 +59075,11 @@ func (o IsNetworkAclRuleTypeOutput) Action() pulumi.StringOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) string { return v.Action }).(pulumi.StringOutput)
 }
 
+// The ICMP traffic code to allow. Valid values from 0 to 255.
+func (o IsNetworkAclRuleTypeOutput) Code() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.Code }).(pulumi.IntPtrOutput)
+}
+
 func (o IsNetworkAclRuleTypeOutput) Destination() pulumi.StringOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) string { return v.Destination }).(pulumi.StringOutput)
 }
@@ -52596,6 +59089,7 @@ func (o IsNetworkAclRuleTypeOutput) Direction() pulumi.StringOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) string { return v.Direction }).(pulumi.StringOutput)
 }
 
+// Deprecated: icmp is deprecated, use 'protocol', 'code', and 'type' instead.
 func (o IsNetworkAclRuleTypeOutput) Icmp() IsNetworkAclRuleIcmpPtrOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) *IsNetworkAclRuleIcmp { return v.Icmp }).(IsNetworkAclRuleIcmpPtrOutput)
 }
@@ -52612,18 +59106,50 @@ func (o IsNetworkAclRuleTypeOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) string { return v.Name }).(pulumi.StringOutput)
 }
 
+// The highest port in the range of ports to be matched
+func (o IsNetworkAclRuleTypeOutput) PortMax() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.PortMax }).(pulumi.IntPtrOutput)
+}
+
+// The lowest port in the range of ports to be matched
+func (o IsNetworkAclRuleTypeOutput) PortMin() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.PortMin }).(pulumi.IntPtrOutput)
+}
+
+// The name of the network protocol
+func (o IsNetworkAclRuleTypeOutput) Protocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *string { return v.Protocol }).(pulumi.StringPtrOutput)
+}
+
 func (o IsNetworkAclRuleTypeOutput) Source() pulumi.StringOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) string { return v.Source }).(pulumi.StringOutput)
+}
+
+// The highest port in the range of ports to be matched
+func (o IsNetworkAclRuleTypeOutput) SourcePortMax() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.SourcePortMax }).(pulumi.IntPtrOutput)
+}
+
+// The lowest port in the range of ports to be matched
+func (o IsNetworkAclRuleTypeOutput) SourcePortMin() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.SourcePortMin }).(pulumi.IntPtrOutput)
 }
 
 func (o IsNetworkAclRuleTypeOutput) Subnets() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.Subnets }).(pulumi.IntPtrOutput)
 }
 
+// Deprecated: tcp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
 func (o IsNetworkAclRuleTypeOutput) Tcp() IsNetworkAclRuleTcpPtrOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) *IsNetworkAclRuleTcp { return v.Tcp }).(IsNetworkAclRuleTcpPtrOutput)
 }
 
+// The ICMP traffic type to allow. Valid values from 0 to 254.
+func (o IsNetworkAclRuleTypeOutput) Type() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v IsNetworkAclRuleType) *int { return v.Type }).(pulumi.IntPtrOutput)
+}
+
+// Deprecated: udp is deprecated, use 'protocol', 'port_min', 'port_max', 'source_port_min', and 'source_port_max' instead.
 func (o IsNetworkAclRuleTypeOutput) Udp() IsNetworkAclRuleUdpPtrOutput {
 	return o.ApplyT(func(v IsNetworkAclRuleType) *IsNetworkAclRuleUdp { return v.Udp }).(IsNetworkAclRuleUdpPtrOutput)
 }
@@ -55461,7 +61987,9 @@ type IsSecurityGroupRuleType struct {
 	// IP version: ipv4
 	IpVersion *string `pulumi:"ipVersion"`
 	// Security group local ip: an IP address, a CIDR block
-	Local    *string `pulumi:"local"`
+	Local *string `pulumi:"local"`
+	// The name for this security group rule. The name is unique across all rules in the security group.
+	Name     *string `pulumi:"name"`
 	PortMax  *int    `pulumi:"portMax"`
 	PortMin  *int    `pulumi:"portMin"`
 	Protocol *string `pulumi:"protocol"`
@@ -55488,7 +62016,9 @@ type IsSecurityGroupRuleTypeArgs struct {
 	// IP version: ipv4
 	IpVersion pulumi.StringPtrInput `pulumi:"ipVersion"`
 	// Security group local ip: an IP address, a CIDR block
-	Local    pulumi.StringPtrInput `pulumi:"local"`
+	Local pulumi.StringPtrInput `pulumi:"local"`
+	// The name for this security group rule. The name is unique across all rules in the security group.
+	Name     pulumi.StringPtrInput `pulumi:"name"`
 	PortMax  pulumi.IntPtrInput    `pulumi:"portMax"`
 	PortMin  pulumi.IntPtrInput    `pulumi:"portMin"`
 	Protocol pulumi.StringPtrInput `pulumi:"protocol"`
@@ -55565,6 +62095,11 @@ func (o IsSecurityGroupRuleTypeOutput) IpVersion() pulumi.StringPtrOutput {
 // Security group local ip: an IP address, a CIDR block
 func (o IsSecurityGroupRuleTypeOutput) Local() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsSecurityGroupRuleType) *string { return v.Local }).(pulumi.StringPtrOutput)
+}
+
+// The name for this security group rule. The name is unique across all rules in the security group.
+func (o IsSecurityGroupRuleTypeOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsSecurityGroupRuleType) *string { return v.Name }).(pulumi.StringPtrOutput)
 }
 
 func (o IsSecurityGroupRuleTypeOutput) PortMax() pulumi.IntPtrOutput {
@@ -59944,7 +66479,7 @@ func (o IsShareSnapshotResourceGroupArrayOutput) Index(i pulumi.IntInput) IsShar
 }
 
 type IsShareSnapshotStatusReason struct {
-	// A reason code for the status:- `encryptionKeyDeleted`: File share snapshot is unusable  because its `encryptionKey` was deleted- `internalError`: Internal error (contact IBM support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for the status:- `encryptionKeyDeleted`: File share snapshot is unusable  because its `encryptionKey` was deleted- `internalError`: Internal error (contact IBM support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code *string `pulumi:"code"`
 	// An explanation of the status reason.
 	Message *string `pulumi:"message"`
@@ -59964,7 +66499,7 @@ type IsShareSnapshotStatusReasonInput interface {
 }
 
 type IsShareSnapshotStatusReasonArgs struct {
-	// A reason code for the status:- `encryptionKeyDeleted`: File share snapshot is unusable  because its `encryptionKey` was deleted- `internalError`: Internal error (contact IBM support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// A reason code for the status:- `encryptionKeyDeleted`: File share snapshot is unusable  because its `encryptionKey` was deleted- `internalError`: Internal error (contact IBM support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Code pulumi.StringPtrInput `pulumi:"code"`
 	// An explanation of the status reason.
 	Message pulumi.StringPtrInput `pulumi:"message"`
@@ -60023,7 +66558,7 @@ func (o IsShareSnapshotStatusReasonOutput) ToIsShareSnapshotStatusReasonOutputWi
 	return o
 }
 
-// A reason code for the status:- `encryptionKeyDeleted`: File share snapshot is unusable  because its `encryptionKey` was deleted- `internalError`: Internal error (contact IBM support)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// A reason code for the status:- `encryptionKeyDeleted`: File share snapshot is unusable  because its `encryptionKey` was deleted- `internalError`: Internal error (contact IBM support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsShareSnapshotStatusReasonOutput) Code() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsShareSnapshotStatusReason) *string { return v.Code }).(pulumi.StringPtrOutput)
 }
@@ -61108,6 +67643,229 @@ func (o IsSnapshotCatalogOfferingDeletedArrayOutput) Index(i pulumi.IntInput) Is
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsSnapshotCatalogOfferingDeleted {
 		return vs[0].([]IsSnapshotCatalogOfferingDeleted)[vs[1].(int)]
 	}).(IsSnapshotCatalogOfferingDeletedOutput)
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJob struct {
+	// If present, this property indicates the referenced resource has been deleted, and provides some supplementary information.
+	Deleteds []IsSnapshotConsistencyGroupBackupPolicyJobDeleted `pulumi:"deleteds"`
+	// The URL for this backup policy job.
+	Href *string `pulumi:"href"`
+	// The unique identifier for this backup policy job.
+	Id *string `pulumi:"id"`
+	// The resource type.
+	ResourceType *string `pulumi:"resourceType"`
+}
+
+// IsSnapshotConsistencyGroupBackupPolicyJobInput is an input type that accepts IsSnapshotConsistencyGroupBackupPolicyJobArgs and IsSnapshotConsistencyGroupBackupPolicyJobOutput values.
+// You can construct a concrete instance of `IsSnapshotConsistencyGroupBackupPolicyJobInput` via:
+//
+//	IsSnapshotConsistencyGroupBackupPolicyJobArgs{...}
+type IsSnapshotConsistencyGroupBackupPolicyJobInput interface {
+	pulumi.Input
+
+	ToIsSnapshotConsistencyGroupBackupPolicyJobOutput() IsSnapshotConsistencyGroupBackupPolicyJobOutput
+	ToIsSnapshotConsistencyGroupBackupPolicyJobOutputWithContext(context.Context) IsSnapshotConsistencyGroupBackupPolicyJobOutput
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobArgs struct {
+	// If present, this property indicates the referenced resource has been deleted, and provides some supplementary information.
+	Deleteds IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this backup policy job.
+	Href pulumi.StringPtrInput `pulumi:"href"`
+	// The unique identifier for this backup policy job.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// The resource type.
+	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
+}
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJob)(nil)).Elem()
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobArgs) ToIsSnapshotConsistencyGroupBackupPolicyJobOutput() IsSnapshotConsistencyGroupBackupPolicyJobOutput {
+	return i.ToIsSnapshotConsistencyGroupBackupPolicyJobOutputWithContext(context.Background())
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobArgs) ToIsSnapshotConsistencyGroupBackupPolicyJobOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsSnapshotConsistencyGroupBackupPolicyJobOutput)
+}
+
+// IsSnapshotConsistencyGroupBackupPolicyJobArrayInput is an input type that accepts IsSnapshotConsistencyGroupBackupPolicyJobArray and IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput values.
+// You can construct a concrete instance of `IsSnapshotConsistencyGroupBackupPolicyJobArrayInput` via:
+//
+//	IsSnapshotConsistencyGroupBackupPolicyJobArray{ IsSnapshotConsistencyGroupBackupPolicyJobArgs{...} }
+type IsSnapshotConsistencyGroupBackupPolicyJobArrayInput interface {
+	pulumi.Input
+
+	ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutput() IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput
+	ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutputWithContext(context.Context) IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobArray []IsSnapshotConsistencyGroupBackupPolicyJobInput
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsSnapshotConsistencyGroupBackupPolicyJob)(nil)).Elem()
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobArray) ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutput() IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+	return i.ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutputWithContext(context.Background())
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobArray) ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput)
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobOutput struct{ *pulumi.OutputState }
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJob)(nil)).Elem()
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobOutput() IsSnapshotConsistencyGroupBackupPolicyJobOutput {
+	return o
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted, and provides some supplementary information.
+func (o IsSnapshotConsistencyGroupBackupPolicyJobOutput) Deleteds() IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput {
+	return o.ApplyT(func(v IsSnapshotConsistencyGroupBackupPolicyJob) []IsSnapshotConsistencyGroupBackupPolicyJobDeleted {
+		return v.Deleteds
+	}).(IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput)
+}
+
+// The URL for this backup policy job.
+func (o IsSnapshotConsistencyGroupBackupPolicyJobOutput) Href() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsSnapshotConsistencyGroupBackupPolicyJob) *string { return v.Href }).(pulumi.StringPtrOutput)
+}
+
+// The unique identifier for this backup policy job.
+func (o IsSnapshotConsistencyGroupBackupPolicyJobOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsSnapshotConsistencyGroupBackupPolicyJob) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The resource type.
+func (o IsSnapshotConsistencyGroupBackupPolicyJobOutput) ResourceType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsSnapshotConsistencyGroupBackupPolicyJob) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput struct{ *pulumi.OutputState }
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsSnapshotConsistencyGroupBackupPolicyJob)(nil)).Elem()
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutput() IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+	return o
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobArrayOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput {
+	return o
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput) Index(i pulumi.IntInput) IsSnapshotConsistencyGroupBackupPolicyJobOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsSnapshotConsistencyGroupBackupPolicyJob {
+		return vs[0].([]IsSnapshotConsistencyGroupBackupPolicyJob)[vs[1].(int)]
+	}).(IsSnapshotConsistencyGroupBackupPolicyJobOutput)
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo *string `pulumi:"moreInfo"`
+}
+
+// IsSnapshotConsistencyGroupBackupPolicyJobDeletedInput is an input type that accepts IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs and IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput values.
+// You can construct a concrete instance of `IsSnapshotConsistencyGroupBackupPolicyJobDeletedInput` via:
+//
+//	IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs{...}
+type IsSnapshotConsistencyGroupBackupPolicyJobDeletedInput interface {
+	pulumi.Input
+
+	ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput() IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput
+	ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutputWithContext(context.Context) IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
+}
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJobDeleted)(nil)).Elem()
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput() IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput {
+	return i.ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutputWithContext(context.Background())
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput)
+}
+
+// IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayInput is an input type that accepts IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray and IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput values.
+// You can construct a concrete instance of `IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayInput` via:
+//
+//	IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray{ IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs{...} }
+type IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayInput interface {
+	pulumi.Input
+
+	ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput() IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput
+	ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutputWithContext(context.Context) IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray []IsSnapshotConsistencyGroupBackupPolicyJobDeletedInput
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsSnapshotConsistencyGroupBackupPolicyJobDeleted)(nil)).Elem()
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput() IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput {
+	return i.ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput)
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput struct{ *pulumi.OutputState }
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJobDeleted)(nil)).Elem()
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput() IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput {
+	return o
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsSnapshotConsistencyGroupBackupPolicyJobDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
+}
+
+type IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsSnapshotConsistencyGroupBackupPolicyJobDeleted)(nil)).Elem()
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput() IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput {
+	return o
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput) ToIsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutputWithContext(ctx context.Context) IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput {
+	return o
+}
+
+func (o IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput) Index(i pulumi.IntInput) IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsSnapshotConsistencyGroupBackupPolicyJobDeleted {
+		return vs[0].([]IsSnapshotConsistencyGroupBackupPolicyJobDeleted)[vs[1].(int)]
+	}).(IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput)
 }
 
 type IsSnapshotConsistencyGroupBackupPolicyPlan struct {
@@ -62895,6 +69653,8 @@ type IsSubnetNetworkAclAttachmentRule struct {
 	IpVersion *string `pulumi:"ipVersion"`
 	// The user-defined name for this rule
 	Name *string `pulumi:"name"`
+	// The name of the network protocol
+	Protocol *string `pulumi:"protocol"`
 	// The source CIDR block
 	Source *string                               `pulumi:"source"`
 	Tcps   []IsSubnetNetworkAclAttachmentRuleTcp `pulumi:"tcps"`
@@ -62926,6 +69686,8 @@ type IsSubnetNetworkAclAttachmentRuleArgs struct {
 	IpVersion pulumi.StringPtrInput `pulumi:"ipVersion"`
 	// The user-defined name for this rule
 	Name pulumi.StringPtrInput `pulumi:"name"`
+	// The name of the network protocol
+	Protocol pulumi.StringPtrInput `pulumi:"protocol"`
 	// The source CIDR block
 	Source pulumi.StringPtrInput                         `pulumi:"source"`
 	Tcps   IsSubnetNetworkAclAttachmentRuleTcpArrayInput `pulumi:"tcps"`
@@ -63015,6 +69777,11 @@ func (o IsSubnetNetworkAclAttachmentRuleOutput) IpVersion() pulumi.StringPtrOutp
 // The user-defined name for this rule
 func (o IsSubnetNetworkAclAttachmentRuleOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v IsSubnetNetworkAclAttachmentRule) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+// The name of the network protocol
+func (o IsSubnetNetworkAclAttachmentRuleOutput) Protocol() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsSubnetNetworkAclAttachmentRule) *string { return v.Protocol }).(pulumi.StringPtrOutput)
 }
 
 // The source CIDR block
@@ -64092,6 +70859,254 @@ func (o IsVirtualEndpointGatewayLifecycleReasonArrayOutput) Index(i pulumi.IntIn
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVirtualEndpointGatewayLifecycleReason {
 		return vs[0].([]IsVirtualEndpointGatewayLifecycleReason)[vs[1].(int)]
 	}).(IsVirtualEndpointGatewayLifecycleReasonOutput)
+}
+
+type IsVirtualEndpointGatewayResourceBindingLifecycleReason struct {
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code *string `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message *string `pulumi:"message"`
+	// A link to documentation about the reason for this lifecycle state.
+	MoreInfo *string `pulumi:"moreInfo"`
+}
+
+// IsVirtualEndpointGatewayResourceBindingLifecycleReasonInput is an input type that accepts IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs and IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput values.
+// You can construct a concrete instance of `IsVirtualEndpointGatewayResourceBindingLifecycleReasonInput` via:
+//
+//	IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs{...}
+type IsVirtualEndpointGatewayResourceBindingLifecycleReasonInput interface {
+	pulumi.Input
+
+	ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput() IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput
+	ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutputWithContext(context.Context) IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput
+}
+
+type IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs struct {
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code pulumi.StringPtrInput `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message pulumi.StringPtrInput `pulumi:"message"`
+	// A link to documentation about the reason for this lifecycle state.
+	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
+}
+
+func (IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingLifecycleReason)(nil)).Elem()
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput() IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput {
+	return i.ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutputWithContext(context.Background())
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput)
+}
+
+// IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayInput is an input type that accepts IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray and IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput values.
+// You can construct a concrete instance of `IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayInput` via:
+//
+//	IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray{ IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs{...} }
+type IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayInput interface {
+	pulumi.Input
+
+	ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput() IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput
+	ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutputWithContext(context.Context) IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput
+}
+
+type IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray []IsVirtualEndpointGatewayResourceBindingLifecycleReasonInput
+
+func (IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsVirtualEndpointGatewayResourceBindingLifecycleReason)(nil)).Elem()
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput() IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput {
+	return i.ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutputWithContext(context.Background())
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput)
+}
+
+type IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput struct{ *pulumi.OutputState }
+
+func (IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingLifecycleReason)(nil)).Elem()
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput() IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput {
+	return o
+}
+
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsVirtualEndpointGatewayResourceBindingLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
+}
+
+// An explanation of the reason for this lifecycle state.
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput) Message() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsVirtualEndpointGatewayResourceBindingLifecycleReason) *string { return v.Message }).(pulumi.StringPtrOutput)
+}
+
+// A link to documentation about the reason for this lifecycle state.
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput) MoreInfo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsVirtualEndpointGatewayResourceBindingLifecycleReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
+}
+
+type IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
+
+func (IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]IsVirtualEndpointGatewayResourceBindingLifecycleReason)(nil)).Elem()
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput() IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput) ToIsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput) Index(i pulumi.IntInput) IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVirtualEndpointGatewayResourceBindingLifecycleReason {
+		return vs[0].([]IsVirtualEndpointGatewayResourceBindingLifecycleReason)[vs[1].(int)]
+	}).(IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput)
+}
+
+type IsVirtualEndpointGatewayResourceBindingTarget struct {
+	Crn *string `pulumi:"crn"`
+}
+
+// IsVirtualEndpointGatewayResourceBindingTargetInput is an input type that accepts IsVirtualEndpointGatewayResourceBindingTargetArgs and IsVirtualEndpointGatewayResourceBindingTargetOutput values.
+// You can construct a concrete instance of `IsVirtualEndpointGatewayResourceBindingTargetInput` via:
+//
+//	IsVirtualEndpointGatewayResourceBindingTargetArgs{...}
+type IsVirtualEndpointGatewayResourceBindingTargetInput interface {
+	pulumi.Input
+
+	ToIsVirtualEndpointGatewayResourceBindingTargetOutput() IsVirtualEndpointGatewayResourceBindingTargetOutput
+	ToIsVirtualEndpointGatewayResourceBindingTargetOutputWithContext(context.Context) IsVirtualEndpointGatewayResourceBindingTargetOutput
+}
+
+type IsVirtualEndpointGatewayResourceBindingTargetArgs struct {
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+}
+
+func (IsVirtualEndpointGatewayResourceBindingTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingTarget)(nil)).Elem()
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingTargetArgs) ToIsVirtualEndpointGatewayResourceBindingTargetOutput() IsVirtualEndpointGatewayResourceBindingTargetOutput {
+	return i.ToIsVirtualEndpointGatewayResourceBindingTargetOutputWithContext(context.Background())
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingTargetArgs) ToIsVirtualEndpointGatewayResourceBindingTargetOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsVirtualEndpointGatewayResourceBindingTargetOutput)
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingTargetArgs) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutput() IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return i.ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(context.Background())
+}
+
+func (i IsVirtualEndpointGatewayResourceBindingTargetArgs) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsVirtualEndpointGatewayResourceBindingTargetOutput).ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(ctx)
+}
+
+// IsVirtualEndpointGatewayResourceBindingTargetPtrInput is an input type that accepts IsVirtualEndpointGatewayResourceBindingTargetArgs, IsVirtualEndpointGatewayResourceBindingTargetPtr and IsVirtualEndpointGatewayResourceBindingTargetPtrOutput values.
+// You can construct a concrete instance of `IsVirtualEndpointGatewayResourceBindingTargetPtrInput` via:
+//
+//	        IsVirtualEndpointGatewayResourceBindingTargetArgs{...}
+//
+//	or:
+//
+//	        nil
+type IsVirtualEndpointGatewayResourceBindingTargetPtrInput interface {
+	pulumi.Input
+
+	ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutput() IsVirtualEndpointGatewayResourceBindingTargetPtrOutput
+	ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(context.Context) IsVirtualEndpointGatewayResourceBindingTargetPtrOutput
+}
+
+type isVirtualEndpointGatewayResourceBindingTargetPtrType IsVirtualEndpointGatewayResourceBindingTargetArgs
+
+func IsVirtualEndpointGatewayResourceBindingTargetPtr(v *IsVirtualEndpointGatewayResourceBindingTargetArgs) IsVirtualEndpointGatewayResourceBindingTargetPtrInput {
+	return (*isVirtualEndpointGatewayResourceBindingTargetPtrType)(v)
+}
+
+func (*isVirtualEndpointGatewayResourceBindingTargetPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsVirtualEndpointGatewayResourceBindingTarget)(nil)).Elem()
+}
+
+func (i *isVirtualEndpointGatewayResourceBindingTargetPtrType) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutput() IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return i.ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(context.Background())
+}
+
+func (i *isVirtualEndpointGatewayResourceBindingTargetPtrType) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(IsVirtualEndpointGatewayResourceBindingTargetPtrOutput)
+}
+
+type IsVirtualEndpointGatewayResourceBindingTargetOutput struct{ *pulumi.OutputState }
+
+func (IsVirtualEndpointGatewayResourceBindingTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingTarget)(nil)).Elem()
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetOutput) ToIsVirtualEndpointGatewayResourceBindingTargetOutput() IsVirtualEndpointGatewayResourceBindingTargetOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetOutput) ToIsVirtualEndpointGatewayResourceBindingTargetOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingTargetOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetOutput) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutput() IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return o.ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(context.Background())
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetOutput) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVirtualEndpointGatewayResourceBindingTarget) *IsVirtualEndpointGatewayResourceBindingTarget {
+		return &v
+	}).(IsVirtualEndpointGatewayResourceBindingTargetPtrOutput)
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v IsVirtualEndpointGatewayResourceBindingTarget) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+type IsVirtualEndpointGatewayResourceBindingTargetPtrOutput struct{ *pulumi.OutputState }
+
+func (IsVirtualEndpointGatewayResourceBindingTargetPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**IsVirtualEndpointGatewayResourceBindingTarget)(nil)).Elem()
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetPtrOutput) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutput() IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetPtrOutput) ToIsVirtualEndpointGatewayResourceBindingTargetPtrOutputWithContext(ctx context.Context) IsVirtualEndpointGatewayResourceBindingTargetPtrOutput {
+	return o
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetPtrOutput) Elem() IsVirtualEndpointGatewayResourceBindingTargetOutput {
+	return o.ApplyT(func(v *IsVirtualEndpointGatewayResourceBindingTarget) IsVirtualEndpointGatewayResourceBindingTarget {
+		if v != nil {
+			return *v
+		}
+		var ret IsVirtualEndpointGatewayResourceBindingTarget
+		return ret
+	}).(IsVirtualEndpointGatewayResourceBindingTargetOutput)
+}
+
+func (o IsVirtualEndpointGatewayResourceBindingTargetPtrOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *IsVirtualEndpointGatewayResourceBindingTarget) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Crn
+	}).(pulumi.StringPtrOutput)
 }
 
 type IsVirtualEndpointGatewayTarget struct {
@@ -65608,6534 +72623,6 @@ func (o IsVolumeAllowedUsePtrOutput) Instance() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-type IsVolumeCatalogOffering struct {
-	// If present, this property indicates the referenced resource has been deleted and provides some supplementary information.
-	Deleteds []IsVolumeCatalogOfferingDeleted `pulumi:"deleteds"`
-	// The CRN for this catalog offering version's billing plan
-	PlanCrn *string `pulumi:"planCrn"`
-	// The CRN for this version of a catalog offering
-	VersionCrn *string `pulumi:"versionCrn"`
-}
-
-// IsVolumeCatalogOfferingInput is an input type that accepts IsVolumeCatalogOfferingArgs and IsVolumeCatalogOfferingOutput values.
-// You can construct a concrete instance of `IsVolumeCatalogOfferingInput` via:
-//
-//	IsVolumeCatalogOfferingArgs{...}
-type IsVolumeCatalogOfferingInput interface {
-	pulumi.Input
-
-	ToIsVolumeCatalogOfferingOutput() IsVolumeCatalogOfferingOutput
-	ToIsVolumeCatalogOfferingOutputWithContext(context.Context) IsVolumeCatalogOfferingOutput
-}
-
-type IsVolumeCatalogOfferingArgs struct {
-	// If present, this property indicates the referenced resource has been deleted and provides some supplementary information.
-	Deleteds IsVolumeCatalogOfferingDeletedArrayInput `pulumi:"deleteds"`
-	// The CRN for this catalog offering version's billing plan
-	PlanCrn pulumi.StringPtrInput `pulumi:"planCrn"`
-	// The CRN for this version of a catalog offering
-	VersionCrn pulumi.StringPtrInput `pulumi:"versionCrn"`
-}
-
-func (IsVolumeCatalogOfferingArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeCatalogOffering)(nil)).Elem()
-}
-
-func (i IsVolumeCatalogOfferingArgs) ToIsVolumeCatalogOfferingOutput() IsVolumeCatalogOfferingOutput {
-	return i.ToIsVolumeCatalogOfferingOutputWithContext(context.Background())
-}
-
-func (i IsVolumeCatalogOfferingArgs) ToIsVolumeCatalogOfferingOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeCatalogOfferingOutput)
-}
-
-// IsVolumeCatalogOfferingArrayInput is an input type that accepts IsVolumeCatalogOfferingArray and IsVolumeCatalogOfferingArrayOutput values.
-// You can construct a concrete instance of `IsVolumeCatalogOfferingArrayInput` via:
-//
-//	IsVolumeCatalogOfferingArray{ IsVolumeCatalogOfferingArgs{...} }
-type IsVolumeCatalogOfferingArrayInput interface {
-	pulumi.Input
-
-	ToIsVolumeCatalogOfferingArrayOutput() IsVolumeCatalogOfferingArrayOutput
-	ToIsVolumeCatalogOfferingArrayOutputWithContext(context.Context) IsVolumeCatalogOfferingArrayOutput
-}
-
-type IsVolumeCatalogOfferingArray []IsVolumeCatalogOfferingInput
-
-func (IsVolumeCatalogOfferingArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeCatalogOffering)(nil)).Elem()
-}
-
-func (i IsVolumeCatalogOfferingArray) ToIsVolumeCatalogOfferingArrayOutput() IsVolumeCatalogOfferingArrayOutput {
-	return i.ToIsVolumeCatalogOfferingArrayOutputWithContext(context.Background())
-}
-
-func (i IsVolumeCatalogOfferingArray) ToIsVolumeCatalogOfferingArrayOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeCatalogOfferingArrayOutput)
-}
-
-type IsVolumeCatalogOfferingOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeCatalogOfferingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeCatalogOffering)(nil)).Elem()
-}
-
-func (o IsVolumeCatalogOfferingOutput) ToIsVolumeCatalogOfferingOutput() IsVolumeCatalogOfferingOutput {
-	return o
-}
-
-func (o IsVolumeCatalogOfferingOutput) ToIsVolumeCatalogOfferingOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingOutput {
-	return o
-}
-
-// If present, this property indicates the referenced resource has been deleted and provides some supplementary information.
-func (o IsVolumeCatalogOfferingOutput) Deleteds() IsVolumeCatalogOfferingDeletedArrayOutput {
-	return o.ApplyT(func(v IsVolumeCatalogOffering) []IsVolumeCatalogOfferingDeleted { return v.Deleteds }).(IsVolumeCatalogOfferingDeletedArrayOutput)
-}
-
-// The CRN for this catalog offering version's billing plan
-func (o IsVolumeCatalogOfferingOutput) PlanCrn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeCatalogOffering) *string { return v.PlanCrn }).(pulumi.StringPtrOutput)
-}
-
-// The CRN for this version of a catalog offering
-func (o IsVolumeCatalogOfferingOutput) VersionCrn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeCatalogOffering) *string { return v.VersionCrn }).(pulumi.StringPtrOutput)
-}
-
-type IsVolumeCatalogOfferingArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeCatalogOfferingArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeCatalogOffering)(nil)).Elem()
-}
-
-func (o IsVolumeCatalogOfferingArrayOutput) ToIsVolumeCatalogOfferingArrayOutput() IsVolumeCatalogOfferingArrayOutput {
-	return o
-}
-
-func (o IsVolumeCatalogOfferingArrayOutput) ToIsVolumeCatalogOfferingArrayOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingArrayOutput {
-	return o
-}
-
-func (o IsVolumeCatalogOfferingArrayOutput) Index(i pulumi.IntInput) IsVolumeCatalogOfferingOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVolumeCatalogOffering {
-		return vs[0].([]IsVolumeCatalogOffering)[vs[1].(int)]
-	}).(IsVolumeCatalogOfferingOutput)
-}
-
-type IsVolumeCatalogOfferingDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVolumeCatalogOfferingDeletedInput is an input type that accepts IsVolumeCatalogOfferingDeletedArgs and IsVolumeCatalogOfferingDeletedOutput values.
-// You can construct a concrete instance of `IsVolumeCatalogOfferingDeletedInput` via:
-//
-//	IsVolumeCatalogOfferingDeletedArgs{...}
-type IsVolumeCatalogOfferingDeletedInput interface {
-	pulumi.Input
-
-	ToIsVolumeCatalogOfferingDeletedOutput() IsVolumeCatalogOfferingDeletedOutput
-	ToIsVolumeCatalogOfferingDeletedOutputWithContext(context.Context) IsVolumeCatalogOfferingDeletedOutput
-}
-
-type IsVolumeCatalogOfferingDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVolumeCatalogOfferingDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeCatalogOfferingDeleted)(nil)).Elem()
-}
-
-func (i IsVolumeCatalogOfferingDeletedArgs) ToIsVolumeCatalogOfferingDeletedOutput() IsVolumeCatalogOfferingDeletedOutput {
-	return i.ToIsVolumeCatalogOfferingDeletedOutputWithContext(context.Background())
-}
-
-func (i IsVolumeCatalogOfferingDeletedArgs) ToIsVolumeCatalogOfferingDeletedOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeCatalogOfferingDeletedOutput)
-}
-
-// IsVolumeCatalogOfferingDeletedArrayInput is an input type that accepts IsVolumeCatalogOfferingDeletedArray and IsVolumeCatalogOfferingDeletedArrayOutput values.
-// You can construct a concrete instance of `IsVolumeCatalogOfferingDeletedArrayInput` via:
-//
-//	IsVolumeCatalogOfferingDeletedArray{ IsVolumeCatalogOfferingDeletedArgs{...} }
-type IsVolumeCatalogOfferingDeletedArrayInput interface {
-	pulumi.Input
-
-	ToIsVolumeCatalogOfferingDeletedArrayOutput() IsVolumeCatalogOfferingDeletedArrayOutput
-	ToIsVolumeCatalogOfferingDeletedArrayOutputWithContext(context.Context) IsVolumeCatalogOfferingDeletedArrayOutput
-}
-
-type IsVolumeCatalogOfferingDeletedArray []IsVolumeCatalogOfferingDeletedInput
-
-func (IsVolumeCatalogOfferingDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeCatalogOfferingDeleted)(nil)).Elem()
-}
-
-func (i IsVolumeCatalogOfferingDeletedArray) ToIsVolumeCatalogOfferingDeletedArrayOutput() IsVolumeCatalogOfferingDeletedArrayOutput {
-	return i.ToIsVolumeCatalogOfferingDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i IsVolumeCatalogOfferingDeletedArray) ToIsVolumeCatalogOfferingDeletedArrayOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeCatalogOfferingDeletedArrayOutput)
-}
-
-type IsVolumeCatalogOfferingDeletedOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeCatalogOfferingDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeCatalogOfferingDeleted)(nil)).Elem()
-}
-
-func (o IsVolumeCatalogOfferingDeletedOutput) ToIsVolumeCatalogOfferingDeletedOutput() IsVolumeCatalogOfferingDeletedOutput {
-	return o
-}
-
-func (o IsVolumeCatalogOfferingDeletedOutput) ToIsVolumeCatalogOfferingDeletedOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o IsVolumeCatalogOfferingDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeCatalogOfferingDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVolumeCatalogOfferingDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeCatalogOfferingDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeCatalogOfferingDeleted)(nil)).Elem()
-}
-
-func (o IsVolumeCatalogOfferingDeletedArrayOutput) ToIsVolumeCatalogOfferingDeletedArrayOutput() IsVolumeCatalogOfferingDeletedArrayOutput {
-	return o
-}
-
-func (o IsVolumeCatalogOfferingDeletedArrayOutput) ToIsVolumeCatalogOfferingDeletedArrayOutputWithContext(ctx context.Context) IsVolumeCatalogOfferingDeletedArrayOutput {
-	return o
-}
-
-func (o IsVolumeCatalogOfferingDeletedArrayOutput) Index(i pulumi.IntInput) IsVolumeCatalogOfferingDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVolumeCatalogOfferingDeleted {
-		return vs[0].([]IsVolumeCatalogOfferingDeleted)[vs[1].(int)]
-	}).(IsVolumeCatalogOfferingDeletedOutput)
-}
-
-type IsVolumeHealthReason struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVolumeHealthReasonInput is an input type that accepts IsVolumeHealthReasonArgs and IsVolumeHealthReasonOutput values.
-// You can construct a concrete instance of `IsVolumeHealthReasonInput` via:
-//
-//	IsVolumeHealthReasonArgs{...}
-type IsVolumeHealthReasonInput interface {
-	pulumi.Input
-
-	ToIsVolumeHealthReasonOutput() IsVolumeHealthReasonOutput
-	ToIsVolumeHealthReasonOutputWithContext(context.Context) IsVolumeHealthReasonOutput
-}
-
-type IsVolumeHealthReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVolumeHealthReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeHealthReason)(nil)).Elem()
-}
-
-func (i IsVolumeHealthReasonArgs) ToIsVolumeHealthReasonOutput() IsVolumeHealthReasonOutput {
-	return i.ToIsVolumeHealthReasonOutputWithContext(context.Background())
-}
-
-func (i IsVolumeHealthReasonArgs) ToIsVolumeHealthReasonOutputWithContext(ctx context.Context) IsVolumeHealthReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeHealthReasonOutput)
-}
-
-// IsVolumeHealthReasonArrayInput is an input type that accepts IsVolumeHealthReasonArray and IsVolumeHealthReasonArrayOutput values.
-// You can construct a concrete instance of `IsVolumeHealthReasonArrayInput` via:
-//
-//	IsVolumeHealthReasonArray{ IsVolumeHealthReasonArgs{...} }
-type IsVolumeHealthReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVolumeHealthReasonArrayOutput() IsVolumeHealthReasonArrayOutput
-	ToIsVolumeHealthReasonArrayOutputWithContext(context.Context) IsVolumeHealthReasonArrayOutput
-}
-
-type IsVolumeHealthReasonArray []IsVolumeHealthReasonInput
-
-func (IsVolumeHealthReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeHealthReason)(nil)).Elem()
-}
-
-func (i IsVolumeHealthReasonArray) ToIsVolumeHealthReasonArrayOutput() IsVolumeHealthReasonArrayOutput {
-	return i.ToIsVolumeHealthReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVolumeHealthReasonArray) ToIsVolumeHealthReasonArrayOutputWithContext(ctx context.Context) IsVolumeHealthReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeHealthReasonArrayOutput)
-}
-
-type IsVolumeHealthReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeHealthReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeHealthReason)(nil)).Elem()
-}
-
-func (o IsVolumeHealthReasonOutput) ToIsVolumeHealthReasonOutput() IsVolumeHealthReasonOutput {
-	return o
-}
-
-func (o IsVolumeHealthReasonOutput) ToIsVolumeHealthReasonOutputWithContext(ctx context.Context) IsVolumeHealthReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this health state.
-func (o IsVolumeHealthReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeHealthReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this health state.
-func (o IsVolumeHealthReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeHealthReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this health state.
-func (o IsVolumeHealthReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeHealthReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVolumeHealthReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeHealthReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeHealthReason)(nil)).Elem()
-}
-
-func (o IsVolumeHealthReasonArrayOutput) ToIsVolumeHealthReasonArrayOutput() IsVolumeHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVolumeHealthReasonArrayOutput) ToIsVolumeHealthReasonArrayOutputWithContext(ctx context.Context) IsVolumeHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVolumeHealthReasonArrayOutput) Index(i pulumi.IntInput) IsVolumeHealthReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVolumeHealthReason {
-		return vs[0].([]IsVolumeHealthReason)[vs[1].(int)]
-	}).(IsVolumeHealthReasonOutput)
-}
-
-type IsVolumeOperatingSystem struct {
-	// The operating system architecture.
-	Architecture *string `pulumi:"architecture"`
-	// Images with this operating system can only be used on dedicated hosts or dedicated host groups.
-	DedicatedHostOnly *bool `pulumi:"dedicatedHostOnly"`
-	// A unique, display-friendly name for the operating system.
-	DisplayName *string `pulumi:"displayName"`
-	// The software family for this operating system.
-	Family *string `pulumi:"family"`
-	// The URL for this operating system.
-	Href *string `pulumi:"href"`
-	// The globally unique name for this operating system.
-	Name *string `pulumi:"name"`
-	// The vendor of the operating system.
-	Vendor *string `pulumi:"vendor"`
-	// The major release version of this operating system.
-	Version *string `pulumi:"version"`
-}
-
-// IsVolumeOperatingSystemInput is an input type that accepts IsVolumeOperatingSystemArgs and IsVolumeOperatingSystemOutput values.
-// You can construct a concrete instance of `IsVolumeOperatingSystemInput` via:
-//
-//	IsVolumeOperatingSystemArgs{...}
-type IsVolumeOperatingSystemInput interface {
-	pulumi.Input
-
-	ToIsVolumeOperatingSystemOutput() IsVolumeOperatingSystemOutput
-	ToIsVolumeOperatingSystemOutputWithContext(context.Context) IsVolumeOperatingSystemOutput
-}
-
-type IsVolumeOperatingSystemArgs struct {
-	// The operating system architecture.
-	Architecture pulumi.StringPtrInput `pulumi:"architecture"`
-	// Images with this operating system can only be used on dedicated hosts or dedicated host groups.
-	DedicatedHostOnly pulumi.BoolPtrInput `pulumi:"dedicatedHostOnly"`
-	// A unique, display-friendly name for the operating system.
-	DisplayName pulumi.StringPtrInput `pulumi:"displayName"`
-	// The software family for this operating system.
-	Family pulumi.StringPtrInput `pulumi:"family"`
-	// The URL for this operating system.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The globally unique name for this operating system.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// The vendor of the operating system.
-	Vendor pulumi.StringPtrInput `pulumi:"vendor"`
-	// The major release version of this operating system.
-	Version pulumi.StringPtrInput `pulumi:"version"`
-}
-
-func (IsVolumeOperatingSystemArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeOperatingSystem)(nil)).Elem()
-}
-
-func (i IsVolumeOperatingSystemArgs) ToIsVolumeOperatingSystemOutput() IsVolumeOperatingSystemOutput {
-	return i.ToIsVolumeOperatingSystemOutputWithContext(context.Background())
-}
-
-func (i IsVolumeOperatingSystemArgs) ToIsVolumeOperatingSystemOutputWithContext(ctx context.Context) IsVolumeOperatingSystemOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeOperatingSystemOutput)
-}
-
-// IsVolumeOperatingSystemArrayInput is an input type that accepts IsVolumeOperatingSystemArray and IsVolumeOperatingSystemArrayOutput values.
-// You can construct a concrete instance of `IsVolumeOperatingSystemArrayInput` via:
-//
-//	IsVolumeOperatingSystemArray{ IsVolumeOperatingSystemArgs{...} }
-type IsVolumeOperatingSystemArrayInput interface {
-	pulumi.Input
-
-	ToIsVolumeOperatingSystemArrayOutput() IsVolumeOperatingSystemArrayOutput
-	ToIsVolumeOperatingSystemArrayOutputWithContext(context.Context) IsVolumeOperatingSystemArrayOutput
-}
-
-type IsVolumeOperatingSystemArray []IsVolumeOperatingSystemInput
-
-func (IsVolumeOperatingSystemArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeOperatingSystem)(nil)).Elem()
-}
-
-func (i IsVolumeOperatingSystemArray) ToIsVolumeOperatingSystemArrayOutput() IsVolumeOperatingSystemArrayOutput {
-	return i.ToIsVolumeOperatingSystemArrayOutputWithContext(context.Background())
-}
-
-func (i IsVolumeOperatingSystemArray) ToIsVolumeOperatingSystemArrayOutputWithContext(ctx context.Context) IsVolumeOperatingSystemArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeOperatingSystemArrayOutput)
-}
-
-type IsVolumeOperatingSystemOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeOperatingSystemOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeOperatingSystem)(nil)).Elem()
-}
-
-func (o IsVolumeOperatingSystemOutput) ToIsVolumeOperatingSystemOutput() IsVolumeOperatingSystemOutput {
-	return o
-}
-
-func (o IsVolumeOperatingSystemOutput) ToIsVolumeOperatingSystemOutputWithContext(ctx context.Context) IsVolumeOperatingSystemOutput {
-	return o
-}
-
-// The operating system architecture.
-func (o IsVolumeOperatingSystemOutput) Architecture() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.Architecture }).(pulumi.StringPtrOutput)
-}
-
-// Images with this operating system can only be used on dedicated hosts or dedicated host groups.
-func (o IsVolumeOperatingSystemOutput) DedicatedHostOnly() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *bool { return v.DedicatedHostOnly }).(pulumi.BoolPtrOutput)
-}
-
-// A unique, display-friendly name for the operating system.
-func (o IsVolumeOperatingSystemOutput) DisplayName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.DisplayName }).(pulumi.StringPtrOutput)
-}
-
-// The software family for this operating system.
-func (o IsVolumeOperatingSystemOutput) Family() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.Family }).(pulumi.StringPtrOutput)
-}
-
-// The URL for this operating system.
-func (o IsVolumeOperatingSystemOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The globally unique name for this operating system.
-func (o IsVolumeOperatingSystemOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// The vendor of the operating system.
-func (o IsVolumeOperatingSystemOutput) Vendor() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.Vendor }).(pulumi.StringPtrOutput)
-}
-
-// The major release version of this operating system.
-func (o IsVolumeOperatingSystemOutput) Version() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeOperatingSystem) *string { return v.Version }).(pulumi.StringPtrOutput)
-}
-
-type IsVolumeOperatingSystemArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeOperatingSystemArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeOperatingSystem)(nil)).Elem()
-}
-
-func (o IsVolumeOperatingSystemArrayOutput) ToIsVolumeOperatingSystemArrayOutput() IsVolumeOperatingSystemArrayOutput {
-	return o
-}
-
-func (o IsVolumeOperatingSystemArrayOutput) ToIsVolumeOperatingSystemArrayOutputWithContext(ctx context.Context) IsVolumeOperatingSystemArrayOutput {
-	return o
-}
-
-func (o IsVolumeOperatingSystemArrayOutput) Index(i pulumi.IntInput) IsVolumeOperatingSystemOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVolumeOperatingSystem {
-		return vs[0].([]IsVolumeOperatingSystem)[vs[1].(int)]
-	}).(IsVolumeOperatingSystemOutput)
-}
-
-type IsVolumeStatusReason struct {
-	// A snake case string succinctly identifying the status reason
-	Code *string `pulumi:"code"`
-	// An explanation of the status reason
-	Message *string `pulumi:"message"`
-	// Link to documentation about this status reason
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVolumeStatusReasonInput is an input type that accepts IsVolumeStatusReasonArgs and IsVolumeStatusReasonOutput values.
-// You can construct a concrete instance of `IsVolumeStatusReasonInput` via:
-//
-//	IsVolumeStatusReasonArgs{...}
-type IsVolumeStatusReasonInput interface {
-	pulumi.Input
-
-	ToIsVolumeStatusReasonOutput() IsVolumeStatusReasonOutput
-	ToIsVolumeStatusReasonOutputWithContext(context.Context) IsVolumeStatusReasonOutput
-}
-
-type IsVolumeStatusReasonArgs struct {
-	// A snake case string succinctly identifying the status reason
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the status reason
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about this status reason
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVolumeStatusReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeStatusReason)(nil)).Elem()
-}
-
-func (i IsVolumeStatusReasonArgs) ToIsVolumeStatusReasonOutput() IsVolumeStatusReasonOutput {
-	return i.ToIsVolumeStatusReasonOutputWithContext(context.Background())
-}
-
-func (i IsVolumeStatusReasonArgs) ToIsVolumeStatusReasonOutputWithContext(ctx context.Context) IsVolumeStatusReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeStatusReasonOutput)
-}
-
-// IsVolumeStatusReasonArrayInput is an input type that accepts IsVolumeStatusReasonArray and IsVolumeStatusReasonArrayOutput values.
-// You can construct a concrete instance of `IsVolumeStatusReasonArrayInput` via:
-//
-//	IsVolumeStatusReasonArray{ IsVolumeStatusReasonArgs{...} }
-type IsVolumeStatusReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVolumeStatusReasonArrayOutput() IsVolumeStatusReasonArrayOutput
-	ToIsVolumeStatusReasonArrayOutputWithContext(context.Context) IsVolumeStatusReasonArrayOutput
-}
-
-type IsVolumeStatusReasonArray []IsVolumeStatusReasonInput
-
-func (IsVolumeStatusReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeStatusReason)(nil)).Elem()
-}
-
-func (i IsVolumeStatusReasonArray) ToIsVolumeStatusReasonArrayOutput() IsVolumeStatusReasonArrayOutput {
-	return i.ToIsVolumeStatusReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVolumeStatusReasonArray) ToIsVolumeStatusReasonArrayOutputWithContext(ctx context.Context) IsVolumeStatusReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVolumeStatusReasonArrayOutput)
-}
-
-type IsVolumeStatusReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeStatusReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVolumeStatusReason)(nil)).Elem()
-}
-
-func (o IsVolumeStatusReasonOutput) ToIsVolumeStatusReasonOutput() IsVolumeStatusReasonOutput {
-	return o
-}
-
-func (o IsVolumeStatusReasonOutput) ToIsVolumeStatusReasonOutputWithContext(ctx context.Context) IsVolumeStatusReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the status reason
-func (o IsVolumeStatusReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeStatusReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the status reason
-func (o IsVolumeStatusReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeStatusReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about this status reason
-func (o IsVolumeStatusReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVolumeStatusReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVolumeStatusReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVolumeStatusReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVolumeStatusReason)(nil)).Elem()
-}
-
-func (o IsVolumeStatusReasonArrayOutput) ToIsVolumeStatusReasonArrayOutput() IsVolumeStatusReasonArrayOutput {
-	return o
-}
-
-func (o IsVolumeStatusReasonArrayOutput) ToIsVolumeStatusReasonArrayOutputWithContext(ctx context.Context) IsVolumeStatusReasonArrayOutput {
-	return o
-}
-
-func (o IsVolumeStatusReasonArrayOutput) Index(i pulumi.IntInput) IsVolumeStatusReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVolumeStatusReason {
-		return vs[0].([]IsVolumeStatusReason)[vs[1].(int)]
-	}).(IsVolumeStatusReasonOutput)
-}
-
-type IsVpcCseSourceAddress struct {
-	// Cloud service endpoint IP Address
-	Address *string `pulumi:"address"`
-	// Location info of CSE Address
-	ZoneName *string `pulumi:"zoneName"`
-}
-
-// IsVpcCseSourceAddressInput is an input type that accepts IsVpcCseSourceAddressArgs and IsVpcCseSourceAddressOutput values.
-// You can construct a concrete instance of `IsVpcCseSourceAddressInput` via:
-//
-//	IsVpcCseSourceAddressArgs{...}
-type IsVpcCseSourceAddressInput interface {
-	pulumi.Input
-
-	ToIsVpcCseSourceAddressOutput() IsVpcCseSourceAddressOutput
-	ToIsVpcCseSourceAddressOutputWithContext(context.Context) IsVpcCseSourceAddressOutput
-}
-
-type IsVpcCseSourceAddressArgs struct {
-	// Cloud service endpoint IP Address
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// Location info of CSE Address
-	ZoneName pulumi.StringPtrInput `pulumi:"zoneName"`
-}
-
-func (IsVpcCseSourceAddressArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcCseSourceAddress)(nil)).Elem()
-}
-
-func (i IsVpcCseSourceAddressArgs) ToIsVpcCseSourceAddressOutput() IsVpcCseSourceAddressOutput {
-	return i.ToIsVpcCseSourceAddressOutputWithContext(context.Background())
-}
-
-func (i IsVpcCseSourceAddressArgs) ToIsVpcCseSourceAddressOutputWithContext(ctx context.Context) IsVpcCseSourceAddressOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcCseSourceAddressOutput)
-}
-
-// IsVpcCseSourceAddressArrayInput is an input type that accepts IsVpcCseSourceAddressArray and IsVpcCseSourceAddressArrayOutput values.
-// You can construct a concrete instance of `IsVpcCseSourceAddressArrayInput` via:
-//
-//	IsVpcCseSourceAddressArray{ IsVpcCseSourceAddressArgs{...} }
-type IsVpcCseSourceAddressArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcCseSourceAddressArrayOutput() IsVpcCseSourceAddressArrayOutput
-	ToIsVpcCseSourceAddressArrayOutputWithContext(context.Context) IsVpcCseSourceAddressArrayOutput
-}
-
-type IsVpcCseSourceAddressArray []IsVpcCseSourceAddressInput
-
-func (IsVpcCseSourceAddressArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcCseSourceAddress)(nil)).Elem()
-}
-
-func (i IsVpcCseSourceAddressArray) ToIsVpcCseSourceAddressArrayOutput() IsVpcCseSourceAddressArrayOutput {
-	return i.ToIsVpcCseSourceAddressArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcCseSourceAddressArray) ToIsVpcCseSourceAddressArrayOutputWithContext(ctx context.Context) IsVpcCseSourceAddressArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcCseSourceAddressArrayOutput)
-}
-
-type IsVpcCseSourceAddressOutput struct{ *pulumi.OutputState }
-
-func (IsVpcCseSourceAddressOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcCseSourceAddress)(nil)).Elem()
-}
-
-func (o IsVpcCseSourceAddressOutput) ToIsVpcCseSourceAddressOutput() IsVpcCseSourceAddressOutput {
-	return o
-}
-
-func (o IsVpcCseSourceAddressOutput) ToIsVpcCseSourceAddressOutputWithContext(ctx context.Context) IsVpcCseSourceAddressOutput {
-	return o
-}
-
-// Cloud service endpoint IP Address
-func (o IsVpcCseSourceAddressOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcCseSourceAddress) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// Location info of CSE Address
-func (o IsVpcCseSourceAddressOutput) ZoneName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcCseSourceAddress) *string { return v.ZoneName }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcCseSourceAddressArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcCseSourceAddressArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcCseSourceAddress)(nil)).Elem()
-}
-
-func (o IsVpcCseSourceAddressArrayOutput) ToIsVpcCseSourceAddressArrayOutput() IsVpcCseSourceAddressArrayOutput {
-	return o
-}
-
-func (o IsVpcCseSourceAddressArrayOutput) ToIsVpcCseSourceAddressArrayOutputWithContext(ctx context.Context) IsVpcCseSourceAddressArrayOutput {
-	return o
-}
-
-func (o IsVpcCseSourceAddressArrayOutput) Index(i pulumi.IntInput) IsVpcCseSourceAddressOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcCseSourceAddress {
-		return vs[0].([]IsVpcCseSourceAddress)[vs[1].(int)]
-	}).(IsVpcCseSourceAddressOutput)
-}
-
-type IsVpcDns struct {
-	// Indicates whether this VPC is enabled as a DNS name resolution hub.
-	EnableHub *bool `pulumi:"enableHub"`
-	// The number of DNS resolution bindings for this VPC.
-	ResolutionBindingCount *int `pulumi:"resolutionBindingCount"`
-	// The DNS resolver configuration for the VPC.
-	Resolver *IsVpcDnsResolver `pulumi:"resolver"`
-}
-
-// IsVpcDnsInput is an input type that accepts IsVpcDnsArgs and IsVpcDnsOutput values.
-// You can construct a concrete instance of `IsVpcDnsInput` via:
-//
-//	IsVpcDnsArgs{...}
-type IsVpcDnsInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsOutput() IsVpcDnsOutput
-	ToIsVpcDnsOutputWithContext(context.Context) IsVpcDnsOutput
-}
-
-type IsVpcDnsArgs struct {
-	// Indicates whether this VPC is enabled as a DNS name resolution hub.
-	EnableHub pulumi.BoolPtrInput `pulumi:"enableHub"`
-	// The number of DNS resolution bindings for this VPC.
-	ResolutionBindingCount pulumi.IntPtrInput `pulumi:"resolutionBindingCount"`
-	// The DNS resolver configuration for the VPC.
-	Resolver IsVpcDnsResolverPtrInput `pulumi:"resolver"`
-}
-
-func (IsVpcDnsArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDns)(nil)).Elem()
-}
-
-func (i IsVpcDnsArgs) ToIsVpcDnsOutput() IsVpcDnsOutput {
-	return i.ToIsVpcDnsOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsArgs) ToIsVpcDnsOutputWithContext(ctx context.Context) IsVpcDnsOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsOutput)
-}
-
-func (i IsVpcDnsArgs) ToIsVpcDnsPtrOutput() IsVpcDnsPtrOutput {
-	return i.ToIsVpcDnsPtrOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsArgs) ToIsVpcDnsPtrOutputWithContext(ctx context.Context) IsVpcDnsPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsOutput).ToIsVpcDnsPtrOutputWithContext(ctx)
-}
-
-// IsVpcDnsPtrInput is an input type that accepts IsVpcDnsArgs, IsVpcDnsPtr and IsVpcDnsPtrOutput values.
-// You can construct a concrete instance of `IsVpcDnsPtrInput` via:
-//
-//	        IsVpcDnsArgs{...}
-//
-//	or:
-//
-//	        nil
-type IsVpcDnsPtrInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsPtrOutput() IsVpcDnsPtrOutput
-	ToIsVpcDnsPtrOutputWithContext(context.Context) IsVpcDnsPtrOutput
-}
-
-type isVpcDnsPtrType IsVpcDnsArgs
-
-func IsVpcDnsPtr(v *IsVpcDnsArgs) IsVpcDnsPtrInput {
-	return (*isVpcDnsPtrType)(v)
-}
-
-func (*isVpcDnsPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpcDns)(nil)).Elem()
-}
-
-func (i *isVpcDnsPtrType) ToIsVpcDnsPtrOutput() IsVpcDnsPtrOutput {
-	return i.ToIsVpcDnsPtrOutputWithContext(context.Background())
-}
-
-func (i *isVpcDnsPtrType) ToIsVpcDnsPtrOutputWithContext(ctx context.Context) IsVpcDnsPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsPtrOutput)
-}
-
-type IsVpcDnsOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDns)(nil)).Elem()
-}
-
-func (o IsVpcDnsOutput) ToIsVpcDnsOutput() IsVpcDnsOutput {
-	return o
-}
-
-func (o IsVpcDnsOutput) ToIsVpcDnsOutputWithContext(ctx context.Context) IsVpcDnsOutput {
-	return o
-}
-
-func (o IsVpcDnsOutput) ToIsVpcDnsPtrOutput() IsVpcDnsPtrOutput {
-	return o.ToIsVpcDnsPtrOutputWithContext(context.Background())
-}
-
-func (o IsVpcDnsOutput) ToIsVpcDnsPtrOutputWithContext(ctx context.Context) IsVpcDnsPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVpcDns) *IsVpcDns {
-		return &v
-	}).(IsVpcDnsPtrOutput)
-}
-
-// Indicates whether this VPC is enabled as a DNS name resolution hub.
-func (o IsVpcDnsOutput) EnableHub() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v IsVpcDns) *bool { return v.EnableHub }).(pulumi.BoolPtrOutput)
-}
-
-// The number of DNS resolution bindings for this VPC.
-func (o IsVpcDnsOutput) ResolutionBindingCount() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcDns) *int { return v.ResolutionBindingCount }).(pulumi.IntPtrOutput)
-}
-
-// The DNS resolver configuration for the VPC.
-func (o IsVpcDnsOutput) Resolver() IsVpcDnsResolverPtrOutput {
-	return o.ApplyT(func(v IsVpcDns) *IsVpcDnsResolver { return v.Resolver }).(IsVpcDnsResolverPtrOutput)
-}
-
-type IsVpcDnsPtrOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpcDns)(nil)).Elem()
-}
-
-func (o IsVpcDnsPtrOutput) ToIsVpcDnsPtrOutput() IsVpcDnsPtrOutput {
-	return o
-}
-
-func (o IsVpcDnsPtrOutput) ToIsVpcDnsPtrOutputWithContext(ctx context.Context) IsVpcDnsPtrOutput {
-	return o
-}
-
-func (o IsVpcDnsPtrOutput) Elem() IsVpcDnsOutput {
-	return o.ApplyT(func(v *IsVpcDns) IsVpcDns {
-		if v != nil {
-			return *v
-		}
-		var ret IsVpcDns
-		return ret
-	}).(IsVpcDnsOutput)
-}
-
-// Indicates whether this VPC is enabled as a DNS name resolution hub.
-func (o IsVpcDnsPtrOutput) EnableHub() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *IsVpcDns) *bool {
-		if v == nil {
-			return nil
-		}
-		return v.EnableHub
-	}).(pulumi.BoolPtrOutput)
-}
-
-// The number of DNS resolution bindings for this VPC.
-func (o IsVpcDnsPtrOutput) ResolutionBindingCount() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *IsVpcDns) *int {
-		if v == nil {
-			return nil
-		}
-		return v.ResolutionBindingCount
-	}).(pulumi.IntPtrOutput)
-}
-
-// The DNS resolver configuration for the VPC.
-func (o IsVpcDnsPtrOutput) Resolver() IsVpcDnsResolverPtrOutput {
-	return o.ApplyT(func(v *IsVpcDns) *IsVpcDnsResolver {
-		if v == nil {
-			return nil
-		}
-		return v.Resolver
-	}).(IsVpcDnsResolverPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGateway struct {
-	// The CRN for this endpoint gateway.
-	Crn *string `pulumi:"crn"`
-	// The URL for this endpoint gateway.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this endpoint gateway.
-	Id *string `pulumi:"id"`
-	// The name for this endpoint gateway. The name is unique across all endpoint gateways in the VPC.
-	Name *string `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes []IsVpcDnsResolutionBindingEndpointGatewayRemote `pulumi:"remotes"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayArgs and IsVpcDnsResolutionBindingEndpointGatewayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayArgs{...}
-type IsVpcDnsResolutionBindingEndpointGatewayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayOutput() IsVpcDnsResolutionBindingEndpointGatewayOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayArgs struct {
-	// The CRN for this endpoint gateway.
-	Crn pulumi.StringPtrInput `pulumi:"crn"`
-	// The URL for this endpoint gateway.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this endpoint gateway.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The name for this endpoint gateway. The name is unique across all endpoint gateways in the VPC.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayInput `pulumi:"remotes"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpcDnsResolutionBindingEndpointGatewayArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGateway)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayArgs) ToIsVpcDnsResolutionBindingEndpointGatewayOutput() IsVpcDnsResolutionBindingEndpointGatewayOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayArgs) ToIsVpcDnsResolutionBindingEndpointGatewayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayOutput)
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayArrayInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayArray and IsVpcDnsResolutionBindingEndpointGatewayArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayArray{ IsVpcDnsResolutionBindingEndpointGatewayArgs{...} }
-type IsVpcDnsResolutionBindingEndpointGatewayArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayArrayOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayArrayOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayArray []IsVpcDnsResolutionBindingEndpointGatewayInput
-
-func (IsVpcDnsResolutionBindingEndpointGatewayArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGateway)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayArray) ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayArray) ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGateway)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayOutput() IsVpcDnsResolutionBindingEndpointGatewayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayOutput {
-	return o
-}
-
-// The CRN for this endpoint gateway.
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGateway) *string { return v.Crn }).(pulumi.StringPtrOutput)
-}
-
-// The URL for this endpoint gateway.
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGateway) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this endpoint gateway.
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGateway) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The name for this endpoint gateway. The name is unique across all endpoint gateways in the VPC.
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGateway) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) Remotes() IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGateway) []IsVpcDnsResolutionBindingEndpointGatewayRemote {
-		return v.Remotes
-	}).(IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput)
-}
-
-// The resource type.
-func (o IsVpcDnsResolutionBindingEndpointGatewayOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGateway) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGateway)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingEndpointGatewayOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingEndpointGateway {
-		return vs[0].([]IsVpcDnsResolutionBindingEndpointGateway)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingEndpointGatewayOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemote struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts []IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions []IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion `pulumi:"regions"`
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayRemoteInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs and IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayRemoteInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs{...}
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayInput `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayInput `pulumi:"regions"`
-}
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemote)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput)
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayRemoteArray and IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayRemoteArray{ IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs{...} }
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteArray []IsVpcDnsResolutionBindingEndpointGatewayRemoteInput
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGatewayRemote)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteArray) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteArray) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemote)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput {
-	return o
-}
-
-// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput) Accounts() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGatewayRemote) []IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount {
-		return v.Accounts
-	}).(IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput)
-}
-
-// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput) Regions() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGatewayRemote) []IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion {
-		return v.Regions
-	}).(IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGatewayRemote)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingEndpointGatewayRemote {
-		return vs[0].([]IsVpcDnsResolutionBindingEndpointGatewayRemote)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount struct {
-	// The unique identifier for this account.
-	Id *string `pulumi:"id"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs and IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs{...}
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs struct {
-	// The unique identifier for this account.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput)
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray and IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray{ IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs{...} }
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray []IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountInput
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput {
-	return o
-}
-
-// The unique identifier for this account.
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The resource type.
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount {
-		return vs[0].([]IsVpcDnsResolutionBindingEndpointGatewayRemoteAccount)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion struct {
-	// The URL for this region.
-	Href *string `pulumi:"href"`
-	// The globally unique name for this region.
-	Name *string `pulumi:"name"`
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs and IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs{...}
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs struct {
-	// The URL for this region.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The globally unique name for this region.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-}
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput)
-}
-
-// IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayInput is an input type that accepts IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray and IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray{ IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs{...} }
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput
-	ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray []IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionInput
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput {
-	return o
-}
-
-// The URL for this region.
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The globally unique name for this region.
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput() IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput) ToIsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion {
-		return vs[0].([]IsVpcDnsResolutionBindingEndpointGatewayRemoteRegion)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput)
-}
-
-type IsVpcDnsResolutionBindingHealthReason struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpcDnsResolutionBindingHealthReasonInput is an input type that accepts IsVpcDnsResolutionBindingHealthReasonArgs and IsVpcDnsResolutionBindingHealthReasonOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingHealthReasonInput` via:
-//
-//	IsVpcDnsResolutionBindingHealthReasonArgs{...}
-type IsVpcDnsResolutionBindingHealthReasonInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingHealthReasonOutput() IsVpcDnsResolutionBindingHealthReasonOutput
-	ToIsVpcDnsResolutionBindingHealthReasonOutputWithContext(context.Context) IsVpcDnsResolutionBindingHealthReasonOutput
-}
-
-type IsVpcDnsResolutionBindingHealthReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpcDnsResolutionBindingHealthReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingHealthReason)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingHealthReasonArgs) ToIsVpcDnsResolutionBindingHealthReasonOutput() IsVpcDnsResolutionBindingHealthReasonOutput {
-	return i.ToIsVpcDnsResolutionBindingHealthReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingHealthReasonArgs) ToIsVpcDnsResolutionBindingHealthReasonOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingHealthReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingHealthReasonOutput)
-}
-
-// IsVpcDnsResolutionBindingHealthReasonArrayInput is an input type that accepts IsVpcDnsResolutionBindingHealthReasonArray and IsVpcDnsResolutionBindingHealthReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingHealthReasonArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingHealthReasonArray{ IsVpcDnsResolutionBindingHealthReasonArgs{...} }
-type IsVpcDnsResolutionBindingHealthReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingHealthReasonArrayOutput() IsVpcDnsResolutionBindingHealthReasonArrayOutput
-	ToIsVpcDnsResolutionBindingHealthReasonArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingHealthReasonArrayOutput
-}
-
-type IsVpcDnsResolutionBindingHealthReasonArray []IsVpcDnsResolutionBindingHealthReasonInput
-
-func (IsVpcDnsResolutionBindingHealthReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingHealthReason)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingHealthReasonArray) ToIsVpcDnsResolutionBindingHealthReasonArrayOutput() IsVpcDnsResolutionBindingHealthReasonArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingHealthReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingHealthReasonArray) ToIsVpcDnsResolutionBindingHealthReasonArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingHealthReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingHealthReasonArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingHealthReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingHealthReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingHealthReason)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingHealthReasonOutput) ToIsVpcDnsResolutionBindingHealthReasonOutput() IsVpcDnsResolutionBindingHealthReasonOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingHealthReasonOutput) ToIsVpcDnsResolutionBindingHealthReasonOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingHealthReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this health state.
-func (o IsVpcDnsResolutionBindingHealthReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingHealthReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this health state.
-func (o IsVpcDnsResolutionBindingHealthReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingHealthReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this health state.
-func (o IsVpcDnsResolutionBindingHealthReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingHealthReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingHealthReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingHealthReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingHealthReason)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingHealthReasonArrayOutput) ToIsVpcDnsResolutionBindingHealthReasonArrayOutput() IsVpcDnsResolutionBindingHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingHealthReasonArrayOutput) ToIsVpcDnsResolutionBindingHealthReasonArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingHealthReasonArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingHealthReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingHealthReason {
-		return vs[0].([]IsVpcDnsResolutionBindingHealthReason)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingHealthReasonOutput)
-}
-
-type IsVpcDnsResolutionBindingVpc struct {
-	// The CRN for this VPC.
-	Crn *string `pulumi:"crn"`
-	// The URL for this VPC.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id *string `pulumi:"id"`
-	// The name for this VPC. The name is unique across all VPCs in the region.
-	Name *string `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes []IsVpcDnsResolutionBindingVpcRemote `pulumi:"remotes"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpcDnsResolutionBindingVpcInput is an input type that accepts IsVpcDnsResolutionBindingVpcArgs and IsVpcDnsResolutionBindingVpcOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcArgs{...}
-type IsVpcDnsResolutionBindingVpcInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcOutput() IsVpcDnsResolutionBindingVpcOutput
-	ToIsVpcDnsResolutionBindingVpcOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcOutput
-}
-
-type IsVpcDnsResolutionBindingVpcArgs struct {
-	// The CRN for this VPC.
-	Crn pulumi.StringPtrInput `pulumi:"crn"`
-	// The URL for this VPC.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The name for this VPC. The name is unique across all VPCs in the region.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes IsVpcDnsResolutionBindingVpcRemoteArrayInput `pulumi:"remotes"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpcDnsResolutionBindingVpcArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpc)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcArgs) ToIsVpcDnsResolutionBindingVpcOutput() IsVpcDnsResolutionBindingVpcOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcArgs) ToIsVpcDnsResolutionBindingVpcOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcOutput)
-}
-
-func (i IsVpcDnsResolutionBindingVpcArgs) ToIsVpcDnsResolutionBindingVpcPtrOutput() IsVpcDnsResolutionBindingVpcPtrOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcArgs) ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcOutput).ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(ctx)
-}
-
-// IsVpcDnsResolutionBindingVpcPtrInput is an input type that accepts IsVpcDnsResolutionBindingVpcArgs, IsVpcDnsResolutionBindingVpcPtr and IsVpcDnsResolutionBindingVpcPtrOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcPtrInput` via:
-//
-//	        IsVpcDnsResolutionBindingVpcArgs{...}
-//
-//	or:
-//
-//	        nil
-type IsVpcDnsResolutionBindingVpcPtrInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcPtrOutput() IsVpcDnsResolutionBindingVpcPtrOutput
-	ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcPtrOutput
-}
-
-type isVpcDnsResolutionBindingVpcPtrType IsVpcDnsResolutionBindingVpcArgs
-
-func IsVpcDnsResolutionBindingVpcPtr(v *IsVpcDnsResolutionBindingVpcArgs) IsVpcDnsResolutionBindingVpcPtrInput {
-	return (*isVpcDnsResolutionBindingVpcPtrType)(v)
-}
-
-func (*isVpcDnsResolutionBindingVpcPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpcDnsResolutionBindingVpc)(nil)).Elem()
-}
-
-func (i *isVpcDnsResolutionBindingVpcPtrType) ToIsVpcDnsResolutionBindingVpcPtrOutput() IsVpcDnsResolutionBindingVpcPtrOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(context.Background())
-}
-
-func (i *isVpcDnsResolutionBindingVpcPtrType) ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpc)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcOutput) ToIsVpcDnsResolutionBindingVpcOutput() IsVpcDnsResolutionBindingVpcOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcOutput) ToIsVpcDnsResolutionBindingVpcOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcOutput) ToIsVpcDnsResolutionBindingVpcPtrOutput() IsVpcDnsResolutionBindingVpcPtrOutput {
-	return o.ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(context.Background())
-}
-
-func (o IsVpcDnsResolutionBindingVpcOutput) ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVpcDnsResolutionBindingVpc) *IsVpcDnsResolutionBindingVpc {
-		return &v
-	}).(IsVpcDnsResolutionBindingVpcPtrOutput)
-}
-
-// The CRN for this VPC.
-func (o IsVpcDnsResolutionBindingVpcOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpc) *string { return v.Crn }).(pulumi.StringPtrOutput)
-}
-
-// The URL for this VPC.
-func (o IsVpcDnsResolutionBindingVpcOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpc) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this VPC.
-func (o IsVpcDnsResolutionBindingVpcOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpc) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The name for this VPC. The name is unique across all VPCs in the region.
-func (o IsVpcDnsResolutionBindingVpcOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpc) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolutionBindingVpcOutput) Remotes() IsVpcDnsResolutionBindingVpcRemoteArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpc) []IsVpcDnsResolutionBindingVpcRemote { return v.Remotes }).(IsVpcDnsResolutionBindingVpcRemoteArrayOutput)
-}
-
-// The resource type.
-func (o IsVpcDnsResolutionBindingVpcOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpc) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcPtrOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpcDnsResolutionBindingVpc)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) ToIsVpcDnsResolutionBindingVpcPtrOutput() IsVpcDnsResolutionBindingVpcPtrOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) ToIsVpcDnsResolutionBindingVpcPtrOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcPtrOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) Elem() IsVpcDnsResolutionBindingVpcOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) IsVpcDnsResolutionBindingVpc {
-		if v != nil {
-			return *v
-		}
-		var ret IsVpcDnsResolutionBindingVpc
-		return ret
-	}).(IsVpcDnsResolutionBindingVpcOutput)
-}
-
-// The CRN for this VPC.
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Crn
-	}).(pulumi.StringPtrOutput)
-}
-
-// The URL for this VPC.
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Href
-	}).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this VPC.
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Id
-	}).(pulumi.StringPtrOutput)
-}
-
-// The name for this VPC. The name is unique across all VPCs in the region.
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Name
-	}).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) Remotes() IsVpcDnsResolutionBindingVpcRemoteArrayOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) []IsVpcDnsResolutionBindingVpcRemote {
-		if v == nil {
-			return nil
-		}
-		return v.Remotes
-	}).(IsVpcDnsResolutionBindingVpcRemoteArrayOutput)
-}
-
-// The resource type.
-func (o IsVpcDnsResolutionBindingVpcPtrOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolutionBindingVpc) *string {
-		if v == nil {
-			return nil
-		}
-		return v.ResourceType
-	}).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemote struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts []IsVpcDnsResolutionBindingVpcRemoteAccount `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions []IsVpcDnsResolutionBindingVpcRemoteRegion `pulumi:"regions"`
-}
-
-// IsVpcDnsResolutionBindingVpcRemoteInput is an input type that accepts IsVpcDnsResolutionBindingVpcRemoteArgs and IsVpcDnsResolutionBindingVpcRemoteOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcRemoteInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcRemoteArgs{...}
-type IsVpcDnsResolutionBindingVpcRemoteInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcRemoteOutput() IsVpcDnsResolutionBindingVpcRemoteOutput
-	ToIsVpcDnsResolutionBindingVpcRemoteOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcRemoteOutput
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteArgs struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts IsVpcDnsResolutionBindingVpcRemoteAccountArrayInput `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions IsVpcDnsResolutionBindingVpcRemoteRegionArrayInput `pulumi:"regions"`
-}
-
-func (IsVpcDnsResolutionBindingVpcRemoteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemote)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteArgs) ToIsVpcDnsResolutionBindingVpcRemoteOutput() IsVpcDnsResolutionBindingVpcRemoteOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcRemoteOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteArgs) ToIsVpcDnsResolutionBindingVpcRemoteOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcRemoteOutput)
-}
-
-// IsVpcDnsResolutionBindingVpcRemoteArrayInput is an input type that accepts IsVpcDnsResolutionBindingVpcRemoteArray and IsVpcDnsResolutionBindingVpcRemoteArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcRemoteArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcRemoteArray{ IsVpcDnsResolutionBindingVpcRemoteArgs{...} }
-type IsVpcDnsResolutionBindingVpcRemoteArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcRemoteArrayOutput() IsVpcDnsResolutionBindingVpcRemoteArrayOutput
-	ToIsVpcDnsResolutionBindingVpcRemoteArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcRemoteArrayOutput
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteArray []IsVpcDnsResolutionBindingVpcRemoteInput
-
-func (IsVpcDnsResolutionBindingVpcRemoteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingVpcRemote)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteArray) ToIsVpcDnsResolutionBindingVpcRemoteArrayOutput() IsVpcDnsResolutionBindingVpcRemoteArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcRemoteArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteArray) ToIsVpcDnsResolutionBindingVpcRemoteArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcRemoteArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcRemoteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemote)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteOutput) ToIsVpcDnsResolutionBindingVpcRemoteOutput() IsVpcDnsResolutionBindingVpcRemoteOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteOutput) ToIsVpcDnsResolutionBindingVpcRemoteOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteOutput {
-	return o
-}
-
-// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-func (o IsVpcDnsResolutionBindingVpcRemoteOutput) Accounts() IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpcRemote) []IsVpcDnsResolutionBindingVpcRemoteAccount {
-		return v.Accounts
-	}).(IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput)
-}
-
-// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-func (o IsVpcDnsResolutionBindingVpcRemoteOutput) Regions() IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpcRemote) []IsVpcDnsResolutionBindingVpcRemoteRegion {
-		return v.Regions
-	}).(IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcRemoteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingVpcRemote)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteArrayOutput) ToIsVpcDnsResolutionBindingVpcRemoteArrayOutput() IsVpcDnsResolutionBindingVpcRemoteArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteArrayOutput) ToIsVpcDnsResolutionBindingVpcRemoteArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingVpcRemoteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingVpcRemote {
-		return vs[0].([]IsVpcDnsResolutionBindingVpcRemote)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingVpcRemoteOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteAccount struct {
-	// The unique identifier for this account.
-	Id *string `pulumi:"id"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpcDnsResolutionBindingVpcRemoteAccountInput is an input type that accepts IsVpcDnsResolutionBindingVpcRemoteAccountArgs and IsVpcDnsResolutionBindingVpcRemoteAccountOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcRemoteAccountInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcRemoteAccountArgs{...}
-type IsVpcDnsResolutionBindingVpcRemoteAccountInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcRemoteAccountOutput() IsVpcDnsResolutionBindingVpcRemoteAccountOutput
-	ToIsVpcDnsResolutionBindingVpcRemoteAccountOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcRemoteAccountOutput
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteAccountArgs struct {
-	// The unique identifier for this account.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpcDnsResolutionBindingVpcRemoteAccountArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteAccount)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteAccountArgs) ToIsVpcDnsResolutionBindingVpcRemoteAccountOutput() IsVpcDnsResolutionBindingVpcRemoteAccountOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcRemoteAccountOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteAccountArgs) ToIsVpcDnsResolutionBindingVpcRemoteAccountOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteAccountOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcRemoteAccountOutput)
-}
-
-// IsVpcDnsResolutionBindingVpcRemoteAccountArrayInput is an input type that accepts IsVpcDnsResolutionBindingVpcRemoteAccountArray and IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcRemoteAccountArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcRemoteAccountArray{ IsVpcDnsResolutionBindingVpcRemoteAccountArgs{...} }
-type IsVpcDnsResolutionBindingVpcRemoteAccountArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput() IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput
-	ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteAccountArray []IsVpcDnsResolutionBindingVpcRemoteAccountInput
-
-func (IsVpcDnsResolutionBindingVpcRemoteAccountArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingVpcRemoteAccount)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteAccountArray) ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput() IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteAccountArray) ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteAccountOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcRemoteAccountOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteAccount)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountOutput) ToIsVpcDnsResolutionBindingVpcRemoteAccountOutput() IsVpcDnsResolutionBindingVpcRemoteAccountOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountOutput) ToIsVpcDnsResolutionBindingVpcRemoteAccountOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteAccountOutput {
-	return o
-}
-
-// The unique identifier for this account.
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpcRemoteAccount) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The resource type.
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpcRemoteAccount) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingVpcRemoteAccount)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput) ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput() IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput) ToIsVpcDnsResolutionBindingVpcRemoteAccountArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingVpcRemoteAccountOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingVpcRemoteAccount {
-		return vs[0].([]IsVpcDnsResolutionBindingVpcRemoteAccount)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingVpcRemoteAccountOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteRegion struct {
-	// The URL for this region.
-	Href *string `pulumi:"href"`
-	// The globally unique name for this region.
-	Name *string `pulumi:"name"`
-}
-
-// IsVpcDnsResolutionBindingVpcRemoteRegionInput is an input type that accepts IsVpcDnsResolutionBindingVpcRemoteRegionArgs and IsVpcDnsResolutionBindingVpcRemoteRegionOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcRemoteRegionInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcRemoteRegionArgs{...}
-type IsVpcDnsResolutionBindingVpcRemoteRegionInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcRemoteRegionOutput() IsVpcDnsResolutionBindingVpcRemoteRegionOutput
-	ToIsVpcDnsResolutionBindingVpcRemoteRegionOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcRemoteRegionOutput
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteRegionArgs struct {
-	// The URL for this region.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The globally unique name for this region.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-}
-
-func (IsVpcDnsResolutionBindingVpcRemoteRegionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteRegion)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteRegionArgs) ToIsVpcDnsResolutionBindingVpcRemoteRegionOutput() IsVpcDnsResolutionBindingVpcRemoteRegionOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcRemoteRegionOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteRegionArgs) ToIsVpcDnsResolutionBindingVpcRemoteRegionOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteRegionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcRemoteRegionOutput)
-}
-
-// IsVpcDnsResolutionBindingVpcRemoteRegionArrayInput is an input type that accepts IsVpcDnsResolutionBindingVpcRemoteRegionArray and IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolutionBindingVpcRemoteRegionArrayInput` via:
-//
-//	IsVpcDnsResolutionBindingVpcRemoteRegionArray{ IsVpcDnsResolutionBindingVpcRemoteRegionArgs{...} }
-type IsVpcDnsResolutionBindingVpcRemoteRegionArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput() IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput
-	ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutputWithContext(context.Context) IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteRegionArray []IsVpcDnsResolutionBindingVpcRemoteRegionInput
-
-func (IsVpcDnsResolutionBindingVpcRemoteRegionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingVpcRemoteRegion)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteRegionArray) ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput() IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput {
-	return i.ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolutionBindingVpcRemoteRegionArray) ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteRegionOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcRemoteRegionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteRegion)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionOutput) ToIsVpcDnsResolutionBindingVpcRemoteRegionOutput() IsVpcDnsResolutionBindingVpcRemoteRegionOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionOutput) ToIsVpcDnsResolutionBindingVpcRemoteRegionOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteRegionOutput {
-	return o
-}
-
-// The URL for this region.
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpcRemoteRegion) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The globally unique name for this region.
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolutionBindingVpcRemoteRegion) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolutionBindingVpcRemoteRegion)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput) ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput() IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput) ToIsVpcDnsResolutionBindingVpcRemoteRegionArrayOutputWithContext(ctx context.Context) IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolutionBindingVpcRemoteRegionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolutionBindingVpcRemoteRegion {
-		return vs[0].([]IsVpcDnsResolutionBindingVpcRemoteRegion)[vs[1].(int)]
-	}).(IsVpcDnsResolutionBindingVpcRemoteRegionOutput)
-}
-
-type IsVpcDnsResolver struct {
-	// The configuration of the system DNS resolver for this VPC.- `customResolver`: A custom DNS resolver is configured for this VPC.- `privateResolver`: A private DNS resolver is configured for this VPC. Applicable when  the VPC has either or both of the following:    - at least one endpoint gateway residing in it    - a [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it- `default`: The provider default DNS resolvers are configured for this VPC.  This system DNS resolver configuration is used when the VPC has:  - no custom DNS resolver configured for it, and  - no endpoint gateways residing in it, and  - no [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it.
-	Configuration *string `pulumi:"configuration"`
-	// The VPC dns binding id whose DNS resolver provides the DNS server addresses for this VPC.
-	DnsBindingId *string `pulumi:"dnsBindingId"`
-	// The VPC dns binding name whose DNS resolver provides the DNS server addresses for this VPC.
-	DnsBindingName *string `pulumi:"dnsBindingName"`
-	// The manually specified DNS servers for this VPC.
-	ManualServers []IsVpcDnsResolverManualServer `pulumi:"manualServers"`
-	// The DNS servers for this VPC. The servers are populated:- by the system when `dns.resolver.type` is `system`- using the DNS servers in `dns.resolver.vpc` when `dns.resolver.type` is `delegated`- using `dns.resolver.manual_servers` when the `dns.resolver.type` is `manual`.
-	Servers []IsVpcDnsResolverServer `pulumi:"servers"`
-	// The type of the DNS resolver used for the VPC.- `delegated`: DNS server addresses are provided by the DNS resolver of the VPC               specified in `dns.resolver.vpc`.- `manual`: DNS server addresses are specified in `dns.resolver.manual_servers`.- `system`: DNS server addresses are provided by the system.
-	Type *string `pulumi:"type"`
-	// The VPC crn whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-	VpcCrn *string `pulumi:"vpcCrn"`
-	// The VPC id whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-	VpcId *string `pulumi:"vpcId"`
-	// The VPC name whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-	VpcName *string `pulumi:"vpcName"`
-	// The unique identifier for this account.
-	VpcRemoteAccountId *string `pulumi:"vpcRemoteAccountId"`
-	// Region name. If present, this property indicates that the referenced resource is remote to this region, and identifies the native region.
-	VpcRemoteRegion *string `pulumi:"vpcRemoteRegion"`
-}
-
-// IsVpcDnsResolverInput is an input type that accepts IsVpcDnsResolverArgs and IsVpcDnsResolverOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolverInput` via:
-//
-//	IsVpcDnsResolverArgs{...}
-type IsVpcDnsResolverInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolverOutput() IsVpcDnsResolverOutput
-	ToIsVpcDnsResolverOutputWithContext(context.Context) IsVpcDnsResolverOutput
-}
-
-type IsVpcDnsResolverArgs struct {
-	// The configuration of the system DNS resolver for this VPC.- `customResolver`: A custom DNS resolver is configured for this VPC.- `privateResolver`: A private DNS resolver is configured for this VPC. Applicable when  the VPC has either or both of the following:    - at least one endpoint gateway residing in it    - a [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it- `default`: The provider default DNS resolvers are configured for this VPC.  This system DNS resolver configuration is used when the VPC has:  - no custom DNS resolver configured for it, and  - no endpoint gateways residing in it, and  - no [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it.
-	Configuration pulumi.StringPtrInput `pulumi:"configuration"`
-	// The VPC dns binding id whose DNS resolver provides the DNS server addresses for this VPC.
-	DnsBindingId pulumi.StringPtrInput `pulumi:"dnsBindingId"`
-	// The VPC dns binding name whose DNS resolver provides the DNS server addresses for this VPC.
-	DnsBindingName pulumi.StringPtrInput `pulumi:"dnsBindingName"`
-	// The manually specified DNS servers for this VPC.
-	ManualServers IsVpcDnsResolverManualServerArrayInput `pulumi:"manualServers"`
-	// The DNS servers for this VPC. The servers are populated:- by the system when `dns.resolver.type` is `system`- using the DNS servers in `dns.resolver.vpc` when `dns.resolver.type` is `delegated`- using `dns.resolver.manual_servers` when the `dns.resolver.type` is `manual`.
-	Servers IsVpcDnsResolverServerArrayInput `pulumi:"servers"`
-	// The type of the DNS resolver used for the VPC.- `delegated`: DNS server addresses are provided by the DNS resolver of the VPC               specified in `dns.resolver.vpc`.- `manual`: DNS server addresses are specified in `dns.resolver.manual_servers`.- `system`: DNS server addresses are provided by the system.
-	Type pulumi.StringPtrInput `pulumi:"type"`
-	// The VPC crn whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-	VpcCrn pulumi.StringPtrInput `pulumi:"vpcCrn"`
-	// The VPC id whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-	VpcId pulumi.StringPtrInput `pulumi:"vpcId"`
-	// The VPC name whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-	VpcName pulumi.StringPtrInput `pulumi:"vpcName"`
-	// The unique identifier for this account.
-	VpcRemoteAccountId pulumi.StringPtrInput `pulumi:"vpcRemoteAccountId"`
-	// Region name. If present, this property indicates that the referenced resource is remote to this region, and identifies the native region.
-	VpcRemoteRegion pulumi.StringPtrInput `pulumi:"vpcRemoteRegion"`
-}
-
-func (IsVpcDnsResolverArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolver)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolverArgs) ToIsVpcDnsResolverOutput() IsVpcDnsResolverOutput {
-	return i.ToIsVpcDnsResolverOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolverArgs) ToIsVpcDnsResolverOutputWithContext(ctx context.Context) IsVpcDnsResolverOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverOutput)
-}
-
-func (i IsVpcDnsResolverArgs) ToIsVpcDnsResolverPtrOutput() IsVpcDnsResolverPtrOutput {
-	return i.ToIsVpcDnsResolverPtrOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolverArgs) ToIsVpcDnsResolverPtrOutputWithContext(ctx context.Context) IsVpcDnsResolverPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverOutput).ToIsVpcDnsResolverPtrOutputWithContext(ctx)
-}
-
-// IsVpcDnsResolverPtrInput is an input type that accepts IsVpcDnsResolverArgs, IsVpcDnsResolverPtr and IsVpcDnsResolverPtrOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolverPtrInput` via:
-//
-//	        IsVpcDnsResolverArgs{...}
-//
-//	or:
-//
-//	        nil
-type IsVpcDnsResolverPtrInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolverPtrOutput() IsVpcDnsResolverPtrOutput
-	ToIsVpcDnsResolverPtrOutputWithContext(context.Context) IsVpcDnsResolverPtrOutput
-}
-
-type isVpcDnsResolverPtrType IsVpcDnsResolverArgs
-
-func IsVpcDnsResolverPtr(v *IsVpcDnsResolverArgs) IsVpcDnsResolverPtrInput {
-	return (*isVpcDnsResolverPtrType)(v)
-}
-
-func (*isVpcDnsResolverPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpcDnsResolver)(nil)).Elem()
-}
-
-func (i *isVpcDnsResolverPtrType) ToIsVpcDnsResolverPtrOutput() IsVpcDnsResolverPtrOutput {
-	return i.ToIsVpcDnsResolverPtrOutputWithContext(context.Background())
-}
-
-func (i *isVpcDnsResolverPtrType) ToIsVpcDnsResolverPtrOutputWithContext(ctx context.Context) IsVpcDnsResolverPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverPtrOutput)
-}
-
-type IsVpcDnsResolverOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolverOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolver)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolverOutput) ToIsVpcDnsResolverOutput() IsVpcDnsResolverOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverOutput) ToIsVpcDnsResolverOutputWithContext(ctx context.Context) IsVpcDnsResolverOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverOutput) ToIsVpcDnsResolverPtrOutput() IsVpcDnsResolverPtrOutput {
-	return o.ToIsVpcDnsResolverPtrOutputWithContext(context.Background())
-}
-
-func (o IsVpcDnsResolverOutput) ToIsVpcDnsResolverPtrOutputWithContext(ctx context.Context) IsVpcDnsResolverPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVpcDnsResolver) *IsVpcDnsResolver {
-		return &v
-	}).(IsVpcDnsResolverPtrOutput)
-}
-
-// The configuration of the system DNS resolver for this VPC.- `customResolver`: A custom DNS resolver is configured for this VPC.- `privateResolver`: A private DNS resolver is configured for this VPC. Applicable when  the VPC has either or both of the following:    - at least one endpoint gateway residing in it    - a [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it- `default`: The provider default DNS resolvers are configured for this VPC.  This system DNS resolver configuration is used when the VPC has:  - no custom DNS resolver configured for it, and  - no endpoint gateways residing in it, and  - no [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it.
-func (o IsVpcDnsResolverOutput) Configuration() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.Configuration }).(pulumi.StringPtrOutput)
-}
-
-// The VPC dns binding id whose DNS resolver provides the DNS server addresses for this VPC.
-func (o IsVpcDnsResolverOutput) DnsBindingId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.DnsBindingId }).(pulumi.StringPtrOutput)
-}
-
-// The VPC dns binding name whose DNS resolver provides the DNS server addresses for this VPC.
-func (o IsVpcDnsResolverOutput) DnsBindingName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.DnsBindingName }).(pulumi.StringPtrOutput)
-}
-
-// The manually specified DNS servers for this VPC.
-func (o IsVpcDnsResolverOutput) ManualServers() IsVpcDnsResolverManualServerArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) []IsVpcDnsResolverManualServer { return v.ManualServers }).(IsVpcDnsResolverManualServerArrayOutput)
-}
-
-// The DNS servers for this VPC. The servers are populated:- by the system when `dns.resolver.type` is `system`- using the DNS servers in `dns.resolver.vpc` when `dns.resolver.type` is `delegated`- using `dns.resolver.manual_servers` when the `dns.resolver.type` is `manual`.
-func (o IsVpcDnsResolverOutput) Servers() IsVpcDnsResolverServerArrayOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) []IsVpcDnsResolverServer { return v.Servers }).(IsVpcDnsResolverServerArrayOutput)
-}
-
-// The type of the DNS resolver used for the VPC.- `delegated`: DNS server addresses are provided by the DNS resolver of the VPC               specified in `dns.resolver.vpc`.- `manual`: DNS server addresses are specified in `dns.resolver.manual_servers`.- `system`: DNS server addresses are provided by the system.
-func (o IsVpcDnsResolverOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.Type }).(pulumi.StringPtrOutput)
-}
-
-// The VPC crn whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolverOutput) VpcCrn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.VpcCrn }).(pulumi.StringPtrOutput)
-}
-
-// The VPC id whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolverOutput) VpcId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.VpcId }).(pulumi.StringPtrOutput)
-}
-
-// The VPC name whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolverOutput) VpcName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.VpcName }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this account.
-func (o IsVpcDnsResolverOutput) VpcRemoteAccountId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.VpcRemoteAccountId }).(pulumi.StringPtrOutput)
-}
-
-// Region name. If present, this property indicates that the referenced resource is remote to this region, and identifies the native region.
-func (o IsVpcDnsResolverOutput) VpcRemoteRegion() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolver) *string { return v.VpcRemoteRegion }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolverPtrOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolverPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpcDnsResolver)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolverPtrOutput) ToIsVpcDnsResolverPtrOutput() IsVpcDnsResolverPtrOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverPtrOutput) ToIsVpcDnsResolverPtrOutputWithContext(ctx context.Context) IsVpcDnsResolverPtrOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverPtrOutput) Elem() IsVpcDnsResolverOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) IsVpcDnsResolver {
-		if v != nil {
-			return *v
-		}
-		var ret IsVpcDnsResolver
-		return ret
-	}).(IsVpcDnsResolverOutput)
-}
-
-// The configuration of the system DNS resolver for this VPC.- `customResolver`: A custom DNS resolver is configured for this VPC.- `privateResolver`: A private DNS resolver is configured for this VPC. Applicable when  the VPC has either or both of the following:    - at least one endpoint gateway residing in it    - a [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it- `default`: The provider default DNS resolvers are configured for this VPC.  This system DNS resolver configuration is used when the VPC has:  - no custom DNS resolver configured for it, and  - no endpoint gateways residing in it, and  - no [DNS Services](https://cloud.ibm.com/docs/dns-svcs) private zone configured for it.
-func (o IsVpcDnsResolverPtrOutput) Configuration() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Configuration
-	}).(pulumi.StringPtrOutput)
-}
-
-// The VPC dns binding id whose DNS resolver provides the DNS server addresses for this VPC.
-func (o IsVpcDnsResolverPtrOutput) DnsBindingId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.DnsBindingId
-	}).(pulumi.StringPtrOutput)
-}
-
-// The VPC dns binding name whose DNS resolver provides the DNS server addresses for this VPC.
-func (o IsVpcDnsResolverPtrOutput) DnsBindingName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.DnsBindingName
-	}).(pulumi.StringPtrOutput)
-}
-
-// The manually specified DNS servers for this VPC.
-func (o IsVpcDnsResolverPtrOutput) ManualServers() IsVpcDnsResolverManualServerArrayOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) []IsVpcDnsResolverManualServer {
-		if v == nil {
-			return nil
-		}
-		return v.ManualServers
-	}).(IsVpcDnsResolverManualServerArrayOutput)
-}
-
-// The DNS servers for this VPC. The servers are populated:- by the system when `dns.resolver.type` is `system`- using the DNS servers in `dns.resolver.vpc` when `dns.resolver.type` is `delegated`- using `dns.resolver.manual_servers` when the `dns.resolver.type` is `manual`.
-func (o IsVpcDnsResolverPtrOutput) Servers() IsVpcDnsResolverServerArrayOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) []IsVpcDnsResolverServer {
-		if v == nil {
-			return nil
-		}
-		return v.Servers
-	}).(IsVpcDnsResolverServerArrayOutput)
-}
-
-// The type of the DNS resolver used for the VPC.- `delegated`: DNS server addresses are provided by the DNS resolver of the VPC               specified in `dns.resolver.vpc`.- `manual`: DNS server addresses are specified in `dns.resolver.manual_servers`.- `system`: DNS server addresses are provided by the system.
-func (o IsVpcDnsResolverPtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Type
-	}).(pulumi.StringPtrOutput)
-}
-
-// The VPC crn whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolverPtrOutput) VpcCrn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.VpcCrn
-	}).(pulumi.StringPtrOutput)
-}
-
-// The VPC id whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolverPtrOutput) VpcId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.VpcId
-	}).(pulumi.StringPtrOutput)
-}
-
-// The VPC name whose DNS resolver provides the DNS server addresses for this VPC.The VPC may be remote and therefore may not be directly retrievable.
-func (o IsVpcDnsResolverPtrOutput) VpcName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.VpcName
-	}).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this account.
-func (o IsVpcDnsResolverPtrOutput) VpcRemoteAccountId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.VpcRemoteAccountId
-	}).(pulumi.StringPtrOutput)
-}
-
-// Region name. If present, this property indicates that the referenced resource is remote to this region, and identifies the native region.
-func (o IsVpcDnsResolverPtrOutput) VpcRemoteRegion() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpcDnsResolver) *string {
-		if v == nil {
-			return nil
-		}
-		return v.VpcRemoteRegion
-	}).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolverManualServer struct {
-	// The IP address.This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `pulumi:"address"`
-	// The name of the zone. If present, DHCP configuration for this zone will have this DNS server listed first.
-	ZoneAffinity *string `pulumi:"zoneAffinity"`
-}
-
-// IsVpcDnsResolverManualServerInput is an input type that accepts IsVpcDnsResolverManualServerArgs and IsVpcDnsResolverManualServerOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolverManualServerInput` via:
-//
-//	IsVpcDnsResolverManualServerArgs{...}
-type IsVpcDnsResolverManualServerInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolverManualServerOutput() IsVpcDnsResolverManualServerOutput
-	ToIsVpcDnsResolverManualServerOutputWithContext(context.Context) IsVpcDnsResolverManualServerOutput
-}
-
-type IsVpcDnsResolverManualServerArgs struct {
-	// The IP address.This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// The name of the zone. If present, DHCP configuration for this zone will have this DNS server listed first.
-	ZoneAffinity pulumi.StringPtrInput `pulumi:"zoneAffinity"`
-}
-
-func (IsVpcDnsResolverManualServerArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolverManualServer)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolverManualServerArgs) ToIsVpcDnsResolverManualServerOutput() IsVpcDnsResolverManualServerOutput {
-	return i.ToIsVpcDnsResolverManualServerOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolverManualServerArgs) ToIsVpcDnsResolverManualServerOutputWithContext(ctx context.Context) IsVpcDnsResolverManualServerOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverManualServerOutput)
-}
-
-// IsVpcDnsResolverManualServerArrayInput is an input type that accepts IsVpcDnsResolverManualServerArray and IsVpcDnsResolverManualServerArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolverManualServerArrayInput` via:
-//
-//	IsVpcDnsResolverManualServerArray{ IsVpcDnsResolverManualServerArgs{...} }
-type IsVpcDnsResolverManualServerArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolverManualServerArrayOutput() IsVpcDnsResolverManualServerArrayOutput
-	ToIsVpcDnsResolverManualServerArrayOutputWithContext(context.Context) IsVpcDnsResolverManualServerArrayOutput
-}
-
-type IsVpcDnsResolverManualServerArray []IsVpcDnsResolverManualServerInput
-
-func (IsVpcDnsResolverManualServerArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolverManualServer)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolverManualServerArray) ToIsVpcDnsResolverManualServerArrayOutput() IsVpcDnsResolverManualServerArrayOutput {
-	return i.ToIsVpcDnsResolverManualServerArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolverManualServerArray) ToIsVpcDnsResolverManualServerArrayOutputWithContext(ctx context.Context) IsVpcDnsResolverManualServerArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverManualServerArrayOutput)
-}
-
-type IsVpcDnsResolverManualServerOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolverManualServerOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolverManualServer)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolverManualServerOutput) ToIsVpcDnsResolverManualServerOutput() IsVpcDnsResolverManualServerOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverManualServerOutput) ToIsVpcDnsResolverManualServerOutputWithContext(ctx context.Context) IsVpcDnsResolverManualServerOutput {
-	return o
-}
-
-// The IP address.This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-func (o IsVpcDnsResolverManualServerOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolverManualServer) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// The name of the zone. If present, DHCP configuration for this zone will have this DNS server listed first.
-func (o IsVpcDnsResolverManualServerOutput) ZoneAffinity() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolverManualServer) *string { return v.ZoneAffinity }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolverManualServerArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolverManualServerArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolverManualServer)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolverManualServerArrayOutput) ToIsVpcDnsResolverManualServerArrayOutput() IsVpcDnsResolverManualServerArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverManualServerArrayOutput) ToIsVpcDnsResolverManualServerArrayOutputWithContext(ctx context.Context) IsVpcDnsResolverManualServerArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverManualServerArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolverManualServerOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolverManualServer {
-		return vs[0].([]IsVpcDnsResolverManualServer)[vs[1].(int)]
-	}).(IsVpcDnsResolverManualServerOutput)
-}
-
-type IsVpcDnsResolverServer struct {
-	// The IP address.This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `pulumi:"address"`
-	// Zone name, if present, DHCP configuration for this zone will have this DNS server listed first.
-	ZoneAffinity *string `pulumi:"zoneAffinity"`
-}
-
-// IsVpcDnsResolverServerInput is an input type that accepts IsVpcDnsResolverServerArgs and IsVpcDnsResolverServerOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolverServerInput` via:
-//
-//	IsVpcDnsResolverServerArgs{...}
-type IsVpcDnsResolverServerInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolverServerOutput() IsVpcDnsResolverServerOutput
-	ToIsVpcDnsResolverServerOutputWithContext(context.Context) IsVpcDnsResolverServerOutput
-}
-
-type IsVpcDnsResolverServerArgs struct {
-	// The IP address.This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// Zone name, if present, DHCP configuration for this zone will have this DNS server listed first.
-	ZoneAffinity pulumi.StringPtrInput `pulumi:"zoneAffinity"`
-}
-
-func (IsVpcDnsResolverServerArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolverServer)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolverServerArgs) ToIsVpcDnsResolverServerOutput() IsVpcDnsResolverServerOutput {
-	return i.ToIsVpcDnsResolverServerOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolverServerArgs) ToIsVpcDnsResolverServerOutputWithContext(ctx context.Context) IsVpcDnsResolverServerOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverServerOutput)
-}
-
-// IsVpcDnsResolverServerArrayInput is an input type that accepts IsVpcDnsResolverServerArray and IsVpcDnsResolverServerArrayOutput values.
-// You can construct a concrete instance of `IsVpcDnsResolverServerArrayInput` via:
-//
-//	IsVpcDnsResolverServerArray{ IsVpcDnsResolverServerArgs{...} }
-type IsVpcDnsResolverServerArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcDnsResolverServerArrayOutput() IsVpcDnsResolverServerArrayOutput
-	ToIsVpcDnsResolverServerArrayOutputWithContext(context.Context) IsVpcDnsResolverServerArrayOutput
-}
-
-type IsVpcDnsResolverServerArray []IsVpcDnsResolverServerInput
-
-func (IsVpcDnsResolverServerArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolverServer)(nil)).Elem()
-}
-
-func (i IsVpcDnsResolverServerArray) ToIsVpcDnsResolverServerArrayOutput() IsVpcDnsResolverServerArrayOutput {
-	return i.ToIsVpcDnsResolverServerArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcDnsResolverServerArray) ToIsVpcDnsResolverServerArrayOutputWithContext(ctx context.Context) IsVpcDnsResolverServerArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcDnsResolverServerArrayOutput)
-}
-
-type IsVpcDnsResolverServerOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolverServerOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcDnsResolverServer)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolverServerOutput) ToIsVpcDnsResolverServerOutput() IsVpcDnsResolverServerOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverServerOutput) ToIsVpcDnsResolverServerOutputWithContext(ctx context.Context) IsVpcDnsResolverServerOutput {
-	return o
-}
-
-// The IP address.This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-func (o IsVpcDnsResolverServerOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolverServer) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// Zone name, if present, DHCP configuration for this zone will have this DNS server listed first.
-func (o IsVpcDnsResolverServerOutput) ZoneAffinity() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcDnsResolverServer) *string { return v.ZoneAffinity }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcDnsResolverServerArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcDnsResolverServerArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcDnsResolverServer)(nil)).Elem()
-}
-
-func (o IsVpcDnsResolverServerArrayOutput) ToIsVpcDnsResolverServerArrayOutput() IsVpcDnsResolverServerArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverServerArrayOutput) ToIsVpcDnsResolverServerArrayOutputWithContext(ctx context.Context) IsVpcDnsResolverServerArrayOutput {
-	return o
-}
-
-func (o IsVpcDnsResolverServerArrayOutput) Index(i pulumi.IntInput) IsVpcDnsResolverServerOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcDnsResolverServer {
-		return vs[0].([]IsVpcDnsResolverServer)[vs[1].(int)]
-	}).(IsVpcDnsResolverServerOutput)
-}
-
-type IsVpcHealthReason struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpcHealthReasonInput is an input type that accepts IsVpcHealthReasonArgs and IsVpcHealthReasonOutput values.
-// You can construct a concrete instance of `IsVpcHealthReasonInput` via:
-//
-//	IsVpcHealthReasonArgs{...}
-type IsVpcHealthReasonInput interface {
-	pulumi.Input
-
-	ToIsVpcHealthReasonOutput() IsVpcHealthReasonOutput
-	ToIsVpcHealthReasonOutputWithContext(context.Context) IsVpcHealthReasonOutput
-}
-
-type IsVpcHealthReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpcHealthReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcHealthReason)(nil)).Elem()
-}
-
-func (i IsVpcHealthReasonArgs) ToIsVpcHealthReasonOutput() IsVpcHealthReasonOutput {
-	return i.ToIsVpcHealthReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpcHealthReasonArgs) ToIsVpcHealthReasonOutputWithContext(ctx context.Context) IsVpcHealthReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcHealthReasonOutput)
-}
-
-// IsVpcHealthReasonArrayInput is an input type that accepts IsVpcHealthReasonArray and IsVpcHealthReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpcHealthReasonArrayInput` via:
-//
-//	IsVpcHealthReasonArray{ IsVpcHealthReasonArgs{...} }
-type IsVpcHealthReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcHealthReasonArrayOutput() IsVpcHealthReasonArrayOutput
-	ToIsVpcHealthReasonArrayOutputWithContext(context.Context) IsVpcHealthReasonArrayOutput
-}
-
-type IsVpcHealthReasonArray []IsVpcHealthReasonInput
-
-func (IsVpcHealthReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcHealthReason)(nil)).Elem()
-}
-
-func (i IsVpcHealthReasonArray) ToIsVpcHealthReasonArrayOutput() IsVpcHealthReasonArrayOutput {
-	return i.ToIsVpcHealthReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcHealthReasonArray) ToIsVpcHealthReasonArrayOutputWithContext(ctx context.Context) IsVpcHealthReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcHealthReasonArrayOutput)
-}
-
-type IsVpcHealthReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpcHealthReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcHealthReason)(nil)).Elem()
-}
-
-func (o IsVpcHealthReasonOutput) ToIsVpcHealthReasonOutput() IsVpcHealthReasonOutput {
-	return o
-}
-
-func (o IsVpcHealthReasonOutput) ToIsVpcHealthReasonOutputWithContext(ctx context.Context) IsVpcHealthReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this health state.
-func (o IsVpcHealthReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcHealthReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this health state.
-func (o IsVpcHealthReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcHealthReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this health state.
-func (o IsVpcHealthReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcHealthReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcHealthReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcHealthReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcHealthReason)(nil)).Elem()
-}
-
-func (o IsVpcHealthReasonArrayOutput) ToIsVpcHealthReasonArrayOutput() IsVpcHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpcHealthReasonArrayOutput) ToIsVpcHealthReasonArrayOutputWithContext(ctx context.Context) IsVpcHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpcHealthReasonArrayOutput) Index(i pulumi.IntInput) IsVpcHealthReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcHealthReason {
-		return vs[0].([]IsVpcHealthReason)[vs[1].(int)]
-	}).(IsVpcHealthReasonOutput)
-}
-
-type IsVpcPublicAddressRange struct {
-	// The CRN for this public address range.
-	Crn *string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds []IsVpcPublicAddressRangeDeleted `pulumi:"deleteds"`
-	// The URL for this public address range.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this public address range.
-	Id *string `pulumi:"id"`
-	// The name for this public address range. The name is unique across all public address ranges in the region.
-	Name *string `pulumi:"name"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpcPublicAddressRangeInput is an input type that accepts IsVpcPublicAddressRangeArgs and IsVpcPublicAddressRangeOutput values.
-// You can construct a concrete instance of `IsVpcPublicAddressRangeInput` via:
-//
-//	IsVpcPublicAddressRangeArgs{...}
-type IsVpcPublicAddressRangeInput interface {
-	pulumi.Input
-
-	ToIsVpcPublicAddressRangeOutput() IsVpcPublicAddressRangeOutput
-	ToIsVpcPublicAddressRangeOutputWithContext(context.Context) IsVpcPublicAddressRangeOutput
-}
-
-type IsVpcPublicAddressRangeArgs struct {
-	// The CRN for this public address range.
-	Crn pulumi.StringPtrInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds IsVpcPublicAddressRangeDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this public address range.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this public address range.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The name for this public address range. The name is unique across all public address ranges in the region.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpcPublicAddressRangeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcPublicAddressRange)(nil)).Elem()
-}
-
-func (i IsVpcPublicAddressRangeArgs) ToIsVpcPublicAddressRangeOutput() IsVpcPublicAddressRangeOutput {
-	return i.ToIsVpcPublicAddressRangeOutputWithContext(context.Background())
-}
-
-func (i IsVpcPublicAddressRangeArgs) ToIsVpcPublicAddressRangeOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcPublicAddressRangeOutput)
-}
-
-// IsVpcPublicAddressRangeArrayInput is an input type that accepts IsVpcPublicAddressRangeArray and IsVpcPublicAddressRangeArrayOutput values.
-// You can construct a concrete instance of `IsVpcPublicAddressRangeArrayInput` via:
-//
-//	IsVpcPublicAddressRangeArray{ IsVpcPublicAddressRangeArgs{...} }
-type IsVpcPublicAddressRangeArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcPublicAddressRangeArrayOutput() IsVpcPublicAddressRangeArrayOutput
-	ToIsVpcPublicAddressRangeArrayOutputWithContext(context.Context) IsVpcPublicAddressRangeArrayOutput
-}
-
-type IsVpcPublicAddressRangeArray []IsVpcPublicAddressRangeInput
-
-func (IsVpcPublicAddressRangeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcPublicAddressRange)(nil)).Elem()
-}
-
-func (i IsVpcPublicAddressRangeArray) ToIsVpcPublicAddressRangeArrayOutput() IsVpcPublicAddressRangeArrayOutput {
-	return i.ToIsVpcPublicAddressRangeArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcPublicAddressRangeArray) ToIsVpcPublicAddressRangeArrayOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcPublicAddressRangeArrayOutput)
-}
-
-type IsVpcPublicAddressRangeOutput struct{ *pulumi.OutputState }
-
-func (IsVpcPublicAddressRangeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcPublicAddressRange)(nil)).Elem()
-}
-
-func (o IsVpcPublicAddressRangeOutput) ToIsVpcPublicAddressRangeOutput() IsVpcPublicAddressRangeOutput {
-	return o
-}
-
-func (o IsVpcPublicAddressRangeOutput) ToIsVpcPublicAddressRangeOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeOutput {
-	return o
-}
-
-// The CRN for this public address range.
-func (o IsVpcPublicAddressRangeOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRange) *string { return v.Crn }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-func (o IsVpcPublicAddressRangeOutput) Deleteds() IsVpcPublicAddressRangeDeletedArrayOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRange) []IsVpcPublicAddressRangeDeleted { return v.Deleteds }).(IsVpcPublicAddressRangeDeletedArrayOutput)
-}
-
-// The URL for this public address range.
-func (o IsVpcPublicAddressRangeOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRange) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this public address range.
-func (o IsVpcPublicAddressRangeOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRange) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The name for this public address range. The name is unique across all public address ranges in the region.
-func (o IsVpcPublicAddressRangeOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRange) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// The resource type.
-func (o IsVpcPublicAddressRangeOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRange) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcPublicAddressRangeArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcPublicAddressRangeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcPublicAddressRange)(nil)).Elem()
-}
-
-func (o IsVpcPublicAddressRangeArrayOutput) ToIsVpcPublicAddressRangeArrayOutput() IsVpcPublicAddressRangeArrayOutput {
-	return o
-}
-
-func (o IsVpcPublicAddressRangeArrayOutput) ToIsVpcPublicAddressRangeArrayOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeArrayOutput {
-	return o
-}
-
-func (o IsVpcPublicAddressRangeArrayOutput) Index(i pulumi.IntInput) IsVpcPublicAddressRangeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcPublicAddressRange {
-		return vs[0].([]IsVpcPublicAddressRange)[vs[1].(int)]
-	}).(IsVpcPublicAddressRangeOutput)
-}
-
-type IsVpcPublicAddressRangeDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpcPublicAddressRangeDeletedInput is an input type that accepts IsVpcPublicAddressRangeDeletedArgs and IsVpcPublicAddressRangeDeletedOutput values.
-// You can construct a concrete instance of `IsVpcPublicAddressRangeDeletedInput` via:
-//
-//	IsVpcPublicAddressRangeDeletedArgs{...}
-type IsVpcPublicAddressRangeDeletedInput interface {
-	pulumi.Input
-
-	ToIsVpcPublicAddressRangeDeletedOutput() IsVpcPublicAddressRangeDeletedOutput
-	ToIsVpcPublicAddressRangeDeletedOutputWithContext(context.Context) IsVpcPublicAddressRangeDeletedOutput
-}
-
-type IsVpcPublicAddressRangeDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpcPublicAddressRangeDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcPublicAddressRangeDeleted)(nil)).Elem()
-}
-
-func (i IsVpcPublicAddressRangeDeletedArgs) ToIsVpcPublicAddressRangeDeletedOutput() IsVpcPublicAddressRangeDeletedOutput {
-	return i.ToIsVpcPublicAddressRangeDeletedOutputWithContext(context.Background())
-}
-
-func (i IsVpcPublicAddressRangeDeletedArgs) ToIsVpcPublicAddressRangeDeletedOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcPublicAddressRangeDeletedOutput)
-}
-
-// IsVpcPublicAddressRangeDeletedArrayInput is an input type that accepts IsVpcPublicAddressRangeDeletedArray and IsVpcPublicAddressRangeDeletedArrayOutput values.
-// You can construct a concrete instance of `IsVpcPublicAddressRangeDeletedArrayInput` via:
-//
-//	IsVpcPublicAddressRangeDeletedArray{ IsVpcPublicAddressRangeDeletedArgs{...} }
-type IsVpcPublicAddressRangeDeletedArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcPublicAddressRangeDeletedArrayOutput() IsVpcPublicAddressRangeDeletedArrayOutput
-	ToIsVpcPublicAddressRangeDeletedArrayOutputWithContext(context.Context) IsVpcPublicAddressRangeDeletedArrayOutput
-}
-
-type IsVpcPublicAddressRangeDeletedArray []IsVpcPublicAddressRangeDeletedInput
-
-func (IsVpcPublicAddressRangeDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcPublicAddressRangeDeleted)(nil)).Elem()
-}
-
-func (i IsVpcPublicAddressRangeDeletedArray) ToIsVpcPublicAddressRangeDeletedArrayOutput() IsVpcPublicAddressRangeDeletedArrayOutput {
-	return i.ToIsVpcPublicAddressRangeDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcPublicAddressRangeDeletedArray) ToIsVpcPublicAddressRangeDeletedArrayOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcPublicAddressRangeDeletedArrayOutput)
-}
-
-type IsVpcPublicAddressRangeDeletedOutput struct{ *pulumi.OutputState }
-
-func (IsVpcPublicAddressRangeDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcPublicAddressRangeDeleted)(nil)).Elem()
-}
-
-func (o IsVpcPublicAddressRangeDeletedOutput) ToIsVpcPublicAddressRangeDeletedOutput() IsVpcPublicAddressRangeDeletedOutput {
-	return o
-}
-
-func (o IsVpcPublicAddressRangeDeletedOutput) ToIsVpcPublicAddressRangeDeletedOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o IsVpcPublicAddressRangeDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcPublicAddressRangeDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcPublicAddressRangeDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcPublicAddressRangeDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcPublicAddressRangeDeleted)(nil)).Elem()
-}
-
-func (o IsVpcPublicAddressRangeDeletedArrayOutput) ToIsVpcPublicAddressRangeDeletedArrayOutput() IsVpcPublicAddressRangeDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpcPublicAddressRangeDeletedArrayOutput) ToIsVpcPublicAddressRangeDeletedArrayOutputWithContext(ctx context.Context) IsVpcPublicAddressRangeDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpcPublicAddressRangeDeletedArrayOutput) Index(i pulumi.IntInput) IsVpcPublicAddressRangeDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcPublicAddressRangeDeleted {
-		return vs[0].([]IsVpcPublicAddressRangeDeleted)[vs[1].(int)]
-	}).(IsVpcPublicAddressRangeDeletedOutput)
-}
-
-type IsVpcRoutingTableResourceGroup struct {
-	// The URL for this resource group.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this resource group.
-	Id *string `pulumi:"id"`
-	// The user-defined name for this resource group.
-	Name *string `pulumi:"name"`
-}
-
-// IsVpcRoutingTableResourceGroupInput is an input type that accepts IsVpcRoutingTableResourceGroupArgs and IsVpcRoutingTableResourceGroupOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableResourceGroupInput` via:
-//
-//	IsVpcRoutingTableResourceGroupArgs{...}
-type IsVpcRoutingTableResourceGroupInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableResourceGroupOutput() IsVpcRoutingTableResourceGroupOutput
-	ToIsVpcRoutingTableResourceGroupOutputWithContext(context.Context) IsVpcRoutingTableResourceGroupOutput
-}
-
-type IsVpcRoutingTableResourceGroupArgs struct {
-	// The URL for this resource group.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this resource group.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The user-defined name for this resource group.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-}
-
-func (IsVpcRoutingTableResourceGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableResourceGroup)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableResourceGroupArgs) ToIsVpcRoutingTableResourceGroupOutput() IsVpcRoutingTableResourceGroupOutput {
-	return i.ToIsVpcRoutingTableResourceGroupOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableResourceGroupArgs) ToIsVpcRoutingTableResourceGroupOutputWithContext(ctx context.Context) IsVpcRoutingTableResourceGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableResourceGroupOutput)
-}
-
-// IsVpcRoutingTableResourceGroupArrayInput is an input type that accepts IsVpcRoutingTableResourceGroupArray and IsVpcRoutingTableResourceGroupArrayOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableResourceGroupArrayInput` via:
-//
-//	IsVpcRoutingTableResourceGroupArray{ IsVpcRoutingTableResourceGroupArgs{...} }
-type IsVpcRoutingTableResourceGroupArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableResourceGroupArrayOutput() IsVpcRoutingTableResourceGroupArrayOutput
-	ToIsVpcRoutingTableResourceGroupArrayOutputWithContext(context.Context) IsVpcRoutingTableResourceGroupArrayOutput
-}
-
-type IsVpcRoutingTableResourceGroupArray []IsVpcRoutingTableResourceGroupInput
-
-func (IsVpcRoutingTableResourceGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableResourceGroup)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableResourceGroupArray) ToIsVpcRoutingTableResourceGroupArrayOutput() IsVpcRoutingTableResourceGroupArrayOutput {
-	return i.ToIsVpcRoutingTableResourceGroupArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableResourceGroupArray) ToIsVpcRoutingTableResourceGroupArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableResourceGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableResourceGroupArrayOutput)
-}
-
-type IsVpcRoutingTableResourceGroupOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableResourceGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableResourceGroup)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableResourceGroupOutput) ToIsVpcRoutingTableResourceGroupOutput() IsVpcRoutingTableResourceGroupOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableResourceGroupOutput) ToIsVpcRoutingTableResourceGroupOutputWithContext(ctx context.Context) IsVpcRoutingTableResourceGroupOutput {
-	return o
-}
-
-// The URL for this resource group.
-func (o IsVpcRoutingTableResourceGroupOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableResourceGroup) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this resource group.
-func (o IsVpcRoutingTableResourceGroupOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableResourceGroup) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The user-defined name for this resource group.
-func (o IsVpcRoutingTableResourceGroupOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableResourceGroup) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcRoutingTableResourceGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableResourceGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableResourceGroup)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableResourceGroupArrayOutput) ToIsVpcRoutingTableResourceGroupArrayOutput() IsVpcRoutingTableResourceGroupArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableResourceGroupArrayOutput) ToIsVpcRoutingTableResourceGroupArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableResourceGroupArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableResourceGroupArrayOutput) Index(i pulumi.IntInput) IsVpcRoutingTableResourceGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcRoutingTableResourceGroup {
-		return vs[0].([]IsVpcRoutingTableResourceGroup)[vs[1].(int)]
-	}).(IsVpcRoutingTableResourceGroupOutput)
-}
-
-type IsVpcRoutingTableRouteCreator struct {
-	// The VPN gateway's CRN.
-	Crn *string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []IsVpcRoutingTableRouteCreatorDeleted `pulumi:"deleteds"`
-	// The VPN gateway's canonical URL.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this VPN gateway.
-	Id *string `pulumi:"id"`
-	// The user-defined name for this VPN gateway.
-	Name *string `pulumi:"name"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpcRoutingTableRouteCreatorInput is an input type that accepts IsVpcRoutingTableRouteCreatorArgs and IsVpcRoutingTableRouteCreatorOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableRouteCreatorInput` via:
-//
-//	IsVpcRoutingTableRouteCreatorArgs{...}
-type IsVpcRoutingTableRouteCreatorInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableRouteCreatorOutput() IsVpcRoutingTableRouteCreatorOutput
-	ToIsVpcRoutingTableRouteCreatorOutputWithContext(context.Context) IsVpcRoutingTableRouteCreatorOutput
-}
-
-type IsVpcRoutingTableRouteCreatorArgs struct {
-	// The VPN gateway's CRN.
-	Crn pulumi.StringPtrInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds IsVpcRoutingTableRouteCreatorDeletedArrayInput `pulumi:"deleteds"`
-	// The VPN gateway's canonical URL.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this VPN gateway.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The user-defined name for this VPN gateway.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpcRoutingTableRouteCreatorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableRouteCreator)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableRouteCreatorArgs) ToIsVpcRoutingTableRouteCreatorOutput() IsVpcRoutingTableRouteCreatorOutput {
-	return i.ToIsVpcRoutingTableRouteCreatorOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableRouteCreatorArgs) ToIsVpcRoutingTableRouteCreatorOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableRouteCreatorOutput)
-}
-
-// IsVpcRoutingTableRouteCreatorArrayInput is an input type that accepts IsVpcRoutingTableRouteCreatorArray and IsVpcRoutingTableRouteCreatorArrayOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableRouteCreatorArrayInput` via:
-//
-//	IsVpcRoutingTableRouteCreatorArray{ IsVpcRoutingTableRouteCreatorArgs{...} }
-type IsVpcRoutingTableRouteCreatorArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableRouteCreatorArrayOutput() IsVpcRoutingTableRouteCreatorArrayOutput
-	ToIsVpcRoutingTableRouteCreatorArrayOutputWithContext(context.Context) IsVpcRoutingTableRouteCreatorArrayOutput
-}
-
-type IsVpcRoutingTableRouteCreatorArray []IsVpcRoutingTableRouteCreatorInput
-
-func (IsVpcRoutingTableRouteCreatorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableRouteCreator)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableRouteCreatorArray) ToIsVpcRoutingTableRouteCreatorArrayOutput() IsVpcRoutingTableRouteCreatorArrayOutput {
-	return i.ToIsVpcRoutingTableRouteCreatorArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableRouteCreatorArray) ToIsVpcRoutingTableRouteCreatorArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableRouteCreatorArrayOutput)
-}
-
-type IsVpcRoutingTableRouteCreatorOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableRouteCreatorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableRouteCreator)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableRouteCreatorOutput) ToIsVpcRoutingTableRouteCreatorOutput() IsVpcRoutingTableRouteCreatorOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableRouteCreatorOutput) ToIsVpcRoutingTableRouteCreatorOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorOutput {
-	return o
-}
-
-// The VPN gateway's CRN.
-func (o IsVpcRoutingTableRouteCreatorOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreator) *string { return v.Crn }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o IsVpcRoutingTableRouteCreatorOutput) Deleteds() IsVpcRoutingTableRouteCreatorDeletedArrayOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreator) []IsVpcRoutingTableRouteCreatorDeleted { return v.Deleteds }).(IsVpcRoutingTableRouteCreatorDeletedArrayOutput)
-}
-
-// The VPN gateway's canonical URL.
-func (o IsVpcRoutingTableRouteCreatorOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreator) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this VPN gateway.
-func (o IsVpcRoutingTableRouteCreatorOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreator) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The user-defined name for this VPN gateway.
-func (o IsVpcRoutingTableRouteCreatorOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreator) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// The resource type.
-func (o IsVpcRoutingTableRouteCreatorOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreator) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcRoutingTableRouteCreatorArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableRouteCreatorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableRouteCreator)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableRouteCreatorArrayOutput) ToIsVpcRoutingTableRouteCreatorArrayOutput() IsVpcRoutingTableRouteCreatorArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableRouteCreatorArrayOutput) ToIsVpcRoutingTableRouteCreatorArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableRouteCreatorArrayOutput) Index(i pulumi.IntInput) IsVpcRoutingTableRouteCreatorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcRoutingTableRouteCreator {
-		return vs[0].([]IsVpcRoutingTableRouteCreator)[vs[1].(int)]
-	}).(IsVpcRoutingTableRouteCreatorOutput)
-}
-
-type IsVpcRoutingTableRouteCreatorDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpcRoutingTableRouteCreatorDeletedInput is an input type that accepts IsVpcRoutingTableRouteCreatorDeletedArgs and IsVpcRoutingTableRouteCreatorDeletedOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableRouteCreatorDeletedInput` via:
-//
-//	IsVpcRoutingTableRouteCreatorDeletedArgs{...}
-type IsVpcRoutingTableRouteCreatorDeletedInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableRouteCreatorDeletedOutput() IsVpcRoutingTableRouteCreatorDeletedOutput
-	ToIsVpcRoutingTableRouteCreatorDeletedOutputWithContext(context.Context) IsVpcRoutingTableRouteCreatorDeletedOutput
-}
-
-type IsVpcRoutingTableRouteCreatorDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpcRoutingTableRouteCreatorDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableRouteCreatorDeleted)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableRouteCreatorDeletedArgs) ToIsVpcRoutingTableRouteCreatorDeletedOutput() IsVpcRoutingTableRouteCreatorDeletedOutput {
-	return i.ToIsVpcRoutingTableRouteCreatorDeletedOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableRouteCreatorDeletedArgs) ToIsVpcRoutingTableRouteCreatorDeletedOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableRouteCreatorDeletedOutput)
-}
-
-// IsVpcRoutingTableRouteCreatorDeletedArrayInput is an input type that accepts IsVpcRoutingTableRouteCreatorDeletedArray and IsVpcRoutingTableRouteCreatorDeletedArrayOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableRouteCreatorDeletedArrayInput` via:
-//
-//	IsVpcRoutingTableRouteCreatorDeletedArray{ IsVpcRoutingTableRouteCreatorDeletedArgs{...} }
-type IsVpcRoutingTableRouteCreatorDeletedArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableRouteCreatorDeletedArrayOutput() IsVpcRoutingTableRouteCreatorDeletedArrayOutput
-	ToIsVpcRoutingTableRouteCreatorDeletedArrayOutputWithContext(context.Context) IsVpcRoutingTableRouteCreatorDeletedArrayOutput
-}
-
-type IsVpcRoutingTableRouteCreatorDeletedArray []IsVpcRoutingTableRouteCreatorDeletedInput
-
-func (IsVpcRoutingTableRouteCreatorDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableRouteCreatorDeleted)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableRouteCreatorDeletedArray) ToIsVpcRoutingTableRouteCreatorDeletedArrayOutput() IsVpcRoutingTableRouteCreatorDeletedArrayOutput {
-	return i.ToIsVpcRoutingTableRouteCreatorDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableRouteCreatorDeletedArray) ToIsVpcRoutingTableRouteCreatorDeletedArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableRouteCreatorDeletedArrayOutput)
-}
-
-type IsVpcRoutingTableRouteCreatorDeletedOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableRouteCreatorDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableRouteCreatorDeleted)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableRouteCreatorDeletedOutput) ToIsVpcRoutingTableRouteCreatorDeletedOutput() IsVpcRoutingTableRouteCreatorDeletedOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableRouteCreatorDeletedOutput) ToIsVpcRoutingTableRouteCreatorDeletedOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o IsVpcRoutingTableRouteCreatorDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableRouteCreatorDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcRoutingTableRouteCreatorDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableRouteCreatorDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableRouteCreatorDeleted)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableRouteCreatorDeletedArrayOutput) ToIsVpcRoutingTableRouteCreatorDeletedArrayOutput() IsVpcRoutingTableRouteCreatorDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableRouteCreatorDeletedArrayOutput) ToIsVpcRoutingTableRouteCreatorDeletedArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableRouteCreatorDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableRouteCreatorDeletedArrayOutput) Index(i pulumi.IntInput) IsVpcRoutingTableRouteCreatorDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcRoutingTableRouteCreatorDeleted {
-		return vs[0].([]IsVpcRoutingTableRouteCreatorDeleted)[vs[1].(int)]
-	}).(IsVpcRoutingTableRouteCreatorDeletedOutput)
-}
-
-type IsVpcRoutingTableSubnet struct {
-	// Subnet ID
-	Id *string `pulumi:"id"`
-	// Subnet name
-	Name *string `pulumi:"name"`
-}
-
-// IsVpcRoutingTableSubnetInput is an input type that accepts IsVpcRoutingTableSubnetArgs and IsVpcRoutingTableSubnetOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableSubnetInput` via:
-//
-//	IsVpcRoutingTableSubnetArgs{...}
-type IsVpcRoutingTableSubnetInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableSubnetOutput() IsVpcRoutingTableSubnetOutput
-	ToIsVpcRoutingTableSubnetOutputWithContext(context.Context) IsVpcRoutingTableSubnetOutput
-}
-
-type IsVpcRoutingTableSubnetArgs struct {
-	// Subnet ID
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// Subnet name
-	Name pulumi.StringPtrInput `pulumi:"name"`
-}
-
-func (IsVpcRoutingTableSubnetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableSubnet)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableSubnetArgs) ToIsVpcRoutingTableSubnetOutput() IsVpcRoutingTableSubnetOutput {
-	return i.ToIsVpcRoutingTableSubnetOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableSubnetArgs) ToIsVpcRoutingTableSubnetOutputWithContext(ctx context.Context) IsVpcRoutingTableSubnetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableSubnetOutput)
-}
-
-// IsVpcRoutingTableSubnetArrayInput is an input type that accepts IsVpcRoutingTableSubnetArray and IsVpcRoutingTableSubnetArrayOutput values.
-// You can construct a concrete instance of `IsVpcRoutingTableSubnetArrayInput` via:
-//
-//	IsVpcRoutingTableSubnetArray{ IsVpcRoutingTableSubnetArgs{...} }
-type IsVpcRoutingTableSubnetArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcRoutingTableSubnetArrayOutput() IsVpcRoutingTableSubnetArrayOutput
-	ToIsVpcRoutingTableSubnetArrayOutputWithContext(context.Context) IsVpcRoutingTableSubnetArrayOutput
-}
-
-type IsVpcRoutingTableSubnetArray []IsVpcRoutingTableSubnetInput
-
-func (IsVpcRoutingTableSubnetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableSubnet)(nil)).Elem()
-}
-
-func (i IsVpcRoutingTableSubnetArray) ToIsVpcRoutingTableSubnetArrayOutput() IsVpcRoutingTableSubnetArrayOutput {
-	return i.ToIsVpcRoutingTableSubnetArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcRoutingTableSubnetArray) ToIsVpcRoutingTableSubnetArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableSubnetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcRoutingTableSubnetArrayOutput)
-}
-
-type IsVpcRoutingTableSubnetOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableSubnetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcRoutingTableSubnet)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableSubnetOutput) ToIsVpcRoutingTableSubnetOutput() IsVpcRoutingTableSubnetOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableSubnetOutput) ToIsVpcRoutingTableSubnetOutputWithContext(ctx context.Context) IsVpcRoutingTableSubnetOutput {
-	return o
-}
-
-// Subnet ID
-func (o IsVpcRoutingTableSubnetOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableSubnet) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// Subnet name
-func (o IsVpcRoutingTableSubnetOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcRoutingTableSubnet) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcRoutingTableSubnetArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcRoutingTableSubnetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcRoutingTableSubnet)(nil)).Elem()
-}
-
-func (o IsVpcRoutingTableSubnetArrayOutput) ToIsVpcRoutingTableSubnetArrayOutput() IsVpcRoutingTableSubnetArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableSubnetArrayOutput) ToIsVpcRoutingTableSubnetArrayOutputWithContext(ctx context.Context) IsVpcRoutingTableSubnetArrayOutput {
-	return o
-}
-
-func (o IsVpcRoutingTableSubnetArrayOutput) Index(i pulumi.IntInput) IsVpcRoutingTableSubnetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcRoutingTableSubnet {
-		return vs[0].([]IsVpcRoutingTableSubnet)[vs[1].(int)]
-	}).(IsVpcRoutingTableSubnetOutput)
-}
-
-type IsVpcSecurityGroup struct {
-	// Security group id
-	GroupId *string `pulumi:"groupId"`
-	// Security group name
-	GroupName *string `pulumi:"groupName"`
-	// Security Rules
-	Rules []IsVpcSecurityGroupRule `pulumi:"rules"`
-}
-
-// IsVpcSecurityGroupInput is an input type that accepts IsVpcSecurityGroupArgs and IsVpcSecurityGroupOutput values.
-// You can construct a concrete instance of `IsVpcSecurityGroupInput` via:
-//
-//	IsVpcSecurityGroupArgs{...}
-type IsVpcSecurityGroupInput interface {
-	pulumi.Input
-
-	ToIsVpcSecurityGroupOutput() IsVpcSecurityGroupOutput
-	ToIsVpcSecurityGroupOutputWithContext(context.Context) IsVpcSecurityGroupOutput
-}
-
-type IsVpcSecurityGroupArgs struct {
-	// Security group id
-	GroupId pulumi.StringPtrInput `pulumi:"groupId"`
-	// Security group name
-	GroupName pulumi.StringPtrInput `pulumi:"groupName"`
-	// Security Rules
-	Rules IsVpcSecurityGroupRuleArrayInput `pulumi:"rules"`
-}
-
-func (IsVpcSecurityGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcSecurityGroup)(nil)).Elem()
-}
-
-func (i IsVpcSecurityGroupArgs) ToIsVpcSecurityGroupOutput() IsVpcSecurityGroupOutput {
-	return i.ToIsVpcSecurityGroupOutputWithContext(context.Background())
-}
-
-func (i IsVpcSecurityGroupArgs) ToIsVpcSecurityGroupOutputWithContext(ctx context.Context) IsVpcSecurityGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcSecurityGroupOutput)
-}
-
-// IsVpcSecurityGroupArrayInput is an input type that accepts IsVpcSecurityGroupArray and IsVpcSecurityGroupArrayOutput values.
-// You can construct a concrete instance of `IsVpcSecurityGroupArrayInput` via:
-//
-//	IsVpcSecurityGroupArray{ IsVpcSecurityGroupArgs{...} }
-type IsVpcSecurityGroupArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcSecurityGroupArrayOutput() IsVpcSecurityGroupArrayOutput
-	ToIsVpcSecurityGroupArrayOutputWithContext(context.Context) IsVpcSecurityGroupArrayOutput
-}
-
-type IsVpcSecurityGroupArray []IsVpcSecurityGroupInput
-
-func (IsVpcSecurityGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcSecurityGroup)(nil)).Elem()
-}
-
-func (i IsVpcSecurityGroupArray) ToIsVpcSecurityGroupArrayOutput() IsVpcSecurityGroupArrayOutput {
-	return i.ToIsVpcSecurityGroupArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcSecurityGroupArray) ToIsVpcSecurityGroupArrayOutputWithContext(ctx context.Context) IsVpcSecurityGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcSecurityGroupArrayOutput)
-}
-
-type IsVpcSecurityGroupOutput struct{ *pulumi.OutputState }
-
-func (IsVpcSecurityGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcSecurityGroup)(nil)).Elem()
-}
-
-func (o IsVpcSecurityGroupOutput) ToIsVpcSecurityGroupOutput() IsVpcSecurityGroupOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupOutput) ToIsVpcSecurityGroupOutputWithContext(ctx context.Context) IsVpcSecurityGroupOutput {
-	return o
-}
-
-// Security group id
-func (o IsVpcSecurityGroupOutput) GroupId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroup) *string { return v.GroupId }).(pulumi.StringPtrOutput)
-}
-
-// Security group name
-func (o IsVpcSecurityGroupOutput) GroupName() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroup) *string { return v.GroupName }).(pulumi.StringPtrOutput)
-}
-
-// Security Rules
-func (o IsVpcSecurityGroupOutput) Rules() IsVpcSecurityGroupRuleArrayOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroup) []IsVpcSecurityGroupRule { return v.Rules }).(IsVpcSecurityGroupRuleArrayOutput)
-}
-
-type IsVpcSecurityGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcSecurityGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcSecurityGroup)(nil)).Elem()
-}
-
-func (o IsVpcSecurityGroupArrayOutput) ToIsVpcSecurityGroupArrayOutput() IsVpcSecurityGroupArrayOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupArrayOutput) ToIsVpcSecurityGroupArrayOutputWithContext(ctx context.Context) IsVpcSecurityGroupArrayOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupArrayOutput) Index(i pulumi.IntInput) IsVpcSecurityGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcSecurityGroup {
-		return vs[0].([]IsVpcSecurityGroup)[vs[1].(int)]
-	}).(IsVpcSecurityGroupOutput)
-}
-
-type IsVpcSecurityGroupRule struct {
-	Code *int `pulumi:"code"`
-	// Direction of traffic to enforce, either inbound or outbound
-	Direction *string `pulumi:"direction"`
-	// IP version: ipv4
-	IpVersion *string `pulumi:"ipVersion"`
-	PortMax   *int    `pulumi:"portMax"`
-	PortMin   *int    `pulumi:"portMin"`
-	Protocol  *string `pulumi:"protocol"`
-	// Security group id: an IP address, a CIDR block, or a single security group identifier
-	Remote *string `pulumi:"remote"`
-	// Rule ID
-	RuleId *string `pulumi:"ruleId"`
-	Type   *int    `pulumi:"type"`
-}
-
-// IsVpcSecurityGroupRuleInput is an input type that accepts IsVpcSecurityGroupRuleArgs and IsVpcSecurityGroupRuleOutput values.
-// You can construct a concrete instance of `IsVpcSecurityGroupRuleInput` via:
-//
-//	IsVpcSecurityGroupRuleArgs{...}
-type IsVpcSecurityGroupRuleInput interface {
-	pulumi.Input
-
-	ToIsVpcSecurityGroupRuleOutput() IsVpcSecurityGroupRuleOutput
-	ToIsVpcSecurityGroupRuleOutputWithContext(context.Context) IsVpcSecurityGroupRuleOutput
-}
-
-type IsVpcSecurityGroupRuleArgs struct {
-	Code pulumi.IntPtrInput `pulumi:"code"`
-	// Direction of traffic to enforce, either inbound or outbound
-	Direction pulumi.StringPtrInput `pulumi:"direction"`
-	// IP version: ipv4
-	IpVersion pulumi.StringPtrInput `pulumi:"ipVersion"`
-	PortMax   pulumi.IntPtrInput    `pulumi:"portMax"`
-	PortMin   pulumi.IntPtrInput    `pulumi:"portMin"`
-	Protocol  pulumi.StringPtrInput `pulumi:"protocol"`
-	// Security group id: an IP address, a CIDR block, or a single security group identifier
-	Remote pulumi.StringPtrInput `pulumi:"remote"`
-	// Rule ID
-	RuleId pulumi.StringPtrInput `pulumi:"ruleId"`
-	Type   pulumi.IntPtrInput    `pulumi:"type"`
-}
-
-func (IsVpcSecurityGroupRuleArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcSecurityGroupRule)(nil)).Elem()
-}
-
-func (i IsVpcSecurityGroupRuleArgs) ToIsVpcSecurityGroupRuleOutput() IsVpcSecurityGroupRuleOutput {
-	return i.ToIsVpcSecurityGroupRuleOutputWithContext(context.Background())
-}
-
-func (i IsVpcSecurityGroupRuleArgs) ToIsVpcSecurityGroupRuleOutputWithContext(ctx context.Context) IsVpcSecurityGroupRuleOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcSecurityGroupRuleOutput)
-}
-
-// IsVpcSecurityGroupRuleArrayInput is an input type that accepts IsVpcSecurityGroupRuleArray and IsVpcSecurityGroupRuleArrayOutput values.
-// You can construct a concrete instance of `IsVpcSecurityGroupRuleArrayInput` via:
-//
-//	IsVpcSecurityGroupRuleArray{ IsVpcSecurityGroupRuleArgs{...} }
-type IsVpcSecurityGroupRuleArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcSecurityGroupRuleArrayOutput() IsVpcSecurityGroupRuleArrayOutput
-	ToIsVpcSecurityGroupRuleArrayOutputWithContext(context.Context) IsVpcSecurityGroupRuleArrayOutput
-}
-
-type IsVpcSecurityGroupRuleArray []IsVpcSecurityGroupRuleInput
-
-func (IsVpcSecurityGroupRuleArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcSecurityGroupRule)(nil)).Elem()
-}
-
-func (i IsVpcSecurityGroupRuleArray) ToIsVpcSecurityGroupRuleArrayOutput() IsVpcSecurityGroupRuleArrayOutput {
-	return i.ToIsVpcSecurityGroupRuleArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcSecurityGroupRuleArray) ToIsVpcSecurityGroupRuleArrayOutputWithContext(ctx context.Context) IsVpcSecurityGroupRuleArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcSecurityGroupRuleArrayOutput)
-}
-
-type IsVpcSecurityGroupRuleOutput struct{ *pulumi.OutputState }
-
-func (IsVpcSecurityGroupRuleOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcSecurityGroupRule)(nil)).Elem()
-}
-
-func (o IsVpcSecurityGroupRuleOutput) ToIsVpcSecurityGroupRuleOutput() IsVpcSecurityGroupRuleOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupRuleOutput) ToIsVpcSecurityGroupRuleOutputWithContext(ctx context.Context) IsVpcSecurityGroupRuleOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupRuleOutput) Code() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *int { return v.Code }).(pulumi.IntPtrOutput)
-}
-
-// Direction of traffic to enforce, either inbound or outbound
-func (o IsVpcSecurityGroupRuleOutput) Direction() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *string { return v.Direction }).(pulumi.StringPtrOutput)
-}
-
-// IP version: ipv4
-func (o IsVpcSecurityGroupRuleOutput) IpVersion() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *string { return v.IpVersion }).(pulumi.StringPtrOutput)
-}
-
-func (o IsVpcSecurityGroupRuleOutput) PortMax() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *int { return v.PortMax }).(pulumi.IntPtrOutput)
-}
-
-func (o IsVpcSecurityGroupRuleOutput) PortMin() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *int { return v.PortMin }).(pulumi.IntPtrOutput)
-}
-
-func (o IsVpcSecurityGroupRuleOutput) Protocol() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *string { return v.Protocol }).(pulumi.StringPtrOutput)
-}
-
-// Security group id: an IP address, a CIDR block, or a single security group identifier
-func (o IsVpcSecurityGroupRuleOutput) Remote() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *string { return v.Remote }).(pulumi.StringPtrOutput)
-}
-
-// Rule ID
-func (o IsVpcSecurityGroupRuleOutput) RuleId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *string { return v.RuleId }).(pulumi.StringPtrOutput)
-}
-
-func (o IsVpcSecurityGroupRuleOutput) Type() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcSecurityGroupRule) *int { return v.Type }).(pulumi.IntPtrOutput)
-}
-
-type IsVpcSecurityGroupRuleArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcSecurityGroupRuleArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcSecurityGroupRule)(nil)).Elem()
-}
-
-func (o IsVpcSecurityGroupRuleArrayOutput) ToIsVpcSecurityGroupRuleArrayOutput() IsVpcSecurityGroupRuleArrayOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupRuleArrayOutput) ToIsVpcSecurityGroupRuleArrayOutputWithContext(ctx context.Context) IsVpcSecurityGroupRuleArrayOutput {
-	return o
-}
-
-func (o IsVpcSecurityGroupRuleArrayOutput) Index(i pulumi.IntInput) IsVpcSecurityGroupRuleOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcSecurityGroupRule {
-		return vs[0].([]IsVpcSecurityGroupRule)[vs[1].(int)]
-	}).(IsVpcSecurityGroupRuleOutput)
-}
-
-type IsVpcSubnet struct {
-	// Available IPv4 address count in the subnet
-	AvailableIpv4AddressCount *int `pulumi:"availableIpv4AddressCount"`
-	// subnet ID
-	Id *string `pulumi:"id"`
-	// subent name
-	Name *string `pulumi:"name"`
-	// subnet status
-	Status *string `pulumi:"status"`
-	// Total IPv4 address count in the subnet
-	TotalIpv4AddressCount *int `pulumi:"totalIpv4AddressCount"`
-	// subnet location
-	Zone *string `pulumi:"zone"`
-}
-
-// IsVpcSubnetInput is an input type that accepts IsVpcSubnetArgs and IsVpcSubnetOutput values.
-// You can construct a concrete instance of `IsVpcSubnetInput` via:
-//
-//	IsVpcSubnetArgs{...}
-type IsVpcSubnetInput interface {
-	pulumi.Input
-
-	ToIsVpcSubnetOutput() IsVpcSubnetOutput
-	ToIsVpcSubnetOutputWithContext(context.Context) IsVpcSubnetOutput
-}
-
-type IsVpcSubnetArgs struct {
-	// Available IPv4 address count in the subnet
-	AvailableIpv4AddressCount pulumi.IntPtrInput `pulumi:"availableIpv4AddressCount"`
-	// subnet ID
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// subent name
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// subnet status
-	Status pulumi.StringPtrInput `pulumi:"status"`
-	// Total IPv4 address count in the subnet
-	TotalIpv4AddressCount pulumi.IntPtrInput `pulumi:"totalIpv4AddressCount"`
-	// subnet location
-	Zone pulumi.StringPtrInput `pulumi:"zone"`
-}
-
-func (IsVpcSubnetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcSubnet)(nil)).Elem()
-}
-
-func (i IsVpcSubnetArgs) ToIsVpcSubnetOutput() IsVpcSubnetOutput {
-	return i.ToIsVpcSubnetOutputWithContext(context.Background())
-}
-
-func (i IsVpcSubnetArgs) ToIsVpcSubnetOutputWithContext(ctx context.Context) IsVpcSubnetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcSubnetOutput)
-}
-
-// IsVpcSubnetArrayInput is an input type that accepts IsVpcSubnetArray and IsVpcSubnetArrayOutput values.
-// You can construct a concrete instance of `IsVpcSubnetArrayInput` via:
-//
-//	IsVpcSubnetArray{ IsVpcSubnetArgs{...} }
-type IsVpcSubnetArrayInput interface {
-	pulumi.Input
-
-	ToIsVpcSubnetArrayOutput() IsVpcSubnetArrayOutput
-	ToIsVpcSubnetArrayOutputWithContext(context.Context) IsVpcSubnetArrayOutput
-}
-
-type IsVpcSubnetArray []IsVpcSubnetInput
-
-func (IsVpcSubnetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcSubnet)(nil)).Elem()
-}
-
-func (i IsVpcSubnetArray) ToIsVpcSubnetArrayOutput() IsVpcSubnetArrayOutput {
-	return i.ToIsVpcSubnetArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpcSubnetArray) ToIsVpcSubnetArrayOutputWithContext(ctx context.Context) IsVpcSubnetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpcSubnetArrayOutput)
-}
-
-type IsVpcSubnetOutput struct{ *pulumi.OutputState }
-
-func (IsVpcSubnetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpcSubnet)(nil)).Elem()
-}
-
-func (o IsVpcSubnetOutput) ToIsVpcSubnetOutput() IsVpcSubnetOutput {
-	return o
-}
-
-func (o IsVpcSubnetOutput) ToIsVpcSubnetOutputWithContext(ctx context.Context) IsVpcSubnetOutput {
-	return o
-}
-
-// Available IPv4 address count in the subnet
-func (o IsVpcSubnetOutput) AvailableIpv4AddressCount() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcSubnet) *int { return v.AvailableIpv4AddressCount }).(pulumi.IntPtrOutput)
-}
-
-// subnet ID
-func (o IsVpcSubnetOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSubnet) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// subent name
-func (o IsVpcSubnetOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSubnet) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// subnet status
-func (o IsVpcSubnetOutput) Status() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSubnet) *string { return v.Status }).(pulumi.StringPtrOutput)
-}
-
-// Total IPv4 address count in the subnet
-func (o IsVpcSubnetOutput) TotalIpv4AddressCount() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v IsVpcSubnet) *int { return v.TotalIpv4AddressCount }).(pulumi.IntPtrOutput)
-}
-
-// subnet location
-func (o IsVpcSubnetOutput) Zone() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpcSubnet) *string { return v.Zone }).(pulumi.StringPtrOutput)
-}
-
-type IsVpcSubnetArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpcSubnetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpcSubnet)(nil)).Elem()
-}
-
-func (o IsVpcSubnetArrayOutput) ToIsVpcSubnetArrayOutput() IsVpcSubnetArrayOutput {
-	return o
-}
-
-func (o IsVpcSubnetArrayOutput) ToIsVpcSubnetArrayOutputWithContext(ctx context.Context) IsVpcSubnetArrayOutput {
-	return o
-}
-
-func (o IsVpcSubnetArrayOutput) Index(i pulumi.IntInput) IsVpcSubnetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpcSubnet {
-		return vs[0].([]IsVpcSubnet)[vs[1].(int)]
-	}).(IsVpcSubnetOutput)
-}
-
-type IsVpnGatewayConnectionLocal struct {
-	// VPN gateway connection local CIDRs
-	Cidrs []string `pulumi:"cidrs"`
-	// The local IKE identities.A VPN gateway in static route mode consists of two members in active-active mode. The first identity applies to the first member, and the second identity applies to the second member.
-	IkeIdentities []IsVpnGatewayConnectionLocalIkeIdentity `pulumi:"ikeIdentities"`
-}
-
-// IsVpnGatewayConnectionLocalInput is an input type that accepts IsVpnGatewayConnectionLocalArgs and IsVpnGatewayConnectionLocalOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionLocalInput` via:
-//
-//	IsVpnGatewayConnectionLocalArgs{...}
-type IsVpnGatewayConnectionLocalInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionLocalOutput() IsVpnGatewayConnectionLocalOutput
-	ToIsVpnGatewayConnectionLocalOutputWithContext(context.Context) IsVpnGatewayConnectionLocalOutput
-}
-
-type IsVpnGatewayConnectionLocalArgs struct {
-	// VPN gateway connection local CIDRs
-	Cidrs pulumi.StringArrayInput `pulumi:"cidrs"`
-	// The local IKE identities.A VPN gateway in static route mode consists of two members in active-active mode. The first identity applies to the first member, and the second identity applies to the second member.
-	IkeIdentities IsVpnGatewayConnectionLocalIkeIdentityArrayInput `pulumi:"ikeIdentities"`
-}
-
-func (IsVpnGatewayConnectionLocalArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionLocal)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionLocalArgs) ToIsVpnGatewayConnectionLocalOutput() IsVpnGatewayConnectionLocalOutput {
-	return i.ToIsVpnGatewayConnectionLocalOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionLocalArgs) ToIsVpnGatewayConnectionLocalOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionLocalOutput)
-}
-
-func (i IsVpnGatewayConnectionLocalArgs) ToIsVpnGatewayConnectionLocalPtrOutput() IsVpnGatewayConnectionLocalPtrOutput {
-	return i.ToIsVpnGatewayConnectionLocalPtrOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionLocalArgs) ToIsVpnGatewayConnectionLocalPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionLocalOutput).ToIsVpnGatewayConnectionLocalPtrOutputWithContext(ctx)
-}
-
-// IsVpnGatewayConnectionLocalPtrInput is an input type that accepts IsVpnGatewayConnectionLocalArgs, IsVpnGatewayConnectionLocalPtr and IsVpnGatewayConnectionLocalPtrOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionLocalPtrInput` via:
-//
-//	        IsVpnGatewayConnectionLocalArgs{...}
-//
-//	or:
-//
-//	        nil
-type IsVpnGatewayConnectionLocalPtrInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionLocalPtrOutput() IsVpnGatewayConnectionLocalPtrOutput
-	ToIsVpnGatewayConnectionLocalPtrOutputWithContext(context.Context) IsVpnGatewayConnectionLocalPtrOutput
-}
-
-type isVpnGatewayConnectionLocalPtrType IsVpnGatewayConnectionLocalArgs
-
-func IsVpnGatewayConnectionLocalPtr(v *IsVpnGatewayConnectionLocalArgs) IsVpnGatewayConnectionLocalPtrInput {
-	return (*isVpnGatewayConnectionLocalPtrType)(v)
-}
-
-func (*isVpnGatewayConnectionLocalPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpnGatewayConnectionLocal)(nil)).Elem()
-}
-
-func (i *isVpnGatewayConnectionLocalPtrType) ToIsVpnGatewayConnectionLocalPtrOutput() IsVpnGatewayConnectionLocalPtrOutput {
-	return i.ToIsVpnGatewayConnectionLocalPtrOutputWithContext(context.Background())
-}
-
-func (i *isVpnGatewayConnectionLocalPtrType) ToIsVpnGatewayConnectionLocalPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionLocalPtrOutput)
-}
-
-type IsVpnGatewayConnectionLocalOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionLocalOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionLocal)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionLocalOutput) ToIsVpnGatewayConnectionLocalOutput() IsVpnGatewayConnectionLocalOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalOutput) ToIsVpnGatewayConnectionLocalOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalOutput) ToIsVpnGatewayConnectionLocalPtrOutput() IsVpnGatewayConnectionLocalPtrOutput {
-	return o.ToIsVpnGatewayConnectionLocalPtrOutputWithContext(context.Background())
-}
-
-func (o IsVpnGatewayConnectionLocalOutput) ToIsVpnGatewayConnectionLocalPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVpnGatewayConnectionLocal) *IsVpnGatewayConnectionLocal {
-		return &v
-	}).(IsVpnGatewayConnectionLocalPtrOutput)
-}
-
-// VPN gateway connection local CIDRs
-func (o IsVpnGatewayConnectionLocalOutput) Cidrs() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionLocal) []string { return v.Cidrs }).(pulumi.StringArrayOutput)
-}
-
-// The local IKE identities.A VPN gateway in static route mode consists of two members in active-active mode. The first identity applies to the first member, and the second identity applies to the second member.
-func (o IsVpnGatewayConnectionLocalOutput) IkeIdentities() IsVpnGatewayConnectionLocalIkeIdentityArrayOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionLocal) []IsVpnGatewayConnectionLocalIkeIdentity { return v.IkeIdentities }).(IsVpnGatewayConnectionLocalIkeIdentityArrayOutput)
-}
-
-type IsVpnGatewayConnectionLocalPtrOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionLocalPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpnGatewayConnectionLocal)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionLocalPtrOutput) ToIsVpnGatewayConnectionLocalPtrOutput() IsVpnGatewayConnectionLocalPtrOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalPtrOutput) ToIsVpnGatewayConnectionLocalPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalPtrOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalPtrOutput) Elem() IsVpnGatewayConnectionLocalOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionLocal) IsVpnGatewayConnectionLocal {
-		if v != nil {
-			return *v
-		}
-		var ret IsVpnGatewayConnectionLocal
-		return ret
-	}).(IsVpnGatewayConnectionLocalOutput)
-}
-
-// VPN gateway connection local CIDRs
-func (o IsVpnGatewayConnectionLocalPtrOutput) Cidrs() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionLocal) []string {
-		if v == nil {
-			return nil
-		}
-		return v.Cidrs
-	}).(pulumi.StringArrayOutput)
-}
-
-// The local IKE identities.A VPN gateway in static route mode consists of two members in active-active mode. The first identity applies to the first member, and the second identity applies to the second member.
-func (o IsVpnGatewayConnectionLocalPtrOutput) IkeIdentities() IsVpnGatewayConnectionLocalIkeIdentityArrayOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionLocal) []IsVpnGatewayConnectionLocalIkeIdentity {
-		if v == nil {
-			return nil
-		}
-		return v.IkeIdentities
-	}).(IsVpnGatewayConnectionLocalIkeIdentityArrayOutput)
-}
-
-type IsVpnGatewayConnectionLocalIkeIdentity struct {
-	// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-	Type string `pulumi:"type"`
-	// The IKE identity FQDN value.
-	Value *string `pulumi:"value"`
-}
-
-// IsVpnGatewayConnectionLocalIkeIdentityInput is an input type that accepts IsVpnGatewayConnectionLocalIkeIdentityArgs and IsVpnGatewayConnectionLocalIkeIdentityOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionLocalIkeIdentityInput` via:
-//
-//	IsVpnGatewayConnectionLocalIkeIdentityArgs{...}
-type IsVpnGatewayConnectionLocalIkeIdentityInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionLocalIkeIdentityOutput() IsVpnGatewayConnectionLocalIkeIdentityOutput
-	ToIsVpnGatewayConnectionLocalIkeIdentityOutputWithContext(context.Context) IsVpnGatewayConnectionLocalIkeIdentityOutput
-}
-
-type IsVpnGatewayConnectionLocalIkeIdentityArgs struct {
-	// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-	Type pulumi.StringInput `pulumi:"type"`
-	// The IKE identity FQDN value.
-	Value pulumi.StringPtrInput `pulumi:"value"`
-}
-
-func (IsVpnGatewayConnectionLocalIkeIdentityArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionLocalIkeIdentity)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionLocalIkeIdentityArgs) ToIsVpnGatewayConnectionLocalIkeIdentityOutput() IsVpnGatewayConnectionLocalIkeIdentityOutput {
-	return i.ToIsVpnGatewayConnectionLocalIkeIdentityOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionLocalIkeIdentityArgs) ToIsVpnGatewayConnectionLocalIkeIdentityOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalIkeIdentityOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionLocalIkeIdentityOutput)
-}
-
-// IsVpnGatewayConnectionLocalIkeIdentityArrayInput is an input type that accepts IsVpnGatewayConnectionLocalIkeIdentityArray and IsVpnGatewayConnectionLocalIkeIdentityArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionLocalIkeIdentityArrayInput` via:
-//
-//	IsVpnGatewayConnectionLocalIkeIdentityArray{ IsVpnGatewayConnectionLocalIkeIdentityArgs{...} }
-type IsVpnGatewayConnectionLocalIkeIdentityArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutput() IsVpnGatewayConnectionLocalIkeIdentityArrayOutput
-	ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutputWithContext(context.Context) IsVpnGatewayConnectionLocalIkeIdentityArrayOutput
-}
-
-type IsVpnGatewayConnectionLocalIkeIdentityArray []IsVpnGatewayConnectionLocalIkeIdentityInput
-
-func (IsVpnGatewayConnectionLocalIkeIdentityArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayConnectionLocalIkeIdentity)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionLocalIkeIdentityArray) ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutput() IsVpnGatewayConnectionLocalIkeIdentityArrayOutput {
-	return i.ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionLocalIkeIdentityArray) ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalIkeIdentityArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionLocalIkeIdentityArrayOutput)
-}
-
-type IsVpnGatewayConnectionLocalIkeIdentityOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionLocalIkeIdentityOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionLocalIkeIdentity)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionLocalIkeIdentityOutput) ToIsVpnGatewayConnectionLocalIkeIdentityOutput() IsVpnGatewayConnectionLocalIkeIdentityOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalIkeIdentityOutput) ToIsVpnGatewayConnectionLocalIkeIdentityOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalIkeIdentityOutput {
-	return o
-}
-
-// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-func (o IsVpnGatewayConnectionLocalIkeIdentityOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionLocalIkeIdentity) string { return v.Type }).(pulumi.StringOutput)
-}
-
-// The IKE identity FQDN value.
-func (o IsVpnGatewayConnectionLocalIkeIdentityOutput) Value() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionLocalIkeIdentity) *string { return v.Value }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionLocalIkeIdentityArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionLocalIkeIdentityArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayConnectionLocalIkeIdentity)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionLocalIkeIdentityArrayOutput) ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutput() IsVpnGatewayConnectionLocalIkeIdentityArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalIkeIdentityArrayOutput) ToIsVpnGatewayConnectionLocalIkeIdentityArrayOutputWithContext(ctx context.Context) IsVpnGatewayConnectionLocalIkeIdentityArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionLocalIkeIdentityArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayConnectionLocalIkeIdentityOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayConnectionLocalIkeIdentity {
-		return vs[0].([]IsVpnGatewayConnectionLocalIkeIdentity)[vs[1].(int)]
-	}).(IsVpnGatewayConnectionLocalIkeIdentityOutput)
-}
-
-type IsVpnGatewayConnectionPeer struct {
-	// The IP address of the peer VPN gateway for this connection.
-	Address *string `pulumi:"address"`
-	// VPN gateway connection peer CIDRs
-	Cidrs []string `pulumi:"cidrs"`
-	// The FQDN of the peer VPN gateway for this connection.
-	Fqdn *string `pulumi:"fqdn"`
-	// The peer IKE identity.
-	IkeIdentity *IsVpnGatewayConnectionPeerIkeIdentity `pulumi:"ikeIdentity"`
-	// Indicates whether `peer.address` or `peer.fqdn` is used.
-	Type *string `pulumi:"type"`
-}
-
-// IsVpnGatewayConnectionPeerInput is an input type that accepts IsVpnGatewayConnectionPeerArgs and IsVpnGatewayConnectionPeerOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionPeerInput` via:
-//
-//	IsVpnGatewayConnectionPeerArgs{...}
-type IsVpnGatewayConnectionPeerInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionPeerOutput() IsVpnGatewayConnectionPeerOutput
-	ToIsVpnGatewayConnectionPeerOutputWithContext(context.Context) IsVpnGatewayConnectionPeerOutput
-}
-
-type IsVpnGatewayConnectionPeerArgs struct {
-	// The IP address of the peer VPN gateway for this connection.
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// VPN gateway connection peer CIDRs
-	Cidrs pulumi.StringArrayInput `pulumi:"cidrs"`
-	// The FQDN of the peer VPN gateway for this connection.
-	Fqdn pulumi.StringPtrInput `pulumi:"fqdn"`
-	// The peer IKE identity.
-	IkeIdentity IsVpnGatewayConnectionPeerIkeIdentityPtrInput `pulumi:"ikeIdentity"`
-	// Indicates whether `peer.address` or `peer.fqdn` is used.
-	Type pulumi.StringPtrInput `pulumi:"type"`
-}
-
-func (IsVpnGatewayConnectionPeerArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionPeer)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionPeerArgs) ToIsVpnGatewayConnectionPeerOutput() IsVpnGatewayConnectionPeerOutput {
-	return i.ToIsVpnGatewayConnectionPeerOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionPeerArgs) ToIsVpnGatewayConnectionPeerOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionPeerOutput)
-}
-
-func (i IsVpnGatewayConnectionPeerArgs) ToIsVpnGatewayConnectionPeerPtrOutput() IsVpnGatewayConnectionPeerPtrOutput {
-	return i.ToIsVpnGatewayConnectionPeerPtrOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionPeerArgs) ToIsVpnGatewayConnectionPeerPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionPeerOutput).ToIsVpnGatewayConnectionPeerPtrOutputWithContext(ctx)
-}
-
-// IsVpnGatewayConnectionPeerPtrInput is an input type that accepts IsVpnGatewayConnectionPeerArgs, IsVpnGatewayConnectionPeerPtr and IsVpnGatewayConnectionPeerPtrOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionPeerPtrInput` via:
-//
-//	        IsVpnGatewayConnectionPeerArgs{...}
-//
-//	or:
-//
-//	        nil
-type IsVpnGatewayConnectionPeerPtrInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionPeerPtrOutput() IsVpnGatewayConnectionPeerPtrOutput
-	ToIsVpnGatewayConnectionPeerPtrOutputWithContext(context.Context) IsVpnGatewayConnectionPeerPtrOutput
-}
-
-type isVpnGatewayConnectionPeerPtrType IsVpnGatewayConnectionPeerArgs
-
-func IsVpnGatewayConnectionPeerPtr(v *IsVpnGatewayConnectionPeerArgs) IsVpnGatewayConnectionPeerPtrInput {
-	return (*isVpnGatewayConnectionPeerPtrType)(v)
-}
-
-func (*isVpnGatewayConnectionPeerPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpnGatewayConnectionPeer)(nil)).Elem()
-}
-
-func (i *isVpnGatewayConnectionPeerPtrType) ToIsVpnGatewayConnectionPeerPtrOutput() IsVpnGatewayConnectionPeerPtrOutput {
-	return i.ToIsVpnGatewayConnectionPeerPtrOutputWithContext(context.Background())
-}
-
-func (i *isVpnGatewayConnectionPeerPtrType) ToIsVpnGatewayConnectionPeerPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionPeerPtrOutput)
-}
-
-type IsVpnGatewayConnectionPeerOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionPeerOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionPeer)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionPeerOutput) ToIsVpnGatewayConnectionPeerOutput() IsVpnGatewayConnectionPeerOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerOutput) ToIsVpnGatewayConnectionPeerOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerOutput) ToIsVpnGatewayConnectionPeerPtrOutput() IsVpnGatewayConnectionPeerPtrOutput {
-	return o.ToIsVpnGatewayConnectionPeerPtrOutputWithContext(context.Background())
-}
-
-func (o IsVpnGatewayConnectionPeerOutput) ToIsVpnGatewayConnectionPeerPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVpnGatewayConnectionPeer) *IsVpnGatewayConnectionPeer {
-		return &v
-	}).(IsVpnGatewayConnectionPeerPtrOutput)
-}
-
-// The IP address of the peer VPN gateway for this connection.
-func (o IsVpnGatewayConnectionPeerOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeer) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// VPN gateway connection peer CIDRs
-func (o IsVpnGatewayConnectionPeerOutput) Cidrs() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeer) []string { return v.Cidrs }).(pulumi.StringArrayOutput)
-}
-
-// The FQDN of the peer VPN gateway for this connection.
-func (o IsVpnGatewayConnectionPeerOutput) Fqdn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeer) *string { return v.Fqdn }).(pulumi.StringPtrOutput)
-}
-
-// The peer IKE identity.
-func (o IsVpnGatewayConnectionPeerOutput) IkeIdentity() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeer) *IsVpnGatewayConnectionPeerIkeIdentity { return v.IkeIdentity }).(IsVpnGatewayConnectionPeerIkeIdentityPtrOutput)
-}
-
-// Indicates whether `peer.address` or `peer.fqdn` is used.
-func (o IsVpnGatewayConnectionPeerOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeer) *string { return v.Type }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionPeerPtrOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionPeerPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpnGatewayConnectionPeer)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionPeerPtrOutput) ToIsVpnGatewayConnectionPeerPtrOutput() IsVpnGatewayConnectionPeerPtrOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerPtrOutput) ToIsVpnGatewayConnectionPeerPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerPtrOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerPtrOutput) Elem() IsVpnGatewayConnectionPeerOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeer) IsVpnGatewayConnectionPeer {
-		if v != nil {
-			return *v
-		}
-		var ret IsVpnGatewayConnectionPeer
-		return ret
-	}).(IsVpnGatewayConnectionPeerOutput)
-}
-
-// The IP address of the peer VPN gateway for this connection.
-func (o IsVpnGatewayConnectionPeerPtrOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeer) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Address
-	}).(pulumi.StringPtrOutput)
-}
-
-// VPN gateway connection peer CIDRs
-func (o IsVpnGatewayConnectionPeerPtrOutput) Cidrs() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeer) []string {
-		if v == nil {
-			return nil
-		}
-		return v.Cidrs
-	}).(pulumi.StringArrayOutput)
-}
-
-// The FQDN of the peer VPN gateway for this connection.
-func (o IsVpnGatewayConnectionPeerPtrOutput) Fqdn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeer) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Fqdn
-	}).(pulumi.StringPtrOutput)
-}
-
-// The peer IKE identity.
-func (o IsVpnGatewayConnectionPeerPtrOutput) IkeIdentity() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeer) *IsVpnGatewayConnectionPeerIkeIdentity {
-		if v == nil {
-			return nil
-		}
-		return v.IkeIdentity
-	}).(IsVpnGatewayConnectionPeerIkeIdentityPtrOutput)
-}
-
-// Indicates whether `peer.address` or `peer.fqdn` is used.
-func (o IsVpnGatewayConnectionPeerPtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeer) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Type
-	}).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionPeerIkeIdentity struct {
-	// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-	Type string `pulumi:"type"`
-	// The IKE identity FQDN value.
-	Value *string `pulumi:"value"`
-}
-
-// IsVpnGatewayConnectionPeerIkeIdentityInput is an input type that accepts IsVpnGatewayConnectionPeerIkeIdentityArgs and IsVpnGatewayConnectionPeerIkeIdentityOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionPeerIkeIdentityInput` via:
-//
-//	IsVpnGatewayConnectionPeerIkeIdentityArgs{...}
-type IsVpnGatewayConnectionPeerIkeIdentityInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionPeerIkeIdentityOutput() IsVpnGatewayConnectionPeerIkeIdentityOutput
-	ToIsVpnGatewayConnectionPeerIkeIdentityOutputWithContext(context.Context) IsVpnGatewayConnectionPeerIkeIdentityOutput
-}
-
-type IsVpnGatewayConnectionPeerIkeIdentityArgs struct {
-	// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-	Type pulumi.StringInput `pulumi:"type"`
-	// The IKE identity FQDN value.
-	Value pulumi.StringPtrInput `pulumi:"value"`
-}
-
-func (IsVpnGatewayConnectionPeerIkeIdentityArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionPeerIkeIdentity)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionPeerIkeIdentityArgs) ToIsVpnGatewayConnectionPeerIkeIdentityOutput() IsVpnGatewayConnectionPeerIkeIdentityOutput {
-	return i.ToIsVpnGatewayConnectionPeerIkeIdentityOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionPeerIkeIdentityArgs) ToIsVpnGatewayConnectionPeerIkeIdentityOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerIkeIdentityOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionPeerIkeIdentityOutput)
-}
-
-func (i IsVpnGatewayConnectionPeerIkeIdentityArgs) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutput() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return i.ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionPeerIkeIdentityArgs) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionPeerIkeIdentityOutput).ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(ctx)
-}
-
-// IsVpnGatewayConnectionPeerIkeIdentityPtrInput is an input type that accepts IsVpnGatewayConnectionPeerIkeIdentityArgs, IsVpnGatewayConnectionPeerIkeIdentityPtr and IsVpnGatewayConnectionPeerIkeIdentityPtrOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionPeerIkeIdentityPtrInput` via:
-//
-//	        IsVpnGatewayConnectionPeerIkeIdentityArgs{...}
-//
-//	or:
-//
-//	        nil
-type IsVpnGatewayConnectionPeerIkeIdentityPtrInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutput() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput
-	ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(context.Context) IsVpnGatewayConnectionPeerIkeIdentityPtrOutput
-}
-
-type isVpnGatewayConnectionPeerIkeIdentityPtrType IsVpnGatewayConnectionPeerIkeIdentityArgs
-
-func IsVpnGatewayConnectionPeerIkeIdentityPtr(v *IsVpnGatewayConnectionPeerIkeIdentityArgs) IsVpnGatewayConnectionPeerIkeIdentityPtrInput {
-	return (*isVpnGatewayConnectionPeerIkeIdentityPtrType)(v)
-}
-
-func (*isVpnGatewayConnectionPeerIkeIdentityPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpnGatewayConnectionPeerIkeIdentity)(nil)).Elem()
-}
-
-func (i *isVpnGatewayConnectionPeerIkeIdentityPtrType) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutput() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return i.ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(context.Background())
-}
-
-func (i *isVpnGatewayConnectionPeerIkeIdentityPtrType) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionPeerIkeIdentityPtrOutput)
-}
-
-type IsVpnGatewayConnectionPeerIkeIdentityOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionPeerIkeIdentityOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionPeerIkeIdentity)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityOutput) ToIsVpnGatewayConnectionPeerIkeIdentityOutput() IsVpnGatewayConnectionPeerIkeIdentityOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityOutput) ToIsVpnGatewayConnectionPeerIkeIdentityOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerIkeIdentityOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityOutput) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutput() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return o.ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(context.Background())
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityOutput) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v IsVpnGatewayConnectionPeerIkeIdentity) *IsVpnGatewayConnectionPeerIkeIdentity {
-		return &v
-	}).(IsVpnGatewayConnectionPeerIkeIdentityPtrOutput)
-}
-
-// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-func (o IsVpnGatewayConnectionPeerIkeIdentityOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeerIkeIdentity) string { return v.Type }).(pulumi.StringOutput)
-}
-
-// The IKE identity FQDN value.
-func (o IsVpnGatewayConnectionPeerIkeIdentityOutput) Value() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionPeerIkeIdentity) *string { return v.Value }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionPeerIkeIdentityPtrOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionPeerIkeIdentityPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**IsVpnGatewayConnectionPeerIkeIdentity)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityPtrOutput) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutput() IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityPtrOutput) ToIsVpnGatewayConnectionPeerIkeIdentityPtrOutputWithContext(ctx context.Context) IsVpnGatewayConnectionPeerIkeIdentityPtrOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionPeerIkeIdentityPtrOutput) Elem() IsVpnGatewayConnectionPeerIkeIdentityOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeerIkeIdentity) IsVpnGatewayConnectionPeerIkeIdentity {
-		if v != nil {
-			return *v
-		}
-		var ret IsVpnGatewayConnectionPeerIkeIdentity
-		return ret
-	}).(IsVpnGatewayConnectionPeerIkeIdentityOutput)
-}
-
-// The IKE identity type.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the backup policy on which the unexpected property value was encountered.
-func (o IsVpnGatewayConnectionPeerIkeIdentityPtrOutput) Type() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeerIkeIdentity) *string {
-		if v == nil {
-			return nil
-		}
-		return &v.Type
-	}).(pulumi.StringPtrOutput)
-}
-
-// The IKE identity FQDN value.
-func (o IsVpnGatewayConnectionPeerIkeIdentityPtrOutput) Value() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *IsVpnGatewayConnectionPeerIkeIdentity) *string {
-		if v == nil {
-			return nil
-		}
-		return v.Value
-	}).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionStatusReason struct {
-	// A snake case string succinctly identifying the status reason.
-	Code *string `pulumi:"code"`
-	// An explanation of the status reason.
-	Message *string `pulumi:"message"`
-	// Link to documentation about this status reason.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnGatewayConnectionStatusReasonInput is an input type that accepts IsVpnGatewayConnectionStatusReasonArgs and IsVpnGatewayConnectionStatusReasonOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionStatusReasonInput` via:
-//
-//	IsVpnGatewayConnectionStatusReasonArgs{...}
-type IsVpnGatewayConnectionStatusReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionStatusReasonOutput() IsVpnGatewayConnectionStatusReasonOutput
-	ToIsVpnGatewayConnectionStatusReasonOutputWithContext(context.Context) IsVpnGatewayConnectionStatusReasonOutput
-}
-
-type IsVpnGatewayConnectionStatusReasonArgs struct {
-	// A snake case string succinctly identifying the status reason.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the status reason.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about this status reason.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnGatewayConnectionStatusReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionStatusReason)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionStatusReasonArgs) ToIsVpnGatewayConnectionStatusReasonOutput() IsVpnGatewayConnectionStatusReasonOutput {
-	return i.ToIsVpnGatewayConnectionStatusReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionStatusReasonArgs) ToIsVpnGatewayConnectionStatusReasonOutputWithContext(ctx context.Context) IsVpnGatewayConnectionStatusReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionStatusReasonOutput)
-}
-
-// IsVpnGatewayConnectionStatusReasonArrayInput is an input type that accepts IsVpnGatewayConnectionStatusReasonArray and IsVpnGatewayConnectionStatusReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionStatusReasonArrayInput` via:
-//
-//	IsVpnGatewayConnectionStatusReasonArray{ IsVpnGatewayConnectionStatusReasonArgs{...} }
-type IsVpnGatewayConnectionStatusReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionStatusReasonArrayOutput() IsVpnGatewayConnectionStatusReasonArrayOutput
-	ToIsVpnGatewayConnectionStatusReasonArrayOutputWithContext(context.Context) IsVpnGatewayConnectionStatusReasonArrayOutput
-}
-
-type IsVpnGatewayConnectionStatusReasonArray []IsVpnGatewayConnectionStatusReasonInput
-
-func (IsVpnGatewayConnectionStatusReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayConnectionStatusReason)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionStatusReasonArray) ToIsVpnGatewayConnectionStatusReasonArrayOutput() IsVpnGatewayConnectionStatusReasonArrayOutput {
-	return i.ToIsVpnGatewayConnectionStatusReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionStatusReasonArray) ToIsVpnGatewayConnectionStatusReasonArrayOutputWithContext(ctx context.Context) IsVpnGatewayConnectionStatusReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionStatusReasonArrayOutput)
-}
-
-type IsVpnGatewayConnectionStatusReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionStatusReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionStatusReason)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionStatusReasonOutput) ToIsVpnGatewayConnectionStatusReasonOutput() IsVpnGatewayConnectionStatusReasonOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionStatusReasonOutput) ToIsVpnGatewayConnectionStatusReasonOutputWithContext(ctx context.Context) IsVpnGatewayConnectionStatusReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the status reason.
-func (o IsVpnGatewayConnectionStatusReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionStatusReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the status reason.
-func (o IsVpnGatewayConnectionStatusReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionStatusReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about this status reason.
-func (o IsVpnGatewayConnectionStatusReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionStatusReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionStatusReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionStatusReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayConnectionStatusReason)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionStatusReasonArrayOutput) ToIsVpnGatewayConnectionStatusReasonArrayOutput() IsVpnGatewayConnectionStatusReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionStatusReasonArrayOutput) ToIsVpnGatewayConnectionStatusReasonArrayOutputWithContext(ctx context.Context) IsVpnGatewayConnectionStatusReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionStatusReasonArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayConnectionStatusReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayConnectionStatusReason {
-		return vs[0].([]IsVpnGatewayConnectionStatusReason)[vs[1].(int)]
-	}).(IsVpnGatewayConnectionStatusReasonOutput)
-}
-
-type IsVpnGatewayConnectionTunnel struct {
-	// The IP address of the VPN gateway member in which the tunnel resides
-	Address *string `pulumi:"address"`
-	// The status of the VPN Tunnel
-	Status *string `pulumi:"status"`
-}
-
-// IsVpnGatewayConnectionTunnelInput is an input type that accepts IsVpnGatewayConnectionTunnelArgs and IsVpnGatewayConnectionTunnelOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionTunnelInput` via:
-//
-//	IsVpnGatewayConnectionTunnelArgs{...}
-type IsVpnGatewayConnectionTunnelInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionTunnelOutput() IsVpnGatewayConnectionTunnelOutput
-	ToIsVpnGatewayConnectionTunnelOutputWithContext(context.Context) IsVpnGatewayConnectionTunnelOutput
-}
-
-type IsVpnGatewayConnectionTunnelArgs struct {
-	// The IP address of the VPN gateway member in which the tunnel resides
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// The status of the VPN Tunnel
-	Status pulumi.StringPtrInput `pulumi:"status"`
-}
-
-func (IsVpnGatewayConnectionTunnelArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionTunnelArgs) ToIsVpnGatewayConnectionTunnelOutput() IsVpnGatewayConnectionTunnelOutput {
-	return i.ToIsVpnGatewayConnectionTunnelOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionTunnelArgs) ToIsVpnGatewayConnectionTunnelOutputWithContext(ctx context.Context) IsVpnGatewayConnectionTunnelOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionTunnelOutput)
-}
-
-// IsVpnGatewayConnectionTunnelArrayInput is an input type that accepts IsVpnGatewayConnectionTunnelArray and IsVpnGatewayConnectionTunnelArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayConnectionTunnelArrayInput` via:
-//
-//	IsVpnGatewayConnectionTunnelArray{ IsVpnGatewayConnectionTunnelArgs{...} }
-type IsVpnGatewayConnectionTunnelArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayConnectionTunnelArrayOutput() IsVpnGatewayConnectionTunnelArrayOutput
-	ToIsVpnGatewayConnectionTunnelArrayOutputWithContext(context.Context) IsVpnGatewayConnectionTunnelArrayOutput
-}
-
-type IsVpnGatewayConnectionTunnelArray []IsVpnGatewayConnectionTunnelInput
-
-func (IsVpnGatewayConnectionTunnelArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (i IsVpnGatewayConnectionTunnelArray) ToIsVpnGatewayConnectionTunnelArrayOutput() IsVpnGatewayConnectionTunnelArrayOutput {
-	return i.ToIsVpnGatewayConnectionTunnelArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayConnectionTunnelArray) ToIsVpnGatewayConnectionTunnelArrayOutputWithContext(ctx context.Context) IsVpnGatewayConnectionTunnelArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayConnectionTunnelArrayOutput)
-}
-
-type IsVpnGatewayConnectionTunnelOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionTunnelOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionTunnelOutput) ToIsVpnGatewayConnectionTunnelOutput() IsVpnGatewayConnectionTunnelOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionTunnelOutput) ToIsVpnGatewayConnectionTunnelOutputWithContext(ctx context.Context) IsVpnGatewayConnectionTunnelOutput {
-	return o
-}
-
-// The IP address of the VPN gateway member in which the tunnel resides
-func (o IsVpnGatewayConnectionTunnelOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionTunnel) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// The status of the VPN Tunnel
-func (o IsVpnGatewayConnectionTunnelOutput) Status() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayConnectionTunnel) *string { return v.Status }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayConnectionTunnelArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayConnectionTunnelArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (o IsVpnGatewayConnectionTunnelArrayOutput) ToIsVpnGatewayConnectionTunnelArrayOutput() IsVpnGatewayConnectionTunnelArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionTunnelArrayOutput) ToIsVpnGatewayConnectionTunnelArrayOutputWithContext(ctx context.Context) IsVpnGatewayConnectionTunnelArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayConnectionTunnelArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayConnectionTunnelOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayConnectionTunnel {
-		return vs[0].([]IsVpnGatewayConnectionTunnel)[vs[1].(int)]
-	}).(IsVpnGatewayConnectionTunnelOutput)
-}
-
-type IsVpnGatewayHealthReason struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnGatewayHealthReasonInput is an input type that accepts IsVpnGatewayHealthReasonArgs and IsVpnGatewayHealthReasonOutput values.
-// You can construct a concrete instance of `IsVpnGatewayHealthReasonInput` via:
-//
-//	IsVpnGatewayHealthReasonArgs{...}
-type IsVpnGatewayHealthReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayHealthReasonOutput() IsVpnGatewayHealthReasonOutput
-	ToIsVpnGatewayHealthReasonOutputWithContext(context.Context) IsVpnGatewayHealthReasonOutput
-}
-
-type IsVpnGatewayHealthReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnGatewayHealthReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayHealthReason)(nil)).Elem()
-}
-
-func (i IsVpnGatewayHealthReasonArgs) ToIsVpnGatewayHealthReasonOutput() IsVpnGatewayHealthReasonOutput {
-	return i.ToIsVpnGatewayHealthReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayHealthReasonArgs) ToIsVpnGatewayHealthReasonOutputWithContext(ctx context.Context) IsVpnGatewayHealthReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayHealthReasonOutput)
-}
-
-// IsVpnGatewayHealthReasonArrayInput is an input type that accepts IsVpnGatewayHealthReasonArray and IsVpnGatewayHealthReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayHealthReasonArrayInput` via:
-//
-//	IsVpnGatewayHealthReasonArray{ IsVpnGatewayHealthReasonArgs{...} }
-type IsVpnGatewayHealthReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayHealthReasonArrayOutput() IsVpnGatewayHealthReasonArrayOutput
-	ToIsVpnGatewayHealthReasonArrayOutputWithContext(context.Context) IsVpnGatewayHealthReasonArrayOutput
-}
-
-type IsVpnGatewayHealthReasonArray []IsVpnGatewayHealthReasonInput
-
-func (IsVpnGatewayHealthReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayHealthReason)(nil)).Elem()
-}
-
-func (i IsVpnGatewayHealthReasonArray) ToIsVpnGatewayHealthReasonArrayOutput() IsVpnGatewayHealthReasonArrayOutput {
-	return i.ToIsVpnGatewayHealthReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayHealthReasonArray) ToIsVpnGatewayHealthReasonArrayOutputWithContext(ctx context.Context) IsVpnGatewayHealthReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayHealthReasonArrayOutput)
-}
-
-type IsVpnGatewayHealthReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayHealthReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayHealthReason)(nil)).Elem()
-}
-
-func (o IsVpnGatewayHealthReasonOutput) ToIsVpnGatewayHealthReasonOutput() IsVpnGatewayHealthReasonOutput {
-	return o
-}
-
-func (o IsVpnGatewayHealthReasonOutput) ToIsVpnGatewayHealthReasonOutputWithContext(ctx context.Context) IsVpnGatewayHealthReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this health state.
-func (o IsVpnGatewayHealthReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayHealthReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this health state.
-func (o IsVpnGatewayHealthReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayHealthReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this health state.
-func (o IsVpnGatewayHealthReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayHealthReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayHealthReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayHealthReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayHealthReason)(nil)).Elem()
-}
-
-func (o IsVpnGatewayHealthReasonArrayOutput) ToIsVpnGatewayHealthReasonArrayOutput() IsVpnGatewayHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayHealthReasonArrayOutput) ToIsVpnGatewayHealthReasonArrayOutputWithContext(ctx context.Context) IsVpnGatewayHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayHealthReasonArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayHealthReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayHealthReason {
-		return vs[0].([]IsVpnGatewayHealthReason)[vs[1].(int)]
-	}).(IsVpnGatewayHealthReasonOutput)
-}
-
-type IsVpnGatewayLifecycleReason struct {
-	// A snake case string succinctly identifying the reason for this lifecycle state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnGatewayLifecycleReasonInput is an input type that accepts IsVpnGatewayLifecycleReasonArgs and IsVpnGatewayLifecycleReasonOutput values.
-// You can construct a concrete instance of `IsVpnGatewayLifecycleReasonInput` via:
-//
-//	IsVpnGatewayLifecycleReasonArgs{...}
-type IsVpnGatewayLifecycleReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayLifecycleReasonOutput() IsVpnGatewayLifecycleReasonOutput
-	ToIsVpnGatewayLifecycleReasonOutputWithContext(context.Context) IsVpnGatewayLifecycleReasonOutput
-}
-
-type IsVpnGatewayLifecycleReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this lifecycle state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnGatewayLifecycleReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayLifecycleReason)(nil)).Elem()
-}
-
-func (i IsVpnGatewayLifecycleReasonArgs) ToIsVpnGatewayLifecycleReasonOutput() IsVpnGatewayLifecycleReasonOutput {
-	return i.ToIsVpnGatewayLifecycleReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayLifecycleReasonArgs) ToIsVpnGatewayLifecycleReasonOutputWithContext(ctx context.Context) IsVpnGatewayLifecycleReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayLifecycleReasonOutput)
-}
-
-// IsVpnGatewayLifecycleReasonArrayInput is an input type that accepts IsVpnGatewayLifecycleReasonArray and IsVpnGatewayLifecycleReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayLifecycleReasonArrayInput` via:
-//
-//	IsVpnGatewayLifecycleReasonArray{ IsVpnGatewayLifecycleReasonArgs{...} }
-type IsVpnGatewayLifecycleReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayLifecycleReasonArrayOutput() IsVpnGatewayLifecycleReasonArrayOutput
-	ToIsVpnGatewayLifecycleReasonArrayOutputWithContext(context.Context) IsVpnGatewayLifecycleReasonArrayOutput
-}
-
-type IsVpnGatewayLifecycleReasonArray []IsVpnGatewayLifecycleReasonInput
-
-func (IsVpnGatewayLifecycleReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayLifecycleReason)(nil)).Elem()
-}
-
-func (i IsVpnGatewayLifecycleReasonArray) ToIsVpnGatewayLifecycleReasonArrayOutput() IsVpnGatewayLifecycleReasonArrayOutput {
-	return i.ToIsVpnGatewayLifecycleReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayLifecycleReasonArray) ToIsVpnGatewayLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVpnGatewayLifecycleReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayLifecycleReasonArrayOutput)
-}
-
-type IsVpnGatewayLifecycleReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayLifecycleReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayLifecycleReason)(nil)).Elem()
-}
-
-func (o IsVpnGatewayLifecycleReasonOutput) ToIsVpnGatewayLifecycleReasonOutput() IsVpnGatewayLifecycleReasonOutput {
-	return o
-}
-
-func (o IsVpnGatewayLifecycleReasonOutput) ToIsVpnGatewayLifecycleReasonOutputWithContext(ctx context.Context) IsVpnGatewayLifecycleReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this lifecycle state.
-func (o IsVpnGatewayLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this lifecycle state.
-func (o IsVpnGatewayLifecycleReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayLifecycleReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this lifecycle state.
-func (o IsVpnGatewayLifecycleReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayLifecycleReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayLifecycleReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayLifecycleReason)(nil)).Elem()
-}
-
-func (o IsVpnGatewayLifecycleReasonArrayOutput) ToIsVpnGatewayLifecycleReasonArrayOutput() IsVpnGatewayLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayLifecycleReasonArrayOutput) ToIsVpnGatewayLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVpnGatewayLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayLifecycleReasonArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayLifecycleReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayLifecycleReason {
-		return vs[0].([]IsVpnGatewayLifecycleReason)[vs[1].(int)]
-	}).(IsVpnGatewayLifecycleReasonOutput)
-}
-
-type IsVpnGatewayMember struct {
-	// The public IP address assigned to the VPN gateway member
-	Address *string `pulumi:"address"`
-	// The private IP address assigned to the VPN gateway member
-	PrivateAddress *string `pulumi:"privateAddress"`
-	// The high availability role assigned to the VPN gateway member
-	Role *string `pulumi:"role"`
-	// The status of the VPN gateway member
-	Status *string `pulumi:"status"`
-}
-
-// IsVpnGatewayMemberInput is an input type that accepts IsVpnGatewayMemberArgs and IsVpnGatewayMemberOutput values.
-// You can construct a concrete instance of `IsVpnGatewayMemberInput` via:
-//
-//	IsVpnGatewayMemberArgs{...}
-type IsVpnGatewayMemberInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayMemberOutput() IsVpnGatewayMemberOutput
-	ToIsVpnGatewayMemberOutputWithContext(context.Context) IsVpnGatewayMemberOutput
-}
-
-type IsVpnGatewayMemberArgs struct {
-	// The public IP address assigned to the VPN gateway member
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// The private IP address assigned to the VPN gateway member
-	PrivateAddress pulumi.StringPtrInput `pulumi:"privateAddress"`
-	// The high availability role assigned to the VPN gateway member
-	Role pulumi.StringPtrInput `pulumi:"role"`
-	// The status of the VPN gateway member
-	Status pulumi.StringPtrInput `pulumi:"status"`
-}
-
-func (IsVpnGatewayMemberArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayMember)(nil)).Elem()
-}
-
-func (i IsVpnGatewayMemberArgs) ToIsVpnGatewayMemberOutput() IsVpnGatewayMemberOutput {
-	return i.ToIsVpnGatewayMemberOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayMemberArgs) ToIsVpnGatewayMemberOutputWithContext(ctx context.Context) IsVpnGatewayMemberOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayMemberOutput)
-}
-
-// IsVpnGatewayMemberArrayInput is an input type that accepts IsVpnGatewayMemberArray and IsVpnGatewayMemberArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayMemberArrayInput` via:
-//
-//	IsVpnGatewayMemberArray{ IsVpnGatewayMemberArgs{...} }
-type IsVpnGatewayMemberArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayMemberArrayOutput() IsVpnGatewayMemberArrayOutput
-	ToIsVpnGatewayMemberArrayOutputWithContext(context.Context) IsVpnGatewayMemberArrayOutput
-}
-
-type IsVpnGatewayMemberArray []IsVpnGatewayMemberInput
-
-func (IsVpnGatewayMemberArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayMember)(nil)).Elem()
-}
-
-func (i IsVpnGatewayMemberArray) ToIsVpnGatewayMemberArrayOutput() IsVpnGatewayMemberArrayOutput {
-	return i.ToIsVpnGatewayMemberArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayMemberArray) ToIsVpnGatewayMemberArrayOutputWithContext(ctx context.Context) IsVpnGatewayMemberArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayMemberArrayOutput)
-}
-
-type IsVpnGatewayMemberOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayMemberOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayMember)(nil)).Elem()
-}
-
-func (o IsVpnGatewayMemberOutput) ToIsVpnGatewayMemberOutput() IsVpnGatewayMemberOutput {
-	return o
-}
-
-func (o IsVpnGatewayMemberOutput) ToIsVpnGatewayMemberOutputWithContext(ctx context.Context) IsVpnGatewayMemberOutput {
-	return o
-}
-
-// The public IP address assigned to the VPN gateway member
-func (o IsVpnGatewayMemberOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayMember) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// The private IP address assigned to the VPN gateway member
-func (o IsVpnGatewayMemberOutput) PrivateAddress() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayMember) *string { return v.PrivateAddress }).(pulumi.StringPtrOutput)
-}
-
-// The high availability role assigned to the VPN gateway member
-func (o IsVpnGatewayMemberOutput) Role() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayMember) *string { return v.Role }).(pulumi.StringPtrOutput)
-}
-
-// The status of the VPN gateway member
-func (o IsVpnGatewayMemberOutput) Status() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayMember) *string { return v.Status }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayMemberArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayMemberArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayMember)(nil)).Elem()
-}
-
-func (o IsVpnGatewayMemberArrayOutput) ToIsVpnGatewayMemberArrayOutput() IsVpnGatewayMemberArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayMemberArrayOutput) ToIsVpnGatewayMemberArrayOutputWithContext(ctx context.Context) IsVpnGatewayMemberArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayMemberArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayMemberOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayMember {
-		return vs[0].([]IsVpnGatewayMember)[vs[1].(int)]
-	}).(IsVpnGatewayMemberOutput)
-}
-
-type IsVpnGatewayVpc struct {
-	// The CRN for this VPC.
-	Crn *string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []IsVpnGatewayVpcDeleted `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id *string `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name *string `pulumi:"name"`
-}
-
-// IsVpnGatewayVpcInput is an input type that accepts IsVpnGatewayVpcArgs and IsVpnGatewayVpcOutput values.
-// You can construct a concrete instance of `IsVpnGatewayVpcInput` via:
-//
-//	IsVpnGatewayVpcArgs{...}
-type IsVpnGatewayVpcInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayVpcOutput() IsVpnGatewayVpcOutput
-	ToIsVpnGatewayVpcOutputWithContext(context.Context) IsVpnGatewayVpcOutput
-}
-
-type IsVpnGatewayVpcArgs struct {
-	// The CRN for this VPC.
-	Crn pulumi.StringPtrInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds IsVpnGatewayVpcDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-}
-
-func (IsVpnGatewayVpcArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayVpc)(nil)).Elem()
-}
-
-func (i IsVpnGatewayVpcArgs) ToIsVpnGatewayVpcOutput() IsVpnGatewayVpcOutput {
-	return i.ToIsVpnGatewayVpcOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayVpcArgs) ToIsVpnGatewayVpcOutputWithContext(ctx context.Context) IsVpnGatewayVpcOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayVpcOutput)
-}
-
-// IsVpnGatewayVpcArrayInput is an input type that accepts IsVpnGatewayVpcArray and IsVpnGatewayVpcArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayVpcArrayInput` via:
-//
-//	IsVpnGatewayVpcArray{ IsVpnGatewayVpcArgs{...} }
-type IsVpnGatewayVpcArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayVpcArrayOutput() IsVpnGatewayVpcArrayOutput
-	ToIsVpnGatewayVpcArrayOutputWithContext(context.Context) IsVpnGatewayVpcArrayOutput
-}
-
-type IsVpnGatewayVpcArray []IsVpnGatewayVpcInput
-
-func (IsVpnGatewayVpcArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayVpc)(nil)).Elem()
-}
-
-func (i IsVpnGatewayVpcArray) ToIsVpnGatewayVpcArrayOutput() IsVpnGatewayVpcArrayOutput {
-	return i.ToIsVpnGatewayVpcArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayVpcArray) ToIsVpnGatewayVpcArrayOutputWithContext(ctx context.Context) IsVpnGatewayVpcArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayVpcArrayOutput)
-}
-
-type IsVpnGatewayVpcOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayVpcOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayVpc)(nil)).Elem()
-}
-
-func (o IsVpnGatewayVpcOutput) ToIsVpnGatewayVpcOutput() IsVpnGatewayVpcOutput {
-	return o
-}
-
-func (o IsVpnGatewayVpcOutput) ToIsVpnGatewayVpcOutputWithContext(ctx context.Context) IsVpnGatewayVpcOutput {
-	return o
-}
-
-// The CRN for this VPC.
-func (o IsVpnGatewayVpcOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayVpc) *string { return v.Crn }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o IsVpnGatewayVpcOutput) Deleteds() IsVpnGatewayVpcDeletedArrayOutput {
-	return o.ApplyT(func(v IsVpnGatewayVpc) []IsVpnGatewayVpcDeleted { return v.Deleteds }).(IsVpnGatewayVpcDeletedArrayOutput)
-}
-
-// The URL for this VPC.
-func (o IsVpnGatewayVpcOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayVpc) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this VPC.
-func (o IsVpnGatewayVpcOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayVpc) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The unique user-defined name for this VPC.
-func (o IsVpnGatewayVpcOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayVpc) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayVpcArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayVpcArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayVpc)(nil)).Elem()
-}
-
-func (o IsVpnGatewayVpcArrayOutput) ToIsVpnGatewayVpcArrayOutput() IsVpnGatewayVpcArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayVpcArrayOutput) ToIsVpnGatewayVpcArrayOutputWithContext(ctx context.Context) IsVpnGatewayVpcArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayVpcArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayVpcOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayVpc {
-		return vs[0].([]IsVpnGatewayVpc)[vs[1].(int)]
-	}).(IsVpnGatewayVpcOutput)
-}
-
-type IsVpnGatewayVpcDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnGatewayVpcDeletedInput is an input type that accepts IsVpnGatewayVpcDeletedArgs and IsVpnGatewayVpcDeletedOutput values.
-// You can construct a concrete instance of `IsVpnGatewayVpcDeletedInput` via:
-//
-//	IsVpnGatewayVpcDeletedArgs{...}
-type IsVpnGatewayVpcDeletedInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayVpcDeletedOutput() IsVpnGatewayVpcDeletedOutput
-	ToIsVpnGatewayVpcDeletedOutputWithContext(context.Context) IsVpnGatewayVpcDeletedOutput
-}
-
-type IsVpnGatewayVpcDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnGatewayVpcDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayVpcDeleted)(nil)).Elem()
-}
-
-func (i IsVpnGatewayVpcDeletedArgs) ToIsVpnGatewayVpcDeletedOutput() IsVpnGatewayVpcDeletedOutput {
-	return i.ToIsVpnGatewayVpcDeletedOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayVpcDeletedArgs) ToIsVpnGatewayVpcDeletedOutputWithContext(ctx context.Context) IsVpnGatewayVpcDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayVpcDeletedOutput)
-}
-
-// IsVpnGatewayVpcDeletedArrayInput is an input type that accepts IsVpnGatewayVpcDeletedArray and IsVpnGatewayVpcDeletedArrayOutput values.
-// You can construct a concrete instance of `IsVpnGatewayVpcDeletedArrayInput` via:
-//
-//	IsVpnGatewayVpcDeletedArray{ IsVpnGatewayVpcDeletedArgs{...} }
-type IsVpnGatewayVpcDeletedArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnGatewayVpcDeletedArrayOutput() IsVpnGatewayVpcDeletedArrayOutput
-	ToIsVpnGatewayVpcDeletedArrayOutputWithContext(context.Context) IsVpnGatewayVpcDeletedArrayOutput
-}
-
-type IsVpnGatewayVpcDeletedArray []IsVpnGatewayVpcDeletedInput
-
-func (IsVpnGatewayVpcDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayVpcDeleted)(nil)).Elem()
-}
-
-func (i IsVpnGatewayVpcDeletedArray) ToIsVpnGatewayVpcDeletedArrayOutput() IsVpnGatewayVpcDeletedArrayOutput {
-	return i.ToIsVpnGatewayVpcDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnGatewayVpcDeletedArray) ToIsVpnGatewayVpcDeletedArrayOutputWithContext(ctx context.Context) IsVpnGatewayVpcDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnGatewayVpcDeletedArrayOutput)
-}
-
-type IsVpnGatewayVpcDeletedOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayVpcDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnGatewayVpcDeleted)(nil)).Elem()
-}
-
-func (o IsVpnGatewayVpcDeletedOutput) ToIsVpnGatewayVpcDeletedOutput() IsVpnGatewayVpcDeletedOutput {
-	return o
-}
-
-func (o IsVpnGatewayVpcDeletedOutput) ToIsVpnGatewayVpcDeletedOutputWithContext(ctx context.Context) IsVpnGatewayVpcDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o IsVpnGatewayVpcDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnGatewayVpcDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnGatewayVpcDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnGatewayVpcDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnGatewayVpcDeleted)(nil)).Elem()
-}
-
-func (o IsVpnGatewayVpcDeletedArrayOutput) ToIsVpnGatewayVpcDeletedArrayOutput() IsVpnGatewayVpcDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayVpcDeletedArrayOutput) ToIsVpnGatewayVpcDeletedArrayOutputWithContext(ctx context.Context) IsVpnGatewayVpcDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpnGatewayVpcDeletedArrayOutput) Index(i pulumi.IntInput) IsVpnGatewayVpcDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnGatewayVpcDeleted {
-		return vs[0].([]IsVpnGatewayVpcDeleted)[vs[1].(int)]
-	}).(IsVpnGatewayVpcDeletedOutput)
-}
-
-type IsVpnServerClientAuthentication struct {
-	// The crn of certificate instance to use for the VPN client certificate authority (CA).
-	ClientCaCrn *string `pulumi:"clientCaCrn"`
-	// The type of identity provider to be used by the VPN client.- `iam`: IBM identity and access managementThe enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the unexpected property value was encountered.
-	IdentityProvider *string `pulumi:"identityProvider"`
-	// The type of authentication.
-	Method string `pulumi:"method"`
-}
-
-// IsVpnServerClientAuthenticationInput is an input type that accepts IsVpnServerClientAuthenticationArgs and IsVpnServerClientAuthenticationOutput values.
-// You can construct a concrete instance of `IsVpnServerClientAuthenticationInput` via:
-//
-//	IsVpnServerClientAuthenticationArgs{...}
-type IsVpnServerClientAuthenticationInput interface {
-	pulumi.Input
-
-	ToIsVpnServerClientAuthenticationOutput() IsVpnServerClientAuthenticationOutput
-	ToIsVpnServerClientAuthenticationOutputWithContext(context.Context) IsVpnServerClientAuthenticationOutput
-}
-
-type IsVpnServerClientAuthenticationArgs struct {
-	// The crn of certificate instance to use for the VPN client certificate authority (CA).
-	ClientCaCrn pulumi.StringPtrInput `pulumi:"clientCaCrn"`
-	// The type of identity provider to be used by the VPN client.- `iam`: IBM identity and access managementThe enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the unexpected property value was encountered.
-	IdentityProvider pulumi.StringPtrInput `pulumi:"identityProvider"`
-	// The type of authentication.
-	Method pulumi.StringInput `pulumi:"method"`
-}
-
-func (IsVpnServerClientAuthenticationArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerClientAuthentication)(nil)).Elem()
-}
-
-func (i IsVpnServerClientAuthenticationArgs) ToIsVpnServerClientAuthenticationOutput() IsVpnServerClientAuthenticationOutput {
-	return i.ToIsVpnServerClientAuthenticationOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerClientAuthenticationArgs) ToIsVpnServerClientAuthenticationOutputWithContext(ctx context.Context) IsVpnServerClientAuthenticationOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerClientAuthenticationOutput)
-}
-
-// IsVpnServerClientAuthenticationArrayInput is an input type that accepts IsVpnServerClientAuthenticationArray and IsVpnServerClientAuthenticationArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerClientAuthenticationArrayInput` via:
-//
-//	IsVpnServerClientAuthenticationArray{ IsVpnServerClientAuthenticationArgs{...} }
-type IsVpnServerClientAuthenticationArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerClientAuthenticationArrayOutput() IsVpnServerClientAuthenticationArrayOutput
-	ToIsVpnServerClientAuthenticationArrayOutputWithContext(context.Context) IsVpnServerClientAuthenticationArrayOutput
-}
-
-type IsVpnServerClientAuthenticationArray []IsVpnServerClientAuthenticationInput
-
-func (IsVpnServerClientAuthenticationArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerClientAuthentication)(nil)).Elem()
-}
-
-func (i IsVpnServerClientAuthenticationArray) ToIsVpnServerClientAuthenticationArrayOutput() IsVpnServerClientAuthenticationArrayOutput {
-	return i.ToIsVpnServerClientAuthenticationArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerClientAuthenticationArray) ToIsVpnServerClientAuthenticationArrayOutputWithContext(ctx context.Context) IsVpnServerClientAuthenticationArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerClientAuthenticationArrayOutput)
-}
-
-type IsVpnServerClientAuthenticationOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerClientAuthenticationOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerClientAuthentication)(nil)).Elem()
-}
-
-func (o IsVpnServerClientAuthenticationOutput) ToIsVpnServerClientAuthenticationOutput() IsVpnServerClientAuthenticationOutput {
-	return o
-}
-
-func (o IsVpnServerClientAuthenticationOutput) ToIsVpnServerClientAuthenticationOutputWithContext(ctx context.Context) IsVpnServerClientAuthenticationOutput {
-	return o
-}
-
-// The crn of certificate instance to use for the VPN client certificate authority (CA).
-func (o IsVpnServerClientAuthenticationOutput) ClientCaCrn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerClientAuthentication) *string { return v.ClientCaCrn }).(pulumi.StringPtrOutput)
-}
-
-// The type of identity provider to be used by the VPN client.- `iam`: IBM identity and access managementThe enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the route on which the unexpected property value was encountered.
-func (o IsVpnServerClientAuthenticationOutput) IdentityProvider() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerClientAuthentication) *string { return v.IdentityProvider }).(pulumi.StringPtrOutput)
-}
-
-// The type of authentication.
-func (o IsVpnServerClientAuthenticationOutput) Method() pulumi.StringOutput {
-	return o.ApplyT(func(v IsVpnServerClientAuthentication) string { return v.Method }).(pulumi.StringOutput)
-}
-
-type IsVpnServerClientAuthenticationArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerClientAuthenticationArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerClientAuthentication)(nil)).Elem()
-}
-
-func (o IsVpnServerClientAuthenticationArrayOutput) ToIsVpnServerClientAuthenticationArrayOutput() IsVpnServerClientAuthenticationArrayOutput {
-	return o
-}
-
-func (o IsVpnServerClientAuthenticationArrayOutput) ToIsVpnServerClientAuthenticationArrayOutputWithContext(ctx context.Context) IsVpnServerClientAuthenticationArrayOutput {
-	return o
-}
-
-func (o IsVpnServerClientAuthenticationArrayOutput) Index(i pulumi.IntInput) IsVpnServerClientAuthenticationOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerClientAuthentication {
-		return vs[0].([]IsVpnServerClientAuthentication)[vs[1].(int)]
-	}).(IsVpnServerClientAuthenticationOutput)
-}
-
-type IsVpnServerHealthReason struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnServerHealthReasonInput is an input type that accepts IsVpnServerHealthReasonArgs and IsVpnServerHealthReasonOutput values.
-// You can construct a concrete instance of `IsVpnServerHealthReasonInput` via:
-//
-//	IsVpnServerHealthReasonArgs{...}
-type IsVpnServerHealthReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnServerHealthReasonOutput() IsVpnServerHealthReasonOutput
-	ToIsVpnServerHealthReasonOutputWithContext(context.Context) IsVpnServerHealthReasonOutput
-}
-
-type IsVpnServerHealthReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnServerHealthReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerHealthReason)(nil)).Elem()
-}
-
-func (i IsVpnServerHealthReasonArgs) ToIsVpnServerHealthReasonOutput() IsVpnServerHealthReasonOutput {
-	return i.ToIsVpnServerHealthReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerHealthReasonArgs) ToIsVpnServerHealthReasonOutputWithContext(ctx context.Context) IsVpnServerHealthReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerHealthReasonOutput)
-}
-
-// IsVpnServerHealthReasonArrayInput is an input type that accepts IsVpnServerHealthReasonArray and IsVpnServerHealthReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerHealthReasonArrayInput` via:
-//
-//	IsVpnServerHealthReasonArray{ IsVpnServerHealthReasonArgs{...} }
-type IsVpnServerHealthReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerHealthReasonArrayOutput() IsVpnServerHealthReasonArrayOutput
-	ToIsVpnServerHealthReasonArrayOutputWithContext(context.Context) IsVpnServerHealthReasonArrayOutput
-}
-
-type IsVpnServerHealthReasonArray []IsVpnServerHealthReasonInput
-
-func (IsVpnServerHealthReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerHealthReason)(nil)).Elem()
-}
-
-func (i IsVpnServerHealthReasonArray) ToIsVpnServerHealthReasonArrayOutput() IsVpnServerHealthReasonArrayOutput {
-	return i.ToIsVpnServerHealthReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerHealthReasonArray) ToIsVpnServerHealthReasonArrayOutputWithContext(ctx context.Context) IsVpnServerHealthReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerHealthReasonArrayOutput)
-}
-
-type IsVpnServerHealthReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerHealthReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerHealthReason)(nil)).Elem()
-}
-
-func (o IsVpnServerHealthReasonOutput) ToIsVpnServerHealthReasonOutput() IsVpnServerHealthReasonOutput {
-	return o
-}
-
-func (o IsVpnServerHealthReasonOutput) ToIsVpnServerHealthReasonOutputWithContext(ctx context.Context) IsVpnServerHealthReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this health state.
-func (o IsVpnServerHealthReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerHealthReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this health state.
-func (o IsVpnServerHealthReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerHealthReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this health state.
-func (o IsVpnServerHealthReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerHealthReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerHealthReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerHealthReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerHealthReason)(nil)).Elem()
-}
-
-func (o IsVpnServerHealthReasonArrayOutput) ToIsVpnServerHealthReasonArrayOutput() IsVpnServerHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerHealthReasonArrayOutput) ToIsVpnServerHealthReasonArrayOutputWithContext(ctx context.Context) IsVpnServerHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerHealthReasonArrayOutput) Index(i pulumi.IntInput) IsVpnServerHealthReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerHealthReason {
-		return vs[0].([]IsVpnServerHealthReason)[vs[1].(int)]
-	}).(IsVpnServerHealthReasonOutput)
-}
-
-type IsVpnServerLifecycleReason struct {
-	// A snake case string succinctly identifying the reason for this lifecycle state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnServerLifecycleReasonInput is an input type that accepts IsVpnServerLifecycleReasonArgs and IsVpnServerLifecycleReasonOutput values.
-// You can construct a concrete instance of `IsVpnServerLifecycleReasonInput` via:
-//
-//	IsVpnServerLifecycleReasonArgs{...}
-type IsVpnServerLifecycleReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnServerLifecycleReasonOutput() IsVpnServerLifecycleReasonOutput
-	ToIsVpnServerLifecycleReasonOutputWithContext(context.Context) IsVpnServerLifecycleReasonOutput
-}
-
-type IsVpnServerLifecycleReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this lifecycle state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnServerLifecycleReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerLifecycleReason)(nil)).Elem()
-}
-
-func (i IsVpnServerLifecycleReasonArgs) ToIsVpnServerLifecycleReasonOutput() IsVpnServerLifecycleReasonOutput {
-	return i.ToIsVpnServerLifecycleReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerLifecycleReasonArgs) ToIsVpnServerLifecycleReasonOutputWithContext(ctx context.Context) IsVpnServerLifecycleReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerLifecycleReasonOutput)
-}
-
-// IsVpnServerLifecycleReasonArrayInput is an input type that accepts IsVpnServerLifecycleReasonArray and IsVpnServerLifecycleReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerLifecycleReasonArrayInput` via:
-//
-//	IsVpnServerLifecycleReasonArray{ IsVpnServerLifecycleReasonArgs{...} }
-type IsVpnServerLifecycleReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerLifecycleReasonArrayOutput() IsVpnServerLifecycleReasonArrayOutput
-	ToIsVpnServerLifecycleReasonArrayOutputWithContext(context.Context) IsVpnServerLifecycleReasonArrayOutput
-}
-
-type IsVpnServerLifecycleReasonArray []IsVpnServerLifecycleReasonInput
-
-func (IsVpnServerLifecycleReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerLifecycleReason)(nil)).Elem()
-}
-
-func (i IsVpnServerLifecycleReasonArray) ToIsVpnServerLifecycleReasonArrayOutput() IsVpnServerLifecycleReasonArrayOutput {
-	return i.ToIsVpnServerLifecycleReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerLifecycleReasonArray) ToIsVpnServerLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVpnServerLifecycleReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerLifecycleReasonArrayOutput)
-}
-
-type IsVpnServerLifecycleReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerLifecycleReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerLifecycleReason)(nil)).Elem()
-}
-
-func (o IsVpnServerLifecycleReasonOutput) ToIsVpnServerLifecycleReasonOutput() IsVpnServerLifecycleReasonOutput {
-	return o
-}
-
-func (o IsVpnServerLifecycleReasonOutput) ToIsVpnServerLifecycleReasonOutputWithContext(ctx context.Context) IsVpnServerLifecycleReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this lifecycle state.
-func (o IsVpnServerLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this lifecycle state.
-func (o IsVpnServerLifecycleReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerLifecycleReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this lifecycle state.
-func (o IsVpnServerLifecycleReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerLifecycleReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerLifecycleReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerLifecycleReason)(nil)).Elem()
-}
-
-func (o IsVpnServerLifecycleReasonArrayOutput) ToIsVpnServerLifecycleReasonArrayOutput() IsVpnServerLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerLifecycleReasonArrayOutput) ToIsVpnServerLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVpnServerLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerLifecycleReasonArrayOutput) Index(i pulumi.IntInput) IsVpnServerLifecycleReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerLifecycleReason {
-		return vs[0].([]IsVpnServerLifecycleReason)[vs[1].(int)]
-	}).(IsVpnServerLifecycleReasonOutput)
-}
-
-type IsVpnServerPrivateIp struct {
-	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address *string `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []IsVpnServerPrivateIpDeleted `pulumi:"deleteds"`
-	// The URL for this reserved IP.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this reserved IP.
-	Id *string `pulumi:"id"`
-	// The user-defined or system-provided name for this reserved IP.
-	Name *string `pulumi:"name"`
-	// The resource type.
-	ResourceType *string `pulumi:"resourceType"`
-}
-
-// IsVpnServerPrivateIpInput is an input type that accepts IsVpnServerPrivateIpArgs and IsVpnServerPrivateIpOutput values.
-// You can construct a concrete instance of `IsVpnServerPrivateIpInput` via:
-//
-//	IsVpnServerPrivateIpArgs{...}
-type IsVpnServerPrivateIpInput interface {
-	pulumi.Input
-
-	ToIsVpnServerPrivateIpOutput() IsVpnServerPrivateIpOutput
-	ToIsVpnServerPrivateIpOutputWithContext(context.Context) IsVpnServerPrivateIpOutput
-}
-
-type IsVpnServerPrivateIpArgs struct {
-	// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-	Address pulumi.StringPtrInput `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds IsVpnServerPrivateIpDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this reserved IP.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this reserved IP.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The user-defined or system-provided name for this reserved IP.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringPtrInput `pulumi:"resourceType"`
-}
-
-func (IsVpnServerPrivateIpArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerPrivateIp)(nil)).Elem()
-}
-
-func (i IsVpnServerPrivateIpArgs) ToIsVpnServerPrivateIpOutput() IsVpnServerPrivateIpOutput {
-	return i.ToIsVpnServerPrivateIpOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerPrivateIpArgs) ToIsVpnServerPrivateIpOutputWithContext(ctx context.Context) IsVpnServerPrivateIpOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerPrivateIpOutput)
-}
-
-// IsVpnServerPrivateIpArrayInput is an input type that accepts IsVpnServerPrivateIpArray and IsVpnServerPrivateIpArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerPrivateIpArrayInput` via:
-//
-//	IsVpnServerPrivateIpArray{ IsVpnServerPrivateIpArgs{...} }
-type IsVpnServerPrivateIpArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerPrivateIpArrayOutput() IsVpnServerPrivateIpArrayOutput
-	ToIsVpnServerPrivateIpArrayOutputWithContext(context.Context) IsVpnServerPrivateIpArrayOutput
-}
-
-type IsVpnServerPrivateIpArray []IsVpnServerPrivateIpInput
-
-func (IsVpnServerPrivateIpArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerPrivateIp)(nil)).Elem()
-}
-
-func (i IsVpnServerPrivateIpArray) ToIsVpnServerPrivateIpArrayOutput() IsVpnServerPrivateIpArrayOutput {
-	return i.ToIsVpnServerPrivateIpArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerPrivateIpArray) ToIsVpnServerPrivateIpArrayOutputWithContext(ctx context.Context) IsVpnServerPrivateIpArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerPrivateIpArrayOutput)
-}
-
-type IsVpnServerPrivateIpOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerPrivateIpOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerPrivateIp)(nil)).Elem()
-}
-
-func (o IsVpnServerPrivateIpOutput) ToIsVpnServerPrivateIpOutput() IsVpnServerPrivateIpOutput {
-	return o
-}
-
-func (o IsVpnServerPrivateIpOutput) ToIsVpnServerPrivateIpOutputWithContext(ctx context.Context) IsVpnServerPrivateIpOutput {
-	return o
-}
-
-// The IP address. This property may add support for IPv6 addresses in the future. When processing a value in this property, verify that the address is in an expected format. If it is not, log an error. Optionally halt processing and surface the error, or bypass the resource on which the unexpected IP address format was encountered.
-func (o IsVpnServerPrivateIpOutput) Address() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIp) *string { return v.Address }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o IsVpnServerPrivateIpOutput) Deleteds() IsVpnServerPrivateIpDeletedArrayOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIp) []IsVpnServerPrivateIpDeleted { return v.Deleteds }).(IsVpnServerPrivateIpDeletedArrayOutput)
-}
-
-// The URL for this reserved IP.
-func (o IsVpnServerPrivateIpOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIp) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this reserved IP.
-func (o IsVpnServerPrivateIpOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIp) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The user-defined or system-provided name for this reserved IP.
-func (o IsVpnServerPrivateIpOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIp) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-// The resource type.
-func (o IsVpnServerPrivateIpOutput) ResourceType() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIp) *string { return v.ResourceType }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerPrivateIpArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerPrivateIpArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerPrivateIp)(nil)).Elem()
-}
-
-func (o IsVpnServerPrivateIpArrayOutput) ToIsVpnServerPrivateIpArrayOutput() IsVpnServerPrivateIpArrayOutput {
-	return o
-}
-
-func (o IsVpnServerPrivateIpArrayOutput) ToIsVpnServerPrivateIpArrayOutputWithContext(ctx context.Context) IsVpnServerPrivateIpArrayOutput {
-	return o
-}
-
-func (o IsVpnServerPrivateIpArrayOutput) Index(i pulumi.IntInput) IsVpnServerPrivateIpOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerPrivateIp {
-		return vs[0].([]IsVpnServerPrivateIp)[vs[1].(int)]
-	}).(IsVpnServerPrivateIpOutput)
-}
-
-type IsVpnServerPrivateIpDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnServerPrivateIpDeletedInput is an input type that accepts IsVpnServerPrivateIpDeletedArgs and IsVpnServerPrivateIpDeletedOutput values.
-// You can construct a concrete instance of `IsVpnServerPrivateIpDeletedInput` via:
-//
-//	IsVpnServerPrivateIpDeletedArgs{...}
-type IsVpnServerPrivateIpDeletedInput interface {
-	pulumi.Input
-
-	ToIsVpnServerPrivateIpDeletedOutput() IsVpnServerPrivateIpDeletedOutput
-	ToIsVpnServerPrivateIpDeletedOutputWithContext(context.Context) IsVpnServerPrivateIpDeletedOutput
-}
-
-type IsVpnServerPrivateIpDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnServerPrivateIpDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerPrivateIpDeleted)(nil)).Elem()
-}
-
-func (i IsVpnServerPrivateIpDeletedArgs) ToIsVpnServerPrivateIpDeletedOutput() IsVpnServerPrivateIpDeletedOutput {
-	return i.ToIsVpnServerPrivateIpDeletedOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerPrivateIpDeletedArgs) ToIsVpnServerPrivateIpDeletedOutputWithContext(ctx context.Context) IsVpnServerPrivateIpDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerPrivateIpDeletedOutput)
-}
-
-// IsVpnServerPrivateIpDeletedArrayInput is an input type that accepts IsVpnServerPrivateIpDeletedArray and IsVpnServerPrivateIpDeletedArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerPrivateIpDeletedArrayInput` via:
-//
-//	IsVpnServerPrivateIpDeletedArray{ IsVpnServerPrivateIpDeletedArgs{...} }
-type IsVpnServerPrivateIpDeletedArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerPrivateIpDeletedArrayOutput() IsVpnServerPrivateIpDeletedArrayOutput
-	ToIsVpnServerPrivateIpDeletedArrayOutputWithContext(context.Context) IsVpnServerPrivateIpDeletedArrayOutput
-}
-
-type IsVpnServerPrivateIpDeletedArray []IsVpnServerPrivateIpDeletedInput
-
-func (IsVpnServerPrivateIpDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerPrivateIpDeleted)(nil)).Elem()
-}
-
-func (i IsVpnServerPrivateIpDeletedArray) ToIsVpnServerPrivateIpDeletedArrayOutput() IsVpnServerPrivateIpDeletedArrayOutput {
-	return i.ToIsVpnServerPrivateIpDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerPrivateIpDeletedArray) ToIsVpnServerPrivateIpDeletedArrayOutputWithContext(ctx context.Context) IsVpnServerPrivateIpDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerPrivateIpDeletedArrayOutput)
-}
-
-type IsVpnServerPrivateIpDeletedOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerPrivateIpDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerPrivateIpDeleted)(nil)).Elem()
-}
-
-func (o IsVpnServerPrivateIpDeletedOutput) ToIsVpnServerPrivateIpDeletedOutput() IsVpnServerPrivateIpDeletedOutput {
-	return o
-}
-
-func (o IsVpnServerPrivateIpDeletedOutput) ToIsVpnServerPrivateIpDeletedOutputWithContext(ctx context.Context) IsVpnServerPrivateIpDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o IsVpnServerPrivateIpDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerPrivateIpDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerPrivateIpDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerPrivateIpDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerPrivateIpDeleted)(nil)).Elem()
-}
-
-func (o IsVpnServerPrivateIpDeletedArrayOutput) ToIsVpnServerPrivateIpDeletedArrayOutput() IsVpnServerPrivateIpDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpnServerPrivateIpDeletedArrayOutput) ToIsVpnServerPrivateIpDeletedArrayOutputWithContext(ctx context.Context) IsVpnServerPrivateIpDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpnServerPrivateIpDeletedArrayOutput) Index(i pulumi.IntInput) IsVpnServerPrivateIpDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerPrivateIpDeleted {
-		return vs[0].([]IsVpnServerPrivateIpDeleted)[vs[1].(int)]
-	}).(IsVpnServerPrivateIpDeletedOutput)
-}
-
-type IsVpnServerRouteHealthReason struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnServerRouteHealthReasonInput is an input type that accepts IsVpnServerRouteHealthReasonArgs and IsVpnServerRouteHealthReasonOutput values.
-// You can construct a concrete instance of `IsVpnServerRouteHealthReasonInput` via:
-//
-//	IsVpnServerRouteHealthReasonArgs{...}
-type IsVpnServerRouteHealthReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnServerRouteHealthReasonOutput() IsVpnServerRouteHealthReasonOutput
-	ToIsVpnServerRouteHealthReasonOutputWithContext(context.Context) IsVpnServerRouteHealthReasonOutput
-}
-
-type IsVpnServerRouteHealthReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this health state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this health state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this health state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnServerRouteHealthReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerRouteHealthReason)(nil)).Elem()
-}
-
-func (i IsVpnServerRouteHealthReasonArgs) ToIsVpnServerRouteHealthReasonOutput() IsVpnServerRouteHealthReasonOutput {
-	return i.ToIsVpnServerRouteHealthReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerRouteHealthReasonArgs) ToIsVpnServerRouteHealthReasonOutputWithContext(ctx context.Context) IsVpnServerRouteHealthReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerRouteHealthReasonOutput)
-}
-
-// IsVpnServerRouteHealthReasonArrayInput is an input type that accepts IsVpnServerRouteHealthReasonArray and IsVpnServerRouteHealthReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerRouteHealthReasonArrayInput` via:
-//
-//	IsVpnServerRouteHealthReasonArray{ IsVpnServerRouteHealthReasonArgs{...} }
-type IsVpnServerRouteHealthReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerRouteHealthReasonArrayOutput() IsVpnServerRouteHealthReasonArrayOutput
-	ToIsVpnServerRouteHealthReasonArrayOutputWithContext(context.Context) IsVpnServerRouteHealthReasonArrayOutput
-}
-
-type IsVpnServerRouteHealthReasonArray []IsVpnServerRouteHealthReasonInput
-
-func (IsVpnServerRouteHealthReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerRouteHealthReason)(nil)).Elem()
-}
-
-func (i IsVpnServerRouteHealthReasonArray) ToIsVpnServerRouteHealthReasonArrayOutput() IsVpnServerRouteHealthReasonArrayOutput {
-	return i.ToIsVpnServerRouteHealthReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerRouteHealthReasonArray) ToIsVpnServerRouteHealthReasonArrayOutputWithContext(ctx context.Context) IsVpnServerRouteHealthReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerRouteHealthReasonArrayOutput)
-}
-
-type IsVpnServerRouteHealthReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerRouteHealthReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerRouteHealthReason)(nil)).Elem()
-}
-
-func (o IsVpnServerRouteHealthReasonOutput) ToIsVpnServerRouteHealthReasonOutput() IsVpnServerRouteHealthReasonOutput {
-	return o
-}
-
-func (o IsVpnServerRouteHealthReasonOutput) ToIsVpnServerRouteHealthReasonOutputWithContext(ctx context.Context) IsVpnServerRouteHealthReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this health state.
-func (o IsVpnServerRouteHealthReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerRouteHealthReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this health state.
-func (o IsVpnServerRouteHealthReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerRouteHealthReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this health state.
-func (o IsVpnServerRouteHealthReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerRouteHealthReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerRouteHealthReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerRouteHealthReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerRouteHealthReason)(nil)).Elem()
-}
-
-func (o IsVpnServerRouteHealthReasonArrayOutput) ToIsVpnServerRouteHealthReasonArrayOutput() IsVpnServerRouteHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerRouteHealthReasonArrayOutput) ToIsVpnServerRouteHealthReasonArrayOutputWithContext(ctx context.Context) IsVpnServerRouteHealthReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerRouteHealthReasonArrayOutput) Index(i pulumi.IntInput) IsVpnServerRouteHealthReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerRouteHealthReason {
-		return vs[0].([]IsVpnServerRouteHealthReason)[vs[1].(int)]
-	}).(IsVpnServerRouteHealthReasonOutput)
-}
-
-type IsVpnServerRouteLifecycleReason struct {
-	// A snake case string succinctly identifying the reason for this lifecycle state.
-	Code *string `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message *string `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnServerRouteLifecycleReasonInput is an input type that accepts IsVpnServerRouteLifecycleReasonArgs and IsVpnServerRouteLifecycleReasonOutput values.
-// You can construct a concrete instance of `IsVpnServerRouteLifecycleReasonInput` via:
-//
-//	IsVpnServerRouteLifecycleReasonArgs{...}
-type IsVpnServerRouteLifecycleReasonInput interface {
-	pulumi.Input
-
-	ToIsVpnServerRouteLifecycleReasonOutput() IsVpnServerRouteLifecycleReasonOutput
-	ToIsVpnServerRouteLifecycleReasonOutputWithContext(context.Context) IsVpnServerRouteLifecycleReasonOutput
-}
-
-type IsVpnServerRouteLifecycleReasonArgs struct {
-	// A snake case string succinctly identifying the reason for this lifecycle state.
-	Code pulumi.StringPtrInput `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message pulumi.StringPtrInput `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnServerRouteLifecycleReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerRouteLifecycleReason)(nil)).Elem()
-}
-
-func (i IsVpnServerRouteLifecycleReasonArgs) ToIsVpnServerRouteLifecycleReasonOutput() IsVpnServerRouteLifecycleReasonOutput {
-	return i.ToIsVpnServerRouteLifecycleReasonOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerRouteLifecycleReasonArgs) ToIsVpnServerRouteLifecycleReasonOutputWithContext(ctx context.Context) IsVpnServerRouteLifecycleReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerRouteLifecycleReasonOutput)
-}
-
-// IsVpnServerRouteLifecycleReasonArrayInput is an input type that accepts IsVpnServerRouteLifecycleReasonArray and IsVpnServerRouteLifecycleReasonArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerRouteLifecycleReasonArrayInput` via:
-//
-//	IsVpnServerRouteLifecycleReasonArray{ IsVpnServerRouteLifecycleReasonArgs{...} }
-type IsVpnServerRouteLifecycleReasonArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerRouteLifecycleReasonArrayOutput() IsVpnServerRouteLifecycleReasonArrayOutput
-	ToIsVpnServerRouteLifecycleReasonArrayOutputWithContext(context.Context) IsVpnServerRouteLifecycleReasonArrayOutput
-}
-
-type IsVpnServerRouteLifecycleReasonArray []IsVpnServerRouteLifecycleReasonInput
-
-func (IsVpnServerRouteLifecycleReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerRouteLifecycleReason)(nil)).Elem()
-}
-
-func (i IsVpnServerRouteLifecycleReasonArray) ToIsVpnServerRouteLifecycleReasonArrayOutput() IsVpnServerRouteLifecycleReasonArrayOutput {
-	return i.ToIsVpnServerRouteLifecycleReasonArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerRouteLifecycleReasonArray) ToIsVpnServerRouteLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVpnServerRouteLifecycleReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerRouteLifecycleReasonArrayOutput)
-}
-
-type IsVpnServerRouteLifecycleReasonOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerRouteLifecycleReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerRouteLifecycleReason)(nil)).Elem()
-}
-
-func (o IsVpnServerRouteLifecycleReasonOutput) ToIsVpnServerRouteLifecycleReasonOutput() IsVpnServerRouteLifecycleReasonOutput {
-	return o
-}
-
-func (o IsVpnServerRouteLifecycleReasonOutput) ToIsVpnServerRouteLifecycleReasonOutputWithContext(ctx context.Context) IsVpnServerRouteLifecycleReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the reason for this lifecycle state.
-func (o IsVpnServerRouteLifecycleReasonOutput) Code() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerRouteLifecycleReason) *string { return v.Code }).(pulumi.StringPtrOutput)
-}
-
-// An explanation of the reason for this lifecycle state.
-func (o IsVpnServerRouteLifecycleReasonOutput) Message() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerRouteLifecycleReason) *string { return v.Message }).(pulumi.StringPtrOutput)
-}
-
-// Link to documentation about the reason for this lifecycle state.
-func (o IsVpnServerRouteLifecycleReasonOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerRouteLifecycleReason) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerRouteLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerRouteLifecycleReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerRouteLifecycleReason)(nil)).Elem()
-}
-
-func (o IsVpnServerRouteLifecycleReasonArrayOutput) ToIsVpnServerRouteLifecycleReasonArrayOutput() IsVpnServerRouteLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerRouteLifecycleReasonArrayOutput) ToIsVpnServerRouteLifecycleReasonArrayOutputWithContext(ctx context.Context) IsVpnServerRouteLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o IsVpnServerRouteLifecycleReasonArrayOutput) Index(i pulumi.IntInput) IsVpnServerRouteLifecycleReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerRouteLifecycleReason {
-		return vs[0].([]IsVpnServerRouteLifecycleReason)[vs[1].(int)]
-	}).(IsVpnServerRouteLifecycleReasonOutput)
-}
-
-type IsVpnServerVpc struct {
-	// The CRN for this VPC.
-	Crn *string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []IsVpnServerVpcDeleted `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href *string `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id *string `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name *string `pulumi:"name"`
-}
-
-// IsVpnServerVpcInput is an input type that accepts IsVpnServerVpcArgs and IsVpnServerVpcOutput values.
-// You can construct a concrete instance of `IsVpnServerVpcInput` via:
-//
-//	IsVpnServerVpcArgs{...}
-type IsVpnServerVpcInput interface {
-	pulumi.Input
-
-	ToIsVpnServerVpcOutput() IsVpnServerVpcOutput
-	ToIsVpnServerVpcOutputWithContext(context.Context) IsVpnServerVpcOutput
-}
-
-type IsVpnServerVpcArgs struct {
-	// The CRN for this VPC.
-	Crn pulumi.StringPtrInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds IsVpnServerVpcDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href pulumi.StringPtrInput `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id pulumi.StringPtrInput `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name pulumi.StringPtrInput `pulumi:"name"`
-}
-
-func (IsVpnServerVpcArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerVpc)(nil)).Elem()
-}
-
-func (i IsVpnServerVpcArgs) ToIsVpnServerVpcOutput() IsVpnServerVpcOutput {
-	return i.ToIsVpnServerVpcOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerVpcArgs) ToIsVpnServerVpcOutputWithContext(ctx context.Context) IsVpnServerVpcOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerVpcOutput)
-}
-
-// IsVpnServerVpcArrayInput is an input type that accepts IsVpnServerVpcArray and IsVpnServerVpcArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerVpcArrayInput` via:
-//
-//	IsVpnServerVpcArray{ IsVpnServerVpcArgs{...} }
-type IsVpnServerVpcArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerVpcArrayOutput() IsVpnServerVpcArrayOutput
-	ToIsVpnServerVpcArrayOutputWithContext(context.Context) IsVpnServerVpcArrayOutput
-}
-
-type IsVpnServerVpcArray []IsVpnServerVpcInput
-
-func (IsVpnServerVpcArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerVpc)(nil)).Elem()
-}
-
-func (i IsVpnServerVpcArray) ToIsVpnServerVpcArrayOutput() IsVpnServerVpcArrayOutput {
-	return i.ToIsVpnServerVpcArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerVpcArray) ToIsVpnServerVpcArrayOutputWithContext(ctx context.Context) IsVpnServerVpcArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerVpcArrayOutput)
-}
-
-type IsVpnServerVpcOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerVpcOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerVpc)(nil)).Elem()
-}
-
-func (o IsVpnServerVpcOutput) ToIsVpnServerVpcOutput() IsVpnServerVpcOutput {
-	return o
-}
-
-func (o IsVpnServerVpcOutput) ToIsVpnServerVpcOutputWithContext(ctx context.Context) IsVpnServerVpcOutput {
-	return o
-}
-
-// The CRN for this VPC.
-func (o IsVpnServerVpcOutput) Crn() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerVpc) *string { return v.Crn }).(pulumi.StringPtrOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o IsVpnServerVpcOutput) Deleteds() IsVpnServerVpcDeletedArrayOutput {
-	return o.ApplyT(func(v IsVpnServerVpc) []IsVpnServerVpcDeleted { return v.Deleteds }).(IsVpnServerVpcDeletedArrayOutput)
-}
-
-// The URL for this VPC.
-func (o IsVpnServerVpcOutput) Href() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerVpc) *string { return v.Href }).(pulumi.StringPtrOutput)
-}
-
-// The unique identifier for this VPC.
-func (o IsVpnServerVpcOutput) Id() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerVpc) *string { return v.Id }).(pulumi.StringPtrOutput)
-}
-
-// The unique user-defined name for this VPC.
-func (o IsVpnServerVpcOutput) Name() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerVpc) *string { return v.Name }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerVpcArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerVpcArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerVpc)(nil)).Elem()
-}
-
-func (o IsVpnServerVpcArrayOutput) ToIsVpnServerVpcArrayOutput() IsVpnServerVpcArrayOutput {
-	return o
-}
-
-func (o IsVpnServerVpcArrayOutput) ToIsVpnServerVpcArrayOutputWithContext(ctx context.Context) IsVpnServerVpcArrayOutput {
-	return o
-}
-
-func (o IsVpnServerVpcArrayOutput) Index(i pulumi.IntInput) IsVpnServerVpcOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerVpc {
-		return vs[0].([]IsVpnServerVpc)[vs[1].(int)]
-	}).(IsVpnServerVpcOutput)
-}
-
-type IsVpnServerVpcDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo *string `pulumi:"moreInfo"`
-}
-
-// IsVpnServerVpcDeletedInput is an input type that accepts IsVpnServerVpcDeletedArgs and IsVpnServerVpcDeletedOutput values.
-// You can construct a concrete instance of `IsVpnServerVpcDeletedInput` via:
-//
-//	IsVpnServerVpcDeletedArgs{...}
-type IsVpnServerVpcDeletedInput interface {
-	pulumi.Input
-
-	ToIsVpnServerVpcDeletedOutput() IsVpnServerVpcDeletedOutput
-	ToIsVpnServerVpcDeletedOutputWithContext(context.Context) IsVpnServerVpcDeletedOutput
-}
-
-type IsVpnServerVpcDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringPtrInput `pulumi:"moreInfo"`
-}
-
-func (IsVpnServerVpcDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerVpcDeleted)(nil)).Elem()
-}
-
-func (i IsVpnServerVpcDeletedArgs) ToIsVpnServerVpcDeletedOutput() IsVpnServerVpcDeletedOutput {
-	return i.ToIsVpnServerVpcDeletedOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerVpcDeletedArgs) ToIsVpnServerVpcDeletedOutputWithContext(ctx context.Context) IsVpnServerVpcDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerVpcDeletedOutput)
-}
-
-// IsVpnServerVpcDeletedArrayInput is an input type that accepts IsVpnServerVpcDeletedArray and IsVpnServerVpcDeletedArrayOutput values.
-// You can construct a concrete instance of `IsVpnServerVpcDeletedArrayInput` via:
-//
-//	IsVpnServerVpcDeletedArray{ IsVpnServerVpcDeletedArgs{...} }
-type IsVpnServerVpcDeletedArrayInput interface {
-	pulumi.Input
-
-	ToIsVpnServerVpcDeletedArrayOutput() IsVpnServerVpcDeletedArrayOutput
-	ToIsVpnServerVpcDeletedArrayOutputWithContext(context.Context) IsVpnServerVpcDeletedArrayOutput
-}
-
-type IsVpnServerVpcDeletedArray []IsVpnServerVpcDeletedInput
-
-func (IsVpnServerVpcDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerVpcDeleted)(nil)).Elem()
-}
-
-func (i IsVpnServerVpcDeletedArray) ToIsVpnServerVpcDeletedArrayOutput() IsVpnServerVpcDeletedArrayOutput {
-	return i.ToIsVpnServerVpcDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i IsVpnServerVpcDeletedArray) ToIsVpnServerVpcDeletedArrayOutputWithContext(ctx context.Context) IsVpnServerVpcDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(IsVpnServerVpcDeletedArrayOutput)
-}
-
-type IsVpnServerVpcDeletedOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerVpcDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*IsVpnServerVpcDeleted)(nil)).Elem()
-}
-
-func (o IsVpnServerVpcDeletedOutput) ToIsVpnServerVpcDeletedOutput() IsVpnServerVpcDeletedOutput {
-	return o
-}
-
-func (o IsVpnServerVpcDeletedOutput) ToIsVpnServerVpcDeletedOutputWithContext(ctx context.Context) IsVpnServerVpcDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o IsVpnServerVpcDeletedOutput) MoreInfo() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v IsVpnServerVpcDeleted) *string { return v.MoreInfo }).(pulumi.StringPtrOutput)
-}
-
-type IsVpnServerVpcDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (IsVpnServerVpcDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]IsVpnServerVpcDeleted)(nil)).Elem()
-}
-
-func (o IsVpnServerVpcDeletedArrayOutput) ToIsVpnServerVpcDeletedArrayOutput() IsVpnServerVpcDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpnServerVpcDeletedArrayOutput) ToIsVpnServerVpcDeletedArrayOutputWithContext(ctx context.Context) IsVpnServerVpcDeletedArrayOutput {
-	return o
-}
-
-func (o IsVpnServerVpcDeletedArrayOutput) Index(i pulumi.IntInput) IsVpnServerVpcDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) IsVpnServerVpcDeleted {
-		return vs[0].([]IsVpnServerVpcDeleted)[vs[1].(int)]
-	}).(IsVpnServerVpcDeletedOutput)
-}
-
-type PiDhcpLease struct {
-	// The IP of the PVM Instance
-	InstanceIp *string `pulumi:"instanceIp"`
-	// The MAC Address of the PVM Instance
-	InstanceMac *string `pulumi:"instanceMac"`
-}
-
-// PiDhcpLeaseInput is an input type that accepts PiDhcpLeaseArgs and PiDhcpLeaseOutput values.
-// You can construct a concrete instance of `PiDhcpLeaseInput` via:
-//
-//	PiDhcpLeaseArgs{...}
-type PiDhcpLeaseInput interface {
-	pulumi.Input
-
-	ToPiDhcpLeaseOutput() PiDhcpLeaseOutput
-	ToPiDhcpLeaseOutputWithContext(context.Context) PiDhcpLeaseOutput
-}
-
-type PiDhcpLeaseArgs struct {
-	// The IP of the PVM Instance
-	InstanceIp pulumi.StringPtrInput `pulumi:"instanceIp"`
-	// The MAC Address of the PVM Instance
-	InstanceMac pulumi.StringPtrInput `pulumi:"instanceMac"`
-}
-
-func (PiDhcpLeaseArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*PiDhcpLease)(nil)).Elem()
-}
-
-func (i PiDhcpLeaseArgs) ToPiDhcpLeaseOutput() PiDhcpLeaseOutput {
-	return i.ToPiDhcpLeaseOutputWithContext(context.Background())
-}
-
-func (i PiDhcpLeaseArgs) ToPiDhcpLeaseOutputWithContext(ctx context.Context) PiDhcpLeaseOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PiDhcpLeaseOutput)
-}
-
-// PiDhcpLeaseArrayInput is an input type that accepts PiDhcpLeaseArray and PiDhcpLeaseArrayOutput values.
-// You can construct a concrete instance of `PiDhcpLeaseArrayInput` via:
-//
-//	PiDhcpLeaseArray{ PiDhcpLeaseArgs{...} }
-type PiDhcpLeaseArrayInput interface {
-	pulumi.Input
-
-	ToPiDhcpLeaseArrayOutput() PiDhcpLeaseArrayOutput
-	ToPiDhcpLeaseArrayOutputWithContext(context.Context) PiDhcpLeaseArrayOutput
-}
-
-type PiDhcpLeaseArray []PiDhcpLeaseInput
-
-func (PiDhcpLeaseArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PiDhcpLease)(nil)).Elem()
-}
-
-func (i PiDhcpLeaseArray) ToPiDhcpLeaseArrayOutput() PiDhcpLeaseArrayOutput {
-	return i.ToPiDhcpLeaseArrayOutputWithContext(context.Background())
-}
-
-func (i PiDhcpLeaseArray) ToPiDhcpLeaseArrayOutputWithContext(ctx context.Context) PiDhcpLeaseArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PiDhcpLeaseArrayOutput)
-}
-
-type PiDhcpLeaseOutput struct{ *pulumi.OutputState }
-
-func (PiDhcpLeaseOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PiDhcpLease)(nil)).Elem()
-}
-
-func (o PiDhcpLeaseOutput) ToPiDhcpLeaseOutput() PiDhcpLeaseOutput {
-	return o
-}
-
-func (o PiDhcpLeaseOutput) ToPiDhcpLeaseOutputWithContext(ctx context.Context) PiDhcpLeaseOutput {
-	return o
-}
-
-// The IP of the PVM Instance
-func (o PiDhcpLeaseOutput) InstanceIp() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PiDhcpLease) *string { return v.InstanceIp }).(pulumi.StringPtrOutput)
-}
-
-// The MAC Address of the PVM Instance
-func (o PiDhcpLeaseOutput) InstanceMac() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v PiDhcpLease) *string { return v.InstanceMac }).(pulumi.StringPtrOutput)
-}
-
-type PiDhcpLeaseArrayOutput struct{ *pulumi.OutputState }
-
-func (PiDhcpLeaseArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PiDhcpLease)(nil)).Elem()
-}
-
-func (o PiDhcpLeaseArrayOutput) ToPiDhcpLeaseArrayOutput() PiDhcpLeaseArrayOutput {
-	return o
-}
-
-func (o PiDhcpLeaseArrayOutput) ToPiDhcpLeaseArrayOutputWithContext(ctx context.Context) PiDhcpLeaseArrayOutput {
-	return o
-}
-
-func (o PiDhcpLeaseArrayOutput) Index(i pulumi.IntInput) PiDhcpLeaseOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PiDhcpLease {
-		return vs[0].([]PiDhcpLease)[vs[1].(int)]
-	}).(PiDhcpLeaseOutput)
-}
-
-type PiHostCapacity struct {
-	// Number of cores currently available.
-	AvailableCores *float64 `pulumi:"availableCores"`
-	// Amount of memory currently available (in GB).
-	AvailableMemory *float64 `pulumi:"availableMemory"`
-	// Number of cores reserved for system use.
-	ReservedCore *float64 `pulumi:"reservedCore"`
-	// Amount of memory reserved for system use (in GB).
-	ReservedMemory *float64 `pulumi:"reservedMemory"`
-	// Total number of cores of the host.
-	TotalCore *float64 `pulumi:"totalCore"`
-	// Total amount of memory of the host (in GB).
-	TotalMemory *float64 `pulumi:"totalMemory"`
-	// Number of cores in use on the host.
-	UsedCore *float64 `pulumi:"usedCore"`
-	// Amount of memory used on the host (in GB).
-	UsedMemory *float64 `pulumi:"usedMemory"`
-}
-
-// PiHostCapacityInput is an input type that accepts PiHostCapacityArgs and PiHostCapacityOutput values.
-// You can construct a concrete instance of `PiHostCapacityInput` via:
-//
-//	PiHostCapacityArgs{...}
-type PiHostCapacityInput interface {
-	pulumi.Input
-
-	ToPiHostCapacityOutput() PiHostCapacityOutput
-	ToPiHostCapacityOutputWithContext(context.Context) PiHostCapacityOutput
-}
-
-type PiHostCapacityArgs struct {
-	// Number of cores currently available.
-	AvailableCores pulumi.Float64PtrInput `pulumi:"availableCores"`
-	// Amount of memory currently available (in GB).
-	AvailableMemory pulumi.Float64PtrInput `pulumi:"availableMemory"`
-	// Number of cores reserved for system use.
-	ReservedCore pulumi.Float64PtrInput `pulumi:"reservedCore"`
-	// Amount of memory reserved for system use (in GB).
-	ReservedMemory pulumi.Float64PtrInput `pulumi:"reservedMemory"`
-	// Total number of cores of the host.
-	TotalCore pulumi.Float64PtrInput `pulumi:"totalCore"`
-	// Total amount of memory of the host (in GB).
-	TotalMemory pulumi.Float64PtrInput `pulumi:"totalMemory"`
-	// Number of cores in use on the host.
-	UsedCore pulumi.Float64PtrInput `pulumi:"usedCore"`
-	// Amount of memory used on the host (in GB).
-	UsedMemory pulumi.Float64PtrInput `pulumi:"usedMemory"`
-}
-
-func (PiHostCapacityArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*PiHostCapacity)(nil)).Elem()
-}
-
-func (i PiHostCapacityArgs) ToPiHostCapacityOutput() PiHostCapacityOutput {
-	return i.ToPiHostCapacityOutputWithContext(context.Background())
-}
-
-func (i PiHostCapacityArgs) ToPiHostCapacityOutputWithContext(ctx context.Context) PiHostCapacityOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PiHostCapacityOutput)
-}
-
-// PiHostCapacityArrayInput is an input type that accepts PiHostCapacityArray and PiHostCapacityArrayOutput values.
-// You can construct a concrete instance of `PiHostCapacityArrayInput` via:
-//
-//	PiHostCapacityArray{ PiHostCapacityArgs{...} }
-type PiHostCapacityArrayInput interface {
-	pulumi.Input
-
-	ToPiHostCapacityArrayOutput() PiHostCapacityArrayOutput
-	ToPiHostCapacityArrayOutputWithContext(context.Context) PiHostCapacityArrayOutput
-}
-
-type PiHostCapacityArray []PiHostCapacityInput
-
-func (PiHostCapacityArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PiHostCapacity)(nil)).Elem()
-}
-
-func (i PiHostCapacityArray) ToPiHostCapacityArrayOutput() PiHostCapacityArrayOutput {
-	return i.ToPiHostCapacityArrayOutputWithContext(context.Background())
-}
-
-func (i PiHostCapacityArray) ToPiHostCapacityArrayOutputWithContext(ctx context.Context) PiHostCapacityArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(PiHostCapacityArrayOutput)
-}
-
-type PiHostCapacityOutput struct{ *pulumi.OutputState }
-
-func (PiHostCapacityOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*PiHostCapacity)(nil)).Elem()
-}
-
-func (o PiHostCapacityOutput) ToPiHostCapacityOutput() PiHostCapacityOutput {
-	return o
-}
-
-func (o PiHostCapacityOutput) ToPiHostCapacityOutputWithContext(ctx context.Context) PiHostCapacityOutput {
-	return o
-}
-
-// Number of cores currently available.
-func (o PiHostCapacityOutput) AvailableCores() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.AvailableCores }).(pulumi.Float64PtrOutput)
-}
-
-// Amount of memory currently available (in GB).
-func (o PiHostCapacityOutput) AvailableMemory() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.AvailableMemory }).(pulumi.Float64PtrOutput)
-}
-
-// Number of cores reserved for system use.
-func (o PiHostCapacityOutput) ReservedCore() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.ReservedCore }).(pulumi.Float64PtrOutput)
-}
-
-// Amount of memory reserved for system use (in GB).
-func (o PiHostCapacityOutput) ReservedMemory() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.ReservedMemory }).(pulumi.Float64PtrOutput)
-}
-
-// Total number of cores of the host.
-func (o PiHostCapacityOutput) TotalCore() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.TotalCore }).(pulumi.Float64PtrOutput)
-}
-
-// Total amount of memory of the host (in GB).
-func (o PiHostCapacityOutput) TotalMemory() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.TotalMemory }).(pulumi.Float64PtrOutput)
-}
-
-// Number of cores in use on the host.
-func (o PiHostCapacityOutput) UsedCore() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.UsedCore }).(pulumi.Float64PtrOutput)
-}
-
-// Amount of memory used on the host (in GB).
-func (o PiHostCapacityOutput) UsedMemory() pulumi.Float64PtrOutput {
-	return o.ApplyT(func(v PiHostCapacity) *float64 { return v.UsedMemory }).(pulumi.Float64PtrOutput)
-}
-
-type PiHostCapacityArrayOutput struct{ *pulumi.OutputState }
-
-func (PiHostCapacityArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]PiHostCapacity)(nil)).Elem()
-}
-
-func (o PiHostCapacityArrayOutput) ToPiHostCapacityArrayOutput() PiHostCapacityArrayOutput {
-	return o
-}
-
-func (o PiHostCapacityArrayOutput) ToPiHostCapacityArrayOutputWithContext(ctx context.Context) PiHostCapacityArrayOutput {
-	return o
-}
-
-func (o PiHostCapacityArrayOutput) Index(i pulumi.IntInput) PiHostCapacityOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) PiHostCapacity {
-		return vs[0].([]PiHostCapacity)[vs[1].(int)]
-	}).(PiHostCapacityOutput)
-}
-
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*ComputeAutoscaleGroupVirtualGuestMemberTemplateInput)(nil)).Elem(), ComputeAutoscaleGroupVirtualGuestMemberTemplateArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ComputeAutoscaleGroupVirtualGuestMemberTemplateArrayInput)(nil)).Elem(), ComputeAutoscaleGroupVirtualGuestMemberTemplateArray{})
@@ -72283,10 +72770,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAccountSettingsRestrictUserDomainsRestrictionArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAccountSettingsRestrictUserDomainsRestrictionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAccountSettingsUserMfaInput)(nil)).Elem(), IamAccountSettingsTemplateAccountSettingsUserMfaArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAccountSettingsUserMfaArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAccountSettingsUserMfaArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentContextInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentContextArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentContextArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentContextArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentHistoryInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentHistoryArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentHistoryArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentResourceInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentResourceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentResourceArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentResourceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentResourceAccountSettingInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{})
@@ -72295,8 +72778,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput)(nil)).Elem(), IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateHistoryInput)(nil)).Elem(), IamAccountSettingsTemplateHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsTemplateHistoryArrayInput)(nil)).Elem(), IamAccountSettingsTemplateHistoryArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsUserMfaInput)(nil)).Elem(), IamAccountSettingsUserMfaArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAccountSettingsUserMfaArrayInput)(nil)).Elem(), IamAccountSettingsUserMfaArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamActionControlAssignmentResourceInput)(nil)).Elem(), IamActionControlAssignmentResourceArgs{})
@@ -72323,6 +72804,20 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAuthorizationPolicyResourceAttributeArrayInput)(nil)).Elem(), IamAuthorizationPolicyResourceAttributeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAuthorizationPolicySubjectAttributeInput)(nil)).Elem(), IamAuthorizationPolicySubjectAttributeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamAuthorizationPolicySubjectAttributeArrayInput)(nil)).Elem(), IamAuthorizationPolicySubjectAttributeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpPropertiesInput)(nil)).Elem(), IamIdpPropertiesArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpPropertiesPtrInput)(nil)).Elem(), IamIdpPropertiesArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpPropertiesIdpInput)(nil)).Elem(), IamIdpPropertiesIdpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpPropertiesIdpPtrInput)(nil)).Elem(), IamIdpPropertiesIdpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpPropertiesSpInput)(nil)).Elem(), IamIdpPropertiesSpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpPropertiesSpPtrInput)(nil)).Elem(), IamIdpPropertiesSpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpSecretsInput)(nil)).Elem(), IamIdpSecretsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpSecretsPtrInput)(nil)).Elem(), IamIdpSecretsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpSecretsIdpInput)(nil)).Elem(), IamIdpSecretsIdpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpSecretsIdpPtrInput)(nil)).Elem(), IamIdpSecretsIdpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpSecretsSpInput)(nil)).Elem(), IamIdpSecretsSpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpSecretsSpPtrInput)(nil)).Elem(), IamIdpSecretsSpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpShareScopeInput)(nil)).Elem(), IamIdpShareScopeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamIdpShareScopeArrayInput)(nil)).Elem(), IamIdpShareScopeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyAssignmentResourceInput)(nil)).Elem(), IamPolicyAssignmentResourceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyAssignmentResourceArrayInput)(nil)).Elem(), IamPolicyAssignmentResourceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyAssignmentResourcePolicyInput)(nil)).Elem(), IamPolicyAssignmentResourcePolicyArgs{})
@@ -72347,6 +72842,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyResourceAttributeArrayInput)(nil)).Elem(), IamPolicyTemplatePolicyResourceAttributeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyResourceTagInput)(nil)).Elem(), IamPolicyTemplatePolicyResourceTagArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyResourceTagArrayInput)(nil)).Elem(), IamPolicyTemplatePolicyResourceTagArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyRoleTemplateReferenceInput)(nil)).Elem(), IamPolicyTemplatePolicyRoleTemplateReferenceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyRoleTemplateReferenceArrayInput)(nil)).Elem(), IamPolicyTemplatePolicyRoleTemplateReferenceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyRuleConditionInput)(nil)).Elem(), IamPolicyTemplatePolicyRuleConditionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyRuleConditionArrayInput)(nil)).Elem(), IamPolicyTemplatePolicyRuleConditionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplatePolicyRuleConditionConditionInput)(nil)).Elem(), IamPolicyTemplatePolicyRuleConditionConditionArgs{})
@@ -72363,6 +72860,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyResourceAttributeArrayInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyResourceAttributeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyResourceTagInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyResourceTagArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyResourceTagArrayInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyResourceTagArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyRoleTemplateReferenceInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyRoleTemplateReferenceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyRoleTemplateReferenceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyRuleConditionInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyRuleConditionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyRuleConditionArrayInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyRuleConditionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicyRuleConditionConditionInput)(nil)).Elem(), IamPolicyTemplateVersionPolicyRuleConditionConditionArgs{})
@@ -72371,6 +72870,28 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicySubjectArrayInput)(nil)).Elem(), IamPolicyTemplateVersionPolicySubjectArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicySubjectAttributeInput)(nil)).Elem(), IamPolicyTemplateVersionPolicySubjectAttributeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamPolicyTemplateVersionPolicySubjectAttributeArrayInput)(nil)).Elem(), IamPolicyTemplateVersionPolicySubjectAttributeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceInput)(nil)).Elem(), IamRoleAssignmentResourceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceArrayInput)(nil)).Elem(), IamRoleAssignmentResourceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleInput)(nil)).Elem(), IamRoleAssignmentResourceRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleArrayInput)(nil)).Elem(), IamRoleAssignmentResourceRoleArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageArrayInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageErrorArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorArrayInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageErrorArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetailInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageErrorDetailArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageErrorDetailArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayInput)(nil)).Elem(), IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleResourceCreatedInput)(nil)).Elem(), IamRoleAssignmentResourceRoleResourceCreatedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentResourceRoleResourceCreatedArrayInput)(nil)).Elem(), IamRoleAssignmentResourceRoleResourceCreatedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentTargetInput)(nil)).Elem(), IamRoleAssignmentTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentTargetArrayInput)(nil)).Elem(), IamRoleAssignmentTargetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentTemplatesInput)(nil)).Elem(), IamRoleAssignmentTemplatesArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleAssignmentTemplatesPtrInput)(nil)).Elem(), IamRoleAssignmentTemplatesArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleTemplateRoleInput)(nil)).Elem(), IamRoleTemplateRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleTemplateRolePtrInput)(nil)).Elem(), IamRoleTemplateRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleTemplateVersionRoleInput)(nil)).Elem(), IamRoleTemplateVersionRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamRoleTemplateVersionRolePtrInput)(nil)).Elem(), IamRoleTemplateVersionRoleArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamServicePolicyResourceAttributeInput)(nil)).Elem(), IamServicePolicyResourceAttributeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamServicePolicyResourceAttributeArrayInput)(nil)).Elem(), IamServicePolicyResourceAttributeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamServicePolicyResourceTagInput)(nil)).Elem(), IamServicePolicyResourceTagArgs{})
@@ -72381,6 +72902,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamServicePolicyRuleConditionArrayInput)(nil)).Elem(), IamServicePolicyRuleConditionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamServicePolicyRuleConditionConditionInput)(nil)).Elem(), IamServicePolicyRuleConditionConditionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamServicePolicyRuleConditionConditionArrayInput)(nil)).Elem(), IamServicePolicyRuleConditionConditionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileActivityInput)(nil)).Elem(), IamTrustedProfileActivityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileActivityArrayInput)(nil)).Elem(), IamTrustedProfileActivityArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileClaimRuleConditionInput)(nil)).Elem(), IamTrustedProfileClaimRuleConditionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileClaimRuleConditionArrayInput)(nil)).Elem(), IamTrustedProfileClaimRuleConditionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileHistoryInput)(nil)).Elem(), IamTrustedProfileHistoryArgs{})
@@ -72399,10 +72922,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfilePolicyRuleConditionArrayInput)(nil)).Elem(), IamTrustedProfilePolicyRuleConditionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfilePolicyRuleConditionConditionInput)(nil)).Elem(), IamTrustedProfilePolicyRuleConditionConditionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfilePolicyRuleConditionConditionArrayInput)(nil)).Elem(), IamTrustedProfilePolicyRuleConditionConditionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentContextInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentContextArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentContextArrayInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentContextArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentHistoryInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentHistoryArrayInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentHistoryArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentResourceInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentResourceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentResourceArrayInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentResourceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentResourcePolicyTemplateReferenceInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentResourcePolicyTemplateReferenceArgs{})
@@ -72417,8 +72936,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentResourceProfileErrorMessageArrayInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentResourceProfileErrorMessageArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedArrayInput)(nil)).Elem(), IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateHistoryInput)(nil)).Elem(), IamTrustedProfileTemplateHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateHistoryArrayInput)(nil)).Elem(), IamTrustedProfileTemplateHistoryArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplatePolicyTemplateReferenceInput)(nil)).Elem(), IamTrustedProfileTemplatePolicyTemplateReferenceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplatePolicyTemplateReferenceArrayInput)(nil)).Elem(), IamTrustedProfileTemplatePolicyTemplateReferenceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IamTrustedProfileTemplateProfileInput)(nil)).Elem(), IamTrustedProfileTemplateProfileArgs{})
@@ -72626,8 +73143,14 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsImageExportJobStorageBucketPtrInput)(nil)).Elem(), IsImageExportJobStorageBucketArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsImageExportJobStorageObjectInput)(nil)).Elem(), IsImageExportJobStorageObjectArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsImageExportJobStorageObjectArrayInput)(nil)).Elem(), IsImageExportJobStorageObjectArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsImageZoneInput)(nil)).Elem(), IsImageZoneArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsImageZoneArrayInput)(nil)).Elem(), IsImageZoneArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceActionStatusReasonInput)(nil)).Elem(), IsInstanceActionStatusReasonArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceActionStatusReasonArrayInput)(nil)).Elem(), IsInstanceActionStatusReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceAvailabilityInput)(nil)).Elem(), IsInstanceAvailabilityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceAvailabilityPtrInput)(nil)).Elem(), IsInstanceAvailabilityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceAvailabilityPolicyInput)(nil)).Elem(), IsInstanceAvailabilityPolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceAvailabilityPolicyPtrInput)(nil)).Elem(), IsInstanceAvailabilityPolicyArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceBootVolumeInput)(nil)).Elem(), IsInstanceBootVolumeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceBootVolumePtrInput)(nil)).Elem(), IsInstanceBootVolumeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceBootVolumeAllowedUseInput)(nil)).Elem(), IsInstanceBootVolumeAllowedUseArgs{})
@@ -72728,6 +73251,22 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstancePrimaryNetworkInterfacePtrInput)(nil)).Elem(), IsInstancePrimaryNetworkInterfaceArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstancePrimaryNetworkInterfacePrimaryIpInput)(nil)).Elem(), IsInstancePrimaryNetworkInterfacePrimaryIpArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstancePrimaryNetworkInterfacePrimaryIpPtrInput)(nil)).Elem(), IsInstancePrimaryNetworkInterfacePrimaryIpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentPtrInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumePtrInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeProfileInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeProfileArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrInput)(nil)).Elem(), IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfileInput)(nil)).Elem(), IsInstanceReinitializeDefaultTrustedProfileArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfilePtrInput)(nil)).Elem(), IsInstanceReinitializeDefaultTrustedProfileArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfileTargetInput)(nil)).Elem(), IsInstanceReinitializeDefaultTrustedProfileTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReinitializeDefaultTrustedProfileTargetPtrInput)(nil)).Elem(), IsInstanceReinitializeDefaultTrustedProfileTargetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReservationInput)(nil)).Elem(), IsInstanceReservationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReservationArrayInput)(nil)).Elem(), IsInstanceReservationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReservationAffinityInput)(nil)).Elem(), IsInstanceReservationAffinityArgs{})
@@ -72738,8 +73277,32 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReservationAffinityPoolDeletedArrayInput)(nil)).Elem(), IsInstanceReservationAffinityPoolDeletedArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReservationDeletedInput)(nil)).Elem(), IsInstanceReservationDeletedArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceReservationDeletedArrayInput)(nil)).Elem(), IsInstanceReservationDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentTypeInput)(nil)).Elem(), IsInstanceSoftwareAttachmentTypeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentTypeArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentTypeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlanInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingPlanArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingPlanArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingVersionInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingVersionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentCatalogOfferingVersionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentDeletedInput)(nil)).Elem(), IsInstanceSoftwareAttachmentDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentDeletedArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlementInput)(nil)).Elem(), IsInstanceSoftwareAttachmentEntitlementArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlementArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentEntitlementArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareInput)(nil)).Elem(), IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentLifecycleReasonInput)(nil)).Elem(), IsInstanceSoftwareAttachmentLifecycleReasonArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentLifecycleReasonArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentLifecycleReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentOfferingInstanceInput)(nil)).Elem(), IsInstanceSoftwareAttachmentOfferingInstanceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceSoftwareAttachmentOfferingInstanceArrayInput)(nil)).Elem(), IsInstanceSoftwareAttachmentOfferingInstanceArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceStatusReasonInput)(nil)).Elem(), IsInstanceStatusReasonArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceStatusReasonArrayInput)(nil)).Elem(), IsInstanceStatusReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateAvailabilityInput)(nil)).Elem(), IsInstanceTemplateAvailabilityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateAvailabilityPtrInput)(nil)).Elem(), IsInstanceTemplateAvailabilityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateAvailabilityPolicyInput)(nil)).Elem(), IsInstanceTemplateAvailabilityPolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateAvailabilityPolicyPtrInput)(nil)).Elem(), IsInstanceTemplateAvailabilityPolicyArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateBootVolumeInput)(nil)).Elem(), IsInstanceTemplateBootVolumeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateBootVolumePtrInput)(nil)).Elem(), IsInstanceTemplateBootVolumeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateBootVolumeAllowedUseInput)(nil)).Elem(), IsInstanceTemplateBootVolumeAllowedUseArgs{})
@@ -72799,6 +73362,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateReservationAffinityArrayInput)(nil)).Elem(), IsInstanceTemplateReservationAffinityArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateReservationAffinityPoolInput)(nil)).Elem(), IsInstanceTemplateReservationAffinityPoolArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateReservationAffinityPoolArrayInput)(nil)).Elem(), IsInstanceTemplateReservationAffinityPoolArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateVcpuInput)(nil)).Elem(), IsInstanceTemplateVcpuArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateVcpuPtrInput)(nil)).Elem(), IsInstanceTemplateVcpuArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateVolumeAttachmentInput)(nil)).Elem(), IsInstanceTemplateVolumeAttachmentArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateVolumeAttachmentArrayInput)(nil)).Elem(), IsInstanceTemplateVolumeAttachmentArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateVolumeAttachmentVolumePrototypeInput)(nil)).Elem(), IsInstanceTemplateVolumeAttachmentVolumePrototypeArgs{})
@@ -72807,6 +73372,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplateVolumeAttachmentVolumePrototypeAllowedUsePtrInput)(nil)).Elem(), IsInstanceTemplateVolumeAttachmentVolumePrototypeAllowedUseArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVcpusInput)(nil)).Elem(), IsInstanceVcpusArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVcpusArrayInput)(nil)).Elem(), IsInstanceVcpusArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVcpusBurstInput)(nil)).Elem(), IsInstanceVcpusBurstArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVcpusBurstArrayInput)(nil)).Elem(), IsInstanceVcpusBurstArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVolumeAttachmentTypeInput)(nil)).Elem(), IsInstanceVolumeAttachmentTypeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVolumeAttachmentTypeArrayInput)(nil)).Elem(), IsInstanceVolumeAttachmentTypeArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceVolumeAttachmentAllowedUseInput)(nil)).Elem(), IsInstanceVolumeAttachmentAllowedUseArgs{})
@@ -72823,6 +73390,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbAttachedLoadBalancerPoolMemberDeletedArrayInput)(nil)).Elem(), IsLbAttachedLoadBalancerPoolMemberDeletedArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbDnsInput)(nil)).Elem(), IsLbDnsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbDnsPtrInput)(nil)).Elem(), IsLbDnsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerClientAuthenticationInput)(nil)).Elem(), IsLbListenerClientAuthenticationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerClientAuthenticationPtrInput)(nil)).Elem(), IsLbListenerClientAuthenticationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerHttpsRedirectInput)(nil)).Elem(), IsLbListenerHttpsRedirectArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerHttpsRedirectPtrInput)(nil)).Elem(), IsLbListenerHttpsRedirectArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerHttpsRedirectListenerInput)(nil)).Elem(), IsLbListenerHttpsRedirectListenerArgs{})
@@ -72839,12 +73408,24 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerPolicyTargetListenerPtrInput)(nil)).Elem(), IsLbListenerPolicyTargetListenerArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerPolicyTargetListenerDeletedInput)(nil)).Elem(), IsLbListenerPolicyTargetListenerDeletedArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbListenerPolicyTargetListenerDeletedArrayInput)(nil)).Elem(), IsLbListenerPolicyTargetListenerDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolClientAuthenticationInput)(nil)).Elem(), IsLbPoolClientAuthenticationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolClientAuthenticationPtrInput)(nil)).Elem(), IsLbPoolClientAuthenticationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolFailsafePolicyInput)(nil)).Elem(), IsLbPoolFailsafePolicyArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolFailsafePolicyPtrInput)(nil)).Elem(), IsLbPoolFailsafePolicyArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolFailsafePolicyTargetInput)(nil)).Elem(), IsLbPoolFailsafePolicyTargetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolFailsafePolicyTargetPtrInput)(nil)).Elem(), IsLbPoolFailsafePolicyTargetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolFailsafePolicyTargetDeletedInput)(nil)).Elem(), IsLbPoolFailsafePolicyTargetDeletedArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolFailsafePolicyTargetDeletedArrayInput)(nil)).Elem(), IsLbPoolFailsafePolicyTargetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorInput)(nil)).Elem(), IsLbPoolHealthMonitorArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorPtrInput)(nil)).Elem(), IsLbPoolHealthMonitorArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorRequestInput)(nil)).Elem(), IsLbPoolHealthMonitorRequestArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorRequestPtrInput)(nil)).Elem(), IsLbPoolHealthMonitorRequestArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorRequestHeaderInput)(nil)).Elem(), IsLbPoolHealthMonitorRequestHeaderArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorRequestHeaderArrayInput)(nil)).Elem(), IsLbPoolHealthMonitorRequestHeaderArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorResponseInput)(nil)).Elem(), IsLbPoolHealthMonitorResponseArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolHealthMonitorResponsePtrInput)(nil)).Elem(), IsLbPoolHealthMonitorResponseArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolServerAuthenticationInput)(nil)).Elem(), IsLbPoolServerAuthenticationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPoolServerAuthenticationPtrInput)(nil)).Elem(), IsLbPoolServerAuthenticationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPrivateIpInput)(nil)).Elem(), IsLbPrivateIpArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsLbPrivateIpArrayInput)(nil)).Elem(), IsLbPrivateIpArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsNetworkAclRuleTypeInput)(nil)).Elem(), IsNetworkAclRuleTypeArgs{})
@@ -72962,6 +73543,10 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotCatalogOfferingArrayInput)(nil)).Elem(), IsSnapshotCatalogOfferingArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotCatalogOfferingDeletedInput)(nil)).Elem(), IsSnapshotCatalogOfferingDeletedArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotCatalogOfferingDeletedArrayInput)(nil)).Elem(), IsSnapshotCatalogOfferingDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJobInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyJobArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJobArrayInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyJobArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJobDeletedInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyJobDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyJobDeletedArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyPlanInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyPlanArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyPlanArrayInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyPlanArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsSnapshotConsistencyGroupBackupPolicyPlanDeletedInput)(nil)).Elem(), IsSnapshotConsistencyGroupBackupPolicyPlanDeletedArgs{})
@@ -73012,6 +73597,10 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayIpTargetArrayInput)(nil)).Elem(), IsVirtualEndpointGatewayIpTargetArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayLifecycleReasonInput)(nil)).Elem(), IsVirtualEndpointGatewayLifecycleReasonArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayLifecycleReasonArrayInput)(nil)).Elem(), IsVirtualEndpointGatewayLifecycleReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingLifecycleReasonInput)(nil)).Elem(), IsVirtualEndpointGatewayResourceBindingLifecycleReasonArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayInput)(nil)).Elem(), IsVirtualEndpointGatewayResourceBindingLifecycleReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingTargetInput)(nil)).Elem(), IsVirtualEndpointGatewayResourceBindingTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayResourceBindingTargetPtrInput)(nil)).Elem(), IsVirtualEndpointGatewayResourceBindingTargetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayTargetInput)(nil)).Elem(), IsVirtualEndpointGatewayTargetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualEndpointGatewayTargetPtrInput)(nil)).Elem(), IsVirtualEndpointGatewayTargetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualNetworkInterfaceFloatingIpDeletedInput)(nil)).Elem(), IsVirtualNetworkInterfaceFloatingIpDeletedArgs{})
@@ -73034,108 +73623,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVirtualNetworkInterfaceVpcDeletedArrayInput)(nil)).Elem(), IsVirtualNetworkInterfaceVpcDeletedArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeAllowedUseInput)(nil)).Elem(), IsVolumeAllowedUseArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeAllowedUsePtrInput)(nil)).Elem(), IsVolumeAllowedUseArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeCatalogOfferingInput)(nil)).Elem(), IsVolumeCatalogOfferingArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeCatalogOfferingArrayInput)(nil)).Elem(), IsVolumeCatalogOfferingArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeCatalogOfferingDeletedInput)(nil)).Elem(), IsVolumeCatalogOfferingDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeCatalogOfferingDeletedArrayInput)(nil)).Elem(), IsVolumeCatalogOfferingDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeHealthReasonInput)(nil)).Elem(), IsVolumeHealthReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeHealthReasonArrayInput)(nil)).Elem(), IsVolumeHealthReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeOperatingSystemInput)(nil)).Elem(), IsVolumeOperatingSystemArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeOperatingSystemArrayInput)(nil)).Elem(), IsVolumeOperatingSystemArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeStatusReasonInput)(nil)).Elem(), IsVolumeStatusReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVolumeStatusReasonArrayInput)(nil)).Elem(), IsVolumeStatusReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcCseSourceAddressInput)(nil)).Elem(), IsVpcCseSourceAddressArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcCseSourceAddressArrayInput)(nil)).Elem(), IsVpcCseSourceAddressArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsInput)(nil)).Elem(), IsVpcDnsArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsPtrInput)(nil)).Elem(), IsVpcDnsArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayRemoteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayRemoteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingHealthReasonInput)(nil)).Elem(), IsVpcDnsResolutionBindingHealthReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingHealthReasonArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingHealthReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcPtrInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcRemoteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcRemoteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteAccountInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcRemoteAccountArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteAccountArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcRemoteAccountArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteRegionInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcRemoteRegionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolutionBindingVpcRemoteRegionArrayInput)(nil)).Elem(), IsVpcDnsResolutionBindingVpcRemoteRegionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolverInput)(nil)).Elem(), IsVpcDnsResolverArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolverPtrInput)(nil)).Elem(), IsVpcDnsResolverArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolverManualServerInput)(nil)).Elem(), IsVpcDnsResolverManualServerArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolverManualServerArrayInput)(nil)).Elem(), IsVpcDnsResolverManualServerArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolverServerInput)(nil)).Elem(), IsVpcDnsResolverServerArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcDnsResolverServerArrayInput)(nil)).Elem(), IsVpcDnsResolverServerArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcHealthReasonInput)(nil)).Elem(), IsVpcHealthReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcHealthReasonArrayInput)(nil)).Elem(), IsVpcHealthReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcPublicAddressRangeInput)(nil)).Elem(), IsVpcPublicAddressRangeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcPublicAddressRangeArrayInput)(nil)).Elem(), IsVpcPublicAddressRangeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcPublicAddressRangeDeletedInput)(nil)).Elem(), IsVpcPublicAddressRangeDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcPublicAddressRangeDeletedArrayInput)(nil)).Elem(), IsVpcPublicAddressRangeDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableResourceGroupInput)(nil)).Elem(), IsVpcRoutingTableResourceGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableResourceGroupArrayInput)(nil)).Elem(), IsVpcRoutingTableResourceGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableRouteCreatorInput)(nil)).Elem(), IsVpcRoutingTableRouteCreatorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableRouteCreatorArrayInput)(nil)).Elem(), IsVpcRoutingTableRouteCreatorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableRouteCreatorDeletedInput)(nil)).Elem(), IsVpcRoutingTableRouteCreatorDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableRouteCreatorDeletedArrayInput)(nil)).Elem(), IsVpcRoutingTableRouteCreatorDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableSubnetInput)(nil)).Elem(), IsVpcRoutingTableSubnetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcRoutingTableSubnetArrayInput)(nil)).Elem(), IsVpcRoutingTableSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcSecurityGroupInput)(nil)).Elem(), IsVpcSecurityGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcSecurityGroupArrayInput)(nil)).Elem(), IsVpcSecurityGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcSecurityGroupRuleInput)(nil)).Elem(), IsVpcSecurityGroupRuleArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcSecurityGroupRuleArrayInput)(nil)).Elem(), IsVpcSecurityGroupRuleArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcSubnetInput)(nil)).Elem(), IsVpcSubnetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpcSubnetArrayInput)(nil)).Elem(), IsVpcSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionLocalInput)(nil)).Elem(), IsVpnGatewayConnectionLocalArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionLocalPtrInput)(nil)).Elem(), IsVpnGatewayConnectionLocalArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionLocalIkeIdentityInput)(nil)).Elem(), IsVpnGatewayConnectionLocalIkeIdentityArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionLocalIkeIdentityArrayInput)(nil)).Elem(), IsVpnGatewayConnectionLocalIkeIdentityArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionPeerInput)(nil)).Elem(), IsVpnGatewayConnectionPeerArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionPeerPtrInput)(nil)).Elem(), IsVpnGatewayConnectionPeerArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionPeerIkeIdentityInput)(nil)).Elem(), IsVpnGatewayConnectionPeerIkeIdentityArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionPeerIkeIdentityPtrInput)(nil)).Elem(), IsVpnGatewayConnectionPeerIkeIdentityArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionStatusReasonInput)(nil)).Elem(), IsVpnGatewayConnectionStatusReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionStatusReasonArrayInput)(nil)).Elem(), IsVpnGatewayConnectionStatusReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionTunnelInput)(nil)).Elem(), IsVpnGatewayConnectionTunnelArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayConnectionTunnelArrayInput)(nil)).Elem(), IsVpnGatewayConnectionTunnelArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayHealthReasonInput)(nil)).Elem(), IsVpnGatewayHealthReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayHealthReasonArrayInput)(nil)).Elem(), IsVpnGatewayHealthReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayLifecycleReasonInput)(nil)).Elem(), IsVpnGatewayLifecycleReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayLifecycleReasonArrayInput)(nil)).Elem(), IsVpnGatewayLifecycleReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayMemberInput)(nil)).Elem(), IsVpnGatewayMemberArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayMemberArrayInput)(nil)).Elem(), IsVpnGatewayMemberArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayVpcInput)(nil)).Elem(), IsVpnGatewayVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayVpcArrayInput)(nil)).Elem(), IsVpnGatewayVpcArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayVpcDeletedInput)(nil)).Elem(), IsVpnGatewayVpcDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnGatewayVpcDeletedArrayInput)(nil)).Elem(), IsVpnGatewayVpcDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerClientAuthenticationInput)(nil)).Elem(), IsVpnServerClientAuthenticationArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerClientAuthenticationArrayInput)(nil)).Elem(), IsVpnServerClientAuthenticationArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerHealthReasonInput)(nil)).Elem(), IsVpnServerHealthReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerHealthReasonArrayInput)(nil)).Elem(), IsVpnServerHealthReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerLifecycleReasonInput)(nil)).Elem(), IsVpnServerLifecycleReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerLifecycleReasonArrayInput)(nil)).Elem(), IsVpnServerLifecycleReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerPrivateIpInput)(nil)).Elem(), IsVpnServerPrivateIpArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerPrivateIpArrayInput)(nil)).Elem(), IsVpnServerPrivateIpArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerPrivateIpDeletedInput)(nil)).Elem(), IsVpnServerPrivateIpDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerPrivateIpDeletedArrayInput)(nil)).Elem(), IsVpnServerPrivateIpDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerRouteHealthReasonInput)(nil)).Elem(), IsVpnServerRouteHealthReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerRouteHealthReasonArrayInput)(nil)).Elem(), IsVpnServerRouteHealthReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerRouteLifecycleReasonInput)(nil)).Elem(), IsVpnServerRouteLifecycleReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerRouteLifecycleReasonArrayInput)(nil)).Elem(), IsVpnServerRouteLifecycleReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerVpcInput)(nil)).Elem(), IsVpnServerVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerVpcArrayInput)(nil)).Elem(), IsVpnServerVpcArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerVpcDeletedInput)(nil)).Elem(), IsVpnServerVpcDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*IsVpnServerVpcDeletedArrayInput)(nil)).Elem(), IsVpnServerVpcDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*PiDhcpLeaseInput)(nil)).Elem(), PiDhcpLeaseArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*PiDhcpLeaseArrayInput)(nil)).Elem(), PiDhcpLeaseArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*PiHostCapacityInput)(nil)).Elem(), PiHostCapacityArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*PiHostCapacityArrayInput)(nil)).Elem(), PiHostCapacityArray{})
 	pulumi.RegisterOutputType(ComputeAutoscaleGroupVirtualGuestMemberTemplateOutput{})
 	pulumi.RegisterOutputType(ComputeAutoscaleGroupVirtualGuestMemberTemplateArrayOutput{})
 	pulumi.RegisterOutputType(ComputeAutoscaleGroupVirtualGuestMemberTemplateBulkVmOutput{})
@@ -73282,10 +73769,6 @@ func init() {
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAccountSettingsRestrictUserDomainsRestrictionArrayOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAccountSettingsUserMfaOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAccountSettingsUserMfaArrayOutput{})
-	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentContextOutput{})
-	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentContextArrayOutput{})
-	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentHistoryOutput{})
-	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentHistoryArrayOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentResourceOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentResourceArrayOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentResourceAccountSettingOutput{})
@@ -73294,8 +73777,6 @@ func init() {
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput{})
-	pulumi.RegisterOutputType(IamAccountSettingsTemplateHistoryOutput{})
-	pulumi.RegisterOutputType(IamAccountSettingsTemplateHistoryArrayOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsUserMfaOutput{})
 	pulumi.RegisterOutputType(IamAccountSettingsUserMfaArrayOutput{})
 	pulumi.RegisterOutputType(IamActionControlAssignmentResourceOutput{})
@@ -73322,6 +73803,20 @@ func init() {
 	pulumi.RegisterOutputType(IamAuthorizationPolicyResourceAttributeArrayOutput{})
 	pulumi.RegisterOutputType(IamAuthorizationPolicySubjectAttributeOutput{})
 	pulumi.RegisterOutputType(IamAuthorizationPolicySubjectAttributeArrayOutput{})
+	pulumi.RegisterOutputType(IamIdpPropertiesOutput{})
+	pulumi.RegisterOutputType(IamIdpPropertiesPtrOutput{})
+	pulumi.RegisterOutputType(IamIdpPropertiesIdpOutput{})
+	pulumi.RegisterOutputType(IamIdpPropertiesIdpPtrOutput{})
+	pulumi.RegisterOutputType(IamIdpPropertiesSpOutput{})
+	pulumi.RegisterOutputType(IamIdpPropertiesSpPtrOutput{})
+	pulumi.RegisterOutputType(IamIdpSecretsOutput{})
+	pulumi.RegisterOutputType(IamIdpSecretsPtrOutput{})
+	pulumi.RegisterOutputType(IamIdpSecretsIdpOutput{})
+	pulumi.RegisterOutputType(IamIdpSecretsIdpPtrOutput{})
+	pulumi.RegisterOutputType(IamIdpSecretsSpOutput{})
+	pulumi.RegisterOutputType(IamIdpSecretsSpPtrOutput{})
+	pulumi.RegisterOutputType(IamIdpShareScopeOutput{})
+	pulumi.RegisterOutputType(IamIdpShareScopeArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyAssignmentResourceOutput{})
 	pulumi.RegisterOutputType(IamPolicyAssignmentResourceArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyAssignmentResourcePolicyOutput{})
@@ -73346,6 +73841,8 @@ func init() {
 	pulumi.RegisterOutputType(IamPolicyTemplatePolicyResourceAttributeArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplatePolicyResourceTagOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplatePolicyResourceTagArrayOutput{})
+	pulumi.RegisterOutputType(IamPolicyTemplatePolicyRoleTemplateReferenceOutput{})
+	pulumi.RegisterOutputType(IamPolicyTemplatePolicyRoleTemplateReferenceArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplatePolicyRuleConditionOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplatePolicyRuleConditionArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplatePolicyRuleConditionConditionOutput{})
@@ -73362,6 +73859,8 @@ func init() {
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyResourceAttributeArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyResourceTagOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyResourceTagArrayOutput{})
+	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyRoleTemplateReferenceOutput{})
+	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyRoleTemplateReferenceArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyRuleConditionOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyRuleConditionArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicyRuleConditionConditionOutput{})
@@ -73370,6 +73869,28 @@ func init() {
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicySubjectArrayOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicySubjectAttributeOutput{})
 	pulumi.RegisterOutputType(IamPolicyTemplateVersionPolicySubjectAttributeArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageErrorOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageErrorArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageErrorDetailOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageErrorDetailArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleErrorMessageErrorDetailConflictsWithArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleResourceCreatedOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentResourceRoleResourceCreatedArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentTargetOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentTargetArrayOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentTemplatesOutput{})
+	pulumi.RegisterOutputType(IamRoleAssignmentTemplatesPtrOutput{})
+	pulumi.RegisterOutputType(IamRoleTemplateRoleOutput{})
+	pulumi.RegisterOutputType(IamRoleTemplateRolePtrOutput{})
+	pulumi.RegisterOutputType(IamRoleTemplateVersionRoleOutput{})
+	pulumi.RegisterOutputType(IamRoleTemplateVersionRolePtrOutput{})
 	pulumi.RegisterOutputType(IamServicePolicyResourceAttributeOutput{})
 	pulumi.RegisterOutputType(IamServicePolicyResourceAttributeArrayOutput{})
 	pulumi.RegisterOutputType(IamServicePolicyResourceTagOutput{})
@@ -73380,6 +73901,8 @@ func init() {
 	pulumi.RegisterOutputType(IamServicePolicyRuleConditionArrayOutput{})
 	pulumi.RegisterOutputType(IamServicePolicyRuleConditionConditionOutput{})
 	pulumi.RegisterOutputType(IamServicePolicyRuleConditionConditionArrayOutput{})
+	pulumi.RegisterOutputType(IamTrustedProfileActivityOutput{})
+	pulumi.RegisterOutputType(IamTrustedProfileActivityArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileClaimRuleConditionOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileClaimRuleConditionArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileHistoryOutput{})
@@ -73398,10 +73921,6 @@ func init() {
 	pulumi.RegisterOutputType(IamTrustedProfilePolicyRuleConditionArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfilePolicyRuleConditionConditionOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfilePolicyRuleConditionConditionArrayOutput{})
-	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentContextOutput{})
-	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentContextArrayOutput{})
-	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentHistoryOutput{})
-	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentHistoryArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentResourceOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentResourceArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentResourcePolicyTemplateReferenceOutput{})
@@ -73416,8 +73935,6 @@ func init() {
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentResourceProfileErrorMessageArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateAssignmentResourceProfileResourceCreatedArrayOutput{})
-	pulumi.RegisterOutputType(IamTrustedProfileTemplateHistoryOutput{})
-	pulumi.RegisterOutputType(IamTrustedProfileTemplateHistoryArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplatePolicyTemplateReferenceOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplatePolicyTemplateReferenceArrayOutput{})
 	pulumi.RegisterOutputType(IamTrustedProfileTemplateProfileOutput{})
@@ -73625,8 +74142,14 @@ func init() {
 	pulumi.RegisterOutputType(IsImageExportJobStorageBucketPtrOutput{})
 	pulumi.RegisterOutputType(IsImageExportJobStorageObjectOutput{})
 	pulumi.RegisterOutputType(IsImageExportJobStorageObjectArrayOutput{})
+	pulumi.RegisterOutputType(IsImageZoneOutput{})
+	pulumi.RegisterOutputType(IsImageZoneArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceActionStatusReasonOutput{})
 	pulumi.RegisterOutputType(IsInstanceActionStatusReasonArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceAvailabilityOutput{})
+	pulumi.RegisterOutputType(IsInstanceAvailabilityPtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceAvailabilityPolicyOutput{})
+	pulumi.RegisterOutputType(IsInstanceAvailabilityPolicyPtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceBootVolumeOutput{})
 	pulumi.RegisterOutputType(IsInstanceBootVolumePtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceBootVolumeAllowedUseOutput{})
@@ -73727,6 +74250,22 @@ func init() {
 	pulumi.RegisterOutputType(IsInstancePrimaryNetworkInterfacePtrOutput{})
 	pulumi.RegisterOutputType(IsInstancePrimaryNetworkInterfacePrimaryIpOutput{})
 	pulumi.RegisterOutputType(IsInstancePrimaryNetworkInterfacePrimaryIpPtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentPtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumePtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUseOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeAllowedUsePtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeEncryptionKeyPtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeProfileOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeProfilePtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeBootVolumeAttachmentVolumeSourceSnapshotPtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeDefaultTrustedProfileOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeDefaultTrustedProfilePtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeDefaultTrustedProfileTargetOutput{})
+	pulumi.RegisterOutputType(IsInstanceReinitializeDefaultTrustedProfileTargetPtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceReservationOutput{})
 	pulumi.RegisterOutputType(IsInstanceReservationArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceReservationAffinityOutput{})
@@ -73737,8 +74276,32 @@ func init() {
 	pulumi.RegisterOutputType(IsInstanceReservationAffinityPoolDeletedArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceReservationDeletedOutput{})
 	pulumi.RegisterOutputType(IsInstanceReservationDeletedArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentTypeOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentTypeArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingPlanOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingPlanArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingPlanDeletedArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingVersionOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentCatalogOfferingVersionArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentDeletedOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentDeletedArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentEntitlementOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentEntitlementArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentEntitlementLicensedSoftwareArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentLifecycleReasonOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentLifecycleReasonArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentOfferingInstanceOutput{})
+	pulumi.RegisterOutputType(IsInstanceSoftwareAttachmentOfferingInstanceArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceStatusReasonOutput{})
 	pulumi.RegisterOutputType(IsInstanceStatusReasonArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceTemplateAvailabilityOutput{})
+	pulumi.RegisterOutputType(IsInstanceTemplateAvailabilityPtrOutput{})
+	pulumi.RegisterOutputType(IsInstanceTemplateAvailabilityPolicyOutput{})
+	pulumi.RegisterOutputType(IsInstanceTemplateAvailabilityPolicyPtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateBootVolumeOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateBootVolumePtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateBootVolumeAllowedUseOutput{})
@@ -73798,6 +74361,8 @@ func init() {
 	pulumi.RegisterOutputType(IsInstanceTemplateReservationAffinityArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateReservationAffinityPoolOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateReservationAffinityPoolArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceTemplateVcpuOutput{})
+	pulumi.RegisterOutputType(IsInstanceTemplateVcpuPtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateVolumeAttachmentOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateVolumeAttachmentArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplateVolumeAttachmentVolumePrototypeOutput{})
@@ -73806,6 +74371,8 @@ func init() {
 	pulumi.RegisterOutputType(IsInstanceTemplateVolumeAttachmentVolumePrototypeAllowedUsePtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceVcpusOutput{})
 	pulumi.RegisterOutputType(IsInstanceVcpusArrayOutput{})
+	pulumi.RegisterOutputType(IsInstanceVcpusBurstOutput{})
+	pulumi.RegisterOutputType(IsInstanceVcpusBurstArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceVolumeAttachmentTypeOutput{})
 	pulumi.RegisterOutputType(IsInstanceVolumeAttachmentTypeArrayOutput{})
 	pulumi.RegisterOutputType(IsInstanceVolumeAttachmentAllowedUseOutput{})
@@ -73822,6 +74389,8 @@ func init() {
 	pulumi.RegisterOutputType(IsLbAttachedLoadBalancerPoolMemberDeletedArrayOutput{})
 	pulumi.RegisterOutputType(IsLbDnsOutput{})
 	pulumi.RegisterOutputType(IsLbDnsPtrOutput{})
+	pulumi.RegisterOutputType(IsLbListenerClientAuthenticationOutput{})
+	pulumi.RegisterOutputType(IsLbListenerClientAuthenticationPtrOutput{})
 	pulumi.RegisterOutputType(IsLbListenerHttpsRedirectOutput{})
 	pulumi.RegisterOutputType(IsLbListenerHttpsRedirectPtrOutput{})
 	pulumi.RegisterOutputType(IsLbListenerHttpsRedirectListenerOutput{})
@@ -73838,12 +74407,24 @@ func init() {
 	pulumi.RegisterOutputType(IsLbListenerPolicyTargetListenerPtrOutput{})
 	pulumi.RegisterOutputType(IsLbListenerPolicyTargetListenerDeletedOutput{})
 	pulumi.RegisterOutputType(IsLbListenerPolicyTargetListenerDeletedArrayOutput{})
+	pulumi.RegisterOutputType(IsLbPoolClientAuthenticationOutput{})
+	pulumi.RegisterOutputType(IsLbPoolClientAuthenticationPtrOutput{})
 	pulumi.RegisterOutputType(IsLbPoolFailsafePolicyOutput{})
 	pulumi.RegisterOutputType(IsLbPoolFailsafePolicyPtrOutput{})
 	pulumi.RegisterOutputType(IsLbPoolFailsafePolicyTargetOutput{})
 	pulumi.RegisterOutputType(IsLbPoolFailsafePolicyTargetPtrOutput{})
 	pulumi.RegisterOutputType(IsLbPoolFailsafePolicyTargetDeletedOutput{})
 	pulumi.RegisterOutputType(IsLbPoolFailsafePolicyTargetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorPtrOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorRequestOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorRequestPtrOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorRequestHeaderOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorRequestHeaderArrayOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorResponseOutput{})
+	pulumi.RegisterOutputType(IsLbPoolHealthMonitorResponsePtrOutput{})
+	pulumi.RegisterOutputType(IsLbPoolServerAuthenticationOutput{})
+	pulumi.RegisterOutputType(IsLbPoolServerAuthenticationPtrOutput{})
 	pulumi.RegisterOutputType(IsLbPrivateIpOutput{})
 	pulumi.RegisterOutputType(IsLbPrivateIpArrayOutput{})
 	pulumi.RegisterOutputType(IsNetworkAclRuleTypeOutput{})
@@ -73961,6 +74542,10 @@ func init() {
 	pulumi.RegisterOutputType(IsSnapshotCatalogOfferingArrayOutput{})
 	pulumi.RegisterOutputType(IsSnapshotCatalogOfferingDeletedOutput{})
 	pulumi.RegisterOutputType(IsSnapshotCatalogOfferingDeletedArrayOutput{})
+	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyJobOutput{})
+	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyJobArrayOutput{})
+	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyJobDeletedOutput{})
+	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyJobDeletedArrayOutput{})
 	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyPlanOutput{})
 	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyPlanArrayOutput{})
 	pulumi.RegisterOutputType(IsSnapshotConsistencyGroupBackupPolicyPlanDeletedOutput{})
@@ -74011,6 +74596,10 @@ func init() {
 	pulumi.RegisterOutputType(IsVirtualEndpointGatewayIpTargetArrayOutput{})
 	pulumi.RegisterOutputType(IsVirtualEndpointGatewayLifecycleReasonOutput{})
 	pulumi.RegisterOutputType(IsVirtualEndpointGatewayLifecycleReasonArrayOutput{})
+	pulumi.RegisterOutputType(IsVirtualEndpointGatewayResourceBindingLifecycleReasonOutput{})
+	pulumi.RegisterOutputType(IsVirtualEndpointGatewayResourceBindingLifecycleReasonArrayOutput{})
+	pulumi.RegisterOutputType(IsVirtualEndpointGatewayResourceBindingTargetOutput{})
+	pulumi.RegisterOutputType(IsVirtualEndpointGatewayResourceBindingTargetPtrOutput{})
 	pulumi.RegisterOutputType(IsVirtualEndpointGatewayTargetOutput{})
 	pulumi.RegisterOutputType(IsVirtualEndpointGatewayTargetPtrOutput{})
 	pulumi.RegisterOutputType(IsVirtualNetworkInterfaceFloatingIpDeletedOutput{})
@@ -74033,106 +74622,4 @@ func init() {
 	pulumi.RegisterOutputType(IsVirtualNetworkInterfaceVpcDeletedArrayOutput{})
 	pulumi.RegisterOutputType(IsVolumeAllowedUseOutput{})
 	pulumi.RegisterOutputType(IsVolumeAllowedUsePtrOutput{})
-	pulumi.RegisterOutputType(IsVolumeCatalogOfferingOutput{})
-	pulumi.RegisterOutputType(IsVolumeCatalogOfferingArrayOutput{})
-	pulumi.RegisterOutputType(IsVolumeCatalogOfferingDeletedOutput{})
-	pulumi.RegisterOutputType(IsVolumeCatalogOfferingDeletedArrayOutput{})
-	pulumi.RegisterOutputType(IsVolumeHealthReasonOutput{})
-	pulumi.RegisterOutputType(IsVolumeHealthReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVolumeOperatingSystemOutput{})
-	pulumi.RegisterOutputType(IsVolumeOperatingSystemArrayOutput{})
-	pulumi.RegisterOutputType(IsVolumeStatusReasonOutput{})
-	pulumi.RegisterOutputType(IsVolumeStatusReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcCseSourceAddressOutput{})
-	pulumi.RegisterOutputType(IsVpcCseSourceAddressArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsPtrOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayRemoteOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayRemoteArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayRemoteAccountArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingEndpointGatewayRemoteRegionArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingHealthReasonOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingHealthReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcPtrOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcRemoteOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcRemoteArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcRemoteAccountOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcRemoteAccountArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcRemoteRegionOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolutionBindingVpcRemoteRegionArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolverOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolverPtrOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolverManualServerOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolverManualServerArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolverServerOutput{})
-	pulumi.RegisterOutputType(IsVpcDnsResolverServerArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcHealthReasonOutput{})
-	pulumi.RegisterOutputType(IsVpcHealthReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcPublicAddressRangeOutput{})
-	pulumi.RegisterOutputType(IsVpcPublicAddressRangeArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcPublicAddressRangeDeletedOutput{})
-	pulumi.RegisterOutputType(IsVpcPublicAddressRangeDeletedArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableResourceGroupOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableResourceGroupArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableRouteCreatorOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableRouteCreatorArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableRouteCreatorDeletedOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableRouteCreatorDeletedArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableSubnetOutput{})
-	pulumi.RegisterOutputType(IsVpcRoutingTableSubnetArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcSecurityGroupOutput{})
-	pulumi.RegisterOutputType(IsVpcSecurityGroupArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcSecurityGroupRuleOutput{})
-	pulumi.RegisterOutputType(IsVpcSecurityGroupRuleArrayOutput{})
-	pulumi.RegisterOutputType(IsVpcSubnetOutput{})
-	pulumi.RegisterOutputType(IsVpcSubnetArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionLocalOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionLocalPtrOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionLocalIkeIdentityOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionLocalIkeIdentityArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionPeerOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionPeerPtrOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionPeerIkeIdentityOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionPeerIkeIdentityPtrOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionStatusReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionStatusReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionTunnelOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayConnectionTunnelArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayHealthReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayHealthReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayLifecycleReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayLifecycleReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayMemberOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayMemberArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayVpcOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayVpcArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayVpcDeletedOutput{})
-	pulumi.RegisterOutputType(IsVpnGatewayVpcDeletedArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerClientAuthenticationOutput{})
-	pulumi.RegisterOutputType(IsVpnServerClientAuthenticationArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerHealthReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnServerHealthReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerLifecycleReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnServerLifecycleReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerPrivateIpOutput{})
-	pulumi.RegisterOutputType(IsVpnServerPrivateIpArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerPrivateIpDeletedOutput{})
-	pulumi.RegisterOutputType(IsVpnServerPrivateIpDeletedArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerRouteHealthReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnServerRouteHealthReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerRouteLifecycleReasonOutput{})
-	pulumi.RegisterOutputType(IsVpnServerRouteLifecycleReasonArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerVpcOutput{})
-	pulumi.RegisterOutputType(IsVpnServerVpcArrayOutput{})
-	pulumi.RegisterOutputType(IsVpnServerVpcDeletedOutput{})
-	pulumi.RegisterOutputType(IsVpnServerVpcDeletedArrayOutput{})
-	pulumi.RegisterOutputType(PiDhcpLeaseOutput{})
-	pulumi.RegisterOutputType(PiDhcpLeaseArrayOutput{})
-	pulumi.RegisterOutputType(PiHostCapacityOutput{})
-	pulumi.RegisterOutputType(PiHostCapacityArrayOutput{})
 }

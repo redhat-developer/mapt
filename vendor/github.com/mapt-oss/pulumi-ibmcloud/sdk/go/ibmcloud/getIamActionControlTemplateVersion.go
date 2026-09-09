@@ -47,12 +47,8 @@ type LookupIamActionControlTemplateVersionResult struct {
 }
 
 func LookupIamActionControlTemplateVersionOutput(ctx *pulumi.Context, args LookupIamActionControlTemplateVersionOutputArgs, opts ...pulumi.InvokeOption) LookupIamActionControlTemplateVersionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamActionControlTemplateVersionResultOutput, error) {
-			args := v.(LookupIamActionControlTemplateVersionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamActionControlTemplateVersion:getIamActionControlTemplateVersion", args, LookupIamActionControlTemplateVersionResultOutput{}, options).(LookupIamActionControlTemplateVersionResultOutput), nil
-		}).(LookupIamActionControlTemplateVersionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamActionControlTemplateVersion:getIamActionControlTemplateVersion", args, LookupIamActionControlTemplateVersionResultOutput{}, options).(LookupIamActionControlTemplateVersionResultOutput)
 }
 
 // A collection of arguments for invoking getIamActionControlTemplateVersion.

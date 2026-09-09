@@ -47,15 +47,12 @@ type GetIsBareMetalServerProfileResult struct {
 	ResourceType                        string                                                          `pulumi:"resourceType"`
 	SupportedTrustedPlatformModuleModes []GetIsBareMetalServerProfileSupportedTrustedPlatformModuleMode `pulumi:"supportedTrustedPlatformModuleModes"`
 	VirtualNetworkInterfacesSupporteds  []GetIsBareMetalServerProfileVirtualNetworkInterfacesSupported  `pulumi:"virtualNetworkInterfacesSupporteds"`
+	Zones                               []GetIsBareMetalServerProfileZone                               `pulumi:"zones"`
 }
 
 func GetIsBareMetalServerProfileOutput(ctx *pulumi.Context, args GetIsBareMetalServerProfileOutputArgs, opts ...pulumi.InvokeOption) GetIsBareMetalServerProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsBareMetalServerProfileResultOutput, error) {
-			args := v.(GetIsBareMetalServerProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerProfile:getIsBareMetalServerProfile", args, GetIsBareMetalServerProfileResultOutput{}, options).(GetIsBareMetalServerProfileResultOutput), nil
-		}).(GetIsBareMetalServerProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerProfile:getIsBareMetalServerProfile", args, GetIsBareMetalServerProfileResultOutput{}, options).(GetIsBareMetalServerProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServerProfile.
@@ -173,6 +170,10 @@ func (o GetIsBareMetalServerProfileResultOutput) VirtualNetworkInterfacesSupport
 	return o.ApplyT(func(v GetIsBareMetalServerProfileResult) []GetIsBareMetalServerProfileVirtualNetworkInterfacesSupported {
 		return v.VirtualNetworkInterfacesSupporteds
 	}).(GetIsBareMetalServerProfileVirtualNetworkInterfacesSupportedArrayOutput)
+}
+
+func (o GetIsBareMetalServerProfileResultOutput) Zones() GetIsBareMetalServerProfileZoneArrayOutput {
+	return o.ApplyT(func(v GetIsBareMetalServerProfileResult) []GetIsBareMetalServerProfileZone { return v.Zones }).(GetIsBareMetalServerProfileZoneArrayOutput)
 }
 
 func init() {

@@ -29,10 +29,8 @@ type LookupIamActionControlTemplateResult struct {
 }
 
 func LookupIamActionControlTemplateOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) LookupIamActionControlTemplateResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (LookupIamActionControlTemplateResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIamActionControlTemplate:getIamActionControlTemplate", nil, LookupIamActionControlTemplateResultOutput{}, options).(LookupIamActionControlTemplateResultOutput), nil
-	}).(LookupIamActionControlTemplateResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamActionControlTemplate:getIamActionControlTemplate", nil, LookupIamActionControlTemplateResultOutput{}, options).(LookupIamActionControlTemplateResultOutput)
 }
 
 // A collection of values returned by getIamActionControlTemplate.

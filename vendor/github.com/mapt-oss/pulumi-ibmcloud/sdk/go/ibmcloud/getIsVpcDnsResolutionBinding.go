@@ -45,12 +45,8 @@ type LookupIsVpcDnsResolutionBindingResult struct {
 }
 
 func LookupIsVpcDnsResolutionBindingOutput(ctx *pulumi.Context, args LookupIsVpcDnsResolutionBindingOutputArgs, opts ...pulumi.InvokeOption) LookupIsVpcDnsResolutionBindingResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVpcDnsResolutionBindingResultOutput, error) {
-			args := v.(LookupIsVpcDnsResolutionBindingArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpcDnsResolutionBinding:getIsVpcDnsResolutionBinding", args, LookupIsVpcDnsResolutionBindingResultOutput{}, options).(LookupIsVpcDnsResolutionBindingResultOutput), nil
-		}).(LookupIsVpcDnsResolutionBindingResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpcDnsResolutionBinding:getIsVpcDnsResolutionBinding", args, LookupIsVpcDnsResolutionBindingResultOutput{}, options).(LookupIsVpcDnsResolutionBindingResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpcDnsResolutionBinding.

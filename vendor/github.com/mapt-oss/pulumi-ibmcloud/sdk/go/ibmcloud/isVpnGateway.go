@@ -17,6 +17,8 @@ type IsVpnGateway struct {
 
 	// List of access management tags
 	AccessTags pulumi.StringArrayOutput `pulumi:"accessTags"`
+	// The additional CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will advertise routes with these CIDRs and VPC prefixes as route destinations.
+	AdvertisedCidrs pulumi.StringArrayOutput `pulumi:"advertisedCidrs"`
 	// Created Time of the VPN Gateway
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
 	// The crn of the resource
@@ -28,6 +30,8 @@ type IsVpnGateway struct {
 	LifecycleReasons IsVpnGatewayLifecycleReasonArrayOutput `pulumi:"lifecycleReasons"`
 	// The lifecycle state of the VPN route.
 	LifecycleState pulumi.StringOutput `pulumi:"lifecycleState"`
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn pulumi.IntOutput `pulumi:"localAsn"`
 	// Collection of VPN gateway members
 	Members IsVpnGatewayMemberArrayOutput `pulumi:"members"`
 	// mode in VPN gateway(route/policy)
@@ -99,6 +103,8 @@ func GetIsVpnGateway(ctx *pulumi.Context,
 type isVpnGatewayState struct {
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
+	// The additional CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will advertise routes with these CIDRs and VPC prefixes as route destinations.
+	AdvertisedCidrs []string `pulumi:"advertisedCidrs"`
 	// Created Time of the VPN Gateway
 	CreatedAt *string `pulumi:"createdAt"`
 	// The crn of the resource
@@ -110,6 +116,8 @@ type isVpnGatewayState struct {
 	LifecycleReasons []IsVpnGatewayLifecycleReason `pulumi:"lifecycleReasons"`
 	// The lifecycle state of the VPN route.
 	LifecycleState *string `pulumi:"lifecycleState"`
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn *int `pulumi:"localAsn"`
 	// Collection of VPN gateway members
 	Members []IsVpnGatewayMember `pulumi:"members"`
 	// mode in VPN gateway(route/policy)
@@ -149,6 +157,8 @@ type isVpnGatewayState struct {
 type IsVpnGatewayState struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
+	// The additional CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will advertise routes with these CIDRs and VPC prefixes as route destinations.
+	AdvertisedCidrs pulumi.StringArrayInput
 	// Created Time of the VPN Gateway
 	CreatedAt pulumi.StringPtrInput
 	// The crn of the resource
@@ -160,6 +170,8 @@ type IsVpnGatewayState struct {
 	LifecycleReasons IsVpnGatewayLifecycleReasonArrayInput
 	// The lifecycle state of the VPN route.
 	LifecycleState pulumi.StringPtrInput
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn pulumi.IntPtrInput
 	// Collection of VPN gateway members
 	Members IsVpnGatewayMemberArrayInput
 	// mode in VPN gateway(route/policy)
@@ -203,6 +215,8 @@ func (IsVpnGatewayState) ElementType() reflect.Type {
 type isVpnGatewayArgs struct {
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn *int `pulumi:"localAsn"`
 	// mode in VPN gateway(route/policy)
 	Mode *string `pulumi:"mode"`
 	// VPN Gateway instance name
@@ -219,6 +233,8 @@ type isVpnGatewayArgs struct {
 type IsVpnGatewayArgs struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn pulumi.IntPtrInput
 	// mode in VPN gateway(route/policy)
 	Mode pulumi.StringPtrInput
 	// VPN Gateway instance name
@@ -273,6 +289,11 @@ func (o IsVpnGatewayOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IsVpnGateway) pulumi.StringArrayOutput { return v.AccessTags }).(pulumi.StringArrayOutput)
 }
 
+// The additional CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will advertise routes with these CIDRs and VPC prefixes as route destinations.
+func (o IsVpnGatewayOutput) AdvertisedCidrs() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsVpnGateway) pulumi.StringArrayOutput { return v.AdvertisedCidrs }).(pulumi.StringArrayOutput)
+}
+
 // Created Time of the VPN Gateway
 func (o IsVpnGatewayOutput) CreatedAt() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsVpnGateway) pulumi.StringOutput { return v.CreatedAt }).(pulumi.StringOutput)
@@ -300,6 +321,11 @@ func (o IsVpnGatewayOutput) LifecycleReasons() IsVpnGatewayLifecycleReasonArrayO
 // The lifecycle state of the VPN route.
 func (o IsVpnGatewayOutput) LifecycleState() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsVpnGateway) pulumi.StringOutput { return v.LifecycleState }).(pulumi.StringOutput)
+}
+
+// The local autonomous system number (ASN) for this VPN gateway and its connections.
+func (o IsVpnGatewayOutput) LocalAsn() pulumi.IntOutput {
+	return o.ApplyT(func(v *IsVpnGateway) pulumi.IntOutput { return v.LocalAsn }).(pulumi.IntOutput)
 }
 
 // Collection of VPN gateway members

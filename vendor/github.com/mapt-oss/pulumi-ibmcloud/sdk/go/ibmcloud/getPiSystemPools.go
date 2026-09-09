@@ -35,12 +35,8 @@ type GetPiSystemPoolsResult struct {
 }
 
 func GetPiSystemPoolsOutput(ctx *pulumi.Context, args GetPiSystemPoolsOutputArgs, opts ...pulumi.InvokeOption) GetPiSystemPoolsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiSystemPoolsResultOutput, error) {
-			args := v.(GetPiSystemPoolsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSystemPools:getPiSystemPools", args, GetPiSystemPoolsResultOutput{}, options).(GetPiSystemPoolsResultOutput), nil
-		}).(GetPiSystemPoolsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSystemPools:getPiSystemPools", args, GetPiSystemPoolsResultOutput{}, options).(GetPiSystemPoolsResultOutput)
 }
 
 // A collection of arguments for invoking getPiSystemPools.

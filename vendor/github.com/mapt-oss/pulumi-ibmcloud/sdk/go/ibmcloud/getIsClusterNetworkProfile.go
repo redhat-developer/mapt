@@ -39,12 +39,8 @@ type LookupIsClusterNetworkProfileResult struct {
 }
 
 func LookupIsClusterNetworkProfileOutput(ctx *pulumi.Context, args LookupIsClusterNetworkProfileOutputArgs, opts ...pulumi.InvokeOption) LookupIsClusterNetworkProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsClusterNetworkProfileResultOutput, error) {
-			args := v.(LookupIsClusterNetworkProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkProfile:getIsClusterNetworkProfile", args, LookupIsClusterNetworkProfileResultOutput{}, options).(LookupIsClusterNetworkProfileResultOutput), nil
-		}).(LookupIsClusterNetworkProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkProfile:getIsClusterNetworkProfile", args, LookupIsClusterNetworkProfileResultOutput{}, options).(LookupIsClusterNetworkProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIsClusterNetworkProfile.

@@ -48,12 +48,8 @@ type LookupPiSharedProcessorPoolResult struct {
 }
 
 func LookupPiSharedProcessorPoolOutput(ctx *pulumi.Context, args LookupPiSharedProcessorPoolOutputArgs, opts ...pulumi.InvokeOption) LookupPiSharedProcessorPoolResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiSharedProcessorPoolResultOutput, error) {
-			args := v.(LookupPiSharedProcessorPoolArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSharedProcessorPool:getPiSharedProcessorPool", args, LookupPiSharedProcessorPoolResultOutput{}, options).(LookupPiSharedProcessorPoolResultOutput), nil
-		}).(LookupPiSharedProcessorPoolResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSharedProcessorPool:getPiSharedProcessorPool", args, LookupPiSharedProcessorPoolResultOutput{}, options).(LookupPiSharedProcessorPoolResultOutput)
 }
 
 // A collection of arguments for invoking getPiSharedProcessorPool.

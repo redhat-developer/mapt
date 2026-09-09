@@ -48,12 +48,8 @@ type LookupIsClusterNetworkSubnetReservedIpResult struct {
 }
 
 func LookupIsClusterNetworkSubnetReservedIpOutput(ctx *pulumi.Context, args LookupIsClusterNetworkSubnetReservedIpOutputArgs, opts ...pulumi.InvokeOption) LookupIsClusterNetworkSubnetReservedIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsClusterNetworkSubnetReservedIpResultOutput, error) {
-			args := v.(LookupIsClusterNetworkSubnetReservedIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkSubnetReservedIp:getIsClusterNetworkSubnetReservedIp", args, LookupIsClusterNetworkSubnetReservedIpResultOutput{}, options).(LookupIsClusterNetworkSubnetReservedIpResultOutput), nil
-		}).(LookupIsClusterNetworkSubnetReservedIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkSubnetReservedIp:getIsClusterNetworkSubnetReservedIp", args, LookupIsClusterNetworkSubnetReservedIpResultOutput{}, options).(LookupIsClusterNetworkSubnetReservedIpResultOutput)
 }
 
 // A collection of arguments for invoking getIsClusterNetworkSubnetReservedIp.

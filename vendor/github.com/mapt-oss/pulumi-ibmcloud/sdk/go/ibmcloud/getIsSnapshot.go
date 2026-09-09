@@ -61,12 +61,8 @@ type LookupIsSnapshotResult struct {
 }
 
 func LookupIsSnapshotOutput(ctx *pulumi.Context, args LookupIsSnapshotOutputArgs, opts ...pulumi.InvokeOption) LookupIsSnapshotResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsSnapshotResultOutput, error) {
-			args := v.(LookupIsSnapshotArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSnapshot:getIsSnapshot", args, LookupIsSnapshotResultOutput{}, options).(LookupIsSnapshotResultOutput), nil
-		}).(LookupIsSnapshotResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSnapshot:getIsSnapshot", args, LookupIsSnapshotResultOutput{}, options).(LookupIsSnapshotResultOutput)
 }
 
 // A collection of arguments for invoking getIsSnapshot.

@@ -29,30 +29,29 @@ type LookupIsIpsecPolicyArgs struct {
 
 // A collection of values returned by getIsIpsecPolicy.
 type LookupIsIpsecPolicyResult struct {
-	AuthenticationAlgorithm string                       `pulumi:"authenticationAlgorithm"`
-	Connections             []GetIsIpsecPolicyConnection `pulumi:"connections"`
-	CreatedAt               string                       `pulumi:"createdAt"`
-	EncapsulationMode       string                       `pulumi:"encapsulationMode"`
-	EncryptionAlgorithm     string                       `pulumi:"encryptionAlgorithm"`
-	Href                    string                       `pulumi:"href"`
+	AuthenticationAlgorithm  string                       `pulumi:"authenticationAlgorithm"`
+	AuthenticationAlgorithms []string                     `pulumi:"authenticationAlgorithms"`
+	Connections              []GetIsIpsecPolicyConnection `pulumi:"connections"`
+	CreatedAt                string                       `pulumi:"createdAt"`
+	EncapsulationMode        string                       `pulumi:"encapsulationMode"`
+	EncryptionAlgorithm      string                       `pulumi:"encryptionAlgorithm"`
+	EncryptionAlgorithms     []string                     `pulumi:"encryptionAlgorithms"`
+	Href                     string                       `pulumi:"href"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                string                          `pulumi:"id"`
 	IpsecPolicy       *string                         `pulumi:"ipsecPolicy"`
 	KeyLifetime       int                             `pulumi:"keyLifetime"`
 	Name              *string                         `pulumi:"name"`
 	Pfs               string                          `pulumi:"pfs"`
+	PfsGroups         []string                        `pulumi:"pfsGroups"`
 	ResourceGroups    []GetIsIpsecPolicyResourceGroup `pulumi:"resourceGroups"`
 	ResourceType      string                          `pulumi:"resourceType"`
 	TransformProtocol string                          `pulumi:"transformProtocol"`
 }
 
 func LookupIsIpsecPolicyOutput(ctx *pulumi.Context, args LookupIsIpsecPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupIsIpsecPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsIpsecPolicyResultOutput, error) {
-			args := v.(LookupIsIpsecPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsIpsecPolicy:getIsIpsecPolicy", args, LookupIsIpsecPolicyResultOutput{}, options).(LookupIsIpsecPolicyResultOutput), nil
-		}).(LookupIsIpsecPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsIpsecPolicy:getIsIpsecPolicy", args, LookupIsIpsecPolicyResultOutput{}, options).(LookupIsIpsecPolicyResultOutput)
 }
 
 // A collection of arguments for invoking getIsIpsecPolicy.
@@ -84,6 +83,10 @@ func (o LookupIsIpsecPolicyResultOutput) AuthenticationAlgorithm() pulumi.String
 	return o.ApplyT(func(v LookupIsIpsecPolicyResult) string { return v.AuthenticationAlgorithm }).(pulumi.StringOutput)
 }
 
+func (o LookupIsIpsecPolicyResultOutput) AuthenticationAlgorithms() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupIsIpsecPolicyResult) []string { return v.AuthenticationAlgorithms }).(pulumi.StringArrayOutput)
+}
+
 func (o LookupIsIpsecPolicyResultOutput) Connections() GetIsIpsecPolicyConnectionArrayOutput {
 	return o.ApplyT(func(v LookupIsIpsecPolicyResult) []GetIsIpsecPolicyConnection { return v.Connections }).(GetIsIpsecPolicyConnectionArrayOutput)
 }
@@ -98,6 +101,10 @@ func (o LookupIsIpsecPolicyResultOutput) EncapsulationMode() pulumi.StringOutput
 
 func (o LookupIsIpsecPolicyResultOutput) EncryptionAlgorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsIpsecPolicyResult) string { return v.EncryptionAlgorithm }).(pulumi.StringOutput)
+}
+
+func (o LookupIsIpsecPolicyResultOutput) EncryptionAlgorithms() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupIsIpsecPolicyResult) []string { return v.EncryptionAlgorithms }).(pulumi.StringArrayOutput)
 }
 
 func (o LookupIsIpsecPolicyResultOutput) Href() pulumi.StringOutput {
@@ -123,6 +130,10 @@ func (o LookupIsIpsecPolicyResultOutput) Name() pulumi.StringPtrOutput {
 
 func (o LookupIsIpsecPolicyResultOutput) Pfs() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsIpsecPolicyResult) string { return v.Pfs }).(pulumi.StringOutput)
+}
+
+func (o LookupIsIpsecPolicyResultOutput) PfsGroups() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupIsIpsecPolicyResult) []string { return v.PfsGroups }).(pulumi.StringArrayOutput)
 }
 
 func (o LookupIsIpsecPolicyResultOutput) ResourceGroups() GetIsIpsecPolicyResourceGroupArrayOutput {

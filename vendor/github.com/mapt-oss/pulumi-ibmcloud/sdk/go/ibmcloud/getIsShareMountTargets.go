@@ -37,12 +37,8 @@ type GetIsShareMountTargetsResult struct {
 }
 
 func GetIsShareMountTargetsOutput(ctx *pulumi.Context, args GetIsShareMountTargetsOutputArgs, opts ...pulumi.InvokeOption) GetIsShareMountTargetsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsShareMountTargetsResultOutput, error) {
-			args := v.(GetIsShareMountTargetsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShareMountTargets:getIsShareMountTargets", args, GetIsShareMountTargetsResultOutput{}, options).(GetIsShareMountTargetsResultOutput), nil
-		}).(GetIsShareMountTargetsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShareMountTargets:getIsShareMountTargets", args, GetIsShareMountTargetsResultOutput{}, options).(GetIsShareMountTargetsResultOutput)
 }
 
 // A collection of arguments for invoking getIsShareMountTargets.

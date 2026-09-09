@@ -43,12 +43,8 @@ type GetIsOperatingSystemResult struct {
 }
 
 func GetIsOperatingSystemOutput(ctx *pulumi.Context, args GetIsOperatingSystemOutputArgs, opts ...pulumi.InvokeOption) GetIsOperatingSystemResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsOperatingSystemResultOutput, error) {
-			args := v.(GetIsOperatingSystemArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsOperatingSystem:getIsOperatingSystem", args, GetIsOperatingSystemResultOutput{}, options).(GetIsOperatingSystemResultOutput), nil
-		}).(GetIsOperatingSystemResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsOperatingSystem:getIsOperatingSystem", args, GetIsOperatingSystemResultOutput{}, options).(GetIsOperatingSystemResultOutput)
 }
 
 // A collection of arguments for invoking getIsOperatingSystem.

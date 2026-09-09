@@ -51,12 +51,8 @@ type LookupCosBucketObjectResult struct {
 }
 
 func LookupCosBucketObjectOutput(ctx *pulumi.Context, args LookupCosBucketObjectOutputArgs, opts ...pulumi.InvokeOption) LookupCosBucketObjectResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupCosBucketObjectResultOutput, error) {
-			args := v.(LookupCosBucketObjectArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getCosBucketObject:getCosBucketObject", args, LookupCosBucketObjectResultOutput{}, options).(LookupCosBucketObjectResultOutput), nil
-		}).(LookupCosBucketObjectResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getCosBucketObject:getCosBucketObject", args, LookupCosBucketObjectResultOutput{}, options).(LookupCosBucketObjectResultOutput)
 }
 
 // A collection of arguments for invoking getCosBucketObject.

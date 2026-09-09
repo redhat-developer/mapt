@@ -15,6 +15,8 @@ import (
 type IsPrivatePathServiceGateway struct {
 	pulumi.CustomResourceState
 
+	// List of access management tags for this private path service gateway.
+	AccessTags pulumi.StringArrayOutput `pulumi:"accessTags"`
 	// The date and time that the account policy was created.
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
 	// CRN of this resource.
@@ -45,6 +47,8 @@ type IsPrivatePathServiceGateway struct {
 	ResourceType pulumi.StringOutput `pulumi:"resourceType"`
 	// The fully qualified domain names for this private path service gateway.
 	ServiceEndpoints pulumi.StringArrayOutput `pulumi:"serviceEndpoints"`
+	// List of user tags for this private path service gateway.
+	Tags pulumi.StringArrayOutput `pulumi:"tags"`
 	// The date and time that the account policy was updated.
 	UpdatedAt pulumi.StringOutput `pulumi:"updatedAt"`
 	// The VPC this private path service gateway resides in.
@@ -89,6 +93,8 @@ func GetIsPrivatePathServiceGateway(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering IsPrivatePathServiceGateway resources.
 type isPrivatePathServiceGatewayState struct {
+	// List of access management tags for this private path service gateway.
+	AccessTags []string `pulumi:"accessTags"`
 	// The date and time that the account policy was created.
 	CreatedAt *string `pulumi:"createdAt"`
 	// CRN of this resource.
@@ -119,6 +125,8 @@ type isPrivatePathServiceGatewayState struct {
 	ResourceType *string `pulumi:"resourceType"`
 	// The fully qualified domain names for this private path service gateway.
 	ServiceEndpoints []string `pulumi:"serviceEndpoints"`
+	// List of user tags for this private path service gateway.
+	Tags []string `pulumi:"tags"`
 	// The date and time that the account policy was updated.
 	UpdatedAt *string `pulumi:"updatedAt"`
 	// The VPC this private path service gateway resides in.
@@ -128,6 +136,8 @@ type isPrivatePathServiceGatewayState struct {
 }
 
 type IsPrivatePathServiceGatewayState struct {
+	// List of access management tags for this private path service gateway.
+	AccessTags pulumi.StringArrayInput
 	// The date and time that the account policy was created.
 	CreatedAt pulumi.StringPtrInput
 	// CRN of this resource.
@@ -158,6 +168,8 @@ type IsPrivatePathServiceGatewayState struct {
 	ResourceType pulumi.StringPtrInput
 	// The fully qualified domain names for this private path service gateway.
 	ServiceEndpoints pulumi.StringArrayInput
+	// List of user tags for this private path service gateway.
+	Tags pulumi.StringArrayInput
 	// The date and time that the account policy was updated.
 	UpdatedAt pulumi.StringPtrInput
 	// The VPC this private path service gateway resides in.
@@ -171,6 +183,8 @@ func (IsPrivatePathServiceGatewayState) ElementType() reflect.Type {
 }
 
 type isPrivatePathServiceGatewayArgs struct {
+	// List of access management tags for this private path service gateway.
+	AccessTags []string `pulumi:"accessTags"`
 	// The access policy for the account:- permit: access will be permitted- deny:  access will be denied- review: access will be manually reviewed.
 	DefaultAccessPolicy *string `pulumi:"defaultAccessPolicy"`
 	// The load balancer for this private path service gateway.
@@ -181,12 +195,16 @@ type isPrivatePathServiceGatewayArgs struct {
 	ResourceGroup *string `pulumi:"resourceGroup"`
 	// The fully qualified domain names for this private path service gateway.
 	ServiceEndpoints []string `pulumi:"serviceEndpoints"`
+	// List of user tags for this private path service gateway.
+	Tags []string `pulumi:"tags"`
 	// ndicates whether this private path service gateway has zonal affinity.
 	ZonalAffinity *bool `pulumi:"zonalAffinity"`
 }
 
 // The set of arguments for constructing a IsPrivatePathServiceGateway resource.
 type IsPrivatePathServiceGatewayArgs struct {
+	// List of access management tags for this private path service gateway.
+	AccessTags pulumi.StringArrayInput
 	// The access policy for the account:- permit: access will be permitted- deny:  access will be denied- review: access will be manually reviewed.
 	DefaultAccessPolicy pulumi.StringPtrInput
 	// The load balancer for this private path service gateway.
@@ -197,6 +215,8 @@ type IsPrivatePathServiceGatewayArgs struct {
 	ResourceGroup pulumi.StringPtrInput
 	// The fully qualified domain names for this private path service gateway.
 	ServiceEndpoints pulumi.StringArrayInput
+	// List of user tags for this private path service gateway.
+	Tags pulumi.StringArrayInput
 	// ndicates whether this private path service gateway has zonal affinity.
 	ZonalAffinity pulumi.BoolPtrInput
 }
@@ -236,6 +256,11 @@ func (o IsPrivatePathServiceGatewayOutput) ToIsPrivatePathServiceGatewayOutput()
 
 func (o IsPrivatePathServiceGatewayOutput) ToIsPrivatePathServiceGatewayOutputWithContext(ctx context.Context) IsPrivatePathServiceGatewayOutput {
 	return o
+}
+
+// List of access management tags for this private path service gateway.
+func (o IsPrivatePathServiceGatewayOutput) AccessTags() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsPrivatePathServiceGateway) pulumi.StringArrayOutput { return v.AccessTags }).(pulumi.StringArrayOutput)
 }
 
 // The date and time that the account policy was created.
@@ -313,6 +338,11 @@ func (o IsPrivatePathServiceGatewayOutput) ResourceType() pulumi.StringOutput {
 // The fully qualified domain names for this private path service gateway.
 func (o IsPrivatePathServiceGatewayOutput) ServiceEndpoints() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *IsPrivatePathServiceGateway) pulumi.StringArrayOutput { return v.ServiceEndpoints }).(pulumi.StringArrayOutput)
+}
+
+// List of user tags for this private path service gateway.
+func (o IsPrivatePathServiceGatewayOutput) Tags() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *IsPrivatePathServiceGateway) pulumi.StringArrayOutput { return v.Tags }).(pulumi.StringArrayOutput)
 }
 
 // The date and time that the account policy was updated.

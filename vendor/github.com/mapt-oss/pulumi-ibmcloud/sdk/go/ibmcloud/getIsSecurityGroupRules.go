@@ -35,12 +35,8 @@ type GetIsSecurityGroupRulesResult struct {
 }
 
 func GetIsSecurityGroupRulesOutput(ctx *pulumi.Context, args GetIsSecurityGroupRulesOutputArgs, opts ...pulumi.InvokeOption) GetIsSecurityGroupRulesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSecurityGroupRulesResultOutput, error) {
-			args := v.(GetIsSecurityGroupRulesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSecurityGroupRules:getIsSecurityGroupRules", args, GetIsSecurityGroupRulesResultOutput{}, options).(GetIsSecurityGroupRulesResultOutput), nil
-		}).(GetIsSecurityGroupRulesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSecurityGroupRules:getIsSecurityGroupRules", args, GetIsSecurityGroupRulesResultOutput{}, options).(GetIsSecurityGroupRulesResultOutput)
 }
 
 // A collection of arguments for invoking getIsSecurityGroupRules.

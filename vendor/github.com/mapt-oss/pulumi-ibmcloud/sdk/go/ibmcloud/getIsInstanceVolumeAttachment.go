@@ -44,12 +44,8 @@ type LookupIsInstanceVolumeAttachmentResult struct {
 }
 
 func LookupIsInstanceVolumeAttachmentOutput(ctx *pulumi.Context, args LookupIsInstanceVolumeAttachmentOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceVolumeAttachmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceVolumeAttachmentResultOutput, error) {
-			args := v.(LookupIsInstanceVolumeAttachmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceVolumeAttachment:getIsInstanceVolumeAttachment", args, LookupIsInstanceVolumeAttachmentResultOutput{}, options).(LookupIsInstanceVolumeAttachmentResultOutput), nil
-		}).(LookupIsInstanceVolumeAttachmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceVolumeAttachment:getIsInstanceVolumeAttachment", args, LookupIsInstanceVolumeAttachmentResultOutput{}, options).(LookupIsInstanceVolumeAttachmentResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceVolumeAttachment.

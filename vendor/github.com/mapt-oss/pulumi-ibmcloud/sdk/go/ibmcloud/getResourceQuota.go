@@ -41,12 +41,8 @@ type GetResourceQuotaResult struct {
 }
 
 func GetResourceQuotaOutput(ctx *pulumi.Context, args GetResourceQuotaOutputArgs, opts ...pulumi.InvokeOption) GetResourceQuotaResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetResourceQuotaResultOutput, error) {
-			args := v.(GetResourceQuotaArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getResourceQuota:getResourceQuota", args, GetResourceQuotaResultOutput{}, options).(GetResourceQuotaResultOutput), nil
-		}).(GetResourceQuotaResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getResourceQuota:getResourceQuota", args, GetResourceQuotaResultOutput{}, options).(GetResourceQuotaResultOutput)
 }
 
 // A collection of arguments for invoking getResourceQuota.

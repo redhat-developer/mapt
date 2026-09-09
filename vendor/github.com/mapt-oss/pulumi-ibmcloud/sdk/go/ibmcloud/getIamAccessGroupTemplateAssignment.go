@@ -49,12 +49,8 @@ type LookupIamAccessGroupTemplateAssignmentResult struct {
 }
 
 func LookupIamAccessGroupTemplateAssignmentOutput(ctx *pulumi.Context, args LookupIamAccessGroupTemplateAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupIamAccessGroupTemplateAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamAccessGroupTemplateAssignmentResultOutput, error) {
-			args := v.(LookupIamAccessGroupTemplateAssignmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroupTemplateAssignment:getIamAccessGroupTemplateAssignment", args, LookupIamAccessGroupTemplateAssignmentResultOutput{}, options).(LookupIamAccessGroupTemplateAssignmentResultOutput), nil
-		}).(LookupIamAccessGroupTemplateAssignmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroupTemplateAssignment:getIamAccessGroupTemplateAssignment", args, LookupIamAccessGroupTemplateAssignmentResultOutput{}, options).(LookupIamAccessGroupTemplateAssignmentResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccessGroupTemplateAssignment.

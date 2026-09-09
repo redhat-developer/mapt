@@ -55,12 +55,8 @@ type LookupResourceInstanceResult struct {
 }
 
 func LookupResourceInstanceOutput(ctx *pulumi.Context, args LookupResourceInstanceOutputArgs, opts ...pulumi.InvokeOption) LookupResourceInstanceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupResourceInstanceResultOutput, error) {
-			args := v.(LookupResourceInstanceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getResourceInstance:getResourceInstance", args, LookupResourceInstanceResultOutput{}, options).(LookupResourceInstanceResultOutput), nil
-		}).(LookupResourceInstanceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getResourceInstance:getResourceInstance", args, LookupResourceInstanceResultOutput{}, options).(LookupResourceInstanceResultOutput)
 }
 
 // A collection of arguments for invoking getResourceInstance.

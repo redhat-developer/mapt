@@ -29,10 +29,8 @@ type GetIsLbsResult struct {
 }
 
 func GetIsLbsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsLbsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsLbsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsLbs:getIsLbs", nil, GetIsLbsResultOutput{}, options).(GetIsLbsResultOutput), nil
-	}).(GetIsLbsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbs:getIsLbs", nil, GetIsLbsResultOutput{}, options).(GetIsLbsResultOutput)
 }
 
 // A collection of values returned by getIsLbs.

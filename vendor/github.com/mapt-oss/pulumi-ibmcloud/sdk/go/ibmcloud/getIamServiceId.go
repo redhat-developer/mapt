@@ -35,12 +35,8 @@ type LookupIamServiceIdResult struct {
 }
 
 func LookupIamServiceIdOutput(ctx *pulumi.Context, args LookupIamServiceIdOutputArgs, opts ...pulumi.InvokeOption) LookupIamServiceIdResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamServiceIdResultOutput, error) {
-			args := v.(LookupIamServiceIdArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamServiceId:getIamServiceId", args, LookupIamServiceIdResultOutput{}, options).(LookupIamServiceIdResultOutput), nil
-		}).(LookupIamServiceIdResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamServiceId:getIamServiceId", args, LookupIamServiceIdResultOutput{}, options).(LookupIamServiceIdResultOutput)
 }
 
 // A collection of arguments for invoking getIamServiceId.

@@ -35,12 +35,8 @@ type GetIsLbProfilesResult struct {
 }
 
 func GetIsLbProfilesOutput(ctx *pulumi.Context, args GetIsLbProfilesOutputArgs, opts ...pulumi.InvokeOption) GetIsLbProfilesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsLbProfilesResultOutput, error) {
-			args := v.(GetIsLbProfilesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbProfiles:getIsLbProfiles", args, GetIsLbProfilesResultOutput{}, options).(GetIsLbProfilesResultOutput), nil
-		}).(GetIsLbProfilesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbProfiles:getIsLbProfiles", args, GetIsLbProfilesResultOutput{}, options).(GetIsLbProfilesResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbProfiles.

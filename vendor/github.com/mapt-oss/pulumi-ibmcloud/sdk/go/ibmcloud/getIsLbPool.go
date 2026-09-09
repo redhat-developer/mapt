@@ -30,31 +30,29 @@ type LookupIsLbPoolArgs struct {
 
 // A collection of values returned by getIsLbPool.
 type LookupIsLbPoolResult struct {
-	Algorithm        string                      `pulumi:"algorithm"`
-	CreatedAt        string                      `pulumi:"createdAt"`
-	FailsafePolicies []GetIsLbPoolFailsafePolicy `pulumi:"failsafePolicies"`
-	HealthMonitors   []GetIsLbPoolHealthMonitor  `pulumi:"healthMonitors"`
-	Href             string                      `pulumi:"href"`
+	Algorithm             string                            `pulumi:"algorithm"`
+	ClientAuthentications []GetIsLbPoolClientAuthentication `pulumi:"clientAuthentications"`
+	CreatedAt             string                            `pulumi:"createdAt"`
+	FailsafePolicies      []GetIsLbPoolFailsafePolicy       `pulumi:"failsafePolicies"`
+	HealthMonitors        []GetIsLbPoolHealthMonitor        `pulumi:"healthMonitors"`
+	Href                  string                            `pulumi:"href"`
 	// The provider-assigned unique ID for this managed resource.
-	Id                  string                          `pulumi:"id"`
-	Identifier          *string                         `pulumi:"identifier"`
-	InstanceGroups      []GetIsLbPoolInstanceGroup      `pulumi:"instanceGroups"`
-	Lb                  string                          `pulumi:"lb"`
-	Members             []GetIsLbPoolMemberType         `pulumi:"members"`
-	Name                string                          `pulumi:"name"`
-	Protocol            string                          `pulumi:"protocol"`
-	ProvisioningStatus  string                          `pulumi:"provisioningStatus"`
-	ProxyProtocol       string                          `pulumi:"proxyProtocol"`
-	SessionPersistences []GetIsLbPoolSessionPersistence `pulumi:"sessionPersistences"`
+	Id                    string                            `pulumi:"id"`
+	Identifier            *string                           `pulumi:"identifier"`
+	InstanceGroups        []GetIsLbPoolInstanceGroup        `pulumi:"instanceGroups"`
+	Lb                    string                            `pulumi:"lb"`
+	Members               []GetIsLbPoolMemberType           `pulumi:"members"`
+	Name                  string                            `pulumi:"name"`
+	Protocol              string                            `pulumi:"protocol"`
+	ProvisioningStatus    string                            `pulumi:"provisioningStatus"`
+	ProxyProtocol         string                            `pulumi:"proxyProtocol"`
+	ServerAuthentications []GetIsLbPoolServerAuthentication `pulumi:"serverAuthentications"`
+	SessionPersistences   []GetIsLbPoolSessionPersistence   `pulumi:"sessionPersistences"`
 }
 
 func LookupIsLbPoolOutput(ctx *pulumi.Context, args LookupIsLbPoolOutputArgs, opts ...pulumi.InvokeOption) LookupIsLbPoolResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsLbPoolResultOutput, error) {
-			args := v.(LookupIsLbPoolArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbPool:getIsLbPool", args, LookupIsLbPoolResultOutput{}, options).(LookupIsLbPoolResultOutput), nil
-		}).(LookupIsLbPoolResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbPool:getIsLbPool", args, LookupIsLbPoolResultOutput{}, options).(LookupIsLbPoolResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbPool.
@@ -85,6 +83,10 @@ func (o LookupIsLbPoolResultOutput) ToLookupIsLbPoolResultOutputWithContext(ctx 
 
 func (o LookupIsLbPoolResultOutput) Algorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsLbPoolResult) string { return v.Algorithm }).(pulumi.StringOutput)
+}
+
+func (o LookupIsLbPoolResultOutput) ClientAuthentications() GetIsLbPoolClientAuthenticationArrayOutput {
+	return o.ApplyT(func(v LookupIsLbPoolResult) []GetIsLbPoolClientAuthentication { return v.ClientAuthentications }).(GetIsLbPoolClientAuthenticationArrayOutput)
 }
 
 func (o LookupIsLbPoolResultOutput) CreatedAt() pulumi.StringOutput {
@@ -138,6 +140,10 @@ func (o LookupIsLbPoolResultOutput) ProvisioningStatus() pulumi.StringOutput {
 
 func (o LookupIsLbPoolResultOutput) ProxyProtocol() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsLbPoolResult) string { return v.ProxyProtocol }).(pulumi.StringOutput)
+}
+
+func (o LookupIsLbPoolResultOutput) ServerAuthentications() GetIsLbPoolServerAuthenticationArrayOutput {
+	return o.ApplyT(func(v LookupIsLbPoolResult) []GetIsLbPoolServerAuthentication { return v.ServerAuthentications }).(GetIsLbPoolServerAuthenticationArrayOutput)
 }
 
 func (o LookupIsLbPoolResultOutput) SessionPersistences() GetIsLbPoolSessionPersistenceArrayOutput {

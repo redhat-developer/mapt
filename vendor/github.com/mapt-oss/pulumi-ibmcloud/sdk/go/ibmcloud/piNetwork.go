@@ -17,6 +17,8 @@ type PiNetwork struct {
 
 	// The CRN of this resource.
 	Crn pulumi.StringOutput `pulumi:"crn"`
+	// DHCP enabled network.
+	EnableDhcp pulumi.BoolOutput `pulumi:"enableDhcp"`
 	// Contains the Network Address Translation Details (for on-prem locations only).
 	//
 	// Deprecated: This field is deprecated
@@ -37,6 +39,8 @@ type PiNetwork struct {
 	PiCloudInstanceId pulumi.StringOutput `pulumi:"piCloudInstanceId"`
 	// The DNS Servers for the network.
 	PiDns pulumi.StringArrayOutput `pulumi:"piDns"`
+	// Network will support DHCP.
+	PiEnableDhcp pulumi.BoolPtrOutput `pulumi:"piEnableDhcp"`
 	// The gateway ip address.
 	PiGateway pulumi.StringOutput `pulumi:"piGateway"`
 	// List of one or more ip address range(s).
@@ -98,6 +102,8 @@ func GetPiNetwork(ctx *pulumi.Context,
 type piNetworkState struct {
 	// The CRN of this resource.
 	Crn *string `pulumi:"crn"`
+	// DHCP enabled network.
+	EnableDhcp *bool `pulumi:"enableDhcp"`
 	// Contains the Network Address Translation Details (for on-prem locations only).
 	//
 	// Deprecated: This field is deprecated
@@ -118,6 +124,8 @@ type piNetworkState struct {
 	PiCloudInstanceId *string `pulumi:"piCloudInstanceId"`
 	// The DNS Servers for the network.
 	PiDns []string `pulumi:"piDns"`
+	// Network will support DHCP.
+	PiEnableDhcp *bool `pulumi:"piEnableDhcp"`
 	// The gateway ip address.
 	PiGateway *string `pulumi:"piGateway"`
 	// List of one or more ip address range(s).
@@ -141,6 +149,8 @@ type piNetworkState struct {
 type PiNetworkState struct {
 	// The CRN of this resource.
 	Crn pulumi.StringPtrInput
+	// DHCP enabled network.
+	EnableDhcp pulumi.BoolPtrInput
 	// Contains the Network Address Translation Details (for on-prem locations only).
 	//
 	// Deprecated: This field is deprecated
@@ -161,6 +171,8 @@ type PiNetworkState struct {
 	PiCloudInstanceId pulumi.StringPtrInput
 	// The DNS Servers for the network.
 	PiDns pulumi.StringArrayInput
+	// Network will support DHCP.
+	PiEnableDhcp pulumi.BoolPtrInput
 	// The gateway ip address.
 	PiGateway pulumi.StringPtrInput
 	// List of one or more ip address range(s).
@@ -196,6 +208,8 @@ type piNetworkArgs struct {
 	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
 	// The DNS Servers for the network.
 	PiDns []string `pulumi:"piDns"`
+	// Network will support DHCP.
+	PiEnableDhcp *bool `pulumi:"piEnableDhcp"`
 	// The gateway ip address.
 	PiGateway *string `pulumi:"piGateway"`
 	// List of one or more ip address range(s).
@@ -226,6 +240,8 @@ type PiNetworkArgs struct {
 	PiCloudInstanceId pulumi.StringInput
 	// The DNS Servers for the network.
 	PiDns pulumi.StringArrayInput
+	// Network will support DHCP.
+	PiEnableDhcp pulumi.BoolPtrInput
 	// The gateway ip address.
 	PiGateway pulumi.StringPtrInput
 	// List of one or more ip address range(s).
@@ -286,6 +302,11 @@ func (o PiNetworkOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v *PiNetwork) pulumi.StringOutput { return v.Crn }).(pulumi.StringOutput)
 }
 
+// DHCP enabled network.
+func (o PiNetworkOutput) EnableDhcp() pulumi.BoolOutput {
+	return o.ApplyT(func(v *PiNetwork) pulumi.BoolOutput { return v.EnableDhcp }).(pulumi.BoolOutput)
+}
+
 // Contains the Network Address Translation Details (for on-prem locations only).
 //
 // Deprecated: This field is deprecated
@@ -328,6 +349,11 @@ func (o PiNetworkOutput) PiCloudInstanceId() pulumi.StringOutput {
 // The DNS Servers for the network.
 func (o PiNetworkOutput) PiDns() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *PiNetwork) pulumi.StringArrayOutput { return v.PiDns }).(pulumi.StringArrayOutput)
+}
+
+// Network will support DHCP.
+func (o PiNetworkOutput) PiEnableDhcp() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *PiNetwork) pulumi.BoolPtrOutput { return v.PiEnableDhcp }).(pulumi.BoolPtrOutput)
 }
 
 // The gateway ip address.

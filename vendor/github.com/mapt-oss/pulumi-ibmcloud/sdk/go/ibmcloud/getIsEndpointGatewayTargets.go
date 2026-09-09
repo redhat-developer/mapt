@@ -29,10 +29,8 @@ type GetIsEndpointGatewayTargetsResult struct {
 }
 
 func GetIsEndpointGatewayTargetsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsEndpointGatewayTargetsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsEndpointGatewayTargetsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsEndpointGatewayTargets:getIsEndpointGatewayTargets", nil, GetIsEndpointGatewayTargetsResultOutput{}, options).(GetIsEndpointGatewayTargetsResultOutput), nil
-	}).(GetIsEndpointGatewayTargetsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsEndpointGatewayTargets:getIsEndpointGatewayTargets", nil, GetIsEndpointGatewayTargetsResultOutput{}, options).(GetIsEndpointGatewayTargetsResultOutput)
 }
 
 // A collection of values returned by getIsEndpointGatewayTargets.

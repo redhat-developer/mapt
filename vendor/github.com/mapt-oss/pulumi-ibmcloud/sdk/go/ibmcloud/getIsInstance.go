@@ -31,6 +31,8 @@ type LookupIsInstanceArgs struct {
 // A collection of values returned by getIsInstance.
 type LookupIsInstanceResult struct {
 	AccessTags                    []string                                    `pulumi:"accessTags"`
+	Availabilities                []GetIsInstanceAvailability                 `pulumi:"availabilities"`
+	AvailabilityPolicies          []GetIsInstanceAvailabilityPolicy           `pulumi:"availabilityPolicies"`
 	AvailabilityPolicyHostFailure string                                      `pulumi:"availabilityPolicyHostFailure"`
 	Bandwidth                     int                                         `pulumi:"bandwidth"`
 	BootVolumes                   []GetIsInstanceBootVolume                   `pulumi:"bootVolumes"`
@@ -72,9 +74,11 @@ type LookupIsInstanceResult struct {
 	ResourceGroupName         string                                  `pulumi:"resourceGroupName"`
 	ResourceName              string                                  `pulumi:"resourceName"`
 	ResourceStatus            string                                  `pulumi:"resourceStatus"`
+	SoftwareAttachments       []GetIsInstanceSoftwareAttachmentType   `pulumi:"softwareAttachments"`
 	Status                    string                                  `pulumi:"status"`
 	StatusReasons             []GetIsInstanceStatusReason             `pulumi:"statusReasons"`
 	Tags                      []string                                `pulumi:"tags"`
+	ThreadsPerCore            int                                     `pulumi:"threadsPerCore"`
 	TotalNetworkBandwidth     int                                     `pulumi:"totalNetworkBandwidth"`
 	TotalVolumeBandwidth      int                                     `pulumi:"totalVolumeBandwidth"`
 	Vcpus                     []GetIsInstanceVcpus                    `pulumi:"vcpus"`
@@ -86,12 +90,8 @@ type LookupIsInstanceResult struct {
 }
 
 func LookupIsInstanceOutput(ctx *pulumi.Context, args LookupIsInstanceOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceResultOutput, error) {
-			args := v.(LookupIsInstanceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstance:getIsInstance", args, LookupIsInstanceResultOutput{}, options).(LookupIsInstanceResultOutput), nil
-		}).(LookupIsInstanceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstance:getIsInstance", args, LookupIsInstanceResultOutput{}, options).(LookupIsInstanceResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstance.
@@ -122,6 +122,14 @@ func (o LookupIsInstanceResultOutput) ToLookupIsInstanceResultOutputWithContext(
 
 func (o LookupIsInstanceResultOutput) AccessTags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupIsInstanceResult) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupIsInstanceResultOutput) Availabilities() GetIsInstanceAvailabilityArrayOutput {
+	return o.ApplyT(func(v LookupIsInstanceResult) []GetIsInstanceAvailability { return v.Availabilities }).(GetIsInstanceAvailabilityArrayOutput)
+}
+
+func (o LookupIsInstanceResultOutput) AvailabilityPolicies() GetIsInstanceAvailabilityPolicyArrayOutput {
+	return o.ApplyT(func(v LookupIsInstanceResult) []GetIsInstanceAvailabilityPolicy { return v.AvailabilityPolicies }).(GetIsInstanceAvailabilityPolicyArrayOutput)
 }
 
 func (o LookupIsInstanceResultOutput) AvailabilityPolicyHostFailure() pulumi.StringOutput {
@@ -291,6 +299,10 @@ func (o LookupIsInstanceResultOutput) ResourceStatus() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsInstanceResult) string { return v.ResourceStatus }).(pulumi.StringOutput)
 }
 
+func (o LookupIsInstanceResultOutput) SoftwareAttachments() GetIsInstanceSoftwareAttachmentTypeArrayOutput {
+	return o.ApplyT(func(v LookupIsInstanceResult) []GetIsInstanceSoftwareAttachmentType { return v.SoftwareAttachments }).(GetIsInstanceSoftwareAttachmentTypeArrayOutput)
+}
+
 func (o LookupIsInstanceResultOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsInstanceResult) string { return v.Status }).(pulumi.StringOutput)
 }
@@ -301,6 +313,10 @@ func (o LookupIsInstanceResultOutput) StatusReasons() GetIsInstanceStatusReasonA
 
 func (o LookupIsInstanceResultOutput) Tags() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupIsInstanceResult) []string { return v.Tags }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupIsInstanceResultOutput) ThreadsPerCore() pulumi.IntOutput {
+	return o.ApplyT(func(v LookupIsInstanceResult) int { return v.ThreadsPerCore }).(pulumi.IntOutput)
 }
 
 func (o LookupIsInstanceResultOutput) TotalNetworkBandwidth() pulumi.IntOutput {

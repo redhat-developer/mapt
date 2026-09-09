@@ -68,12 +68,8 @@ type LookupComputeBareMetalResult struct {
 }
 
 func LookupComputeBareMetalOutput(ctx *pulumi.Context, args LookupComputeBareMetalOutputArgs, opts ...pulumi.InvokeOption) LookupComputeBareMetalResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupComputeBareMetalResultOutput, error) {
-			args := v.(LookupComputeBareMetalArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getComputeBareMetal:getComputeBareMetal", args, LookupComputeBareMetalResultOutput{}, options).(LookupComputeBareMetalResultOutput), nil
-		}).(LookupComputeBareMetalResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getComputeBareMetal:getComputeBareMetal", args, LookupComputeBareMetalResultOutput{}, options).(LookupComputeBareMetalResultOutput)
 }
 
 // A collection of arguments for invoking getComputeBareMetal.

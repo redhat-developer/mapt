@@ -35,12 +35,8 @@ type GetPiSoftwareTiersResult struct {
 }
 
 func GetPiSoftwareTiersOutput(ctx *pulumi.Context, args GetPiSoftwareTiersOutputArgs, opts ...pulumi.InvokeOption) GetPiSoftwareTiersResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiSoftwareTiersResultOutput, error) {
-			args := v.(GetPiSoftwareTiersArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSoftwareTiers:getPiSoftwareTiers", args, GetPiSoftwareTiersResultOutput{}, options).(GetPiSoftwareTiersResultOutput), nil
-		}).(GetPiSoftwareTiersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSoftwareTiers:getPiSoftwareTiers", args, GetPiSoftwareTiersResultOutput{}, options).(GetPiSoftwareTiersResultOutput)
 }
 
 // A collection of arguments for invoking getPiSoftwareTiers.

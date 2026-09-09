@@ -23,29 +23,28 @@ func GetPiWorkspaces(ctx *pulumi.Context, args *GetPiWorkspacesArgs, opts ...pul
 
 // A collection of arguments for invoking getPiWorkspaces.
 type GetPiWorkspacesArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
+	// Deprecated: This field is deprecated and will be removed in a future release.
+	PiCloudInstanceId *string `pulumi:"piCloudInstanceId"`
 }
 
 // A collection of values returned by getPiWorkspaces.
 type GetPiWorkspacesResult struct {
 	// The provider-assigned unique ID for this managed resource.
-	Id                string                     `pulumi:"id"`
-	PiCloudInstanceId string                     `pulumi:"piCloudInstanceId"`
+	Id string `pulumi:"id"`
+	// Deprecated: This field is deprecated and will be removed in a future release.
+	PiCloudInstanceId *string                    `pulumi:"piCloudInstanceId"`
 	Workspaces        []GetPiWorkspacesWorkspace `pulumi:"workspaces"`
 }
 
 func GetPiWorkspacesOutput(ctx *pulumi.Context, args GetPiWorkspacesOutputArgs, opts ...pulumi.InvokeOption) GetPiWorkspacesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiWorkspacesResultOutput, error) {
-			args := v.(GetPiWorkspacesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiWorkspaces:getPiWorkspaces", args, GetPiWorkspacesResultOutput{}, options).(GetPiWorkspacesResultOutput), nil
-		}).(GetPiWorkspacesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiWorkspaces:getPiWorkspaces", args, GetPiWorkspacesResultOutput{}, options).(GetPiWorkspacesResultOutput)
 }
 
 // A collection of arguments for invoking getPiWorkspaces.
 type GetPiWorkspacesOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
+	// Deprecated: This field is deprecated and will be removed in a future release.
+	PiCloudInstanceId pulumi.StringPtrInput `pulumi:"piCloudInstanceId"`
 }
 
 func (GetPiWorkspacesOutputArgs) ElementType() reflect.Type {
@@ -72,8 +71,9 @@ func (o GetPiWorkspacesResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPiWorkspacesResult) string { return v.Id }).(pulumi.StringOutput)
 }
 
-func (o GetPiWorkspacesResultOutput) PiCloudInstanceId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
+// Deprecated: This field is deprecated and will be removed in a future release.
+func (o GetPiWorkspacesResultOutput) PiCloudInstanceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiWorkspacesResult) *string { return v.PiCloudInstanceId }).(pulumi.StringPtrOutput)
 }
 
 func (o GetPiWorkspacesResultOutput) Workspaces() GetPiWorkspacesWorkspaceArrayOutput {

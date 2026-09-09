@@ -35,12 +35,8 @@ type GetIsSnapshotClonesResult struct {
 }
 
 func GetIsSnapshotClonesOutput(ctx *pulumi.Context, args GetIsSnapshotClonesOutputArgs, opts ...pulumi.InvokeOption) GetIsSnapshotClonesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsSnapshotClonesResultOutput, error) {
-			args := v.(GetIsSnapshotClonesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotClones:getIsSnapshotClones", args, GetIsSnapshotClonesResultOutput{}, options).(GetIsSnapshotClonesResultOutput), nil
-		}).(GetIsSnapshotClonesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsSnapshotClones:getIsSnapshotClones", args, GetIsSnapshotClonesResultOutput{}, options).(GetIsSnapshotClonesResultOutput)
 }
 
 // A collection of arguments for invoking getIsSnapshotClones.

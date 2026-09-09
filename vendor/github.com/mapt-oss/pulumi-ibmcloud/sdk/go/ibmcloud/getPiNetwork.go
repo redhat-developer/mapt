@@ -37,6 +37,7 @@ type LookupPiNetworkResult struct {
 	Cidr             string   `pulumi:"cidr"`
 	Crn              string   `pulumi:"crn"`
 	Dns              []string `pulumi:"dns"`
+	EnableDhcp       bool     `pulumi:"enableDhcp"`
 	Gateway          string   `pulumi:"gateway"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                         string                                  `pulumi:"id"`
@@ -57,12 +58,8 @@ type LookupPiNetworkResult struct {
 }
 
 func LookupPiNetworkOutput(ctx *pulumi.Context, args LookupPiNetworkOutputArgs, opts ...pulumi.InvokeOption) LookupPiNetworkResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiNetworkResultOutput, error) {
-			args := v.(LookupPiNetworkArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiNetwork:getPiNetwork", args, LookupPiNetworkResultOutput{}, options).(LookupPiNetworkResultOutput), nil
-		}).(LookupPiNetworkResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiNetwork:getPiNetwork", args, LookupPiNetworkResultOutput{}, options).(LookupPiNetworkResultOutput)
 }
 
 // A collection of arguments for invoking getPiNetwork.
@@ -114,6 +111,10 @@ func (o LookupPiNetworkResultOutput) Crn() pulumi.StringOutput {
 
 func (o LookupPiNetworkResultOutput) Dns() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupPiNetworkResult) []string { return v.Dns }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupPiNetworkResultOutput) EnableDhcp() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupPiNetworkResult) bool { return v.EnableDhcp }).(pulumi.BoolOutput)
 }
 
 func (o LookupPiNetworkResultOutput) Gateway() pulumi.StringOutput {

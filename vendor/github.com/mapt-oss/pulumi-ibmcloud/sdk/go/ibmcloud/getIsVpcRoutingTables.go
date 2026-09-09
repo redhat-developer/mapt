@@ -37,12 +37,8 @@ type GetIsVpcRoutingTablesResult struct {
 }
 
 func GetIsVpcRoutingTablesOutput(ctx *pulumi.Context, args GetIsVpcRoutingTablesOutputArgs, opts ...pulumi.InvokeOption) GetIsVpcRoutingTablesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVpcRoutingTablesResultOutput, error) {
-			args := v.(GetIsVpcRoutingTablesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpcRoutingTables:getIsVpcRoutingTables", args, GetIsVpcRoutingTablesResultOutput{}, options).(GetIsVpcRoutingTablesResultOutput), nil
-		}).(GetIsVpcRoutingTablesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpcRoutingTables:getIsVpcRoutingTables", args, GetIsVpcRoutingTablesResultOutput{}, options).(GetIsVpcRoutingTablesResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpcRoutingTables.

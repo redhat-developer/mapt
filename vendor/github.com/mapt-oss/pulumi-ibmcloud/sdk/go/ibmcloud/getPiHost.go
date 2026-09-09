@@ -45,12 +45,8 @@ type LookupPiHostResult struct {
 }
 
 func LookupPiHostOutput(ctx *pulumi.Context, args LookupPiHostOutputArgs, opts ...pulumi.InvokeOption) LookupPiHostResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiHostResultOutput, error) {
-			args := v.(LookupPiHostArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiHost:getPiHost", args, LookupPiHostResultOutput{}, options).(LookupPiHostResultOutput), nil
-		}).(LookupPiHostResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiHost:getPiHost", args, LookupPiHostResultOutput{}, options).(LookupPiHostResultOutput)
 }
 
 // A collection of arguments for invoking getPiHost.

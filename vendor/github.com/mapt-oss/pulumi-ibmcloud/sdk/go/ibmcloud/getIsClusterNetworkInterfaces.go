@@ -39,12 +39,8 @@ type GetIsClusterNetworkInterfacesResult struct {
 }
 
 func GetIsClusterNetworkInterfacesOutput(ctx *pulumi.Context, args GetIsClusterNetworkInterfacesOutputArgs, opts ...pulumi.InvokeOption) GetIsClusterNetworkInterfacesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsClusterNetworkInterfacesResultOutput, error) {
-			args := v.(GetIsClusterNetworkInterfacesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkInterfaces:getIsClusterNetworkInterfaces", args, GetIsClusterNetworkInterfacesResultOutput{}, options).(GetIsClusterNetworkInterfacesResultOutput), nil
-		}).(GetIsClusterNetworkInterfacesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsClusterNetworkInterfaces:getIsClusterNetworkInterfaces", args, GetIsClusterNetworkInterfacesResultOutput{}, options).(GetIsClusterNetworkInterfacesResultOutput)
 }
 
 // A collection of arguments for invoking getIsClusterNetworkInterfaces.

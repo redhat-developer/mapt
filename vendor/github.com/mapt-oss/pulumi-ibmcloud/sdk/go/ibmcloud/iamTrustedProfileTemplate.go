@@ -28,8 +28,6 @@ type IamTrustedProfileTemplate struct {
 	Description pulumi.StringPtrOutput `pulumi:"description"`
 	// Entity tag for this templateId-version combination.
 	EntityTag pulumi.StringOutput `pulumi:"entityTag"`
-	// History of the trusted profile template.
-	Histories IamTrustedProfileTemplateHistoryArrayOutput `pulumi:"histories"`
 	// Timestamp of when the template was last modified.
 	LastModifiedAt pulumi.StringOutput `pulumi:"lastModifiedAt"`
 	// IAMid of the identity that made the latest modification.
@@ -90,8 +88,6 @@ type iamTrustedProfileTemplateState struct {
 	Description *string `pulumi:"description"`
 	// Entity tag for this templateId-version combination.
 	EntityTag *string `pulumi:"entityTag"`
-	// History of the trusted profile template.
-	Histories []IamTrustedProfileTemplateHistory `pulumi:"histories"`
 	// Timestamp of when the template was last modified.
 	LastModifiedAt *string `pulumi:"lastModifiedAt"`
 	// IAMid of the identity that made the latest modification.
@@ -123,8 +119,6 @@ type IamTrustedProfileTemplateState struct {
 	Description pulumi.StringPtrInput
 	// Entity tag for this templateId-version combination.
 	EntityTag pulumi.StringPtrInput
-	// History of the trusted profile template.
-	Histories IamTrustedProfileTemplateHistoryArrayInput
 	// Timestamp of when the template was last modified.
 	LastModifiedAt pulumi.StringPtrInput
 	// IAMid of the identity that made the latest modification.
@@ -250,11 +244,6 @@ func (o IamTrustedProfileTemplateOutput) Description() pulumi.StringPtrOutput {
 // Entity tag for this templateId-version combination.
 func (o IamTrustedProfileTemplateOutput) EntityTag() pulumi.StringOutput {
 	return o.ApplyT(func(v *IamTrustedProfileTemplate) pulumi.StringOutput { return v.EntityTag }).(pulumi.StringOutput)
-}
-
-// History of the trusted profile template.
-func (o IamTrustedProfileTemplateOutput) Histories() IamTrustedProfileTemplateHistoryArrayOutput {
-	return o.ApplyT(func(v *IamTrustedProfileTemplate) IamTrustedProfileTemplateHistoryArrayOutput { return v.Histories }).(IamTrustedProfileTemplateHistoryArrayOutput)
 }
 
 // Timestamp of when the template was last modified.

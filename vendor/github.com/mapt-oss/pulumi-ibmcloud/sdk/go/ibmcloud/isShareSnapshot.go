@@ -43,7 +43,7 @@ type IsShareSnapshot struct {
 	Share pulumi.StringOutput `pulumi:"share"`
 	// The unique identifier for this share snapshot.
 	ShareSnapshot pulumi.StringOutput `pulumi:"shareSnapshot"`
-	// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Status pulumi.StringOutput `pulumi:"status"`
 	// The reasons for the current status (if any).
 	StatusReasons IsShareSnapshotStatusReasonArrayOutput `pulumi:"statusReasons"`
@@ -114,7 +114,7 @@ type isShareSnapshotState struct {
 	Share *string `pulumi:"share"`
 	// The unique identifier for this share snapshot.
 	ShareSnapshot *string `pulumi:"shareSnapshot"`
-	// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Status *string `pulumi:"status"`
 	// The reasons for the current status (if any).
 	StatusReasons []IsShareSnapshotStatusReason `pulumi:"statusReasons"`
@@ -153,7 +153,7 @@ type IsShareSnapshotState struct {
 	Share pulumi.StringPtrInput
 	// The unique identifier for this share snapshot.
 	ShareSnapshot pulumi.StringPtrInput
-	// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 	Status pulumi.StringPtrInput
 	// The reasons for the current status (if any).
 	StatusReasons IsShareSnapshotStatusReasonArrayInput
@@ -297,7 +297,7 @@ func (o IsShareSnapshotOutput) ShareSnapshot() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsShareSnapshot) pulumi.StringOutput { return v.ShareSnapshot }).(pulumi.StringOutput)
 }
 
-// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may[expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+// The status of the share snapshot:- `available`: The share snapshot is available for use.- `failed`: The share snapshot is irrecoverably unusable.- `pending`: The share snapshot is being provisioned and is not yet usable.- `unusable`: The share snapshot is not currently usable (see `statusReasons`)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
 func (o IsShareSnapshotOutput) Status() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsShareSnapshot) pulumi.StringOutput { return v.Status }).(pulumi.StringOutput)
 }

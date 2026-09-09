@@ -37,12 +37,8 @@ type GetIsPrivatePathServiceGatewayAccountPoliciesResult struct {
 }
 
 func GetIsPrivatePathServiceGatewayAccountPoliciesOutput(ctx *pulumi.Context, args GetIsPrivatePathServiceGatewayAccountPoliciesOutputArgs, opts ...pulumi.InvokeOption) GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput, error) {
-			args := v.(GetIsPrivatePathServiceGatewayAccountPoliciesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsPrivatePathServiceGatewayAccountPolicies:getIsPrivatePathServiceGatewayAccountPolicies", args, GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput{}, options).(GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput), nil
-		}).(GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPrivatePathServiceGatewayAccountPolicies:getIsPrivatePathServiceGatewayAccountPolicies", args, GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput{}, options).(GetIsPrivatePathServiceGatewayAccountPoliciesResultOutput)
 }
 
 // A collection of arguments for invoking getIsPrivatePathServiceGatewayAccountPolicies.

@@ -39,12 +39,8 @@ type GetPiCatalogImagesResult struct {
 }
 
 func GetPiCatalogImagesOutput(ctx *pulumi.Context, args GetPiCatalogImagesOutputArgs, opts ...pulumi.InvokeOption) GetPiCatalogImagesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiCatalogImagesResultOutput, error) {
-			args := v.(GetPiCatalogImagesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiCatalogImages:getPiCatalogImages", args, GetPiCatalogImagesResultOutput{}, options).(GetPiCatalogImagesResultOutput), nil
-		}).(GetPiCatalogImagesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiCatalogImages:getPiCatalogImages", args, GetPiCatalogImagesResultOutput{}, options).(GetPiCatalogImagesResultOutput)
 }
 
 // A collection of arguments for invoking getPiCatalogImages.

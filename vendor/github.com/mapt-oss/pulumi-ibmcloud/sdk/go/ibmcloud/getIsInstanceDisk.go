@@ -42,12 +42,8 @@ type LookupIsInstanceDiskResult struct {
 }
 
 func LookupIsInstanceDiskOutput(ctx *pulumi.Context, args LookupIsInstanceDiskOutputArgs, opts ...pulumi.InvokeOption) LookupIsInstanceDiskResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsInstanceDiskResultOutput, error) {
-			args := v.(LookupIsInstanceDiskArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstanceDisk:getIsInstanceDisk", args, LookupIsInstanceDiskResultOutput{}, options).(LookupIsInstanceDiskResultOutput), nil
-		}).(LookupIsInstanceDiskResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceDisk:getIsInstanceDisk", args, LookupIsInstanceDiskResultOutput{}, options).(LookupIsInstanceDiskResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstanceDisk.

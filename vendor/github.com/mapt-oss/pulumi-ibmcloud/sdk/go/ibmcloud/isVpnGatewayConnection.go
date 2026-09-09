@@ -68,7 +68,8 @@ type IsVpnGatewayConnection struct {
 	// The reasons for the current status (if any).
 	StatusReasons IsVpnGatewayConnectionStatusReasonArrayOutput `pulumi:"statusReasons"`
 	// Timeout for dead peer detection
-	Timeout pulumi.IntPtrOutput `pulumi:"timeout"`
+	Timeout pulumi.IntPtrOutput                     `pulumi:"timeout"`
+	Tunnel  IsVpnGatewayConnectionTunnelArrayOutput `pulumi:"tunnel"`
 	// The VPN tunnel configuration for this VPN gateway connection (in static route mode)
 	Tunnels IsVpnGatewayConnectionTunnelArrayOutput `pulumi:"tunnels"`
 	// VPN Gateway info
@@ -164,7 +165,8 @@ type isVpnGatewayConnectionState struct {
 	// The reasons for the current status (if any).
 	StatusReasons []IsVpnGatewayConnectionStatusReason `pulumi:"statusReasons"`
 	// Timeout for dead peer detection
-	Timeout *int `pulumi:"timeout"`
+	Timeout *int                           `pulumi:"timeout"`
+	Tunnel  []IsVpnGatewayConnectionTunnel `pulumi:"tunnel"`
 	// The VPN tunnel configuration for this VPN gateway connection (in static route mode)
 	Tunnels []IsVpnGatewayConnectionTunnel `pulumi:"tunnels"`
 	// VPN Gateway info
@@ -226,6 +228,7 @@ type IsVpnGatewayConnectionState struct {
 	StatusReasons IsVpnGatewayConnectionStatusReasonArrayInput
 	// Timeout for dead peer detection
 	Timeout pulumi.IntPtrInput
+	Tunnel  IsVpnGatewayConnectionTunnelArrayInput
 	// The VPN tunnel configuration for this VPN gateway connection (in static route mode)
 	Tunnels IsVpnGatewayConnectionTunnelArrayInput
 	// VPN Gateway info
@@ -269,8 +272,11 @@ type isVpnGatewayConnectionArgs struct {
 	PeerCidrs []string `pulumi:"peerCidrs"`
 	// vpn gateway
 	PresharedKey string `pulumi:"presharedKey"`
+	// Routing protocols for this VPN gateway connection.
+	RoutingProtocol *string `pulumi:"routingProtocol"`
 	// Timeout for dead peer detection
-	Timeout *int `pulumi:"timeout"`
+	Timeout *int                           `pulumi:"timeout"`
+	Tunnel  []IsVpnGatewayConnectionTunnel `pulumi:"tunnel"`
 	// VPN Gateway info
 	VpnGateway string `pulumi:"vpnGateway"`
 }
@@ -309,8 +315,11 @@ type IsVpnGatewayConnectionArgs struct {
 	PeerCidrs pulumi.StringArrayInput
 	// vpn gateway
 	PresharedKey pulumi.StringInput
+	// Routing protocols for this VPN gateway connection.
+	RoutingProtocol pulumi.StringPtrInput
 	// Timeout for dead peer detection
 	Timeout pulumi.IntPtrInput
+	Tunnel  IsVpnGatewayConnectionTunnelArrayInput
 	// VPN Gateway info
 	VpnGateway pulumi.StringInput
 }
@@ -479,6 +488,10 @@ func (o IsVpnGatewayConnectionOutput) StatusReasons() IsVpnGatewayConnectionStat
 // Timeout for dead peer detection
 func (o IsVpnGatewayConnectionOutput) Timeout() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *IsVpnGatewayConnection) pulumi.IntPtrOutput { return v.Timeout }).(pulumi.IntPtrOutput)
+}
+
+func (o IsVpnGatewayConnectionOutput) Tunnel() IsVpnGatewayConnectionTunnelArrayOutput {
+	return o.ApplyT(func(v *IsVpnGatewayConnection) IsVpnGatewayConnectionTunnelArrayOutput { return v.Tunnel }).(IsVpnGatewayConnectionTunnelArrayOutput)
 }
 
 // The VPN tunnel configuration for this VPN gateway connection (in static route mode)

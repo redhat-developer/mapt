@@ -37,12 +37,8 @@ type LookupIamAccountSettingsExternalInteractionResult struct {
 }
 
 func LookupIamAccountSettingsExternalInteractionOutput(ctx *pulumi.Context, args LookupIamAccountSettingsExternalInteractionOutputArgs, opts ...pulumi.InvokeOption) LookupIamAccountSettingsExternalInteractionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamAccountSettingsExternalInteractionResultOutput, error) {
-			args := v.(LookupIamAccountSettingsExternalInteractionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccountSettingsExternalInteraction:getIamAccountSettingsExternalInteraction", args, LookupIamAccountSettingsExternalInteractionResultOutput{}, options).(LookupIamAccountSettingsExternalInteractionResultOutput), nil
-		}).(LookupIamAccountSettingsExternalInteractionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccountSettingsExternalInteraction:getIamAccountSettingsExternalInteraction", args, LookupIamAccountSettingsExternalInteractionResultOutput{}, options).(LookupIamAccountSettingsExternalInteractionResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccountSettingsExternalInteraction.

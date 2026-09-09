@@ -23,35 +23,42 @@ func LookupPiInstance(ctx *pulumi.Context, args *LookupPiInstanceArgs, opts ...p
 
 // A collection of arguments for invoking getPiInstance.
 type LookupPiInstanceArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string `pulumi:"piInstanceName"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
 }
 
 // A collection of values returned by getPiInstance.
 type LookupPiInstanceResult struct {
-	Crn                                 string            `pulumi:"crn"`
-	DedicatedHostId                     string            `pulumi:"dedicatedHostId"`
-	DeploymentType                      string            `pulumi:"deploymentType"`
-	EffectiveProcessorCompatibilityMode string            `pulumi:"effectiveProcessorCompatibilityMode"`
-	Fault                               map[string]string `pulumi:"fault"`
-	HealthStatus                        string            `pulumi:"healthStatus"`
-	IbmiCss                             bool              `pulumi:"ibmiCss"`
-	IbmiPha                             bool              `pulumi:"ibmiPha"`
-	IbmiRds                             bool              `pulumi:"ibmiRds"`
-	IbmiRdsUsers                        int               `pulumi:"ibmiRdsUsers"`
+	AllowRemoteRestart                  bool                                 `pulumi:"allowRemoteRestart"`
+	Crn                                 string                               `pulumi:"crn"`
+	DedicatedHostId                     string                               `pulumi:"dedicatedHostId"`
+	DefaultTrustedProfiles              []GetPiInstanceDefaultTrustedProfile `pulumi:"defaultTrustedProfiles"`
+	DeploymentType                      string                               `pulumi:"deploymentType"`
+	EffectiveProcessorCompatibilityMode string                               `pulumi:"effectiveProcessorCompatibilityMode"`
+	Fault                               map[string]string                    `pulumi:"fault"`
+	HealthStatus                        string                               `pulumi:"healthStatus"`
+	IbmiCss                             bool                                 `pulumi:"ibmiCss"`
+	IbmiPha                             bool                                 `pulumi:"ibmiPha"`
+	IbmiRds                             bool                                 `pulumi:"ibmiRds"`
+	IbmiRdsUsers                        int                                  `pulumi:"ibmiRdsUsers"`
 	// The provider-assigned unique ID for this managed resource.
-	Id                                  string                             `pulumi:"id"`
-	LicenseRepositoryCapacity           int                                `pulumi:"licenseRepositoryCapacity"`
-	MaxVirtualCores                     int                                `pulumi:"maxVirtualCores"`
-	Maxmem                              float64                            `pulumi:"maxmem"`
-	Maxproc                             float64                            `pulumi:"maxproc"`
-	Memory                              float64                            `pulumi:"memory"`
-	MinVirtualCores                     int                                `pulumi:"minVirtualCores"`
-	Minmem                              float64                            `pulumi:"minmem"`
-	Minproc                             float64                            `pulumi:"minproc"`
-	Networks                            []GetPiInstanceNetwork             `pulumi:"networks"`
-	PiCloudInstanceId                   string                             `pulumi:"piCloudInstanceId"`
-	PiInstanceName                      string                             `pulumi:"piInstanceName"`
+	Id                        string                         `pulumi:"id"`
+	LicenseRepositoryCapacity int                            `pulumi:"licenseRepositoryCapacity"`
+	MaxVirtualCores           int                            `pulumi:"maxVirtualCores"`
+	Maxmem                    float64                        `pulumi:"maxmem"`
+	Maxproc                   float64                        `pulumi:"maxproc"`
+	Memory                    float64                        `pulumi:"memory"`
+	MetadataServices          []GetPiInstanceMetadataService `pulumi:"metadataServices"`
+	MinVirtualCores           int                            `pulumi:"minVirtualCores"`
+	Minmem                    float64                        `pulumi:"minmem"`
+	Minproc                   float64                        `pulumi:"minproc"`
+	Networks                  []GetPiInstanceNetwork         `pulumi:"networks"`
+	PiCloudInstanceId         string                         `pulumi:"piCloudInstanceId"`
+	PiInstanceId              *string                        `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName                      *string                            `pulumi:"piInstanceName"`
 	PinPolicy                           string                             `pulumi:"pinPolicy"`
 	PlacementGroupId                    string                             `pulumi:"placementGroupId"`
 	PreferredProcessorCompatibilityMode string                             `pulumi:"preferredProcessorCompatibilityMode"`
@@ -69,21 +76,20 @@ type LookupPiInstanceResult struct {
 	VirtualCoresAssigned                int                                `pulumi:"virtualCoresAssigned"`
 	VirtualSerialNumbers                []GetPiInstanceVirtualSerialNumber `pulumi:"virtualSerialNumbers"`
 	Volumes                             []string                           `pulumi:"volumes"`
+	VpmemVolumes                        []GetPiInstanceVpmemVolume         `pulumi:"vpmemVolumes"`
 }
 
 func LookupPiInstanceOutput(ctx *pulumi.Context, args LookupPiInstanceOutputArgs, opts ...pulumi.InvokeOption) LookupPiInstanceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPiInstanceResultOutput, error) {
-			args := v.(LookupPiInstanceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiInstance:getPiInstance", args, LookupPiInstanceResultOutput{}, options).(LookupPiInstanceResultOutput), nil
-		}).(LookupPiInstanceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiInstance:getPiInstance", args, LookupPiInstanceResultOutput{}, options).(LookupPiInstanceResultOutput)
 }
 
 // A collection of arguments for invoking getPiInstance.
 type LookupPiInstanceOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
-	PiInstanceName    pulumi.StringInput `pulumi:"piInstanceName"`
+	PiCloudInstanceId pulumi.StringInput    `pulumi:"piCloudInstanceId"`
+	PiInstanceId      pulumi.StringPtrInput `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName pulumi.StringPtrInput `pulumi:"piInstanceName"`
 }
 
 func (LookupPiInstanceOutputArgs) ElementType() reflect.Type {
@@ -105,12 +111,20 @@ func (o LookupPiInstanceResultOutput) ToLookupPiInstanceResultOutputWithContext(
 	return o
 }
 
+func (o LookupPiInstanceResultOutput) AllowRemoteRestart() pulumi.BoolOutput {
+	return o.ApplyT(func(v LookupPiInstanceResult) bool { return v.AllowRemoteRestart }).(pulumi.BoolOutput)
+}
+
 func (o LookupPiInstanceResultOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiInstanceResult) string { return v.Crn }).(pulumi.StringOutput)
 }
 
 func (o LookupPiInstanceResultOutput) DedicatedHostId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiInstanceResult) string { return v.DedicatedHostId }).(pulumi.StringOutput)
+}
+
+func (o LookupPiInstanceResultOutput) DefaultTrustedProfiles() GetPiInstanceDefaultTrustedProfileArrayOutput {
+	return o.ApplyT(func(v LookupPiInstanceResult) []GetPiInstanceDefaultTrustedProfile { return v.DefaultTrustedProfiles }).(GetPiInstanceDefaultTrustedProfileArrayOutput)
 }
 
 func (o LookupPiInstanceResultOutput) DeploymentType() pulumi.StringOutput {
@@ -170,6 +184,10 @@ func (o LookupPiInstanceResultOutput) Memory() pulumi.Float64Output {
 	return o.ApplyT(func(v LookupPiInstanceResult) float64 { return v.Memory }).(pulumi.Float64Output)
 }
 
+func (o LookupPiInstanceResultOutput) MetadataServices() GetPiInstanceMetadataServiceArrayOutput {
+	return o.ApplyT(func(v LookupPiInstanceResult) []GetPiInstanceMetadataService { return v.MetadataServices }).(GetPiInstanceMetadataServiceArrayOutput)
+}
+
 func (o LookupPiInstanceResultOutput) MinVirtualCores() pulumi.IntOutput {
 	return o.ApplyT(func(v LookupPiInstanceResult) int { return v.MinVirtualCores }).(pulumi.IntOutput)
 }
@@ -190,8 +208,13 @@ func (o LookupPiInstanceResultOutput) PiCloudInstanceId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupPiInstanceResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
 }
 
-func (o LookupPiInstanceResultOutput) PiInstanceName() pulumi.StringOutput {
-	return o.ApplyT(func(v LookupPiInstanceResult) string { return v.PiInstanceName }).(pulumi.StringOutput)
+func (o LookupPiInstanceResultOutput) PiInstanceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupPiInstanceResult) *string { return v.PiInstanceId }).(pulumi.StringPtrOutput)
+}
+
+// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+func (o LookupPiInstanceResultOutput) PiInstanceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v LookupPiInstanceResult) *string { return v.PiInstanceName }).(pulumi.StringPtrOutput)
 }
 
 func (o LookupPiInstanceResultOutput) PinPolicy() pulumi.StringOutput {
@@ -260,6 +283,10 @@ func (o LookupPiInstanceResultOutput) VirtualSerialNumbers() GetPiInstanceVirtua
 
 func (o LookupPiInstanceResultOutput) Volumes() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v LookupPiInstanceResult) []string { return v.Volumes }).(pulumi.StringArrayOutput)
+}
+
+func (o LookupPiInstanceResultOutput) VpmemVolumes() GetPiInstanceVpmemVolumeArrayOutput {
+	return o.ApplyT(func(v LookupPiInstanceResult) []GetPiInstanceVpmemVolume { return v.VpmemVolumes }).(GetPiInstanceVpmemVolumeArrayOutput)
 }
 
 func init() {

@@ -35,12 +35,8 @@ type GetPiStorageTiersResult struct {
 }
 
 func GetPiStorageTiersOutput(ctx *pulumi.Context, args GetPiStorageTiersOutputArgs, opts ...pulumi.InvokeOption) GetPiStorageTiersResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiStorageTiersResultOutput, error) {
-			args := v.(GetPiStorageTiersArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiStorageTiers:getPiStorageTiers", args, GetPiStorageTiersResultOutput{}, options).(GetPiStorageTiersResultOutput), nil
-		}).(GetPiStorageTiersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiStorageTiers:getPiStorageTiers", args, GetPiStorageTiersResultOutput{}, options).(GetPiStorageTiersResultOutput)
 }
 
 // A collection of arguments for invoking getPiStorageTiers.

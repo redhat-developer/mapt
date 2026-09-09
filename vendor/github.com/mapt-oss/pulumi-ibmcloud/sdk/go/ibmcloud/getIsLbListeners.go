@@ -35,12 +35,8 @@ type GetIsLbListenersResult struct {
 }
 
 func GetIsLbListenersOutput(ctx *pulumi.Context, args GetIsLbListenersOutputArgs, opts ...pulumi.InvokeOption) GetIsLbListenersResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsLbListenersResultOutput, error) {
-			args := v.(GetIsLbListenersArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbListeners:getIsLbListeners", args, GetIsLbListenersResultOutput{}, options).(GetIsLbListenersResultOutput), nil
-		}).(GetIsLbListenersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbListeners:getIsLbListeners", args, GetIsLbListenersResultOutput{}, options).(GetIsLbListenersResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbListeners.

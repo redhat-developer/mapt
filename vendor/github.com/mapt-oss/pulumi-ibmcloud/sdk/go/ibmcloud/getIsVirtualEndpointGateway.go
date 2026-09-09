@@ -28,11 +28,13 @@ type LookupIsVirtualEndpointGatewayArgs struct {
 
 // A collection of values returned by getIsVirtualEndpointGateway.
 type LookupIsVirtualEndpointGatewayResult struct {
-	AccessTags                []string `pulumi:"accessTags"`
-	AllowDnsResolutionBinding bool     `pulumi:"allowDnsResolutionBinding"`
-	CreatedAt                 string   `pulumi:"createdAt"`
-	Crn                       string   `pulumi:"crn"`
-	HealthState               string   `pulumi:"healthState"`
+	AccessTags []string `pulumi:"accessTags"`
+	// Deprecated: This property has been deprecated in favor of dns_resolution_binding_mode.
+	AllowDnsResolutionBinding bool   `pulumi:"allowDnsResolutionBinding"`
+	CreatedAt                 string `pulumi:"createdAt"`
+	Crn                       string `pulumi:"crn"`
+	DnsResolutionBindingMode  string `pulumi:"dnsResolutionBindingMode"`
+	HealthState               string `pulumi:"healthState"`
 	// The provider-assigned unique ID for this managed resource.
 	Id               string                                       `pulumi:"id"`
 	Ips              []GetIsVirtualEndpointGatewayIpType          `pulumi:"ips"`
@@ -49,12 +51,8 @@ type LookupIsVirtualEndpointGatewayResult struct {
 }
 
 func LookupIsVirtualEndpointGatewayOutput(ctx *pulumi.Context, args LookupIsVirtualEndpointGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupIsVirtualEndpointGatewayResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVirtualEndpointGatewayResultOutput, error) {
-			args := v.(LookupIsVirtualEndpointGatewayArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVirtualEndpointGateway:getIsVirtualEndpointGateway", args, LookupIsVirtualEndpointGatewayResultOutput{}, options).(LookupIsVirtualEndpointGatewayResultOutput), nil
-		}).(LookupIsVirtualEndpointGatewayResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVirtualEndpointGateway:getIsVirtualEndpointGateway", args, LookupIsVirtualEndpointGatewayResultOutput{}, options).(LookupIsVirtualEndpointGatewayResultOutput)
 }
 
 // A collection of arguments for invoking getIsVirtualEndpointGateway.
@@ -85,6 +83,7 @@ func (o LookupIsVirtualEndpointGatewayResultOutput) AccessTags() pulumi.StringAr
 	return o.ApplyT(func(v LookupIsVirtualEndpointGatewayResult) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
 }
 
+// Deprecated: This property has been deprecated in favor of dns_resolution_binding_mode.
 func (o LookupIsVirtualEndpointGatewayResultOutput) AllowDnsResolutionBinding() pulumi.BoolOutput {
 	return o.ApplyT(func(v LookupIsVirtualEndpointGatewayResult) bool { return v.AllowDnsResolutionBinding }).(pulumi.BoolOutput)
 }
@@ -95,6 +94,10 @@ func (o LookupIsVirtualEndpointGatewayResultOutput) CreatedAt() pulumi.StringOut
 
 func (o LookupIsVirtualEndpointGatewayResultOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsVirtualEndpointGatewayResult) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+func (o LookupIsVirtualEndpointGatewayResultOutput) DnsResolutionBindingMode() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupIsVirtualEndpointGatewayResult) string { return v.DnsResolutionBindingMode }).(pulumi.StringOutput)
 }
 
 func (o LookupIsVirtualEndpointGatewayResultOutput) HealthState() pulumi.StringOutput {

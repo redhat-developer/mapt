@@ -35,12 +35,8 @@ type LookupIamAccessGroupResult struct {
 }
 
 func LookupIamAccessGroupOutput(ctx *pulumi.Context, args LookupIamAccessGroupOutputArgs, opts ...pulumi.InvokeOption) LookupIamAccessGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamAccessGroupResultOutput, error) {
-			args := v.(LookupIamAccessGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroup:getIamAccessGroup", args, LookupIamAccessGroupResultOutput{}, options).(LookupIamAccessGroupResultOutput), nil
-		}).(LookupIamAccessGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamAccessGroup:getIamAccessGroup", args, LookupIamAccessGroupResultOutput{}, options).(LookupIamAccessGroupResultOutput)
 }
 
 // A collection of arguments for invoking getIamAccessGroup.

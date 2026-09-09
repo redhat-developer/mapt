@@ -29,10 +29,8 @@ type GetIsInstanceTemplatesResult struct {
 }
 
 func GetIsInstanceTemplatesOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsInstanceTemplatesResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsInstanceTemplatesResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsInstanceTemplates:getIsInstanceTemplates", nil, GetIsInstanceTemplatesResultOutput{}, options).(GetIsInstanceTemplatesResultOutput), nil
-	}).(GetIsInstanceTemplatesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstanceTemplates:getIsInstanceTemplates", nil, GetIsInstanceTemplatesResultOutput{}, options).(GetIsInstanceTemplatesResultOutput)
 }
 
 // A collection of values returned by getIsInstanceTemplates.

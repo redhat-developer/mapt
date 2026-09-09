@@ -39,12 +39,8 @@ type LookupIsVirtualNetworkInterfaceIpResult struct {
 }
 
 func LookupIsVirtualNetworkInterfaceIpOutput(ctx *pulumi.Context, args LookupIsVirtualNetworkInterfaceIpOutputArgs, opts ...pulumi.InvokeOption) LookupIsVirtualNetworkInterfaceIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVirtualNetworkInterfaceIpResultOutput, error) {
-			args := v.(LookupIsVirtualNetworkInterfaceIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVirtualNetworkInterfaceIp:getIsVirtualNetworkInterfaceIp", args, LookupIsVirtualNetworkInterfaceIpResultOutput{}, options).(LookupIsVirtualNetworkInterfaceIpResultOutput), nil
-		}).(LookupIsVirtualNetworkInterfaceIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVirtualNetworkInterfaceIp:getIsVirtualNetworkInterfaceIp", args, LookupIsVirtualNetworkInterfaceIpResultOutput{}, options).(LookupIsVirtualNetworkInterfaceIpResultOutput)
 }
 
 // A collection of arguments for invoking getIsVirtualNetworkInterfaceIp.

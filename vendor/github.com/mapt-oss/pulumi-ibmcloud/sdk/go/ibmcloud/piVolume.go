@@ -59,7 +59,7 @@ type PiVolume struct {
 	PiVolumePool pulumi.StringOutput `pulumi:"piVolumePool"`
 	// If set to true, the volume can be shared across Power Systems Virtual Server instances. If set to false, you can attach it only to one instance.
 	PiVolumeShareable pulumi.BoolPtrOutput `pulumi:"piVolumeShareable"`
-	// The size of the volume in GB.
+	// The size of the volume in GiB.
 	PiVolumeSize pulumi.Float64Output `pulumi:"piVolumeSize"`
 	// Type of disk, if diskType is not provided the disk type will default to 'tier3'
 	PiVolumeType pulumi.StringOutput `pulumi:"piVolumeType"`
@@ -162,7 +162,7 @@ type piVolumeState struct {
 	PiVolumePool *string `pulumi:"piVolumePool"`
 	// If set to true, the volume can be shared across Power Systems Virtual Server instances. If set to false, you can attach it only to one instance.
 	PiVolumeShareable *bool `pulumi:"piVolumeShareable"`
-	// The size of the volume in GB.
+	// The size of the volume in GiB.
 	PiVolumeSize *float64 `pulumi:"piVolumeSize"`
 	// Type of disk, if diskType is not provided the disk type will default to 'tier3'
 	PiVolumeType *string `pulumi:"piVolumeType"`
@@ -227,7 +227,7 @@ type PiVolumeState struct {
 	PiVolumePool pulumi.StringPtrInput
 	// If set to true, the volume can be shared across Power Systems Virtual Server instances. If set to false, you can attach it only to one instance.
 	PiVolumeShareable pulumi.BoolPtrInput
-	// The size of the volume in GB.
+	// The size of the volume in GiB.
 	PiVolumeSize pulumi.Float64PtrInput
 	// Type of disk, if diskType is not provided the disk type will default to 'tier3'
 	PiVolumeType pulumi.StringPtrInput
@@ -276,7 +276,7 @@ type piVolumeArgs struct {
 	PiVolumePool *string `pulumi:"piVolumePool"`
 	// If set to true, the volume can be shared across Power Systems Virtual Server instances. If set to false, you can attach it only to one instance.
 	PiVolumeShareable *bool `pulumi:"piVolumeShareable"`
-	// The size of the volume in GB.
+	// The size of the volume in GiB.
 	PiVolumeSize float64 `pulumi:"piVolumeSize"`
 	// Type of disk, if diskType is not provided the disk type will default to 'tier3'
 	PiVolumeType *string `pulumi:"piVolumeType"`
@@ -308,7 +308,7 @@ type PiVolumeArgs struct {
 	PiVolumePool pulumi.StringPtrInput
 	// If set to true, the volume can be shared across Power Systems Virtual Server instances. If set to false, you can attach it only to one instance.
 	PiVolumeShareable pulumi.BoolPtrInput
-	// The size of the volume in GB.
+	// The size of the volume in GiB.
 	PiVolumeSize pulumi.Float64Input
 	// Type of disk, if diskType is not provided the disk type will default to 'tier3'
 	PiVolumeType pulumi.StringPtrInput
@@ -461,7 +461,7 @@ func (o PiVolumeOutput) PiVolumeShareable() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *PiVolume) pulumi.BoolPtrOutput { return v.PiVolumeShareable }).(pulumi.BoolPtrOutput)
 }
 
-// The size of the volume in GB.
+// The size of the volume in GiB.
 func (o PiVolumeOutput) PiVolumeSize() pulumi.Float64Output {
 	return o.ApplyT(func(v *PiVolume) pulumi.Float64Output { return v.PiVolumeSize }).(pulumi.Float64Output)
 }

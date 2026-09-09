@@ -44,12 +44,8 @@ type LookupIsBareMetalServerNetworkInterfaceFloatingIpResult struct {
 }
 
 func LookupIsBareMetalServerNetworkInterfaceFloatingIpOutput(ctx *pulumi.Context, args LookupIsBareMetalServerNetworkInterfaceFloatingIpOutputArgs, opts ...pulumi.InvokeOption) LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput, error) {
-			args := v.(LookupIsBareMetalServerNetworkInterfaceFloatingIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkInterfaceFloatingIp:getIsBareMetalServerNetworkInterfaceFloatingIp", args, LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput{}, options).(LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput), nil
-		}).(LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServerNetworkInterfaceFloatingIp:getIsBareMetalServerNetworkInterfaceFloatingIp", args, LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput{}, options).(LookupIsBareMetalServerNetworkInterfaceFloatingIpResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServerNetworkInterfaceFloatingIp.

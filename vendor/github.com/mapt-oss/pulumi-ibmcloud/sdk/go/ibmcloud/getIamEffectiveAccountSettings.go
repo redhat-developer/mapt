@@ -41,12 +41,8 @@ type GetIamEffectiveAccountSettingsResult struct {
 }
 
 func GetIamEffectiveAccountSettingsOutput(ctx *pulumi.Context, args GetIamEffectiveAccountSettingsOutputArgs, opts ...pulumi.InvokeOption) GetIamEffectiveAccountSettingsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIamEffectiveAccountSettingsResultOutput, error) {
-			args := v.(GetIamEffectiveAccountSettingsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamEffectiveAccountSettings:getIamEffectiveAccountSettings", args, GetIamEffectiveAccountSettingsResultOutput{}, options).(GetIamEffectiveAccountSettingsResultOutput), nil
-		}).(GetIamEffectiveAccountSettingsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamEffectiveAccountSettings:getIamEffectiveAccountSettings", args, GetIamEffectiveAccountSettingsResultOutput{}, options).(GetIamEffectiveAccountSettingsResultOutput)
 }
 
 // A collection of arguments for invoking getIamEffectiveAccountSettings.

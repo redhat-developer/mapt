@@ -29,28 +29,27 @@ type GetPiSapProfileArgs struct {
 
 // A collection of values returned by getPiSapProfile.
 type GetPiSapProfileResult struct {
+	Asaps             int    `pulumi:"asaps"`
 	Certified         bool   `pulumi:"certified"`
 	Cores             int    `pulumi:"cores"`
 	DefaultSystem     string `pulumi:"defaultSystem"`
+	Deprecated        bool   `pulumi:"deprecated"`
 	FullSystemProfile bool   `pulumi:"fullSystemProfile"`
 	// The provider-assigned unique ID for this managed resource.
-	Id                string   `pulumi:"id"`
-	Memory            int      `pulumi:"memory"`
-	PiCloudInstanceId string   `pulumi:"piCloudInstanceId"`
-	PiSapProfileId    string   `pulumi:"piSapProfileId"`
-	Saps              int      `pulumi:"saps"`
-	SupportedSystems  []string `pulumi:"supportedSystems"`
-	Type              string   `pulumi:"type"`
-	WorkloadTypes     []string `pulumi:"workloadTypes"`
+	Id                string                       `pulumi:"id"`
+	Memory            int                          `pulumi:"memory"`
+	PiCloudInstanceId string                       `pulumi:"piCloudInstanceId"`
+	PiSapProfileId    string                       `pulumi:"piSapProfileId"`
+	Saps              int                          `pulumi:"saps"`
+	SupportedSystems  []string                     `pulumi:"supportedSystems"`
+	Type              string                       `pulumi:"type"`
+	VpmemVolumes      []GetPiSapProfileVpmemVolume `pulumi:"vpmemVolumes"`
+	WorkloadTypes     []string                     `pulumi:"workloadTypes"`
 }
 
 func GetPiSapProfileOutput(ctx *pulumi.Context, args GetPiSapProfileOutputArgs, opts ...pulumi.InvokeOption) GetPiSapProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiSapProfileResultOutput, error) {
-			args := v.(GetPiSapProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiSapProfile:getPiSapProfile", args, GetPiSapProfileResultOutput{}, options).(GetPiSapProfileResultOutput), nil
-		}).(GetPiSapProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiSapProfile:getPiSapProfile", args, GetPiSapProfileResultOutput{}, options).(GetPiSapProfileResultOutput)
 }
 
 // A collection of arguments for invoking getPiSapProfile.
@@ -78,6 +77,10 @@ func (o GetPiSapProfileResultOutput) ToGetPiSapProfileResultOutputWithContext(ct
 	return o
 }
 
+func (o GetPiSapProfileResultOutput) Asaps() pulumi.IntOutput {
+	return o.ApplyT(func(v GetPiSapProfileResult) int { return v.Asaps }).(pulumi.IntOutput)
+}
+
 func (o GetPiSapProfileResultOutput) Certified() pulumi.BoolOutput {
 	return o.ApplyT(func(v GetPiSapProfileResult) bool { return v.Certified }).(pulumi.BoolOutput)
 }
@@ -88,6 +91,10 @@ func (o GetPiSapProfileResultOutput) Cores() pulumi.IntOutput {
 
 func (o GetPiSapProfileResultOutput) DefaultSystem() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPiSapProfileResult) string { return v.DefaultSystem }).(pulumi.StringOutput)
+}
+
+func (o GetPiSapProfileResultOutput) Deprecated() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetPiSapProfileResult) bool { return v.Deprecated }).(pulumi.BoolOutput)
 }
 
 func (o GetPiSapProfileResultOutput) FullSystemProfile() pulumi.BoolOutput {
@@ -121,6 +128,10 @@ func (o GetPiSapProfileResultOutput) SupportedSystems() pulumi.StringArrayOutput
 
 func (o GetPiSapProfileResultOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v GetPiSapProfileResult) string { return v.Type }).(pulumi.StringOutput)
+}
+
+func (o GetPiSapProfileResultOutput) VpmemVolumes() GetPiSapProfileVpmemVolumeArrayOutput {
+	return o.ApplyT(func(v GetPiSapProfileResult) []GetPiSapProfileVpmemVolume { return v.VpmemVolumes }).(GetPiSapProfileVpmemVolumeArrayOutput)
 }
 
 func (o GetPiSapProfileResultOutput) WorkloadTypes() pulumi.StringArrayOutput {

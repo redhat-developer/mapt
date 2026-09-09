@@ -29,10 +29,8 @@ type GetIamUsersResult struct {
 }
 
 func GetIamUsersOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIamUsersResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIamUsersResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIamUsers:getIamUsers", nil, GetIamUsersResultOutput{}, options).(GetIamUsersResultOutput), nil
-	}).(GetIamUsersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamUsers:getIamUsers", nil, GetIamUsersResultOutput{}, options).(GetIamUsersResultOutput)
 }
 
 // A collection of values returned by getIamUsers.

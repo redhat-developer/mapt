@@ -23,8 +23,10 @@ func GetPiInstanceVolumes(ctx *pulumi.Context, args *GetPiInstanceVolumesArgs, o
 
 // A collection of arguments for invoking getPiInstanceVolumes.
 type GetPiInstanceVolumesArgs struct {
-	PiCloudInstanceId string `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string `pulumi:"piInstanceName"`
+	PiCloudInstanceId string  `pulumi:"piCloudInstanceId"`
+	PiInstanceId      *string `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
 }
 
 // A collection of values returned by getPiInstanceVolumes.
@@ -34,22 +36,22 @@ type GetPiInstanceVolumesResult struct {
 	Id                string                               `pulumi:"id"`
 	InstanceVolumes   []GetPiInstanceVolumesInstanceVolume `pulumi:"instanceVolumes"`
 	PiCloudInstanceId string                               `pulumi:"piCloudInstanceId"`
-	PiInstanceName    string                               `pulumi:"piInstanceName"`
+	PiInstanceId      *string                              `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName *string `pulumi:"piInstanceName"`
 }
 
 func GetPiInstanceVolumesOutput(ctx *pulumi.Context, args GetPiInstanceVolumesOutputArgs, opts ...pulumi.InvokeOption) GetPiInstanceVolumesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiInstanceVolumesResultOutput, error) {
-			args := v.(GetPiInstanceVolumesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiInstanceVolumes:getPiInstanceVolumes", args, GetPiInstanceVolumesResultOutput{}, options).(GetPiInstanceVolumesResultOutput), nil
-		}).(GetPiInstanceVolumesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiInstanceVolumes:getPiInstanceVolumes", args, GetPiInstanceVolumesResultOutput{}, options).(GetPiInstanceVolumesResultOutput)
 }
 
 // A collection of arguments for invoking getPiInstanceVolumes.
 type GetPiInstanceVolumesOutputArgs struct {
-	PiCloudInstanceId pulumi.StringInput `pulumi:"piCloudInstanceId"`
-	PiInstanceName    pulumi.StringInput `pulumi:"piInstanceName"`
+	PiCloudInstanceId pulumi.StringInput    `pulumi:"piCloudInstanceId"`
+	PiInstanceId      pulumi.StringPtrInput `pulumi:"piInstanceId"`
+	// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+	PiInstanceName pulumi.StringPtrInput `pulumi:"piInstanceName"`
 }
 
 func (GetPiInstanceVolumesOutputArgs) ElementType() reflect.Type {
@@ -88,8 +90,13 @@ func (o GetPiInstanceVolumesResultOutput) PiCloudInstanceId() pulumi.StringOutpu
 	return o.ApplyT(func(v GetPiInstanceVolumesResult) string { return v.PiCloudInstanceId }).(pulumi.StringOutput)
 }
 
-func (o GetPiInstanceVolumesResultOutput) PiInstanceName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiInstanceVolumesResult) string { return v.PiInstanceName }).(pulumi.StringOutput)
+func (o GetPiInstanceVolumesResultOutput) PiInstanceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiInstanceVolumesResult) *string { return v.PiInstanceId }).(pulumi.StringPtrOutput)
+}
+
+// Deprecated: The piInstanceName field is deprecated. Please use piInstanceId instead
+func (o GetPiInstanceVolumesResultOutput) PiInstanceName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v GetPiInstanceVolumesResult) *string { return v.PiInstanceName }).(pulumi.StringPtrOutput)
 }
 
 func init() {

@@ -50,12 +50,8 @@ type LookupIamTrustedProfileTemplateAssignmentResult struct {
 }
 
 func LookupIamTrustedProfileTemplateAssignmentOutput(ctx *pulumi.Context, args LookupIamTrustedProfileTemplateAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupIamTrustedProfileTemplateAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamTrustedProfileTemplateAssignmentResultOutput, error) {
-			args := v.(LookupIamTrustedProfileTemplateAssignmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileTemplateAssignment:getIamTrustedProfileTemplateAssignment", args, LookupIamTrustedProfileTemplateAssignmentResultOutput{}, options).(LookupIamTrustedProfileTemplateAssignmentResultOutput), nil
-		}).(LookupIamTrustedProfileTemplateAssignmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfileTemplateAssignment:getIamTrustedProfileTemplateAssignment", args, LookupIamTrustedProfileTemplateAssignmentResultOutput{}, options).(LookupIamTrustedProfileTemplateAssignmentResultOutput)
 }
 
 // A collection of arguments for invoking getIamTrustedProfileTemplateAssignment.

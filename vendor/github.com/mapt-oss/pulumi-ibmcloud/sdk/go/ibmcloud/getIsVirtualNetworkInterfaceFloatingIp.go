@@ -42,12 +42,8 @@ type LookupIsVirtualNetworkInterfaceFloatingIpResult struct {
 }
 
 func LookupIsVirtualNetworkInterfaceFloatingIpOutput(ctx *pulumi.Context, args LookupIsVirtualNetworkInterfaceFloatingIpOutputArgs, opts ...pulumi.InvokeOption) LookupIsVirtualNetworkInterfaceFloatingIpResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVirtualNetworkInterfaceFloatingIpResultOutput, error) {
-			args := v.(LookupIsVirtualNetworkInterfaceFloatingIpArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVirtualNetworkInterfaceFloatingIp:getIsVirtualNetworkInterfaceFloatingIp", args, LookupIsVirtualNetworkInterfaceFloatingIpResultOutput{}, options).(LookupIsVirtualNetworkInterfaceFloatingIpResultOutput), nil
-		}).(LookupIsVirtualNetworkInterfaceFloatingIpResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVirtualNetworkInterfaceFloatingIp:getIsVirtualNetworkInterfaceFloatingIp", args, LookupIsVirtualNetworkInterfaceFloatingIpResultOutput{}, options).(LookupIsVirtualNetworkInterfaceFloatingIpResultOutput)
 }
 
 // A collection of arguments for invoking getIsVirtualNetworkInterfaceFloatingIp.

@@ -59,12 +59,8 @@ type GetIsInstancesResult struct {
 }
 
 func GetIsInstancesOutput(ctx *pulumi.Context, args GetIsInstancesOutputArgs, opts ...pulumi.InvokeOption) GetIsInstancesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsInstancesResultOutput, error) {
-			args := v.(GetIsInstancesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsInstances:getIsInstances", args, GetIsInstancesResultOutput{}, options).(GetIsInstancesResultOutput), nil
-		}).(GetIsInstancesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsInstances:getIsInstances", args, GetIsInstancesResultOutput{}, options).(GetIsInstancesResultOutput)
 }
 
 // A collection of arguments for invoking getIsInstances.

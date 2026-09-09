@@ -49,12 +49,8 @@ type GetIsBareMetalServersResult struct {
 }
 
 func GetIsBareMetalServersOutput(ctx *pulumi.Context, args GetIsBareMetalServersOutputArgs, opts ...pulumi.InvokeOption) GetIsBareMetalServersResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsBareMetalServersResultOutput, error) {
-			args := v.(GetIsBareMetalServersArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServers:getIsBareMetalServers", args, GetIsBareMetalServersResultOutput{}, options).(GetIsBareMetalServersResultOutput), nil
-		}).(GetIsBareMetalServersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsBareMetalServers:getIsBareMetalServers", args, GetIsBareMetalServersResultOutput{}, options).(GetIsBareMetalServersResultOutput)
 }
 
 // A collection of arguments for invoking getIsBareMetalServers.

@@ -35,12 +35,8 @@ type GetIsShareAccessorBindingsResult struct {
 }
 
 func GetIsShareAccessorBindingsOutput(ctx *pulumi.Context, args GetIsShareAccessorBindingsOutputArgs, opts ...pulumi.InvokeOption) GetIsShareAccessorBindingsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsShareAccessorBindingsResultOutput, error) {
-			args := v.(GetIsShareAccessorBindingsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShareAccessorBindings:getIsShareAccessorBindings", args, GetIsShareAccessorBindingsResultOutput{}, options).(GetIsShareAccessorBindingsResultOutput), nil
-		}).(GetIsShareAccessorBindingsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShareAccessorBindings:getIsShareAccessorBindings", args, GetIsShareAccessorBindingsResultOutput{}, options).(GetIsShareAccessorBindingsResultOutput)
 }
 
 // A collection of arguments for invoking getIsShareAccessorBindings.

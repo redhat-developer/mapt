@@ -23,41 +23,42 @@ func LookupIamTrustedProfile(ctx *pulumi.Context, args *LookupIamTrustedProfileA
 
 // A collection of arguments for invoking getIamTrustedProfile.
 type LookupIamTrustedProfileArgs struct {
-	ProfileId string `pulumi:"profileId"`
+	IncludeActivity *bool  `pulumi:"includeActivity"`
+	ProfileId       string `pulumi:"profileId"`
 }
 
 // A collection of values returned by getIamTrustedProfile.
 type LookupIamTrustedProfileResult struct {
-	AccountId    string                        `pulumi:"accountId"`
-	AssignmentId string                        `pulumi:"assignmentId"`
-	CreatedAt    string                        `pulumi:"createdAt"`
-	Crn          string                        `pulumi:"crn"`
-	Description  string                        `pulumi:"description"`
-	EntityTag    string                        `pulumi:"entityTag"`
-	Histories    []GetIamTrustedProfileHistory `pulumi:"histories"`
-	IamId        string                        `pulumi:"iamId"`
+	AccountId    string                         `pulumi:"accountId"`
+	Activities   []GetIamTrustedProfileActivity `pulumi:"activities"`
+	AssignmentId string                         `pulumi:"assignmentId"`
+	CreatedAt    string                         `pulumi:"createdAt"`
+	Crn          string                         `pulumi:"crn"`
+	Description  string                         `pulumi:"description"`
+	Email        string                         `pulumi:"email"`
+	EntityTag    string                         `pulumi:"entityTag"`
+	Histories    []GetIamTrustedProfileHistory  `pulumi:"histories"`
+	IamId        string                         `pulumi:"iamId"`
 	// The provider-assigned unique ID for this managed resource.
-	Id           string `pulumi:"id"`
-	ImsAccountId int    `pulumi:"imsAccountId"`
-	ImsUserId    int    `pulumi:"imsUserId"`
-	ModifiedAt   string `pulumi:"modifiedAt"`
-	Name         string `pulumi:"name"`
-	ProfileId    string `pulumi:"profileId"`
-	TemplateId   string `pulumi:"templateId"`
+	Id              string `pulumi:"id"`
+	ImsAccountId    int    `pulumi:"imsAccountId"`
+	ImsUserId       int    `pulumi:"imsUserId"`
+	IncludeActivity *bool  `pulumi:"includeActivity"`
+	ModifiedAt      string `pulumi:"modifiedAt"`
+	Name            string `pulumi:"name"`
+	ProfileId       string `pulumi:"profileId"`
+	TemplateId      string `pulumi:"templateId"`
 }
 
 func LookupIamTrustedProfileOutput(ctx *pulumi.Context, args LookupIamTrustedProfileOutputArgs, opts ...pulumi.InvokeOption) LookupIamTrustedProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIamTrustedProfileResultOutput, error) {
-			args := v.(LookupIamTrustedProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfile:getIamTrustedProfile", args, LookupIamTrustedProfileResultOutput{}, options).(LookupIamTrustedProfileResultOutput), nil
-		}).(LookupIamTrustedProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIamTrustedProfile:getIamTrustedProfile", args, LookupIamTrustedProfileResultOutput{}, options).(LookupIamTrustedProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIamTrustedProfile.
 type LookupIamTrustedProfileOutputArgs struct {
-	ProfileId pulumi.StringInput `pulumi:"profileId"`
+	IncludeActivity pulumi.BoolPtrInput `pulumi:"includeActivity"`
+	ProfileId       pulumi.StringInput  `pulumi:"profileId"`
 }
 
 func (LookupIamTrustedProfileOutputArgs) ElementType() reflect.Type {
@@ -83,6 +84,10 @@ func (o LookupIamTrustedProfileResultOutput) AccountId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIamTrustedProfileResult) string { return v.AccountId }).(pulumi.StringOutput)
 }
 
+func (o LookupIamTrustedProfileResultOutput) Activities() GetIamTrustedProfileActivityArrayOutput {
+	return o.ApplyT(func(v LookupIamTrustedProfileResult) []GetIamTrustedProfileActivity { return v.Activities }).(GetIamTrustedProfileActivityArrayOutput)
+}
+
 func (o LookupIamTrustedProfileResultOutput) AssignmentId() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIamTrustedProfileResult) string { return v.AssignmentId }).(pulumi.StringOutput)
 }
@@ -97,6 +102,10 @@ func (o LookupIamTrustedProfileResultOutput) Crn() pulumi.StringOutput {
 
 func (o LookupIamTrustedProfileResultOutput) Description() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIamTrustedProfileResult) string { return v.Description }).(pulumi.StringOutput)
+}
+
+func (o LookupIamTrustedProfileResultOutput) Email() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupIamTrustedProfileResult) string { return v.Email }).(pulumi.StringOutput)
 }
 
 func (o LookupIamTrustedProfileResultOutput) EntityTag() pulumi.StringOutput {
@@ -122,6 +131,10 @@ func (o LookupIamTrustedProfileResultOutput) ImsAccountId() pulumi.IntOutput {
 
 func (o LookupIamTrustedProfileResultOutput) ImsUserId() pulumi.IntOutput {
 	return o.ApplyT(func(v LookupIamTrustedProfileResult) int { return v.ImsUserId }).(pulumi.IntOutput)
+}
+
+func (o LookupIamTrustedProfileResultOutput) IncludeActivity() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v LookupIamTrustedProfileResult) *bool { return v.IncludeActivity }).(pulumi.BoolPtrOutput)
 }
 
 func (o LookupIamTrustedProfileResultOutput) ModifiedAt() pulumi.StringOutput {

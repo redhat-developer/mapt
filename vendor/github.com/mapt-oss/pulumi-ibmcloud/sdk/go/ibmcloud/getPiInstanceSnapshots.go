@@ -35,12 +35,8 @@ type GetPiInstanceSnapshotsResult struct {
 }
 
 func GetPiInstanceSnapshotsOutput(ctx *pulumi.Context, args GetPiInstanceSnapshotsOutputArgs, opts ...pulumi.InvokeOption) GetPiInstanceSnapshotsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiInstanceSnapshotsResultOutput, error) {
-			args := v.(GetPiInstanceSnapshotsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiInstanceSnapshots:getPiInstanceSnapshots", args, GetPiInstanceSnapshotsResultOutput{}, options).(GetPiInstanceSnapshotsResultOutput), nil
-		}).(GetPiInstanceSnapshotsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiInstanceSnapshots:getPiInstanceSnapshots", args, GetPiInstanceSnapshotsResultOutput{}, options).(GetPiInstanceSnapshotsResultOutput)
 }
 
 // A collection of arguments for invoking getPiInstanceSnapshots.

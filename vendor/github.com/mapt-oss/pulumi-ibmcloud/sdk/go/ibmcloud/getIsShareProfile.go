@@ -43,12 +43,8 @@ type GetIsShareProfileResult struct {
 }
 
 func GetIsShareProfileOutput(ctx *pulumi.Context, args GetIsShareProfileOutputArgs, opts ...pulumi.InvokeOption) GetIsShareProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsShareProfileResultOutput, error) {
-			args := v.(GetIsShareProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsShareProfile:getIsShareProfile", args, GetIsShareProfileResultOutput{}, options).(GetIsShareProfileResultOutput), nil
-		}).(GetIsShareProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsShareProfile:getIsShareProfile", args, GetIsShareProfileResultOutput{}, options).(GetIsShareProfileResultOutput)
 }
 
 // A collection of arguments for invoking getIsShareProfile.

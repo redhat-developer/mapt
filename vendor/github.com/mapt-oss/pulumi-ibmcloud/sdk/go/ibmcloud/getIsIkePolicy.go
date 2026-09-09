@@ -29,12 +29,15 @@ type LookupIsIkePolicyArgs struct {
 
 // A collection of values returned by getIsIkePolicy.
 type LookupIsIkePolicyResult struct {
-	AuthenticationAlgorithm string                     `pulumi:"authenticationAlgorithm"`
-	Connections             []GetIsIkePolicyConnection `pulumi:"connections"`
-	CreatedAt               string                     `pulumi:"createdAt"`
-	DhGroup                 int                        `pulumi:"dhGroup"`
-	EncryptionAlgorithm     string                     `pulumi:"encryptionAlgorithm"`
-	Href                    string                     `pulumi:"href"`
+	AuthenticationAlgorithm  string                     `pulumi:"authenticationAlgorithm"`
+	AuthenticationAlgorithms []string                   `pulumi:"authenticationAlgorithms"`
+	Connections              []GetIsIkePolicyConnection `pulumi:"connections"`
+	CreatedAt                string                     `pulumi:"createdAt"`
+	DhGroup                  int                        `pulumi:"dhGroup"`
+	DhGroups                 []int                      `pulumi:"dhGroups"`
+	EncryptionAlgorithm      string                     `pulumi:"encryptionAlgorithm"`
+	EncryptionAlgorithms     []string                   `pulumi:"encryptionAlgorithms"`
+	Href                     string                     `pulumi:"href"`
 	// The provider-assigned unique ID for this managed resource.
 	Id              string                        `pulumi:"id"`
 	IkePolicy       *string                       `pulumi:"ikePolicy"`
@@ -47,12 +50,8 @@ type LookupIsIkePolicyResult struct {
 }
 
 func LookupIsIkePolicyOutput(ctx *pulumi.Context, args LookupIsIkePolicyOutputArgs, opts ...pulumi.InvokeOption) LookupIsIkePolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsIkePolicyResultOutput, error) {
-			args := v.(LookupIsIkePolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsIkePolicy:getIsIkePolicy", args, LookupIsIkePolicyResultOutput{}, options).(LookupIsIkePolicyResultOutput), nil
-		}).(LookupIsIkePolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsIkePolicy:getIsIkePolicy", args, LookupIsIkePolicyResultOutput{}, options).(LookupIsIkePolicyResultOutput)
 }
 
 // A collection of arguments for invoking getIsIkePolicy.
@@ -84,6 +83,10 @@ func (o LookupIsIkePolicyResultOutput) AuthenticationAlgorithm() pulumi.StringOu
 	return o.ApplyT(func(v LookupIsIkePolicyResult) string { return v.AuthenticationAlgorithm }).(pulumi.StringOutput)
 }
 
+func (o LookupIsIkePolicyResultOutput) AuthenticationAlgorithms() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupIsIkePolicyResult) []string { return v.AuthenticationAlgorithms }).(pulumi.StringArrayOutput)
+}
+
 func (o LookupIsIkePolicyResultOutput) Connections() GetIsIkePolicyConnectionArrayOutput {
 	return o.ApplyT(func(v LookupIsIkePolicyResult) []GetIsIkePolicyConnection { return v.Connections }).(GetIsIkePolicyConnectionArrayOutput)
 }
@@ -96,8 +99,16 @@ func (o LookupIsIkePolicyResultOutput) DhGroup() pulumi.IntOutput {
 	return o.ApplyT(func(v LookupIsIkePolicyResult) int { return v.DhGroup }).(pulumi.IntOutput)
 }
 
+func (o LookupIsIkePolicyResultOutput) DhGroups() pulumi.IntArrayOutput {
+	return o.ApplyT(func(v LookupIsIkePolicyResult) []int { return v.DhGroups }).(pulumi.IntArrayOutput)
+}
+
 func (o LookupIsIkePolicyResultOutput) EncryptionAlgorithm() pulumi.StringOutput {
 	return o.ApplyT(func(v LookupIsIkePolicyResult) string { return v.EncryptionAlgorithm }).(pulumi.StringOutput)
+}
+
+func (o LookupIsIkePolicyResultOutput) EncryptionAlgorithms() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v LookupIsIkePolicyResult) []string { return v.EncryptionAlgorithms }).(pulumi.StringArrayOutput)
 }
 
 func (o LookupIsIkePolicyResultOutput) Href() pulumi.StringOutput {

@@ -64,12 +64,8 @@ type LookupIsVpcResult struct {
 }
 
 func LookupIsVpcOutput(ctx *pulumi.Context, args LookupIsVpcOutputArgs, opts ...pulumi.InvokeOption) LookupIsVpcResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsVpcResultOutput, error) {
-			args := v.(LookupIsVpcArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpc:getIsVpc", args, LookupIsVpcResultOutput{}, options).(LookupIsVpcResultOutput), nil
-		}).(LookupIsVpcResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpc:getIsVpc", args, LookupIsVpcResultOutput{}, options).(LookupIsVpcResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpc.

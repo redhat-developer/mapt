@@ -29,13 +29,14 @@ type LookupIsLbListenerArgs struct {
 
 // A collection of values returned by getIsLbListener.
 type LookupIsLbListenerResult struct {
-	AcceptProxyProtocol  bool                                 `pulumi:"acceptProxyProtocol"`
-	CertificateInstances []GetIsLbListenerCertificateInstance `pulumi:"certificateInstances"`
-	ConnectionLimit      int                                  `pulumi:"connectionLimit"`
-	CreatedAt            string                               `pulumi:"createdAt"`
-	DefaultPools         []GetIsLbListenerDefaultPool         `pulumi:"defaultPools"`
-	Href                 string                               `pulumi:"href"`
-	HttpsRedirects       []GetIsLbListenerHttpsRedirect       `pulumi:"httpsRedirects"`
+	AcceptProxyProtocol   bool                                  `pulumi:"acceptProxyProtocol"`
+	CertificateInstances  []GetIsLbListenerCertificateInstance  `pulumi:"certificateInstances"`
+	ClientAuthentications []GetIsLbListenerClientAuthentication `pulumi:"clientAuthentications"`
+	ConnectionLimit       int                                   `pulumi:"connectionLimit"`
+	CreatedAt             string                                `pulumi:"createdAt"`
+	DefaultPools          []GetIsLbListenerDefaultPool          `pulumi:"defaultPools"`
+	Href                  string                                `pulumi:"href"`
+	HttpsRedirects        []GetIsLbListenerHttpsRedirect        `pulumi:"httpsRedirects"`
 	// The provider-assigned unique ID for this managed resource.
 	Id                    string                      `pulumi:"id"`
 	IdleConnectionTimeout int                         `pulumi:"idleConnectionTimeout"`
@@ -50,12 +51,8 @@ type LookupIsLbListenerResult struct {
 }
 
 func LookupIsLbListenerOutput(ctx *pulumi.Context, args LookupIsLbListenerOutputArgs, opts ...pulumi.InvokeOption) LookupIsLbListenerResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIsLbListenerResultOutput, error) {
-			args := v.(LookupIsLbListenerArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsLbListener:getIsLbListener", args, LookupIsLbListenerResultOutput{}, options).(LookupIsLbListenerResultOutput), nil
-		}).(LookupIsLbListenerResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsLbListener:getIsLbListener", args, LookupIsLbListenerResultOutput{}, options).(LookupIsLbListenerResultOutput)
 }
 
 // A collection of arguments for invoking getIsLbListener.
@@ -89,6 +86,10 @@ func (o LookupIsLbListenerResultOutput) AcceptProxyProtocol() pulumi.BoolOutput 
 
 func (o LookupIsLbListenerResultOutput) CertificateInstances() GetIsLbListenerCertificateInstanceArrayOutput {
 	return o.ApplyT(func(v LookupIsLbListenerResult) []GetIsLbListenerCertificateInstance { return v.CertificateInstances }).(GetIsLbListenerCertificateInstanceArrayOutput)
+}
+
+func (o LookupIsLbListenerResultOutput) ClientAuthentications() GetIsLbListenerClientAuthenticationArrayOutput {
+	return o.ApplyT(func(v LookupIsLbListenerResult) []GetIsLbListenerClientAuthentication { return v.ClientAuthentications }).(GetIsLbListenerClientAuthenticationArrayOutput)
 }
 
 func (o LookupIsLbListenerResultOutput) ConnectionLimit() pulumi.IntOutput {

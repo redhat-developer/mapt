@@ -29,10 +29,8 @@ type GetPiDisasterRecoveryLocationsResult struct {
 }
 
 func GetPiDisasterRecoveryLocationsOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetPiDisasterRecoveryLocationsResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetPiDisasterRecoveryLocationsResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getPiDisasterRecoveryLocations:getPiDisasterRecoveryLocations", nil, GetPiDisasterRecoveryLocationsResultOutput{}, options).(GetPiDisasterRecoveryLocationsResultOutput), nil
-	}).(GetPiDisasterRecoveryLocationsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiDisasterRecoveryLocations:getPiDisasterRecoveryLocations", nil, GetPiDisasterRecoveryLocationsResultOutput{}, options).(GetPiDisasterRecoveryLocationsResultOutput)
 }
 
 // A collection of values returned by getPiDisasterRecoveryLocations.

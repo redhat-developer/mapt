@@ -37,12 +37,8 @@ type GetIsVpnGatewaysResult struct {
 }
 
 func GetIsVpnGatewaysOutput(ctx *pulumi.Context, args GetIsVpnGatewaysOutputArgs, opts ...pulumi.InvokeOption) GetIsVpnGatewaysResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetIsVpnGatewaysResultOutput, error) {
-			args := v.(GetIsVpnGatewaysArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getIsVpnGateways:getIsVpnGateways", args, GetIsVpnGatewaysResultOutput{}, options).(GetIsVpnGatewaysResultOutput), nil
-		}).(GetIsVpnGatewaysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsVpnGateways:getIsVpnGateways", args, GetIsVpnGatewaysResultOutput{}, options).(GetIsVpnGatewaysResultOutput)
 }
 
 // A collection of arguments for invoking getIsVpnGateways.

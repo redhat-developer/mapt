@@ -29,10 +29,8 @@ type GetIsPrivatePathServiceGatewaysResult struct {
 }
 
 func GetIsPrivatePathServiceGatewaysOutput(ctx *pulumi.Context, opts ...pulumi.InvokeOption) GetIsPrivatePathServiceGatewaysResultOutput {
-	return pulumi.ToOutput(0).ApplyT(func(int) (GetIsPrivatePathServiceGatewaysResultOutput, error) {
-		options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-		return ctx.InvokeOutput("ibmcloud:index/getIsPrivatePathServiceGateways:getIsPrivatePathServiceGateways", nil, GetIsPrivatePathServiceGatewaysResultOutput{}, options).(GetIsPrivatePathServiceGatewaysResultOutput), nil
-	}).(GetIsPrivatePathServiceGatewaysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getIsPrivatePathServiceGateways:getIsPrivatePathServiceGateways", nil, GetIsPrivatePathServiceGatewaysResultOutput{}, options).(GetIsPrivatePathServiceGatewaysResultOutput)
 }
 
 // A collection of values returned by getIsPrivatePathServiceGateways.

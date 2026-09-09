@@ -18,6 +18,8 @@ type IsNetworkAcl struct {
 	AccessTags pulumi.StringArrayOutput `pulumi:"accessTags"`
 	// The crn of the resource
 	Crn pulumi.StringOutput `pulumi:"crn"`
+	// When set to true, enables surgical inline rule updates (add, remove, reorder, patch, recreate only changed rules). When false (default), any change to inline rules deletes all existing rules and recreates them from the configuration.
+	IncrementalRuleUpdate pulumi.BoolPtrOutput `pulumi:"incrementalRuleUpdate"`
 	// Network ACL name
 	Name pulumi.StringOutput `pulumi:"name"`
 	// The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance
@@ -71,6 +73,8 @@ type isNetworkAclState struct {
 	AccessTags []string `pulumi:"accessTags"`
 	// The crn of the resource
 	Crn *string `pulumi:"crn"`
+	// When set to true, enables surgical inline rule updates (add, remove, reorder, patch, recreate only changed rules). When false (default), any change to inline rules deletes all existing rules and recreates them from the configuration.
+	IncrementalRuleUpdate *bool `pulumi:"incrementalRuleUpdate"`
 	// Network ACL name
 	Name *string `pulumi:"name"`
 	// The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance
@@ -95,6 +99,8 @@ type IsNetworkAclState struct {
 	AccessTags pulumi.StringArrayInput
 	// The crn of the resource
 	Crn pulumi.StringPtrInput
+	// When set to true, enables surgical inline rule updates (add, remove, reorder, patch, recreate only changed rules). When false (default), any change to inline rules deletes all existing rules and recreates them from the configuration.
+	IncrementalRuleUpdate pulumi.BoolPtrInput
 	// Network ACL name
 	Name pulumi.StringPtrInput
 	// The URL of the IBM Cloud dashboard that can be used to explore and view details about this instance
@@ -121,6 +127,8 @@ func (IsNetworkAclState) ElementType() reflect.Type {
 type isNetworkAclArgs struct {
 	// List of access management tags
 	AccessTags []string `pulumi:"accessTags"`
+	// When set to true, enables surgical inline rule updates (add, remove, reorder, patch, recreate only changed rules). When false (default), any change to inline rules deletes all existing rules and recreates them from the configuration.
+	IncrementalRuleUpdate *bool `pulumi:"incrementalRuleUpdate"`
 	// Network ACL name
 	Name *string `pulumi:"name"`
 	// Resource group ID for the network ACL
@@ -136,6 +144,8 @@ type isNetworkAclArgs struct {
 type IsNetworkAclArgs struct {
 	// List of access management tags
 	AccessTags pulumi.StringArrayInput
+	// When set to true, enables surgical inline rule updates (add, remove, reorder, patch, recreate only changed rules). When false (default), any change to inline rules deletes all existing rules and recreates them from the configuration.
+	IncrementalRuleUpdate pulumi.BoolPtrInput
 	// Network ACL name
 	Name pulumi.StringPtrInput
 	// Resource group ID for the network ACL
@@ -192,6 +202,11 @@ func (o IsNetworkAclOutput) AccessTags() pulumi.StringArrayOutput {
 // The crn of the resource
 func (o IsNetworkAclOutput) Crn() pulumi.StringOutput {
 	return o.ApplyT(func(v *IsNetworkAcl) pulumi.StringOutput { return v.Crn }).(pulumi.StringOutput)
+}
+
+// When set to true, enables surgical inline rule updates (add, remove, reorder, patch, recreate only changed rules). When false (default), any change to inline rules deletes all existing rules and recreates them from the configuration.
+func (o IsNetworkAclOutput) IncrementalRuleUpdate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *IsNetworkAcl) pulumi.BoolPtrOutput { return v.IncrementalRuleUpdate }).(pulumi.BoolPtrOutput)
 }
 
 // Network ACL name

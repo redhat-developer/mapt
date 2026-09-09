@@ -35,12 +35,8 @@ type GetPiVolumeGroupsResult struct {
 }
 
 func GetPiVolumeGroupsOutput(ctx *pulumi.Context, args GetPiVolumeGroupsOutputArgs, opts ...pulumi.InvokeOption) GetPiVolumeGroupsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetPiVolumeGroupsResultOutput, error) {
-			args := v.(GetPiVolumeGroupsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("ibmcloud:index/getPiVolumeGroups:getPiVolumeGroups", args, GetPiVolumeGroupsResultOutput{}, options).(GetPiVolumeGroupsResultOutput), nil
-		}).(GetPiVolumeGroupsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("ibmcloud:index/getPiVolumeGroups:getPiVolumeGroups", args, GetPiVolumeGroupsResultOutput{}, options).(GetPiVolumeGroupsResultOutput)
 }
 
 // A collection of arguments for invoking getPiVolumeGroups.
