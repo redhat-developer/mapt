@@ -2,13 +2,17 @@ package data
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
 	ec2Types "github.com/aws/aws-sdk-go-v2/service/ec2/types"
+	smithy "github.com/aws/smithy-go"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 	spot "github.com/redhat-developer/mapt/pkg/provider/api/spot"
@@ -443,33 +447,74 @@ type placementScoreResult struct {
 	azName string
 }
 
+// invalidInstanceTypesRE matches the bracketed list of types in AWS error messages of the form:
+// "... instance types that are not valid. ... [g4ad.4xlarge, g4dn.8xlarge]."
+var invalidInstanceTypesRE = regexp.MustCompile(`\[([^\]]+)\]`)
+
+// extractInvalidInstanceTypes returns the instance type names embedded in an AWS
+// InvalidParameterValue error. Returns nil for any other error kind.
+func extractInvalidInstanceTypes(err error) []string {
+	var apiErr smithy.APIError
+	if !errors.As(err, &apiErr) || apiErr.ErrorCode() != "InvalidParameterValue" {
+		return nil
+	}
+	m := invalidInstanceTypesRE.FindStringSubmatch(apiErr.ErrorMessage())
+	if len(m) < 2 {
+		return nil
+	}
+	var types []string
+	for _, t := range strings.Split(m[1], ", ") {
+		if t = strings.TrimSpace(t); t != "" {
+			types = append(types, t)
+		}
+	}
+	return types
+}
+
 // getPlacementScores makes a single paginated GetSpotPlacementScores call for all
 // regions instead of N concurrent per-region calls. Concurrent calls were hitting
 // the account quota on simultaneous placement configurations.
 // apiRegions is tried in order (pass a shuffled list to distribute load); the first
 // region that responds successfully is used. Regions that don't support the API are
-// skipped. Returns a map of region → AZ scores filtered to those meeting minPlacementScore.
+// skipped. When the API rejects specific instance types (InvalidParameterValue), those
+// types are stripped from the request and the region list is retried from scratch.
+// Returns a map of region → AZ scores filtered to those meeting minPlacementScore.
 func getPlacementScores(args placementScoreArgs, regions []string) (map[string][]placementScoreResult, error) {
 	azsByRegion := describeAvailabilityZonesByRegions(args.ctx, regions)
 	var lastErr error
-	for _, apiRegion := range args.apiRegions {
-		result, err := placementScoresViaRegion(apiRegion, args, regions, azsByRegion)
-		if err != nil {
-			logging.Debugf("placement score API unavailable in region %s: %v, trying next", apiRegion, err)
-			lastErr = err
-			continue
+	for len(args.instanceTypes) > 0 {
+		stripped := false
+		for _, apiRegion := range args.apiRegions {
+			result, err := placementScoresViaRegion(apiRegion, args, regions, azsByRegion)
+			if err != nil {
+				if invalidTypes := extractInvalidInstanceTypes(err); len(invalidTypes) > 0 {
+					// InvalidParameterValue for specific instance types is API-wide, not
+					// region-specific. Strip the bad types and restart the region loop.
+					logging.Debugf("spot placement scores: removing unsupported instance types %v", invalidTypes)
+					args.instanceTypes = util.ArrayFilter(args.instanceTypes,
+						func(t string) bool { return !slices.Contains(invalidTypes, t) })
+					stripped = true
+					break
+				}
+				logging.Debugf("placement score API unavailable in region %s: %v, trying next", apiRegion, err)
+				lastErr = err
+				continue
+			}
+			if len(result) == 0 {
+				return nil, fmt.Errorf("no placement scores above minimum threshold found across regions")
+			}
+			for r := range result {
+				slices.SortFunc(result[r], func(a, b placementScoreResult) int {
+					return int(*b.sps.Score - *a.sps.Score)
+				})
+			}
+			return result, nil
 		}
-		if len(result) == 0 {
-			return nil, fmt.Errorf("no placement scores above minimum threshold found across regions")
+		if !stripped {
+			return nil, fmt.Errorf("placement score API failed across all candidate regions: %w", lastErr)
 		}
-		for r := range result {
-			slices.SortFunc(result[r], func(a, b placementScoreResult) int {
-				return int(*b.sps.Score - *a.sps.Score)
-			})
-		}
-		return result, nil
 	}
-	return nil, fmt.Errorf("placement score API failed across all candidate regions: %w", lastErr)
+	return nil, fmt.Errorf("spot placement scores: all candidate instance types were rejected by the API")
 }
 
 // placementScoresViaRegion calls GetSpotPlacementScores using apiRegion as the endpoint
