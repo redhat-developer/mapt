@@ -10,13 +10,13 @@ import (
 // Tasks that have a compute-sizes conditional in their script and must also
 // conditionally pass --compute-families in the else branch.
 var tasksWithComputeFamiliesScript = map[string]struct{}{
-	"infra-aws-rhel.yaml":            {},
-	"infra-aws-ocp-snc.yaml":         {},
-	"infra-aws-fedora.yaml":          {},
-	"infra-aws-rhel-ai.yaml":         {},
-	"infra-aws-eks.yaml":             {},
-	"infra-aws-kind.yaml":            {},
-	"infra-aws-windows-server.yaml":  {},
+	"infra-aws-rhel.yaml":           {},
+	"infra-aws-ocp-snc.yaml":        {},
+	"infra-aws-fedora.yaml":         {},
+	"infra-aws-rhel-ai.yaml":        {},
+	"infra-aws-eks.yaml":            {},
+	"infra-aws-kind.yaml":           {},
+	"infra-aws-windows-server.yaml": {},
 }
 
 // mac uses dedicated host provisioning — CLI does not accept --compute-families.
@@ -70,6 +70,9 @@ func TestComputeFamiliesPassedInScript(t *testing.T) {
 			}
 			if !strings.Contains(string(data), "--compute-families") {
 				t.Errorf("%s: missing '--compute-families' flag in script", path)
+			}
+			if !strings.Contains(string(data), `if [[ "$(params.compute-families)" != "" ]]; then`) {
+				t.Errorf("%s: compute-families flag is not guarded when its parameter is empty", path)
 			}
 		}
 	}

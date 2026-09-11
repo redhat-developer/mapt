@@ -280,7 +280,9 @@ spec:
             cmd+="--memory '$(params.memory)' "
             cmd+="--gpus '$(params.gpus)' "
             cmd+="--gpu-manufacturer '$(params.gpu-manufacturer)' "
-            cmd+="--compute-families '$(params.compute-families)' "
+            if [[ "$(params.compute-families)" != "" ]]; then
+              cmd+="--compute-families '$(params.compute-families)' "
+            fi
           fi
           if [[ "$(params.nested-virt)" == "true" ]]; then
             cmd+="--nested-virt "
