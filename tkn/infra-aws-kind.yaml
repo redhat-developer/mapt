@@ -231,7 +231,9 @@ spec:
           else
             cmd+="--cpus '$(params.cpus)' "
             cmd+="--memory '$(params.memory)' "
-            cmd+="--compute-families '$(params.compute-families)' "
+            if [[ "$(params.compute-families)" != "" ]]; then
+              cmd+="--compute-families '$(params.compute-families)' "
+            fi
           fi
           if [[ $(params.nested-virt) == "true" ]]; then
             cmd+="--nested-virt "
@@ -322,4 +324,4 @@ spec:
         
         NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
         echo -n "${NAME}" | tee $(results.cluster-access-secret.path)   
-        fi 
+        fi

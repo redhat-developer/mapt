@@ -233,7 +233,9 @@ spec:
           else
             cmd+="--cpus '$(params.cpus)' "
             cmd+="--memory '$(params.memory)' "
-            cmd+="--compute-families '$(params.compute-families)' "
+            if [[ "$(params.compute-families)" != "" ]]; then
+              cmd+="--compute-families '$(params.compute-families)' "
+            fi
           fi
           cmd+="--workers-desired $(params.workers-desired) "
           cmd+="--workers-max $(params.workers-max) "
