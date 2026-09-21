@@ -12,13 +12,15 @@ require github.com/golangci/golangci-lint/v2 v2.13.1
 
 require (
 	dev.gaijin.team/go/exhaustruct/v5 v5.0.3 // indirect
+	github.com/charmbracelet/ultraviolet v0.0.0-20260811164956-006e29f97886 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
 	github.com/golangci/gofmt v0.0.0-20260820135601-e84e05053792 // indirect
+	github.com/rivo/uniseg v0.4.7 // indirect
 )
 
 require (
 	github.com/bombsimon/wsl/v5 v5.9.0 // indirect
-	github.com/charmbracelet/ultraviolet v0.0.0-20260812204455-68fa937c71be // indirect
+	// github.com/charmbracelet/ultraviolet v0.0.0-20260812204455-68fa937c71be // indirect
 	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 )
@@ -175,7 +177,7 @@ require (
 	github.com/quasilyte/regex/syntax v0.0.0-20210819130434-b3f0c404a727 // indirect
 	github.com/quasilyte/stdinfo v0.0.0-20220114132959-f7386bf02567 // indirect
 	github.com/raeperd/recvcheck v0.3.1 // indirect
-	github.com/rivo/uniseg v0.4.7 // indirect
+	// github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.16.0 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.6.0 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
