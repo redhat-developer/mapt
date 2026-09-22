@@ -318,6 +318,9 @@ github.com/gofrs/flock
 # github.com/golangci/asciicheck v0.5.0
 ## explicit; go 1.23.0
 github.com/golangci/asciicheck
+# github.com/golangci/canonicalheader v0.0.0-20260827115959-a25c71c521f6
+## explicit; go 1.25.0
+github.com/golangci/canonicalheader
 # github.com/golangci/dupl v0.0.0-20260401084720-c99c5cf5c202
 ## explicit; go 1.22.0
 github.com/golangci/dupl/job
@@ -333,7 +336,7 @@ github.com/golangci/go-printf-func-name/pkg/analyzer
 ## explicit; go 1.26.0
 github.com/golangci/gofmt
 github.com/golangci/gofmt/internal
-# github.com/golangci/golangci-lint/v2 v2.13.1
+# github.com/golangci/golangci-lint/v2 v2.13.2
 ## explicit; go 1.26.0
 github.com/golangci/golangci-lint/v2/cmd/golangci-lint
 github.com/golangci/golangci-lint/v2/internal/cache
@@ -594,9 +597,6 @@ github.com/kulti/thelper/pkg/analyzer
 # github.com/kunwardeep/paralleltest v1.0.15
 ## explicit; go 1.23.0
 github.com/kunwardeep/paralleltest/pkg/paralleltest
-# github.com/lasiar/canonicalheader v1.1.2
-## explicit; go 1.22.0
-github.com/lasiar/canonicalheader
 # github.com/ldez/exptostd v0.4.5
 ## explicit; go 1.24.0
 github.com/ldez/exptostd
@@ -653,7 +653,7 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.24
 ## explicit; go 1.20
 github.com/mattn/go-isatty
-# github.com/mattn/go-runewidth v0.0.28
+# github.com/mattn/go-runewidth v0.0.30
 ## explicit; go 1.23
 github.com/mattn/go-runewidth
 # github.com/mgechev/revive v1.16.0
@@ -940,7 +940,7 @@ go-simpler.org/sloglint
 # go.augendre.info/arangolint v0.4.0
 ## explicit; go 1.24.0
 go.augendre.info/arangolint/pkg/analyzer
-# go.augendre.info/fatcontext v0.10.0
+# go.augendre.info/fatcontext v0.10.1
 ## explicit; go 1.25.0
 go.augendre.info/fatcontext/pkg/analyzer
 # go.uber.org/multierr v1.11.0
