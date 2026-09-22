@@ -19,8 +19,8 @@ dev.gaijin.team/go/exhaustruct/v4/analyzer
 dev.gaijin.team/go/exhaustruct/v4/internal/comment
 dev.gaijin.team/go/exhaustruct/v4/internal/pattern
 dev.gaijin.team/go/exhaustruct/v4/internal/structure
-# dev.gaijin.team/go/exhaustruct/v5 v5.0.3
-## explicit; go 1.24.0
+# dev.gaijin.team/go/exhaustruct/v5 v5.2.0
+## explicit; go 1.26.0
 dev.gaijin.team/go/exhaustruct/v5/analyzer
 dev.gaijin.team/go/exhaustruct/v5/internal/astutil
 dev.gaijin.team/go/exhaustruct/v5/internal/cache
