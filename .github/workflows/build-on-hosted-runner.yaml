@@ -8,10 +8,19 @@ on:
       - completed
 
 jobs:
-  hosted_runner_provision:
+  approve:
+    name: approve-ghrunner-test
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-24.04
+    environment: ghrunner-test
+    steps:
+      - name: Approval gate passed
+        run: echo "Deployment to ghrunner-test environment approved"
+
+  hosted_runner_provision:
+    needs: approve
     uses: ./.github/workflows/provision-hosted-runner.yaml
     with:
       runner_repo: "https://github.com/${{github.repository}}"
@@ -33,9 +42,14 @@ jobs:
 
   destroy_hosted_runner:
     needs:
+      - approve
       - test_run_selfhosted_runner
       - hosted_runner_provision
-    if: always() && !contains(needs.*.result, 'skipped') && !contains(needs.*.result, 'cancelled')
+    if: >-
+      always() &&
+      needs.approve.result == 'success' &&
+      !contains(needs.hosted_runner_provision.result, 'skipped') &&
+      !contains(needs.hosted_runner_provision.result, 'cancelled')
     uses: ./.github/workflows/destroy-hosted-runner.yaml
     with:
       operating_system: windows
