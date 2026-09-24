@@ -11,31 +11,42 @@ on:
 jobs:
 
   build:
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-24.04
     steps:
-    - name: Free Disk Space for Docker
-      uses: endersonmenezes/free-disk-space@v4
-      with:
-        remove_android: true
-        remove_dotnet: true
-        remove_haskell: true
-        rm_cmd: "rmz"
+    - name: Free disk space
+      run: |
+        sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc \
+          /usr/local/share/boost /usr/share/swift /opt/hostedtoolcache \
+          /usr/local/graalvm /usr/local/.ghcup /usr/local/share/chromium \
+          /usr/local/share/powershell /usr/share/az_* \
+          /usr/local/julia* /usr/share/miniconda /usr/local/share/edge_driver \
+          /usr/local/share/gecko_driver /usr/local/share/vcpkg \
+          /usr/local/lib/heroku /usr/share/kotlinc /usr/share/sbt \
+          /usr/share/gradle-* /usr/share/apache-maven-* \
+          /usr/lib/jvm /usr/lib/firefox /usr/lib/mono \
+          /usr/lib/google-cloud-sdk /usr/lib/heroku 2>/dev/null || true
+        sudo docker image prune --all --force 2>/dev/null || true
+        sudo apt-get clean 2>/dev/null || true
+        sudo swapoff -a && sudo rm -f /swapfile 2>/dev/null || true
+        df -h /
 
     - name: Checkout code
-
       uses: actions/checkout@v7
 
     - name: Set up Go
       uses: actions/setup-go@v7
       with:
         go-version: '1.27'
-
-    - name: Run 'make check'
-      run: make check
+        cache: false
 
     - name: Build
-      run: |
-        go build -v ./...
+      run: make build
 
     - name: Test
-      run: go test -v ./...
+      run: make test
+
+    - name: Clean Go build cache
+      run: go clean -cache
+
+    - name: Lint
+      run: make lint
