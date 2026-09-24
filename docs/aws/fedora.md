@@ -28,6 +28,7 @@ Flags:
       --tags stringToString               tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --version string                    version for the Fedora Cloud OS (default "40")
       --vm-types strings                  set an specific set of vm-types and ignore any CPUs, Memory, Arch parameters set. Note vm-type should match requested arch. Also if --spot flag is used set at least 3 types.
+      --vpc-id string                     ID of an existing VPC to deploy into. When set, airgap is not supported and spot search is restricted to AZs with subnets in that VPC.
 
 Global Flags:
       --backed-url string     backed for stack state. Can be a local path with format file:///path/subpath or s3 s3://existing-bucket
