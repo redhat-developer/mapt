@@ -1270,6 +1270,26 @@ func (m *validateOpCreateCapacityReservationCancellationQuote) HandleInitialize(
 	return next.HandleInitialize(ctx, in)
 }
 
+type validateOpCreateCapacityReservationDateChangeQuote struct {
+}
+
+func (*validateOpCreateCapacityReservationDateChangeQuote) ID() string {
+	return "OperationInputValidation"
+}
+
+func (m *validateOpCreateCapacityReservationDateChangeQuote) HandleInitialize(ctx context.Context, in middleware.InitializeInput, next middleware.InitializeHandler) (
+	out middleware.InitializeOutput, metadata middleware.Metadata, err error,
+) {
+	input, ok := in.Parameters.(*CreateCapacityReservationDateChangeQuoteInput)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
+	}
+	if err := validateOpCreateCapacityReservationDateChangeQuoteInput(input); err != nil {
+		return out, metadata, err
+	}
+	return next.HandleInitialize(ctx, in)
+}
+
 type validateOpCreateCapacityReservationFleet struct {
 }
 
@@ -10310,6 +10330,26 @@ func (m *validateOpReplaceIamInstanceProfileAssociation) HandleInitialize(ctx co
 	return next.HandleInitialize(ctx, in)
 }
 
+type validateOpReplaceImageInstanceTypeSpecification struct {
+}
+
+func (*validateOpReplaceImageInstanceTypeSpecification) ID() string {
+	return "OperationInputValidation"
+}
+
+func (m *validateOpReplaceImageInstanceTypeSpecification) HandleInitialize(ctx context.Context, in middleware.InitializeInput, next middleware.InitializeHandler) (
+	out middleware.InitializeOutput, metadata middleware.Metadata, err error,
+) {
+	input, ok := in.Parameters.(*ReplaceImageInstanceTypeSpecificationInput)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
+	}
+	if err := validateOpReplaceImageInstanceTypeSpecificationInput(input); err != nil {
+		return out, metadata, err
+	}
+	return next.HandleInitialize(ctx, in)
+}
+
 type validateOpReplaceNetworkAclAssociation struct {
 }
 
@@ -11190,6 +11230,26 @@ func (m *validateOpUpdateInterruptibleCapacityReservationAllocation) HandleIniti
 	return next.HandleInitialize(ctx, in)
 }
 
+type validateOpValidateSecurityGroupQuotasForInterface struct {
+}
+
+func (*validateOpValidateSecurityGroupQuotasForInterface) ID() string {
+	return "OperationInputValidation"
+}
+
+func (m *validateOpValidateSecurityGroupQuotasForInterface) HandleInitialize(ctx context.Context, in middleware.InitializeInput, next middleware.InitializeHandler) (
+	out middleware.InitializeOutput, metadata middleware.Metadata, err error,
+) {
+	input, ok := in.Parameters.(*ValidateSecurityGroupQuotasForInterfaceInput)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
+	}
+	if err := validateOpValidateSecurityGroupQuotasForInterfaceInput(input); err != nil {
+		return out, metadata, err
+	}
+	return next.HandleInitialize(ctx, in)
+}
+
 type validateOpWithdrawByoipCidr struct {
 }
 
@@ -11460,6 +11520,10 @@ func addOpCreateCapacityReservationBySplittingValidationMiddleware(stack *middle
 
 func addOpCreateCapacityReservationCancellationQuoteValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpCreateCapacityReservationCancellationQuote{}, middleware.After)
+}
+
+func addOpCreateCapacityReservationDateChangeQuoteValidationMiddleware(stack *middleware.Stack) error {
+	return stack.Initialize.Add(&validateOpCreateCapacityReservationDateChangeQuote{}, middleware.After)
 }
 
 func addOpCreateCapacityReservationFleetValidationMiddleware(stack *middleware.Stack) error {
@@ -13270,6 +13334,10 @@ func addOpReplaceIamInstanceProfileAssociationValidationMiddleware(stack *middle
 	return stack.Initialize.Add(&validateOpReplaceIamInstanceProfileAssociation{}, middleware.After)
 }
 
+func addOpReplaceImageInstanceTypeSpecificationValidationMiddleware(stack *middleware.Stack) error {
+	return stack.Initialize.Add(&validateOpReplaceImageInstanceTypeSpecification{}, middleware.After)
+}
+
 func addOpReplaceNetworkAclAssociationValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpReplaceNetworkAclAssociation{}, middleware.After)
 }
@@ -13444,6 +13512,10 @@ func addOpUpdateCapacityManagerOrganizationsAccessValidationMiddleware(stack *mi
 
 func addOpUpdateInterruptibleCapacityReservationAllocationValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpUpdateInterruptibleCapacityReservationAllocation{}, middleware.After)
+}
+
+func addOpValidateSecurityGroupQuotasForInterfaceValidationMiddleware(stack *middleware.Stack) error {
+	return stack.Initialize.Add(&validateOpValidateSecurityGroupQuotasForInterface{}, middleware.After)
 }
 
 func addOpWithdrawByoipCidrValidationMiddleware(stack *middleware.Stack) error {
@@ -15569,6 +15641,24 @@ func validateOpCreateCapacityReservationCancellationQuoteInput(v *CreateCapacity
 	invalidParams := smithy.InvalidParamsError{Context: "CreateCapacityReservationCancellationQuoteInput"}
 	if v.CapacityReservationId == nil {
 		invalidParams.Add(smithy.NewErrParamRequired("CapacityReservationId"))
+	}
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
+func validateOpCreateCapacityReservationDateChangeQuoteInput(v *CreateCapacityReservationDateChangeQuoteInput) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "CreateCapacityReservationDateChangeQuoteInput"}
+	if v.CapacityReservationId == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("CapacityReservationId"))
+	}
+	if v.NewStartDate == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("NewStartDate"))
 	}
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -23127,6 +23217,21 @@ func validateOpReplaceIamInstanceProfileAssociationInput(v *ReplaceIamInstancePr
 	}
 }
 
+func validateOpReplaceImageInstanceTypeSpecificationInput(v *ReplaceImageInstanceTypeSpecificationInput) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "ReplaceImageInstanceTypeSpecificationInput"}
+	if v.ImageId == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("ImageId"))
+	}
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
 func validateOpReplaceNetworkAclAssociationInput(v *ReplaceNetworkAclAssociationInput) error {
 	if v == nil {
 		return nil
@@ -23887,8 +23992,20 @@ func validateOpUpdateInterruptibleCapacityReservationAllocationInput(v *UpdateIn
 	if v.CapacityReservationId == nil {
 		invalidParams.Add(smithy.NewErrParamRequired("CapacityReservationId"))
 	}
-	if v.TargetInstanceCount == nil {
-		invalidParams.Add(smithy.NewErrParamRequired("TargetInstanceCount"))
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
+func validateOpValidateSecurityGroupQuotasForInterfaceInput(v *ValidateSecurityGroupQuotasForInterfaceInput) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "ValidateSecurityGroupQuotasForInterfaceInput"}
+	if v.SecurityGroupIds == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("SecurityGroupIds"))
 	}
 	if invalidParams.Len() > 0 {
 		return invalidParams

@@ -82,6 +82,7 @@ type contextState struct {
 	supportsResourceHooks    bool         // true if resource hooks are supported by pulumi
 	supportsErrorHooks       bool         // true if error hooks are supported by pulumi
 	supportsInvokeDependsOn  bool         // true if the monitor gates invokes on their declared dependencies.
+	supportsStateMigrations  bool         // true if state migrations are supported by pulumi
 	rpcs                     int          // the number of outstanding RPC requests.
 	rpcsDone                 *sync.Cond   // an event signaling completion of RPCs.
 	rpcsLock                 sync.Mutex   // a lock protecting the RPC count and event.
@@ -189,6 +190,7 @@ func NewContext(ctx context.Context, info RunInfo) (*Context, error) {
 		supportsResourceHooks:    has(pulumirpc.ResourceMonitorFeature_RESOURCE_MONITOR_FEATURE_RESOURCE_HOOKS),
 		supportsErrorHooks:       has(pulumirpc.ResourceMonitorFeature_RESOURCE_MONITOR_FEATURE_ERROR_HOOKS),
 		supportsInvokeDependsOn:  has(pulumirpc.ResourceMonitorFeature_RESOURCE_MONITOR_FEATURE_INVOKE_DEPENDS_ON),
+		supportsStateMigrations:  has(pulumirpc.ResourceMonitorFeature_RESOURCE_MONITOR_FEATURE_STATE_MIGRATIONS),
 		registeredOutputs:        make(map[URN]bool),
 	}
 	contextState.rpcsDone = sync.NewCond(&contextState.rpcsLock)
@@ -595,6 +597,10 @@ func (ctx *Context) registerTransform(t ResourceTransform) (*pulumirpc.Callback,
 		return nil, fmt.Errorf("registering callback: %w", err)
 	}
 
+	if mm, ok := ctx.state.monitor.(*mockMonitor); ok {
+		mm.recordTransform(cb.Token, t)
+	}
+
 	return cb, nil
 }
 
@@ -712,6 +718,10 @@ func (ctx *Context) registerInvokeTransform(t InvokeTransform) (*pulumirpc.Callb
 	cb, err := ctx.state.callbacks.RegisterCallback(callback)
 	if err != nil {
 		return nil, fmt.Errorf("registering callback: %w", err)
+	}
+
+	if mm, ok := ctx.state.monitor.(*mockMonitor); ok {
+		mm.recordInvokeTransform(cb.Token, t)
 	}
 
 	return cb, nil
@@ -1440,10 +1450,10 @@ func (ctx *Context) readPackageResource(
 	res := ctx.makeResourceState(t, name, resource, providers, provider, protect,
 		options.Version, options.PluginDownloadURL, aliasURNs, transformations)
 
-	// Get the stack trace and source position for the resource registration. Note that this assumes that there is an
-	// intermediate frame between the this function and user code.
-	stackTrace := ctx.getStackTrace(3)
-	sourcePosition := ctx.getSourcePosition(3)
+	// Get the stack trace and source position for the resource read. Note that this assumes that there are two
+	// intermediate frames between this function and user code: the public entry point and the generated getter.
+	stackTrace := ctx.getStackTrace(4)
+	sourcePosition := ctx.getSourcePosition(4)
 
 	// Kick off the resource read operation.  This will happen asynchronously and resolve the above properties.
 	go func() {
@@ -1475,6 +1485,7 @@ func (ctx *Context) readPackageResource(
 			Parent:                  inputs.parent,
 			Properties:              inputs.rpcProps,
 			Provider:                inputs.provider,
+			Dependencies:            inputs.deps,
 			Id:                      string(idToRead),
 			AcceptSecrets:           true,
 			AcceptResources:         !disableResourceReferences,
@@ -1848,6 +1859,17 @@ func (ctx *Context) registerResource(
 			transforms = append(transforms, cb)
 		}
 
+		// Register the state migration functions.
+		stateMigrations := make([]*pulumirpc.Callback, 0, len(options.StateMigrations))
+		for _, migration := range options.StateMigrations {
+			var cb *pulumirpc.Callback
+			cb, err = ctx.registerStateMigration(migration)
+			if err != nil {
+				return
+			}
+			stateMigrations = append(stateMigrations, cb)
+		}
+
 		// Collect all the hooks, waiting for their registrations.
 		var hooks *pulumirpc.RegisterResourceRequest_ResourceHooksBinding
 		if options.Hooks != nil {
@@ -1932,6 +1954,7 @@ func (ctx *Context) registerResource(
 				SourcePosition:             sourcePosition,
 				StackTrace:                 stackTrace,
 				Transforms:                 transforms,
+				StateMigrations:            stateMigrations,
 				SupportsResultReporting:    true,
 				PackageRef:                 packageRef,
 				Hooks:                      hooks,
@@ -3123,7 +3146,6 @@ func (ctx *Context) getSourcePositionForFrame(frame runtime.Frame) *pulumirpc.So
 
 	line := int32(-1)
 	if frame.Line <= math.MaxInt32 {
-		//nolint:gosec
 		line = int32(frame.Line)
 	}
 	return &pulumirpc.SourcePosition{

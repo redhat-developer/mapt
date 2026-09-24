@@ -38,7 +38,7 @@ import (
 // VpcV1 : The IBM Cloud Virtual Private Cloud (VPC) API can be used to programmatically provision and manage virtual
 // server instances, along with subnets, volumes, load balancers, and more.
 //
-// API Version: 2026-04-07
+// API Version: 2026-09-01
 type VpcV1 struct {
 	Service *core.BaseService
 
@@ -46,8 +46,8 @@ type VpcV1 struct {
 	// `2`.
 	Generation *int64
 
-	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-08-19`.
+	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-09-01`
+	// and `2026-09-03`.
 	Version *string
 }
 
@@ -67,8 +67,8 @@ type VpcV1Options struct {
 	// `2`.
 	Generation *int64
 
-	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-04-07`
-	// and `2026-08-19`.
+	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-09-01`
+	// and `2026-09-03`.
 	Version *string
 }
 
@@ -133,7 +133,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2026-08-18")
+		options.Version = core.StringPtr("2026-09-01")
 	}
 
 	service = &VpcV1{
@@ -160,6 +160,7 @@ func GetServiceURLForRegion(region string) (string, error) {
 		"eu-es":    "https://eu-es.iaas.cloud.ibm.com/v1",    // Spain (Madrid)
 		"eu-gb":    "https://eu-gb.iaas.cloud.ibm.com/v1",    // United Kingdom (London)
 		"in-che":   "https://in-che.iaas.cloud.ibm.com/v1",   // India (Chennai)
+		"in-mum":   "https://in-mum.iaas.cloud.ibm.com/v1",   // India (Mumbai)
 		"jp-osa":   "https://jp-osa.iaas.cloud.ibm.com/v1",   // Japan (Osaka)
 		"jp-tok":   "https://jp-tok.iaas.cloud.ibm.com/v1",   // Japan (Tokyo)
 		"us-east":  "https://us-east.iaas.cloud.ibm.com/v1",  // US East (Washington DC)
@@ -36564,7 +36565,7 @@ func (vpc *VpcV1) UpdateVPNServerRouteWithContext(ctx context.Context, updateVPN
 	return
 }
 func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "2026-08-18")
+	return core.NewProblemComponent(DefaultServiceName, "2026-09-01")
 }
 
 // AccountIdentity : Identifies an account by a unique property.
@@ -71474,9 +71475,6 @@ type InstanceProfile struct {
 	// The cluster network profiles that support this instance profile.
 	SupportedClusterNetworkProfiles []ClusterNetworkProfileReference `json:"supported_cluster_network_profiles" validate:"required"`
 
-	// The supported values for vcpu count for an instance with this profile.
-	SupportedVcpuCount *InstanceProfileSupportedVcpuCountEnum `json:"supported_vcpu_count" validate:"required"`
-
 	ThreadsPerCore *InstanceProfileThreadsPerCoreEnum `json:"threads_per_core" validate:"required"`
 
 	TotalVolumeBandwidth InstanceProfileVolumeBandwidthIntf `json:"total_volume_bandwidth" validate:"required"`
@@ -71642,11 +71640,6 @@ func UnmarshalInstanceProfile(m map[string]json.RawMessage, result interface{}) 
 	err = core.UnmarshalModel(m, "supported_cluster_network_profiles", &obj.SupportedClusterNetworkProfiles, UnmarshalClusterNetworkProfileReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "supported_cluster_network_profiles-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "supported_vcpu_count", &obj.SupportedVcpuCount, UnmarshalInstanceProfileSupportedVcpuCountEnum)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "supported_vcpu_count-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "threads_per_core", &obj.ThreadsPerCore, UnmarshalInstanceProfileThreadsPerCoreEnum)
@@ -73156,38 +73149,6 @@ func UnmarshalInstanceProfileSupportedSecureBootModes(m map[string]json.RawMessa
 		err = core.SDKErrorf(err, "", "default-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "values", &obj.Values)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "values-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// InstanceProfileSupportedVcpuCountEnum : The supported values for vcpu count for an instance with this profile.
-type InstanceProfileSupportedVcpuCountEnum struct {
-	// The type for this profile field.
-	Type *string `json:"type" validate:"required"`
-
-	// The permitted values for this profile field.
-	Values []int64 `json:"values" validate:"required"`
-}
-
-// Constants associated with the InstanceProfileSupportedVcpuCountEnum.Type property.
-// The type for this profile field.
-const (
-	InstanceProfileSupportedVcpuCountEnumTypeEnumConst = "enum"
-)
-
-// UnmarshalInstanceProfileSupportedVcpuCountEnum unmarshals an instance of InstanceProfileSupportedVcpuCountEnum from the specified map of raw messages.
-func UnmarshalInstanceProfileSupportedVcpuCountEnum(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(InstanceProfileSupportedVcpuCountEnum)
 	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "type-error", common.GetComponentInfo())

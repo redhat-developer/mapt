@@ -32,6 +32,7 @@ const (
 	JournalEntryKindRebuiltBaseState      JournalEntryKind = 7
 	JournalEntryKindExtensionParameterize JournalEntryKind = 8
 	JournalEntryKindSnippets              JournalEntryKind = 9
+	JournalEntryKindStateMigration        JournalEntryKind = 10
 )
 
 func (k JournalEntryKind) String() string {
@@ -56,9 +57,33 @@ func (k JournalEntryKind) String() string {
 		return "extension-parameterize"
 	case JournalEntryKindSnippets:
 		return "snippets"
+	case JournalEntryKindStateMigration:
+		return "state-migration"
 	default:
 		return "invalid"
 	}
+}
+
+// JournalBaseStatePatch replaces a retained resource in the journal's base snapshot after a state migration.
+// State is the complete, already-rewritten checkpoint state; replay must not reinterpret migration successors.
+type JournalBaseStatePatch struct {
+	Index int64      `json:"index"`
+	State ResourceV3 `json:"state"`
+}
+
+// JournalNewStatePatch replaces a resource produced by an earlier operation after a state migration.
+// OperationID identifies the successful operation that introduced the resource into the journal's new-state list.
+type JournalNewStatePatch struct {
+	OperationID int64      `json:"operationID"`
+	State       ResourceV3 `json:"state"`
+}
+
+// JournalLayoutItem places one resource in the base snapshot produced by a state migration. Exactly one of BaseIndex
+// and StateIndex is set: BaseIndex refers to a retained resource by its index in the base snapshot before the
+// migration, and StateIndex refers to one of the entry's inserted States.
+type JournalLayoutItem struct {
+	BaseIndex  *int64 `json:"baseIndex,omitempty"`
+	StateIndex *int64 `json:"stateIndex,omitempty"`
 }
 
 type JournalEntry struct {
@@ -102,10 +127,23 @@ type JournalEntry struct {
 	ExtensionRef *ExtensionRef `json:"extensionRef,omitempty"`
 	Extension    *Extension    `json:"extension,omitempty"`
 
-	// True if serializing this entry's State, Operation, or NewSnapshot encoded strings containing
-	// non-UTF8 bytes. Such strings inside secrets are invisible after encryption, so the fact must be
-	// recorded at serialization time for replay to gate rebuilt deployments on the byteString feature.
+	// True if serializing any resource state carried by this entry encoded strings containing non-UTF8 bytes.
+	// Such strings inside secrets are invisible after encryption, so the fact must be recorded at serialization
+	// time for replay to gate rebuilt deployments on the byteString feature.
 	RequiresByteString bool `json:"requiresByteString,omitempty"`
+
+	// Layout lists the complete base snapshot produced by a state migration, in order. Base resources absent from
+	// Layout are removed. Only set for JournalEntryKindStateMigration entries.
+	Layout []JournalLayoutItem `json:"layout,omitempty"`
+	// States holds the resources a state migration inserts into the base snapshot at the positions given by Layout.
+	// Only set for JournalEntryKindStateMigration entries.
+	States []ResourceV3 `json:"states,omitempty"`
+	// BaseStatePatches contains complete replacements for retained base resources whose references were rewritten.
+	// Indices refer to the base snapshot before the migration. Only set for JournalEntryKindStateMigration entries.
+	BaseStatePatches []JournalBaseStatePatch `json:"baseStatePatches,omitempty"`
+	// NewStatePatches contains complete replacements for resources produced by operations earlier in this update.
+	// Only set for JournalEntryKindStateMigration entries.
+	NewStatePatches []JournalNewStatePatch `json:"newStatePatches,omitempty"`
 }
 
 func (e JournalEntry) String() string {
@@ -147,6 +185,41 @@ func (e JournalEntry) String() string {
 	}
 	if e.Snippets != nil {
 		fmt.Fprintf(&sb, ", snippets(%v)", len(e.Snippets))
+	}
+	if e.Layout != nil {
+		items := make([]string, len(e.Layout))
+		for i, item := range e.Layout {
+			var indices []string
+			if item.BaseIndex != nil {
+				indices = append(indices, fmt.Sprintf("base:%d", *item.BaseIndex))
+			}
+			if item.StateIndex != nil {
+				indices = append(indices, fmt.Sprintf("state:%d", *item.StateIndex))
+			}
+			items[i] = "{" + strings.Join(indices, " ") + "}"
+		}
+		fmt.Fprintf(&sb, ", layout(%v)", items)
+	}
+	if e.States != nil {
+		urns := make([]string, len(e.States))
+		for i, state := range e.States {
+			urns[i] = string(state.URN)
+		}
+		fmt.Fprintf(&sb, ", states(%v)", urns)
+	}
+	if e.BaseStatePatches != nil {
+		patches := make([]string, len(e.BaseStatePatches))
+		for i, patch := range e.BaseStatePatches {
+			patches[i] = fmt.Sprintf("%d:%s", patch.Index, patch.State.URN)
+		}
+		fmt.Fprintf(&sb, ", baseStatePatches(%v)", patches)
+	}
+	if e.NewStatePatches != nil {
+		patches := make([]string, len(e.NewStatePatches))
+		for i, patch := range e.NewStatePatches {
+			patches[i] = fmt.Sprintf("%d:%s", patch.OperationID, patch.State.URN)
+		}
+		fmt.Fprintf(&sb, ", newStatePatches(%v)", patches)
 	}
 
 	return sb.String()

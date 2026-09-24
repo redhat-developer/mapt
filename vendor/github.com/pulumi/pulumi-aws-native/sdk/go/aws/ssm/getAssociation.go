@@ -45,8 +45,6 @@ type LookupAssociationResult struct {
 	ComplianceSeverity *AssociationComplianceSeverity `pulumi:"complianceSeverity"`
 	// The version of the SSM document to associate with the target.
 	DocumentVersion *string `pulumi:"documentVersion"`
-	// The ID of the instance that the SSM document is associated with.
-	InstanceId *string `pulumi:"instanceId"`
 	// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time.
 	//
 	// If a new managed node starts and attempts to run an association while Systems Manager is running `MaxConcurrency` associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for `MaxConcurrency` .
@@ -78,12 +76,8 @@ type LookupAssociationResult struct {
 }
 
 func LookupAssociationOutput(ctx *pulumi.Context, args LookupAssociationOutputArgs, opts ...pulumi.InvokeOption) LookupAssociationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupAssociationResultOutput, error) {
-			args := v.(LookupAssociationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("aws-native:ssm:getAssociation", args, LookupAssociationResultOutput{}, options).(LookupAssociationResultOutput), nil
-		}).(LookupAssociationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("aws-native:ssm:getAssociation", args, LookupAssociationResultOutput{}, options).(LookupAssociationResultOutput)
 }
 
 type LookupAssociationOutputArgs struct {
@@ -147,11 +141,6 @@ func (o LookupAssociationResultOutput) ComplianceSeverity() AssociationComplianc
 // The version of the SSM document to associate with the target.
 func (o LookupAssociationResultOutput) DocumentVersion() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v LookupAssociationResult) *string { return v.DocumentVersion }).(pulumi.StringPtrOutput)
-}
-
-// The ID of the instance that the SSM document is associated with.
-func (o LookupAssociationResultOutput) InstanceId() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v LookupAssociationResult) *string { return v.InstanceId }).(pulumi.StringPtrOutput)
 }
 
 // The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time.

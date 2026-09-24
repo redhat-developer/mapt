@@ -1080,6 +1080,25 @@ func (ExecuteCommandLogging) Values() []ExecuteCommandLogging {
 	}
 }
 
+type ExpressCpuArchitecture string
+
+// Enum values for ExpressCpuArchitecture
+const (
+	ExpressCpuArchitectureX8664 ExpressCpuArchitecture = "X86_64"
+	ExpressCpuArchitectureArm64 ExpressCpuArchitecture = "ARM64"
+)
+
+// Values returns all known values for ExpressCpuArchitecture. Note that this can
+// be expanded in the future, and so it is only as up to date as the client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (ExpressCpuArchitecture) Values() []ExpressCpuArchitecture {
+	return []ExpressCpuArchitecture{
+		"X86_64",
+		"ARM64",
+	}
+}
+
 type ExpressGatewayServiceInclude string
 
 // Enum values for ExpressGatewayServiceInclude
@@ -1917,6 +1936,25 @@ const (
 func (ServiceField) Values() []ServiceField {
 	return []ServiceField{
 		"TAGS",
+	}
+}
+
+type ServiceRevisionCleanup string
+
+// Enum values for ServiceRevisionCleanup
+const (
+	ServiceRevisionCleanupBlocking ServiceRevisionCleanup = "BLOCKING"
+	ServiceRevisionCleanupDeferred ServiceRevisionCleanup = "DEFERRED"
+)
+
+// Values returns all known values for ServiceRevisionCleanup. Note that this can
+// be expanded in the future, and so it is only as up to date as the client.
+//
+// The ordering of this slice is not guaranteed to be stable across updates.
+func (ServiceRevisionCleanup) Values() []ServiceRevisionCleanup {
+	return []ServiceRevisionCleanup{
+		"BLOCKING",
+		"DEFERRED",
 	}
 }
 
