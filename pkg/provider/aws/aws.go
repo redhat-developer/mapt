@@ -71,12 +71,13 @@ func manageRemoteState(ctx context.Context, backedURL string) error {
 }
 
 // pulumi config key : aws env credential
+// Only region is set via Pulumi config; credentials (access key, secret key,
+// session token) are resolved by the AWS SDK's default credential chain so
+// that expired tokens stored in the Pulumi provider state never shadow
+// fresh environment credentials on later operations (e.g. destroy).
 var envCredentials = map[string]string{
 	awsConstants.CONFIG_AWS_REGION:        "AWS_DEFAULT_REGION",
-	awsConstants.CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION",
-	awsConstants.CONFIG_AWS_ACCESS_KEY:    "AWS_ACCESS_KEY_ID",
-	awsConstants.CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY",
-	awsConstants.CONFIG_AWS_SESSION_TOKEN: "AWS_SESSION_TOKEN"}
+	awsConstants.CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION"}
 
 var DefaultCredentials = GetClouProviderCredentials(nil)
 
