@@ -43,6 +43,7 @@ Flags:
   -h, --help                         help for create
       --spot                         if this flag is set the host will be created only on the region set by the AWS Env (AWS_DEFAULT_REGION)
       --tags stringToString          tags to add on each resource (--tags name1=value1,name2=value2) (default [])
+      --vpc-id string                ID of an existing VPC to deploy into. When set, airgap is not supported and spot search is restricted to AZs with subnets in that VPC.
 
 Global Flags:
       --backed-url string     backed for stack state. Can be a local path with format file:///path/subpath or s3 s3://existing-bucket

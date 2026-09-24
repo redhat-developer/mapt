@@ -60,6 +60,7 @@ Flags:
       --tags stringToString        tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --timeout string             set a timeout for the instance (e.g. 4h)
       --version string             version for the RHELAI OS (default "3.0.0")
+      --vpc-id string              ID of an existing VPC to deploy into. When set, airgap is not supported and spot search is restricted to AZs with subnets in that VPC.
   -h, --help                       help for create
 
 Global Flags:
