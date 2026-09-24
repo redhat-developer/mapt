@@ -10,8 +10,7 @@ on:
 jobs:
   build-mapt:
     name: build-mapt
-    if: github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - name: Free Disk Space for Docker
       uses: endersonmenezes/free-disk-space@v4

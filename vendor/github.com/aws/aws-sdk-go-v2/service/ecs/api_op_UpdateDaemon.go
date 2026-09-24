@@ -4,7 +4,9 @@ package ecs
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/ecs/schemas"
 	"github.com/aws/aws-sdk-go-v2/service/ecs/types"
+	smithy "github.com/aws/smithy-go"
 	"github.com/aws/smithy-go/middleware"
 	"time"
 )
@@ -60,6 +62,24 @@ type UpdateDaemonInput struct {
 	// This member is required.
 	DaemonTaskDefinitionArn *string
 
+	// If the critical parameter of a daemon is true , and the daemon task fails,
+	// stops, or becomes unhealthy, Amazon ECS drains the container instance and stops
+	// the other tasks running on it. If the critical parameter is false , the daemon
+	// task failure doesn't affect the other tasks on the instance. The default value
+	// is true .
+	//
+	// A non-critical daemon doesn't block instance registration. The container
+	// instance becomes active and continues to run your other tasks, whether the
+	// daemon task fails during scale-out or during a deployment.
+	//
+	// Amazon ECS emits an EventBridge event when a daemon task fails to start, for
+	// both critical and non-critical daemons.
+	//
+	// Daemon task launch failures during a deployment are still counted by the
+	// deployment circuit breaker. The circuit breaker can roll back an unstable target
+	// revision.
+	Critical *bool
+
 	// Optional deployment parameters that control how the daemon rolls out updates,
 	// including the drain percentage, alarm-based rollback, and bake time.
 	DeploymentConfiguration *types.DaemonDeploymentConfiguration
@@ -81,6 +101,39 @@ type UpdateDaemonInput struct {
 	PropagateTags types.DaemonPropagateTags
 
 	noSmithyDocumentSerde
+}
+
+func (v *UpdateDaemonInput) Serialize(s smithy.ShapeSerializer) {
+	s.WriteStruct(schemas.UpdateDaemonRequest)
+	v.SerializeMembers(s)
+	s.CloseStruct()
+}
+
+func (v *UpdateDaemonInput) SerializeMembers(s smithy.ShapeSerializer) {
+	serializeStringList(s, schemas.UpdateDaemonRequest_capacityProviderArns, v.CapacityProviderArns)
+	if v.Critical != nil {
+		s.WriteBool(schemas.UpdateDaemonRequest_critical, *v.Critical)
+	}
+	if v.DaemonArn != nil {
+		s.WriteString(schemas.UpdateDaemonRequest_daemonArn, *v.DaemonArn)
+	}
+	if v.DaemonTaskDefinitionArn != nil {
+		s.WriteString(schemas.UpdateDaemonRequest_daemonTaskDefinitionArn, *v.DaemonTaskDefinitionArn)
+	}
+	if v.DeploymentConfiguration != nil {
+		s.WriteStruct(schemas.UpdateDaemonRequest_deploymentConfiguration)
+		v.DeploymentConfiguration.SerializeMembers(s)
+		s.CloseStruct()
+	}
+	if v.EnableECSManagedTags != false {
+		s.WriteBool(schemas.UpdateDaemonRequest_enableECSManagedTags, v.EnableECSManagedTags)
+	}
+	if v.EnableExecuteCommand != false {
+		s.WriteBool(schemas.UpdateDaemonRequest_enableExecuteCommand, v.EnableExecuteCommand)
+	}
+	if v.PropagateTags != "" {
+		s.WriteString(schemas.UpdateDaemonRequest_propagateTags, string(v.PropagateTags))
+	}
 }
 
 type UpdateDaemonOutput struct {
@@ -107,19 +160,63 @@ type UpdateDaemonOutput struct {
 	noSmithyDocumentSerde
 }
 
+func (v *UpdateDaemonOutput) Serialize(s smithy.ShapeSerializer) {
+	s.WriteStruct(schemas.UpdateDaemonResponse)
+	v.SerializeMembers(s)
+	s.CloseStruct()
+}
+
+func (v *UpdateDaemonOutput) SerializeMembers(s smithy.ShapeSerializer) {
+	if v.CreatedAt != nil {
+		s.WriteTime(schemas.UpdateDaemonResponse_createdAt, *v.CreatedAt)
+	}
+	if v.DaemonArn != nil {
+		s.WriteString(schemas.UpdateDaemonResponse_daemonArn, *v.DaemonArn)
+	}
+	if v.DeploymentArn != nil {
+		s.WriteString(schemas.UpdateDaemonResponse_deploymentArn, *v.DeploymentArn)
+	}
+	if v.Status != "" {
+		s.WriteString(schemas.UpdateDaemonResponse_status, string(v.Status))
+	}
+	if v.UpdatedAt != nil {
+		s.WriteTime(schemas.UpdateDaemonResponse_updatedAt, *v.UpdatedAt)
+	}
+}
+func (v *UpdateDaemonOutput) Deserialize(d smithy.ShapeDeserializer) error {
+	return smithy.ReadStruct(d, schemas.UpdateDaemonResponse, func(s *smithy.Schema) error {
+		switch s {
+		case schemas.UpdateDaemonResponse_createdAt:
+			v.CreatedAt = new(time.Time)
+			return d.ReadTime(schemas.UpdateDaemonResponse_createdAt, v.CreatedAt)
+		case schemas.UpdateDaemonResponse_daemonArn:
+			v.DaemonArn = new(string)
+			return d.ReadString(schemas.UpdateDaemonResponse_daemonArn, v.DaemonArn)
+		case schemas.UpdateDaemonResponse_deploymentArn:
+			v.DeploymentArn = new(string)
+			return d.ReadString(schemas.UpdateDaemonResponse_deploymentArn, v.DeploymentArn)
+		case schemas.UpdateDaemonResponse_status:
+			var ev string
+			if err := d.ReadString(schemas.UpdateDaemonResponse_status, &ev); err != nil {
+				return err
+			}
+			v.Status = types.DaemonStatus(ev)
+			return nil
+		case schemas.UpdateDaemonResponse_updatedAt:
+			v.UpdatedAt = new(time.Time)
+			return d.ReadTime(schemas.UpdateDaemonResponse_updatedAt, v.UpdatedAt)
+		}
+		return nil
+	})
+}
 func (c *Client) addOperationUpdateDaemonMiddlewares(stack *middleware.Stack, options Options) (err error) {
-	err = stack.Serialize.Add(&awsAwsjson11_serializeOpUpdateDaemon{}, middleware.After)
-	if err != nil {
+	if err := stack.Serialize.Add(&serializeRequestMiddleware{options: &options, operationSchema: smithy.NewOperationSchema(schemas.UpdateDaemon, schemas.UpdateDaemonRequest, schemas.UpdateDaemonResponse)}, middleware.After); err != nil {
 		return err
 	}
-	err = stack.Deserialize.Add(&awsAwsjson11_deserializeOpUpdateDaemon{}, middleware.After)
-	if err != nil {
+	if err := stack.Deserialize.Add(&deserializeResponseMiddleware{options: &options, operationSchema: smithy.NewOperationSchema(schemas.UpdateDaemon, schemas.UpdateDaemonRequest, schemas.UpdateDaemonResponse), output: &UpdateDaemonOutput{}}, middleware.After); err != nil {
 		return err
 	}
 
-	if err = addComputeContentLength(stack); err != nil {
-		return err
-	}
 	if err = addResolveEndpointMiddleware(stack, options); err != nil {
 		return err
 	}

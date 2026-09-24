@@ -13,7 +13,7 @@ on:
 jobs:
   provision_runner:
     name: provision-runner
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: fetch token from API
         id: fetch_token

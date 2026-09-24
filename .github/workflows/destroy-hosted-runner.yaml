@@ -9,7 +9,7 @@ on:
 
 jobs:
   remove_cloud_instance:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Download mapt image from artifacts
         uses: actions/download-artifact@v8

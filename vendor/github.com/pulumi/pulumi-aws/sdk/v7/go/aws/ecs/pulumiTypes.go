@@ -431,6 +431,8 @@ func (o CapacityProviderAutoScalingGroupProviderManagedScalingPtrOutput) TargetC
 }
 
 type CapacityProviderManagedInstancesProvider struct {
+	// Configuration block for the auto repair configuration. Detailed below.
+	AutoRepairConfiguration *CapacityProviderManagedInstancesProviderAutoRepairConfiguration `pulumi:"autoRepairConfiguration"`
 	// Configuration block for how Amazon ECS Managed Instances optimizes the infrastructure in your capacity provider, including whether to turn optimization on or off and how long to delay optimizing idle EC2 instances. Detailed below.
 	InfrastructureOptimization *CapacityProviderManagedInstancesProviderInfrastructureOptimization `pulumi:"infrastructureOptimization"`
 	// ARN of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other AWS services required for Amazon ECS Managed Instances functionality. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
@@ -453,6 +455,8 @@ type CapacityProviderManagedInstancesProviderInput interface {
 }
 
 type CapacityProviderManagedInstancesProviderArgs struct {
+	// Configuration block for the auto repair configuration. Detailed below.
+	AutoRepairConfiguration CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrInput `pulumi:"autoRepairConfiguration"`
 	// Configuration block for how Amazon ECS Managed Instances optimizes the infrastructure in your capacity provider, including whether to turn optimization on or off and how long to delay optimizing idle EC2 instances. Detailed below.
 	InfrastructureOptimization CapacityProviderManagedInstancesProviderInfrastructureOptimizationPtrInput `pulumi:"infrastructureOptimization"`
 	// ARN of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other AWS services required for Amazon ECS Managed Instances functionality. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
@@ -540,6 +544,13 @@ func (o CapacityProviderManagedInstancesProviderOutput) ToCapacityProviderManage
 	}).(CapacityProviderManagedInstancesProviderPtrOutput)
 }
 
+// Configuration block for the auto repair configuration. Detailed below.
+func (o CapacityProviderManagedInstancesProviderOutput) AutoRepairConfiguration() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return o.ApplyT(func(v CapacityProviderManagedInstancesProvider) *CapacityProviderManagedInstancesProviderAutoRepairConfiguration {
+		return v.AutoRepairConfiguration
+	}).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput)
+}
+
 // Configuration block for how Amazon ECS Managed Instances optimizes the infrastructure in your capacity provider, including whether to turn optimization on or off and how long to delay optimizing idle EC2 instances. Detailed below.
 func (o CapacityProviderManagedInstancesProviderOutput) InfrastructureOptimization() CapacityProviderManagedInstancesProviderInfrastructureOptimizationPtrOutput {
 	return o.ApplyT(func(v CapacityProviderManagedInstancesProvider) *CapacityProviderManagedInstancesProviderInfrastructureOptimization {
@@ -588,6 +599,16 @@ func (o CapacityProviderManagedInstancesProviderPtrOutput) Elem() CapacityProvid
 	}).(CapacityProviderManagedInstancesProviderOutput)
 }
 
+// Configuration block for the auto repair configuration. Detailed below.
+func (o CapacityProviderManagedInstancesProviderPtrOutput) AutoRepairConfiguration() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return o.ApplyT(func(v *CapacityProviderManagedInstancesProvider) *CapacityProviderManagedInstancesProviderAutoRepairConfiguration {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRepairConfiguration
+	}).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput)
+}
+
 // Configuration block for how Amazon ECS Managed Instances optimizes the infrastructure in your capacity provider, including whether to turn optimization on or off and how long to delay optimizing idle EC2 instances. Detailed below.
 func (o CapacityProviderManagedInstancesProviderPtrOutput) InfrastructureOptimization() CapacityProviderManagedInstancesProviderInfrastructureOptimizationPtrOutput {
 	return o.ApplyT(func(v *CapacityProviderManagedInstancesProvider) *CapacityProviderManagedInstancesProviderInfrastructureOptimization {
@@ -625,6 +646,145 @@ func (o CapacityProviderManagedInstancesProviderPtrOutput) PropagateTags() pulum
 			return nil
 		}
 		return v.PropagateTags
+	}).(pulumi.StringPtrOutput)
+}
+
+type CapacityProviderManagedInstancesProviderAutoRepairConfiguration struct {
+	// Whether to use Amazon ECS managed auto repair. Valid values are `ENABLED` and `DISABLED`.
+	ActionsStatus *string `pulumi:"actionsStatus"`
+}
+
+// CapacityProviderManagedInstancesProviderAutoRepairConfigurationInput is an input type that accepts CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs and CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput values.
+// You can construct a concrete instance of `CapacityProviderManagedInstancesProviderAutoRepairConfigurationInput` via:
+//
+//	CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs{...}
+type CapacityProviderManagedInstancesProviderAutoRepairConfigurationInput interface {
+	pulumi.Input
+
+	ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput
+	ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutputWithContext(context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput
+}
+
+type CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs struct {
+	// Whether to use Amazon ECS managed auto repair. Valid values are `ENABLED` and `DISABLED`.
+	ActionsStatus pulumi.StringPtrInput `pulumi:"actionsStatus"`
+}
+
+func (CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*CapacityProviderManagedInstancesProviderAutoRepairConfiguration)(nil)).Elem()
+}
+
+func (i CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput {
+	return i.ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutputWithContext(context.Background())
+}
+
+func (i CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutputWithContext(ctx context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput)
+}
+
+func (i CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return i.ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(ctx context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput).ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(ctx)
+}
+
+// CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrInput is an input type that accepts CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs, CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtr and CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput values.
+// You can construct a concrete instance of `CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrInput` via:
+//
+//	        CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs{...}
+//
+//	or:
+//
+//	        nil
+type CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrInput interface {
+	pulumi.Input
+
+	ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput
+	ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput
+}
+
+type capacityProviderManagedInstancesProviderAutoRepairConfigurationPtrType CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs
+
+func CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtr(v *CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs) CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrInput {
+	return (*capacityProviderManagedInstancesProviderAutoRepairConfigurationPtrType)(v)
+}
+
+func (*capacityProviderManagedInstancesProviderAutoRepairConfigurationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**CapacityProviderManagedInstancesProviderAutoRepairConfiguration)(nil)).Elem()
+}
+
+func (i *capacityProviderManagedInstancesProviderAutoRepairConfigurationPtrType) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return i.ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i *capacityProviderManagedInstancesProviderAutoRepairConfigurationPtrType) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(ctx context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput)
+}
+
+type CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput struct{ *pulumi.OutputState }
+
+func (CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*CapacityProviderManagedInstancesProviderAutoRepairConfiguration)(nil)).Elem()
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput {
+	return o
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationOutputWithContext(ctx context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput {
+	return o
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return o.ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(ctx context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v CapacityProviderManagedInstancesProviderAutoRepairConfiguration) *CapacityProviderManagedInstancesProviderAutoRepairConfiguration {
+		return &v
+	}).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput)
+}
+
+// Whether to use Amazon ECS managed auto repair. Valid values are `ENABLED` and `DISABLED`.
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput) ActionsStatus() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v CapacityProviderManagedInstancesProviderAutoRepairConfiguration) *string {
+		return v.ActionsStatus
+	}).(pulumi.StringPtrOutput)
+}
+
+type CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput struct{ *pulumi.OutputState }
+
+func (CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**CapacityProviderManagedInstancesProviderAutoRepairConfiguration)(nil)).Elem()
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput() CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return o
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput) ToCapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutputWithContext(ctx context.Context) CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput {
+	return o
+}
+
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput) Elem() CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput {
+	return o.ApplyT(func(v *CapacityProviderManagedInstancesProviderAutoRepairConfiguration) CapacityProviderManagedInstancesProviderAutoRepairConfiguration {
+		if v != nil {
+			return *v
+		}
+		var ret CapacityProviderManagedInstancesProviderAutoRepairConfiguration
+		return ret
+	}).(CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput)
+}
+
+// Whether to use Amazon ECS managed auto repair. Valid values are `ENABLED` and `DISABLED`.
+func (o CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput) ActionsStatus() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *CapacityProviderManagedInstancesProviderAutoRepairConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ActionsStatus
 	}).(pulumi.StringPtrOutput)
 }
 
@@ -1218,7 +1378,7 @@ type CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequi
 	AcceleratorNames []string `pulumi:"acceleratorNames"`
 	// Minimum and maximum total accelerator memory in mebibytes (MiB). This is important for GPU workloads that require specific amounts of video memory. Detailed below.
 	AcceleratorTotalMemoryMib *CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMib `pulumi:"acceleratorTotalMemoryMib"`
-	// Accelerator types to include. You can specify `gpu` for graphics processing units, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
+	// Accelerator types to include. You can specify `gpu` for GPUs, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
 	AcceleratorTypes []string `pulumi:"acceleratorTypes"`
 	// Instance types to include in the selection. When specified, Amazon ECS only considers these instance types, subject to the other requirements specified. Maximum of 400 instance types. You can specify instance type patterns using wildcards (e.g., `m5.*`).
 	AllowedInstanceTypes []string `pulumi:"allowedInstanceTypes"`
@@ -1280,7 +1440,7 @@ type CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequi
 	AcceleratorNames pulumi.StringArrayInput `pulumi:"acceleratorNames"`
 	// Minimum and maximum total accelerator memory in mebibytes (MiB). This is important for GPU workloads that require specific amounts of video memory. Detailed below.
 	AcceleratorTotalMemoryMib CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrInput `pulumi:"acceleratorTotalMemoryMib"`
-	// Accelerator types to include. You can specify `gpu` for graphics processing units, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
+	// Accelerator types to include. You can specify `gpu` for GPUs, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
 	AcceleratorTypes pulumi.StringArrayInput `pulumi:"acceleratorTypes"`
 	// Instance types to include in the selection. When specified, Amazon ECS only considers these instance types, subject to the other requirements specified. Maximum of 400 instance types. You can specify instance type patterns using wildcards (e.g., `m5.*`).
 	AllowedInstanceTypes pulumi.StringArrayInput `pulumi:"allowedInstanceTypes"`
@@ -1427,7 +1587,7 @@ func (o CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRe
 	}).(CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput)
 }
 
-// Accelerator types to include. You can specify `gpu` for graphics processing units, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
+// Accelerator types to include. You can specify `gpu` for GPUs, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
 func (o CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirementsOutput) AcceleratorTypes() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirements) []string {
 		return v.AcceleratorTypes
@@ -1631,7 +1791,7 @@ func (o CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRe
 	}).(CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirementsAcceleratorTotalMemoryMibPtrOutput)
 }
 
-// Accelerator types to include. You can specify `gpu` for graphics processing units, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
+// Accelerator types to include. You can specify `gpu` for GPUs, `fpga` for field programmable gate arrays, or `inference` for machine learning inference accelerators. Valid values are `gpu`, `fpga`, `inference`.
 func (o CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirementsPtrOutput) AcceleratorTypes() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInstanceRequirements) []string {
 		if v == nil {
@@ -3985,7 +4145,7 @@ func (o ClusterConfigurationPtrOutput) ManagedStorageConfiguration() ClusterConf
 }
 
 type ClusterConfigurationExecuteCommandConfiguration struct {
-	// AWS Key Management Service key ID to encrypt the data between the local client and the container.
+	// KMS key ID to encrypt the data between the local client and the container.
 	KmsKeyId *string `pulumi:"kmsKeyId"`
 	// Log configuration for the results of the execute command actions. Required when `logging` is `OVERRIDE`. See `logConfiguration` Block for details.
 	LogConfiguration *ClusterConfigurationExecuteCommandConfigurationLogConfiguration `pulumi:"logConfiguration"`
@@ -4005,7 +4165,7 @@ type ClusterConfigurationExecuteCommandConfigurationInput interface {
 }
 
 type ClusterConfigurationExecuteCommandConfigurationArgs struct {
-	// AWS Key Management Service key ID to encrypt the data between the local client and the container.
+	// KMS key ID to encrypt the data between the local client and the container.
 	KmsKeyId pulumi.StringPtrInput `pulumi:"kmsKeyId"`
 	// Log configuration for the results of the execute command actions. Required when `logging` is `OVERRIDE`. See `logConfiguration` Block for details.
 	LogConfiguration ClusterConfigurationExecuteCommandConfigurationLogConfigurationPtrInput `pulumi:"logConfiguration"`
@@ -4090,7 +4250,7 @@ func (o ClusterConfigurationExecuteCommandConfigurationOutput) ToClusterConfigur
 	}).(ClusterConfigurationExecuteCommandConfigurationPtrOutput)
 }
 
-// AWS Key Management Service key ID to encrypt the data between the local client and the container.
+// KMS key ID to encrypt the data between the local client and the container.
 func (o ClusterConfigurationExecuteCommandConfigurationOutput) KmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ClusterConfigurationExecuteCommandConfiguration) *string { return v.KmsKeyId }).(pulumi.StringPtrOutput)
 }
@@ -4131,7 +4291,7 @@ func (o ClusterConfigurationExecuteCommandConfigurationPtrOutput) Elem() Cluster
 	}).(ClusterConfigurationExecuteCommandConfigurationOutput)
 }
 
-// AWS Key Management Service key ID to encrypt the data between the local client and the container.
+// KMS key ID to encrypt the data between the local client and the container.
 func (o ClusterConfigurationExecuteCommandConfigurationPtrOutput) KmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ClusterConfigurationExecuteCommandConfiguration) *string {
 		if v == nil {
@@ -4381,9 +4541,9 @@ func (o ClusterConfigurationExecuteCommandConfigurationLogConfigurationPtrOutput
 }
 
 type ClusterConfigurationManagedStorageConfiguration struct {
-	// AWS Key Management Service key ARN for the Fargate ephemeral storage.
+	// KMS key ARN for the Fargate ephemeral storage.
 	FargateEphemeralStorageKmsKeyId *string `pulumi:"fargateEphemeralStorageKmsKeyId"`
-	// AWS Key Management Service key ARN to encrypt the managed storage.
+	// KMS key ARN to encrypt the managed storage.
 	KmsKeyId *string `pulumi:"kmsKeyId"`
 }
 
@@ -4399,9 +4559,9 @@ type ClusterConfigurationManagedStorageConfigurationInput interface {
 }
 
 type ClusterConfigurationManagedStorageConfigurationArgs struct {
-	// AWS Key Management Service key ARN for the Fargate ephemeral storage.
+	// KMS key ARN for the Fargate ephemeral storage.
 	FargateEphemeralStorageKmsKeyId pulumi.StringPtrInput `pulumi:"fargateEphemeralStorageKmsKeyId"`
-	// AWS Key Management Service key ARN to encrypt the managed storage.
+	// KMS key ARN to encrypt the managed storage.
 	KmsKeyId pulumi.StringPtrInput `pulumi:"kmsKeyId"`
 }
 
@@ -4482,14 +4642,14 @@ func (o ClusterConfigurationManagedStorageConfigurationOutput) ToClusterConfigur
 	}).(ClusterConfigurationManagedStorageConfigurationPtrOutput)
 }
 
-// AWS Key Management Service key ARN for the Fargate ephemeral storage.
+// KMS key ARN for the Fargate ephemeral storage.
 func (o ClusterConfigurationManagedStorageConfigurationOutput) FargateEphemeralStorageKmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ClusterConfigurationManagedStorageConfiguration) *string {
 		return v.FargateEphemeralStorageKmsKeyId
 	}).(pulumi.StringPtrOutput)
 }
 
-// AWS Key Management Service key ARN to encrypt the managed storage.
+// KMS key ARN to encrypt the managed storage.
 func (o ClusterConfigurationManagedStorageConfigurationOutput) KmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ClusterConfigurationManagedStorageConfiguration) *string { return v.KmsKeyId }).(pulumi.StringPtrOutput)
 }
@@ -4518,7 +4678,7 @@ func (o ClusterConfigurationManagedStorageConfigurationPtrOutput) Elem() Cluster
 	}).(ClusterConfigurationManagedStorageConfigurationOutput)
 }
 
-// AWS Key Management Service key ARN for the Fargate ephemeral storage.
+// KMS key ARN for the Fargate ephemeral storage.
 func (o ClusterConfigurationManagedStorageConfigurationPtrOutput) FargateEphemeralStorageKmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ClusterConfigurationManagedStorageConfiguration) *string {
 		if v == nil {
@@ -4528,7 +4688,7 @@ func (o ClusterConfigurationManagedStorageConfigurationPtrOutput) FargateEphemer
 	}).(pulumi.StringPtrOutput)
 }
 
-// AWS Key Management Service key ARN to encrypt the managed storage.
+// KMS key ARN to encrypt the managed storage.
 func (o ClusterConfigurationManagedStorageConfigurationPtrOutput) KmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ClusterConfigurationManagedStorageConfiguration) *string {
 		if v == nil {
@@ -10218,12 +10378,16 @@ func (o ServiceDeploymentConfigurationCanaryConfigurationPtrOutput) CanaryPercen
 type ServiceDeploymentConfigurationLifecycleHook struct {
 	// Custom parameters that Amazon ECS will pass to the hook target invocations (such as a Lambda function).
 	HookDetails *string `pulumi:"hookDetails"`
-	// ARN of the Lambda function to invoke for the lifecycle hook.
-	HookTargetArn string `pulumi:"hookTargetArn"`
+	// ARN of the Lambda function to invoke for the lifecycle hook. Required when `targetType` is `AWS_LAMBDA`. Not used when `targetType` is `PAUSE`.
+	HookTargetArn *string `pulumi:"hookTargetArn"`
 	// Stages during the deployment when the hook should be invoked. Valid values: `RECONCILE_SERVICE`, `PRE_SCALE_UP`, `POST_SCALE_UP`, `TEST_TRAFFIC_SHIFT`, `POST_TEST_TRAFFIC_SHIFT`, `PRODUCTION_TRAFFIC_SHIFT`, `POST_PRODUCTION_TRAFFIC_SHIFT`.
 	LifecycleStages []string `pulumi:"lifecycleStages"`
-	// ARN of the IAM role that grants the service permission to invoke the Lambda function.
-	RoleArn string `pulumi:"roleArn"`
+	// ARN of the IAM role that grants the service permission to invoke the Lambda function. Required when `targetType` is `AWS_LAMBDA`. Not used when `targetType` is `PAUSE`.
+	RoleArn *string `pulumi:"roleArn"`
+	// Type of hook target. Valid values: `AWS_LAMBDA`, `PAUSE`. Default: `AWS_LAMBDA`. `PAUSE` hooks cannot use the `TEST_TRAFFIC_SHIFT` or `PRODUCTION_TRAFFIC_SHIFT` lifecycle stages.
+	TargetType *string `pulumi:"targetType"`
+	// Configuration block defining the timeout behavior for a `PAUSE` hook. Only valid when `targetType` is `PAUSE`. See below.
+	TimeoutConfiguration *ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration `pulumi:"timeoutConfiguration"`
 }
 
 // ServiceDeploymentConfigurationLifecycleHookInput is an input type that accepts ServiceDeploymentConfigurationLifecycleHookArgs and ServiceDeploymentConfigurationLifecycleHookOutput values.
@@ -10240,12 +10404,16 @@ type ServiceDeploymentConfigurationLifecycleHookInput interface {
 type ServiceDeploymentConfigurationLifecycleHookArgs struct {
 	// Custom parameters that Amazon ECS will pass to the hook target invocations (such as a Lambda function).
 	HookDetails pulumi.StringPtrInput `pulumi:"hookDetails"`
-	// ARN of the Lambda function to invoke for the lifecycle hook.
-	HookTargetArn pulumi.StringInput `pulumi:"hookTargetArn"`
+	// ARN of the Lambda function to invoke for the lifecycle hook. Required when `targetType` is `AWS_LAMBDA`. Not used when `targetType` is `PAUSE`.
+	HookTargetArn pulumi.StringPtrInput `pulumi:"hookTargetArn"`
 	// Stages during the deployment when the hook should be invoked. Valid values: `RECONCILE_SERVICE`, `PRE_SCALE_UP`, `POST_SCALE_UP`, `TEST_TRAFFIC_SHIFT`, `POST_TEST_TRAFFIC_SHIFT`, `PRODUCTION_TRAFFIC_SHIFT`, `POST_PRODUCTION_TRAFFIC_SHIFT`.
 	LifecycleStages pulumi.StringArrayInput `pulumi:"lifecycleStages"`
-	// ARN of the IAM role that grants the service permission to invoke the Lambda function.
-	RoleArn pulumi.StringInput `pulumi:"roleArn"`
+	// ARN of the IAM role that grants the service permission to invoke the Lambda function. Required when `targetType` is `AWS_LAMBDA`. Not used when `targetType` is `PAUSE`.
+	RoleArn pulumi.StringPtrInput `pulumi:"roleArn"`
+	// Type of hook target. Valid values: `AWS_LAMBDA`, `PAUSE`. Default: `AWS_LAMBDA`. `PAUSE` hooks cannot use the `TEST_TRAFFIC_SHIFT` or `PRODUCTION_TRAFFIC_SHIFT` lifecycle stages.
+	TargetType pulumi.StringPtrInput `pulumi:"targetType"`
+	// Configuration block defining the timeout behavior for a `PAUSE` hook. Only valid when `targetType` is `PAUSE`. See below.
+	TimeoutConfiguration ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrInput `pulumi:"timeoutConfiguration"`
 }
 
 func (ServiceDeploymentConfigurationLifecycleHookArgs) ElementType() reflect.Type {
@@ -10304,9 +10472,9 @@ func (o ServiceDeploymentConfigurationLifecycleHookOutput) HookDetails() pulumi.
 	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) *string { return v.HookDetails }).(pulumi.StringPtrOutput)
 }
 
-// ARN of the Lambda function to invoke for the lifecycle hook.
-func (o ServiceDeploymentConfigurationLifecycleHookOutput) HookTargetArn() pulumi.StringOutput {
-	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) string { return v.HookTargetArn }).(pulumi.StringOutput)
+// ARN of the Lambda function to invoke for the lifecycle hook. Required when `targetType` is `AWS_LAMBDA`. Not used when `targetType` is `PAUSE`.
+func (o ServiceDeploymentConfigurationLifecycleHookOutput) HookTargetArn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) *string { return v.HookTargetArn }).(pulumi.StringPtrOutput)
 }
 
 // Stages during the deployment when the hook should be invoked. Valid values: `RECONCILE_SERVICE`, `PRE_SCALE_UP`, `POST_SCALE_UP`, `TEST_TRAFFIC_SHIFT`, `POST_TEST_TRAFFIC_SHIFT`, `PRODUCTION_TRAFFIC_SHIFT`, `POST_PRODUCTION_TRAFFIC_SHIFT`.
@@ -10314,9 +10482,21 @@ func (o ServiceDeploymentConfigurationLifecycleHookOutput) LifecycleStages() pul
 	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) []string { return v.LifecycleStages }).(pulumi.StringArrayOutput)
 }
 
-// ARN of the IAM role that grants the service permission to invoke the Lambda function.
-func (o ServiceDeploymentConfigurationLifecycleHookOutput) RoleArn() pulumi.StringOutput {
-	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) string { return v.RoleArn }).(pulumi.StringOutput)
+// ARN of the IAM role that grants the service permission to invoke the Lambda function. Required when `targetType` is `AWS_LAMBDA`. Not used when `targetType` is `PAUSE`.
+func (o ServiceDeploymentConfigurationLifecycleHookOutput) RoleArn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) *string { return v.RoleArn }).(pulumi.StringPtrOutput)
+}
+
+// Type of hook target. Valid values: `AWS_LAMBDA`, `PAUSE`. Default: `AWS_LAMBDA`. `PAUSE` hooks cannot use the `TEST_TRAFFIC_SHIFT` or `PRODUCTION_TRAFFIC_SHIFT` lifecycle stages.
+func (o ServiceDeploymentConfigurationLifecycleHookOutput) TargetType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) *string { return v.TargetType }).(pulumi.StringPtrOutput)
+}
+
+// Configuration block defining the timeout behavior for a `PAUSE` hook. Only valid when `targetType` is `PAUSE`. See below.
+func (o ServiceDeploymentConfigurationLifecycleHookOutput) TimeoutConfiguration() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHook) *ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration {
+		return v.TimeoutConfiguration
+	}).(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput)
 }
 
 type ServiceDeploymentConfigurationLifecycleHookArrayOutput struct{ *pulumi.OutputState }
@@ -10337,6 +10517,164 @@ func (o ServiceDeploymentConfigurationLifecycleHookArrayOutput) Index(i pulumi.I
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ServiceDeploymentConfigurationLifecycleHook {
 		return vs[0].([]ServiceDeploymentConfigurationLifecycleHook)[vs[1].(int)]
 	}).(ServiceDeploymentConfigurationLifecycleHookOutput)
+}
+
+type ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration struct {
+	// Action ECS takes when the pause hook times out. Valid values: `ROLLBACK`, `CONTINUE`. Default: `ROLLBACK`.
+	Action *string `pulumi:"action"`
+	// Number of minutes to wait before executing the timeout action. Valid range: 1-20160 minutes. Default: `1440` (24 hours).
+	TimeoutInMinutes *string `pulumi:"timeoutInMinutes"`
+}
+
+// ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput is an input type that accepts ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs and ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput values.
+// You can construct a concrete instance of `ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput` via:
+//
+//	ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{...}
+type ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput interface {
+	pulumi.Input
+
+	ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput
+	ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput
+}
+
+type ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs struct {
+	// Action ECS takes when the pause hook times out. Valid values: `ROLLBACK`, `CONTINUE`. Default: `ROLLBACK`.
+	Action pulumi.StringPtrInput `pulumi:"action"`
+	// Number of minutes to wait before executing the timeout action. Valid range: 1-20160 minutes. Default: `1440` (24 hours).
+	TimeoutInMinutes pulumi.StringPtrInput `pulumi:"timeoutInMinutes"`
+}
+
+func (ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (i ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return i.ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(context.Background())
+}
+
+func (i ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(ctx context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput)
+}
+
+func (i ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return i.ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(ctx context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput).ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(ctx)
+}
+
+// ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrInput is an input type that accepts ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs, ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtr and ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput values.
+// You can construct a concrete instance of `ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrInput` via:
+//
+//	        ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{...}
+//
+//	or:
+//
+//	        nil
+type ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrInput interface {
+	pulumi.Input
+
+	ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput
+	ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput
+}
+
+type serviceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrType ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs
+
+func ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtr(v *ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrInput {
+	return (*serviceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrType)(v)
+}
+
+func (*serviceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (i *serviceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrType) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return i.ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (i *serviceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrType) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(ctx context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput)
+}
+
+type ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput struct{ *pulumi.OutputState }
+
+func (ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return o
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(ctx context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return o
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return o.ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(ctx context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) *ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration {
+		return &v
+	}).(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput)
+}
+
+// Action ECS takes when the pause hook times out. Valid values: `ROLLBACK`, `CONTINUE`. Default: `ROLLBACK`.
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) Action() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) *string { return v.Action }).(pulumi.StringPtrOutput)
+}
+
+// Number of minutes to wait before executing the timeout action. Valid range: 1-20160 minutes. Default: `1440` (24 hours).
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) TimeoutInMinutes() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) *string {
+		return v.TimeoutInMinutes
+	}).(pulumi.StringPtrOutput)
+}
+
+type ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput struct{ *pulumi.OutputState }
+
+func (ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return o
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput) ToServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutputWithContext(ctx context.Context) ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput {
+	return o
+}
+
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput) Elem() ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return o.ApplyT(func(v *ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration {
+		if v != nil {
+			return *v
+		}
+		var ret ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration
+		return ret
+	}).(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput)
+}
+
+// Action ECS takes when the pause hook times out. Valid values: `ROLLBACK`, `CONTINUE`. Default: `ROLLBACK`.
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput) Action() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Action
+	}).(pulumi.StringPtrOutput)
+}
+
+// Number of minutes to wait before executing the timeout action. Valid range: 1-20160 minutes. Default: `1440` (24 hours).
+func (o ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput) TimeoutInMinutes() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TimeoutInMinutes
+	}).(pulumi.StringPtrOutput)
 }
 
 type ServiceDeploymentConfigurationLinearConfiguration struct {
@@ -12045,7 +12383,7 @@ type ServiceServiceConnectConfigurationService struct {
 	PortName string `pulumi:"portName"`
 	// Configuration timeouts for Service Connect
 	Timeout *ServiceServiceConnectConfigurationServiceTimeout `pulumi:"timeout"`
-	// Configuration for enabling Transport Layer Security (TLS)
+	// Configuration for enabling TLS
 	Tls *ServiceServiceConnectConfigurationServiceTls `pulumi:"tls"`
 }
 
@@ -12071,7 +12409,7 @@ type ServiceServiceConnectConfigurationServiceArgs struct {
 	PortName pulumi.StringInput `pulumi:"portName"`
 	// Configuration timeouts for Service Connect
 	Timeout ServiceServiceConnectConfigurationServiceTimeoutPtrInput `pulumi:"timeout"`
-	// Configuration for enabling Transport Layer Security (TLS)
+	// Configuration for enabling TLS
 	Tls ServiceServiceConnectConfigurationServiceTlsPtrInput `pulumi:"tls"`
 }
 
@@ -12155,7 +12493,7 @@ func (o ServiceServiceConnectConfigurationServiceOutput) Timeout() ServiceServic
 	}).(ServiceServiceConnectConfigurationServiceTimeoutPtrOutput)
 }
 
-// Configuration for enabling Transport Layer Security (TLS)
+// Configuration for enabling TLS
 func (o ServiceServiceConnectConfigurationServiceOutput) Tls() ServiceServiceConnectConfigurationServiceTlsPtrOutput {
 	return o.ApplyT(func(v ServiceServiceConnectConfigurationService) *ServiceServiceConnectConfigurationServiceTls {
 		return v.Tls
@@ -13528,7 +13866,7 @@ type ServiceVolumeConfigurationManagedEbsVolume struct {
 	FileSystemType *string `pulumi:"fileSystemType"`
 	// Number of I/O operations per second (IOPS).
 	Iops *int `pulumi:"iops"`
-	// Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption.
+	// ARN identifier of the Amazon Web Services KMS key to use for Amazon EBS encryption.
 	KmsKeyId *string `pulumi:"kmsKeyId"`
 	// Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. Recommended using the Amazon ECS-managed `AmazonECSInfrastructureRolePolicyForVolumes` IAM policy with this role.
 	RoleArn string `pulumi:"roleArn"`
@@ -13564,7 +13902,7 @@ type ServiceVolumeConfigurationManagedEbsVolumeArgs struct {
 	FileSystemType pulumi.StringPtrInput `pulumi:"fileSystemType"`
 	// Number of I/O operations per second (IOPS).
 	Iops pulumi.IntPtrInput `pulumi:"iops"`
-	// Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption.
+	// ARN identifier of the Amazon Web Services KMS key to use for Amazon EBS encryption.
 	KmsKeyId pulumi.StringPtrInput `pulumi:"kmsKeyId"`
 	// Amazon ECS infrastructure IAM role that is used to manage your Amazon Web Services infrastructure. Recommended using the Amazon ECS-managed `AmazonECSInfrastructureRolePolicyForVolumes` IAM policy with this role.
 	RoleArn pulumi.StringInput `pulumi:"roleArn"`
@@ -13674,7 +14012,7 @@ func (o ServiceVolumeConfigurationManagedEbsVolumeOutput) Iops() pulumi.IntPtrOu
 	return o.ApplyT(func(v ServiceVolumeConfigurationManagedEbsVolume) *int { return v.Iops }).(pulumi.IntPtrOutput)
 }
 
-// Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption.
+// ARN identifier of the Amazon Web Services KMS key to use for Amazon EBS encryption.
 func (o ServiceVolumeConfigurationManagedEbsVolumeOutput) KmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ServiceVolumeConfigurationManagedEbsVolume) *string { return v.KmsKeyId }).(pulumi.StringPtrOutput)
 }
@@ -13770,7 +14108,7 @@ func (o ServiceVolumeConfigurationManagedEbsVolumePtrOutput) Iops() pulumi.IntPt
 	}).(pulumi.IntPtrOutput)
 }
 
-// Amazon Resource Name (ARN) identifier of the Amazon Web Services Key Management Service key to use for Amazon EBS encryption.
+// ARN identifier of the Amazon Web Services KMS key to use for Amazon EBS encryption.
 func (o ServiceVolumeConfigurationManagedEbsVolumePtrOutput) KmsKeyId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ServiceVolumeConfigurationManagedEbsVolume) *string {
 		if v == nil {
@@ -15575,7 +15913,7 @@ func (o TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationPtrOutput) Ro
 }
 
 type TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfig struct {
-	// Authorization credential option to use. The authorization credential options can be provided using either the Amazon Resource Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
+	// Authorization credential option to use. The authorization credential options can be provided using either the ARN of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
 	CredentialsParameter string `pulumi:"credentialsParameter"`
 	// Fully qualified domain name hosted by an AWS Directory Service Managed Microsoft AD (Active Directory) or self-hosted AD on Amazon EC2.
 	Domain string `pulumi:"domain"`
@@ -15593,7 +15931,7 @@ type TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationCon
 }
 
 type TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfigArgs struct {
-	// Authorization credential option to use. The authorization credential options can be provided using either the Amazon Resource Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
+	// Authorization credential option to use. The authorization credential options can be provided using either the ARN of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
 	CredentialsParameter pulumi.StringInput `pulumi:"credentialsParameter"`
 	// Fully qualified domain name hosted by an AWS Directory Service Managed Microsoft AD (Active Directory) or self-hosted AD on Amazon EC2.
 	Domain pulumi.StringInput `pulumi:"domain"`
@@ -15676,7 +16014,7 @@ func (o TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorization
 	}).(TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfigPtrOutput)
 }
 
-// Authorization credential option to use. The authorization credential options can be provided using either the Amazon Resource Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
+// Authorization credential option to use. The authorization credential options can be provided using either the ARN of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
 func (o TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfigOutput) CredentialsParameter() pulumi.StringOutput {
 	return o.ApplyT(func(v TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfig) string {
 		return v.CredentialsParameter
@@ -15714,7 +16052,7 @@ func (o TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorization
 	}).(TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfigOutput)
 }
 
-// Authorization credential option to use. The authorization credential options can be provided using either the Amazon Resource Name (ARN) of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
+// Authorization credential option to use. The authorization credential options can be provided using either the ARN of an AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter. The ARNs refer to the stored credentials.
 func (o TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfigPtrOutput) CredentialsParameter() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *TaskDefinitionVolumeFsxWindowsFileServerVolumeConfigurationAuthorizationConfig) *string {
 		if v == nil {
@@ -15931,7 +16269,7 @@ func (o TaskDefinitionVolumeS3filesVolumeConfigurationPtrOutput) TransitEncrypti
 type TaskSetCapacityProviderStrategy struct {
 	// Number of tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined.
 	Base *int `pulumi:"base"`
-	// Short name or full Amazon Resource Name (ARN) of the capacity provider.
+	// Short name or full ARN of the capacity provider.
 	CapacityProvider string `pulumi:"capacityProvider"`
 	// Relative percentage of the total number of launched tasks that should use the specified capacity provider.
 	Weight int `pulumi:"weight"`
@@ -15951,7 +16289,7 @@ type TaskSetCapacityProviderStrategyInput interface {
 type TaskSetCapacityProviderStrategyArgs struct {
 	// Number of tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined.
 	Base pulumi.IntPtrInput `pulumi:"base"`
-	// Short name or full Amazon Resource Name (ARN) of the capacity provider.
+	// Short name or full ARN of the capacity provider.
 	CapacityProvider pulumi.StringInput `pulumi:"capacityProvider"`
 	// Relative percentage of the total number of launched tasks that should use the specified capacity provider.
 	Weight pulumi.IntInput `pulumi:"weight"`
@@ -16013,7 +16351,7 @@ func (o TaskSetCapacityProviderStrategyOutput) Base() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v TaskSetCapacityProviderStrategy) *int { return v.Base }).(pulumi.IntPtrOutput)
 }
 
-// Short name or full Amazon Resource Name (ARN) of the capacity provider.
+// Short name or full ARN of the capacity provider.
 func (o TaskSetCapacityProviderStrategyOutput) CapacityProvider() pulumi.StringOutput {
 	return o.ApplyT(func(v TaskSetCapacityProviderStrategy) string { return v.CapacityProvider }).(pulumi.StringOutput)
 }
@@ -17674,12 +18012,16 @@ func (o GetServiceDeploymentConfigurationDeploymentCircuitBreakerArrayOutput) In
 type GetServiceDeploymentConfigurationLifecycleHook struct {
 	// Additional details for the hook
 	HookDetails string `pulumi:"hookDetails"`
-	// ARN of the Lambda function to invoke
+	// ARN of the Lambda function to invoke (empty for `PAUSE` hooks)
 	HookTargetArn string `pulumi:"hookTargetArn"`
 	// Deployment stages when hook is invoked
 	LifecycleStages []string `pulumi:"lifecycleStages"`
 	// ARN of the IAM role that allows ECS to manage the target groups.
 	RoleArn string `pulumi:"roleArn"`
+	// Type of hook target (`AWS_LAMBDA` or `PAUSE`)
+	TargetType string `pulumi:"targetType"`
+	// Timeout configuration for `PAUSE` hooks. See `timeoutConfiguration` Block for details.
+	TimeoutConfigurations []GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration `pulumi:"timeoutConfigurations"`
 }
 
 // GetServiceDeploymentConfigurationLifecycleHookInput is an input type that accepts GetServiceDeploymentConfigurationLifecycleHookArgs and GetServiceDeploymentConfigurationLifecycleHookOutput values.
@@ -17696,12 +18038,16 @@ type GetServiceDeploymentConfigurationLifecycleHookInput interface {
 type GetServiceDeploymentConfigurationLifecycleHookArgs struct {
 	// Additional details for the hook
 	HookDetails pulumi.StringInput `pulumi:"hookDetails"`
-	// ARN of the Lambda function to invoke
+	// ARN of the Lambda function to invoke (empty for `PAUSE` hooks)
 	HookTargetArn pulumi.StringInput `pulumi:"hookTargetArn"`
 	// Deployment stages when hook is invoked
 	LifecycleStages pulumi.StringArrayInput `pulumi:"lifecycleStages"`
 	// ARN of the IAM role that allows ECS to manage the target groups.
 	RoleArn pulumi.StringInput `pulumi:"roleArn"`
+	// Type of hook target (`AWS_LAMBDA` or `PAUSE`)
+	TargetType pulumi.StringInput `pulumi:"targetType"`
+	// Timeout configuration for `PAUSE` hooks. See `timeoutConfiguration` Block for details.
+	TimeoutConfigurations GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayInput `pulumi:"timeoutConfigurations"`
 }
 
 func (GetServiceDeploymentConfigurationLifecycleHookArgs) ElementType() reflect.Type {
@@ -17760,7 +18106,7 @@ func (o GetServiceDeploymentConfigurationLifecycleHookOutput) HookDetails() pulu
 	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHook) string { return v.HookDetails }).(pulumi.StringOutput)
 }
 
-// ARN of the Lambda function to invoke
+// ARN of the Lambda function to invoke (empty for `PAUSE` hooks)
 func (o GetServiceDeploymentConfigurationLifecycleHookOutput) HookTargetArn() pulumi.StringOutput {
 	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHook) string { return v.HookTargetArn }).(pulumi.StringOutput)
 }
@@ -17773,6 +18119,18 @@ func (o GetServiceDeploymentConfigurationLifecycleHookOutput) LifecycleStages() 
 // ARN of the IAM role that allows ECS to manage the target groups.
 func (o GetServiceDeploymentConfigurationLifecycleHookOutput) RoleArn() pulumi.StringOutput {
 	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHook) string { return v.RoleArn }).(pulumi.StringOutput)
+}
+
+// Type of hook target (`AWS_LAMBDA` or `PAUSE`)
+func (o GetServiceDeploymentConfigurationLifecycleHookOutput) TargetType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHook) string { return v.TargetType }).(pulumi.StringOutput)
+}
+
+// Timeout configuration for `PAUSE` hooks. See `timeoutConfiguration` Block for details.
+func (o GetServiceDeploymentConfigurationLifecycleHookOutput) TimeoutConfigurations() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput {
+	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHook) []GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration {
+		return v.TimeoutConfigurations
+	}).(GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput)
 }
 
 type GetServiceDeploymentConfigurationLifecycleHookArrayOutput struct{ *pulumi.OutputState }
@@ -17793,6 +18151,114 @@ func (o GetServiceDeploymentConfigurationLifecycleHookArrayOutput) Index(i pulum
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetServiceDeploymentConfigurationLifecycleHook {
 		return vs[0].([]GetServiceDeploymentConfigurationLifecycleHook)[vs[1].(int)]
 	}).(GetServiceDeploymentConfigurationLifecycleHookOutput)
+}
+
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration struct {
+	// Action ECS takes when the pause hook times out (`CONTINUE` or `ROLLBACK`)
+	Action string `pulumi:"action"`
+	// Time until ECS executes the timeout action
+	TimeoutInMinutes string `pulumi:"timeoutInMinutes"`
+}
+
+// GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput is an input type that accepts GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs and GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput values.
+// You can construct a concrete instance of `GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput` via:
+//
+//	GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{...}
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput interface {
+	pulumi.Input
+
+	ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput
+	ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(context.Context) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput
+}
+
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs struct {
+	// Action ECS takes when the pause hook times out (`CONTINUE` or `ROLLBACK`)
+	Action pulumi.StringInput `pulumi:"action"`
+	// Time until ECS executes the timeout action
+	TimeoutInMinutes pulumi.StringInput `pulumi:"timeoutInMinutes"`
+}
+
+func (GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (i GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return i.ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(context.Background())
+}
+
+func (i GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(ctx context.Context) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput)
+}
+
+// GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayInput is an input type that accepts GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray and GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput values.
+// You can construct a concrete instance of `GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayInput` via:
+//
+//	GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray{ GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{...} }
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayInput interface {
+	pulumi.Input
+
+	ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput
+	ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutputWithContext(context.Context) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput
+}
+
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray []GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput
+
+func (GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (i GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput {
+	return i.ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutputWithContext(context.Background())
+}
+
+func (i GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutputWithContext(ctx context.Context) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput)
+}
+
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput struct{ *pulumi.OutputState }
+
+func (GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return o
+}
+
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutputWithContext(ctx context.Context) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return o
+}
+
+// Action ECS takes when the pause hook times out (`CONTINUE` or `ROLLBACK`)
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) Action() pulumi.StringOutput {
+	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) string { return v.Action }).(pulumi.StringOutput)
+}
+
+// Time until ECS executes the timeout action
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput) TimeoutInMinutes() pulumi.StringOutput {
+	return o.ApplyT(func(v GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration) string {
+		return v.TimeoutInMinutes
+	}).(pulumi.StringOutput)
+}
+
+type GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput struct{ *pulumi.OutputState }
+
+func (GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)(nil)).Elem()
+}
+
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput() GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput {
+	return o
+}
+
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput) ToGetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutputWithContext(ctx context.Context) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput {
+	return o
+}
+
+func (o GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput) Index(i pulumi.IntInput) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration {
+		return vs[0].([]GetServiceDeploymentConfigurationLifecycleHookTimeoutConfiguration)[vs[1].(int)]
+	}).(GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput)
 }
 
 type GetServiceDeploymentConfigurationLinearConfiguration struct {
@@ -20597,11 +21063,11 @@ type GetTaskExecutionOverrides struct {
 	ContainerOverrides []GetTaskExecutionOverridesContainerOverride `pulumi:"containerOverrides"`
 	// CPU override for the task.
 	Cpu *string `pulumi:"cpu"`
-	// Amazon Resource Name (ARN) of the task execution role override for the task.
+	// ARN of the task execution role override for the task.
 	ExecutionRoleArn *string `pulumi:"executionRoleArn"`
 	// Memory override for the task.
 	Memory *string `pulumi:"memory"`
-	// Amazon Resource Name (ARN) of the role that containers in this task can assume.
+	// ARN of the role that containers in this task can assume.
 	TaskRoleArn *string `pulumi:"taskRoleArn"`
 }
 
@@ -20621,11 +21087,11 @@ type GetTaskExecutionOverridesArgs struct {
 	ContainerOverrides GetTaskExecutionOverridesContainerOverrideArrayInput `pulumi:"containerOverrides"`
 	// CPU override for the task.
 	Cpu pulumi.StringPtrInput `pulumi:"cpu"`
-	// Amazon Resource Name (ARN) of the task execution role override for the task.
+	// ARN of the task execution role override for the task.
 	ExecutionRoleArn pulumi.StringPtrInput `pulumi:"executionRoleArn"`
 	// Memory override for the task.
 	Memory pulumi.StringPtrInput `pulumi:"memory"`
-	// Amazon Resource Name (ARN) of the role that containers in this task can assume.
+	// ARN of the role that containers in this task can assume.
 	TaskRoleArn pulumi.StringPtrInput `pulumi:"taskRoleArn"`
 }
 
@@ -20718,7 +21184,7 @@ func (o GetTaskExecutionOverridesOutput) Cpu() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GetTaskExecutionOverrides) *string { return v.Cpu }).(pulumi.StringPtrOutput)
 }
 
-// Amazon Resource Name (ARN) of the task execution role override for the task.
+// ARN of the task execution role override for the task.
 func (o GetTaskExecutionOverridesOutput) ExecutionRoleArn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GetTaskExecutionOverrides) *string { return v.ExecutionRoleArn }).(pulumi.StringPtrOutput)
 }
@@ -20728,7 +21194,7 @@ func (o GetTaskExecutionOverridesOutput) Memory() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GetTaskExecutionOverrides) *string { return v.Memory }).(pulumi.StringPtrOutput)
 }
 
-// Amazon Resource Name (ARN) of the role that containers in this task can assume.
+// ARN of the role that containers in this task can assume.
 func (o GetTaskExecutionOverridesOutput) TaskRoleArn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GetTaskExecutionOverrides) *string { return v.TaskRoleArn }).(pulumi.StringPtrOutput)
 }
@@ -20777,7 +21243,7 @@ func (o GetTaskExecutionOverridesPtrOutput) Cpu() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Amazon Resource Name (ARN) of the task execution role override for the task.
+// ARN of the task execution role override for the task.
 func (o GetTaskExecutionOverridesPtrOutput) ExecutionRoleArn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *GetTaskExecutionOverrides) *string {
 		if v == nil {
@@ -20797,7 +21263,7 @@ func (o GetTaskExecutionOverridesPtrOutput) Memory() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-// Amazon Resource Name (ARN) of the role that containers in this task can assume.
+// ARN of the role that containers in this task can assume.
 func (o GetTaskExecutionOverridesPtrOutput) TaskRoleArn() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *GetTaskExecutionOverrides) *string {
 		if v == nil {
@@ -21393,6 +21859,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderAutoScalingGroupProviderManagedScalingPtrInput)(nil)).Elem(), CapacityProviderAutoScalingGroupProviderManagedScalingArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderPtrInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderAutoRepairConfigurationInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderAutoRepairConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderInfrastructureOptimizationInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderInfrastructureOptimizationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderInfrastructureOptimizationPtrInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderInfrastructureOptimizationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*CapacityProviderManagedInstancesProviderInstanceLaunchTemplateInput)(nil)).Elem(), CapacityProviderManagedInstancesProviderInstanceLaunchTemplateArgs{})
@@ -21515,6 +21983,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationCanaryConfigurationPtrInput)(nil)).Elem(), ServiceDeploymentConfigurationCanaryConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationLifecycleHookInput)(nil)).Elem(), ServiceDeploymentConfigurationLifecycleHookArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationLifecycleHookArrayInput)(nil)).Elem(), ServiceDeploymentConfigurationLifecycleHookArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput)(nil)).Elem(), ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrInput)(nil)).Elem(), ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationLinearConfigurationInput)(nil)).Elem(), ServiceDeploymentConfigurationLinearConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentConfigurationLinearConfigurationPtrInput)(nil)).Elem(), ServiceDeploymentConfigurationLinearConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceDeploymentControllerInput)(nil)).Elem(), ServiceDeploymentControllerArgs{})
@@ -21613,6 +22083,8 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationDeploymentCircuitBreakerArrayInput)(nil)).Elem(), GetServiceDeploymentConfigurationDeploymentCircuitBreakerArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationLifecycleHookInput)(nil)).Elem(), GetServiceDeploymentConfigurationLifecycleHookArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationLifecycleHookArrayInput)(nil)).Elem(), GetServiceDeploymentConfigurationLifecycleHookArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationInput)(nil)).Elem(), GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayInput)(nil)).Elem(), GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationLinearConfigurationInput)(nil)).Elem(), GetServiceDeploymentConfigurationLinearConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentConfigurationLinearConfigurationArrayInput)(nil)).Elem(), GetServiceDeploymentConfigurationLinearConfigurationArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetServiceDeploymentControllerInput)(nil)).Elem(), GetServiceDeploymentControllerArgs{})
@@ -21677,6 +22149,8 @@ func init() {
 	pulumi.RegisterOutputType(CapacityProviderAutoScalingGroupProviderManagedScalingPtrOutput{})
 	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderOutput{})
 	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderPtrOutput{})
+	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderAutoRepairConfigurationOutput{})
+	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderAutoRepairConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderInfrastructureOptimizationOutput{})
 	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderInfrastructureOptimizationPtrOutput{})
 	pulumi.RegisterOutputType(CapacityProviderManagedInstancesProviderInstanceLaunchTemplateOutput{})
@@ -21799,6 +22273,8 @@ func init() {
 	pulumi.RegisterOutputType(ServiceDeploymentConfigurationCanaryConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(ServiceDeploymentConfigurationLifecycleHookOutput{})
 	pulumi.RegisterOutputType(ServiceDeploymentConfigurationLifecycleHookArrayOutput{})
+	pulumi.RegisterOutputType(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput{})
+	pulumi.RegisterOutputType(ServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(ServiceDeploymentConfigurationLinearConfigurationOutput{})
 	pulumi.RegisterOutputType(ServiceDeploymentConfigurationLinearConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(ServiceDeploymentControllerOutput{})
@@ -21897,6 +22373,8 @@ func init() {
 	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationDeploymentCircuitBreakerArrayOutput{})
 	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationLifecycleHookOutput{})
 	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationLifecycleHookArrayOutput{})
+	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationOutput{})
+	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationLifecycleHookTimeoutConfigurationArrayOutput{})
 	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationLinearConfigurationOutput{})
 	pulumi.RegisterOutputType(GetServiceDeploymentConfigurationLinearConfigurationArrayOutput{})
 	pulumi.RegisterOutputType(GetServiceDeploymentControllerOutput{})
