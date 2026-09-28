@@ -4,7 +4,7 @@ go 1.27.0
 
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.2.1
-	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.9
+	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.10
 	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.6
 )
 
