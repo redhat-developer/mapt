@@ -36,6 +36,7 @@ type FedoraArgs struct {
 	Prefix           string
 	Version          string
 	Arch             string
+	AMIID            string
 	ComputeRequest   *cr.ComputeRequestArgs
 	Spot             *spotTypes.SpotArgs
 	Airgap           bool
@@ -50,6 +51,7 @@ type fedoraRequest struct {
 	prefix           *string
 	version          *string
 	arch             *string
+	amiID            *string
 	spot             bool
 	timeout          *string
 	serviceEndpoints []string
@@ -86,12 +88,16 @@ func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) (err error) {
 	if args.VpcID != nil && args.Airgap {
 		return fmt.Errorf("--vpc-id and --airgap are mutually exclusive")
 	}
+	if len(args.AMIID) > 0 && args.Spot != nil && args.Spot.Spot {
+		return fmt.Errorf("--ami-id and --spot are mutually exclusive")
+	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 	r := fedoraRequest{
 		mCtx:             mCtx,
 		prefix:           &prefix,
 		version:          &args.Version,
 		arch:             &args.Arch,
+		amiID:            &args.AMIID,
 		timeout:          &args.Timeout,
 		serviceEndpoints: args.ServiceEndpoints,
 		vpcID:            args.VpcID,
@@ -208,11 +214,17 @@ func (r *fedoraRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 	// Get AMI
-	ami, err := amiSVC.GetAMIByName(ctx,
-		fmt.Sprintf(amiRegex[*r.arch], *r.version),
-		[]string{amiOwner},
-		map[string]string{
-			"architecture": *r.arch})
+	var ami *ec2.LookupAmiResult
+	var err error
+	if len(*r.amiID) > 0 {
+		ami, err = amiSVC.GetAMIByID(ctx, *r.amiID)
+	} else {
+		ami, err = amiSVC.GetAMIByName(ctx,
+			fmt.Sprintf(amiRegex[*r.arch], *r.version),
+			[]string{amiOwner},
+			map[string]string{
+				"architecture": *r.arch})
+	}
 	if err != nil {
 		return err
 	}
