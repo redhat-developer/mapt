@@ -16,7 +16,7 @@ require (
 	charm.land/lipgloss/v2 v2.0.6 // indirect
 	codeberg.org/chavacava/garif v0.2.1 // indirect
 	codeberg.org/polyfloyd/go-errorlint v1.9.0 // indirect
-	dev.gaijin.team/go/exhaustruct/v4 v4.0.0 // indirect
+	dev.gaijin.team/go/exhaustruct/v5 v5.2.0 // indirect
 	dev.gaijin.team/go/exhaustruct/v5 v5.2.0 // indirect
 	dev.gaijin.team/go/golib v0.8.1 // indirect
 	github.com/4meepo/tagalign v1.4.4 // indirect
@@ -46,7 +46,7 @@ require (
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bkielbasa/cyclop v1.2.3 // indirect
 	github.com/blizzy78/varnamelen v0.8.0 // indirect
-	github.com/bombsimon/wsl/v4 v4.7.0 // indirect
+	github.com/bombsimon/wsl/v5 v5.9.0 // indirect
 	github.com/bombsimon/wsl/v5 v5.9.0 // indirect
 	github.com/breml/bidichk v0.3.3 // indirect
 	github.com/breml/errchkjson v0.4.1 // indirect
@@ -68,7 +68,7 @@ require (
 	github.com/curioswitch/go-reassign v0.3.0 // indirect
 	github.com/daixiang0/gci v0.14.0 // indirect
 	github.com/dave/dst v0.28.0 // indirect
-	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	github.com/dlclark/regexp2/v2 v2.8.0 // indirect
 	github.com/ettle/strcase v0.2.0 // indirect
@@ -77,7 +77,7 @@ require (
 	github.com/firefart/nonamedreturns v1.0.8 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
-	github.com/ghostiam/protogetter v0.3.21 // indirect
+	github.com/ghostiam/protogetter v1.0.1 // indirect
 	// github.com/ghostiam/protogetter v1.0.1 // indirect
 	github.com/go-critic/go-critic v0.15.0 // indirect
 	github.com/go-toolsmith/astcast v1.1.0 // indirect
@@ -89,7 +89,7 @@ require (
 	github.com/go-toolsmith/typep v1.1.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
 	github.com/go-xmlfmt/xmlfmt v1.1.3 // indirect
-	github.com/gobwas/glob v0.2.3 // indirect
+	github.com/gobwas/glob v1.0.0 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/godoc-lint/godoc-lint v0.11.4 // indirect
 	github.com/gofrs/flock v0.13.1 // indirect
@@ -165,7 +165,7 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	// github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.16.0 // indirect
-	github.com/ryancurrah/gomodguard v1.4.1 // indirect
+	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.6.0 // indirect
