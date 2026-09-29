@@ -12,6 +12,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/provider/aws"
 	awsConstants "github.com/redhat-developer/mapt/pkg/provider/aws/constants"
+	"github.com/redhat-developer/mapt/pkg/provider/aws/data"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/allocation"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/ec2/compute"
 	"github.com/redhat-developer/mapt/pkg/provider/aws/modules/network"
@@ -38,6 +39,7 @@ type kindRequest struct {
 	allocationData    *allocation.AllocationResult
 	extraPortMappings []utilKind.PortMapping
 	diskSize          *int
+	vpcID             *string
 }
 
 func (r *kindRequest) validate() error {
@@ -67,7 +69,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.Kin
 		timeout:           &args.Timeout,
 		serviceEndpoints:  args.ServiceEndpoints,
 		extraPortMappings: args.ExtraPortMappings,
-		diskSize:          args.ComputeRequest.DiskSize}
+		diskSize:          args.ComputeRequest.DiskSize,
+		vpcID:             args.VpcID}
 	if args.Spot != nil {
 		r.spot = args.Spot.Spot
 	}
@@ -77,9 +80,15 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (kr *utilKind.Kin
 			ComputeRequest:        args.ComputeRequest,
 			AMIProductDescription: &amiProduct,
 			Spot:                  args.Spot,
+			VpcID:                 args.VpcID,
 		})
 	if err != nil {
 		return nil, err
+	}
+	if args.VpcID != nil {
+		if _, err := data.GetPublicSubnetIDInAZ(mCtx.Context(), *r.allocationData.Region, *args.VpcID, *r.allocationData.AZ); err != nil {
+			return nil, fmt.Errorf("kind requires a public subnet; AZ %s in VPC %s has none: %w", *r.allocationData.AZ, *args.VpcID, err)
+		}
 	}
 	return r.createHost()
 }
@@ -162,6 +171,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 			AZ:                 *r.allocationData.AZ,
 			CreateLoadBalancer: r.allocationData.SpotPrice != nil,
 			ServiceEndpoints:   r.serviceEndpoints,
+			VpcID:              r.vpcID,
 		})
 	if err != nil {
 		return err
