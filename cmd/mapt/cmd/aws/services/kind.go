@@ -69,7 +69,8 @@ func createKind() *cobra.Command {
 					Arch:              viper.GetString(params.LinuxArch),
 					Timeout:           viper.GetString(params.Timeout),
 					ServiceEndpoints:  params.NetworkServiceEndpoints(),
-					ExtraPortMappings: extraPortMappings}); err != nil {
+					ExtraPortMappings: extraPortMappings,
+					VpcID:             params.NetworkVpcID()}); err != nil {
 				return err
 			}
 			return nil
