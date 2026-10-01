@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ec2"
@@ -191,11 +192,8 @@ func isPublic(ctx context.Context, client *ec2.Client, subnetID string) error {
 	}
 	for _, routeTable := range routeTablesOutput.RouteTables {
 		for _, route := range routeTable.Routes {
-			if route.GatewayId != nil {
-				gwID := *route.GatewayId
-				if len(gwID) > 0 && gwID[:2] == "igw" {
-					return nil
-				}
+			if route.GatewayId != nil && strings.HasPrefix(*route.GatewayId, "igw") {
+				return nil
 			}
 		}
 	}
