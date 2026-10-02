@@ -59,9 +59,32 @@ func (c *ComputeSelector) Select(args *computerequest.ComputeRequestArgs) ([]str
 				continue
 			}
 		}
+		if args.MaxCPUs > 0 {
+			vcpus, ok := vcpuCount(p)
+			if !ok || vcpus > int64(args.MaxCPUs) {
+				continue
+			}
+		}
 		if args.MemoryGib > 0 {
 			mem, ok := memoryGiB(p)
 			if !ok || mem < int64(args.MemoryGib) {
+				continue
+			}
+		}
+		if args.GPUs > 0 {
+			gc, ok := gpuCount(p)
+			if !ok || gc < int64(args.GPUs) {
+				continue
+			}
+		}
+		if args.GPUManufacturer != "" {
+			if !matchesGPUManufacturer(p, args.GPUManufacturer) {
+				continue
+			}
+		}
+		if args.GPUs == 0 && args.GPUManufacturer == "" {
+			gc, ok := gpuCount(p)
+			if ok && gc > 0 {
 				continue
 			}
 		}
@@ -139,6 +162,32 @@ func memoryGiB(p vpcv1.InstanceProfile) (int64, bool) {
 		}
 	}
 	return 0, false
+}
+
+func gpuCount(p vpcv1.InstanceProfile) (int64, bool) {
+	v, ok := p.GpuCount.(*vpcv1.InstanceProfileGpu)
+	if !ok || v == nil || v.Type == nil {
+		return 0, false
+	}
+	switch *v.Type {
+	case vpcv1.InstanceProfileGpuTypeFixedConst:
+		if v.Value != nil {
+			return *v.Value, true
+		}
+	}
+	return 0, false
+}
+
+func matchesGPUManufacturer(p vpcv1.InstanceProfile, manufacturer string) bool {
+	if p.GpuManufacturer == nil {
+		return false
+	}
+	for _, v := range p.GpuManufacturer.Values {
+		if strings.EqualFold(v, manufacturer) {
+			return true
+		}
+	}
+	return false
 }
 
 // matchesArch checks VcpuArchitecture.Value which is "amd64" or "s390x".

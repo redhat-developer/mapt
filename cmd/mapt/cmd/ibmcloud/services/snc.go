@@ -1,0 +1,145 @@
+package services
+
+import (
+	params "github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
+	openshiftsnc "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/action/snc"
+	sncApi "github.com/redhat-developer/mapt/pkg/target/service/snc"
+	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
+)
+
+const (
+	cmdOpenshiftSNC     = "openshift-snc"
+	cmdOpenshiftSNCDesc = "Manage an OpenShift Single Node Cluster based on OpenShift Local on IBM Cloud. This is not intended for production use"
+
+	ocpVersion        = "version"
+	ocpDefaultVersion = "4.22.14"
+	ocpVersionDesc    = "version for Openshift."
+
+	pullSecretFile              = "pull-secret-file"
+	pullSecretFileDesc          = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"
+	disableClusterReadiness     = "disable-cluster-readiness"
+	disableClusterReadinessDesc = "If this flag is set it will skip the checks for the cluster readiness. In this case the kubeconfig can not be generated"
+
+	sncProfile     = "profile"
+	sncProfileDesc = "comma separated list of profiles to apply on the SNC cluster. Profiles available: virtualization, serverless-serving, serverless-eventing, serverless, servicemesh, ai, nvidia. The ai profile automatically includes servicemesh and serverless-serving as prerequisites and raises the minimum instance size to 16 vCPUs. The nvidia profile installs NFD and the NVIDIA GPU Operator"
+
+	operatorChannel     = "operator-channel"
+	operatorChannelDesc = "override the OLM subscription channel for an operator (--operator-channel serverless-operator=preview,nfd=4.17)"
+	catalogSource       = "catalog-source"
+	catalogSourceDesc   = "override the OLM catalog source with a custom index image (--catalog-source serverless-operator=quay.io/my-org/my-index:latest)"
+
+)
+
+func GetOpenshiftSNCCmd() *cobra.Command {
+	c := &cobra.Command{
+		Use:   cmdOpenshiftSNC,
+		Short: cmdOpenshiftSNCDesc,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+			return nil
+		},
+	}
+	flagSet := pflag.NewFlagSet(cmdOpenshiftSNC, pflag.ExitOnError)
+	params.AddCommonFlags(flagSet)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	c.AddCommand(createSNC(), destroySNC())
+	return c
+}
+
+func createSNC() *cobra.Command {
+	c := &cobra.Command{
+		Use:   params.CreateCmdName,
+		Short: params.CreateCmdName,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+			if err := viper.BindPFlags(cmd.InheritedFlags()); err != nil {
+				return err
+			}
+			profiles := viper.GetStringSlice(sncProfile)
+			computeReq := params.ComputeRequestArgs()
+			if profile.RequireNestedVirt(profiles) {
+				computeReq.NestedVirt = true
+			}
+			if minCPUs := profile.MinCPUs(profiles); minCPUs > computeReq.CPUs {
+				computeReq.CPUs = minCPUs
+			}
+			if maxCPUs := profile.MaxCPUs(profiles); maxCPUs > computeReq.MaxCPUs {
+				computeReq.MaxCPUs = maxCPUs
+			}
+			if gm := profile.GPUManufacturer(profiles); gm != "" && computeReq.GPUManufacturer == "" {
+				computeReq.GPUManufacturer = gm
+			}
+			if _, err := openshiftsnc.Create(
+				&maptContext.ContextArgs{
+					Context:       cmd.Context(),
+					ProjectName:   viper.GetString(params.ProjectName),
+					BackedURL:     viper.GetString(params.BackedURL),
+					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
+					Debug:         viper.IsSet(params.Debug),
+					DebugLevel:    viper.GetUint(params.DebugLevel),
+					Tags:          viper.GetStringMapString(params.Tags),
+				},
+				&sncApi.SNCArgs{
+					ComputeRequest:          computeReq,
+					Spot:                    params.SpotArgs(),
+					Version:                 viper.GetString(ocpVersion),
+					DisableClusterReadiness: viper.IsSet(disableClusterReadiness),
+					Arch:                    "x86_64",
+					PullSecretFile:          viper.GetString(pullSecretFile),
+					Profiles:                profiles,
+					OperatorChannels:        viper.GetStringMapString(operatorChannel),
+					CatalogSources:          viper.GetStringMapString(catalogSource),
+				}); err != nil {
+				return err
+			}
+			return nil
+		},
+	}
+	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
+	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
+	flagSet.StringP(ocpVersion, "", ocpDefaultVersion, ocpVersionDesc)
+	flagSet.Bool(disableClusterReadiness, false, disableClusterReadinessDesc)
+	flagSet.StringP(pullSecretFile, "", "", pullSecretFileDesc)
+	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	flagSet.StringSliceP(sncProfile, "", []string{}, sncProfileDesc)
+	flagSet.StringToStringP(operatorChannel, "", nil, operatorChannelDesc)
+	flagSet.StringToStringP(catalogSource, "", nil, catalogSourceDesc)
+	params.AddComputeRequestFlags(flagSet)
+	params.AddSpotFlags(flagSet)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
+}
+
+func destroySNC() *cobra.Command {
+	c := &cobra.Command{
+		Use:   params.DestroyCmdName,
+		Short: params.DestroyCmdName,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			if err := viper.BindPFlags(cmd.Flags()); err != nil {
+				return err
+			}
+			return openshiftsnc.Destroy(&maptContext.ContextArgs{
+				Context:      cmd.Context(),
+				ProjectName:  viper.GetString(params.ProjectName),
+				BackedURL:    viper.GetString(params.BackedURL),
+				Debug:        viper.IsSet(params.Debug),
+				DebugLevel:   viper.GetUint(params.DebugLevel),
+				ForceDestroy: viper.IsSet(params.ForceDestroy),
+				KeepState:    viper.IsSet(params.KeepState),
+			})
+		},
+	}
+	flagSet := pflag.NewFlagSet(params.DestroyCmdName, pflag.ExitOnError)
+	flagSet.Bool(params.ForceDestroy, false, params.ForceDestroyDesc)
+	flagSet.Bool(params.KeepState, false, params.KeepStateDesc)
+	c.PersistentFlags().AddFlagSet(flagSet)
+	return c
+}
