@@ -71,7 +71,7 @@ Connection details land at `${PWD}/host`, `${PWD}/username`, and `${PWD}/id_rsa`
 | **Kind** | [docs](docs/aws/kind.md) | [docs](docs/azure/kind.md) | [docs](docs/ibmcloud/kind.md) | Lightweight Kubernetes via Kind |
 | **EKS** | [docs](docs/aws/eks.md) | — | — | Managed Kubernetes with spot node groups |
 | **AKS** | — | [docs](docs/azure/aks.md) | — | Managed Kubernetes |
-| **OpenShift SNC** | [docs](docs/aws/openshift-snc.md) | — | — | Single-node OpenShift for testing |
+| **OpenShift SNC** | [docs](docs/aws/openshift-snc.md) | — | [docs](docs/ibmcloud/openshift-snc.md) | Single-node OpenShift for testing |
 | **Mac-Pool** | [docs](docs/aws/mac-pool.md) | — | — | Shared Mac host pool — amortize the 24h minimum |
 
 ### Architectures
