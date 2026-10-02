@@ -178,6 +178,7 @@ github.com/IBM-Cloud/power-go-client/power/models
 github.com/IBM/go-sdk-core/v5/core
 # github.com/IBM/platform-services-go-sdk v0.103.4
 ## explicit; go 1.26.0
+github.com/IBM/platform-services-go-sdk/catalogmanagementv1
 github.com/IBM/platform-services-go-sdk/common
 github.com/IBM/platform-services-go-sdk/resourcecontrollerv2
 # github.com/IBM/vpc-go-sdk v0.91.0

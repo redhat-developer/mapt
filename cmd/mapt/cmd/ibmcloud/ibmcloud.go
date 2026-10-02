@@ -33,6 +33,7 @@ func GetCmd() *cobra.Command {
 		hosts.IBMGaudiCmd(),
 		hosts.IBMPowerCmd(),
 		hosts.IBMZCmd(),
-		services.GetKindCmd())
+		services.GetKindCmd(),
+		services.GetOpenshiftSNCCmd())
 	return c
 }
