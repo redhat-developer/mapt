@@ -6,7 +6,10 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 )
 
-const passwordOverrideSpecial = "!#%&*()-_=+[]{}.?"
+const (
+	passwordLength          = 16
+	passwordOverrideSpecial = "!#%&*()-_=+[]{}.?"
+)
 
 func CreatePassword(ctx *pulumi.Context, name string) (*random.RandomPassword, error) {
 	return createPassword(ctx, name, nil)
@@ -18,14 +21,26 @@ func CreatePasswordAlways(ctx *pulumi.Context, name string) (*random.RandomPassw
 			pulumi.Aliases([]pulumi.Alias{{Name: pulumi.String(name)}})})
 }
 
+// passwordArgs requires at least one character of each class so the
+// generated password always meets the complexity rules of the providers
+// (Azure needs 3 of 4 classes and rejects a purely random 16 char value
+// that happens to miss them).
+func passwordArgs() *random.RandomPasswordArgs {
+	return &random.RandomPasswordArgs{
+		Length:          pulumi.Int(passwordLength),
+		Special:         pulumi.Bool(true),
+		OverrideSpecial: pulumi.String(passwordOverrideSpecial),
+		MinUpper:        pulumi.Int(1),
+		MinLower:        pulumi.Int(1),
+		MinNumeric:      pulumi.Int(1),
+		MinSpecial:      pulumi.Int(1),
+	}
+}
+
 func createPassword(ctx *pulumi.Context, name string,
 	options []pulumi.ResourceOption) (*random.RandomPassword, error) {
 	return random.NewRandomPassword(ctx,
 		util.RandomID(name),
-		&random.RandomPasswordArgs{
-			Length:          pulumi.Int(16),
-			Special:         pulumi.Bool(true),
-			OverrideSpecial: pulumi.String(passwordOverrideSpecial),
-		},
+		passwordArgs(),
 		options...)
 }
