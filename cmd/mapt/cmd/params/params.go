@@ -17,7 +17,7 @@ const (
 	ProjectName                 string = "project-name"
 	ProjectNameDesc             string = "project name to identify the instance of the stack"
 	BackedURL                   string = "backed-url"
-	BackedURLDesc               string = "backed for stack state. (local) file:///path/subpath (s3) s3://existing-bucket, (azure) azblob://existing-blobcontainer. See more https://www.pulumi.com/docs/iac/concepts/state-and-backends/#using-a-self-managed-backend"
+	BackedURLDesc               string = "backed for stack state. (local) file:///path/subpath (s3) s3://existing-bucket, (ibm cos) cos://existing-bucket, (azure) azblob://existing-blobcontainer. See more https://www.pulumi.com/docs/iac/concepts/state-and-backends/#using-a-self-managed-backend"
 	ConnectionDetailsOutput     string = "conn-details-output"
 	ConnectionDetailsOutputDesc string = "path to export host connection information (host, username and privateKey)"
 	Debug                       string = "debug"

@@ -60,10 +60,16 @@ var (
 	DefaultCredentials = GetClouProviderCredentials(nil)
 )
 
-const cosHostSuffix = "cloud-object-storage.appdomain.cloud"
+const (
+	cosHostSuffix = "cloud-object-storage.appdomain.cloud"
+	// cosScheme is a shorthand for IBM Cloud Object Storage, translated to the
+	// s3:// form with the regional endpoint Pulumi needs
+	cosScheme = "cos://"
+)
 
 func isCOSBackend(backedURL string) bool {
-	return strings.HasPrefix(backedURL, "s3://") ||
+	return strings.HasPrefix(backedURL, cosScheme) ||
+		strings.HasPrefix(backedURL, "s3://") ||
 		strings.Contains(backedURL, cosHostSuffix)
 }
 
@@ -91,9 +97,9 @@ func extractBucketAndPath(backedURL string) (bucket, path string, err error) {
 	if parseErr != nil {
 		return "", "", fmt.Errorf("failed to parse backed URL %q: %w", backedURL, parseErr)
 	}
-	if strings.HasPrefix(backedURL, "s3://") {
+	if strings.HasPrefix(backedURL, "s3://") || strings.HasPrefix(backedURL, cosScheme) {
 		if u.Host == "" {
-			return "", "", fmt.Errorf("backed URL %q missing bucket name (expected s3://bucket-name)", backedURL)
+			return "", "", fmt.Errorf("backed URL %q missing bucket name (expected s3://bucket-name or cos://bucket-name)", backedURL)
 		}
 		return u.Host, strings.TrimPrefix(u.Path, "/"), nil
 	}

@@ -116,6 +116,8 @@ podman run -d --name ibmcloud-kind \
             --conn-details-output /workspace
 ```
 
+A `cos://` shorthand is also accepted, for example `--backed-url cos://my-cos-bucket/some/path`. It resolves to the regional COS endpoint from `IC_REGION` (or `IBMCLOUD_COS_ENDPOINT` when set) and has the same effect as the `s3://` form.
+
 An HTTPS endpoint URL is also supported as `--backed-url`, with the bucket name in the path:
 
 ```
