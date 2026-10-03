@@ -42,7 +42,19 @@ func getBackedURL(mCtx *maptContext.Context) string {
 	if strings.Contains(mCtx.BackedURL(), "file://") {
 		return mCtx.BackedURL()
 	}
-	return fmt.Sprintf("%s/%s", mCtx.BackedURL(), mCtx.RunID())
+	return appendPathToBackedURL(mCtx.BackedURL(), mCtx.RunID())
+}
+
+// appendPathToBackedURL adds a sub path to the backed url keeping any query
+// string at the end, e.g. s3://bucket/path?endpoint=host + id becomes
+// s3://bucket/path/id?endpoint=host
+func appendPathToBackedURL(backedURL, subPath string) string {
+	base, query, hasQuery := strings.Cut(backedURL, "?")
+	base = fmt.Sprintf("%s/%s", strings.TrimSuffix(base, "/"), subPath)
+	if hasQuery {
+		return base + "?" + query
+	}
+	return base
 }
 
 // Get all dedicated hosts by tag and state
