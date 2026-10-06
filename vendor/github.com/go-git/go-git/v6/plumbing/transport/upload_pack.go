@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/go-git/go-git/v6/config"
+	"github.com/go-git/go-git/v6/internal/reference"
 	"github.com/go-git/go-git/v6/plumbing"
 	"github.com/go-git/go-git/v6/plumbing/format/packfile"
 	"github.com/go-git/go-git/v6/plumbing/format/pktline"
@@ -23,6 +24,7 @@ import (
 	"github.com/go-git/go-git/v6/plumbing/storer"
 	"github.com/go-git/go-git/v6/storage"
 	"github.com/go-git/go-git/v6/utils/ioutil"
+	"github.com/go-git/go-git/v6/utils/trace"
 )
 
 // UploadPackRequest is a set of options for the UploadPack service.
@@ -109,7 +111,7 @@ func UploadPack(
 	var done bool
 	var haves []plumbing.Hash
 	var upreq *packp.UploadRequest
-	var havesWithRef map[plumbing.Hash][]plumbing.Hash
+	var reachable map[plumbing.Hash]struct{}
 	var multiAck, multiAckDetailed bool
 	var caps capability.List
 	var wants []plumbing.Hash
@@ -130,10 +132,17 @@ func UploadPack(
 				return fmt.Errorf("closing reader: %w", err)
 			}
 
-			// Find common commits/objects
-			havesWithRef, err = revlist.ObjectsWithRef(st, wants, nil)
+			// Collect the objects reachable from the wants. Only membership
+			// is tested later, when a client have is checked against this
+			// set, so walk the wants once instead of once per want.
+			objs, err := revlist.Objects(st, wants, nil)
 			if err != nil {
-				return fmt.Errorf("getting objects with ref: %w", err)
+				return fmt.Errorf("getting objects: %w", err)
+			}
+
+			reachable = make(map[plumbing.Hash]struct{}, len(objs))
+			for _, h := range objs {
+				reachable[h] = struct{}{}
 			}
 
 			// Encode objects to packfile and write to client
@@ -182,7 +191,7 @@ func UploadPack(
 
 		var acks []packp.ACK
 		for _, hu := range uphav.Haves {
-			_, ok := havesWithRef[hu]
+			_, ok := reachable[hu]
 
 			var status packp.ACKStatus
 			if multiAckDetailed {
@@ -515,10 +524,18 @@ func serveLsRefsV2(_ context.Context, st storage.Storer, w io.Writer, args *pack
 	defer iter.Close()
 
 	var refs []*plumbing.Reference
-	_ = iter.ForEach(func(r *plumbing.Reference) error {
+	if err := iter.ForEach(func(r *plumbing.Reference) error {
+		// Use the same name gate as the v0/v1 advertisement. In the v2
+		// grammar a space in a name also introduces a ref-attribute.
+		if !advertisable(r.Name()) {
+			trace.General.Printf("ignoring ref with broken name %q", r.Name().String())
+			return nil
+		}
 		refs = append(refs, r)
 		return nil
-	})
+	}); err != nil {
+		return err
+	}
 
 	prefixes := args.RefPrefixes
 
@@ -560,15 +577,21 @@ func refMatchesAnyPrefix(name string, prefixes []string) bool {
 	return false
 }
 
+// writeV2Ref writes an ls-refs response with the requested reference attributes.
+// See https://github.com/git/git/blob/1630431f326e15fcde608827b5ff38422528eb59/ls-refs.c#L91-L117.
 func writeV2Ref(w io.Writer, st storage.Storer, r *plumbing.Reference, symrefs, peel bool) error {
 	var hash plumbing.Hash
 	var target string
 	if r.Type() == plumbing.SymbolicReference {
 		ref, err := storer.ResolveReference(st, r.Target())
-		if err == nil {
-			hash = ref.Hash()
+		if reference.IsUnresolvableForAdvertisement(err) {
+			return nil
 		}
-		target = r.Target().String()
+		if err != nil {
+			return err
+		}
+		hash = ref.Hash()
+		target = ref.Name().String()
 	} else {
 		hash = r.Hash()
 	}
@@ -582,7 +605,7 @@ func writeV2Ref(w io.Writer, st storage.Storer, r *plumbing.Reference, symrefs, 
 	// (symref-target first, matching upstream's send_ref ordering), not
 	// separate lines as in the v0/v1 advertisement format.
 	line := fmt.Sprintf("%s %s", hash, r.Name())
-	if symrefs && target != "" {
+	if symrefs && target != "" && advertisable(plumbing.ReferenceName(target)) {
 		line += " symref-target:" + target
 	}
 	if peel {

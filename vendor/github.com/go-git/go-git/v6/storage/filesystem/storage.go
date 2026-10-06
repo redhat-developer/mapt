@@ -209,7 +209,7 @@ func NewStorageWithOptions(fs billy.Filesystem, c cache.Object, ops Options) *St
 	return s
 }
 
-// SetObjectFormat sets the ObjectFormat for the storage, initiatising
+// SetObjectFormat sets the ObjectFormat for the storage, initialising
 // hashers and object hashers accordingly. This must only be called
 // during the first pack negotiation of a repository clone operation.
 //
@@ -268,7 +268,7 @@ func (s *Storage) SupportsExtension(name, value string) bool {
 		case "sha1", "sha256", "":
 			return true
 		}
-	case "worktreeconfig":
+	case "worktreeconfig", "relativeworktrees":
 		switch value {
 		case "true", "false":
 			return true

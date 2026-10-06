@@ -21,6 +21,20 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
+	case "ibmcloud:index/cmAccount:CmAccount":
+		r = &CmAccount{}
+	case "ibmcloud:index/cmCatalog:CmCatalog":
+		r = &CmCatalog{}
+	case "ibmcloud:index/cmObject:CmObject":
+		r = &CmObject{}
+	case "ibmcloud:index/cmOffering:CmOffering":
+		r = &CmOffering{}
+	case "ibmcloud:index/cmOfferingInstance:CmOfferingInstance":
+		r = &CmOfferingInstance{}
+	case "ibmcloud:index/cmValidation:CmValidation":
+		r = &CmValidation{}
+	case "ibmcloud:index/cmVersion:CmVersion":
+		r = &CmVersion{}
 	case "ibmcloud:index/computeAutoscaleGroup:ComputeAutoscaleGroup":
 		r = &ComputeAutoscaleGroup{}
 	case "ibmcloud:index/computeAutoscalePolicy:ComputeAutoscalePolicy":
@@ -476,6 +490,41 @@ func init() {
 	if err != nil {
 		version = semver.Version{Major: 1}
 	}
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmAccount",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmCatalog",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmObject",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmOffering",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmOfferingInstance",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmValidation",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/cmVersion",
+		&module{version},
+	)
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/computeAutoscaleGroup",

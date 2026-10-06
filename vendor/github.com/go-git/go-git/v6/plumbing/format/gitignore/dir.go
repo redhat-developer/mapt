@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"io"
-	gofs "io/fs"
 	"os"
 	"strings"
 
@@ -15,12 +14,17 @@ import (
 	gioutil "github.com/go-git/go-git/v6/utils/ioutil"
 )
 
+// IgnoreFile is the name of the per-directory ignore file. A walk driven by a
+// Scope needs it to tell, from a directory listing it already holds, whether
+// that directory declares patterns of its own.
+const IgnoreFile = ".gitignore"
+
 const (
 	commentPrefix   = "#"
 	coreSection     = "core"
 	excludesfile    = "excludesfile"
 	gitDir          = ".git"
-	gitignoreFile   = ".gitignore"
+	gitignoreFile   = IgnoreFile
 	gitconfigFile   = ".gitconfig"
 	systemFile      = "/etc/gitconfig"
 	infoExcludeFile = gitDir + "/info/exclude"
@@ -51,16 +55,40 @@ func readIgnoreFile(fs billy.Filesystem, path []string, ignoreFile string) (ps [
 // ReadPatterns reads the .git/info/exclude and then the gitignore patterns
 // recursively traversing through the directory structure. The result is in
 // the ascending order of priority (last higher).
+//
+// .git/info/exclude is only consulted at the root of the given filesystem,
+// matching reference git which reads $GIT_DIR/info/exclude of the
+// repository being walked. Ignore files are opened only when present in
+// the directory listing, so directories without them cost a single ReadDir.
+//
+// Deprecated: use Scope, which evaluates rules per directory as a walk
+// descends. The flat list returned here cannot express that a parent
+// directory is excluded, so a Matcher built from it may re-include a path
+// that git reports as ignored, and rules below an excluded directory are
+// collected even though reference git never reads them.
 func ReadPatterns(fs billy.Filesystem, path []string) (ps []Pattern, err error) {
-	ps, _ = readIgnoreFile(fs, path, infoExcludeFile)
-
-	subps, _ := readIgnoreFile(fs, path, gitignoreFile)
-	ps = append(ps, subps...)
-
-	var fis []gofs.DirEntry
-	fis, err = fs.ReadDir(fs.Join(path...))
+	fis, err := fs.ReadDir(fs.Join(path...))
 	if err != nil {
-		return ps, err
+		return nil, err
+	}
+
+	var hasGitDir, hasGitignore bool
+	for _, fi := range fis {
+		switch fi.Name() {
+		case gitDir:
+			hasGitDir = true
+		case gitignoreFile:
+			hasGitignore = true
+		}
+	}
+
+	if len(path) == 0 && hasGitDir {
+		ps, _ = readIgnoreFile(fs, path, infoExcludeFile)
+	}
+
+	if hasGitignore {
+		subps, _ := readIgnoreFile(fs, path, gitignoreFile)
+		ps = append(ps, subps...)
 	}
 
 	for _, fi := range fis {

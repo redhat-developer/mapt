@@ -1,5 +1,7 @@
 package config
 
+import "slices"
+
 // New creates a new config instance.
 func New() *Config {
 	return &Config{}
@@ -32,13 +34,20 @@ const (
 
 // Section returns a existing section with the given name or creates a new one.
 func (c *Config) Section(name string) *Section {
-	for i := len(c.Sections) - 1; i >= 0; i-- {
-		s := c.Sections[i]
+	for _, s := range slices.Backward(c.Sections) {
 		if s.IsName(name) {
 			return s
 		}
 	}
 
+	return c.appendSection(name)
+}
+
+// appendSection adds a section with the given name and returns it. The caller
+// is responsible for having established that no section of that name exists
+// yet, which is why it stays unexported: Section is the entry point that
+// checks.
+func (c *Config) appendSection(name string) *Section {
 	s := &Section{Name: name}
 	c.Sections = append(c.Sections, s)
 	return s
