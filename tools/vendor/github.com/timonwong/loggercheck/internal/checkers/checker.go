@@ -11,6 +11,7 @@ import (
 type Config struct {
 	RequireStringKey bool
 	NoPrintfLike     bool
+	NilStringer      bool
 }
 
 type CallContext struct {
@@ -96,7 +97,9 @@ func ExecuteChecker(c Checker, pass *analysis.Pass, call CallContext, cfg Config
 		c.CheckLoggingKey(pass, keyValuesArgs)
 	}
 
-	checkStringerValues(pass, keyValuesArgs)
+	if cfg.NilStringer {
+		checkStringerValues(pass, keyValuesArgs)
+	}
 
 	if cfg.NoPrintfLike {
 		// Check all args

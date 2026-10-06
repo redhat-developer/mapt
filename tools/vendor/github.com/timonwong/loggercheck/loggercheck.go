@@ -81,10 +81,10 @@ func vendorLessPath(ipath string) string {
 	return ipath
 }
 
-func (l *loggercheck) getCheckerForFunc(fn *types.Func) checkers.Checker {
+func (l *loggercheck) getCheckerForFunc(fn *types.Func) (checker checkers.Checker, rulesetName string) {
 	pkg := fn.Pkg()
 	if pkg == nil {
-		return nil
+		return nil, ""
 	}
 
 	pkgPath := vendorLessPath(pkg.Path())
@@ -104,14 +104,14 @@ func (l *loggercheck) getCheckerForFunc(fn *types.Func) checkers.Checker {
 			continue
 		}
 
-		checker := checkerByRulesetName[rs.Name]
+		checker = checkerByRulesetName[rs.Name]
 		if checker == nil {
-			return checkers.General{}
+			return checkers.General{}, rs.Name
 		}
-		return checker
+		return checker, rs.Name
 	}
 
-	return nil
+	return nil, ""
 }
 
 func (l *loggercheck) checkLoggerArguments(pass *analysis.Pass, call *ast.CallExpr) {
@@ -130,7 +130,7 @@ func (l *loggercheck) checkLoggerArguments(pass *analysis.Pass, call *ast.CallEx
 		return
 	}
 
-	checker := l.getCheckerForFunc(fn)
+	checker, rulesetName := l.getCheckerForFunc(fn)
 	if checker == nil {
 		return
 	}
@@ -142,6 +142,7 @@ func (l *loggercheck) checkLoggerArguments(pass *analysis.Pass, call *ast.CallEx
 	}, checkers.Config{
 		RequireStringKey: l.requireStringKey,
 		NoPrintfLike:     l.noPrintfLike,
+		NilStringer:      nilStringerRulesetNames.Has(rulesetName),
 	})
 }
 

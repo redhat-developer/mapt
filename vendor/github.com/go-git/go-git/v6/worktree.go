@@ -10,12 +10,11 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 
 	"github.com/go-git/go-billy/v6"
-	"github.com/go-git/go-billy/v6/osfs"
-	"github.com/go-git/go-billy/v6/util"
 
 	"github.com/go-git/go-git/v6/config"
 	giturl "github.com/go-git/go-git/v6/internal/url"
@@ -65,30 +64,6 @@ type Worktree struct {
 // Filesystem returns the underlying filesystem for the worktree.
 func (w *Worktree) Filesystem() billy.Filesystem {
 	return w.filesystem.Filesystem
-}
-
-// reusableRootFS returns a worktree filesystem to use for a single bulk
-// checkout/reset. When the worktree lives on an OS-backed billy filesystem,
-// it opens one *os.Root for the whole operation and wraps it in the same
-// validating worktreeFilesystem, so each file is opened relative to a
-// reused directory instead of opening and closing a fresh root per call.
-// It falls back to the default filesystem when that is not possible.
-func (w *Worktree) reusableRootFS() (*worktreeFilesystem, func()) {
-	bos, ok := w.filesystem.Filesystem.(*osfs.BoundOS)
-	if !ok {
-		return w.filesystem, func() {}
-	}
-	root, err := os.OpenRoot(bos.Root())
-	if err != nil {
-		return w.filesystem, func() {}
-	}
-	rfs, err := osfs.FromRoot(root)
-	if err != nil {
-		_ = root.Close()
-		return w.filesystem, func() {}
-	}
-	return newWorktreeFilesystem(rfs, w.filesystem.protectNTFS, w.filesystem.protectHFS),
-		func() { _ = root.Close() }
 }
 
 // Pull incorporates changes from a remote repository into the current branch.
@@ -240,6 +215,16 @@ func (w *Worktree) Checkout(opts *CheckoutOptions) error {
 		ro.Mode = SoftReset
 	}
 
+	// For HardReset and KeepReset, capture the current tree BEFORE updating
+	// HEAD. This ensures resetWorktreeToTree correctly diffs from where we
+	// actually are, not from where HEAD will point after the update.
+	if ro.Mode == HardReset || ro.Mode == KeepReset {
+		ro.fromTree, err = w.headTree()
+		if err != nil {
+			return err
+		}
+	}
+
 	if !opts.Hash.IsZero() && !opts.Create {
 		err = w.setHEADToCommit(opts.Hash)
 	} else {
@@ -254,7 +239,19 @@ func (w *Worktree) Checkout(opts *CheckoutOptions) error {
 }
 
 func (w *Worktree) createBranch(opts *CheckoutOptions) error {
-	if err := opts.Branch.Validate(); err != nil {
+	// Git applies its branch-name rules to the shorthand a user types, so
+	// recover the shorthand before checking a name that is one. A name that is
+	// not under refs/heads/ gets the reference-name rules alone: handing it to
+	// ValidateBranchName would splice a second "refs/heads/" in front and
+	// judge that instead, which accepts the one-level spellings Validate
+	// exists to refuse. That arm is not a second gate — "HEAD" reaches it and
+	// passes, because Validate carves HEAD out; what stops it is the existing-
+	// reference check below.
+	if name, ok := strings.CutPrefix(opts.Branch.String(), plumbing.RefHeadPrefix); ok {
+		if err := plumbing.ValidateBranchName(name); err != nil {
+			return err
+		}
+	} else if err := opts.Branch.Validate(); err != nil {
 		return err
 	}
 
@@ -380,11 +377,20 @@ func (w *Worktree) Reset(opts *ResetOptions) error {
 	// resetting HEAD. resetWorktreeToTree will diff prevTree→t and apply only
 	// those changes to the worktree. Since the diff is tree-to-tree, untracked
 	// files are invisible and are never deleted — matching real git reset --hard.
+	//
+	// If opts.fromTree is set (by Checkout), use that instead of calling
+	// headTree(). This handles the case where HEAD was already updated before
+	// Reset was called (e.g., in Checkout), ensuring we diff from the actual
+	// previous state rather than the new HEAD.
 	var prevTree *object.Tree
 	if opts.Mode == HardReset || opts.Mode == KeepReset {
-		prevTree, err = w.headTree()
-		if err != nil {
-			return err
+		if opts.fromTree != nil {
+			prevTree = opts.fromTree
+		} else {
+			prevTree, err = w.headTree()
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -725,7 +731,7 @@ func (w *Worktree) resetWorktreeToTree(cfg *config.Config, fromTree, toTree *obj
 	// they are cleaned up in step 3 below.
 	//
 	// excludeIgnoredChanges=true engages the filesystem walker's
-	// IgnoreMatcher so untracked entries inside gitignored directories are
+	// IgnoreScope so untracked entries inside gitignored directories are
 	// pruned at enumeration time rather than walked and then dropped as
 	// Delete actions. The observable result is unchanged because Delete
 	// actions are skipped by the loop below; the matcher only avoids the
@@ -797,7 +803,7 @@ func (w *Worktree) resetWorktreeToTree(cfg *config.Config, fromTree, toTree *obj
 // MergeReset, and files contains paths that were just removed from the
 // index by resetIndex. A tracked-but-gitignored path that was removed
 // from the index in this same Reset is no longer in idxMap, so the
-// noder's IgnoreMatcher would prune it from the walk and the Delete
+// noder's IgnoreScope would prune it from the walk and the Delete
 // action needed to remove it from disk would never be emitted.
 func (w *Worktree) resetWorktree(cfg *config.Config, t *object.Tree, files []string) error {
 	changes, err := w.diffStagingWithWorktree(cfg, true, false)
@@ -866,14 +872,9 @@ func (w *Worktree) checkoutChange(cfg *config.Config, fs *worktreeFilesystem, ch
 
 		isSubmodule = e.Mode == filemode.Submodule
 	case merkletrie.Delete:
-		// checkoutChange.Delete is only reached from resetWorktree's
-		// filesystem-vs-index merkletrie diff (resetWorktreeToTree's
-		// tree-derived deletes call rmFileAndDirsIfEmpty directly).
-		// The path source is therefore the local worktree filesystem,
-		// where the tolerant worktreeFilesystem wrapper is the right
-		// fit: we want to be able to clean up legitimately-tracked
-		// shapes like "submodule/.git" rather than abort the whole
-		// reset on a single weird untracked file.
+		// These names come from the filesystem-vs-index diff. Apply the
+		// configured worktree gate. Tree-derived deletes use the same
+		// helper in resetWorktreeToTree.
 		return rmFileAndDirsIfEmpty(fs, ch.From.String())
 	}
 
@@ -1027,13 +1028,13 @@ func (w *Worktree) clearBlockingSymlinks(fs *worktreeFilesystem, name string) er
 	}
 	// Leading components, shallowest-first: removing the shallowest symlink
 	// invalidates every component beneath it, so a single removal is enough.
-	for i := len(dirs) - 1; i >= 0; i-- {
-		fi, err := fs.Lstat(dirs[i])
+	for _, dir := range slices.Backward(dirs) {
+		fi, err := fs.Lstat(dir)
 		if err != nil {
 			continue
 		}
 		if fi.Mode()&os.ModeSymlink != 0 {
-			return fs.Remove(dirs[i])
+			return fs.Remove(dir)
 		}
 	}
 	// Final component: an existing symlink here would be followed by the
@@ -1221,12 +1222,17 @@ func resolveModuleURL(originURL, moduleURL string) (string, error) {
 		return moduleURL, nil
 	}
 	if !giturl.MatchesScheme(originURL) && giturl.MatchesScpLike(originURL) {
-		user, host, portStr, p := giturl.FindScpLikeComponents(originURL)
-		p = path.Join(p, moduleURL)
-		if portStr != "" {
-			portStr += ":"
+		if user, host, p, ok := giturl.FindScpLikeComponents(originURL); ok {
+			p = path.Join(p, moduleURL)
+			if user != "" {
+				user += "@"
+			}
+			// The SCP-like form has no port: everything after the
+			// first `:` is the path, so it is rebuilt verbatim. The
+			// host keeps any brackets it was written with, which is
+			// what makes an IPv6 literal parse the same way again.
+			return fmt.Sprintf("%s%s:%s", user, host, p), nil
 		}
-		return fmt.Sprintf("%s@%s:%s%s", user, host, portStr, p), nil
 	}
 	base, err := url.Parse(originURL)
 	if err != nil {
@@ -1518,18 +1524,46 @@ func findMatchInFile(file *object.File, treeName string, opts *GrepOptions) ([]G
 	return grepResults, nil
 }
 
-// will walk up the directory tree removing all encountered empty
-// directories, not just the one containing this file
+// rmFileAndDirsIfEmpty removes name and its empty parent directories.
+// It preserves nonempty directories and ignores removal errors for directories
+// that remain in place. This keeps submodule worktrees and untracked files
+// when a reset removes their index entries.
+//
+// Removal is not recursive. Billy filesystems have no shared directory-not-empty
+// error, so directories are checked before removal and again if removal fails.
+// Where Git warns about a failed directory removal and continues, this returns nil.
+//
+// Paths rejected by the worktree filesystem because of a leading symlink are
+// left untouched, as in Git's [unlink_entry]. The symlink error stops parent
+// cleanup too, so the blocking symlink is preserved.
+//
+// [unlink_entry]: https://github.com/git/git/blob/v2.54.0/entry.c
 func rmFileAndDirsIfEmpty(fs billy.Filesystem, name string) error {
-	if err := util.RemoveAll(fs, name); err != nil {
-		return err
+	if nonemptyDir(fs, name) {
+		return nil
+	}
+
+	if err := fs.Remove(name); err != nil {
+		if errors.Is(err, errLeadingSymlink) {
+			return nil
+		}
+
+		if !os.IsNotExist(err) && !isDir(fs, name) {
+			return err
+		}
 	}
 
 	dir := filepath.Dir(name)
 	for dir != "." && dir != "" {
 		removed, err := removeDirIfEmpty(fs, dir)
-		if err != nil && !os.IsNotExist(err) {
-			return err
+		if err != nil {
+			if errors.Is(err, errLeadingSymlink) {
+				return nil
+			}
+
+			if !os.IsNotExist(err) && !isDir(fs, dir) {
+				return err
+			}
 		}
 
 		if !removed {
@@ -1545,9 +1579,7 @@ func rmFileAndDirsIfEmpty(fs billy.Filesystem, name string) error {
 	return nil
 }
 
-// removeDirIfEmpty will remove the supplied directory `dir` if
-// `dir` is empty
-// returns true if the directory was removed
+// removeDirIfEmpty removes dir if it is empty and reports whether it was removed.
 func removeDirIfEmpty(fs billy.Filesystem, dir string) (bool, error) {
 	files, err := fs.ReadDir(dir)
 	if err != nil {
@@ -1564,6 +1596,31 @@ func removeDirIfEmpty(fs billy.Filesystem, dir string) (bool, error) {
 	}
 
 	return true, nil
+}
+
+// isDir reports whether name is a directory. This is what a removal that has
+// already failed asks: a directory it could not take away is one Git would
+// have warned about and carried on from, and its contents are beside the
+// point once the removal has been refused.
+func isDir(fs billy.Filesystem, name string) bool {
+	fi, err := fs.Lstat(name)
+
+	return err == nil && fi.IsDir()
+}
+
+// nonemptyDir reports whether name is a directory with entries in it, the
+// shape rmFileAndDirsIfEmpty keeps without attempting a removal at all.
+//
+// A directory whose entries cannot be read reports false. It reaches the
+// removal, which fails, and isDir keeps it from there.
+func nonemptyDir(fs billy.Filesystem, name string) bool {
+	if !isDir(fs, name) {
+		return false
+	}
+
+	entries, err := fs.ReadDir(name)
+
+	return err == nil && len(entries) > 0
 }
 
 type indexBuilder struct {

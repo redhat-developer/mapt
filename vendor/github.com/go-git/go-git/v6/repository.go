@@ -544,7 +544,7 @@ func dotGitFileToOSFilesystem(path string, fs billy.Filesystem) (bfs billy.Files
 		return nil, fmt.Errorf(".git file has no %s prefix", prefix)
 	}
 
-	gitdir := strings.Split(line[len(prefix):], "\n")[0]
+	gitdir, _, _ := strings.Cut(line[len(prefix):], "\n")
 	gitdir = strings.TrimSpace(gitdir)
 	if filepath.IsAbs(gitdir) {
 		return osfs.New(gitdir, osfs.WithBoundOS()), nil
@@ -864,9 +864,18 @@ func (r *Repository) Branch(name string) (*config.Branch, error) {
 	return b, nil
 }
 
-// CreateBranch creates a new Branch
+// CreateBranch creates a new branch configuration. The name must satisfy
+// plumbing.ValidateBranchName; these creation rules do not apply when reading
+// existing branch configurations.
 func (r *Repository) CreateBranch(c *config.Branch) error {
 	if err := c.Validate(); err != nil {
+		return err
+	}
+
+	// The creation rules live here rather than in Branch.Validate, which also
+	// runs when a config file is read: a repository whose config already names
+	// a branch go-git would decline to create still has to open.
+	if err := plumbing.ValidateBranchName(c.Name); err != nil {
 		return err
 	}
 
@@ -902,11 +911,13 @@ func (r *Repository) DeleteBranch(name string) error {
 
 // CreateTag creates a tag. If opts is included, the tag is an annotated tag,
 // otherwise a lightweight tag is created.
+// The shorthand name must satisfy plumbing.ValidateTagName.
 func (r *Repository) CreateTag(name string, hash plumbing.Hash, opts *CreateTagOptions) (*plumbing.Reference, error) {
-	rname := plumbing.NewTagReferenceName(name)
-	if err := rname.Validate(); err != nil {
+	if err := plumbing.ValidateTagName(name); err != nil {
 		return nil, err
 	}
+
+	rname := plumbing.NewTagReferenceName(name)
 
 	_, err := r.Storer.Reference(rname)
 	switch err {
@@ -1010,10 +1021,22 @@ func (r *Repository) buildTagSignature(tag *object.Tag, signer Signer) (string, 
 	return string(b), nil
 }
 
-// Tag returns a tag from the repository.
+// Tag returns the tag reference with the given shorthand name.
 //
-// If you want to check to see if the tag is an annotated tag, you can call
-// TagObject on the hash of the reference in ForEach:
+// The name is appended to "refs/tags/" verbatim, not cleaned as a path, so
+// "../heads/main" denotes refs/tags/../heads/main rather than refs/heads/main,
+// and "./v1.0" denotes refs/tags/./v1.0 rather than refs/tags/v1.0. Git splices
+// a tag shorthand the same way.
+//
+// The Storer decides whether it can hold such a name, so the error varies with
+// it: filesystem storage returns one wrapping plumbing.ErrInvalidReferenceName,
+// while a Storer that keys references by name holds no entry under it and Tag
+// returns ErrTagNotFound.
+//
+// https://github.com/git/git/blob/1630431f326e15fcde608827b5ff38422528eb59/builtin/tag.c#L106-L127
+//
+// To find out whether the tag is an annotated tag, call TagObject on the hash
+// of the returned reference:
 //
 //	ref, err := r.Tag("v0.1.0")
 //	if err != nil {
@@ -1030,7 +1053,7 @@ func (r *Repository) buildTagSignature(tag *object.Tag, signer Signer) (string, 
 //	  // Some other error
 //	}
 func (r *Repository) Tag(name string) (*plumbing.Reference, error) {
-	ref, err := r.Reference(plumbing.ReferenceName(path.Join("refs", "tags", name)), false)
+	ref, err := r.Reference(plumbing.NewTagReferenceName(name), false)
 	if err != nil {
 		if err == plumbing.ErrReferenceNotFound {
 			// Return a friendly error for this one, versus just ReferenceNotFound.
@@ -1043,14 +1066,18 @@ func (r *Repository) Tag(name string) (*plumbing.Reference, error) {
 	return ref, nil
 }
 
-// DeleteTag deletes a tag from the repository.
+// DeleteTag removes the tag reference with the given shorthand name.
+//
+// The name is appended to "refs/tags/" as Tag describes. DeleteTag resolves it
+// through Tag first, so it reports Tag's error and removes nothing for a name
+// that denotes no tag.
 func (r *Repository) DeleteTag(name string) error {
 	_, err := r.Tag(name)
 	if err != nil {
 		return err
 	}
 
-	return r.Storer.RemoveReference(plumbing.ReferenceName(path.Join("refs", "tags", name)))
+	return r.Storer.RemoveReference(plumbing.NewTagReferenceName(name))
 }
 
 func (r *Repository) resolveToCommitHash(h plumbing.Hash) (plumbing.Hash, error) {
@@ -1683,7 +1710,8 @@ func (r *Repository) Tags() (storer.ReferenceIter, error) {
 	return storer.NewReferenceFilteredIter(
 		func(r *plumbing.Reference) bool {
 			return r.Name().IsTag()
-		}, refIter), nil
+		}, refIter,
+	), nil
 }
 
 // Branches returns all the References that are Branches.
@@ -1696,7 +1724,8 @@ func (r *Repository) Branches() (storer.ReferenceIter, error) {
 	return storer.NewReferenceFilteredIter(
 		func(r *plumbing.Reference) bool {
 			return r.Name().IsBranch()
-		}, refIter), nil
+		}, refIter,
+	), nil
 }
 
 // Notes returns all the References that are notes. For more information:
@@ -1710,7 +1739,8 @@ func (r *Repository) Notes() (storer.ReferenceIter, error) {
 	return storer.NewReferenceFilteredIter(
 		func(r *plumbing.Reference) bool {
 			return r.Name().IsNote()
-		}, refIter), nil
+		}, refIter,
+	), nil
 }
 
 // TreeObject return a Tree with the given hash. If not found
@@ -2051,7 +2081,10 @@ type RepackConfig struct {
 	OnlyDeletePacksOlderThan time.Time
 }
 
-// RepackObjects repacks all objects in the repository into a single packfile.
+// RepackObjects packs reachable objects and removes old packs according to cfg.
+// Reachability follows symbolic references. Missing targets are ignored, but
+// other resolution errors, including the recursion limit, stop the operation
+// before it creates a replacement pack or removes existing objects.
 func (r *Repository) RepackObjects(cfg *RepackConfig) (err error) {
 	pos, ok := r.Storer.(storer.PackedObjectStorer)
 	if !ok {
@@ -2116,6 +2149,30 @@ func (r *Repository) Merge(ref plumbing.Reference, opts MergeOptions) error {
 	return r.Storer.SetReference(plumbing.NewHashReference(head.Name(), ref.Hash()))
 }
 
+// newPackWriter opens a writer for the pack a repack is about to produce.
+//
+// Repacking a partial clone folds objects out of promisor packs into the new
+// one, which therefore has to be marked promisor itself. Left unmarked, the
+// trees it carries would reference blobs the remote withheld with nothing to
+// record that the absence is intended, and git would report them as broken
+// links and refuse to gc the repository — the very state repacking is meant to
+// tidy up.
+func (r *Repository) newPackWriter(promisor bool) (io.WriteCloser, error) {
+	if promisor {
+		ppw, ok := r.Storer.(storer.PromisorPackfileWriter)
+		if !ok {
+			return nil, fmt.Errorf("repository storer cannot record promisor packs, refusing to repack a partial clone")
+		}
+		return ppw.PromisorPackfileWriter("")
+	}
+
+	pfw, ok := r.Storer.(storer.PackfileWriter)
+	if !ok {
+		return nil, fmt.Errorf("Repository storer is not a storer.PackfileWriter")
+	}
+	return pfw.PackfileWriter()
+}
+
 // createNewObjectPack is a helper for RepackObjects taking care
 // of creating a new pack. It is used so the PackfileWriter
 // deferred close has the right scope.
@@ -2125,19 +2182,23 @@ func (r *Repository) createNewObjectPack(cfg *RepackConfig) (h plumbing.Hash, er
 	if err != nil {
 		return h, err
 	}
-	objs := make([]plumbing.Hash, 0, len(ow.seen))
-	for h := range ow.seen {
-		objs = append(objs, h)
-	}
-	pfw, ok := r.Storer.(storer.PackfileWriter)
-	if !ok {
-		return h, fmt.Errorf("Repository storer is not a storer.PackfileWriter")
-	}
-	wc, err := pfw.PackfileWriter()
+	// Only objects that are actually present can be written out. In a partial
+	// clone the walk reaches objects the promisor remote withheld, and asking
+	// the encoder for those fails with "object not found".
+	objs := ow.present()
+
+	wc, err := r.newPackWriter(ow.promisor)
 	if err != nil {
 		return h, err
 	}
-	defer ioutil.CheckClose(wc, &err)
+	// Close publishes the pack, so it has to precede the deletion below (#2370).
+	closed := false
+	defer func() {
+		if !closed {
+			ioutil.CheckClose(wc, &err)
+		}
+	}()
+
 	scfg, err := r.Config()
 	if err != nil {
 		return h, err
@@ -2145,6 +2206,11 @@ func (r *Repository) createNewObjectPack(cfg *RepackConfig) (h plumbing.Hash, er
 	enc := packfile.NewEncoder(wc, r.Storer, cfg.UseRefDeltas)
 	h, err = enc.Encode(objs, scfg.Pack.Window)
 	if err != nil {
+		return h, err
+	}
+
+	closed = true
+	if err = wc.Close(); err != nil {
 		return h, err
 	}
 

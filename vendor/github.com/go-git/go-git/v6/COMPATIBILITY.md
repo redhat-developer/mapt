@@ -113,7 +113,7 @@ compatibility status with go-git.
 | Feature              | Sub-feature | Status | Notes | Examples                                                   |
 | -------------------- | ----------- | ------ | ----- | ---------------------------------------------------------- |
 | `daemon`             |             | ⚠️ (partial) | via https://github.com/go-git/cli      |                                                            |
-| `update-server-info` |             | ✅     |       | [update-server-info](_examples/update-server-info/main.go) |
+| `update-server-info` |             | ❌     | Only used by the dumb HTTP protocol, which is not supported. |                                       |
 
 ## Advanced
 
@@ -167,6 +167,7 @@ compatibility status with go-git.
 | multi-pack-index     | [v1](https://github.com/git/git/blob/master/Documentation/gitformat-pack.txt)   | ❌     |       |
 | pack-\*.rev files    | [v1](https://github.com/git/git/blob/master/Documentation/gitformat-pack.txt)   | ✅     |       |
 | pack-\*.mtimes files | [v1](https://github.com/git/git/blob/master/Documentation/gitformat-pack.txt)   | ❌     |       |
+| pack-\*.promisor files | [v1](https://github.com/git/git/blob/master/Documentation/gitformat-pack.txt) | ✅     | Written for packs received by a filtered fetch, and preserved across repack. |
 | cruft packs          |                                                                                 | ❌     |       |
 
 ## Capabilities
@@ -198,14 +199,14 @@ compatibility status with go-git.
 | `allow-tip-sha1-in-want`       | ✅           |       |
 | `allow-reachable-sha1-in-want` | ❌           |       |
 | `push-cert=<nonce>`            | ❌           |       |
-| `filter`                       | ❌           |       |
+| `filter`                       | ⚠️ (partial) | Fetching with a filter is supported and records the partial clone (promisor-marked packs, `remote.<name>.promisor` and `partialclonefilter`), so git accepts the result. go-git cannot fetch the withheld objects back on demand, so reading one fails rather than backfilling it. Not offered when serving. |
 | `session-id=<session id>`      | ❌           |       |
 
 ## Transport Schemes
 
 | Scheme               | Status       | Notes                                                                  | Examples                                       |
 | -------------------- | ------------ | ---------------------------------------------------------------------- | ---------------------------------------------- |
-| `http(s)://` (dumb)  | ⚠️ (partial) | Requires filesystem-backed storage; shallow fetch is not supported.    |                                                |
+| `http(s)://` (dumb)  | ❌           | Not supported, neither as a client nor when serving.                   |                                                |
 | `http(s)://` (smart) | ✅           |                                                                        |                                                |
 | `git://`             | ✅           |                                                                        |                                                |
 | `ssh://`             | ✅           |                                                                        |                                                |
@@ -223,3 +224,4 @@ compatibility status with go-git.
 | `gitattributes` |                             | ✅     |                                                |          |
 | `git-worktree`  | `add`, `remove` and `list`  | ⚠️ (partial) | Not all flags nor subcommands are supported.   | - [worktrees](_examples/worktrees/main.go) |
 | `extensions`    | `worktreeConfig`            | ✅           | Per-worktree `config.worktree` files are read and overlaid on the common config when this extension is enabled. Supported only by `storage.filesystem`. |          |
+| `extensions`    | `relativeWorktrees`         | ✅           | Linked worktrees using relative paths can be opened with `storage.filesystem`. |          |
