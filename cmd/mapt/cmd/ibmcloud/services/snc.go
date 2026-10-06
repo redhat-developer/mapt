@@ -16,8 +16,8 @@ const (
 	cmdOpenshiftSNCDesc = "Manage an OpenShift Single Node Cluster based on OpenShift Local on IBM Cloud. This is not intended for production use"
 
 	ocpVersion        = "version"
-	ocpDefaultVersion = "4.22.14"
-	ocpVersionDesc    = "version for Openshift."
+	ocpDefaultVersion = ""
+	ocpVersionDesc    = "version for Openshift. If omitted, the latest version available in the catalog is used"
 
 	pullSecretFile              = "pull-secret-file"
 	pullSecretFileDesc          = "file path of image pull secret (download from https://console.redhat.com/openshift/create/local)"

@@ -2,7 +2,7 @@
 
 This action provisions a single-node OpenShift cluster on IBM Cloud VPC, using bundles from the [SNC](https://github.com/crc-org/snc) project. The VM is created from a catalog image and assigned a floating IP for direct SSH and Kubernetes API access.
 
-The catalog image is automatically discovered from `--version` by querying the IBM Cloud Catalog Management API.
+The catalog image is automatically discovered by querying the IBM Cloud Catalog Management API. When `--version` is omitted, the latest available version is selected by semver.
 
 ## Prerequisite
 

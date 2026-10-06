@@ -69,13 +69,26 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 	if err := profile.ValidateOperatorOverrides(args.OperatorChannels, args.CatalogSources); err != nil {
 		return nil, err
 	}
-	offeringName := imageName(args.Version, args.Arch)
-	logging.Debugf("Looking up catalog offering %s", offeringName)
-	offeringCRN, err := icdata.GetCatalogOfferingVersionCRN(offeringName, args.Version)
-	if err != nil {
-		return nil, fmt.Errorf("looking up catalog offering for version %s: %w", args.Version, err)
+	version := args.Version
+	var offeringCRN string
+	if version == "" {
+		v, crn, err := icdata.GetLatestCatalogOfferingVersionCRN(args.Arch)
+		if err != nil {
+			return nil, fmt.Errorf("detecting latest SNC version: %w", err)
+		}
+		version = v
+		offeringCRN = crn
+		logging.Debugf("Auto-detected latest version: %s (CRN: %s)", version, crn)
+	} else {
+		offeringName := imageName(version, args.Arch)
+		logging.Debugf("Looking up catalog offering %s", offeringName)
+		crn, err := icdata.GetCatalogOfferingVersionCRN(offeringName, version)
+		if err != nil {
+			return nil, fmt.Errorf("looking up catalog offering for version %s: %w", version, err)
+		}
+		offeringCRN = crn
+		logging.Debugf("Found offering CRN: %s", offeringCRN)
 	}
-	logging.Debugf("Found offering CRN: %s", offeringCRN)
 	zone, err := ibmcloudProvider.Zone()
 	if err != nil {
 		return nil, err
@@ -112,7 +125,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 	r := &sncRequest{
 		mCtx:                    mCtx,
 		prefix:                  &prefix,
-		version:                 &args.Version,
+		version:                 &version,
 		disableClusterReadiness: args.DisableClusterReadiness,
 		pullSecretFile:          &args.PullSecretFile,
 		offeringCRN:             &offeringCRN,
