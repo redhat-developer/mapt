@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 
 	"github.com/IBM/go-sdk-core/v5/core"
 	"github.com/IBM/platform-services-go-sdk/resourcecontrollerv2"
@@ -15,9 +16,11 @@ import (
 )
 
 const (
-	smResourceID        = "ibmcloud-secrets-manager"
 	smEndpointURLFormat = "https://%s.%s.secrets-manager.appdomain.cloud"
-	regionEnv           = "IC_REGION"
+	// smCRNServiceName is the service segment present in every Secrets Manager CRN:
+	// crn:v1:bluemix:public:secrets-manager:<region>:a/<account>:<guid>::
+	smCRNServiceName = ":secrets-manager:"
+	regionEnv        = "IC_REGION"
 )
 
 // Client is a thin wrapper around the IBM Cloud Secrets Manager REST API v2.
@@ -67,19 +70,19 @@ func getInstanceEndpointURL() (string, error) {
 		return "", fmt.Errorf("creating resource controller client: %w", err)
 	}
 
-	resourceID := smResourceID
-	opts := &resourcecontrollerv2.ListResourceInstancesOptions{
-		ResourceID: &resourceID,
-	}
-	result, _, err := rc.ListResourceInstances(opts)
+	result, _, err := rc.ListResourceInstances(&resourcecontrollerv2.ListResourceInstancesOptions{})
 	if err != nil {
-		return "", fmt.Errorf("listing Secrets Manager instances: %w", err)
+		return "", fmt.Errorf("listing resource instances: %w", err)
 	}
 
+	// Filter by CRN service segment and region. The catalog offering ID for
+	// Secrets Manager is a UUID that varies by environment, so we match on the
+	// CRN which always contains ":secrets-manager:" for SM instances.
 	var active []resourcecontrollerv2.ResourceInstance
 	for _, inst := range result.Resources {
 		if inst.State != nil && *inst.State == "active" &&
-			inst.RegionID != nil && *inst.RegionID == region {
+			inst.RegionID != nil && *inst.RegionID == region &&
+			inst.CRN != nil && strings.Contains(*inst.CRN, smCRNServiceName) {
 			active = append(active, inst)
 		}
 	}
