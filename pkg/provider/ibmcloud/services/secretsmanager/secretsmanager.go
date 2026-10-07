@@ -20,6 +20,8 @@ const (
 	EndpointURLFormat = "https://%s.%s.secrets-manager.appdomain.cloud"
 	// RegionEnv is the environment variable that specifies the IBM Cloud region.
 	RegionEnv = "IC_REGION"
+	// IBMCloudAPIKeyEnv is the environment variable for the IBM Cloud API key.
+	IBMCloudAPIKeyEnv = "IBMCLOUD_API_KEY"
 
 	// smCRNServiceName is the service segment present in every Secrets Manager CRN:
 	// crn:v1:bluemix:public:secrets-manager:<region>:a/<account>:<guid>::
