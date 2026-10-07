@@ -48,8 +48,10 @@ jobs:
     - name: Test
       run: make test
 
+    - name: Lint
+      env:
+        GOTMPDIR: /home/runner/work/gotmp
+      run: make lint
+
     - name: Clean Go build cache
       run: go clean -cache
-
-    - name: Lint
-      run: make lint
