@@ -69,6 +69,7 @@ require (
 	github.com/daixiang0/gci v0.14.0 // indirect
 	github.com/dave/dst v0.28.0 // indirect
 	github.com/denis-tingaikin/go-header v0.5.0 // indirect
+	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	// github.com/denis-tingaikin/go-header v1.0.0 // indirect
 	github.com/dlclark/regexp2/v2 v2.8.3 // indirect
 	github.com/ettle/strcase v0.2.0 // indirect
@@ -77,7 +78,7 @@ require (
 	github.com/firefart/nonamedreturns v1.0.8 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
-	github.com/ghostiam/protogetter v0.3.21 // indirect
+	github.com/ghostiam/protogetter v1.0.1 // indirect
 	// github.com/ghostiam/protogetter v1.0.1 // indirect
 	github.com/go-critic/go-critic v0.15.0 // indirect
 	github.com/go-toolsmith/astcast v1.1.0 // indirect
@@ -166,7 +167,6 @@ require (
 	// github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.16.0 // indirect
 	github.com/ryancurrah/gomodguard v1.4.1 // indirect
-	// github.com/denis-tingaikin/go-header v1.0.1 // indirect
 	github.com/ryancurrah/gomodguard/v2 v2.1.3 // indirect
 	github.com/ryanrolds/sqlclosecheck v0.6.0 // indirect
 	github.com/sagikazarmark/locafero v0.12.0 // indirect
@@ -193,6 +193,8 @@ require (
 	github.com/timakin/bodyclose v0.0.0-20260923065923-98ded9ab4ef2 // indirect
 	github.com/timonwong/loggercheck v0.12.1 // indirect
 	github.com/tomarrell/wrapcheck/v2 v2.12.0 // indirect
+	// github.com/tomarrell/wrapcheck/v2 v2.12.0 // indirect
+	// github.com/tomarrell/wrapcheck/v2 v2.12.0 // indirect
 	// github.com/tomarrell/wrapcheck/v2 v2.12.0 // indirect
 	github.com/tommy-muehle/go-mnd/v2 v2.5.1 // indirect
 	github.com/ultraware/funlen v0.2.0 // indirect

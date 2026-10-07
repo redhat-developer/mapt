@@ -246,8 +246,8 @@ github.com/fsnotify/fsnotify/internal
 # github.com/fzipp/gocyclo v0.6.0
 ## explicit; go 1.18
 github.com/fzipp/gocyclo
-# github.com/ghostiam/protogetter v0.3.21
-## explicit; go 1.25.0
+# github.com/ghostiam/protogetter v1.0.1
+## explicit; go 1.26.0
 github.com/ghostiam/protogetter
 # github.com/go-critic/go-critic v0.15.0
 ## explicit; go 1.25.0
