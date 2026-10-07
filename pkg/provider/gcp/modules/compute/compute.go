@@ -114,8 +114,8 @@ func (c *Compute) Readiness(ctx *pulumi.Context, prefix, id, username string,
 			Port:           pulumi.Float64(sshPort),
 			DialErrorLimit: pulumi.Int(-1),
 		},
-		Create: pulumi.String(command.CommandCloudInitWait),
-		Update: pulumi.String(command.CommandCloudInitWait),
+		Create: pulumi.String(command.CommandPing),
+		Update: pulumi.String(command.CommandPing),
 	}, pulumi.Timeouts(
 		&pulumi.CustomTimeouts{
 			Create: command.RemoteTimeout,

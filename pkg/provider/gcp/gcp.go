@@ -20,7 +20,20 @@ func Provider() *GCP {
 }
 
 func (g *GCP) Init(_ context.Context, _ string) (string, error) {
+	setGCPIdentityEnvs()
 	return "", nil
+}
+
+// Bridge GOOGLE_CREDENTIALS (Pulumi convention) to GOOGLE_APPLICATION_CREDENTIALS
+// (Google Go SDK convention) so users only need to set one.
+func setGCPIdentityEnvs() {
+	if os.Getenv("GOOGLE_APPLICATION_CREDENTIALS") == "" {
+		if creds := os.Getenv("GOOGLE_CREDENTIALS"); creds != "" {
+			if err := os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", creds); err != nil {
+				logging.Error(err)
+			}
+		}
+	}
 }
 
 func (g *GCP) DefaultHostingPlace() (*string, error) {
