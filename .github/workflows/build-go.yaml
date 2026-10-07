@@ -28,6 +28,7 @@ jobs:
         sudo docker image prune --all --force 2>/dev/null || true
         sudo apt-get clean 2>/dev/null || true
         sudo swapoff -a && sudo rm -f /swapfile 2>/dev/null || true
+        mkdir -p /home/runner/work/gotmp
         df -h /
 
     - name: Checkout code
@@ -37,9 +38,11 @@ jobs:
       uses: actions/setup-go@v7
       with:
         go-version: '1.27'
-        cache: false
+        cache: true
 
     - name: Build
+      env:
+        GOTMPDIR: /home/runner/work/gotmp
       run: make build GCFLAGS=""
 
     - name: Test
