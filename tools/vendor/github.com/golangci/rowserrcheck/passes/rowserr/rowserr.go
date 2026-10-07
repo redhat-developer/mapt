@@ -205,13 +205,27 @@ func (r *runner) getBodyOp(instr ssa.Instruction) (*ssa.UnOp, bool) {
 }
 
 func (r *runner) isErrCalled(inst ssa.Instruction) bool {
+	return r.isErrCalledVisited(inst, map[ssa.Instruction]bool{})
+}
+
+func (r *runner) isErrCalledVisited(inst ssa.Instruction, visited map[ssa.Instruction]bool) bool {
+	if visited[inst] {
+		return false
+	}
+
+	visited[inst] = true
+
+	isErrCalled := func(i ssa.Instruction) bool {
+		return r.isErrCalledVisited(i, visited)
+	}
+
 	switch resRef := inst.(type) {
 	case *ssa.Phi:
 		if resRef.Referrers() == nil {
 			return false
 		}
 
-		if slices.ContainsFunc(*resRef.Referrers(), r.isErrCalled) {
+		if slices.ContainsFunc(*resRef.Referrers(), isErrCalled) {
 			return true
 		}
 
@@ -234,7 +248,7 @@ func (r *runner) isErrCalled(inst ssa.Instruction) bool {
 					continue
 				}
 
-				if slices.ContainsFunc(*c.Referrers(), r.isErrCalled) {
+				if slices.ContainsFunc(*c.Referrers(), isErrCalled) {
 					return true
 				}
 			}

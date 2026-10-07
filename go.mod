@@ -17,24 +17,24 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.8.2
 	github.com/IBM-Cloud/power-go-client v1.17.0
-	github.com/IBM/go-sdk-core/v5 v5.23.4
+	github.com/IBM/go-sdk-core/v5 v5.24.0
 	github.com/IBM/platform-services-go-sdk v0.103.4
-	github.com/IBM/vpc-go-sdk v0.91.0
+	github.com/IBM/vpc-go-sdk v0.92.0
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
 	github.com/aws/aws-sdk-go-v2 v1.47.1
 	github.com/aws/aws-sdk-go-v2/config v1.33.6
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.336.1
-	github.com/aws/aws-sdk-go-v2/service/ecs v1.99.1
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.338.2
+	github.com/aws/aws-sdk-go-v2/service/ecs v1.100.1
 	github.com/aws/aws-sdk-go-v2/service/iam v1.64.1
-	github.com/aws/aws-sdk-go-v2/service/s3 v1.113.4
+	github.com/aws/aws-sdk-go-v2/service/s3 v1.114.1
 	github.com/aws/aws-sdk-go-v2/service/sts v1.51.1
 	github.com/aws/smithy-go v1.28.2
 	github.com/coocood/freecache v1.2.7
 	github.com/go-playground/validator/v10 v10.30.5
 	github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.14
-	github.com/pulumi/pulumi-aws-native/sdk v1.80.0
+	github.com/pulumi/pulumi-aws-native/sdk v1.82.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.48.0
-	github.com/pulumi/pulumi-awsx/sdk/v3 v3.9.0
+	github.com/pulumi/pulumi-awsx/sdk/v3 v3.10.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.28.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.28.0
 	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.28.0
@@ -48,12 +48,12 @@ require (
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.34.2
 	github.com/pulumi/pulumi-random/sdk/v4 v4.21.2
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.6.1
-	github.com/pulumi/pulumi/sdk/v3 v3.264.0
+	github.com/pulumi/pulumi/sdk/v3 v3.267.0
 	github.com/sirupsen/logrus v1.10.2
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
-	golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba
+	golang.org/x/exp v0.0.0-20261005173118-76772065c9b0
 	golang.org/x/mod v0.41.0
 	k8s.io/apimachinery v0.37.1
 	k8s.io/client-go v0.37.1
@@ -61,10 +61,10 @@ require (
 
 require (
 	dario.cat/mergo v1.0.2 // indirect
-	github.com/Azure/azure-sdk-for-go/sdk/internal v1.12.0 // indirect
+	github.com/Azure/azure-sdk-for-go/sdk/internal v1.13.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/internal/v3 v3.2.0 // indirect
 	github.com/Azure/azure-sdk-for-go/sdk/storage/internal v0.1.0 // indirect
-	github.com/AzureAD/microsoft-authentication-library-for-go v1.9.0 // indirect
+	github.com/AzureAD/microsoft-authentication-library-for-go v1.10.1 // indirect
 	github.com/BurntSushi/toml v1.6.0 // indirect
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/ProtonMail/go-crypto v1.5.2 // indirect
@@ -94,20 +94,21 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/charmbracelet/bubbles v1.0.0 // indirect
 	github.com/charmbracelet/bubbletea v1.3.10 // indirect
+	// github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	// github.com/charmbracelet/bubbles v1.0.0 // indirect
 	// github.com/charmbracelet/bubbletea v1.3.10 // indirect
 	github.com/charmbracelet/colorprofile v0.4.3 // indirect
 	github.com/charmbracelet/lipgloss v1.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.8 // indirect
 	github.com/charmbracelet/x/cellbuf v0.0.15 // indirect
-	github.com/charmbracelet/x/exp/golden v0.0.0-20260920004010-53e2afe73ae5 // indirect
+	github.com/charmbracelet/x/exp/golden v0.1.0 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.11.0 // indirect
 	github.com/clipperhouse/uax29/v2 v2.7.0 // indirect
 	github.com/cloudflare/circl v1.6.5 // indirect
 	github.com/danieljoos/wincred v1.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/deckarep/golang-set/v2 v2.5.0 // indirect
+	github.com/deckarep/golang-set/v2 v2.9.0 // indirect
 	github.com/djherbis/times v1.6.0 // indirect
 	github.com/ebitengine/purego v0.11.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
@@ -150,7 +151,7 @@ require (
 	github.com/go-playground/locales v0.14.2 // indirect
 	github.com/go-playground/universal-translator v0.18.2 // indirect
 	github.com/go-viper/mapstructure/v2 v2.5.0 // indirect
-	github.com/goccy/go-json v0.10.6 // indirect
+	github.com/goccy/go-json v0.11.2 // indirect
 	github.com/godbus/dbus/v5 v5.2.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
@@ -204,7 +205,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.28.0 // indirect
-	github.com/pulumi/pulumi-cloud-sdk/go v1.20260918.0 // indirect
+	github.com/pulumi/pulumi-cloud-sdk/go v1.20261005.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.22 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
@@ -224,14 +225,15 @@ require (
 	github.com/zalando/go-keyring v0.2.8 // indirect
 	github.com/zclconf/go-cty v1.19.0 // indirect
 	github.com/zeebo/xxh3 v1.1.0 // indirect
+	go.mongodb.org/mongo-driver v1.17.9 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/collector/featuregate v1.67.0 // indirect
-	go.opentelemetry.io/collector/pdata v1.67.0 // indirect
-	go.opentelemetry.io/contrib/bridges/otelslog v0.20.1 // indirect
+	go.opentelemetry.io/collector/featuregate v1.68.0 // indirect
+	go.opentelemetry.io/collector/pdata v1.68.0 // indirect
+	go.opentelemetry.io/contrib/bridges/otelslog v0.21.0 // indirect
 	go.opentelemetry.io/otel v1.47.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.22.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.46.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.46.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploggrpc v0.23.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.47.0 // indirect
+	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.47.0 // indirect
 	go.opentelemetry.io/otel/log v1.47.0 // indirect
 	go.opentelemetry.io/otel/metric v1.47.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.47.0 // indirect
@@ -250,16 +252,16 @@ require (
 	golang.org/x/term v0.46.0 // indirect
 	golang.org/x/text v0.42.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
-	golang.org/x/tools v0.50.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20260928230214-8a89bd6388cc // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260928230214-8a89bd6388cc // indirect
+	golang.org/x/tools v0.51.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20261005182115-fad411399dd8 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20261005182115-fad411399dd8 // indirect
 	google.golang.org/grpc v1.84.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/klog/v2 v2.140.0 // indirect
-	k8s.io/kube-openapi v0.0.0-20260911184034-7970a1e230da // indirect
+	k8s.io/kube-openapi v0.0.0-20261007072838-e2e80c32a35f // indirect
 	k8s.io/utils v0.0.0-20260707023825-cf1189d6abe3 // indirect
 	lukechampine.com/frand v1.5.1 // indirect
 	sigs.k8s.io/json v0.0.0-20260909141634-11ed52e25bc5 // indirect
