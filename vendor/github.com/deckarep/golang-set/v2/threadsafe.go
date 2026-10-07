@@ -25,11 +25,15 @@ SOFTWARE.
 
 package mapset
 
-import "sync"
+import (
+	"sync"
+
+	"go.mongodb.org/mongo-driver/bson/bsontype"
+)
 
 type threadSafeSet[T comparable] struct {
 	sync.RWMutex
-	uss threadUnsafeSet[T]
+	uss *threadUnsafeSet[T]
 }
 
 func newThreadSafeSet[T comparable]() *threadSafeSet[T] {
@@ -66,11 +70,32 @@ func (t *threadSafeSet[T]) Contains(v ...T) bool {
 	return ret
 }
 
+func (t *threadSafeSet[T]) ContainsOne(v T) bool {
+	t.RLock()
+	ret := t.uss.ContainsOne(v)
+	t.RUnlock()
+
+	return ret
+}
+
 func (t *threadSafeSet[T]) ContainsAny(v ...T) bool {
 	t.RLock()
 	ret := t.uss.ContainsAny(v...)
 	t.RUnlock()
 
+	return ret
+}
+
+func (t *threadSafeSet[T]) ContainsAnyElement(other Set[T]) bool {
+	o := other.(*threadSafeSet[T])
+
+	t.RLock()
+	o.RLock()
+
+	ret := t.uss.ContainsAnyElement(o.uss)
+
+	t.RUnlock()
+	o.RUnlock()
 	return ret
 }
 
@@ -115,7 +140,7 @@ func (t *threadSafeSet[T]) Union(other Set[T]) Set[T] {
 	t.RLock()
 	o.RLock()
 
-	unsafeUnion := t.uss.Union(o.uss).(threadUnsafeSet[T])
+	unsafeUnion := t.uss.Union(o.uss).(*threadUnsafeSet[T])
 	ret := &threadSafeSet[T]{uss: unsafeUnion}
 	t.RUnlock()
 	o.RUnlock()
@@ -128,7 +153,7 @@ func (t *threadSafeSet[T]) Intersect(other Set[T]) Set[T] {
 	t.RLock()
 	o.RLock()
 
-	unsafeIntersection := t.uss.Intersect(o.uss).(threadUnsafeSet[T])
+	unsafeIntersection := t.uss.Intersect(o.uss).(*threadUnsafeSet[T])
 	ret := &threadSafeSet[T]{uss: unsafeIntersection}
 	t.RUnlock()
 	o.RUnlock()
@@ -141,7 +166,7 @@ func (t *threadSafeSet[T]) Difference(other Set[T]) Set[T] {
 	t.RLock()
 	o.RLock()
 
-	unsafeDifference := t.uss.Difference(o.uss).(threadUnsafeSet[T])
+	unsafeDifference := t.uss.Difference(o.uss).(*threadUnsafeSet[T])
 	ret := &threadSafeSet[T]{uss: unsafeDifference}
 	t.RUnlock()
 	o.RUnlock()
@@ -154,7 +179,7 @@ func (t *threadSafeSet[T]) SymmetricDifference(other Set[T]) Set[T] {
 	t.RLock()
 	o.RLock()
 
-	unsafeDifference := t.uss.SymmetricDifference(o.uss).(threadUnsafeSet[T])
+	unsafeDifference := t.uss.SymmetricDifference(o.uss).(*threadUnsafeSet[T])
 	ret := &threadSafeSet[T]{uss: unsafeDifference}
 	t.RUnlock()
 	o.RUnlock()
@@ -169,7 +194,7 @@ func (t *threadSafeSet[T]) Clear() {
 
 func (t *threadSafeSet[T]) Remove(v T) {
 	t.Lock()
-	delete(t.uss, v)
+	delete(*t.uss, v)
 	t.Unlock()
 }
 
@@ -182,17 +207,17 @@ func (t *threadSafeSet[T]) RemoveAll(i ...T) {
 func (t *threadSafeSet[T]) Cardinality() int {
 	t.RLock()
 	defer t.RUnlock()
-	return len(t.uss)
+	return len(*t.uss)
 }
 
 func (t *threadSafeSet[T]) Each(cb func(T) bool) {
 	t.RLock()
-	for elem := range t.uss {
+	defer t.RUnlock()
+	for elem := range *t.uss {
 		if cb(elem) {
 			break
 		}
 	}
-	t.RUnlock()
 }
 
 func (t *threadSafeSet[T]) Iter() <-chan T {
@@ -200,7 +225,7 @@ func (t *threadSafeSet[T]) Iter() <-chan T {
 	go func() {
 		t.RLock()
 
-		for elem := range t.uss {
+		for elem := range *t.uss {
 			ch <- elem
 		}
 		close(ch)
@@ -216,7 +241,7 @@ func (t *threadSafeSet[T]) Iterator() *Iterator[T] {
 	go func() {
 		t.RLock()
 	L:
-		for elem := range t.uss {
+		for elem := range *t.uss {
 			select {
 			case <-stopCh:
 				break L
@@ -245,7 +270,7 @@ func (t *threadSafeSet[T]) Equal(other Set[T]) bool {
 func (t *threadSafeSet[T]) Clone() Set[T] {
 	t.RLock()
 
-	unsafeClone := t.uss.Clone().(threadUnsafeSet[T])
+	unsafeClone := t.uss.Clone().(*threadUnsafeSet[T])
 	ret := &threadSafeSet[T]{uss: unsafeClone}
 	t.RUnlock()
 	return ret
@@ -264,10 +289,17 @@ func (t *threadSafeSet[T]) Pop() (T, bool) {
 	return t.uss.Pop()
 }
 
+func (t *threadSafeSet[T]) PopN(n int) ([]T, int) {
+	t.Lock()
+	defer t.Unlock()
+	return t.uss.PopN(n)
+}
+
 func (t *threadSafeSet[T]) ToSlice() []T {
-	keys := make([]T, 0, t.Cardinality())
 	t.RLock()
-	for elem := range t.uss {
+	l := len(*t.uss)
+	keys := make([]T, 0, l)
+	for elem := range *t.uss {
 		keys = append(keys, elem)
 	}
 	t.RUnlock()
@@ -283,9 +315,25 @@ func (t *threadSafeSet[T]) MarshalJSON() ([]byte, error) {
 }
 
 func (t *threadSafeSet[T]) UnmarshalJSON(p []byte) error {
-	t.RLock()
+	t.Lock()
 	err := t.uss.UnmarshalJSON(p)
+	t.Unlock()
+
+	return err
+}
+
+func (t *threadSafeSet[T]) MarshalBSONValue() (bsontype.Type, []byte, error) {
+	t.RLock()
+	bt, b, err := t.uss.MarshalBSONValue()
 	t.RUnlock()
+
+	return bt, b, err
+}
+
+func (t *threadSafeSet[T]) UnmarshalBSONValue(bt bsontype.Type, p []byte) error {
+	t.Lock()
+	err := t.uss.UnmarshalBSONValue(bt, p)
+	t.Unlock()
 
 	return err
 }

@@ -4,6 +4,8 @@ package apitype
 
 import (
 	"encoding/json"
+
+	"gopkg.in/yaml.v3"
 )
 
 // OpenAPIName returns the OpenAPI name of certain generated types.
@@ -39,4 +41,12 @@ func (r RawProperty) String() string {
 type ResponseWithHeaders[R any, H any] struct {
 	Response R
 	Headers  H
+}
+
+type PatchUnmarshalJSON interface {
+	PatchJSON(bytes []byte) ([]byte, error)
+}
+
+type PatchUnmarshalYAML interface {
+	PatchYAML(value *yaml.Node) error
 }

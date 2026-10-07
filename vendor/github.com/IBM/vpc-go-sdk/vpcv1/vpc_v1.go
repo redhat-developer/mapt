@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.116.0-df613dbc-20260803-154903
+ * IBM OpenAPI SDK Code Generator Version: 3.117.1-c28a0a4f-20260924-094841
  */
 
 // Package vpcv1 : Operations and models for the VpcV1 service
@@ -47,7 +47,7 @@ type VpcV1 struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-09-01`
-	// and `2026-09-03`.
+	// and `2026-09-28`.
 	Version *string
 }
 
@@ -68,7 +68,7 @@ type VpcV1Options struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-09-01`
-	// and `2026-09-03`.
+	// and `2026-09-28`.
 	Version *string
 }
 
@@ -133,7 +133,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2026-09-01")
+		options.Version = core.StringPtr("2026-09-24")
 	}
 
 	service = &VpcV1{
@@ -26649,6 +26649,237 @@ func (vpc *VpcV1) ListSnapshotInstanceProfilesWithContext(ctx context.Context, l
 	return
 }
 
+// ListSnapshotSoftwareAttachments : List snapshot software attachments associated with a snapshot
+// This request lists software attachments associated with a snapshot.
+//
+// The snapshot software attachments will be sorted by their `created_at` property values, with newest snapshot software
+// attachments first. Software attachments with identical
+// `created_at` property values will in turn be sorted by ascending `name` property values.
+func (vpc *VpcV1) ListSnapshotSoftwareAttachments(listSnapshotSoftwareAttachmentsOptions *ListSnapshotSoftwareAttachmentsOptions) (result *SnapshotSoftwareAttachmentCollection, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.ListSnapshotSoftwareAttachmentsWithContext(context.Background(), listSnapshotSoftwareAttachmentsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ListSnapshotSoftwareAttachmentsWithContext is an alternate form of the ListSnapshotSoftwareAttachments method which supports a Context parameter
+func (vpc *VpcV1) ListSnapshotSoftwareAttachmentsWithContext(ctx context.Context, listSnapshotSoftwareAttachmentsOptions *ListSnapshotSoftwareAttachmentsOptions) (result *SnapshotSoftwareAttachmentCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listSnapshotSoftwareAttachmentsOptions, "listSnapshotSoftwareAttachmentsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(listSnapshotSoftwareAttachmentsOptions, "listSnapshotSoftwareAttachmentsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"snapshot_id": *listSnapshotSoftwareAttachmentsOptions.SnapshotID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots/{snapshot_id}/software_attachments`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListSnapshotSoftwareAttachments")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listSnapshotSoftwareAttachmentsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "list_snapshot_software_attachments", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshotSoftwareAttachmentCollection)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetSnapshotSoftwareAttachment : Retrieve a snapshot software attachment
+// This request retrieves a single snapshot software attachment specified by identifier in the URL.
+func (vpc *VpcV1) GetSnapshotSoftwareAttachment(getSnapshotSoftwareAttachmentOptions *GetSnapshotSoftwareAttachmentOptions) (result *SnapshotSoftwareAttachment, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.GetSnapshotSoftwareAttachmentWithContext(context.Background(), getSnapshotSoftwareAttachmentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetSnapshotSoftwareAttachmentWithContext is an alternate form of the GetSnapshotSoftwareAttachment method which supports a Context parameter
+func (vpc *VpcV1) GetSnapshotSoftwareAttachmentWithContext(ctx context.Context, getSnapshotSoftwareAttachmentOptions *GetSnapshotSoftwareAttachmentOptions) (result *SnapshotSoftwareAttachment, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getSnapshotSoftwareAttachmentOptions, "getSnapshotSoftwareAttachmentOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(getSnapshotSoftwareAttachmentOptions, "getSnapshotSoftwareAttachmentOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"snapshot_id": *getSnapshotSoftwareAttachmentOptions.SnapshotID,
+		"id":          *getSnapshotSoftwareAttachmentOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots/{snapshot_id}/software_attachments/{id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetSnapshotSoftwareAttachment")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getSnapshotSoftwareAttachmentOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_snapshot_software_attachment", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshotSoftwareAttachment)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateSnapshotSoftwareAttachment : Update a snapshot software attachment
+// This request updates a snapshot software attachment with the information provided in a snapshot software attachment
+// patch object. The snapshot software attachment patch object is structured in the same way as a retrieved snapshot
+// software attachment and needs to contain only the information to be updated.
+func (vpc *VpcV1) UpdateSnapshotSoftwareAttachment(updateSnapshotSoftwareAttachmentOptions *UpdateSnapshotSoftwareAttachmentOptions) (result *SnapshotSoftwareAttachment, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.UpdateSnapshotSoftwareAttachmentWithContext(context.Background(), updateSnapshotSoftwareAttachmentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateSnapshotSoftwareAttachmentWithContext is an alternate form of the UpdateSnapshotSoftwareAttachment method which supports a Context parameter
+func (vpc *VpcV1) UpdateSnapshotSoftwareAttachmentWithContext(ctx context.Context, updateSnapshotSoftwareAttachmentOptions *UpdateSnapshotSoftwareAttachmentOptions) (result *SnapshotSoftwareAttachment, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateSnapshotSoftwareAttachmentOptions, "updateSnapshotSoftwareAttachmentOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(updateSnapshotSoftwareAttachmentOptions, "updateSnapshotSoftwareAttachmentOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"snapshot_id": *updateSnapshotSoftwareAttachmentOptions.SnapshotID,
+		"id":          *updateSnapshotSoftwareAttachmentOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/snapshots/{snapshot_id}/software_attachments/{id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateSnapshotSoftwareAttachment")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateSnapshotSoftwareAttachmentOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	_, err = builder.SetBodyContentJSON(updateSnapshotSoftwareAttachmentOptions.SnapshotSoftwareAttachmentPatch)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_snapshot_software_attachment", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalSnapshotSoftwareAttachment)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ListSubnets : List subnets
 // This request lists subnets in the region. Subnets are contiguous ranges of IP addresses specified in CIDR block
 // notation. Each subnet is within a particular zone and cannot span multiple zones or regions.
@@ -30051,6 +30282,237 @@ func (vpc *VpcV1) CancelVolumeJobWithContext(ctx context.Context, cancelVolumeJo
 	}
 	if rawResponse != nil {
 		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVolumeJob)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ListVolumeSoftwareAttachments : List volume software attachments associated with a volume
+// This request lists software attachments associated with a volume.
+//
+// The volume software attachments will be sorted by their `created_at` property values, with newest volume software
+// attachments first. Software attachments with identical `created_at` property values will in turn be sorted by
+// ascending `name` property values.
+func (vpc *VpcV1) ListVolumeSoftwareAttachments(listVolumeSoftwareAttachmentsOptions *ListVolumeSoftwareAttachmentsOptions) (result *VolumeSoftwareAttachmentCollection, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.ListVolumeSoftwareAttachmentsWithContext(context.Background(), listVolumeSoftwareAttachmentsOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ListVolumeSoftwareAttachmentsWithContext is an alternate form of the ListVolumeSoftwareAttachments method which supports a Context parameter
+func (vpc *VpcV1) ListVolumeSoftwareAttachmentsWithContext(ctx context.Context, listVolumeSoftwareAttachmentsOptions *ListVolumeSoftwareAttachmentsOptions) (result *VolumeSoftwareAttachmentCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listVolumeSoftwareAttachmentsOptions, "listVolumeSoftwareAttachmentsOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(listVolumeSoftwareAttachmentsOptions, "listVolumeSoftwareAttachmentsOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"volume_id": *listVolumeSoftwareAttachmentsOptions.VolumeID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes/{volume_id}/software_attachments`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListVolumeSoftwareAttachments")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listVolumeSoftwareAttachmentsOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "list_volume_software_attachments", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVolumeSoftwareAttachmentCollection)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetVolumeSoftwareAttachment : Retrieve a volume software attachment
+// This request retrieves a single volume software attachment specified by identifier in the URL.
+func (vpc *VpcV1) GetVolumeSoftwareAttachment(getVolumeSoftwareAttachmentOptions *GetVolumeSoftwareAttachmentOptions) (result *VolumeSoftwareAttachment, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.GetVolumeSoftwareAttachmentWithContext(context.Background(), getVolumeSoftwareAttachmentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetVolumeSoftwareAttachmentWithContext is an alternate form of the GetVolumeSoftwareAttachment method which supports a Context parameter
+func (vpc *VpcV1) GetVolumeSoftwareAttachmentWithContext(ctx context.Context, getVolumeSoftwareAttachmentOptions *GetVolumeSoftwareAttachmentOptions) (result *VolumeSoftwareAttachment, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getVolumeSoftwareAttachmentOptions, "getVolumeSoftwareAttachmentOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(getVolumeSoftwareAttachmentOptions, "getVolumeSoftwareAttachmentOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"volume_id": *getVolumeSoftwareAttachmentOptions.VolumeID,
+		"id":        *getVolumeSoftwareAttachmentOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes/{volume_id}/software_attachments/{id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetVolumeSoftwareAttachment")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getVolumeSoftwareAttachmentOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_volume_software_attachment", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVolumeSoftwareAttachment)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// UpdateVolumeSoftwareAttachment : Update a volume software attachment
+// This request updates a volume software attachment with the information provided in a volume software attachment patch
+// object. The volume software attachment patch object is structured in the same way as a retrieved volume software
+// attachment and needs to contain only the information to be updated.
+func (vpc *VpcV1) UpdateVolumeSoftwareAttachment(updateVolumeSoftwareAttachmentOptions *UpdateVolumeSoftwareAttachmentOptions) (result *VolumeSoftwareAttachment, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.UpdateVolumeSoftwareAttachmentWithContext(context.Background(), updateVolumeSoftwareAttachmentOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// UpdateVolumeSoftwareAttachmentWithContext is an alternate form of the UpdateVolumeSoftwareAttachment method which supports a Context parameter
+func (vpc *VpcV1) UpdateVolumeSoftwareAttachmentWithContext(ctx context.Context, updateVolumeSoftwareAttachmentOptions *UpdateVolumeSoftwareAttachmentOptions) (result *VolumeSoftwareAttachment, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(updateVolumeSoftwareAttachmentOptions, "updateVolumeSoftwareAttachmentOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(updateVolumeSoftwareAttachmentOptions, "updateVolumeSoftwareAttachmentOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"volume_id": *updateVolumeSoftwareAttachmentOptions.VolumeID,
+		"id":        *updateVolumeSoftwareAttachmentOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PATCH)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/volumes/{volume_id}/software_attachments/{id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "UpdateVolumeSoftwareAttachment")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range updateVolumeSoftwareAttachmentOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/merge-patch+json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	_, err = builder.SetBodyContentJSON(updateVolumeSoftwareAttachmentOptions.VolumeSoftwareAttachmentPatch)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "update_volume_software_attachment", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVolumeSoftwareAttachment)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
 			return
@@ -36565,7 +37027,7 @@ func (vpc *VpcV1) UpdateVPNServerRouteWithContext(ctx context.Context, updateVPN
 	return
 }
 func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "2026-09-01")
+	return core.NewProblemComponent(DefaultServiceName, "2026-09-24")
 }
 
 // AccountIdentity : Identifies an account by a unique property.
@@ -41395,22 +41857,23 @@ func UnmarshalBareMetalServerNetworkInterface(m map[string]json.RawMessage, resu
 		err = core.SDKErrorf(err, "required discriminator property 'interface_type' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "hipersocket" {
+	switch discValue {
+	case "hipersocket":
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfaceByHiperSocket)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-BareMetalServerNetworkInterfaceByHiperSocket-error", common.GetComponentInfo())
 		}
-	} else if discValue == "pci" {
+	case "pci":
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfaceByPci)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-BareMetalServerNetworkInterfaceByPci-error", common.GetComponentInfo())
 		}
-	} else if discValue == "vlan" {
+	case "vlan":
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfaceByVlan)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-BareMetalServerNetworkInterfaceByVlan-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		errMsg := fmt.Sprintf("unrecognized value for discriminator property 'interface_type': %s", discValue)
 		err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 	}
@@ -41705,22 +42168,23 @@ func UnmarshalBareMetalServerNetworkInterfacePrototype(m map[string]json.RawMess
 		err = core.SDKErrorf(err, "required discriminator property 'interface_type' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "hipersocket" {
+	switch discValue {
+	case "hipersocket":
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByHiperSocketPrototype-error", common.GetComponentInfo())
 		}
-	} else if discValue == "pci" {
+	case "pci":
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByPciPrototype-error", common.GetComponentInfo())
 		}
-	} else if discValue == "vlan" {
+	case "vlan":
 		err = core.UnmarshalModel(m, "", result, UnmarshalBareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-BareMetalServerNetworkInterfacePrototypeBareMetalServerNetworkInterfaceByVlanPrototype-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		errMsg := fmt.Sprintf("unrecognized value for discriminator property 'interface_type': %s", discValue)
 		err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 	}
@@ -58487,7 +58951,7 @@ func (floatingIPPatch *FloatingIPPatch) AsPatch() (_patch map[string]interface{}
 	return
 }
 
-// FloatingIPPrototype : FloatingIPPrototype struct
+// FloatingIPPrototype : The prototype object for a floating IP to be created.
 // Models which "extend" this model:
 // - FloatingIPPrototypeFloatingIPByZone
 // - FloatingIPPrototypeFloatingIPByTarget
@@ -62092,6 +62556,44 @@ func (options *GetSnapshotOptions) SetHeaders(param map[string]string) *GetSnaps
 	return options
 }
 
+// GetSnapshotSoftwareAttachmentOptions : The GetSnapshotSoftwareAttachment options.
+type GetSnapshotSoftwareAttachmentOptions struct {
+	// The snapshot identifier.
+	SnapshotID *string `json:"snapshot_id" validate:"required,ne="`
+
+	// The snapshot software attachment identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetSnapshotSoftwareAttachmentOptions : Instantiate GetSnapshotSoftwareAttachmentOptions
+func (*VpcV1) NewGetSnapshotSoftwareAttachmentOptions(snapshotID string, id string) *GetSnapshotSoftwareAttachmentOptions {
+	return &GetSnapshotSoftwareAttachmentOptions{
+		SnapshotID: core.StringPtr(snapshotID),
+		ID:         core.StringPtr(id),
+	}
+}
+
+// SetSnapshotID : Allow user to set SnapshotID
+func (_options *GetSnapshotSoftwareAttachmentOptions) SetSnapshotID(snapshotID string) *GetSnapshotSoftwareAttachmentOptions {
+	_options.SnapshotID = core.StringPtr(snapshotID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetSnapshotSoftwareAttachmentOptions) SetID(id string) *GetSnapshotSoftwareAttachmentOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetSnapshotSoftwareAttachmentOptions) SetHeaders(param map[string]string) *GetSnapshotSoftwareAttachmentOptions {
+	options.Headers = param
+	return options
+}
+
 // GetSubnetNetworkACLOptions : The GetSubnetNetworkACL options.
 type GetSubnetNetworkACLOptions struct {
 	// The subnet identifier.
@@ -62398,6 +62900,44 @@ func (_options *GetVolumeProfileOptions) SetName(name string) *GetVolumeProfileO
 
 // SetHeaders : Allow user to set Headers
 func (options *GetVolumeProfileOptions) SetHeaders(param map[string]string) *GetVolumeProfileOptions {
+	options.Headers = param
+	return options
+}
+
+// GetVolumeSoftwareAttachmentOptions : The GetVolumeSoftwareAttachment options.
+type GetVolumeSoftwareAttachmentOptions struct {
+	// The volume identifier.
+	VolumeID *string `json:"volume_id" validate:"required,ne="`
+
+	// The volume software attachment identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetVolumeSoftwareAttachmentOptions : Instantiate GetVolumeSoftwareAttachmentOptions
+func (*VpcV1) NewGetVolumeSoftwareAttachmentOptions(volumeID string, id string) *GetVolumeSoftwareAttachmentOptions {
+	return &GetVolumeSoftwareAttachmentOptions{
+		VolumeID: core.StringPtr(volumeID),
+		ID:       core.StringPtr(id),
+	}
+}
+
+// SetVolumeID : Allow user to set VolumeID
+func (_options *GetVolumeSoftwareAttachmentOptions) SetVolumeID(volumeID string) *GetVolumeSoftwareAttachmentOptions {
+	_options.VolumeID = core.StringPtr(volumeID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetVolumeSoftwareAttachmentOptions) SetID(id string) *GetVolumeSoftwareAttachmentOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetVolumeSoftwareAttachmentOptions) SetHeaders(param map[string]string) *GetVolumeSoftwareAttachmentOptions {
 	options.Headers = param
 	return options
 }
@@ -80553,6 +81093,34 @@ func (options *ListSnapshotInstanceProfilesOptions) SetHeaders(param map[string]
 	return options
 }
 
+// ListSnapshotSoftwareAttachmentsOptions : The ListSnapshotSoftwareAttachments options.
+type ListSnapshotSoftwareAttachmentsOptions struct {
+	// The snapshot identifier.
+	SnapshotID *string `json:"snapshot_id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewListSnapshotSoftwareAttachmentsOptions : Instantiate ListSnapshotSoftwareAttachmentsOptions
+func (*VpcV1) NewListSnapshotSoftwareAttachmentsOptions(snapshotID string) *ListSnapshotSoftwareAttachmentsOptions {
+	return &ListSnapshotSoftwareAttachmentsOptions{
+		SnapshotID: core.StringPtr(snapshotID),
+	}
+}
+
+// SetSnapshotID : Allow user to set SnapshotID
+func (_options *ListSnapshotSoftwareAttachmentsOptions) SetSnapshotID(snapshotID string) *ListSnapshotSoftwareAttachmentsOptions {
+	_options.SnapshotID = core.StringPtr(snapshotID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListSnapshotSoftwareAttachmentsOptions) SetHeaders(param map[string]string) *ListSnapshotSoftwareAttachmentsOptions {
+	options.Headers = param
+	return options
+}
+
 // ListSnapshotsOptions : The ListSnapshots options.
 type ListSnapshotsOptions struct {
 	// A server-provided token determining what resource to start the page on.
@@ -81232,6 +81800,34 @@ func (_options *ListVolumeProfilesOptions) SetLimit(limit int64) *ListVolumeProf
 
 // SetHeaders : Allow user to set Headers
 func (options *ListVolumeProfilesOptions) SetHeaders(param map[string]string) *ListVolumeProfilesOptions {
+	options.Headers = param
+	return options
+}
+
+// ListVolumeSoftwareAttachmentsOptions : The ListVolumeSoftwareAttachments options.
+type ListVolumeSoftwareAttachmentsOptions struct {
+	// The volume identifier.
+	VolumeID *string `json:"volume_id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewListVolumeSoftwareAttachmentsOptions : Instantiate ListVolumeSoftwareAttachmentsOptions
+func (*VpcV1) NewListVolumeSoftwareAttachmentsOptions(volumeID string) *ListVolumeSoftwareAttachmentsOptions {
+	return &ListVolumeSoftwareAttachmentsOptions{
+		VolumeID: core.StringPtr(volumeID),
+	}
+}
+
+// SetVolumeID : Allow user to set VolumeID
+func (_options *ListVolumeSoftwareAttachmentsOptions) SetVolumeID(volumeID string) *ListVolumeSoftwareAttachmentsOptions {
+	_options.VolumeID = core.StringPtr(volumeID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListVolumeSoftwareAttachmentsOptions) SetHeaders(param map[string]string) *ListVolumeSoftwareAttachmentsOptions {
 	options.Headers = param
 	return options
 }
@@ -89671,1297 +90267,1298 @@ func UnmarshalNetworkACLRule(m map[string]json.RawMessage, result interface{}) (
 		err = core.SDKErrorf(err, "required discriminator property 'protocol' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "ah" {
+	switch discValue {
+	case "ah":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "any" {
+	case "any":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolAny)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolAny-error", common.GetComponentInfo())
 		}
-	} else if discValue == "esp" {
+	case "esp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "gre" {
+	case "gre":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "icmp" {
+	case "icmp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIcmp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIcmp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "icmp_tcp_udp" {
+	case "icmp_tcp_udp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIcmptcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIcmptcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "ip_in_ip" {
+	case "ip_in_ip":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "l2tp" {
+	case "l2tp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_0" {
+	case "number_0":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_10" {
+	case "number_10":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_100" {
+	case "number_100":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_101" {
+	case "number_101":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_102" {
+	case "number_102":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_103" {
+	case "number_103":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_104" {
+	case "number_104":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_105" {
+	case "number_105":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_106" {
+	case "number_106":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_107" {
+	case "number_107":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_108" {
+	case "number_108":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_109" {
+	case "number_109":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_11" {
+	case "number_11":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_110" {
+	case "number_110":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_111" {
+	case "number_111":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_113" {
+	case "number_113":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_114" {
+	case "number_114":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_116" {
+	case "number_116":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_117" {
+	case "number_117":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_118" {
+	case "number_118":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_119" {
+	case "number_119":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_12" {
+	case "number_12":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_120" {
+	case "number_120":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_121" {
+	case "number_121":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_122" {
+	case "number_122":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_123" {
+	case "number_123":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_124" {
+	case "number_124":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_125" {
+	case "number_125":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_126" {
+	case "number_126":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_127" {
+	case "number_127":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_128" {
+	case "number_128":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_129" {
+	case "number_129":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_13" {
+	case "number_13":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_130" {
+	case "number_130":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_131" {
+	case "number_131":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_133" {
+	case "number_133":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_134" {
+	case "number_134":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_135" {
+	case "number_135":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_136" {
+	case "number_136":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_137" {
+	case "number_137":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_138" {
+	case "number_138":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_139" {
+	case "number_139":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_14" {
+	case "number_14":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_140" {
+	case "number_140":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_141" {
+	case "number_141":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_142" {
+	case "number_142":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_143" {
+	case "number_143":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_144" {
+	case "number_144":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_145" {
+	case "number_145":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_146" {
+	case "number_146":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_147" {
+	case "number_147":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_148" {
+	case "number_148":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_149" {
+	case "number_149":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_15" {
+	case "number_15":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_150" {
+	case "number_150":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_151" {
+	case "number_151":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_152" {
+	case "number_152":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_153" {
+	case "number_153":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_154" {
+	case "number_154":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_155" {
+	case "number_155":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_156" {
+	case "number_156":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_157" {
+	case "number_157":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_158" {
+	case "number_158":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_159" {
+	case "number_159":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_16" {
+	case "number_16":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_160" {
+	case "number_160":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_161" {
+	case "number_161":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_162" {
+	case "number_162":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_163" {
+	case "number_163":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_164" {
+	case "number_164":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_165" {
+	case "number_165":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_166" {
+	case "number_166":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_167" {
+	case "number_167":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_168" {
+	case "number_168":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_169" {
+	case "number_169":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_170" {
+	case "number_170":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_171" {
+	case "number_171":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_172" {
+	case "number_172":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_173" {
+	case "number_173":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_174" {
+	case "number_174":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_175" {
+	case "number_175":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_176" {
+	case "number_176":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_177" {
+	case "number_177":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_178" {
+	case "number_178":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_179" {
+	case "number_179":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_18" {
+	case "number_18":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_180" {
+	case "number_180":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_181" {
+	case "number_181":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_182" {
+	case "number_182":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_183" {
+	case "number_183":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_184" {
+	case "number_184":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_185" {
+	case "number_185":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_186" {
+	case "number_186":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_187" {
+	case "number_187":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_188" {
+	case "number_188":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_189" {
+	case "number_189":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_19" {
+	case "number_19":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_190" {
+	case "number_190":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_191" {
+	case "number_191":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_192" {
+	case "number_192":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_193" {
+	case "number_193":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_194" {
+	case "number_194":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_195" {
+	case "number_195":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_196" {
+	case "number_196":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_197" {
+	case "number_197":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_198" {
+	case "number_198":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_199" {
+	case "number_199":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_2" {
+	case "number_2":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_20" {
+	case "number_20":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_200" {
+	case "number_200":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_201" {
+	case "number_201":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_202" {
+	case "number_202":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_203" {
+	case "number_203":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_204" {
+	case "number_204":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_205" {
+	case "number_205":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_206" {
+	case "number_206":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_207" {
+	case "number_207":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_208" {
+	case "number_208":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_209" {
+	case "number_209":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_21" {
+	case "number_21":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_210" {
+	case "number_210":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_211" {
+	case "number_211":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_212" {
+	case "number_212":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_213" {
+	case "number_213":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_214" {
+	case "number_214":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_215" {
+	case "number_215":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_216" {
+	case "number_216":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_217" {
+	case "number_217":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_218" {
+	case "number_218":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_219" {
+	case "number_219":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_22" {
+	case "number_22":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_220" {
+	case "number_220":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_221" {
+	case "number_221":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_222" {
+	case "number_222":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_223" {
+	case "number_223":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_224" {
+	case "number_224":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_225" {
+	case "number_225":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_226" {
+	case "number_226":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_227" {
+	case "number_227":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_228" {
+	case "number_228":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_229" {
+	case "number_229":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_23" {
+	case "number_23":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_230" {
+	case "number_230":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_231" {
+	case "number_231":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_232" {
+	case "number_232":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_233" {
+	case "number_233":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_234" {
+	case "number_234":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_235" {
+	case "number_235":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_236" {
+	case "number_236":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_237" {
+	case "number_237":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_238" {
+	case "number_238":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_239" {
+	case "number_239":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_24" {
+	case "number_24":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_240" {
+	case "number_240":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_241" {
+	case "number_241":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_242" {
+	case "number_242":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_243" {
+	case "number_243":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_244" {
+	case "number_244":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_245" {
+	case "number_245":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_246" {
+	case "number_246":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_247" {
+	case "number_247":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_248" {
+	case "number_248":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_249" {
+	case "number_249":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_25" {
+	case "number_25":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_250" {
+	case "number_250":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_251" {
+	case "number_251":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_252" {
+	case "number_252":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_253" {
+	case "number_253":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_254" {
+	case "number_254":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_255" {
+	case "number_255":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_26" {
+	case "number_26":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_27" {
+	case "number_27":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_28" {
+	case "number_28":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_29" {
+	case "number_29":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_3" {
+	case "number_3":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_30" {
+	case "number_30":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_31" {
+	case "number_31":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_32" {
+	case "number_32":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_33" {
+	case "number_33":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_34" {
+	case "number_34":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_35" {
+	case "number_35":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_36" {
+	case "number_36":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_37" {
+	case "number_37":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_38" {
+	case "number_38":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_39" {
+	case "number_39":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_40" {
+	case "number_40":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_41" {
+	case "number_41":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_42" {
+	case "number_42":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_43" {
+	case "number_43":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_44" {
+	case "number_44":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_45" {
+	case "number_45":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_48" {
+	case "number_48":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_49" {
+	case "number_49":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_5" {
+	case "number_5":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_52" {
+	case "number_52":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_53" {
+	case "number_53":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_54" {
+	case "number_54":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_55" {
+	case "number_55":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_56" {
+	case "number_56":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_57" {
+	case "number_57":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_58" {
+	case "number_58":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_59" {
+	case "number_59":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_60" {
+	case "number_60":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_61" {
+	case "number_61":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_62" {
+	case "number_62":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_63" {
+	case "number_63":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_64" {
+	case "number_64":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_65" {
+	case "number_65":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_66" {
+	case "number_66":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_67" {
+	case "number_67":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_68" {
+	case "number_68":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_69" {
+	case "number_69":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_7" {
+	case "number_7":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_70" {
+	case "number_70":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_71" {
+	case "number_71":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_72" {
+	case "number_72":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_73" {
+	case "number_73":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_74" {
+	case "number_74":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_75" {
+	case "number_75":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_76" {
+	case "number_76":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_77" {
+	case "number_77":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_78" {
+	case "number_78":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_79" {
+	case "number_79":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_8" {
+	case "number_8":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_80" {
+	case "number_80":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_81" {
+	case "number_81":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_82" {
+	case "number_82":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_83" {
+	case "number_83":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_84" {
+	case "number_84":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_85" {
+	case "number_85":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_86" {
+	case "number_86":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_87" {
+	case "number_87":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_88" {
+	case "number_88":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_89" {
+	case "number_89":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_9" {
+	case "number_9":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_90" {
+	case "number_90":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_91" {
+	case "number_91":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_92" {
+	case "number_92":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_93" {
+	case "number_93":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_94" {
+	case "number_94":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_95" {
+	case "number_95":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_96" {
+	case "number_96":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_97" {
+	case "number_97":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_98" {
+	case "number_98":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_99" {
+	case "number_99":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "rsvp" {
+	case "rsvp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "sctp" {
+	case "sctp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "tcp" {
+	case "tcp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolTcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolTcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "udp" {
+	case "udp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolTcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolTcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "vrrp" {
+	case "vrrp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		// errMsg := fmt.Sprintf("unrecognized value for discriminator property 'protocol': %s", discValue)
 		// err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 		// Fallback to base NetworkACLRule for unknown protocols
@@ -91519,1297 +92116,1298 @@ func UnmarshalNetworkACLRuleItem(m map[string]json.RawMessage, result interface{
 		err = core.SDKErrorf(err, "required discriminator property 'protocol' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "ah" {
+	switch discValue {
+	case "ah":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "any" {
+	case "any":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolAny)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolAny-error", common.GetComponentInfo())
 		}
-	} else if discValue == "esp" {
+	case "esp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "gre" {
+	case "gre":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "icmp" {
+	case "icmp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIcmp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIcmp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "icmp_tcp_udp" {
+	case "icmp_tcp_udp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIcmptcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIcmptcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "ip_in_ip" {
+	case "ip_in_ip":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "l2tp" {
+	case "l2tp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_0" {
+	case "number_0":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_10" {
+	case "number_10":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_100" {
+	case "number_100":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_101" {
+	case "number_101":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_102" {
+	case "number_102":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_103" {
+	case "number_103":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_104" {
+	case "number_104":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_105" {
+	case "number_105":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_106" {
+	case "number_106":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_107" {
+	case "number_107":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_108" {
+	case "number_108":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_109" {
+	case "number_109":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_11" {
+	case "number_11":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_110" {
+	case "number_110":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_111" {
+	case "number_111":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_113" {
+	case "number_113":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_114" {
+	case "number_114":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_116" {
+	case "number_116":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_117" {
+	case "number_117":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_118" {
+	case "number_118":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_119" {
+	case "number_119":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_12" {
+	case "number_12":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_120" {
+	case "number_120":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_121" {
+	case "number_121":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_122" {
+	case "number_122":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_123" {
+	case "number_123":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_124" {
+	case "number_124":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_125" {
+	case "number_125":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_126" {
+	case "number_126":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_127" {
+	case "number_127":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_128" {
+	case "number_128":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_129" {
+	case "number_129":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_13" {
+	case "number_13":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_130" {
+	case "number_130":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_131" {
+	case "number_131":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_133" {
+	case "number_133":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_134" {
+	case "number_134":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_135" {
+	case "number_135":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_136" {
+	case "number_136":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_137" {
+	case "number_137":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_138" {
+	case "number_138":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_139" {
+	case "number_139":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_14" {
+	case "number_14":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_140" {
+	case "number_140":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_141" {
+	case "number_141":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_142" {
+	case "number_142":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_143" {
+	case "number_143":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_144" {
+	case "number_144":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_145" {
+	case "number_145":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_146" {
+	case "number_146":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_147" {
+	case "number_147":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_148" {
+	case "number_148":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_149" {
+	case "number_149":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_15" {
+	case "number_15":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_150" {
+	case "number_150":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_151" {
+	case "number_151":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_152" {
+	case "number_152":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_153" {
+	case "number_153":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_154" {
+	case "number_154":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_155" {
+	case "number_155":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_156" {
+	case "number_156":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_157" {
+	case "number_157":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_158" {
+	case "number_158":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_159" {
+	case "number_159":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_16" {
+	case "number_16":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_160" {
+	case "number_160":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_161" {
+	case "number_161":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_162" {
+	case "number_162":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_163" {
+	case "number_163":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_164" {
+	case "number_164":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_165" {
+	case "number_165":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_166" {
+	case "number_166":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_167" {
+	case "number_167":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_168" {
+	case "number_168":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_169" {
+	case "number_169":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_170" {
+	case "number_170":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_171" {
+	case "number_171":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_172" {
+	case "number_172":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_173" {
+	case "number_173":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_174" {
+	case "number_174":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_175" {
+	case "number_175":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_176" {
+	case "number_176":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_177" {
+	case "number_177":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_178" {
+	case "number_178":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_179" {
+	case "number_179":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_18" {
+	case "number_18":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_180" {
+	case "number_180":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_181" {
+	case "number_181":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_182" {
+	case "number_182":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_183" {
+	case "number_183":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_184" {
+	case "number_184":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_185" {
+	case "number_185":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_186" {
+	case "number_186":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_187" {
+	case "number_187":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_188" {
+	case "number_188":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_189" {
+	case "number_189":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_19" {
+	case "number_19":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_190" {
+	case "number_190":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_191" {
+	case "number_191":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_192" {
+	case "number_192":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_193" {
+	case "number_193":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_194" {
+	case "number_194":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_195" {
+	case "number_195":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_196" {
+	case "number_196":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_197" {
+	case "number_197":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_198" {
+	case "number_198":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_199" {
+	case "number_199":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_2" {
+	case "number_2":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_20" {
+	case "number_20":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_200" {
+	case "number_200":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_201" {
+	case "number_201":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_202" {
+	case "number_202":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_203" {
+	case "number_203":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_204" {
+	case "number_204":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_205" {
+	case "number_205":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_206" {
+	case "number_206":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_207" {
+	case "number_207":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_208" {
+	case "number_208":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_209" {
+	case "number_209":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_21" {
+	case "number_21":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_210" {
+	case "number_210":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_211" {
+	case "number_211":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_212" {
+	case "number_212":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_213" {
+	case "number_213":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_214" {
+	case "number_214":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_215" {
+	case "number_215":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_216" {
+	case "number_216":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_217" {
+	case "number_217":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_218" {
+	case "number_218":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_219" {
+	case "number_219":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_22" {
+	case "number_22":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_220" {
+	case "number_220":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_221" {
+	case "number_221":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_222" {
+	case "number_222":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_223" {
+	case "number_223":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_224" {
+	case "number_224":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_225" {
+	case "number_225":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_226" {
+	case "number_226":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_227" {
+	case "number_227":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_228" {
+	case "number_228":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_229" {
+	case "number_229":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_23" {
+	case "number_23":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_230" {
+	case "number_230":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_231" {
+	case "number_231":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_232" {
+	case "number_232":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_233" {
+	case "number_233":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_234" {
+	case "number_234":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_235" {
+	case "number_235":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_236" {
+	case "number_236":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_237" {
+	case "number_237":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_238" {
+	case "number_238":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_239" {
+	case "number_239":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_24" {
+	case "number_24":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_240" {
+	case "number_240":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_241" {
+	case "number_241":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_242" {
+	case "number_242":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_243" {
+	case "number_243":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_244" {
+	case "number_244":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_245" {
+	case "number_245":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_246" {
+	case "number_246":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_247" {
+	case "number_247":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_248" {
+	case "number_248":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_249" {
+	case "number_249":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_25" {
+	case "number_25":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_250" {
+	case "number_250":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_251" {
+	case "number_251":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_252" {
+	case "number_252":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_253" {
+	case "number_253":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_254" {
+	case "number_254":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_255" {
+	case "number_255":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_26" {
+	case "number_26":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_27" {
+	case "number_27":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_28" {
+	case "number_28":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_29" {
+	case "number_29":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_3" {
+	case "number_3":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_30" {
+	case "number_30":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_31" {
+	case "number_31":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_32" {
+	case "number_32":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_33" {
+	case "number_33":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_34" {
+	case "number_34":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_35" {
+	case "number_35":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_36" {
+	case "number_36":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_37" {
+	case "number_37":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_38" {
+	case "number_38":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_39" {
+	case "number_39":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_40" {
+	case "number_40":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_41" {
+	case "number_41":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_42" {
+	case "number_42":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_43" {
+	case "number_43":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_44" {
+	case "number_44":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_45" {
+	case "number_45":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_48" {
+	case "number_48":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_49" {
+	case "number_49":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_5" {
+	case "number_5":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_52" {
+	case "number_52":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_53" {
+	case "number_53":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_54" {
+	case "number_54":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_55" {
+	case "number_55":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_56" {
+	case "number_56":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_57" {
+	case "number_57":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_58" {
+	case "number_58":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_59" {
+	case "number_59":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_60" {
+	case "number_60":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_61" {
+	case "number_61":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_62" {
+	case "number_62":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_63" {
+	case "number_63":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_64" {
+	case "number_64":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_65" {
+	case "number_65":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_66" {
+	case "number_66":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_67" {
+	case "number_67":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_68" {
+	case "number_68":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_69" {
+	case "number_69":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_7" {
+	case "number_7":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_70" {
+	case "number_70":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_71" {
+	case "number_71":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_72" {
+	case "number_72":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_73" {
+	case "number_73":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_74" {
+	case "number_74":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_75" {
+	case "number_75":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_76" {
+	case "number_76":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_77" {
+	case "number_77":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_78" {
+	case "number_78":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_79" {
+	case "number_79":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_8" {
+	case "number_8":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_80" {
+	case "number_80":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_81" {
+	case "number_81":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_82" {
+	case "number_82":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_83" {
+	case "number_83":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_84" {
+	case "number_84":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_85" {
+	case "number_85":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_86" {
+	case "number_86":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_87" {
+	case "number_87":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_88" {
+	case "number_88":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_89" {
+	case "number_89":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_9" {
+	case "number_9":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_90" {
+	case "number_90":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_91" {
+	case "number_91":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_92" {
+	case "number_92":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_93" {
+	case "number_93":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_94" {
+	case "number_94":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_95" {
+	case "number_95":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_96" {
+	case "number_96":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_97" {
+	case "number_97":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_98" {
+	case "number_98":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_99" {
+	case "number_99":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "rsvp" {
+	case "rsvp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "sctp" {
+	case "sctp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "tcp" {
+	case "tcp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolTcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolTcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "udp" {
+	case "udp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolTcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolTcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "vrrp" {
+	case "vrrp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalNetworkACLRuleItemNetworkACLRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-NetworkACLRuleItemNetworkACLRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		// errMsg := fmt.Sprintf("unrecognized value for discriminator property 'protocol': %s", discValue)
 		// err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 		// Fallback to base NetworkACLRuleItem for unknown protocols
@@ -101361,1297 +101959,1298 @@ func UnmarshalSecurityGroupRule(m map[string]json.RawMessage, result interface{}
 		err = core.SDKErrorf(err, "required discriminator property 'protocol' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "ah" {
+	switch discValue {
+	case "ah":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "any" {
+	case "any":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolAny)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolAny-error", common.GetComponentInfo())
 		}
-	} else if discValue == "esp" {
+	case "esp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "gre" {
+	case "gre":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "icmp" {
+	case "icmp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolIcmp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleSecurityGroupRuleProtocolIcmp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "icmp_tcp_udp" {
+	case "icmp_tcp_udp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIcmptcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIcmptcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "ip_in_ip" {
+	case "ip_in_ip":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "l2tp" {
+	case "l2tp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_0" {
+	case "number_0":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_10" {
+	case "number_10":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_100" {
+	case "number_100":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_101" {
+	case "number_101":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_102" {
+	case "number_102":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_103" {
+	case "number_103":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_104" {
+	case "number_104":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_105" {
+	case "number_105":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_106" {
+	case "number_106":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_107" {
+	case "number_107":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_108" {
+	case "number_108":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_109" {
+	case "number_109":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_11" {
+	case "number_11":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_110" {
+	case "number_110":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_111" {
+	case "number_111":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_113" {
+	case "number_113":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_114" {
+	case "number_114":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_116" {
+	case "number_116":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_117" {
+	case "number_117":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_118" {
+	case "number_118":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_119" {
+	case "number_119":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_12" {
+	case "number_12":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_120" {
+	case "number_120":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_121" {
+	case "number_121":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_122" {
+	case "number_122":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_123" {
+	case "number_123":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_124" {
+	case "number_124":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_125" {
+	case "number_125":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_126" {
+	case "number_126":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_127" {
+	case "number_127":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_128" {
+	case "number_128":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_129" {
+	case "number_129":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_13" {
+	case "number_13":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_130" {
+	case "number_130":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_131" {
+	case "number_131":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_133" {
+	case "number_133":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_134" {
+	case "number_134":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_135" {
+	case "number_135":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_136" {
+	case "number_136":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_137" {
+	case "number_137":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_138" {
+	case "number_138":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_139" {
+	case "number_139":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_14" {
+	case "number_14":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_140" {
+	case "number_140":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_141" {
+	case "number_141":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_142" {
+	case "number_142":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_143" {
+	case "number_143":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_144" {
+	case "number_144":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_145" {
+	case "number_145":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_146" {
+	case "number_146":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_147" {
+	case "number_147":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_148" {
+	case "number_148":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_149" {
+	case "number_149":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_15" {
+	case "number_15":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_150" {
+	case "number_150":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_151" {
+	case "number_151":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_152" {
+	case "number_152":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_153" {
+	case "number_153":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_154" {
+	case "number_154":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_155" {
+	case "number_155":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_156" {
+	case "number_156":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_157" {
+	case "number_157":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_158" {
+	case "number_158":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_159" {
+	case "number_159":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_16" {
+	case "number_16":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_160" {
+	case "number_160":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_161" {
+	case "number_161":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_162" {
+	case "number_162":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_163" {
+	case "number_163":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_164" {
+	case "number_164":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_165" {
+	case "number_165":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_166" {
+	case "number_166":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_167" {
+	case "number_167":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_168" {
+	case "number_168":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_169" {
+	case "number_169":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_170" {
+	case "number_170":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_171" {
+	case "number_171":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_172" {
+	case "number_172":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_173" {
+	case "number_173":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_174" {
+	case "number_174":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_175" {
+	case "number_175":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_176" {
+	case "number_176":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_177" {
+	case "number_177":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_178" {
+	case "number_178":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_179" {
+	case "number_179":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_18" {
+	case "number_18":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_180" {
+	case "number_180":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_181" {
+	case "number_181":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_182" {
+	case "number_182":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_183" {
+	case "number_183":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_184" {
+	case "number_184":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_185" {
+	case "number_185":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_186" {
+	case "number_186":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_187" {
+	case "number_187":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_188" {
+	case "number_188":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_189" {
+	case "number_189":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_19" {
+	case "number_19":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_190" {
+	case "number_190":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_191" {
+	case "number_191":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_192" {
+	case "number_192":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_193" {
+	case "number_193":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_194" {
+	case "number_194":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_195" {
+	case "number_195":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_196" {
+	case "number_196":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_197" {
+	case "number_197":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_198" {
+	case "number_198":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_199" {
+	case "number_199":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_2" {
+	case "number_2":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_20" {
+	case "number_20":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_200" {
+	case "number_200":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_201" {
+	case "number_201":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_202" {
+	case "number_202":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_203" {
+	case "number_203":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_204" {
+	case "number_204":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_205" {
+	case "number_205":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_206" {
+	case "number_206":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_207" {
+	case "number_207":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_208" {
+	case "number_208":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_209" {
+	case "number_209":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_21" {
+	case "number_21":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_210" {
+	case "number_210":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_211" {
+	case "number_211":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_212" {
+	case "number_212":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_213" {
+	case "number_213":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_214" {
+	case "number_214":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_215" {
+	case "number_215":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_216" {
+	case "number_216":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_217" {
+	case "number_217":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_218" {
+	case "number_218":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_219" {
+	case "number_219":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_22" {
+	case "number_22":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_220" {
+	case "number_220":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_221" {
+	case "number_221":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_222" {
+	case "number_222":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_223" {
+	case "number_223":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_224" {
+	case "number_224":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_225" {
+	case "number_225":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_226" {
+	case "number_226":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_227" {
+	case "number_227":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_228" {
+	case "number_228":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_229" {
+	case "number_229":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_23" {
+	case "number_23":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_230" {
+	case "number_230":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_231" {
+	case "number_231":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_232" {
+	case "number_232":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_233" {
+	case "number_233":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_234" {
+	case "number_234":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_235" {
+	case "number_235":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_236" {
+	case "number_236":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_237" {
+	case "number_237":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_238" {
+	case "number_238":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_239" {
+	case "number_239":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_24" {
+	case "number_24":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_240" {
+	case "number_240":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_241" {
+	case "number_241":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_242" {
+	case "number_242":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_243" {
+	case "number_243":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_244" {
+	case "number_244":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_245" {
+	case "number_245":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_246" {
+	case "number_246":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_247" {
+	case "number_247":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_248" {
+	case "number_248":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_249" {
+	case "number_249":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_25" {
+	case "number_25":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_250" {
+	case "number_250":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_251" {
+	case "number_251":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_252" {
+	case "number_252":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_253" {
+	case "number_253":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_254" {
+	case "number_254":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_255" {
+	case "number_255":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_26" {
+	case "number_26":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_27" {
+	case "number_27":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_28" {
+	case "number_28":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_29" {
+	case "number_29":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_3" {
+	case "number_3":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_30" {
+	case "number_30":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_31" {
+	case "number_31":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_32" {
+	case "number_32":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_33" {
+	case "number_33":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_34" {
+	case "number_34":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_35" {
+	case "number_35":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_36" {
+	case "number_36":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_37" {
+	case "number_37":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_38" {
+	case "number_38":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_39" {
+	case "number_39":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_40" {
+	case "number_40":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_41" {
+	case "number_41":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_42" {
+	case "number_42":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_43" {
+	case "number_43":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_44" {
+	case "number_44":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_45" {
+	case "number_45":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_48" {
+	case "number_48":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_49" {
+	case "number_49":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_5" {
+	case "number_5":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_52" {
+	case "number_52":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_53" {
+	case "number_53":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_54" {
+	case "number_54":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_55" {
+	case "number_55":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_56" {
+	case "number_56":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_57" {
+	case "number_57":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_58" {
+	case "number_58":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_59" {
+	case "number_59":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_60" {
+	case "number_60":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_61" {
+	case "number_61":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_62" {
+	case "number_62":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_63" {
+	case "number_63":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_64" {
+	case "number_64":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_65" {
+	case "number_65":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_66" {
+	case "number_66":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_67" {
+	case "number_67":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_68" {
+	case "number_68":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_69" {
+	case "number_69":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_7" {
+	case "number_7":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_70" {
+	case "number_70":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_71" {
+	case "number_71":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_72" {
+	case "number_72":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_73" {
+	case "number_73":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_74" {
+	case "number_74":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_75" {
+	case "number_75":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_76" {
+	case "number_76":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_77" {
+	case "number_77":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_78" {
+	case "number_78":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_79" {
+	case "number_79":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_8" {
+	case "number_8":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_80" {
+	case "number_80":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_81" {
+	case "number_81":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_82" {
+	case "number_82":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_83" {
+	case "number_83":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_84" {
+	case "number_84":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_85" {
+	case "number_85":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_86" {
+	case "number_86":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_87" {
+	case "number_87":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_88" {
+	case "number_88":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_89" {
+	case "number_89":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_9" {
+	case "number_9":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_90" {
+	case "number_90":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_91" {
+	case "number_91":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_92" {
+	case "number_92":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_93" {
+	case "number_93":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_94" {
+	case "number_94":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_95" {
+	case "number_95":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_96" {
+	case "number_96":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_97" {
+	case "number_97":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_98" {
+	case "number_98":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "number_99" {
+	case "number_99":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "rsvp" {
+	case "rsvp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "sctp" {
+	case "sctp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else if discValue == "tcp" {
+	case "tcp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleSecurityGroupRuleProtocolTcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "udp" {
+	case "udp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleSecurityGroupRuleProtocolTcpudp)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleSecurityGroupRuleProtocolTcpudp-error", common.GetComponentInfo())
 		}
-	} else if discValue == "vrrp" {
+	case "vrrp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalSecurityGroupRuleProtocolIndividual)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-SecurityGroupRuleProtocolIndividual-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		// errMsg := fmt.Sprintf("unrecognized value for discriminator property 'protocol': %s", discValue)
 		// err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 		// Fallback to base SecurityGroupRule for unknown protocols
@@ -107862,6 +108461,9 @@ type Snapshot struct {
 	// If present, the snapshot consistency group which created this snapshot.
 	SnapshotConsistencyGroup *SnapshotConsistencyGroupReference `json:"snapshot_consistency_group,omitempty"`
 
+	// The software attachments for this snapshot.
+	SoftwareAttachments []SnapshotSoftwareAttachmentReference `json:"software_attachments" validate:"required"`
+
 	// If present, the image from which the data on this snapshot was most directly
 	// provisioned.
 	SourceImage *ImageReference `json:"source_image,omitempty"`
@@ -108033,6 +108635,11 @@ func UnmarshalSnapshot(m map[string]json.RawMessage, result interface{}) (err er
 	err = core.UnmarshalModel(m, "snapshot_consistency_group", &obj.SnapshotConsistencyGroup, UnmarshalSnapshotConsistencyGroupReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "snapshot_consistency_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "software_attachments", &obj.SoftwareAttachments, UnmarshalSnapshotSoftwareAttachmentReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "software_attachments-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "source_image", &obj.SourceImage, UnmarshalImageReference)
@@ -109281,6 +109888,277 @@ func UnmarshalSnapshotRemote(m map[string]json.RawMessage, result interface{}) (
 	err = core.UnmarshalModel(m, "region", &obj.Region, UnmarshalRegionReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "region-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachment : SnapshotSoftwareAttachment struct
+type SnapshotSoftwareAttachment struct {
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering for this snapshot software attachment. May be absent if
+	// `software_attachment.lifecycle_state` is not `stable`.
+	CatalogOffering *SnapshotSoftwareAttachmentCatalogOffering `json:"catalog_offering,omitempty"`
+
+	// The date and time that the snapshot software attachment was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The entitlement for the snapshot software attachment's licensable software.
+	Entitlement *SnapshotSoftwareAttachmentEntitlement `json:"entitlement,omitempty"`
+
+	// The URL for this snapshot software attachment.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this snapshot software attachment.
+	ID *string `json:"id" validate:"required"`
+
+	// The name for this snapshot software attachment. The name is unique across all software attachments for the snapshot.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the SnapshotSoftwareAttachment.ResourceType property.
+// The resource type.
+const (
+	SnapshotSoftwareAttachmentResourceTypeSnapshotSoftwareAttachmentConst = "snapshot_software_attachment"
+)
+
+// UnmarshalSnapshotSoftwareAttachment unmarshals an instance of SnapshotSoftwareAttachment from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachment(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachment)
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalSnapshotSoftwareAttachmentCatalogOffering)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog_offering-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "entitlement", &obj.Entitlement, UnmarshalSnapshotSoftwareAttachmentEntitlement)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "entitlement-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachmentCatalogOffering : The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering for this snapshot software
+// attachment. May be absent if
+// `software_attachment.lifecycle_state` is not `stable`.
+type SnapshotSoftwareAttachmentCatalogOffering struct {
+	// The billing plan for the catalog offering version associated with this snapshot software
+	// attachment.
+	//
+	// If absent, no billing plan is associated with the catalog offering version (free).
+	Plan *CatalogOfferingVersionPlanReference `json:"plan,omitempty"`
+
+	// The catalog offering version associated with this snapshot software attachment.
+	Version *CatalogOfferingVersionReference `json:"version" validate:"required"`
+}
+
+// UnmarshalSnapshotSoftwareAttachmentCatalogOffering unmarshals an instance of SnapshotSoftwareAttachmentCatalogOffering from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentCatalogOffering)
+	err = core.UnmarshalModel(m, "plan", &obj.Plan, UnmarshalCatalogOfferingVersionPlanReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "plan-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "version", &obj.Version, UnmarshalCatalogOfferingVersionReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachmentCollection : SnapshotSoftwareAttachmentCollection struct
+type SnapshotSoftwareAttachmentCollection struct {
+	// The software attachments for the snapshot.
+	SoftwareAttachments []SnapshotSoftwareAttachment `json:"software_attachments" validate:"required"`
+}
+
+// UnmarshalSnapshotSoftwareAttachmentCollection unmarshals an instance of SnapshotSoftwareAttachmentCollection from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentCollection)
+	err = core.UnmarshalModel(m, "software_attachments", &obj.SoftwareAttachments, UnmarshalSnapshotSoftwareAttachment)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "software_attachments-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachmentEntitlement : The entitlement for the snapshot software attachment's licensable software.
+type SnapshotSoftwareAttachmentEntitlement struct {
+	// The licensable software for this snapshot software attachment entitlement. The software will be licensed when an
+	// instance is provisioned from this snapshot.
+	LicensableSoftware []SnapshotSoftwareAttachmentEntitlementLicensableSoftware `json:"licensable_software" validate:"required"`
+}
+
+// UnmarshalSnapshotSoftwareAttachmentEntitlement unmarshals an instance of SnapshotSoftwareAttachmentEntitlement from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentEntitlement(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentEntitlement)
+	err = core.UnmarshalModel(m, "licensable_software", &obj.LicensableSoftware, UnmarshalSnapshotSoftwareAttachmentEntitlementLicensableSoftware)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "licensable_software-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachmentEntitlementLicensableSoftware : The licensable software for this snapshot software attachment's entitlement.
+type SnapshotSoftwareAttachmentEntitlementLicensableSoftware struct {
+	// The SKU for this licensable software.
+	Sku *string `json:"sku" validate:"required"`
+
+	Vendor *SnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor `json:"vendor" validate:"required"`
+}
+
+// UnmarshalSnapshotSoftwareAttachmentEntitlementLicensableSoftware unmarshals an instance of SnapshotSoftwareAttachmentEntitlementLicensableSoftware from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentEntitlementLicensableSoftware(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentEntitlementLicensableSoftware)
+	err = core.UnmarshalPrimitive(m, "sku", &obj.Sku)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "sku-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "vendor", &obj.Vendor, UnmarshalSnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "vendor-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor : SnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor struct
+type SnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor struct {
+	// The name of the vendor providing this licensable software.
+	Name *string `json:"name" validate:"required"`
+}
+
+// UnmarshalSnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor unmarshals an instance of SnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentEntitlementLicensableSoftwareVendor)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// SnapshotSoftwareAttachmentPatch : SnapshotSoftwareAttachmentPatch struct
+type SnapshotSoftwareAttachmentPatch struct {
+	// The name for this snapshot software attachment. The name must not be used by another software attachment for this
+	// snapshot.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalSnapshotSoftwareAttachmentPatch unmarshals an instance of SnapshotSoftwareAttachmentPatch from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentPatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the SnapshotSoftwareAttachmentPatch
+func (snapshotSoftwareAttachmentPatch *SnapshotSoftwareAttachmentPatch) AsPatch() (_patch map[string]interface{}, err error) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(snapshotSoftwareAttachmentPatch.Name) {
+		_patch["name"] = snapshotSoftwareAttachmentPatch.Name
+	}
+
+	return
+}
+
+// SnapshotSoftwareAttachmentReference : SnapshotSoftwareAttachmentReference struct
+type SnapshotSoftwareAttachmentReference struct {
+	// If present, this property indicates the referenced resource has been deleted, and provides
+	// some supplementary information.
+	Deleted *Deleted `json:"deleted,omitempty"`
+
+	// The URL for this snapshot software attachment.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this snapshot software attachment.
+	ID *string `json:"id" validate:"required"`
+
+	// The name for this snapshot software attachment. The name is unique across all software attachments for the snapshot.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the SnapshotSoftwareAttachmentReference.ResourceType property.
+// The resource type.
+const (
+	SnapshotSoftwareAttachmentReferenceResourceTypeSnapshotSoftwareAttachmentConst = "snapshot_software_attachment"
+)
+
+// UnmarshalSnapshotSoftwareAttachmentReference unmarshals an instance of SnapshotSoftwareAttachmentReference from the specified map of raw messages.
+func UnmarshalSnapshotSoftwareAttachmentReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(SnapshotSoftwareAttachmentReference)
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalDeleted)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "deleted-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -112851,6 +113729,54 @@ func (options *UpdateSnapshotOptions) SetHeaders(param map[string]string) *Updat
 	return options
 }
 
+// UpdateSnapshotSoftwareAttachmentOptions : The UpdateSnapshotSoftwareAttachment options.
+type UpdateSnapshotSoftwareAttachmentOptions struct {
+	// The snapshot identifier.
+	SnapshotID *string `json:"snapshot_id" validate:"required,ne="`
+
+	// The snapshot software attachment identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The snapshot software attachment patch.
+	SnapshotSoftwareAttachmentPatch map[string]interface{} `json:"SnapshotSoftwareAttachment_patch" validate:"required"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewUpdateSnapshotSoftwareAttachmentOptions : Instantiate UpdateSnapshotSoftwareAttachmentOptions
+func (*VpcV1) NewUpdateSnapshotSoftwareAttachmentOptions(snapshotID string, id string, snapshotSoftwareAttachmentPatch map[string]interface{}) *UpdateSnapshotSoftwareAttachmentOptions {
+	return &UpdateSnapshotSoftwareAttachmentOptions{
+		SnapshotID:                      core.StringPtr(snapshotID),
+		ID:                              core.StringPtr(id),
+		SnapshotSoftwareAttachmentPatch: snapshotSoftwareAttachmentPatch,
+	}
+}
+
+// SetSnapshotID : Allow user to set SnapshotID
+func (_options *UpdateSnapshotSoftwareAttachmentOptions) SetSnapshotID(snapshotID string) *UpdateSnapshotSoftwareAttachmentOptions {
+	_options.SnapshotID = core.StringPtr(snapshotID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateSnapshotSoftwareAttachmentOptions) SetID(id string) *UpdateSnapshotSoftwareAttachmentOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetSnapshotSoftwareAttachmentPatch : Allow user to set SnapshotSoftwareAttachmentPatch
+func (_options *UpdateSnapshotSoftwareAttachmentOptions) SetSnapshotSoftwareAttachmentPatch(snapshotSoftwareAttachmentPatch map[string]interface{}) *UpdateSnapshotSoftwareAttachmentOptions {
+	_options.SnapshotSoftwareAttachmentPatch = snapshotSoftwareAttachmentPatch
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateSnapshotSoftwareAttachmentOptions) SetHeaders(param map[string]string) *UpdateSnapshotSoftwareAttachmentOptions {
+	options.Headers = param
+	return options
+}
+
 // UpdateSubnetOptions : The UpdateSubnet options.
 type UpdateSubnetOptions struct {
 	// The subnet identifier.
@@ -113077,6 +114003,54 @@ func (_options *UpdateVolumeOptions) SetIfMatch(ifMatch string) *UpdateVolumeOpt
 
 // SetHeaders : Allow user to set Headers
 func (options *UpdateVolumeOptions) SetHeaders(param map[string]string) *UpdateVolumeOptions {
+	options.Headers = param
+	return options
+}
+
+// UpdateVolumeSoftwareAttachmentOptions : The UpdateVolumeSoftwareAttachment options.
+type UpdateVolumeSoftwareAttachmentOptions struct {
+	// The volume identifier.
+	VolumeID *string `json:"volume_id" validate:"required,ne="`
+
+	// The volume software attachment identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The volume software attachment patch.
+	VolumeSoftwareAttachmentPatch map[string]interface{} `json:"VolumeSoftwareAttachment_patch" validate:"required"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewUpdateVolumeSoftwareAttachmentOptions : Instantiate UpdateVolumeSoftwareAttachmentOptions
+func (*VpcV1) NewUpdateVolumeSoftwareAttachmentOptions(volumeID string, id string, volumeSoftwareAttachmentPatch map[string]interface{}) *UpdateVolumeSoftwareAttachmentOptions {
+	return &UpdateVolumeSoftwareAttachmentOptions{
+		VolumeID:                      core.StringPtr(volumeID),
+		ID:                            core.StringPtr(id),
+		VolumeSoftwareAttachmentPatch: volumeSoftwareAttachmentPatch,
+	}
+}
+
+// SetVolumeID : Allow user to set VolumeID
+func (_options *UpdateVolumeSoftwareAttachmentOptions) SetVolumeID(volumeID string) *UpdateVolumeSoftwareAttachmentOptions {
+	_options.VolumeID = core.StringPtr(volumeID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *UpdateVolumeSoftwareAttachmentOptions) SetID(id string) *UpdateVolumeSoftwareAttachmentOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetVolumeSoftwareAttachmentPatch : Allow user to set VolumeSoftwareAttachmentPatch
+func (_options *UpdateVolumeSoftwareAttachmentOptions) SetVolumeSoftwareAttachmentPatch(volumeSoftwareAttachmentPatch map[string]interface{}) *UpdateVolumeSoftwareAttachmentOptions {
+	_options.VolumeSoftwareAttachmentPatch = volumeSoftwareAttachmentPatch
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *UpdateVolumeSoftwareAttachmentOptions) SetHeaders(param map[string]string) *UpdateVolumeSoftwareAttachmentOptions {
 	options.Headers = param
 	return options
 }
@@ -115518,17 +116492,18 @@ func UnmarshalVPNGatewayConnection(m map[string]json.RawMessage, result interfac
 		err = core.SDKErrorf(err, "required discriminator property 'mode' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "policy" {
+	switch discValue {
+	case "policy":
 		err = core.UnmarshalModel(m, "", result, UnmarshalVPNGatewayConnectionPolicyMode)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-VPNGatewayConnectionPolicyMode-error", common.GetComponentInfo())
 		}
-	} else if discValue == "route" {
+	case "route":
 		err = core.UnmarshalModel(m, "", result, UnmarshalVPNGatewayConnectionRouteMode)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-VPNGatewayConnectionRouteMode-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		errMsg := fmt.Sprintf("unrecognized value for discriminator property 'mode': %s", discValue)
 		err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 	}
@@ -118582,17 +119557,18 @@ func UnmarshalVPNServerAuthenticationPrototype(m map[string]json.RawMessage, res
 		err = core.SDKErrorf(err, "required discriminator property 'method' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "certificate" {
+	switch discValue {
+	case "certificate":
 		err = core.UnmarshalModel(m, "", result, UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-VPNServerAuthenticationPrototypeVPNServerAuthenticationByCertificatePrototype-error", common.GetComponentInfo())
 		}
-	} else if discValue == "username" {
+	case "username":
 		err = core.UnmarshalModel(m, "", result, UnmarshalVPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-VPNServerAuthenticationPrototypeVPNServerAuthenticationByUsernamePrototype-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		errMsg := fmt.Sprintf("unrecognized value for discriminator property 'method': %s", discValue)
 		err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 	}
@@ -120292,6 +121268,9 @@ type Volume struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
+	// The software attachments for this volume.
+	SoftwareAttachments []VolumeSoftwareAttachmentReference `json:"software_attachments" validate:"required"`
+
 	// The image from which this volume was created (this may be
 	// [deleted](https://cloud.ibm.com/apidocs/vpc#deleted-resources)).
 	// If absent, this volume was not created from an image.
@@ -120519,6 +121498,11 @@ func UnmarshalVolume(m map[string]json.RawMessage, result interface{}) (err erro
 	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "software_attachments", &obj.SoftwareAttachments, UnmarshalVolumeSoftwareAttachmentReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "software_attachments-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "source_image", &obj.SourceImage, UnmarshalImageReference)
@@ -123506,6 +124490,277 @@ func UnmarshalVolumeRemote(m map[string]json.RawMessage, result interface{}) (er
 	err = core.UnmarshalModel(m, "region", &obj.Region, UnmarshalRegionReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "region-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachment : VolumeSoftwareAttachment struct
+type VolumeSoftwareAttachment struct {
+	// The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user)
+	// offering for this volume software attachment. May be absent if
+	// `software_attachment.lifecycle_state` is not `stable`.
+	CatalogOffering *VolumeSoftwareAttachmentCatalogOffering `json:"catalog_offering,omitempty"`
+
+	// The date and time that the volume software attachment was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The entitlement for the volume software attachment's licensable software.
+	Entitlement *VolumeSoftwareAttachmentEntitlement `json:"entitlement,omitempty"`
+
+	// The URL for this volume software attachment.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this volume software attachment.
+	ID *string `json:"id" validate:"required"`
+
+	// The name for this volume software attachment. The name is unique across all software attachments for the volume.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the VolumeSoftwareAttachment.ResourceType property.
+// The resource type.
+const (
+	VolumeSoftwareAttachmentResourceTypeVolumeSoftwareAttachmentConst = "volume_software_attachment"
+)
+
+// UnmarshalVolumeSoftwareAttachment unmarshals an instance of VolumeSoftwareAttachment from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachment(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachment)
+	err = core.UnmarshalModel(m, "catalog_offering", &obj.CatalogOffering, UnmarshalVolumeSoftwareAttachmentCatalogOffering)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "catalog_offering-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "entitlement", &obj.Entitlement, UnmarshalVolumeSoftwareAttachmentEntitlement)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "entitlement-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachmentCatalogOffering : The [catalog](https://cloud.ibm.com/docs/account?topic=account-restrict-by-user) offering for this volume software
+// attachment. May be absent if
+// `software_attachment.lifecycle_state` is not `stable`.
+type VolumeSoftwareAttachmentCatalogOffering struct {
+	// The billing plan for the catalog offering version associated with this volume software
+	// attachment.
+	//
+	// If absent, no billing plan is associated with the catalog offering version (free).
+	Plan *CatalogOfferingVersionPlanReference `json:"plan,omitempty"`
+
+	// The catalog offering version associated with this volume software attachment.
+	Version *CatalogOfferingVersionReference `json:"version" validate:"required"`
+}
+
+// UnmarshalVolumeSoftwareAttachmentCatalogOffering unmarshals an instance of VolumeSoftwareAttachmentCatalogOffering from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentCatalogOffering(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentCatalogOffering)
+	err = core.UnmarshalModel(m, "plan", &obj.Plan, UnmarshalCatalogOfferingVersionPlanReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "plan-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "version", &obj.Version, UnmarshalCatalogOfferingVersionReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "version-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachmentCollection : VolumeSoftwareAttachmentCollection struct
+type VolumeSoftwareAttachmentCollection struct {
+	// The software attachments for the volume.
+	SoftwareAttachments []VolumeSoftwareAttachment `json:"software_attachments" validate:"required"`
+}
+
+// UnmarshalVolumeSoftwareAttachmentCollection unmarshals an instance of VolumeSoftwareAttachmentCollection from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentCollection)
+	err = core.UnmarshalModel(m, "software_attachments", &obj.SoftwareAttachments, UnmarshalVolumeSoftwareAttachment)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "software_attachments-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachmentEntitlement : The entitlement for the volume software attachment's licensable software.
+type VolumeSoftwareAttachmentEntitlement struct {
+	// The licensable software for this volume software attachment entitlement. The software will be licensed when an
+	// instance is provisioned from this volume.
+	LicensableSoftware []VolumeSoftwareAttachmentEntitlementLicensableSoftware `json:"licensable_software" validate:"required"`
+}
+
+// UnmarshalVolumeSoftwareAttachmentEntitlement unmarshals an instance of VolumeSoftwareAttachmentEntitlement from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentEntitlement(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentEntitlement)
+	err = core.UnmarshalModel(m, "licensable_software", &obj.LicensableSoftware, UnmarshalVolumeSoftwareAttachmentEntitlementLicensableSoftware)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "licensable_software-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachmentEntitlementLicensableSoftware : VolumeSoftwareAttachmentEntitlementLicensableSoftware struct
+type VolumeSoftwareAttachmentEntitlementLicensableSoftware struct {
+	// The SKU for this licensable software.
+	Sku *string `json:"sku" validate:"required"`
+
+	Vendor *VolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor `json:"vendor" validate:"required"`
+}
+
+// UnmarshalVolumeSoftwareAttachmentEntitlementLicensableSoftware unmarshals an instance of VolumeSoftwareAttachmentEntitlementLicensableSoftware from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentEntitlementLicensableSoftware(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentEntitlementLicensableSoftware)
+	err = core.UnmarshalPrimitive(m, "sku", &obj.Sku)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "sku-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "vendor", &obj.Vendor, UnmarshalVolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "vendor-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor : VolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor struct
+type VolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor struct {
+	// The name of the vendor providing this licensable software.
+	Name *string `json:"name" validate:"required"`
+}
+
+// UnmarshalVolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor unmarshals an instance of VolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentEntitlementLicensableSoftwareVendor)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VolumeSoftwareAttachmentPatch : VolumeSoftwareAttachmentPatch struct
+type VolumeSoftwareAttachmentPatch struct {
+	// The name for this volume software attachment. The name must not be used by another software attachment for this
+	// volume.
+	Name *string `json:"name,omitempty"`
+}
+
+// UnmarshalVolumeSoftwareAttachmentPatch unmarshals an instance of VolumeSoftwareAttachmentPatch from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentPatch(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentPatch)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// AsPatch returns a generic map representation of the VolumeSoftwareAttachmentPatch
+func (volumeSoftwareAttachmentPatch *VolumeSoftwareAttachmentPatch) AsPatch() (_patch map[string]interface{}, err error) {
+	_patch = map[string]interface{}{}
+	if !core.IsNil(volumeSoftwareAttachmentPatch.Name) {
+		_patch["name"] = volumeSoftwareAttachmentPatch.Name
+	}
+
+	return
+}
+
+// VolumeSoftwareAttachmentReference : VolumeSoftwareAttachmentReference struct
+type VolumeSoftwareAttachmentReference struct {
+	// If present, this property indicates the referenced resource has been deleted, and provides
+	// some supplementary information.
+	Deleted *Deleted `json:"deleted,omitempty"`
+
+	// The URL for this volume software attachment.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this volume software attachment.
+	ID *string `json:"id" validate:"required"`
+
+	// The name for this volume software attachment. The name is unique across all software attachments for the volume.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+}
+
+// Constants associated with the VolumeSoftwareAttachmentReference.ResourceType property.
+// The resource type.
+const (
+	VolumeSoftwareAttachmentReferenceResourceTypeVolumeSoftwareAttachmentConst = "volume_software_attachment"
+)
+
+// UnmarshalVolumeSoftwareAttachmentReference unmarshals an instance of VolumeSoftwareAttachmentReference from the specified map of raw messages.
+func UnmarshalVolumeSoftwareAttachmentReference(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VolumeSoftwareAttachmentReference)
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalDeleted)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "deleted-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -159291,17 +160546,18 @@ func UnmarshalVPNGatewayConnectionRouteMode(m map[string]json.RawMessage, result
 		err = core.SDKErrorf(err, "required discriminator property 'routing_protocol' not found in JSON object", "missing-discriminator", common.GetComponentInfo())
 		return
 	}
-	if discValue == "bgp" {
+	switch discValue {
+	case "bgp":
 		err = core.UnmarshalModel(m, "", result, UnmarshalVPNGatewayConnectionRouteModeVPNGatewayConnectionDynamicRouteMode)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-VPNGatewayConnectionRouteModeVPNGatewayConnectionDynamicRouteMode-error", common.GetComponentInfo())
 		}
-	} else if discValue == "none" {
+	case "none":
 		err = core.UnmarshalModel(m, "", result, UnmarshalVPNGatewayConnectionRouteModeVPNGatewayConnectionStaticRouteMode)
 		if err != nil {
 			err = core.SDKErrorf(err, "", "unmarshal-VPNGatewayConnectionRouteModeVPNGatewayConnectionStaticRouteMode-error", common.GetComponentInfo())
 		}
-	} else {
+	default:
 		errMsg := fmt.Sprintf("unrecognized value for discriminator property 'routing_protocol': %s", discValue)
 		err = core.SDKErrorf(err, errMsg, "invalid-discriminator", common.GetComponentInfo())
 	}
@@ -174720,7 +175976,8 @@ func (pager *BackupPoliciesPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBackupPoliciesWithContext(ctx, pager.options)
+	var result *BackupPolicyCollection
+	result, _, err = pager.client.ListBackupPoliciesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -174812,7 +176069,8 @@ func (pager *BackupPolicyJobsPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBackupPolicyJobsWithContext(ctx, pager.options)
+	var result *BackupPolicyJobCollection
+	result, _, err = pager.client.ListBackupPolicyJobsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -174904,7 +176162,8 @@ func (pager *BareMetalServerCapacitiesPager) GetNextWithContext(ctx context.Cont
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBareMetalServerCapacitiesWithContext(ctx, pager.options)
+	var result *BareMetalServerCapacityCollection
+	result, _, err = pager.client.ListBareMetalServerCapacitiesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -174996,7 +176255,8 @@ func (pager *BareMetalServerProfilesPager) GetNextWithContext(ctx context.Contex
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBareMetalServerProfilesWithContext(ctx, pager.options)
+	var result *BareMetalServerProfileCollection
+	result, _, err = pager.client.ListBareMetalServerProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175088,7 +176348,8 @@ func (pager *BareMetalServersPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBareMetalServersWithContext(ctx, pager.options)
+	var result *BareMetalServerCollection
+	result, _, err = pager.client.ListBareMetalServersWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175180,7 +176441,8 @@ func (pager *BareMetalServerNetworkAttachmentsPager) GetNextWithContext(ctx cont
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBareMetalServerNetworkAttachmentsWithContext(ctx, pager.options)
+	var result *BareMetalServerNetworkAttachmentCollection
+	result, _, err = pager.client.ListBareMetalServerNetworkAttachmentsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175272,7 +176534,8 @@ func (pager *BareMetalServerNetworkInterfacesPager) GetNextWithContext(ctx conte
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListBareMetalServerNetworkInterfacesWithContext(ctx, pager.options)
+	var result *BareMetalServerNetworkInterfaceCollection
+	result, _, err = pager.client.ListBareMetalServerNetworkInterfacesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175364,7 +176627,8 @@ func (pager *ClusterNetworkProfilesPager) GetNextWithContext(ctx context.Context
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListClusterNetworkProfilesWithContext(ctx, pager.options)
+	var result *ClusterNetworkProfileCollection
+	result, _, err = pager.client.ListClusterNetworkProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175456,7 +176720,8 @@ func (pager *ClusterNetworksPager) GetNextWithContext(ctx context.Context) (page
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListClusterNetworksWithContext(ctx, pager.options)
+	var result *ClusterNetworkCollection
+	result, _, err = pager.client.ListClusterNetworksWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175548,7 +176813,8 @@ func (pager *ClusterNetworkInterfacesPager) GetNextWithContext(ctx context.Conte
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListClusterNetworkInterfacesWithContext(ctx, pager.options)
+	var result *ClusterNetworkInterfaceCollection
+	result, _, err = pager.client.ListClusterNetworkInterfacesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175640,7 +176906,8 @@ func (pager *ClusterNetworkSubnetsPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListClusterNetworkSubnetsWithContext(ctx, pager.options)
+	var result *ClusterNetworkSubnetCollection
+	result, _, err = pager.client.ListClusterNetworkSubnetsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175732,7 +176999,8 @@ func (pager *ClusterNetworkSubnetReservedIpsPager) GetNextWithContext(ctx contex
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListClusterNetworkSubnetReservedIpsWithContext(ctx, pager.options)
+	var result *ClusterNetworkSubnetReservedIPCollection
+	result, _, err = pager.client.ListClusterNetworkSubnetReservedIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175824,7 +177092,8 @@ func (pager *DedicatedHostGroupsPager) GetNextWithContext(ctx context.Context) (
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListDedicatedHostGroupsWithContext(ctx, pager.options)
+	var result *DedicatedHostGroupCollection
+	result, _, err = pager.client.ListDedicatedHostGroupsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -175916,7 +177185,8 @@ func (pager *DedicatedHostProfilesPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListDedicatedHostProfilesWithContext(ctx, pager.options)
+	var result *DedicatedHostProfileCollection
+	result, _, err = pager.client.ListDedicatedHostProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176008,7 +177278,8 @@ func (pager *DedicatedHostsPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListDedicatedHostsWithContext(ctx, pager.options)
+	var result *DedicatedHostCollection
+	result, _, err = pager.client.ListDedicatedHostsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176100,7 +177371,8 @@ func (pager *EndpointGatewaysPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListEndpointGatewaysWithContext(ctx, pager.options)
+	var result *EndpointGatewayCollection
+	result, _, err = pager.client.ListEndpointGatewaysWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176192,7 +177464,8 @@ func (pager *EndpointGatewayIpsPager) GetNextWithContext(ctx context.Context) (p
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListEndpointGatewayIpsWithContext(ctx, pager.options)
+	var result *ReservedIPCollectionEndpointGatewayContext
+	result, _, err = pager.client.ListEndpointGatewayIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176284,7 +177557,8 @@ func (pager *EndpointGatewayResourceBindingsPager) GetNextWithContext(ctx contex
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListEndpointGatewayResourceBindingsWithContext(ctx, pager.options)
+	var result *EndpointGatewayResourceBindingCollection
+	result, _, err = pager.client.ListEndpointGatewayResourceBindingsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176376,7 +177650,8 @@ func (pager *FloatingIpsPager) GetNextWithContext(ctx context.Context) (page []F
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListFloatingIpsWithContext(ctx, pager.options)
+	var result *FloatingIPCollection
+	result, _, err = pager.client.ListFloatingIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176468,7 +177743,8 @@ func (pager *FlowLogCollectorsPager) GetNextWithContext(ctx context.Context) (pa
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListFlowLogCollectorsWithContext(ctx, pager.options)
+	var result *FlowLogCollectorCollection
+	result, _, err = pager.client.ListFlowLogCollectorsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176560,7 +177836,8 @@ func (pager *ImagesPager) GetNextWithContext(ctx context.Context) (page []Image,
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListImagesWithContext(ctx, pager.options)
+	var result *ImageCollection
+	result, _, err = pager.client.ListImagesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176652,7 +177929,8 @@ func (pager *ImageBareMetalServerProfilesPager) GetNextWithContext(ctx context.C
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListImageBareMetalServerProfilesWithContext(ctx, pager.options)
+	var result *ImageBareMetalServerProfileCollection
+	result, _, err = pager.client.ListImageBareMetalServerProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176744,7 +178022,8 @@ func (pager *ImageInstanceProfilesPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListImageInstanceProfilesWithContext(ctx, pager.options)
+	var result *ImageInstanceProfileCollection
+	result, _, err = pager.client.ListImageInstanceProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176836,7 +178115,8 @@ func (pager *OperatingSystemsPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListOperatingSystemsWithContext(ctx, pager.options)
+	var result *OperatingSystemCollection
+	result, _, err = pager.client.ListOperatingSystemsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -176928,7 +178208,8 @@ func (pager *InstanceGroupsPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceGroupsWithContext(ctx, pager.options)
+	var result *InstanceGroupCollection
+	result, _, err = pager.client.ListInstanceGroupsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177020,7 +178301,8 @@ func (pager *InstanceGroupManagersPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceGroupManagersWithContext(ctx, pager.options)
+	var result *InstanceGroupManagerCollection
+	result, _, err = pager.client.ListInstanceGroupManagersWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177112,7 +178394,8 @@ func (pager *InstanceGroupManagerActionsPager) GetNextWithContext(ctx context.Co
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceGroupManagerActionsWithContext(ctx, pager.options)
+	var result *InstanceGroupManagerActionsCollection
+	result, _, err = pager.client.ListInstanceGroupManagerActionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177204,7 +178487,8 @@ func (pager *InstanceGroupManagerPoliciesPager) GetNextWithContext(ctx context.C
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceGroupManagerPoliciesWithContext(ctx, pager.options)
+	var result *InstanceGroupManagerPolicyCollection
+	result, _, err = pager.client.ListInstanceGroupManagerPoliciesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177296,7 +178580,8 @@ func (pager *InstanceGroupMembershipsPager) GetNextWithContext(ctx context.Conte
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceGroupMembershipsWithContext(ctx, pager.options)
+	var result *InstanceGroupMembershipCollection
+	result, _, err = pager.client.ListInstanceGroupMembershipsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177388,7 +178673,8 @@ func (pager *InstanceProfilesPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceProfilesWithContext(ctx, pager.options)
+	var result *InstanceProfileCollection
+	result, _, err = pager.client.ListInstanceProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177480,7 +178766,8 @@ func (pager *InstancesPager) GetNextWithContext(ctx context.Context) (page []Ins
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstancesWithContext(ctx, pager.options)
+	var result *InstanceCollection
+	result, _, err = pager.client.ListInstancesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177572,7 +178859,8 @@ func (pager *InstanceClusterNetworkAttachmentsPager) GetNextWithContext(ctx cont
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceClusterNetworkAttachmentsWithContext(ctx, pager.options)
+	var result *InstanceClusterNetworkAttachmentCollection
+	result, _, err = pager.client.ListInstanceClusterNetworkAttachmentsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177664,7 +178952,8 @@ func (pager *InstanceNetworkInterfaceIpsPager) GetNextWithContext(ctx context.Co
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListInstanceNetworkInterfaceIpsWithContext(ctx, pager.options)
+	var result *ReservedIPCollectionInstanceNetworkInterfaceContext
+	result, _, err = pager.client.ListInstanceNetworkInterfaceIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177756,7 +179045,8 @@ func (pager *KeysPager) GetNextWithContext(ctx context.Context) (page []Key, err
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListKeysWithContext(ctx, pager.options)
+	var result *KeyCollection
+	result, _, err = pager.client.ListKeysWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177848,7 +179138,8 @@ func (pager *LoadBalancerProfilesPager) GetNextWithContext(ctx context.Context) 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListLoadBalancerProfilesWithContext(ctx, pager.options)
+	var result *LoadBalancerProfileCollection
+	result, _, err = pager.client.ListLoadBalancerProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -177940,7 +179231,8 @@ func (pager *LoadBalancersPager) GetNextWithContext(ctx context.Context) (page [
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListLoadBalancersWithContext(ctx, pager.options)
+	var result *LoadBalancerCollection
+	result, _, err = pager.client.ListLoadBalancersWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178032,7 +179324,8 @@ func (pager *NetworkAclsPager) GetNextWithContext(ctx context.Context) (page []N
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListNetworkAclsWithContext(ctx, pager.options)
+	var result *NetworkACLCollection
+	result, _, err = pager.client.ListNetworkAclsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178124,7 +179417,8 @@ func (pager *NetworkACLRulesPager) GetNextWithContext(ctx context.Context) (page
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListNetworkACLRulesWithContext(ctx, pager.options)
+	var result *NetworkACLRuleCollection
+	result, _, err = pager.client.ListNetworkACLRulesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178216,7 +179510,8 @@ func (pager *PlacementGroupsPager) GetNextWithContext(ctx context.Context) (page
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListPlacementGroupsWithContext(ctx, pager.options)
+	var result *PlacementGroupCollection
+	result, _, err = pager.client.ListPlacementGroupsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178308,7 +179603,8 @@ func (pager *PrivatePathServiceGatewaysPager) GetNextWithContext(ctx context.Con
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListPrivatePathServiceGatewaysWithContext(ctx, pager.options)
+	var result *PrivatePathServiceGatewayCollection
+	result, _, err = pager.client.ListPrivatePathServiceGatewaysWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178400,7 +179696,8 @@ func (pager *PrivatePathServiceGatewayAccountPoliciesPager) GetNextWithContext(c
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListPrivatePathServiceGatewayAccountPoliciesWithContext(ctx, pager.options)
+	var result *PrivatePathServiceGatewayAccountPolicyCollection
+	result, _, err = pager.client.ListPrivatePathServiceGatewayAccountPoliciesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178492,7 +179789,8 @@ func (pager *PrivatePathServiceGatewayEndpointGatewayBindingsPager) GetNextWithC
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListPrivatePathServiceGatewayEndpointGatewayBindingsWithContext(ctx, pager.options)
+	var result *PrivatePathServiceGatewayEndpointGatewayBindingCollection
+	result, _, err = pager.client.ListPrivatePathServiceGatewayEndpointGatewayBindingsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178584,7 +179882,8 @@ func (pager *PublicAddressRangesPager) GetNextWithContext(ctx context.Context) (
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListPublicAddressRangesWithContext(ctx, pager.options)
+	var result *PublicAddressRangeCollection
+	result, _, err = pager.client.ListPublicAddressRangesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178676,7 +179975,8 @@ func (pager *PublicGatewaysPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListPublicGatewaysWithContext(ctx, pager.options)
+	var result *PublicGatewayCollection
+	result, _, err = pager.client.ListPublicGatewaysWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178768,7 +180068,8 @@ func (pager *ReservationsPager) GetNextWithContext(ctx context.Context) (page []
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListReservationsWithContext(ctx, pager.options)
+	var result *ReservationCollection
+	result, _, err = pager.client.ListReservationsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178860,7 +180161,8 @@ func (pager *SecurityGroupsPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSecurityGroupsWithContext(ctx, pager.options)
+	var result *SecurityGroupCollection
+	result, _, err = pager.client.ListSecurityGroupsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -178952,7 +180254,8 @@ func (pager *SecurityGroupTargetsPager) GetNextWithContext(ctx context.Context) 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSecurityGroupTargetsWithContext(ctx, pager.options)
+	var result *SecurityGroupTargetCollection
+	result, _, err = pager.client.ListSecurityGroupTargetsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179044,7 +180347,8 @@ func (pager *ShareProfilesPager) GetNextWithContext(ctx context.Context) (page [
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListShareProfilesWithContext(ctx, pager.options)
+	var result *ShareProfileCollection
+	result, _, err = pager.client.ListShareProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179136,7 +180440,8 @@ func (pager *SharesPager) GetNextWithContext(ctx context.Context) (page []Share,
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSharesWithContext(ctx, pager.options)
+	var result *ShareCollection
+	result, _, err = pager.client.ListSharesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179228,7 +180533,8 @@ func (pager *ShareAccessorBindingsPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListShareAccessorBindingsWithContext(ctx, pager.options)
+	var result *ShareAccessorBindingCollection
+	result, _, err = pager.client.ListShareAccessorBindingsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179320,7 +180626,8 @@ func (pager *ShareMountTargetsPager) GetNextWithContext(ctx context.Context) (pa
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListShareMountTargetsWithContext(ctx, pager.options)
+	var result *ShareMountTargetCollection
+	result, _, err = pager.client.ListShareMountTargetsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179412,7 +180719,8 @@ func (pager *ShareSnapshotsPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListShareSnapshotsWithContext(ctx, pager.options)
+	var result *ShareSnapshotCollection
+	result, _, err = pager.client.ListShareSnapshotsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179504,7 +180812,8 @@ func (pager *SnapshotConsistencyGroupsPager) GetNextWithContext(ctx context.Cont
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSnapshotConsistencyGroupsWithContext(ctx, pager.options)
+	var result *SnapshotConsistencyGroupCollection
+	result, _, err = pager.client.ListSnapshotConsistencyGroupsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179596,7 +180905,8 @@ func (pager *SnapshotsPager) GetNextWithContext(ctx context.Context) (page []Sna
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSnapshotsWithContext(ctx, pager.options)
+	var result *SnapshotCollection
+	result, _, err = pager.client.ListSnapshotsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179688,7 +180998,8 @@ func (pager *SnapshotInstanceProfilesPager) GetNextWithContext(ctx context.Conte
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSnapshotInstanceProfilesWithContext(ctx, pager.options)
+	var result *SnapshotInstanceProfileCollection
+	result, _, err = pager.client.ListSnapshotInstanceProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179780,7 +181091,8 @@ func (pager *SubnetsPager) GetNextWithContext(ctx context.Context) (page []Subne
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSubnetsWithContext(ctx, pager.options)
+	var result *SubnetCollection
+	result, _, err = pager.client.ListSubnetsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179872,7 +181184,8 @@ func (pager *SubnetReservedIpsPager) GetNextWithContext(ctx context.Context) (pa
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListSubnetReservedIpsWithContext(ctx, pager.options)
+	var result *ReservedIPCollection
+	result, _, err = pager.client.ListSubnetReservedIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -179964,7 +181277,8 @@ func (pager *VirtualNetworkInterfacesPager) GetNextWithContext(ctx context.Conte
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVirtualNetworkInterfacesWithContext(ctx, pager.options)
+	var result *VirtualNetworkInterfaceCollection
+	result, _, err = pager.client.ListVirtualNetworkInterfacesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180056,7 +181370,8 @@ func (pager *NetworkInterfaceFloatingIpsPager) GetNextWithContext(ctx context.Co
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListNetworkInterfaceFloatingIpsWithContext(ctx, pager.options)
+	var result *FloatingIPCollectionVirtualNetworkInterfaceContext
+	result, _, err = pager.client.ListNetworkInterfaceFloatingIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180148,7 +181463,8 @@ func (pager *VirtualNetworkInterfaceIpsPager) GetNextWithContext(ctx context.Con
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVirtualNetworkInterfaceIpsWithContext(ctx, pager.options)
+	var result *ReservedIPCollectionVirtualNetworkInterfaceContext
+	result, _, err = pager.client.ListVirtualNetworkInterfaceIpsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180240,7 +181556,8 @@ func (pager *VolumeProfilesPager) GetNextWithContext(ctx context.Context) (page 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVolumeProfilesWithContext(ctx, pager.options)
+	var result *VolumeProfileCollection
+	result, _, err = pager.client.ListVolumeProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180332,7 +181649,8 @@ func (pager *VolumesPager) GetNextWithContext(ctx context.Context) (page []Volum
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVolumesWithContext(ctx, pager.options)
+	var result *VolumeCollection
+	result, _, err = pager.client.ListVolumesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180424,7 +181742,8 @@ func (pager *VolumeInstanceProfilesPager) GetNextWithContext(ctx context.Context
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVolumeInstanceProfilesWithContext(ctx, pager.options)
+	var result *VolumeInstanceProfileCollection
+	result, _, err = pager.client.ListVolumeInstanceProfilesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180516,7 +181835,8 @@ func (pager *VolumeJobsPager) GetNextWithContext(ctx context.Context) (page []Vo
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVolumeJobsWithContext(ctx, pager.options)
+	var result *VolumeJobCollection
+	result, _, err = pager.client.ListVolumeJobsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180608,7 +181928,8 @@ func (pager *VpcsPager) GetNextWithContext(ctx context.Context) (page []VPC, err
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVpcsWithContext(ctx, pager.options)
+	var result *VPCCollection
+	result, _, err = pager.client.ListVpcsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180700,7 +182021,8 @@ func (pager *VPCAddressPrefixesPager) GetNextWithContext(ctx context.Context) (p
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPCAddressPrefixesWithContext(ctx, pager.options)
+	var result *AddressPrefixCollection
+	result, _, err = pager.client.ListVPCAddressPrefixesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180792,7 +182114,8 @@ func (pager *VPCDnsResolutionBindingsPager) GetNextWithContext(ctx context.Conte
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPCDnsResolutionBindingsWithContext(ctx, pager.options)
+	var result *VpcdnsResolutionBindingCollection
+	result, _, err = pager.client.ListVPCDnsResolutionBindingsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180884,7 +182207,8 @@ func (pager *VPCRoutesPager) GetNextWithContext(ctx context.Context) (page []Rou
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPCRoutesWithContext(ctx, pager.options)
+	var result *RouteCollectionVPCContext
+	result, _, err = pager.client.ListVPCRoutesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -180976,7 +182300,8 @@ func (pager *VPCRoutingTablesPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPCRoutingTablesWithContext(ctx, pager.options)
+	var result *RoutingTableCollection
+	result, _, err = pager.client.ListVPCRoutingTablesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181068,7 +182393,8 @@ func (pager *VPCRoutingTableRoutesPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPCRoutingTableRoutesWithContext(ctx, pager.options)
+	var result *RouteCollection
+	result, _, err = pager.client.ListVPCRoutingTableRoutesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181160,7 +182486,8 @@ func (pager *IkePoliciesPager) GetNextWithContext(ctx context.Context) (page []I
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListIkePoliciesWithContext(ctx, pager.options)
+	var result *IkePolicyCollection
+	result, _, err = pager.client.ListIkePoliciesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181252,7 +182579,8 @@ func (pager *IkePolicyConnectionsPager) GetNextWithContext(ctx context.Context) 
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListIkePolicyConnectionsWithContext(ctx, pager.options)
+	var result *IkePolicyConnectionCollection
+	result, _, err = pager.client.ListIkePolicyConnectionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181344,7 +182672,8 @@ func (pager *IpsecPoliciesPager) GetNextWithContext(ctx context.Context) (page [
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListIpsecPoliciesWithContext(ctx, pager.options)
+	var result *IPsecPolicyCollection
+	result, _, err = pager.client.ListIpsecPoliciesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181436,7 +182765,8 @@ func (pager *IpsecPolicyConnectionsPager) GetNextWithContext(ctx context.Context
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListIpsecPolicyConnectionsWithContext(ctx, pager.options)
+	var result *IPsecPolicyConnectionCollection
+	result, _, err = pager.client.ListIpsecPolicyConnectionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181528,7 +182858,8 @@ func (pager *VPNGatewaysPager) GetNextWithContext(ctx context.Context) (page []V
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPNGatewaysWithContext(ctx, pager.options)
+	var result *VPNGatewayCollection
+	result, _, err = pager.client.ListVPNGatewaysWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181620,7 +182951,8 @@ func (pager *VPNGatewayConnectionsPager) GetNextWithContext(ctx context.Context)
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPNGatewayConnectionsWithContext(ctx, pager.options)
+	var result *VPNGatewayConnectionCollection
+	result, _, err = pager.client.ListVPNGatewayConnectionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181712,7 +183044,8 @@ func (pager *VPNGatewayServiceConnectionsPager) GetNextWithContext(ctx context.C
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPNGatewayServiceConnectionsWithContext(ctx, pager.options)
+	var result *VPNGatewayServiceConnectionCollection
+	result, _, err = pager.client.ListVPNGatewayServiceConnectionsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181804,7 +183137,8 @@ func (pager *VPNServersPager) GetNextWithContext(ctx context.Context) (page []VP
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPNServersWithContext(ctx, pager.options)
+	var result *VPNServerCollection
+	result, _, err = pager.client.ListVPNServersWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181896,7 +183230,8 @@ func (pager *VPNServerClientsPager) GetNextWithContext(ctx context.Context) (pag
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPNServerClientsWithContext(ctx, pager.options)
+	var result *VPNServerClientCollection
+	result, _, err = pager.client.ListVPNServerClientsWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
@@ -181988,7 +183323,8 @@ func (pager *VPNServerRoutesPager) GetNextWithContext(ctx context.Context) (page
 
 	pager.options.Start = pager.pageContext.next
 
-	result, _, err := pager.client.ListVPNServerRoutesWithContext(ctx, pager.options)
+	var result *VPNServerRouteCollection
+	result, _, err = pager.client.ListVPNServerRoutesWithContext(ctx, pager.options)
 	if err != nil {
 		err = core.RepurposeSDKProblem(err, "error-getting-next-page")
 		return
