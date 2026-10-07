@@ -20,7 +20,7 @@ const (
 
 	// smInstancePlan is the Secrets Manager plan used for ephemeral instances.
 	// Use "standard" if a trial instance already exists in the region.
-	smInstancePlan = "trial"
+	smInstancePlan = "standard"
 )
 
 func imageName(version, arch string) string {
