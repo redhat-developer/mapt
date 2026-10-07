@@ -393,12 +393,12 @@ func (r *openshiftSNCRequest) userData(ctx *pulumi.Context,
 	ccB64 := pulumi.All(newPublicKey, lbEIP).ApplyT(
 		func(args []interface{}) (string, error) {
 			ccB64, err := apiSNC.CloudConfig(apiSNC.DataValues{
-				Username:                 amiUserDefault,
-				PubKey:                   args[0].(string),
-				PublicIP:                 args[1].(string),
-				SSMPullSecretName:        *psName,
-				SSMKubeAdminPasswordName: *kaPassName,
-				SSMDeveloperPasswordName: *devPassName})
+				Username:                        amiUserDefault,
+				PubKey:                          args[0].(string),
+				PublicIP:                        args[1].(string),
+				SecretStorePullSecretRef:        *psName,
+				SecretStoreKubeAdminPasswordRef: *kaPassName,
+				SecretStoreDeveloperPasswordRef: *devPassName})
 			return *ccB64, err
 		}).(pulumi.StringOutput)
 

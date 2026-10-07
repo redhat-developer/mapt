@@ -1,12 +1,9 @@
 package snc
 
 import (
-	_ "embed"
-	"encoding/base64"
 	"fmt"
 	"os"
 	"regexp"
-	"strings"
 
 	"github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud"
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
@@ -17,29 +14,17 @@ import (
 	ibmcloudp "github.com/redhat-developer/mapt/pkg/provider/ibmcloud"
 	icdata "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/data"
 	"github.com/redhat-developer/mapt/pkg/provider/ibmcloud/modules/network"
+	sm "github.com/redhat-developer/mapt/pkg/provider/ibmcloud/services/secretsmanager"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
 	"github.com/redhat-developer/mapt/pkg/provider/util/security"
 	apiSNC "github.com/redhat-developer/mapt/pkg/target/service/snc"
 	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
 	"github.com/redhat-developer/mapt/pkg/util"
-	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
 var kubeconfigURLPattern = regexp.MustCompile(`https://api\.crc\.testing:\d+`)
-
-//go:embed cloud-config
-var cloudConfigTemplate []byte
-
-type dataValues struct {
-	Username         string
-	PubKey           string
-	PublicIP         string
-	PullSecretB64    string
-	KubeAdminPassword string
-	DeveloperPassword string
-}
 
 type sncRequest struct {
 	mCtx                    *mc.Context
@@ -147,10 +132,28 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	if err != nil {
 		return err
 	}
+	cleanupSMSecrets()
 	if err := ibmcloudp.DestroyStack(mCtx, apiSNC.StackName); err != nil {
 		return err
 	}
 	return ibmcloudp.CleanupState(mCtx)
+}
+
+// cleanupSMSecrets removes secrets created during provisioning.
+// Secret names are deterministic so no stored IDs are needed.
+// Errors are logged as warnings — a missing secret is not a blocker for destroy.
+func cleanupSMSecrets() {
+	smClient, err := sm.NewClient()
+	if err != nil {
+		logging.Warnf("SM cleanup: failed to create client: %v", err)
+		return
+	}
+	for _, suffix := range []string{smPullSecretSuffix, smKubeAdminPassSuffix, smDeveloperPassSuffix} {
+		name := resourcesUtil.GetResourceName("main", ibmCloudSNCID, suffix)
+		if err := smClient.DeleteSecretByName(name); err != nil {
+			logging.Warnf("SM cleanup: failed to delete secret %s: %v", name, err)
+		}
+	}
 }
 
 func (r *sncRequest) deploy(ctx *pulumi.Context) error {
@@ -352,43 +355,56 @@ func (r *sncRequest) userData(
 	if err != nil {
 		return nil, err
 	}
-	psB64 := base64.StdEncoding.EncodeToString(ps)
+	return r.userDataSM(pubKey, ip, kaPass, devPass, ps)
+}
+
+func (r *sncRequest) userDataSM(
+	pubKey, ip pulumi.StringOutput,
+	kaPass, devPass pulumi.StringOutput,
+	pullSecret []byte,
+) (pulumi.StringPtrInput, error) {
+	smClient, err := sm.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	psSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smPullSecretSuffix)
+	psID, err := smClient.CreateArbitrarySecret(psSecretName, string(pullSecret))
+	if err != nil {
+		return nil, fmt.Errorf("storing pull secret in Secrets Manager: %w", err)
+	}
+	smEndpointURL := smClient.EndpointURL()
 
 	wrapped := pulumi.All(pubKey, ip, kaPass, devPass).ApplyT(
 		func(args []interface{}) (*string, error) {
-			data := dataValues{
-				Username:          defaultUser,
-				PubKey:            args[0].(string),
-				PublicIP:          args[1].(string),
-				PullSecretB64:     psB64,
-				KubeAdminPassword: args[2].(string),
-				DeveloperPassword: args[3].(string),
-			}
-			rawCC, err := file.Template(data, string(cloudConfigTemplate))
+			smClient2, err := sm.NewClient()
 			if err != nil {
 				return nil, err
 			}
-			result := mimeWrapCloudConfig(rawCC)
+			kaSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smKubeAdminPassSuffix)
+			kaID, err := smClient2.CreateArbitrarySecret(kaSecretName, args[2].(string))
+			if err != nil {
+				return nil, fmt.Errorf("storing kubeadmin password in Secrets Manager: %w", err)
+			}
+			devSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smDeveloperPassSuffix)
+			devID, err := smClient2.CreateArbitrarySecret(devSecretName, args[3].(string))
+			if err != nil {
+				return nil, fmt.Errorf("storing developer password in Secrets Manager: %w", err)
+			}
+			result, err := apiSNC.CloudConfigSM(apiSNC.DataValues{
+				Username:                        defaultUser,
+				PubKey:                          args[0].(string),
+				PublicIP:                        args[1].(string),
+				SecretStoreEndpointURL:          smEndpointURL,
+				SecretStorePullSecretRef:        psID,
+				SecretStoreKubeAdminPasswordRef: kaID,
+				SecretStoreDeveloperPasswordRef: devID,
+			})
+			if err != nil {
+				return nil, err
+			}
 			return &result, nil
 		}).(pulumi.StringPtrOutput)
 	return wrapped, nil
-}
-
-func mimeWrapCloudConfig(rawCC string) string {
-	const boundary = "MAPT-CLOUD-CONFIG"
-	encoded := base64.StdEncoding.EncodeToString([]byte(rawCC))
-	return strings.Join([]string{
-		"MIME-Version: 1.0",
-		`Content-Type: multipart/mixed; boundary="` + boundary + `"`,
-		"",
-		"--" + boundary,
-		`Content-Type: text/cloud-config; charset="us-ascii"`,
-		"Content-Transfer-Encoding: base64",
-		"",
-		encoded,
-		"--" + boundary + "--",
-		"",
-	}, "\n")
 }
 
 func kubeconfig(ctx *pulumi.Context, prefix *string, ip pulumi.StringOutput,

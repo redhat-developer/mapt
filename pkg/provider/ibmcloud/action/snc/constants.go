@@ -13,6 +13,10 @@ const (
 	defaultDiskSize = 200
 
 	imageNamePattern = "openshift-local-%s-%s"
+
+	smPullSecretSuffix    = "pull-secret"
+	smKubeAdminPassSuffix = "kubeadminpassword"
+	smDeveloperPassSuffix = "devpassword"
 )
 
 func imageName(version, arch string) string {

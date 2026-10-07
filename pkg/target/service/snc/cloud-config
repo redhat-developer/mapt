@@ -1,22 +1,12 @@
 #cloud-config
 runcmd:
-  # Resize the XFS filesystem on /sysroot
   - mount -o remount,rw /sysroot
   - xfs_growfs /sysroot
   - systemctl enable --now kubelet
-  - export PS=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMPullSecretName }}" --with-decryption --query "Parameter.Value" --output text)
-  - echo ${PS} > /opt/crc/pull-secret
-  - chmod 0644 /opt/crc/pull-secret
-  - export KP=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMKubeAdminPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
-  - echo ${KP} > /opt/crc/pass_kubeadmin
-  - chmod 0644 /opt/crc/pass_kubeadmin
-  - export DV=$(podman run --rm docker.io/amazon/aws-cli ssm get-parameter --name "{{ .SSMDeveloperPasswordName }}" --with-decryption --query "Parameter.Value" --output text)
-  - echo ${DV} > /opt/crc/pass_developer
-  - chmod 0644 /opt/crc/pass_developer
-  - echo "{{ .PublicIP }}" > /opt/crc/eip
+{{ .SecretFetchCommands }}  - echo "{{ .PublicIP }}" > /opt/crc/eip
   - chmod 0644 /opt/crc/eip
 write_files:
-- path: /home/core/.ssh/authorized_keys
+- path: /home/{{ .Username }}/.ssh/authorized_keys
   content: {{ .PubKey }}
   owner: {{ .Username }}
   permissions: '0600'
