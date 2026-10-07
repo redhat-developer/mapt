@@ -214,8 +214,22 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputDeveloperPass),
 		devPassword.Result)
 
+	smInstance, err := ibmcloud.NewResourceInstance(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "sm"),
+		&ibmcloud.ResourceInstanceArgs{
+			Name:            pulumi.String(r.mCtx.ProjectName()),
+			Service:         pulumi.String("secrets-manager"),
+			Plan:            pulumi.String(smInstancePlan),
+			Location:        pulumi.String(os.Getenv(sm.RegionEnv)),
+			ResourceGroupId: rg.ID(),
+			Tags:            userTags,
+		})
+	if err != nil {
+		return err
+	}
+
 	ud, err := r.userData(pk.PublicKeyOpenssh, n.Floatingip.Address,
-		kaPassword.Result, devPassword.Result)
+		kaPassword.Result, devPassword.Result, smInstance.Guid)
 	if err != nil {
 		return err
 	}
@@ -350,43 +364,43 @@ func isKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string,
 func (r *sncRequest) userData(
 	pubKey, ip pulumi.StringOutput,
 	kaPass, devPass pulumi.StringOutput,
+	smInstanceGUID pulumi.StringOutput,
 ) (pulumi.StringPtrInput, error) {
 	ps, err := os.ReadFile(*r.pullSecretFile)
 	if err != nil {
 		return nil, err
 	}
-	return r.userDataSM(pubKey, ip, kaPass, devPass, ps)
+	return r.userDataSM(pubKey, ip, kaPass, devPass, ps, smInstanceGUID)
 }
 
 func (r *sncRequest) userDataSM(
 	pubKey, ip pulumi.StringOutput,
 	kaPass, devPass pulumi.StringOutput,
 	pullSecret []byte,
+	smInstanceGUID pulumi.StringOutput,
 ) (pulumi.StringPtrInput, error) {
-	smClient, err := sm.NewClient()
-	if err != nil {
-		return nil, err
-	}
 	psSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smPullSecretSuffix)
-	psID, err := smClient.CreateArbitrarySecret(psSecretName, string(pullSecret))
-	if err != nil {
-		return nil, fmt.Errorf("storing pull secret in Secrets Manager: %w", err)
-	}
-	smEndpointURL := smClient.EndpointURL()
+	kaSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smKubeAdminPassSuffix)
+	devSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smDeveloperPassSuffix)
+	psContent := string(pullSecret)
+	region := os.Getenv(sm.RegionEnv)
 
-	wrapped := pulumi.All(pubKey, ip, kaPass, devPass).ApplyT(
+	wrapped := pulumi.All(pubKey, ip, kaPass, devPass, smInstanceGUID).ApplyT(
 		func(args []interface{}) (*string, error) {
-			smClient2, err := sm.NewClient()
+			endpoint := fmt.Sprintf(sm.EndpointURLFormat, args[4].(string), region)
+			smClient, err := sm.NewClientWithEndpoint(endpoint)
 			if err != nil {
 				return nil, err
 			}
-			kaSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smKubeAdminPassSuffix)
-			kaID, err := smClient2.CreateArbitrarySecret(kaSecretName, args[2].(string))
+			psID, err := smClient.CreateArbitrarySecret(psSecretName, psContent)
+			if err != nil {
+				return nil, fmt.Errorf("storing pull secret in Secrets Manager: %w", err)
+			}
+			kaID, err := smClient.CreateArbitrarySecret(kaSecretName, args[2].(string))
 			if err != nil {
 				return nil, fmt.Errorf("storing kubeadmin password in Secrets Manager: %w", err)
 			}
-			devSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smDeveloperPassSuffix)
-			devID, err := smClient2.CreateArbitrarySecret(devSecretName, args[3].(string))
+			devID, err := smClient.CreateArbitrarySecret(devSecretName, args[3].(string))
 			if err != nil {
 				return nil, fmt.Errorf("storing developer password in Secrets Manager: %w", err)
 			}
@@ -394,7 +408,7 @@ func (r *sncRequest) userDataSM(
 				Username:                        defaultUser,
 				PubKey:                          args[0].(string),
 				PublicIP:                        args[1].(string),
-				SecretStoreEndpointURL:          smEndpointURL,
+				SecretStoreEndpointURL:          endpoint,
 				SecretStorePullSecretRef:        psID,
 				SecretStoreKubeAdminPasswordRef: kaID,
 				SecretStoreDeveloperPasswordRef: devID,

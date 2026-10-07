@@ -16,11 +16,14 @@ import (
 )
 
 const (
-	smEndpointURLFormat = "https://%s.%s.secrets-manager.appdomain.cloud"
+	// EndpointURLFormat builds a Secrets Manager instance URL from its GUID and region.
+	EndpointURLFormat = "https://%s.%s.secrets-manager.appdomain.cloud"
+	// RegionEnv is the environment variable that specifies the IBM Cloud region.
+	RegionEnv = "IC_REGION"
+
 	// smCRNServiceName is the service segment present in every Secrets Manager CRN:
 	// crn:v1:bluemix:public:secrets-manager:<region>:a/<account>:<guid>::
 	smCRNServiceName = ":secrets-manager:"
-	regionEnv        = "IC_REGION"
 )
 
 // Client is a thin wrapper around the IBM Cloud Secrets Manager REST API v2.
@@ -50,11 +53,26 @@ func NewClient() (*Client, error) {
 	}, nil
 }
 
+// NewClientWithEndpoint creates a Secrets Manager client with a pre-known endpoint URL.
+// Use this when the SM instance GUID is already known (e.g., from a Pulumi output)
+// to avoid the Resource Controller discovery call.
+func NewClientWithEndpoint(endpointURL string) (*Client, error) {
+	apiKey := os.Getenv(icConstants.EnvIBMCloudAPIKey)
+	if apiKey == "" {
+		return nil, fmt.Errorf("env var %s is not set", icConstants.EnvIBMCloudAPIKey)
+	}
+	return &Client{
+		endpointURL: endpointURL,
+		auth:        &core.IamAuthenticator{ApiKey: apiKey},
+		http:        &http.Client{},
+	}, nil
+}
+
 // getInstanceEndpointURL discovers the Secrets Manager instance endpoint for
 // the current IC_REGION using the Resource Controller API.
 // Errors if no instance or more than one instance is found in the region.
 func getInstanceEndpointURL() (string, error) {
-	region := os.Getenv(regionEnv)
+	region := os.Getenv(RegionEnv)
 	if region == "" {
 		return "", fmt.Errorf("env var %s is not set", regionEnv)
 	}
@@ -70,7 +88,11 @@ func getInstanceEndpointURL() (string, error) {
 		return "", fmt.Errorf("creating resource controller client: %w", err)
 	}
 
-	result, _, err := rc.ListResourceInstances(&resourcecontrollerv2.ListResourceInstancesOptions{})
+	pager, err := rc.NewResourceInstancesPager(&resourcecontrollerv2.ListResourceInstancesOptions{})
+	if err != nil {
+		return "", fmt.Errorf("creating resource instances pager: %w", err)
+	}
+	all, err := pager.GetAll()
 	if err != nil {
 		return "", fmt.Errorf("listing resource instances: %w", err)
 	}
@@ -79,7 +101,7 @@ func getInstanceEndpointURL() (string, error) {
 	// Secrets Manager is a UUID that varies by environment, so we match on the
 	// CRN which always contains ":secrets-manager:" for SM instances.
 	var active []resourcecontrollerv2.ResourceInstance
-	for _, inst := range result.Resources {
+	for _, inst := range all {
 		if inst.State != nil && *inst.State == "active" &&
 			inst.RegionID != nil && *inst.RegionID == region &&
 			inst.CRN != nil && strings.Contains(*inst.CRN, smCRNServiceName) {
@@ -95,7 +117,7 @@ func getInstanceEndpointURL() (string, error) {
 		if inst.GUID == nil || inst.RegionID == nil {
 			return "", fmt.Errorf("secrets manager instance is missing GUID or RegionID")
 		}
-		return fmt.Sprintf(smEndpointURLFormat, *inst.GUID, *inst.RegionID), nil
+		return fmt.Sprintf(EndpointURLFormat, *inst.GUID, *inst.RegionID), nil
 	default:
 		return "", fmt.Errorf("found %d active Secrets Manager instances in region %s — expected exactly one", len(active), region)
 	}
