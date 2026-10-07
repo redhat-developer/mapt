@@ -74,7 +74,7 @@ func NewClientWithEndpoint(endpointURL string) (*Client, error) {
 func getInstanceEndpointURL() (string, error) {
 	region := os.Getenv(RegionEnv)
 	if region == "" {
-		return "", fmt.Errorf("env var %s is not set", regionEnv)
+		return "", fmt.Errorf("env var %s is not set", RegionEnv)
 	}
 	apiKey := os.Getenv(icConstants.EnvIBMCloudAPIKey)
 	if apiKey == "" {
