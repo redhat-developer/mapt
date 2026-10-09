@@ -47,6 +47,7 @@ const (
 
 type GaudiArgs struct {
 	Prefix         string
+	VpcID          string
 	SubnetID       string
 	OtelAppCode    string
 	OtelAuthToken  string
@@ -59,6 +60,7 @@ type gaudiRequest struct {
 	mCtx           *mc.Context
 	prefix         *string
 	zone           *string
+	vpcID          *string
 	subnetID       *string
 	otelAppCode    string
 	otelAuthToken  string
@@ -77,14 +79,20 @@ func New(ctx *mc.ContextArgs, args *GaudiArgs) error {
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 
 	var zone *string
+	var vpcID *string
 	var subnetID *string
+	if args.VpcID != "" {
+		v := args.VpcID
+		vpcID = &v
+	}
 	if args.SubnetID != "" {
 		s := strings.TrimSpace(args.SubnetID)
 		if s == "" {
 			return fmt.Errorf("--subnet-id must not be blank")
 		}
 		subnetID = &s
-	} else {
+	}
+	if vpcID == nil && subnetID == nil {
 		z, err := ibmcloudProvider.Zone()
 		if err != nil {
 			return err
@@ -96,6 +104,7 @@ func New(ctx *mc.ContextArgs, args *GaudiArgs) error {
 		mCtx:           mCtx,
 		prefix:         &prefix,
 		zone:           zone,
+		vpcID:          vpcID,
 		subnetID:       subnetID,
 		otelAppCode:    args.OtelAppCode,
 		otelAuthToken:  args.OtelAuthToken,
@@ -149,6 +158,7 @@ func (r *gaudiRequest) deploy(ctx *pulumi.Context) error {
 			RG:          rg,
 			ComponentID: stackGaudi,
 			Name:        fmt.Sprintf("%s-%s", *r.prefix, r.mCtx.ProjectName()),
+			VpcID:       r.vpcID,
 		})
 	if err != nil {
 		return err
@@ -169,7 +179,7 @@ func (r *gaudiRequest) deploy(ctx *pulumi.Context) error {
 		Name:          pulumi.String(r.mCtx.ProjectName()),
 		Image:         pulumi.String(*imageId),
 		Profile:       pulumi.String(defaultProfile),
-		Vpc:           n.VPC.ID(),
+		Vpc:           n.VPCID,
 		Zone:          pulumi.String(zone),
 		ResourceGroup: rg.ID(),
 		Keys:          pulumi.StringArray{pik.ID()},

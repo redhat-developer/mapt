@@ -57,6 +57,7 @@ func ibmZCreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmz.ZArgs{
+					VpcID:         viper.GetString(params.VpcID),
 					SubnetID:      viper.GetString(params.SubnetID),
 					Profile:       viper.GetString(params.IZProfile),
 					DiskSize:      viper.GetInt(params.IZDiskSize),
@@ -71,6 +72,7 @@ func ibmZCreate() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	flagSet.StringP(params.VpcID, "", "", params.VpcIDDesc)
 	flagSet.StringP(params.SubnetID, "", "", params.SubnetIDDesc)
 	flagSet.StringP(params.OtelAppCode, "", "", params.OtelAppCodeDesc)
 	flagSet.StringP(params.OtelAuthToken, "", "", params.OtelAuthTokenDesc)

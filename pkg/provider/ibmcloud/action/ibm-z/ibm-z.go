@@ -48,6 +48,9 @@ const (
 
 type ZArgs struct {
 	Prefix string
+	// VpcID, when set, reuses an existing VPC instead of creating one.
+	// A new subnet is still provisioned inside the VPC.
+	VpcID string
 	// SubnetID, when set, deploys the instance into an existing VPC subnet
 	// instead of provisioning a new VPC and subnet. IC_ZONE is not required
 	// when this field is provided.
@@ -69,6 +72,7 @@ type zRequest struct {
 	mCtx             *mc.Context
 	prefix           *string
 	zone             *string
+	vpcID            *string
 	subnetID         *string
 	profile          string
 	diskSize         int
@@ -94,14 +98,20 @@ func New(ctx *mc.ContextArgs, args *ZArgs) error {
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
 
 	var zone *string
+	var vpcID *string
 	var subnetID *string
+	if args.VpcID != "" {
+		v := args.VpcID
+		vpcID = &v
+	}
 	if args.SubnetID != "" {
 		s := strings.TrimSpace(args.SubnetID)
 		if s == "" {
 			return fmt.Errorf("--subnet-id must not be blank")
 		}
 		subnetID = &s
-	} else {
+	}
+	if vpcID == nil && subnetID == nil {
 		z, err := ibmcloudProvider.Zone()
 		if err != nil {
 			return err
@@ -113,6 +123,7 @@ func New(ctx *mc.ContextArgs, args *ZArgs) error {
 		mCtx:           mCtx,
 		prefix:         &prefix,
 		zone:           zone,
+		vpcID:          vpcID,
 		subnetID:       subnetID,
 		profile:        args.Profile,
 		diskSize:       args.DiskSize,
@@ -205,6 +216,7 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 			ComponentID: stackIBMS390,
 			Name:        fmt.Sprintf("%s-%s", *r.prefix, r.mCtx.ProjectName()),
 			Tags:        userTags,
+			VpcID:       r.vpcID,
 		})
 	if err != nil {
 		return err
@@ -225,7 +237,7 @@ func (r *zRequest) deploy(ctx *pulumi.Context) error {
 		Name:    pulumi.String(r.mCtx.ProjectName()),
 		Image:   pulumi.String(*imageId),
 		Profile: pulumi.String(r.profile),
-		Vpc:     n.VPC.ID(),
+		Vpc:     n.VPCID,
 		Zone:    pulumi.String(zone),
 		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
 			Size: pulumi.Int(r.diskSize),

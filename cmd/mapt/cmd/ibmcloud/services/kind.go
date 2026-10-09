@@ -64,6 +64,7 @@ func createKind() *cobra.Command {
 					Version:           viper.GetString(params.KindK8SVersion),
 					Spot:              params.SpotArgs(),
 					ExtraPortMappings: extraPortMappings,
+					VpcID:             params.NetworkVpcID(),
 				}); err != nil {
 				return err
 			}
@@ -75,6 +76,7 @@ func createKind() *cobra.Command {
 	flagSet.StringP(params.KindK8SVersion, "", params.KindK8SVersionDefault, params.KindK8SVersionDesc)
 	flagSet.StringP(params.KindExtraPortMappings, "", "", params.KindExtraPortMappingsDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	flagSet.StringP(params.VpcID, "", "", params.VpcIDDesc)
 	params.AddSpotFlags(flagSet)
 	params.AddComputeRequestFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
