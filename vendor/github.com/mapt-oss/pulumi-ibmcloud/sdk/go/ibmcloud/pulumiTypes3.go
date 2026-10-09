@@ -13,6 +13,4819 @@ import (
 
 var _ = internal.GetEnvOrDefault
 
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs and GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...}
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
+	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray and GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{ GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray []GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput
+
+func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted) string {
+		return v.MoreInfo
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentLifecycleReason struct {
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code string `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message string `pulumi:"message"`
+	// Link to documentation about the reason for this lifecycle state.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs and GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs{...}
+type GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput
+	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs struct {
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code pulumi.StringInput `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Link to documentation about the reason for this lifecycle state.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray and GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray{ GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray []GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput
+
+func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
+	return o
+}
+
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentLifecycleReason) string { return v.Code }).(pulumi.StringOutput)
+}
+
+// An explanation of the reason for this lifecycle state.
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentLifecycleReason) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Link to documentation about the reason for this lifecycle state.
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentLifecycleReason) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentLifecycleReason {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentLifecycleReason)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment struct {
+	// The instance cluster network attachment that is immediately before. If absent, this is thelast instance cluster network attachment.
+	Befores []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore `pulumi:"befores"`
+	// The cluster network interface for this instance cluster network attachment.
+	ClusterNetworkInterfaces []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface `pulumi:"clusterNetworkInterfaces"`
+	// The URL for this instance cluster network attachment.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance cluster network attachment.
+	Id string `pulumi:"id"`
+	// The reasons for the current `lifecycleState` (if any).
+	LifecycleReasons []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason `pulumi:"lifecycleReasons"`
+	// The lifecycle state of the instance cluster network attachment.
+	LifecycleState string `pulumi:"lifecycleState"`
+	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs struct {
+	// The instance cluster network attachment that is immediately before. If absent, this is thelast instance cluster network attachment.
+	Befores GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput `pulumi:"befores"`
+	// The cluster network interface for this instance cluster network attachment.
+	ClusterNetworkInterfaces GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput `pulumi:"clusterNetworkInterfaces"`
+	// The URL for this instance cluster network attachment.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance cluster network attachment.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The reasons for the current `lifecycleState` (if any).
+	LifecycleReasons GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput `pulumi:"lifecycleReasons"`
+	// The lifecycle state of the instance cluster network attachment.
+	LifecycleState pulumi.StringInput `pulumi:"lifecycleState"`
+	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
+	return o
+}
+
+// The instance cluster network attachment that is immediately before. If absent, this is thelast instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Befores() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore {
+		return v.Befores
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput)
+}
+
+// The cluster network interface for this instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ClusterNetworkInterfaces() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface {
+		return v.ClusterNetworkInterfaces
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput)
+}
+
+// The URL for this instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The reasons for the current `lifecycleState` (if any).
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) LifecycleReasons() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason {
+		return v.LifecycleReasons
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput)
+}
+
+// The lifecycle state of the instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) LifecycleState() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.LifecycleState }).(pulumi.StringOutput)
+}
+
+// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore struct {
+	// The URL for this instance cluster network attachment.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance cluster network attachment.
+	Id string `pulumi:"id"`
+	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs struct {
+	// The URL for this instance cluster network attachment.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance cluster network attachment.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
+	return o
+}
+
+// The URL for this instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance cluster network attachment.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string {
+		return v.ResourceType
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface struct {
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted `pulumi:"deleteds"`
+	// The URL for this cluster network interface.
+	Href string `pulumi:"href"`
+	// The unique identifier for this cluster network interface.
+	Id string `pulumi:"id"`
+	// The name for this cluster network interface. The name is unique across all interfaces in the cluster network.
+	Name string `pulumi:"name"`
+	// The primary IP for this cluster network interface.
+	PrimaryIps []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp `pulumi:"primaryIps"`
+	// The resource type.
+	ResourceType string                                                                                        `pulumi:"resourceType"`
+	Subnets      []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet `pulumi:"subnets"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs struct {
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this cluster network interface.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this cluster network interface.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name for this cluster network interface. The name is unique across all interfaces in the cluster network.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The primary IP for this cluster network interface.
+	PrimaryIps GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput `pulumi:"primaryIps"`
+	// The resource type.
+	ResourceType pulumi.StringInput                                                                                    `pulumi:"resourceType"`
+	Subnets      GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput `pulumi:"subnets"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Deleteds() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput)
+}
+
+// The URL for this cluster network interface.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
+		return v.Href
+	}).(pulumi.StringOutput)
+}
+
+// The unique identifier for this cluster network interface.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
+		return v.Id
+	}).(pulumi.StringOutput)
+}
+
+// The name for this cluster network interface. The name is unique across all interfaces in the cluster network.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
+		return v.Name
+	}).(pulumi.StringOutput)
+}
+
+// The primary IP for this cluster network interface.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) PrimaryIps() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp {
+		return v.PrimaryIps
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
+		return v.ResourceType
+	}).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Subnets() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet {
+		return v.Subnets
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted) string {
+		return v.MoreInfo
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp struct {
+	// The IP address.If the address is pending allocation, the value will be `0.0.0.0`.This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in the future.
+	Address string `pulumi:"address"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted `pulumi:"deleteds"`
+	// The URL for this cluster network subnet reserved IP.
+	Href string `pulumi:"href"`
+	// The unique identifier for this cluster network subnet reserved IP.
+	Id string `pulumi:"id"`
+	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs struct {
+	// The IP address.If the address is pending allocation, the value will be `0.0.0.0`.This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in the future.
+	Address pulumi.StringInput `pulumi:"address"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this cluster network subnet reserved IP.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this cluster network subnet reserved IP.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
+	return o
+}
+
+// The IP address.If the address is pending allocation, the value will be `0.0.0.0`.This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in the future.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Address() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
+		return v.Address
+	}).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Deleteds() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput)
+}
+
+// The URL for this cluster network subnet reserved IP.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
+		return v.Href
+	}).(pulumi.StringOutput)
+}
+
+// The unique identifier for this cluster network subnet reserved IP.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
+		return v.Id
+	}).(pulumi.StringOutput)
+}
+
+// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
+		return v.Name
+	}).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
+		return v.ResourceType
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted) string {
+		return v.MoreInfo
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet struct {
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted `pulumi:"deleteds"`
+	// The URL for this cluster network subnet.
+	Href string `pulumi:"href"`
+	// The unique identifier for this cluster network subnet.
+	Id string `pulumi:"id"`
+	// The name for this cluster network subnet. The name is unique across all cluster network subnets in the cluster network.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs struct {
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this cluster network subnet.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this cluster network subnet.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name for this cluster network subnet. The name is unique across all cluster network subnets in the cluster network.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Deleteds() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput)
+}
+
+// The URL for this cluster network subnet.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
+		return v.Href
+	}).(pulumi.StringOutput)
+}
+
+// The unique identifier for this cluster network subnet.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
+		return v.Id
+	}).(pulumi.StringOutput)
+}
+
+// The name for this cluster network subnet. The name is unique across all cluster network subnets in the cluster network.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
+		return v.Name
+	}).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
+		return v.ResourceType
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted) string {
+		return v.MoreInfo
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason struct {
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code string `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message string `pulumi:"message"`
+	// Link to documentation about the reason for this lifecycle state.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs{...}
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs struct {
+	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Code pulumi.StringInput `pulumi:"code"`
+	// An explanation of the reason for this lifecycle state.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Link to documentation about the reason for this lifecycle state.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput)
+}
+
+// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs{...} }
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput
+	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
+	return o
+}
+
+// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason) string {
+		return v.Code
+	}).(pulumi.StringOutput)
+}
+
+// An explanation of the reason for this lifecycle state.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason) string {
+		return v.Message
+	}).(pulumi.StringOutput)
+}
+
+// Link to documentation about the reason for this lifecycle state.
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason) string {
+		return v.MoreInfo
+	}).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason {
+		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput)
+}
+
+type GetIsInstanceClusterNetworkDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceClusterNetworkDeletedInput is an input type that accepts GetIsInstanceClusterNetworkDeletedArgs and GetIsInstanceClusterNetworkDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkDeletedInput` via:
+//
+//	GetIsInstanceClusterNetworkDeletedArgs{...}
+type GetIsInstanceClusterNetworkDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkDeletedOutput() GetIsInstanceClusterNetworkDeletedOutput
+	ToGetIsInstanceClusterNetworkDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkDeletedOutput
+}
+
+type GetIsInstanceClusterNetworkDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceClusterNetworkDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkDeletedArgs) ToGetIsInstanceClusterNetworkDeletedOutput() GetIsInstanceClusterNetworkDeletedOutput {
+	return i.ToGetIsInstanceClusterNetworkDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkDeletedArgs) ToGetIsInstanceClusterNetworkDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkDeletedOutput)
+}
+
+// GetIsInstanceClusterNetworkDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkDeletedArray and GetIsInstanceClusterNetworkDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceClusterNetworkDeletedArrayInput` via:
+//
+//	GetIsInstanceClusterNetworkDeletedArray{ GetIsInstanceClusterNetworkDeletedArgs{...} }
+type GetIsInstanceClusterNetworkDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceClusterNetworkDeletedArrayOutput() GetIsInstanceClusterNetworkDeletedArrayOutput
+	ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkDeletedArrayOutput
+}
+
+type GetIsInstanceClusterNetworkDeletedArray []GetIsInstanceClusterNetworkDeletedInput
+
+func (GetIsInstanceClusterNetworkDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceClusterNetworkDeletedArray) ToGetIsInstanceClusterNetworkDeletedArrayOutput() GetIsInstanceClusterNetworkDeletedArrayOutput {
+	return i.ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceClusterNetworkDeletedArray) ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkDeletedArrayOutput)
+}
+
+type GetIsInstanceClusterNetworkDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkDeletedOutput) ToGetIsInstanceClusterNetworkDeletedOutput() GetIsInstanceClusterNetworkDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkDeletedOutput) ToGetIsInstanceClusterNetworkDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceClusterNetworkDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceClusterNetworkDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceClusterNetworkDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceClusterNetworkDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceClusterNetworkDeletedArrayOutput) ToGetIsInstanceClusterNetworkDeletedArrayOutput() GetIsInstanceClusterNetworkDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkDeletedArrayOutput) ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceClusterNetworkDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkDeleted {
+		return vs[0].([]GetIsInstanceClusterNetworkDeleted)[vs[1].(int)]
+	}).(GetIsInstanceClusterNetworkDeletedOutput)
+}
+
+type GetIsInstanceDisk struct {
+	// The date and time that the disk was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// The URL for this instance disk.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance disk.
+	Id string `pulumi:"id"`
+	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
+	InterfaceType string `pulumi:"interfaceType"`
+	// The user-defined name for this disk.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+	// The size of the disk in GB (gigabytes).
+	Size int `pulumi:"size"`
+}
+
+// GetIsInstanceDiskInput is an input type that accepts GetIsInstanceDiskArgs and GetIsInstanceDiskOutput values.
+// You can construct a concrete instance of `GetIsInstanceDiskInput` via:
+//
+//	GetIsInstanceDiskArgs{...}
+type GetIsInstanceDiskInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceDiskOutput() GetIsInstanceDiskOutput
+	ToGetIsInstanceDiskOutputWithContext(context.Context) GetIsInstanceDiskOutput
+}
+
+type GetIsInstanceDiskArgs struct {
+	// The date and time that the disk was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The URL for this instance disk.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance disk.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
+	InterfaceType pulumi.StringInput `pulumi:"interfaceType"`
+	// The user-defined name for this disk.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+	// The size of the disk in GB (gigabytes).
+	Size pulumi.IntInput `pulumi:"size"`
+}
+
+func (GetIsInstanceDiskArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceDisk)(nil)).Elem()
+}
+
+func (i GetIsInstanceDiskArgs) ToGetIsInstanceDiskOutput() GetIsInstanceDiskOutput {
+	return i.ToGetIsInstanceDiskOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceDiskArgs) ToGetIsInstanceDiskOutputWithContext(ctx context.Context) GetIsInstanceDiskOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDiskOutput)
+}
+
+// GetIsInstanceDiskArrayInput is an input type that accepts GetIsInstanceDiskArray and GetIsInstanceDiskArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceDiskArrayInput` via:
+//
+//	GetIsInstanceDiskArray{ GetIsInstanceDiskArgs{...} }
+type GetIsInstanceDiskArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceDiskArrayOutput() GetIsInstanceDiskArrayOutput
+	ToGetIsInstanceDiskArrayOutputWithContext(context.Context) GetIsInstanceDiskArrayOutput
+}
+
+type GetIsInstanceDiskArray []GetIsInstanceDiskInput
+
+func (GetIsInstanceDiskArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceDisk)(nil)).Elem()
+}
+
+func (i GetIsInstanceDiskArray) ToGetIsInstanceDiskArrayOutput() GetIsInstanceDiskArrayOutput {
+	return i.ToGetIsInstanceDiskArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceDiskArray) ToGetIsInstanceDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDiskArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDiskArrayOutput)
+}
+
+type GetIsInstanceDiskOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceDiskOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceDisk)(nil)).Elem()
+}
+
+func (o GetIsInstanceDiskOutput) ToGetIsInstanceDiskOutput() GetIsInstanceDiskOutput {
+	return o
+}
+
+func (o GetIsInstanceDiskOutput) ToGetIsInstanceDiskOutputWithContext(ctx context.Context) GetIsInstanceDiskOutput {
+	return o
+}
+
+// The date and time that the disk was created.
+func (o GetIsInstanceDiskOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The URL for this instance disk.
+func (o GetIsInstanceDiskOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance disk.
+func (o GetIsInstanceDiskOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
+func (o GetIsInstanceDiskOutput) InterfaceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.InterfaceType }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this disk.
+func (o GetIsInstanceDiskOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceDiskOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+// The size of the disk in GB (gigabytes).
+func (o GetIsInstanceDiskOutput) Size() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceDisk) int { return v.Size }).(pulumi.IntOutput)
+}
+
+type GetIsInstanceDiskArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceDiskArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceDisk)(nil)).Elem()
+}
+
+func (o GetIsInstanceDiskArrayOutput) ToGetIsInstanceDiskArrayOutput() GetIsInstanceDiskArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceDiskArrayOutput) ToGetIsInstanceDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDiskArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceDiskArrayOutput) Index(i pulumi.IntInput) GetIsInstanceDiskOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceDisk {
+		return vs[0].([]GetIsInstanceDisk)[vs[1].(int)]
+	}).(GetIsInstanceDiskOutput)
+}
+
+type GetIsInstanceDisksDisk struct {
+	// The date and time that the disk was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// The URL for this instance disk.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance disk.
+	Id string `pulumi:"id"`
+	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
+	InterfaceType string `pulumi:"interfaceType"`
+	// The user-defined name for this disk.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+	// The size of the disk in GB (gigabytes).
+	Size int `pulumi:"size"`
+}
+
+// GetIsInstanceDisksDiskInput is an input type that accepts GetIsInstanceDisksDiskArgs and GetIsInstanceDisksDiskOutput values.
+// You can construct a concrete instance of `GetIsInstanceDisksDiskInput` via:
+//
+//	GetIsInstanceDisksDiskArgs{...}
+type GetIsInstanceDisksDiskInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceDisksDiskOutput() GetIsInstanceDisksDiskOutput
+	ToGetIsInstanceDisksDiskOutputWithContext(context.Context) GetIsInstanceDisksDiskOutput
+}
+
+type GetIsInstanceDisksDiskArgs struct {
+	// The date and time that the disk was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The URL for this instance disk.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance disk.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
+	InterfaceType pulumi.StringInput `pulumi:"interfaceType"`
+	// The user-defined name for this disk.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+	// The size of the disk in GB (gigabytes).
+	Size pulumi.IntInput `pulumi:"size"`
+}
+
+func (GetIsInstanceDisksDiskArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceDisksDisk)(nil)).Elem()
+}
+
+func (i GetIsInstanceDisksDiskArgs) ToGetIsInstanceDisksDiskOutput() GetIsInstanceDisksDiskOutput {
+	return i.ToGetIsInstanceDisksDiskOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceDisksDiskArgs) ToGetIsInstanceDisksDiskOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDisksDiskOutput)
+}
+
+// GetIsInstanceDisksDiskArrayInput is an input type that accepts GetIsInstanceDisksDiskArray and GetIsInstanceDisksDiskArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceDisksDiskArrayInput` via:
+//
+//	GetIsInstanceDisksDiskArray{ GetIsInstanceDisksDiskArgs{...} }
+type GetIsInstanceDisksDiskArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceDisksDiskArrayOutput() GetIsInstanceDisksDiskArrayOutput
+	ToGetIsInstanceDisksDiskArrayOutputWithContext(context.Context) GetIsInstanceDisksDiskArrayOutput
+}
+
+type GetIsInstanceDisksDiskArray []GetIsInstanceDisksDiskInput
+
+func (GetIsInstanceDisksDiskArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceDisksDisk)(nil)).Elem()
+}
+
+func (i GetIsInstanceDisksDiskArray) ToGetIsInstanceDisksDiskArrayOutput() GetIsInstanceDisksDiskArrayOutput {
+	return i.ToGetIsInstanceDisksDiskArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceDisksDiskArray) ToGetIsInstanceDisksDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDisksDiskArrayOutput)
+}
+
+type GetIsInstanceDisksDiskOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceDisksDiskOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceDisksDisk)(nil)).Elem()
+}
+
+func (o GetIsInstanceDisksDiskOutput) ToGetIsInstanceDisksDiskOutput() GetIsInstanceDisksDiskOutput {
+	return o
+}
+
+func (o GetIsInstanceDisksDiskOutput) ToGetIsInstanceDisksDiskOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskOutput {
+	return o
+}
+
+// The date and time that the disk was created.
+func (o GetIsInstanceDisksDiskOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The URL for this instance disk.
+func (o GetIsInstanceDisksDiskOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance disk.
+func (o GetIsInstanceDisksDiskOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
+func (o GetIsInstanceDisksDiskOutput) InterfaceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.InterfaceType }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this disk.
+func (o GetIsInstanceDisksDiskOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceDisksDiskOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+// The size of the disk in GB (gigabytes).
+func (o GetIsInstanceDisksDiskOutput) Size() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceDisksDisk) int { return v.Size }).(pulumi.IntOutput)
+}
+
+type GetIsInstanceDisksDiskArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceDisksDiskArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceDisksDisk)(nil)).Elem()
+}
+
+func (o GetIsInstanceDisksDiskArrayOutput) ToGetIsInstanceDisksDiskArrayOutput() GetIsInstanceDisksDiskArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceDisksDiskArrayOutput) ToGetIsInstanceDisksDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceDisksDiskArrayOutput) Index(i pulumi.IntInput) GetIsInstanceDisksDiskOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceDisksDisk {
+		return vs[0].([]GetIsInstanceDisksDisk)[vs[1].(int)]
+	}).(GetIsInstanceDisksDiskOutput)
+}
+
+type GetIsInstanceGpus struct {
+	// Instance GPU Count
+	Count int `pulumi:"count"`
+	// Instance GPU Manufacturer
+	Manufacturer string `pulumi:"manufacturer"`
+	// Instance GPU Memory
+	Memory int `pulumi:"memory"`
+	// Instance GPU Model
+	Model string `pulumi:"model"`
+}
+
+// GetIsInstanceGpusInput is an input type that accepts GetIsInstanceGpusArgs and GetIsInstanceGpusOutput values.
+// You can construct a concrete instance of `GetIsInstanceGpusInput` via:
+//
+//	GetIsInstanceGpusArgs{...}
+type GetIsInstanceGpusInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGpusOutput() GetIsInstanceGpusOutput
+	ToGetIsInstanceGpusOutputWithContext(context.Context) GetIsInstanceGpusOutput
+}
+
+type GetIsInstanceGpusArgs struct {
+	// Instance GPU Count
+	Count pulumi.IntInput `pulumi:"count"`
+	// Instance GPU Manufacturer
+	Manufacturer pulumi.StringInput `pulumi:"manufacturer"`
+	// Instance GPU Memory
+	Memory pulumi.IntInput `pulumi:"memory"`
+	// Instance GPU Model
+	Model pulumi.StringInput `pulumi:"model"`
+}
+
+func (GetIsInstanceGpusArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGpus)(nil)).Elem()
+}
+
+func (i GetIsInstanceGpusArgs) ToGetIsInstanceGpusOutput() GetIsInstanceGpusOutput {
+	return i.ToGetIsInstanceGpusOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGpusArgs) ToGetIsInstanceGpusOutputWithContext(ctx context.Context) GetIsInstanceGpusOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGpusOutput)
+}
+
+// GetIsInstanceGpusArrayInput is an input type that accepts GetIsInstanceGpusArray and GetIsInstanceGpusArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGpusArrayInput` via:
+//
+//	GetIsInstanceGpusArray{ GetIsInstanceGpusArgs{...} }
+type GetIsInstanceGpusArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGpusArrayOutput() GetIsInstanceGpusArrayOutput
+	ToGetIsInstanceGpusArrayOutputWithContext(context.Context) GetIsInstanceGpusArrayOutput
+}
+
+type GetIsInstanceGpusArray []GetIsInstanceGpusInput
+
+func (GetIsInstanceGpusArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGpus)(nil)).Elem()
+}
+
+func (i GetIsInstanceGpusArray) ToGetIsInstanceGpusArrayOutput() GetIsInstanceGpusArrayOutput {
+	return i.ToGetIsInstanceGpusArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGpusArray) ToGetIsInstanceGpusArrayOutputWithContext(ctx context.Context) GetIsInstanceGpusArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGpusArrayOutput)
+}
+
+type GetIsInstanceGpusOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGpusOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGpus)(nil)).Elem()
+}
+
+func (o GetIsInstanceGpusOutput) ToGetIsInstanceGpusOutput() GetIsInstanceGpusOutput {
+	return o
+}
+
+func (o GetIsInstanceGpusOutput) ToGetIsInstanceGpusOutputWithContext(ctx context.Context) GetIsInstanceGpusOutput {
+	return o
+}
+
+// Instance GPU Count
+func (o GetIsInstanceGpusOutput) Count() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGpus) int { return v.Count }).(pulumi.IntOutput)
+}
+
+// Instance GPU Manufacturer
+func (o GetIsInstanceGpusOutput) Manufacturer() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGpus) string { return v.Manufacturer }).(pulumi.StringOutput)
+}
+
+// Instance GPU Memory
+func (o GetIsInstanceGpusOutput) Memory() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGpus) int { return v.Memory }).(pulumi.IntOutput)
+}
+
+// Instance GPU Model
+func (o GetIsInstanceGpusOutput) Model() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGpus) string { return v.Model }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGpusArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGpusArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGpus)(nil)).Elem()
+}
+
+func (o GetIsInstanceGpusArrayOutput) ToGetIsInstanceGpusArrayOutput() GetIsInstanceGpusArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGpusArrayOutput) ToGetIsInstanceGpusArrayOutputWithContext(ctx context.Context) GetIsInstanceGpusArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGpusArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGpusOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGpus {
+		return vs[0].([]GetIsInstanceGpus)[vs[1].(int)]
+	}).(GetIsInstanceGpusOutput)
+}
+
+type GetIsInstanceGroupManagerActionType struct {
+	InstanceGroupManagerAction     string `pulumi:"instanceGroupManagerAction"`
+	InstanceGroupManagerActionName string `pulumi:"instanceGroupManagerActionName"`
+	ResourceType                   string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceGroupManagerActionTypeInput is an input type that accepts GetIsInstanceGroupManagerActionTypeArgs and GetIsInstanceGroupManagerActionTypeOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagerActionTypeInput` via:
+//
+//	GetIsInstanceGroupManagerActionTypeArgs{...}
+type GetIsInstanceGroupManagerActionTypeInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagerActionTypeOutput() GetIsInstanceGroupManagerActionTypeOutput
+	ToGetIsInstanceGroupManagerActionTypeOutputWithContext(context.Context) GetIsInstanceGroupManagerActionTypeOutput
+}
+
+type GetIsInstanceGroupManagerActionTypeArgs struct {
+	InstanceGroupManagerAction     pulumi.StringInput `pulumi:"instanceGroupManagerAction"`
+	InstanceGroupManagerActionName pulumi.StringInput `pulumi:"instanceGroupManagerActionName"`
+	ResourceType                   pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceGroupManagerActionTypeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagerActionType)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagerActionTypeArgs) ToGetIsInstanceGroupManagerActionTypeOutput() GetIsInstanceGroupManagerActionTypeOutput {
+	return i.ToGetIsInstanceGroupManagerActionTypeOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagerActionTypeArgs) ToGetIsInstanceGroupManagerActionTypeOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionTypeOutput)
+}
+
+// GetIsInstanceGroupManagerActionTypeArrayInput is an input type that accepts GetIsInstanceGroupManagerActionTypeArray and GetIsInstanceGroupManagerActionTypeArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagerActionTypeArrayInput` via:
+//
+//	GetIsInstanceGroupManagerActionTypeArray{ GetIsInstanceGroupManagerActionTypeArgs{...} }
+type GetIsInstanceGroupManagerActionTypeArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagerActionTypeArrayOutput() GetIsInstanceGroupManagerActionTypeArrayOutput
+	ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(context.Context) GetIsInstanceGroupManagerActionTypeArrayOutput
+}
+
+type GetIsInstanceGroupManagerActionTypeArray []GetIsInstanceGroupManagerActionTypeInput
+
+func (GetIsInstanceGroupManagerActionTypeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionType)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagerActionTypeArray) ToGetIsInstanceGroupManagerActionTypeArrayOutput() GetIsInstanceGroupManagerActionTypeArrayOutput {
+	return i.ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagerActionTypeArray) ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionTypeArrayOutput)
+}
+
+type GetIsInstanceGroupManagerActionTypeOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagerActionTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagerActionType)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagerActionTypeOutput) ToGetIsInstanceGroupManagerActionTypeOutput() GetIsInstanceGroupManagerActionTypeOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionTypeOutput) ToGetIsInstanceGroupManagerActionTypeOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionTypeOutput) InstanceGroupManagerAction() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionType) string { return v.InstanceGroupManagerAction }).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupManagerActionTypeOutput) InstanceGroupManagerActionName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionType) string { return v.InstanceGroupManagerActionName }).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupManagerActionTypeOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionType) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupManagerActionTypeArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagerActionTypeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionType)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagerActionTypeArrayOutput) ToGetIsInstanceGroupManagerActionTypeArrayOutput() GetIsInstanceGroupManagerActionTypeArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionTypeArrayOutput) ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionTypeArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagerActionTypeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagerActionType {
+		return vs[0].([]GetIsInstanceGroupManagerActionType)[vs[1].(int)]
+	}).(GetIsInstanceGroupManagerActionTypeOutput)
+}
+
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerAction struct {
+	// Instance group manager action ID
+	ActionId string `pulumi:"actionId"`
+	// The type of action for the instance group.
+	ActionType        string `pulumi:"actionType"`
+	AutoDelete        bool   `pulumi:"autoDelete"`
+	AutoDeleteTimeout int    `pulumi:"autoDeleteTimeout"`
+	// The date and time that the instance group manager action was modified.
+	CreatedAt string `pulumi:"createdAt"`
+	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min period.
+	CronSpec string `pulumi:"cronSpec"`
+	// instance group ID
+	InstanceGroup string `pulumi:"instanceGroup"`
+	// The date and time the scheduled action was last applied. If empty the action has never been applied.
+	LastAppliedAt string `pulumi:"lastAppliedAt"`
+	// The maximum number of members in a managed instance group
+	MaxMembershipCount int `pulumi:"maxMembershipCount"`
+	// The number of members the instance group should have at the scheduled time.
+	MembershipCount int `pulumi:"membershipCount"`
+	// The minimum number of members in a managed instance group
+	MinMembershipCount int `pulumi:"minMembershipCount"`
+	// instance group manager action name
+	Name string `pulumi:"name"`
+	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run time.
+	NextRunAt string `pulumi:"nextRunAt"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+	// The date and time the scheduled action will run.
+	RunAt string `pulumi:"runAt"`
+	// The status of the instance group action- `active`: Action is ready to be run- `completed`: Action was completed successfully- `failed`: Action could not be completed successfully- `incompatible`: Action parameters are not compatible with the group or manager- `omitted`: Action was not applied because this action's manager was disabled.
+	Status string `pulumi:"status"`
+	// The unique identifier for this instance group manager of type autoscale.
+	TargetManager string `pulumi:"targetManager"`
+	// Instance group manager name of type autoscale.
+	TargetManagerName string `pulumi:"targetManagerName"`
+	// The date and time that the instance group manager action was modified.
+	UpdatedAt string `pulumi:"updatedAt"`
+}
+
+// GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput is an input type that accepts GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs and GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput` via:
+//
+//	GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs{...}
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput
+	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput
+}
+
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs struct {
+	// Instance group manager action ID
+	ActionId pulumi.StringInput `pulumi:"actionId"`
+	// The type of action for the instance group.
+	ActionType        pulumi.StringInput `pulumi:"actionType"`
+	AutoDelete        pulumi.BoolInput   `pulumi:"autoDelete"`
+	AutoDeleteTimeout pulumi.IntInput    `pulumi:"autoDeleteTimeout"`
+	// The date and time that the instance group manager action was modified.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min period.
+	CronSpec pulumi.StringInput `pulumi:"cronSpec"`
+	// instance group ID
+	InstanceGroup pulumi.StringInput `pulumi:"instanceGroup"`
+	// The date and time the scheduled action was last applied. If empty the action has never been applied.
+	LastAppliedAt pulumi.StringInput `pulumi:"lastAppliedAt"`
+	// The maximum number of members in a managed instance group
+	MaxMembershipCount pulumi.IntInput `pulumi:"maxMembershipCount"`
+	// The number of members the instance group should have at the scheduled time.
+	MembershipCount pulumi.IntInput `pulumi:"membershipCount"`
+	// The minimum number of members in a managed instance group
+	MinMembershipCount pulumi.IntInput `pulumi:"minMembershipCount"`
+	// instance group manager action name
+	Name pulumi.StringInput `pulumi:"name"`
+	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run time.
+	NextRunAt pulumi.StringInput `pulumi:"nextRunAt"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+	// The date and time the scheduled action will run.
+	RunAt pulumi.StringInput `pulumi:"runAt"`
+	// The status of the instance group action- `active`: Action is ready to be run- `completed`: Action was completed successfully- `failed`: Action could not be completed successfully- `incompatible`: Action parameters are not compatible with the group or manager- `omitted`: Action was not applied because this action's manager was disabled.
+	Status pulumi.StringInput `pulumi:"status"`
+	// The unique identifier for this instance group manager of type autoscale.
+	TargetManager pulumi.StringInput `pulumi:"targetManager"`
+	// Instance group manager name of type autoscale.
+	TargetManagerName pulumi.StringInput `pulumi:"targetManagerName"`
+	// The date and time that the instance group manager action was modified.
+	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
+}
+
+func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
+	return i.ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput)
+}
+
+// GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput is an input type that accepts GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray and GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput` via:
+//
+//	GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray{ GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs{...} }
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput
+	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput
+}
+
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray []GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput
+
+func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
+	return i.ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput)
+}
+
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
+	return o
+}
+
+// Instance group manager action ID
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ActionId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.ActionId }).(pulumi.StringOutput)
+}
+
+// The type of action for the instance group.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ActionType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.ActionType }).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) AutoDelete() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) bool { return v.AutoDelete }).(pulumi.BoolOutput)
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) AutoDeleteTimeout() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.AutoDeleteTimeout }).(pulumi.IntOutput)
+}
+
+// The date and time that the instance group manager action was modified.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min period.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) CronSpec() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.CronSpec }).(pulumi.StringOutput)
+}
+
+// instance group ID
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) InstanceGroup() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.InstanceGroup }).(pulumi.StringOutput)
+}
+
+// The date and time the scheduled action was last applied. If empty the action has never been applied.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) LastAppliedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.LastAppliedAt }).(pulumi.StringOutput)
+}
+
+// The maximum number of members in a managed instance group
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) MaxMembershipCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.MaxMembershipCount }).(pulumi.IntOutput)
+}
+
+// The number of members the instance group should have at the scheduled time.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) MembershipCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.MembershipCount }).(pulumi.IntOutput)
+}
+
+// The minimum number of members in a managed instance group
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) MinMembershipCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.MinMembershipCount }).(pulumi.IntOutput)
+}
+
+// instance group manager action name
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The date and time the scheduled action will next run. If empty the system is currently calculating the next run time.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) NextRunAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.NextRunAt }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+// The date and time the scheduled action will run.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) RunAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.RunAt }).(pulumi.StringOutput)
+}
+
+// The status of the instance group action- `active`: Action is ready to be run- `completed`: Action was completed successfully- `failed`: Action could not be completed successfully- `incompatible`: Action parameters are not compatible with the group or manager- `omitted`: Action was not applied because this action's manager was disabled.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.Status }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance group manager of type autoscale.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) TargetManager() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.TargetManager }).(pulumi.StringOutput)
+}
+
+// Instance group manager name of type autoscale.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) TargetManagerName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.TargetManagerName }).(pulumi.StringOutput)
+}
+
+// The date and time that the instance group manager action was modified.
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) UpdatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.UpdatedAt }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagerActionsInstanceGroupManagerAction {
+		return vs[0].([]GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)[vs[1].(int)]
+	}).(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput)
+}
+
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy struct {
+	// ID of the instance group manager policy.
+	Id string `pulumi:"id"`
+	// The type of metric to be evaluated
+	MetricType string `pulumi:"metricType"`
+	// The metric value to be evaluated
+	MetricValue int `pulumi:"metricValue"`
+	// The name of the instance group manager policy
+	Name string `pulumi:"name"`
+	// The policy ID
+	PolicyId string `pulumi:"policyId"`
+	// The type of Policy for the Instance Group
+	PolicyType string `pulumi:"policyType"`
+}
+
+// GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput is an input type that accepts GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs and GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput` via:
+//
+//	GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs{...}
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput
+	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput
+}
+
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs struct {
+	// ID of the instance group manager policy.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The type of metric to be evaluated
+	MetricType pulumi.StringInput `pulumi:"metricType"`
+	// The metric value to be evaluated
+	MetricValue pulumi.IntInput `pulumi:"metricValue"`
+	// The name of the instance group manager policy
+	Name pulumi.StringInput `pulumi:"name"`
+	// The policy ID
+	PolicyId pulumi.StringInput `pulumi:"policyId"`
+	// The type of Policy for the Instance Group
+	PolicyType pulumi.StringInput `pulumi:"policyType"`
+}
+
+func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
+	return i.ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput)
+}
+
+// GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput is an input type that accepts GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray and GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput` via:
+//
+//	GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray{ GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs{...} }
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput
+	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput
+}
+
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray []GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput
+
+func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
+	return i.ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput)
+}
+
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
+	return o
+}
+
+// ID of the instance group manager policy.
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The type of metric to be evaluated
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) MetricType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.MetricType }).(pulumi.StringOutput)
+}
+
+// The metric value to be evaluated
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) MetricValue() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) int { return v.MetricValue }).(pulumi.IntOutput)
+}
+
+// The name of the instance group manager policy
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The policy ID
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) PolicyId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.PolicyId }).(pulumi.StringOutput)
+}
+
+// The type of Policy for the Instance Group
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) PolicyType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.PolicyType }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy {
+		return vs[0].([]GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)[vs[1].(int)]
+	}).(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput)
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManager struct {
+	Actions []GetIsInstanceGroupManagersInstanceGroupManagerAction `pulumi:"actions"`
+	// The time window in seconds to aggregate metrics prior to evaluation
+	AggregationWindow int `pulumi:"aggregationWindow"`
+	// The duration of time in seconds to pause further scale actions after scaling has taken place
+	Cooldown int `pulumi:"cooldown"`
+	// ID of the instance group manager.
+	Id string `pulumi:"id"`
+	// The ID of instance group manager.
+	ManagerId string `pulumi:"managerId"`
+	// The type of instance group manager.
+	ManagerType string `pulumi:"managerType"`
+	// The maximum number of members in a managed instance group
+	MaxMembershipCount int `pulumi:"maxMembershipCount"`
+	// The minimum number of members in a managed instance group
+	MinMembershipCount int `pulumi:"minMembershipCount"`
+	// Name of the instance group manager.
+	Name string `pulumi:"name"`
+	// list of Policies associated with instancegroup manager
+	Policies []string `pulumi:"policies"`
+}
+
+// GetIsInstanceGroupManagersInstanceGroupManagerInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerArgs and GetIsInstanceGroupManagersInstanceGroupManagerOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerInput` via:
+//
+//	GetIsInstanceGroupManagersInstanceGroupManagerArgs{...}
+type GetIsInstanceGroupManagersInstanceGroupManagerInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagersInstanceGroupManagerOutput() GetIsInstanceGroupManagersInstanceGroupManagerOutput
+	ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerOutput
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerArgs struct {
+	Actions GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput `pulumi:"actions"`
+	// The time window in seconds to aggregate metrics prior to evaluation
+	AggregationWindow pulumi.IntInput `pulumi:"aggregationWindow"`
+	// The duration of time in seconds to pause further scale actions after scaling has taken place
+	Cooldown pulumi.IntInput `pulumi:"cooldown"`
+	// ID of the instance group manager.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The ID of instance group manager.
+	ManagerId pulumi.StringInput `pulumi:"managerId"`
+	// The type of instance group manager.
+	ManagerType pulumi.StringInput `pulumi:"managerType"`
+	// The maximum number of members in a managed instance group
+	MaxMembershipCount pulumi.IntInput `pulumi:"maxMembershipCount"`
+	// The minimum number of members in a managed instance group
+	MinMembershipCount pulumi.IntInput `pulumi:"minMembershipCount"`
+	// Name of the instance group manager.
+	Name pulumi.StringInput `pulumi:"name"`
+	// list of Policies associated with instancegroup manager
+	Policies pulumi.StringArrayInput `pulumi:"policies"`
+}
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerOutput() GetIsInstanceGroupManagersInstanceGroupManagerOutput {
+	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerOutput)
+}
+
+// GetIsInstanceGroupManagersInstanceGroupManagerArrayInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerArray and GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerArrayInput` via:
+//
+//	GetIsInstanceGroupManagersInstanceGroupManagerArray{ GetIsInstanceGroupManagersInstanceGroupManagerArgs{...} }
+type GetIsInstanceGroupManagersInstanceGroupManagerArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput
+	ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerArray []GetIsInstanceGroupManagersInstanceGroupManagerInput
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerArray) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
+	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerArray) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput)
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerOutput() GetIsInstanceGroupManagersInstanceGroupManagerOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Actions() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) []GetIsInstanceGroupManagersInstanceGroupManagerAction {
+		return v.Actions
+	}).(GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput)
+}
+
+// The time window in seconds to aggregate metrics prior to evaluation
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) AggregationWindow() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.AggregationWindow }).(pulumi.IntOutput)
+}
+
+// The duration of time in seconds to pause further scale actions after scaling has taken place
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Cooldown() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.Cooldown }).(pulumi.IntOutput)
+}
+
+// ID of the instance group manager.
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The ID of instance group manager.
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ManagerId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.ManagerId }).(pulumi.StringOutput)
+}
+
+// The type of instance group manager.
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ManagerType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.ManagerType }).(pulumi.StringOutput)
+}
+
+// The maximum number of members in a managed instance group
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) MaxMembershipCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.MaxMembershipCount }).(pulumi.IntOutput)
+}
+
+// The minimum number of members in a managed instance group
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) MinMembershipCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.MinMembershipCount }).(pulumi.IntOutput)
+}
+
+// Name of the instance group manager.
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// list of Policies associated with instancegroup manager
+func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Policies() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) []string { return v.Policies }).(pulumi.StringArrayOutput)
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagersInstanceGroupManagerOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagersInstanceGroupManager {
+		return vs[0].([]GetIsInstanceGroupManagersInstanceGroupManager)[vs[1].(int)]
+	}).(GetIsInstanceGroupManagersInstanceGroupManagerOutput)
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerAction struct {
+	InstanceGroupManagerAction     string `pulumi:"instanceGroupManagerAction"`
+	InstanceGroupManagerActionName string `pulumi:"instanceGroupManagerActionName"`
+	ResourceType                   string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceGroupManagersInstanceGroupManagerActionInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerActionArgs and GetIsInstanceGroupManagersInstanceGroupManagerActionOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerActionInput` via:
+//
+//	GetIsInstanceGroupManagersInstanceGroupManagerActionArgs{...}
+type GetIsInstanceGroupManagersInstanceGroupManagerActionInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionOutput
+	ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerActionArgs struct {
+	InstanceGroupManagerAction     pulumi.StringInput `pulumi:"instanceGroupManagerAction"`
+	InstanceGroupManagerActionName pulumi.StringInput `pulumi:"instanceGroupManagerActionName"`
+	ResourceType                   pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerActionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
+	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerActionOutput)
+}
+
+// GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerActionArray and GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput` via:
+//
+//	GetIsInstanceGroupManagersInstanceGroupManagerActionArray{ GetIsInstanceGroupManagersInstanceGroupManagerActionArgs{...} }
+type GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput
+	ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerActionArray []GetIsInstanceGroupManagersInstanceGroupManagerActionInput
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerActionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
+	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput)
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerActionOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) InstanceGroupManagerAction() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManagerAction) string {
+		return v.InstanceGroupManagerAction
+	}).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) InstanceGroupManagerActionName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManagerAction) string {
+		return v.InstanceGroupManagerActionName
+	}).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManagerAction) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagersInstanceGroupManagerAction {
+		return vs[0].([]GetIsInstanceGroupManagersInstanceGroupManagerAction)[vs[1].(int)]
+	}).(GetIsInstanceGroupManagersInstanceGroupManagerActionOutput)
+}
+
+type GetIsInstanceGroupMembershipInstance struct {
+	// The CRN for this virtual server instance.
+	Crn string `pulumi:"crn"`
+	// The user-defined name for this virtual server instance (and default system hostname).
+	Name string `pulumi:"name"`
+	// The unique identifier for this virtual server instance.
+	VirtualServerInstance string `pulumi:"virtualServerInstance"`
+}
+
+// GetIsInstanceGroupMembershipInstanceInput is an input type that accepts GetIsInstanceGroupMembershipInstanceArgs and GetIsInstanceGroupMembershipInstanceOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceInput` via:
+//
+//	GetIsInstanceGroupMembershipInstanceArgs{...}
+type GetIsInstanceGroupMembershipInstanceInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipInstanceOutput() GetIsInstanceGroupMembershipInstanceOutput
+	ToGetIsInstanceGroupMembershipInstanceOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceOutput
+}
+
+type GetIsInstanceGroupMembershipInstanceArgs struct {
+	// The CRN for this virtual server instance.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// The user-defined name for this virtual server instance (and default system hostname).
+	Name pulumi.StringInput `pulumi:"name"`
+	// The unique identifier for this virtual server instance.
+	VirtualServerInstance pulumi.StringInput `pulumi:"virtualServerInstance"`
+}
+
+func (GetIsInstanceGroupMembershipInstanceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstance)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipInstanceArgs) ToGetIsInstanceGroupMembershipInstanceOutput() GetIsInstanceGroupMembershipInstanceOutput {
+	return i.ToGetIsInstanceGroupMembershipInstanceOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipInstanceArgs) ToGetIsInstanceGroupMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceOutput)
+}
+
+// GetIsInstanceGroupMembershipInstanceArrayInput is an input type that accepts GetIsInstanceGroupMembershipInstanceArray and GetIsInstanceGroupMembershipInstanceArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceArrayInput` via:
+//
+//	GetIsInstanceGroupMembershipInstanceArray{ GetIsInstanceGroupMembershipInstanceArgs{...} }
+type GetIsInstanceGroupMembershipInstanceArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipInstanceArrayOutput
+	ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceArrayOutput
+}
+
+type GetIsInstanceGroupMembershipInstanceArray []GetIsInstanceGroupMembershipInstanceInput
+
+func (GetIsInstanceGroupMembershipInstanceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstance)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipInstanceArray) ToGetIsInstanceGroupMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipInstanceArrayOutput {
+	return i.ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipInstanceArray) ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceArrayOutput)
+}
+
+type GetIsInstanceGroupMembershipInstanceOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipInstanceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstance)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipInstanceOutput) ToGetIsInstanceGroupMembershipInstanceOutput() GetIsInstanceGroupMembershipInstanceOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipInstanceOutput) ToGetIsInstanceGroupMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceOutput {
+	return o
+}
+
+// The CRN for this virtual server instance.
+func (o GetIsInstanceGroupMembershipInstanceOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstance) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this virtual server instance (and default system hostname).
+func (o GetIsInstanceGroupMembershipInstanceOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstance) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this virtual server instance.
+func (o GetIsInstanceGroupMembershipInstanceOutput) VirtualServerInstance() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstance) string { return v.VirtualServerInstance }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupMembershipInstanceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipInstanceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstance)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipInstanceArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipInstanceArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipInstanceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipInstance {
+		return vs[0].([]GetIsInstanceGroupMembershipInstance)[vs[1].(int)]
+	}).(GetIsInstanceGroupMembershipInstanceOutput)
+}
+
+type GetIsInstanceGroupMembershipInstanceTemplate struct {
+	// The CRN for this instance template.
+	Crn string `pulumi:"crn"`
+	// The unique identifier for this instance template.
+	InstanceTemplate string `pulumi:"instanceTemplate"`
+	// The unique user-defined name for this instance template.
+	Name string `pulumi:"name"`
+}
+
+// GetIsInstanceGroupMembershipInstanceTemplateInput is an input type that accepts GetIsInstanceGroupMembershipInstanceTemplateArgs and GetIsInstanceGroupMembershipInstanceTemplateOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceTemplateInput` via:
+//
+//	GetIsInstanceGroupMembershipInstanceTemplateArgs{...}
+type GetIsInstanceGroupMembershipInstanceTemplateInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipInstanceTemplateOutput
+	ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceTemplateOutput
+}
+
+type GetIsInstanceGroupMembershipInstanceTemplateArgs struct {
+	// The CRN for this instance template.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// The unique identifier for this instance template.
+	InstanceTemplate pulumi.StringInput `pulumi:"instanceTemplate"`
+	// The unique user-defined name for this instance template.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsInstanceGroupMembershipInstanceTemplateArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipInstanceTemplateOutput {
+	return i.ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceTemplateOutput)
+}
+
+// GetIsInstanceGroupMembershipInstanceTemplateArrayInput is an input type that accepts GetIsInstanceGroupMembershipInstanceTemplateArray and GetIsInstanceGroupMembershipInstanceTemplateArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceTemplateArrayInput` via:
+//
+//	GetIsInstanceGroupMembershipInstanceTemplateArray{ GetIsInstanceGroupMembershipInstanceTemplateArgs{...} }
+type GetIsInstanceGroupMembershipInstanceTemplateArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipInstanceTemplateArrayOutput
+	ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceTemplateArrayOutput
+}
+
+type GetIsInstanceGroupMembershipInstanceTemplateArray []GetIsInstanceGroupMembershipInstanceTemplateInput
+
+func (GetIsInstanceGroupMembershipInstanceTemplateArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
+	return i.ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceTemplateArrayOutput)
+}
+
+type GetIsInstanceGroupMembershipInstanceTemplateOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipInstanceTemplateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipInstanceTemplateOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateOutput {
+	return o
+}
+
+// The CRN for this instance template.
+func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstanceTemplate) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance template.
+func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) InstanceTemplate() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstanceTemplate) string { return v.InstanceTemplate }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this instance template.
+func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstanceTemplate) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupMembershipInstanceTemplateArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipInstanceTemplateOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipInstanceTemplate {
+		return vs[0].([]GetIsInstanceGroupMembershipInstanceTemplate)[vs[1].(int)]
+	}).(GetIsInstanceGroupMembershipInstanceTemplateOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembership struct {
+	// If set to true, when deleting the membership the instance will also be deleted.
+	DeleteInstanceOnMembershipDelete bool `pulumi:"deleteInstanceOnMembershipDelete"`
+	// The unique identifier for this instance group membership.
+	InstanceGroupMembership string                                                    `pulumi:"instanceGroupMembership"`
+	InstanceTemplates       []GetIsInstanceGroupMembershipsMembershipInstanceTemplate `pulumi:"instanceTemplates"`
+	Instances               []GetIsInstanceGroupMembershipsMembershipInstance         `pulumi:"instances"`
+	// The unique identifier for this load balancer pool member.
+	LoadBalancerPoolMember string `pulumi:"loadBalancerPoolMember"`
+	// The user-defined name for this instance group membership. Names must be unique within the instance group.
+	Name string `pulumi:"name"`
+	// The status of the instance group membership- `deleting`: Membership is deleting dependent resources- `failed`: Membership was unable to maintain dependent resources- `healthy`: Membership is active and serving in the group- `pending`: Membership is waiting for dependent resources- `unhealthy`: Membership has unhealthy dependent resources.
+	Status string `pulumi:"status"`
+}
+
+// GetIsInstanceGroupMembershipsMembershipInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipArgs and GetIsInstanceGroupMembershipsMembershipOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInput` via:
+//
+//	GetIsInstanceGroupMembershipsMembershipArgs{...}
+type GetIsInstanceGroupMembershipsMembershipInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipsMembershipOutput() GetIsInstanceGroupMembershipsMembershipOutput
+	ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipOutput
+}
+
+type GetIsInstanceGroupMembershipsMembershipArgs struct {
+	// If set to true, when deleting the membership the instance will also be deleted.
+	DeleteInstanceOnMembershipDelete pulumi.BoolInput `pulumi:"deleteInstanceOnMembershipDelete"`
+	// The unique identifier for this instance group membership.
+	InstanceGroupMembership pulumi.StringInput                                                `pulumi:"instanceGroupMembership"`
+	InstanceTemplates       GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput `pulumi:"instanceTemplates"`
+	Instances               GetIsInstanceGroupMembershipsMembershipInstanceArrayInput         `pulumi:"instances"`
+	// The unique identifier for this load balancer pool member.
+	LoadBalancerPoolMember pulumi.StringInput `pulumi:"loadBalancerPoolMember"`
+	// The user-defined name for this instance group membership. Names must be unique within the instance group.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The status of the instance group membership- `deleting`: Membership is deleting dependent resources- `failed`: Membership was unable to maintain dependent resources- `healthy`: Membership is active and serving in the group- `pending`: Membership is waiting for dependent resources- `unhealthy`: Membership has unhealthy dependent resources.
+	Status pulumi.StringInput `pulumi:"status"`
+}
+
+func (GetIsInstanceGroupMembershipsMembershipArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipArgs) ToGetIsInstanceGroupMembershipsMembershipOutput() GetIsInstanceGroupMembershipsMembershipOutput {
+	return i.ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipArgs) ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipOutput)
+}
+
+// GetIsInstanceGroupMembershipsMembershipArrayInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipArray and GetIsInstanceGroupMembershipsMembershipArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipArrayInput` via:
+//
+//	GetIsInstanceGroupMembershipsMembershipArray{ GetIsInstanceGroupMembershipsMembershipArgs{...} }
+type GetIsInstanceGroupMembershipsMembershipArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipsMembershipArrayOutput() GetIsInstanceGroupMembershipsMembershipArrayOutput
+	ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipArrayOutput
+}
+
+type GetIsInstanceGroupMembershipsMembershipArray []GetIsInstanceGroupMembershipsMembershipInput
+
+func (GetIsInstanceGroupMembershipsMembershipArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipArray) ToGetIsInstanceGroupMembershipsMembershipArrayOutput() GetIsInstanceGroupMembershipsMembershipArrayOutput {
+	return i.ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipArray) ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipArrayOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipsMembershipOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipOutput) ToGetIsInstanceGroupMembershipsMembershipOutput() GetIsInstanceGroupMembershipsMembershipOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipOutput) ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipOutput {
+	return o
+}
+
+// If set to true, when deleting the membership the instance will also be deleted.
+func (o GetIsInstanceGroupMembershipsMembershipOutput) DeleteInstanceOnMembershipDelete() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) bool { return v.DeleteInstanceOnMembershipDelete }).(pulumi.BoolOutput)
+}
+
+// The unique identifier for this instance group membership.
+func (o GetIsInstanceGroupMembershipsMembershipOutput) InstanceGroupMembership() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.InstanceGroupMembership }).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipOutput) InstanceTemplates() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) []GetIsInstanceGroupMembershipsMembershipInstanceTemplate {
+		return v.InstanceTemplates
+	}).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput)
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipOutput) Instances() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) []GetIsInstanceGroupMembershipsMembershipInstance {
+		return v.Instances
+	}).(GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput)
+}
+
+// The unique identifier for this load balancer pool member.
+func (o GetIsInstanceGroupMembershipsMembershipOutput) LoadBalancerPoolMember() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.LoadBalancerPoolMember }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this instance group membership. Names must be unique within the instance group.
+func (o GetIsInstanceGroupMembershipsMembershipOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The status of the instance group membership- `deleting`: Membership is deleting dependent resources- `failed`: Membership was unable to maintain dependent resources- `healthy`: Membership is active and serving in the group- `pending`: Membership is waiting for dependent resources- `unhealthy`: Membership has unhealthy dependent resources.
+func (o GetIsInstanceGroupMembershipsMembershipOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.Status }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipsMembershipArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipArrayOutput) ToGetIsInstanceGroupMembershipsMembershipArrayOutput() GetIsInstanceGroupMembershipsMembershipArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipArrayOutput) ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipsMembershipOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipsMembership {
+		return vs[0].([]GetIsInstanceGroupMembershipsMembership)[vs[1].(int)]
+	}).(GetIsInstanceGroupMembershipsMembershipOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstance struct {
+	// The CRN for this virtual server instance.
+	Crn string `pulumi:"crn"`
+	// The user-defined name for this virtual server instance (and default system hostname).
+	Name string `pulumi:"name"`
+	// The unique identifier for this virtual server instance.
+	VirtualServerInstance string `pulumi:"virtualServerInstance"`
+}
+
+// GetIsInstanceGroupMembershipsMembershipInstanceInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceArgs and GetIsInstanceGroupMembershipsMembershipInstanceOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceInput` via:
+//
+//	GetIsInstanceGroupMembershipsMembershipInstanceArgs{...}
+type GetIsInstanceGroupMembershipsMembershipInstanceInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipsMembershipInstanceOutput() GetIsInstanceGroupMembershipsMembershipInstanceOutput
+	ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceOutput
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceArgs struct {
+	// The CRN for this virtual server instance.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// The user-defined name for this virtual server instance (and default system hostname).
+	Name pulumi.StringInput `pulumi:"name"`
+	// The unique identifier for this virtual server instance.
+	VirtualServerInstance pulumi.StringInput `pulumi:"virtualServerInstance"`
+}
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceOutput() GetIsInstanceGroupMembershipsMembershipInstanceOutput {
+	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceOutput)
+}
+
+// GetIsInstanceGroupMembershipsMembershipInstanceArrayInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceArray and GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceArrayInput` via:
+//
+//	GetIsInstanceGroupMembershipsMembershipInstanceArray{ GetIsInstanceGroupMembershipsMembershipInstanceArgs{...} }
+type GetIsInstanceGroupMembershipsMembershipInstanceArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput
+	ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceArray []GetIsInstanceGroupMembershipsMembershipInstanceInput
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceArray) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
+	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceArray) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceOutput() GetIsInstanceGroupMembershipsMembershipInstanceOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceOutput {
+	return o
+}
+
+// The CRN for this virtual server instance.
+func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstance) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this virtual server instance (and default system hostname).
+func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstance) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this virtual server instance.
+func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) VirtualServerInstance() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstance) string { return v.VirtualServerInstance }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipsMembershipInstanceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipsMembershipInstance {
+		return vs[0].([]GetIsInstanceGroupMembershipsMembershipInstance)[vs[1].(int)]
+	}).(GetIsInstanceGroupMembershipsMembershipInstanceOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplate struct {
+	// The CRN for this instance template.
+	Crn string `pulumi:"crn"`
+	// The unique identifier for this instance template.
+	InstanceTemplate string `pulumi:"instanceTemplate"`
+	// The unique user-defined name for this instance template.
+	Name string `pulumi:"name"`
+}
+
+// GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs and GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput` via:
+//
+//	GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs{...}
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput
+	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs struct {
+	// The CRN for this instance template.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// The unique identifier for this instance template.
+	InstanceTemplate pulumi.StringInput `pulumi:"instanceTemplate"`
+	// The unique user-defined name for this instance template.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
+	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput)
+}
+
+// GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray and GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput` via:
+//
+//	GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray{ GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs{...} }
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput
+	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray []GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
+	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
+	return o
+}
+
+// The CRN for this instance template.
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstanceTemplate) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance template.
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) InstanceTemplate() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstanceTemplate) string { return v.InstanceTemplate }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this instance template.
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstanceTemplate) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipsMembershipInstanceTemplate {
+		return vs[0].([]GetIsInstanceGroupMembershipsMembershipInstanceTemplate)[vs[1].(int)]
+	}).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroup struct {
+	// List of access tags
+	AccessTags []string `pulumi:"accessTags"`
+	// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the port for the load balancer pool member.
+	ApplicationPort int `pulumi:"applicationPort"`
+	// The date and time that the instance group was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// The CRN for this instance group.
+	Crn string `pulumi:"crn"`
+	// The URL for this instance group.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance group.
+	Id string `pulumi:"id"`
+	// The template used to create new instances for this group.
+	InstanceTemplates []GetIsInstanceGroupsInstanceGroupInstanceTemplate `pulumi:"instanceTemplates"`
+	// The load balancer pool managed by this group. Instances createdby this group will have a new load balancer pool member in thatpool created.
+	LoadBalancerPools []GetIsInstanceGroupsInstanceGroupLoadBalancerPool `pulumi:"loadBalancerPools"`
+	// The managers for the instance group.
+	Managers []GetIsInstanceGroupsInstanceGroupManager `pulumi:"managers"`
+	// The number of instances in the instance group.
+	MembershipCount int `pulumi:"membershipCount"`
+	// The user-defined name for this instance group.
+	Name           string                                          `pulumi:"name"`
+	ResourceGroups []GetIsInstanceGroupsInstanceGroupResourceGroup `pulumi:"resourceGroups"`
+	// The status of the instance group- `deleting`: Group is being deleted- `healthy`: Group has `membershipCount` instances- `scaling`: Instances in the group are being created or deleted to reach             `membershipCount`- `unhealthy`: Group is unable to reach `membershipCount` instances.
+	Status string `pulumi:"status"`
+	// The subnets to use when creating new instances.
+	Subnets []GetIsInstanceGroupsInstanceGroupSubnet `pulumi:"subnets"`
+	// The date and time that the instance group was updated.
+	UpdatedAt string `pulumi:"updatedAt"`
+	// The VPC the instance group resides in.
+	Vpcs []GetIsInstanceGroupsInstanceGroupVpc `pulumi:"vpcs"`
+}
+
+// GetIsInstanceGroupsInstanceGroupInput is an input type that accepts GetIsInstanceGroupsInstanceGroupArgs and GetIsInstanceGroupsInstanceGroupOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupArgs{...}
+type GetIsInstanceGroupsInstanceGroupInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupOutput() GetIsInstanceGroupsInstanceGroupOutput
+	ToGetIsInstanceGroupsInstanceGroupOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupArgs struct {
+	// List of access tags
+	AccessTags pulumi.StringArrayInput `pulumi:"accessTags"`
+	// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the port for the load balancer pool member.
+	ApplicationPort pulumi.IntInput `pulumi:"applicationPort"`
+	// The date and time that the instance group was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The CRN for this instance group.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// The URL for this instance group.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance group.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The template used to create new instances for this group.
+	InstanceTemplates GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput `pulumi:"instanceTemplates"`
+	// The load balancer pool managed by this group. Instances createdby this group will have a new load balancer pool member in thatpool created.
+	LoadBalancerPools GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput `pulumi:"loadBalancerPools"`
+	// The managers for the instance group.
+	Managers GetIsInstanceGroupsInstanceGroupManagerArrayInput `pulumi:"managers"`
+	// The number of instances in the instance group.
+	MembershipCount pulumi.IntInput `pulumi:"membershipCount"`
+	// The user-defined name for this instance group.
+	Name           pulumi.StringInput                                      `pulumi:"name"`
+	ResourceGroups GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput `pulumi:"resourceGroups"`
+	// The status of the instance group- `deleting`: Group is being deleted- `healthy`: Group has `membershipCount` instances- `scaling`: Instances in the group are being created or deleted to reach             `membershipCount`- `unhealthy`: Group is unable to reach `membershipCount` instances.
+	Status pulumi.StringInput `pulumi:"status"`
+	// The subnets to use when creating new instances.
+	Subnets GetIsInstanceGroupsInstanceGroupSubnetArrayInput `pulumi:"subnets"`
+	// The date and time that the instance group was updated.
+	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
+	// The VPC the instance group resides in.
+	Vpcs GetIsInstanceGroupsInstanceGroupVpcArrayInput `pulumi:"vpcs"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupArgs) ToGetIsInstanceGroupsInstanceGroupOutput() GetIsInstanceGroupsInstanceGroupOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupArgs) ToGetIsInstanceGroupsInstanceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupArray and GetIsInstanceGroupsInstanceGroupArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupArray{ GetIsInstanceGroupsInstanceGroupArgs{...} }
+type GetIsInstanceGroupsInstanceGroupArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupArray []GetIsInstanceGroupsInstanceGroupInput
+
+func (GetIsInstanceGroupsInstanceGroupArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupArray) ToGetIsInstanceGroupsInstanceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupArray) ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupOutput) ToGetIsInstanceGroupsInstanceGroupOutput() GetIsInstanceGroupsInstanceGroupOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupOutput) ToGetIsInstanceGroupsInstanceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupOutput {
+	return o
+}
+
+// List of access tags
+func (o GetIsInstanceGroupsInstanceGroupOutput) AccessTags() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
+}
+
+// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the port for the load balancer pool member.
+func (o GetIsInstanceGroupsInstanceGroupOutput) ApplicationPort() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) int { return v.ApplicationPort }).(pulumi.IntOutput)
+}
+
+// The date and time that the instance group was created.
+func (o GetIsInstanceGroupsInstanceGroupOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The CRN for this instance group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// The URL for this instance group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The template used to create new instances for this group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) InstanceTemplates() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupInstanceTemplate {
+		return v.InstanceTemplates
+	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput)
+}
+
+// The load balancer pool managed by this group. Instances createdby this group will have a new load balancer pool member in thatpool created.
+func (o GetIsInstanceGroupsInstanceGroupOutput) LoadBalancerPools() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupLoadBalancerPool {
+		return v.LoadBalancerPools
+	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput)
+}
+
+// The managers for the instance group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Managers() GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupManager { return v.Managers }).(GetIsInstanceGroupsInstanceGroupManagerArrayOutput)
+}
+
+// The number of instances in the instance group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) MembershipCount() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) int { return v.MembershipCount }).(pulumi.IntOutput)
+}
+
+// The user-defined name for this instance group.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Name }).(pulumi.StringOutput)
+}
+
+func (o GetIsInstanceGroupsInstanceGroupOutput) ResourceGroups() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupResourceGroup {
+		return v.ResourceGroups
+	}).(GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput)
+}
+
+// The status of the instance group- `deleting`: Group is being deleted- `healthy`: Group has `membershipCount` instances- `scaling`: Instances in the group are being created or deleted to reach             `membershipCount`- `unhealthy`: Group is unable to reach `membershipCount` instances.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Status }).(pulumi.StringOutput)
+}
+
+// The subnets to use when creating new instances.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Subnets() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupSubnet { return v.Subnets }).(GetIsInstanceGroupsInstanceGroupSubnetArrayOutput)
+}
+
+// The date and time that the instance group was updated.
+func (o GetIsInstanceGroupsInstanceGroupOutput) UpdatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.UpdatedAt }).(pulumi.StringOutput)
+}
+
+// The VPC the instance group resides in.
+func (o GetIsInstanceGroupsInstanceGroupOutput) Vpcs() GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupVpc { return v.Vpcs }).(GetIsInstanceGroupsInstanceGroupVpcArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroup {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroup)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplate struct {
+	// The CRN for this instance template.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted `pulumi:"deleteds"`
+	// The URL for this instance template.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance template.
+	Id string `pulumi:"id"`
+	// The unique user-defined name for this instance template.
+	Name string `pulumi:"name"`
+}
+
+// GetIsInstanceGroupsInstanceGroupInstanceTemplateInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs and GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs{...}
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs struct {
+	// The CRN for this instance template.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this instance template.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance template.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The unique user-defined name for this instance template.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateArray and GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupInstanceTemplateArray{ GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs{...} }
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateArray []GetIsInstanceGroupsInstanceGroupInstanceTemplateInput
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
+	return o
+}
+
+// The CRN for this instance template.
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Deleteds() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) []GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput)
+}
+
+// The URL for this instance template.
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance template.
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this instance template.
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupInstanceTemplate {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupInstanceTemplate)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs and GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs{...}
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray and GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray{ GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs{...} }
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray []GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPool struct {
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted `pulumi:"deleteds"`
+	// The pool's canonical URL.
+	Href string `pulumi:"href"`
+	// The unique identifier for this load balancer pool.
+	Id string `pulumi:"id"`
+	// The user-defined name for this load balancer pool.
+	Name string `pulumi:"name"`
+}
+
+// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs{...}
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs struct {
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput `pulumi:"deleteds"`
+	// The pool's canonical URL.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this load balancer pool.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this load balancer pool.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray{ GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs{...} }
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Deleteds() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput)
+}
+
+// The pool's canonical URL.
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this load balancer pool.
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this load balancer pool.
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupLoadBalancerPool {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupLoadBalancerPool)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs{...}
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray{ GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs{...} }
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupManager struct {
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsInstanceGroupsInstanceGroupManagerDeleted `pulumi:"deleteds"`
+	// The URL for this instance group manager.
+	Href string `pulumi:"href"`
+	// The unique identifier for this instance group manager.
+	Id string `pulumi:"id"`
+	// The user-defined name for this instance group manager.
+	Name string `pulumi:"name"`
+}
+
+// GetIsInstanceGroupsInstanceGroupManagerInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerArgs and GetIsInstanceGroupsInstanceGroupManagerOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupManagerArgs{...}
+type GetIsInstanceGroupsInstanceGroupManagerInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupManagerOutput() GetIsInstanceGroupsInstanceGroupManagerOutput
+	ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerArgs struct {
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this instance group manager.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this instance group manager.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this instance group manager.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupManagerArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerArgs) ToGetIsInstanceGroupsInstanceGroupManagerOutput() GetIsInstanceGroupsInstanceGroupManagerOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerArgs) ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupManagerArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerArray and GetIsInstanceGroupsInstanceGroupManagerArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupManagerArray{ GetIsInstanceGroupsInstanceGroupManagerArgs{...} }
+type GetIsInstanceGroupsInstanceGroupManagerArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupManagerArrayOutput() GetIsInstanceGroupsInstanceGroupManagerArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerArray []GetIsInstanceGroupsInstanceGroupManagerInput
+
+func (GetIsInstanceGroupsInstanceGroupManagerArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerArray) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutput() GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerArray) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupManagerOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerOutput) ToGetIsInstanceGroupsInstanceGroupManagerOutput() GetIsInstanceGroupsInstanceGroupManagerOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerOutput) ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Deleteds() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) []GetIsInstanceGroupsInstanceGroupManagerDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput)
+}
+
+// The URL for this instance group manager.
+func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this instance group manager.
+func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this instance group manager.
+func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupManagerArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutput() GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupManagerOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupManager {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupManager)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupManagerOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceGroupsInstanceGroupManagerDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerDeletedArgs and GetIsInstanceGroupsInstanceGroupManagerDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerDeletedInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupManagerDeletedArgs{...}
+type GetIsInstanceGroupsInstanceGroupManagerDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedOutput
+	ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupManagerDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArgs) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArgs) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerDeletedOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerDeletedArray and GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupManagerDeletedArray{ GetIsInstanceGroupsInstanceGroupManagerDeletedArgs{...} }
+type GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerDeletedArray []GetIsInstanceGroupsInstanceGroupManagerDeletedInput
+
+func (GetIsInstanceGroupsInstanceGroupManagerDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArray) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArray) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManagerDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupManagerDeleted {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupManagerDeleted)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupManagerDeletedOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupResourceGroup struct {
+	// The URL for this resource group.
+	Href string `pulumi:"href"`
+	// The unique identifier for this resource group.
+	Id string `pulumi:"id"`
+	// The user-defined name for this resource group.
+	Name string `pulumi:"name"`
+}
+
+// GetIsInstanceGroupsInstanceGroupResourceGroupInput is an input type that accepts GetIsInstanceGroupsInstanceGroupResourceGroupArgs and GetIsInstanceGroupsInstanceGroupResourceGroupOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupResourceGroupInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupResourceGroupArgs{...}
+type GetIsInstanceGroupsInstanceGroupResourceGroupInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupResourceGroupOutput() GetIsInstanceGroupsInstanceGroupResourceGroupOutput
+	ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupResourceGroupArgs struct {
+	// The URL for this resource group.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this resource group.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this resource group.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupResourceGroupArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupResourceGroupArgs) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutput() GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupResourceGroupArgs) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupResourceGroupOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupResourceGroupArray and GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupResourceGroupArray{ GetIsInstanceGroupsInstanceGroupResourceGroupArgs{...} }
+type GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupResourceGroupArray []GetIsInstanceGroupsInstanceGroupResourceGroupInput
+
+func (GetIsInstanceGroupsInstanceGroupResourceGroupArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupResourceGroupArray) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupResourceGroupArray) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupResourceGroupOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupResourceGroupOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutput() GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
+	return o
+}
+
+// The URL for this resource group.
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupResourceGroup) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this resource group.
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupResourceGroup) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this resource group.
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupResourceGroup) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupResourceGroup {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupResourceGroup)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupResourceGroupOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnet struct {
+	// The CRN for this subnet.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsInstanceGroupsInstanceGroupSubnetDeleted `pulumi:"deleteds"`
+	// The URL for this subnet.
+	Href string `pulumi:"href"`
+	// The unique identifier for this subnet.
+	Id string `pulumi:"id"`
+	// The user-defined name for this subnet.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceGroupsInstanceGroupSubnetInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetArgs and GetIsInstanceGroupsInstanceGroupSubnetOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupSubnetArgs{...}
+type GetIsInstanceGroupsInstanceGroupSubnetInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupSubnetOutput() GetIsInstanceGroupsInstanceGroupSubnetOutput
+	ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetArgs struct {
+	// The CRN for this subnet.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this subnet.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this subnet.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this subnet.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupSubnetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetArgs) ToGetIsInstanceGroupsInstanceGroupSubnetOutput() GetIsInstanceGroupsInstanceGroupSubnetOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetArgs) ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupSubnetArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetArray and GetIsInstanceGroupsInstanceGroupSubnetArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupSubnetArray{ GetIsInstanceGroupsInstanceGroupSubnetArgs{...} }
+type GetIsInstanceGroupsInstanceGroupSubnetArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetArray []GetIsInstanceGroupsInstanceGroupSubnetInput
+
+func (GetIsInstanceGroupsInstanceGroupSubnetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetArray) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetArray) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupSubnetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) ToGetIsInstanceGroupsInstanceGroupSubnetOutput() GetIsInstanceGroupsInstanceGroupSubnetOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetOutput {
+	return o
+}
+
+// The CRN for this subnet.
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Deleteds() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) []GetIsInstanceGroupsInstanceGroupSubnetDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput)
+}
+
+// The URL for this subnet.
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this subnet.
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this subnet.
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupSubnetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupSubnet {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupSubnet)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupSubnetOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceGroupsInstanceGroupSubnetDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs and GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetDeletedInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs{...}
+type GetIsInstanceGroupsInstanceGroupSubnetDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput
+	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetDeletedArray and GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupSubnetDeletedArray{ GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs{...} }
+type GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetDeletedArray []GetIsInstanceGroupsInstanceGroupSubnetDeletedInput
+
+func (GetIsInstanceGroupsInstanceGroupSubnetDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArray) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArray) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupSubnetDeleted {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupSubnetDeleted)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupVpc struct {
+	// The CRN for this VPC.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsInstanceGroupsInstanceGroupVpcDeleted `pulumi:"deleteds"`
+	// The URL for this VPC.
+	Href string `pulumi:"href"`
+	// The unique identifier for this VPC.
+	Id string `pulumi:"id"`
+	// The unique user-defined name for this VPC.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsInstanceGroupsInstanceGroupVpcInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcArgs and GetIsInstanceGroupsInstanceGroupVpcOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupVpcArgs{...}
+type GetIsInstanceGroupsInstanceGroupVpcInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupVpcOutput() GetIsInstanceGroupsInstanceGroupVpcOutput
+	ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcArgs struct {
+	// The CRN for this VPC.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this VPC.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this VPC.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The unique user-defined name for this VPC.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupVpcArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcArgs) ToGetIsInstanceGroupsInstanceGroupVpcOutput() GetIsInstanceGroupsInstanceGroupVpcOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcArgs) ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupVpcArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcArray and GetIsInstanceGroupsInstanceGroupVpcArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupVpcArray{ GetIsInstanceGroupsInstanceGroupVpcArgs{...} }
+type GetIsInstanceGroupsInstanceGroupVpcArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupVpcArrayOutput() GetIsInstanceGroupsInstanceGroupVpcArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcArray []GetIsInstanceGroupsInstanceGroupVpcInput
+
+func (GetIsInstanceGroupsInstanceGroupVpcArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcArray) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutput() GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcArray) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupVpcOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) ToGetIsInstanceGroupsInstanceGroupVpcOutput() GetIsInstanceGroupsInstanceGroupVpcOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcOutput {
+	return o
+}
+
+// The CRN for this VPC.
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Deleteds() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) []GetIsInstanceGroupsInstanceGroupVpcDeleted {
+		return v.Deleteds
+	}).(GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput)
+}
+
+// The URL for this VPC.
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this VPC.
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this VPC.
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsInstanceGroupsInstanceGroupVpcOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupVpcArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutput() GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupVpcOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupVpc {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupVpc)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupVpcOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsInstanceGroupsInstanceGroupVpcDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcDeletedArgs and GetIsInstanceGroupsInstanceGroupVpcDeletedOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcDeletedInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupVpcDeletedArgs{...}
+type GetIsInstanceGroupsInstanceGroupVpcDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedOutput
+	ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsInstanceGroupsInstanceGroupVpcDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArgs) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArgs) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcDeletedOutput)
+}
+
+// GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcDeletedArray and GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput` via:
+//
+//	GetIsInstanceGroupsInstanceGroupVpcDeletedArray{ GetIsInstanceGroupsInstanceGroupVpcDeletedArgs{...} }
+type GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput
+	ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcDeletedArray []GetIsInstanceGroupsInstanceGroupVpcDeletedInput
+
+func (GetIsInstanceGroupsInstanceGroupVpcDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArray) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
+	return i.ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArray) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpcDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupVpcDeleted {
+		return vs[0].([]GetIsInstanceGroupsInstanceGroupVpcDeleted)[vs[1].(int)]
+	}).(GetIsInstanceGroupsInstanceGroupVpcDeletedOutput)
+}
+
 type GetIsInstanceHealthReason struct {
 	// A snake case string succinctly identifying the reason for this health state.
 	Code string `pulumi:"code"`
@@ -58374,4508 +63187,81 @@ func (o GetIsShareAccessorBindingAccessorRemoteRegionArrayOutput) Index(i pulumi
 	}).(GetIsShareAccessorBindingAccessorRemoteRegionOutput)
 }
 
-type GetIsShareAccessorBindingsAccessorBinding struct {
-	// The accessor for this share accessor binding.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-	Accessors []GetIsShareAccessorBindingsAccessorBindingAccessor `pulumi:"accessors"`
-	// The date and time that the share accessor binding was created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The URL for this share accessor binding.
-	Href string `pulumi:"href"`
-	// The unique identifier for this share accessor binding.
-	Id string `pulumi:"id"`
-	// The lifecycle state of the file share accessor binding.
-	LifecycleState string `pulumi:"lifecycleState"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareAccessorBindingsAccessorBindingInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingArgs and GetIsShareAccessorBindingsAccessorBindingOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingArgs{...}
-type GetIsShareAccessorBindingsAccessorBindingInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingOutput() GetIsShareAccessorBindingsAccessorBindingOutput
-	ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingArgs struct {
-	// The accessor for this share accessor binding.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-	Accessors GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput `pulumi:"accessors"`
-	// The date and time that the share accessor binding was created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The URL for this share accessor binding.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this share accessor binding.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The lifecycle state of the file share accessor binding.
-	LifecycleState pulumi.StringInput `pulumi:"lifecycleState"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareAccessorBindingsAccessorBindingArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingArgs) ToGetIsShareAccessorBindingsAccessorBindingOutput() GetIsShareAccessorBindingsAccessorBindingOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingArgs) ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingOutput)
-}
-
-// GetIsShareAccessorBindingsAccessorBindingArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingArray and GetIsShareAccessorBindingsAccessorBindingArrayOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingArrayInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingArray{ GetIsShareAccessorBindingsAccessorBindingArgs{...} }
-type GetIsShareAccessorBindingsAccessorBindingArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingArrayOutput() GetIsShareAccessorBindingsAccessorBindingArrayOutput
-	ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingArrayOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingArray []GetIsShareAccessorBindingsAccessorBindingInput
-
-func (GetIsShareAccessorBindingsAccessorBindingArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingArray) ToGetIsShareAccessorBindingsAccessorBindingArrayOutput() GetIsShareAccessorBindingsAccessorBindingArrayOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingArray) ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) ToGetIsShareAccessorBindingsAccessorBindingOutput() GetIsShareAccessorBindingsAccessorBindingOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingOutput {
-	return o
-}
-
-// The accessor for this share accessor binding.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) Accessors() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) []GetIsShareAccessorBindingsAccessorBindingAccessor {
-		return v.Accessors
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput)
-}
-
-// The date and time that the share accessor binding was created.
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The URL for this share accessor binding.
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this share accessor binding.
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The lifecycle state of the file share accessor binding.
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) LifecycleState() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.LifecycleState }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareAccessorBindingsAccessorBindingOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingArrayOutput() GetIsShareAccessorBindingsAccessorBindingArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBinding {
-		return vs[0].([]GetIsShareAccessorBindingsAccessorBinding)[vs[1].(int)]
-	}).(GetIsShareAccessorBindingsAccessorBindingOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessor struct {
-	// The CRN for this file share.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds []GetIsShareAccessorBindingsAccessorBindingAccessorDeleted `pulumi:"deleteds"`
-	// The URL for this file share.
-	Href string `pulumi:"href"`
-	// The unique identifier for this file share.
-	Id string `pulumi:"id"`
-	// The name for this share. The name is unique across all shares in the region.
-	Name string `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes []GetIsShareAccessorBindingsAccessorBindingAccessorRemote `pulumi:"remotes"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorArgs and GetIsShareAccessorBindingsAccessorBindingAccessorOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorArgs{...}
-type GetIsShareAccessorBindingsAccessorBindingAccessorInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorOutput() GetIsShareAccessorBindingsAccessorBindingAccessorOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorArgs struct {
-	// The CRN for this file share.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this file share.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this file share.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The name for this share. The name is unique across all shares in the region.
-	Name pulumi.StringInput `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput `pulumi:"remotes"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutput() GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorOutput)
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorArray and GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorArray{ GetIsShareAccessorBindingsAccessorBindingAccessorArgs{...} }
-type GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorArray []GetIsShareAccessorBindingsAccessorBindingAccessorInput
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutput() GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
-	return o
-}
-
-// The CRN for this file share.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Deleteds() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) []GetIsShareAccessorBindingsAccessorBindingAccessorDeleted {
-		return v.Deleteds
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput)
-}
-
-// The URL for this file share.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this file share.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The name for this share. The name is unique across all shares in the region.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Remotes() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) []GetIsShareAccessorBindingsAccessorBindingAccessorRemote {
-		return v.Remotes
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput)
-}
-
-// The resource type.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessor {
-		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessor)[vs[1].(int)]
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs and GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs{...}
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput)
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray and GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray{ GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs{...} }
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray []GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorDeleted {
-		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)[vs[1].(int)]
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemote struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion `pulumi:"regions"`
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs{...}
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput `pulumi:"regions"`
-}
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput)
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray{ GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs{...} }
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
-	return o
-}
-
-// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) Accounts() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemote) []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount {
-		return v.Accounts
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput)
-}
-
-// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) Regions() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemote) []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion {
-		return v.Regions
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorRemote {
-		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorRemote)[vs[1].(int)]
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount struct {
-	// The unique identifier for this account.
-	Id string `pulumi:"id"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs{...}
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs struct {
-	// The unique identifier for this account.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput)
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray{ GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs{...} }
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
-	return o
-}
-
-// The unique identifier for this account.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount {
-		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)[vs[1].(int)]
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion struct {
-	// The URL for this region.
-	Href string `pulumi:"href"`
-	// The globally unique name for this region.
-	Name string `pulumi:"name"`
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs{...}
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs struct {
-	// The URL for this region.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The globally unique name for this region.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput)
-}
-
-// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput values.
-// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput` via:
-//
-//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray{ GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs{...} }
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput
-	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
-	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
-	return o
-}
-
-// The URL for this region.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The globally unique name for this region.
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
-	return o
-}
-
-func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion {
-		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)[vs[1].(int)]
-	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput)
-}
-
-type GetIsShareLatestJob struct {
-	// The status of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `cancelled`: This job has been cancelled.* `failed`: This job has failed.* `queued`: This job is queued.* `running`: This job is running.* `succeeded`: This job completed successfully.
-	Status string `pulumi:"status"`
-	// The reasons for the file share job status (if any).The enumerated reason code values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected reason code was encountered.
-	StatusReasons []GetIsShareLatestJobStatusReason `pulumi:"statusReasons"`
-	// The type of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `replicationFailover`: This is a share replication failover job.* `replicationInit`: This is a share replication is initialization job.* `replicationSplit`: This is a share replication split job.
-	Type string `pulumi:"type"`
-}
-
-// GetIsShareLatestJobInput is an input type that accepts GetIsShareLatestJobArgs and GetIsShareLatestJobOutput values.
-// You can construct a concrete instance of `GetIsShareLatestJobInput` via:
-//
-//	GetIsShareLatestJobArgs{...}
-type GetIsShareLatestJobInput interface {
-	pulumi.Input
-
-	ToGetIsShareLatestJobOutput() GetIsShareLatestJobOutput
-	ToGetIsShareLatestJobOutputWithContext(context.Context) GetIsShareLatestJobOutput
-}
-
-type GetIsShareLatestJobArgs struct {
-	// The status of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `cancelled`: This job has been cancelled.* `failed`: This job has failed.* `queued`: This job is queued.* `running`: This job is running.* `succeeded`: This job completed successfully.
-	Status pulumi.StringInput `pulumi:"status"`
-	// The reasons for the file share job status (if any).The enumerated reason code values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected reason code was encountered.
-	StatusReasons GetIsShareLatestJobStatusReasonArrayInput `pulumi:"statusReasons"`
-	// The type of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `replicationFailover`: This is a share replication failover job.* `replicationInit`: This is a share replication is initialization job.* `replicationSplit`: This is a share replication split job.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetIsShareLatestJobArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareLatestJob)(nil)).Elem()
-}
-
-func (i GetIsShareLatestJobArgs) ToGetIsShareLatestJobOutput() GetIsShareLatestJobOutput {
-	return i.ToGetIsShareLatestJobOutputWithContext(context.Background())
-}
-
-func (i GetIsShareLatestJobArgs) ToGetIsShareLatestJobOutputWithContext(ctx context.Context) GetIsShareLatestJobOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobOutput)
-}
-
-// GetIsShareLatestJobArrayInput is an input type that accepts GetIsShareLatestJobArray and GetIsShareLatestJobArrayOutput values.
-// You can construct a concrete instance of `GetIsShareLatestJobArrayInput` via:
-//
-//	GetIsShareLatestJobArray{ GetIsShareLatestJobArgs{...} }
-type GetIsShareLatestJobArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareLatestJobArrayOutput() GetIsShareLatestJobArrayOutput
-	ToGetIsShareLatestJobArrayOutputWithContext(context.Context) GetIsShareLatestJobArrayOutput
-}
-
-type GetIsShareLatestJobArray []GetIsShareLatestJobInput
-
-func (GetIsShareLatestJobArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareLatestJob)(nil)).Elem()
-}
-
-func (i GetIsShareLatestJobArray) ToGetIsShareLatestJobArrayOutput() GetIsShareLatestJobArrayOutput {
-	return i.ToGetIsShareLatestJobArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareLatestJobArray) ToGetIsShareLatestJobArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobArrayOutput)
-}
-
-type GetIsShareLatestJobOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareLatestJobOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareLatestJob)(nil)).Elem()
-}
-
-func (o GetIsShareLatestJobOutput) ToGetIsShareLatestJobOutput() GetIsShareLatestJobOutput {
-	return o
-}
-
-func (o GetIsShareLatestJobOutput) ToGetIsShareLatestJobOutputWithContext(ctx context.Context) GetIsShareLatestJobOutput {
-	return o
-}
-
-// The status of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `cancelled`: This job has been cancelled.* `failed`: This job has failed.* `queued`: This job is queued.* `running`: This job is running.* `succeeded`: This job completed successfully.
-func (o GetIsShareLatestJobOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestJob) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The reasons for the file share job status (if any).The enumerated reason code values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected reason code was encountered.
-func (o GetIsShareLatestJobOutput) StatusReasons() GetIsShareLatestJobStatusReasonArrayOutput {
-	return o.ApplyT(func(v GetIsShareLatestJob) []GetIsShareLatestJobStatusReason { return v.StatusReasons }).(GetIsShareLatestJobStatusReasonArrayOutput)
-}
-
-// The type of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `replicationFailover`: This is a share replication failover job.* `replicationInit`: This is a share replication is initialization job.* `replicationSplit`: This is a share replication split job.
-func (o GetIsShareLatestJobOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestJob) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetIsShareLatestJobArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareLatestJobArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareLatestJob)(nil)).Elem()
-}
-
-func (o GetIsShareLatestJobArrayOutput) ToGetIsShareLatestJobArrayOutput() GetIsShareLatestJobArrayOutput {
-	return o
-}
-
-func (o GetIsShareLatestJobArrayOutput) ToGetIsShareLatestJobArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobArrayOutput {
-	return o
-}
-
-func (o GetIsShareLatestJobArrayOutput) Index(i pulumi.IntInput) GetIsShareLatestJobOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareLatestJob {
-		return vs[0].([]GetIsShareLatestJob)[vs[1].(int)]
-	}).(GetIsShareLatestJobOutput)
-}
-
-type GetIsShareLatestJobStatusReason struct {
-	// A snake case string succinctly identifying the status reason.
-	Code string `pulumi:"code"`
-	// An explanation of the status reason.
-	Message string `pulumi:"message"`
-	// Link to documentation about this status reason.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareLatestJobStatusReasonInput is an input type that accepts GetIsShareLatestJobStatusReasonArgs and GetIsShareLatestJobStatusReasonOutput values.
-// You can construct a concrete instance of `GetIsShareLatestJobStatusReasonInput` via:
-//
-//	GetIsShareLatestJobStatusReasonArgs{...}
-type GetIsShareLatestJobStatusReasonInput interface {
-	pulumi.Input
-
-	ToGetIsShareLatestJobStatusReasonOutput() GetIsShareLatestJobStatusReasonOutput
-	ToGetIsShareLatestJobStatusReasonOutputWithContext(context.Context) GetIsShareLatestJobStatusReasonOutput
-}
-
-type GetIsShareLatestJobStatusReasonArgs struct {
-	// A snake case string succinctly identifying the status reason.
-	Code pulumi.StringInput `pulumi:"code"`
-	// An explanation of the status reason.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Link to documentation about this status reason.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareLatestJobStatusReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareLatestJobStatusReason)(nil)).Elem()
-}
-
-func (i GetIsShareLatestJobStatusReasonArgs) ToGetIsShareLatestJobStatusReasonOutput() GetIsShareLatestJobStatusReasonOutput {
-	return i.ToGetIsShareLatestJobStatusReasonOutputWithContext(context.Background())
-}
-
-func (i GetIsShareLatestJobStatusReasonArgs) ToGetIsShareLatestJobStatusReasonOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobStatusReasonOutput)
-}
-
-// GetIsShareLatestJobStatusReasonArrayInput is an input type that accepts GetIsShareLatestJobStatusReasonArray and GetIsShareLatestJobStatusReasonArrayOutput values.
-// You can construct a concrete instance of `GetIsShareLatestJobStatusReasonArrayInput` via:
-//
-//	GetIsShareLatestJobStatusReasonArray{ GetIsShareLatestJobStatusReasonArgs{...} }
-type GetIsShareLatestJobStatusReasonArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareLatestJobStatusReasonArrayOutput() GetIsShareLatestJobStatusReasonArrayOutput
-	ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(context.Context) GetIsShareLatestJobStatusReasonArrayOutput
-}
-
-type GetIsShareLatestJobStatusReasonArray []GetIsShareLatestJobStatusReasonInput
-
-func (GetIsShareLatestJobStatusReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareLatestJobStatusReason)(nil)).Elem()
-}
-
-func (i GetIsShareLatestJobStatusReasonArray) ToGetIsShareLatestJobStatusReasonArrayOutput() GetIsShareLatestJobStatusReasonArrayOutput {
-	return i.ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareLatestJobStatusReasonArray) ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobStatusReasonArrayOutput)
-}
-
-type GetIsShareLatestJobStatusReasonOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareLatestJobStatusReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareLatestJobStatusReason)(nil)).Elem()
-}
-
-func (o GetIsShareLatestJobStatusReasonOutput) ToGetIsShareLatestJobStatusReasonOutput() GetIsShareLatestJobStatusReasonOutput {
-	return o
-}
-
-func (o GetIsShareLatestJobStatusReasonOutput) ToGetIsShareLatestJobStatusReasonOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonOutput {
-	return o
-}
-
-// A snake case string succinctly identifying the status reason.
-func (o GetIsShareLatestJobStatusReasonOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestJobStatusReason) string { return v.Code }).(pulumi.StringOutput)
-}
-
-// An explanation of the status reason.
-func (o GetIsShareLatestJobStatusReasonOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestJobStatusReason) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Link to documentation about this status reason.
-func (o GetIsShareLatestJobStatusReasonOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestJobStatusReason) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareLatestJobStatusReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareLatestJobStatusReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareLatestJobStatusReason)(nil)).Elem()
-}
-
-func (o GetIsShareLatestJobStatusReasonArrayOutput) ToGetIsShareLatestJobStatusReasonArrayOutput() GetIsShareLatestJobStatusReasonArrayOutput {
-	return o
-}
-
-func (o GetIsShareLatestJobStatusReasonArrayOutput) ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonArrayOutput {
-	return o
-}
-
-func (o GetIsShareLatestJobStatusReasonArrayOutput) Index(i pulumi.IntInput) GetIsShareLatestJobStatusReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareLatestJobStatusReason {
-		return vs[0].([]GetIsShareLatestJobStatusReason)[vs[1].(int)]
-	}).(GetIsShareLatestJobStatusReasonOutput)
-}
-
-type GetIsShareLatestSync struct {
-	// The completed date and time of last synchronization between the replica share and its source.
-	CompletedAt string `pulumi:"completedAt"`
-	// The data transferred (in bytes) in the last synchronization between the replica and its source.
-	DataTransferred int `pulumi:"dataTransferred"`
-	// The start date and time of last synchronization between the replica share and its source.
-	StartedAt string `pulumi:"startedAt"`
-}
-
-// GetIsShareLatestSyncInput is an input type that accepts GetIsShareLatestSyncArgs and GetIsShareLatestSyncOutput values.
-// You can construct a concrete instance of `GetIsShareLatestSyncInput` via:
-//
-//	GetIsShareLatestSyncArgs{...}
-type GetIsShareLatestSyncInput interface {
-	pulumi.Input
-
-	ToGetIsShareLatestSyncOutput() GetIsShareLatestSyncOutput
-	ToGetIsShareLatestSyncOutputWithContext(context.Context) GetIsShareLatestSyncOutput
-}
-
-type GetIsShareLatestSyncArgs struct {
-	// The completed date and time of last synchronization between the replica share and its source.
-	CompletedAt pulumi.StringInput `pulumi:"completedAt"`
-	// The data transferred (in bytes) in the last synchronization between the replica and its source.
-	DataTransferred pulumi.IntInput `pulumi:"dataTransferred"`
-	// The start date and time of last synchronization between the replica share and its source.
-	StartedAt pulumi.StringInput `pulumi:"startedAt"`
-}
-
-func (GetIsShareLatestSyncArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareLatestSync)(nil)).Elem()
-}
-
-func (i GetIsShareLatestSyncArgs) ToGetIsShareLatestSyncOutput() GetIsShareLatestSyncOutput {
-	return i.ToGetIsShareLatestSyncOutputWithContext(context.Background())
-}
-
-func (i GetIsShareLatestSyncArgs) ToGetIsShareLatestSyncOutputWithContext(ctx context.Context) GetIsShareLatestSyncOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestSyncOutput)
-}
-
-// GetIsShareLatestSyncArrayInput is an input type that accepts GetIsShareLatestSyncArray and GetIsShareLatestSyncArrayOutput values.
-// You can construct a concrete instance of `GetIsShareLatestSyncArrayInput` via:
-//
-//	GetIsShareLatestSyncArray{ GetIsShareLatestSyncArgs{...} }
-type GetIsShareLatestSyncArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareLatestSyncArrayOutput() GetIsShareLatestSyncArrayOutput
-	ToGetIsShareLatestSyncArrayOutputWithContext(context.Context) GetIsShareLatestSyncArrayOutput
-}
-
-type GetIsShareLatestSyncArray []GetIsShareLatestSyncInput
-
-func (GetIsShareLatestSyncArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareLatestSync)(nil)).Elem()
-}
-
-func (i GetIsShareLatestSyncArray) ToGetIsShareLatestSyncArrayOutput() GetIsShareLatestSyncArrayOutput {
-	return i.ToGetIsShareLatestSyncArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareLatestSyncArray) ToGetIsShareLatestSyncArrayOutputWithContext(ctx context.Context) GetIsShareLatestSyncArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestSyncArrayOutput)
-}
-
-type GetIsShareLatestSyncOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareLatestSyncOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareLatestSync)(nil)).Elem()
-}
-
-func (o GetIsShareLatestSyncOutput) ToGetIsShareLatestSyncOutput() GetIsShareLatestSyncOutput {
-	return o
-}
-
-func (o GetIsShareLatestSyncOutput) ToGetIsShareLatestSyncOutputWithContext(ctx context.Context) GetIsShareLatestSyncOutput {
-	return o
-}
-
-// The completed date and time of last synchronization between the replica share and its source.
-func (o GetIsShareLatestSyncOutput) CompletedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestSync) string { return v.CompletedAt }).(pulumi.StringOutput)
-}
-
-// The data transferred (in bytes) in the last synchronization between the replica and its source.
-func (o GetIsShareLatestSyncOutput) DataTransferred() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsShareLatestSync) int { return v.DataTransferred }).(pulumi.IntOutput)
-}
-
-// The start date and time of last synchronization between the replica share and its source.
-func (o GetIsShareLatestSyncOutput) StartedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareLatestSync) string { return v.StartedAt }).(pulumi.StringOutput)
-}
-
-type GetIsShareLatestSyncArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareLatestSyncArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareLatestSync)(nil)).Elem()
-}
-
-func (o GetIsShareLatestSyncArrayOutput) ToGetIsShareLatestSyncArrayOutput() GetIsShareLatestSyncArrayOutput {
-	return o
-}
-
-func (o GetIsShareLatestSyncArrayOutput) ToGetIsShareLatestSyncArrayOutputWithContext(ctx context.Context) GetIsShareLatestSyncArrayOutput {
-	return o
-}
-
-func (o GetIsShareLatestSyncArrayOutput) Index(i pulumi.IntInput) GetIsShareLatestSyncOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareLatestSync {
-		return vs[0].([]GetIsShareLatestSync)[vs[1].(int)]
-	}).(GetIsShareLatestSyncOutput)
-}
-
-type GetIsShareMountTargetType struct {
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetDeleted `pulumi:"deleteds"`
-	// The URL for this share target.
-	Href string `pulumi:"href"`
-	// The unique identifier for this share target.
-	Id string `pulumi:"id"`
-	// The user-defined name for this share target.
-	Name string `pulumi:"name"`
-	// The type of resource referenced.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetTypeInput is an input type that accepts GetIsShareMountTargetTypeArgs and GetIsShareMountTargetTypeOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetTypeInput` via:
-//
-//	GetIsShareMountTargetTypeArgs{...}
-type GetIsShareMountTargetTypeInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetTypeOutput() GetIsShareMountTargetTypeOutput
-	ToGetIsShareMountTargetTypeOutputWithContext(context.Context) GetIsShareMountTargetTypeOutput
-}
-
-type GetIsShareMountTargetTypeArgs struct {
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this share target.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this share target.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this share target.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The type of resource referenced.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetTypeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetType)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetTypeArgs) ToGetIsShareMountTargetTypeOutput() GetIsShareMountTargetTypeOutput {
-	return i.ToGetIsShareMountTargetTypeOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetTypeArgs) ToGetIsShareMountTargetTypeOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetTypeOutput)
-}
-
-// GetIsShareMountTargetTypeArrayInput is an input type that accepts GetIsShareMountTargetTypeArray and GetIsShareMountTargetTypeArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetTypeArrayInput` via:
-//
-//	GetIsShareMountTargetTypeArray{ GetIsShareMountTargetTypeArgs{...} }
-type GetIsShareMountTargetTypeArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetTypeArrayOutput() GetIsShareMountTargetTypeArrayOutput
-	ToGetIsShareMountTargetTypeArrayOutputWithContext(context.Context) GetIsShareMountTargetTypeArrayOutput
-}
-
-type GetIsShareMountTargetTypeArray []GetIsShareMountTargetTypeInput
-
-func (GetIsShareMountTargetTypeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetType)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetTypeArray) ToGetIsShareMountTargetTypeArrayOutput() GetIsShareMountTargetTypeArrayOutput {
-	return i.ToGetIsShareMountTargetTypeArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetTypeArray) ToGetIsShareMountTargetTypeArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetTypeArrayOutput)
-}
-
-type GetIsShareMountTargetTypeOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetTypeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetType)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetTypeOutput) ToGetIsShareMountTargetTypeOutput() GetIsShareMountTargetTypeOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetTypeOutput) ToGetIsShareMountTargetTypeOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeOutput {
-	return o
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetTypeOutput) Deleteds() GetIsShareMountTargetDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetType) []GetIsShareMountTargetDeleted { return v.Deleteds }).(GetIsShareMountTargetDeletedArrayOutput)
-}
-
-// The URL for this share target.
-func (o GetIsShareMountTargetTypeOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this share target.
-func (o GetIsShareMountTargetTypeOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this share target.
-func (o GetIsShareMountTargetTypeOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The type of resource referenced.
-func (o GetIsShareMountTargetTypeOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetTypeArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetTypeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetType)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetTypeArrayOutput) ToGetIsShareMountTargetTypeArrayOutput() GetIsShareMountTargetTypeArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetTypeArrayOutput) ToGetIsShareMountTargetTypeArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetTypeArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetTypeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetType {
-		return vs[0].([]GetIsShareMountTargetType)[vs[1].(int)]
-	}).(GetIsShareMountTargetTypeOutput)
-}
-
-type GetIsShareMountTargetDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetDeletedInput is an input type that accepts GetIsShareMountTargetDeletedArgs and GetIsShareMountTargetDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetDeletedInput` via:
-//
-//	GetIsShareMountTargetDeletedArgs{...}
-type GetIsShareMountTargetDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetDeletedOutput() GetIsShareMountTargetDeletedOutput
-	ToGetIsShareMountTargetDeletedOutputWithContext(context.Context) GetIsShareMountTargetDeletedOutput
-}
-
-type GetIsShareMountTargetDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetDeletedArgs) ToGetIsShareMountTargetDeletedOutput() GetIsShareMountTargetDeletedOutput {
-	return i.ToGetIsShareMountTargetDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetDeletedArgs) ToGetIsShareMountTargetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetDeletedOutput)
-}
-
-// GetIsShareMountTargetDeletedArrayInput is an input type that accepts GetIsShareMountTargetDeletedArray and GetIsShareMountTargetDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetDeletedArray{ GetIsShareMountTargetDeletedArgs{...} }
-type GetIsShareMountTargetDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetDeletedArrayOutput() GetIsShareMountTargetDeletedArrayOutput
-	ToGetIsShareMountTargetDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetDeletedArrayOutput
-}
-
-type GetIsShareMountTargetDeletedArray []GetIsShareMountTargetDeletedInput
-
-func (GetIsShareMountTargetDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetDeletedArray) ToGetIsShareMountTargetDeletedArrayOutput() GetIsShareMountTargetDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetDeletedArray) ToGetIsShareMountTargetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetDeletedOutput) ToGetIsShareMountTargetDeletedOutput() GetIsShareMountTargetDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetDeletedOutput) ToGetIsShareMountTargetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetDeletedArrayOutput) ToGetIsShareMountTargetDeletedArrayOutput() GetIsShareMountTargetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetDeletedArrayOutput) ToGetIsShareMountTargetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetDeleted {
-		return vs[0].([]GetIsShareMountTargetDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetDeletedOutput)
-}
-
-type GetIsShareMountTargetPrimaryIp struct {
-	// The IP address..
-	Address string `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetPrimaryIpDeleted `pulumi:"deleteds"`
-	// The URL for this reserved IP.
-	Href string `pulumi:"href"`
-	// The unique identifier for this reserved IP.
-	Id string `pulumi:"id"`
-	// The user-defined name for this reserved IP.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetPrimaryIpInput is an input type that accepts GetIsShareMountTargetPrimaryIpArgs and GetIsShareMountTargetPrimaryIpOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpInput` via:
-//
-//	GetIsShareMountTargetPrimaryIpArgs{...}
-type GetIsShareMountTargetPrimaryIpInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetPrimaryIpOutput() GetIsShareMountTargetPrimaryIpOutput
-	ToGetIsShareMountTargetPrimaryIpOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpOutput
-}
-
-type GetIsShareMountTargetPrimaryIpArgs struct {
-	// The IP address..
-	Address pulumi.StringInput `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetPrimaryIpDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this reserved IP.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this reserved IP.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this reserved IP.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetPrimaryIpArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetPrimaryIpArgs) ToGetIsShareMountTargetPrimaryIpOutput() GetIsShareMountTargetPrimaryIpOutput {
-	return i.ToGetIsShareMountTargetPrimaryIpOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetPrimaryIpArgs) ToGetIsShareMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpOutput)
-}
-
-// GetIsShareMountTargetPrimaryIpArrayInput is an input type that accepts GetIsShareMountTargetPrimaryIpArray and GetIsShareMountTargetPrimaryIpArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpArrayInput` via:
-//
-//	GetIsShareMountTargetPrimaryIpArray{ GetIsShareMountTargetPrimaryIpArgs{...} }
-type GetIsShareMountTargetPrimaryIpArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetPrimaryIpArrayOutput
-	ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpArrayOutput
-}
-
-type GetIsShareMountTargetPrimaryIpArray []GetIsShareMountTargetPrimaryIpInput
-
-func (GetIsShareMountTargetPrimaryIpArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetPrimaryIpArray) ToGetIsShareMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetPrimaryIpArrayOutput {
-	return i.ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetPrimaryIpArray) ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpArrayOutput)
-}
-
-type GetIsShareMountTargetPrimaryIpOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetPrimaryIpOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetPrimaryIpOutput) ToGetIsShareMountTargetPrimaryIpOutput() GetIsShareMountTargetPrimaryIpOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetPrimaryIpOutput) ToGetIsShareMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpOutput {
-	return o
-}
-
-// The IP address..
-func (o GetIsShareMountTargetPrimaryIpOutput) Address() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Address }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetPrimaryIpOutput) Deleteds() GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) []GetIsShareMountTargetPrimaryIpDeleted { return v.Deleteds }).(GetIsShareMountTargetPrimaryIpDeletedArrayOutput)
-}
-
-// The URL for this reserved IP.
-func (o GetIsShareMountTargetPrimaryIpOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this reserved IP.
-func (o GetIsShareMountTargetPrimaryIpOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this reserved IP.
-func (o GetIsShareMountTargetPrimaryIpOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetPrimaryIpOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetPrimaryIpArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetPrimaryIpArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetPrimaryIpArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetPrimaryIpArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetPrimaryIpOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetPrimaryIp {
-		return vs[0].([]GetIsShareMountTargetPrimaryIp)[vs[1].(int)]
-	}).(GetIsShareMountTargetPrimaryIpOutput)
-}
-
-type GetIsShareMountTargetPrimaryIpDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetPrimaryIpDeletedInput is an input type that accepts GetIsShareMountTargetPrimaryIpDeletedArgs and GetIsShareMountTargetPrimaryIpDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpDeletedInput` via:
-//
-//	GetIsShareMountTargetPrimaryIpDeletedArgs{...}
-type GetIsShareMountTargetPrimaryIpDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetPrimaryIpDeletedOutput
-	ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpDeletedOutput
-}
-
-type GetIsShareMountTargetPrimaryIpDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetPrimaryIpDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetPrimaryIpDeletedOutput {
-	return i.ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpDeletedOutput)
-}
-
-// GetIsShareMountTargetPrimaryIpDeletedArrayInput is an input type that accepts GetIsShareMountTargetPrimaryIpDeletedArray and GetIsShareMountTargetPrimaryIpDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetPrimaryIpDeletedArray{ GetIsShareMountTargetPrimaryIpDeletedArgs{...} }
-type GetIsShareMountTargetPrimaryIpDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetPrimaryIpDeletedArrayOutput
-	ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpDeletedArrayOutput
-}
-
-type GetIsShareMountTargetPrimaryIpDeletedArray []GetIsShareMountTargetPrimaryIpDeletedInput
-
-func (GetIsShareMountTargetPrimaryIpDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetPrimaryIpDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetPrimaryIpDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetPrimaryIpDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetPrimaryIpDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIpDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetPrimaryIpDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetPrimaryIpDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetPrimaryIpDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetPrimaryIpDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetPrimaryIpDeleted {
-		return vs[0].([]GetIsShareMountTargetPrimaryIpDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetPrimaryIpDeletedOutput)
-}
-
-type GetIsShareMountTargetSubnet struct {
-	// The CRN for this subnet.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetSubnetDeleted `pulumi:"deleteds"`
-	// The URL for this subnet.
-	Href string `pulumi:"href"`
-	// The unique identifier for this subnet.
-	Id string `pulumi:"id"`
-	// The user-defined name for this subnet.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetSubnetInput is an input type that accepts GetIsShareMountTargetSubnetArgs and GetIsShareMountTargetSubnetOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetSubnetInput` via:
-//
-//	GetIsShareMountTargetSubnetArgs{...}
-type GetIsShareMountTargetSubnetInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetSubnetOutput() GetIsShareMountTargetSubnetOutput
-	ToGetIsShareMountTargetSubnetOutputWithContext(context.Context) GetIsShareMountTargetSubnetOutput
-}
-
-type GetIsShareMountTargetSubnetArgs struct {
-	// The CRN for this subnet.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetSubnetDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this subnet.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this subnet.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this subnet.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetSubnetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetSubnet)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetSubnetArgs) ToGetIsShareMountTargetSubnetOutput() GetIsShareMountTargetSubnetOutput {
-	return i.ToGetIsShareMountTargetSubnetOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetSubnetArgs) ToGetIsShareMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetOutput)
-}
-
-// GetIsShareMountTargetSubnetArrayInput is an input type that accepts GetIsShareMountTargetSubnetArray and GetIsShareMountTargetSubnetArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetSubnetArrayInput` via:
-//
-//	GetIsShareMountTargetSubnetArray{ GetIsShareMountTargetSubnetArgs{...} }
-type GetIsShareMountTargetSubnetArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetSubnetArrayOutput() GetIsShareMountTargetSubnetArrayOutput
-	ToGetIsShareMountTargetSubnetArrayOutputWithContext(context.Context) GetIsShareMountTargetSubnetArrayOutput
-}
-
-type GetIsShareMountTargetSubnetArray []GetIsShareMountTargetSubnetInput
-
-func (GetIsShareMountTargetSubnetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetSubnet)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetSubnetArray) ToGetIsShareMountTargetSubnetArrayOutput() GetIsShareMountTargetSubnetArrayOutput {
-	return i.ToGetIsShareMountTargetSubnetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetSubnetArray) ToGetIsShareMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetArrayOutput)
-}
-
-type GetIsShareMountTargetSubnetOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetSubnetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetSubnet)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetSubnetOutput) ToGetIsShareMountTargetSubnetOutput() GetIsShareMountTargetSubnetOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetSubnetOutput) ToGetIsShareMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetOutput {
-	return o
-}
-
-// The CRN for this subnet.
-func (o GetIsShareMountTargetSubnetOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetSubnetOutput) Deleteds() GetIsShareMountTargetSubnetDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnet) []GetIsShareMountTargetSubnetDeleted { return v.Deleteds }).(GetIsShareMountTargetSubnetDeletedArrayOutput)
-}
-
-// The URL for this subnet.
-func (o GetIsShareMountTargetSubnetOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this subnet.
-func (o GetIsShareMountTargetSubnetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this subnet.
-func (o GetIsShareMountTargetSubnetOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetSubnetOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetSubnetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetSubnetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetSubnet)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetSubnetArrayOutput) ToGetIsShareMountTargetSubnetArrayOutput() GetIsShareMountTargetSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetSubnetArrayOutput) ToGetIsShareMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetSubnetArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetSubnetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetSubnet {
-		return vs[0].([]GetIsShareMountTargetSubnet)[vs[1].(int)]
-	}).(GetIsShareMountTargetSubnetOutput)
-}
-
-type GetIsShareMountTargetSubnetDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetSubnetDeletedInput is an input type that accepts GetIsShareMountTargetSubnetDeletedArgs and GetIsShareMountTargetSubnetDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetSubnetDeletedInput` via:
-//
-//	GetIsShareMountTargetSubnetDeletedArgs{...}
-type GetIsShareMountTargetSubnetDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetSubnetDeletedOutput() GetIsShareMountTargetSubnetDeletedOutput
-	ToGetIsShareMountTargetSubnetDeletedOutputWithContext(context.Context) GetIsShareMountTargetSubnetDeletedOutput
-}
-
-type GetIsShareMountTargetSubnetDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetSubnetDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetSubnetDeletedOutput() GetIsShareMountTargetSubnetDeletedOutput {
-	return i.ToGetIsShareMountTargetSubnetDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetDeletedOutput)
-}
-
-// GetIsShareMountTargetSubnetDeletedArrayInput is an input type that accepts GetIsShareMountTargetSubnetDeletedArray and GetIsShareMountTargetSubnetDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetSubnetDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetSubnetDeletedArray{ GetIsShareMountTargetSubnetDeletedArgs{...} }
-type GetIsShareMountTargetSubnetDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetSubnetDeletedArrayOutput
-	ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetSubnetDeletedArrayOutput
-}
-
-type GetIsShareMountTargetSubnetDeletedArray []GetIsShareMountTargetSubnetDeletedInput
-
-func (GetIsShareMountTargetSubnetDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetSubnetDeletedArray) ToGetIsShareMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetSubnetDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetSubnetDeletedArray) ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetSubnetDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetSubnetDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetSubnetDeletedOutput() GetIsShareMountTargetSubnetDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetSubnetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetSubnetDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetSubnetDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetSubnetDeleted {
-		return vs[0].([]GetIsShareMountTargetSubnetDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetSubnetDeletedOutput)
-}
-
-type GetIsShareMountTargetVirtualNetworkInterface struct {
-	// The CRN for this virtual network interface.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetVirtualNetworkInterfaceDeleted `pulumi:"deleteds"`
-	// The URL for this virtual network interface.
-	Href string `pulumi:"href"`
-	// The unique identifier for this virtual network interface.
-	Id string `pulumi:"id"`
-	// The unique user-defined name for this virtual network interface.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetVirtualNetworkInterfaceInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceArgs and GetIsShareMountTargetVirtualNetworkInterfaceOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceInput` via:
-//
-//	GetIsShareMountTargetVirtualNetworkInterfaceArgs{...}
-type GetIsShareMountTargetVirtualNetworkInterfaceInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetVirtualNetworkInterfaceOutput
-	ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceOutput
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceArgs struct {
-	// The CRN for this virtual network interface.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this virtual network interface.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this virtual network interface.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The unique user-defined name for this virtual network interface.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetVirtualNetworkInterfaceOutput {
-	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceOutput)
-}
-
-// GetIsShareMountTargetVirtualNetworkInterfaceArrayInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceArray and GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceArrayInput` via:
-//
-//	GetIsShareMountTargetVirtualNetworkInterfaceArray{ GetIsShareMountTargetVirtualNetworkInterfaceArgs{...} }
-type GetIsShareMountTargetVirtualNetworkInterfaceArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput
-	ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceArray []GetIsShareMountTargetVirtualNetworkInterfaceInput
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
-	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput)
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetVirtualNetworkInterfaceOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceOutput {
-	return o
-}
-
-// The CRN for this virtual network interface.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Deleteds() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) []GetIsShareMountTargetVirtualNetworkInterfaceDeleted {
-		return v.Deleteds
-	}).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
-}
-
-// The URL for this virtual network interface.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this virtual network interface.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this virtual network interface.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVirtualNetworkInterfaceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVirtualNetworkInterface {
-		return vs[0].([]GetIsShareMountTargetVirtualNetworkInterface)[vs[1].(int)]
-	}).(GetIsShareMountTargetVirtualNetworkInterfaceOutput)
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs and GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput` via:
-//
-//	GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs{...}
-type GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput
-	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput)
-}
-
-// GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray and GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray{ GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs{...} }
-type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput
-	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray []GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterfaceDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVirtualNetworkInterfaceDeleted {
-		return vs[0].([]GetIsShareMountTargetVirtualNetworkInterfaceDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput)
-}
-
-type GetIsShareMountTargetVpc struct {
-	// The CRN for this VPC.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetVpcDeleted `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href string `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id string `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetVpcInput is an input type that accepts GetIsShareMountTargetVpcArgs and GetIsShareMountTargetVpcOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVpcInput` via:
-//
-//	GetIsShareMountTargetVpcArgs{...}
-type GetIsShareMountTargetVpcInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVpcOutput() GetIsShareMountTargetVpcOutput
-	ToGetIsShareMountTargetVpcOutputWithContext(context.Context) GetIsShareMountTargetVpcOutput
-}
-
-type GetIsShareMountTargetVpcArgs struct {
-	// The CRN for this VPC.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetVpcDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetVpcArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVpc)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVpcArgs) ToGetIsShareMountTargetVpcOutput() GetIsShareMountTargetVpcOutput {
-	return i.ToGetIsShareMountTargetVpcOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVpcArgs) ToGetIsShareMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcOutput)
-}
-
-// GetIsShareMountTargetVpcArrayInput is an input type that accepts GetIsShareMountTargetVpcArray and GetIsShareMountTargetVpcArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVpcArrayInput` via:
-//
-//	GetIsShareMountTargetVpcArray{ GetIsShareMountTargetVpcArgs{...} }
-type GetIsShareMountTargetVpcArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVpcArrayOutput() GetIsShareMountTargetVpcArrayOutput
-	ToGetIsShareMountTargetVpcArrayOutputWithContext(context.Context) GetIsShareMountTargetVpcArrayOutput
-}
-
-type GetIsShareMountTargetVpcArray []GetIsShareMountTargetVpcInput
-
-func (GetIsShareMountTargetVpcArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVpc)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVpcArray) ToGetIsShareMountTargetVpcArrayOutput() GetIsShareMountTargetVpcArrayOutput {
-	return i.ToGetIsShareMountTargetVpcArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVpcArray) ToGetIsShareMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcArrayOutput)
-}
-
-type GetIsShareMountTargetVpcOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVpcOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVpc)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVpcOutput) ToGetIsShareMountTargetVpcOutput() GetIsShareMountTargetVpcOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVpcOutput) ToGetIsShareMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcOutput {
-	return o
-}
-
-// The CRN for this VPC.
-func (o GetIsShareMountTargetVpcOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetVpcOutput) Deleteds() GetIsShareMountTargetVpcDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpc) []GetIsShareMountTargetVpcDeleted { return v.Deleteds }).(GetIsShareMountTargetVpcDeletedArrayOutput)
-}
-
-// The URL for this VPC.
-func (o GetIsShareMountTargetVpcOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this VPC.
-func (o GetIsShareMountTargetVpcOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this VPC.
-func (o GetIsShareMountTargetVpcOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetVpcOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetVpcArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVpcArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVpc)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVpcArrayOutput) ToGetIsShareMountTargetVpcArrayOutput() GetIsShareMountTargetVpcArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVpcArrayOutput) ToGetIsShareMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVpcArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVpcOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVpc {
-		return vs[0].([]GetIsShareMountTargetVpc)[vs[1].(int)]
-	}).(GetIsShareMountTargetVpcOutput)
-}
-
-type GetIsShareMountTargetVpcDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetVpcDeletedInput is an input type that accepts GetIsShareMountTargetVpcDeletedArgs and GetIsShareMountTargetVpcDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVpcDeletedInput` via:
-//
-//	GetIsShareMountTargetVpcDeletedArgs{...}
-type GetIsShareMountTargetVpcDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVpcDeletedOutput() GetIsShareMountTargetVpcDeletedOutput
-	ToGetIsShareMountTargetVpcDeletedOutputWithContext(context.Context) GetIsShareMountTargetVpcDeletedOutput
-}
-
-type GetIsShareMountTargetVpcDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetVpcDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVpcDeletedArgs) ToGetIsShareMountTargetVpcDeletedOutput() GetIsShareMountTargetVpcDeletedOutput {
-	return i.ToGetIsShareMountTargetVpcDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVpcDeletedArgs) ToGetIsShareMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcDeletedOutput)
-}
-
-// GetIsShareMountTargetVpcDeletedArrayInput is an input type that accepts GetIsShareMountTargetVpcDeletedArray and GetIsShareMountTargetVpcDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetVpcDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetVpcDeletedArray{ GetIsShareMountTargetVpcDeletedArgs{...} }
-type GetIsShareMountTargetVpcDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetVpcDeletedArrayOutput
-	ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetVpcDeletedArrayOutput
-}
-
-type GetIsShareMountTargetVpcDeletedArray []GetIsShareMountTargetVpcDeletedInput
-
-func (GetIsShareMountTargetVpcDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetVpcDeletedArray) ToGetIsShareMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetVpcDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetVpcDeletedArray) ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetVpcDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVpcDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVpcDeletedOutput) ToGetIsShareMountTargetVpcDeletedOutput() GetIsShareMountTargetVpcDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVpcDeletedOutput) ToGetIsShareMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetVpcDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetVpcDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetVpcDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetVpcDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetVpcDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetVpcDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVpcDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVpcDeleted {
-		return vs[0].([]GetIsShareMountTargetVpcDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetVpcDeletedOutput)
-}
-
-type GetIsShareMountTargetsMountTarget struct {
-	// The access control mode for the share
-	AccessControlMode string `pulumi:"accessControlMode"`
-	// The protocol to use to access the share for this share mount target.
-	AccessProtocol string `pulumi:"accessProtocol"`
-	// The date and time that the share target was created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The URL for this share target.
-	Href string `pulumi:"href"`
-	// The unique identifier for this share target.
-	Id string `pulumi:"id"`
-	// The lifecycle state of the mount target.
-	LifecycleState string `pulumi:"lifecycleState"`
-	// The mount path for the share.The IP addresses used in the mount path are currently within the IBM services IP range, but are expected to change to be within one of the VPC's subnets in the future.
-	MountPath string `pulumi:"mountPath"`
-	// The user-defined name for this share target.
-	Name string `pulumi:"name"`
-	// The primary IP address of the virtual network interface for the share mount target.
-	PrimaryIps []GetIsShareMountTargetsMountTargetPrimaryIp `pulumi:"primaryIps"`
-	// The type of resource referenced.
-	ResourceType string `pulumi:"resourceType"`
-	// The subnet associated with this file share target.
-	Subnets           []GetIsShareMountTargetsMountTargetSubnet `pulumi:"subnets"`
-	TransitEncryption string                                    `pulumi:"transitEncryption"`
-	// The virtual network interface for this file share mount target.
-	VirtualNetworkInterfaces []GetIsShareMountTargetsMountTargetVirtualNetworkInterface `pulumi:"virtualNetworkInterfaces"`
-	// The VPC to which this share target is allowing to mount the file share.
-	Vpcs []GetIsShareMountTargetsMountTargetVpc `pulumi:"vpcs"`
-}
-
-// GetIsShareMountTargetsMountTargetInput is an input type that accepts GetIsShareMountTargetsMountTargetArgs and GetIsShareMountTargetsMountTargetOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetInput` via:
-//
-//	GetIsShareMountTargetsMountTargetArgs{...}
-type GetIsShareMountTargetsMountTargetInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetOutput() GetIsShareMountTargetsMountTargetOutput
-	ToGetIsShareMountTargetsMountTargetOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetOutput
-}
-
-type GetIsShareMountTargetsMountTargetArgs struct {
-	// The access control mode for the share
-	AccessControlMode pulumi.StringInput `pulumi:"accessControlMode"`
-	// The protocol to use to access the share for this share mount target.
-	AccessProtocol pulumi.StringInput `pulumi:"accessProtocol"`
-	// The date and time that the share target was created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The URL for this share target.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this share target.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The lifecycle state of the mount target.
-	LifecycleState pulumi.StringInput `pulumi:"lifecycleState"`
-	// The mount path for the share.The IP addresses used in the mount path are currently within the IBM services IP range, but are expected to change to be within one of the VPC's subnets in the future.
-	MountPath pulumi.StringInput `pulumi:"mountPath"`
-	// The user-defined name for this share target.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The primary IP address of the virtual network interface for the share mount target.
-	PrimaryIps GetIsShareMountTargetsMountTargetPrimaryIpArrayInput `pulumi:"primaryIps"`
-	// The type of resource referenced.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-	// The subnet associated with this file share target.
-	Subnets           GetIsShareMountTargetsMountTargetSubnetArrayInput `pulumi:"subnets"`
-	TransitEncryption pulumi.StringInput                                `pulumi:"transitEncryption"`
-	// The virtual network interface for this file share mount target.
-	VirtualNetworkInterfaces GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput `pulumi:"virtualNetworkInterfaces"`
-	// The VPC to which this share target is allowing to mount the file share.
-	Vpcs GetIsShareMountTargetsMountTargetVpcArrayInput `pulumi:"vpcs"`
-}
-
-func (GetIsShareMountTargetsMountTargetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTarget)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetArgs) ToGetIsShareMountTargetsMountTargetOutput() GetIsShareMountTargetsMountTargetOutput {
-	return i.ToGetIsShareMountTargetsMountTargetOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetArgs) ToGetIsShareMountTargetsMountTargetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetOutput)
-}
-
-// GetIsShareMountTargetsMountTargetArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetArray and GetIsShareMountTargetsMountTargetArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetArray{ GetIsShareMountTargetsMountTargetArgs{...} }
-type GetIsShareMountTargetsMountTargetArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetArrayOutput() GetIsShareMountTargetsMountTargetArrayOutput
-	ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetArray []GetIsShareMountTargetsMountTargetInput
-
-func (GetIsShareMountTargetsMountTargetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTarget)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetArray) ToGetIsShareMountTargetsMountTargetArrayOutput() GetIsShareMountTargetsMountTargetArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetArray) ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTarget)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetOutput) ToGetIsShareMountTargetsMountTargetOutput() GetIsShareMountTargetsMountTargetOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetOutput) ToGetIsShareMountTargetsMountTargetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetOutput {
-	return o
-}
-
-// The access control mode for the share
-func (o GetIsShareMountTargetsMountTargetOutput) AccessControlMode() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.AccessControlMode }).(pulumi.StringOutput)
-}
-
-// The protocol to use to access the share for this share mount target.
-func (o GetIsShareMountTargetsMountTargetOutput) AccessProtocol() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.AccessProtocol }).(pulumi.StringOutput)
-}
-
-// The date and time that the share target was created.
-func (o GetIsShareMountTargetsMountTargetOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The URL for this share target.
-func (o GetIsShareMountTargetsMountTargetOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this share target.
-func (o GetIsShareMountTargetsMountTargetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The lifecycle state of the mount target.
-func (o GetIsShareMountTargetsMountTargetOutput) LifecycleState() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.LifecycleState }).(pulumi.StringOutput)
-}
-
-// The mount path for the share.The IP addresses used in the mount path are currently within the IBM services IP range, but are expected to change to be within one of the VPC's subnets in the future.
-func (o GetIsShareMountTargetsMountTargetOutput) MountPath() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.MountPath }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this share target.
-func (o GetIsShareMountTargetsMountTargetOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The primary IP address of the virtual network interface for the share mount target.
-func (o GetIsShareMountTargetsMountTargetOutput) PrimaryIps() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetPrimaryIp {
-		return v.PrimaryIps
-	}).(GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput)
-}
-
-// The type of resource referenced.
-func (o GetIsShareMountTargetsMountTargetOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-// The subnet associated with this file share target.
-func (o GetIsShareMountTargetsMountTargetOutput) Subnets() GetIsShareMountTargetsMountTargetSubnetArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetSubnet { return v.Subnets }).(GetIsShareMountTargetsMountTargetSubnetArrayOutput)
-}
-
-func (o GetIsShareMountTargetsMountTargetOutput) TransitEncryption() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.TransitEncryption }).(pulumi.StringOutput)
-}
-
-// The virtual network interface for this file share mount target.
-func (o GetIsShareMountTargetsMountTargetOutput) VirtualNetworkInterfaces() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetVirtualNetworkInterface {
-		return v.VirtualNetworkInterfaces
-	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput)
-}
-
-// The VPC to which this share target is allowing to mount the file share.
-func (o GetIsShareMountTargetsMountTargetOutput) Vpcs() GetIsShareMountTargetsMountTargetVpcArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetVpc { return v.Vpcs }).(GetIsShareMountTargetsMountTargetVpcArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTarget)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetArrayOutput) ToGetIsShareMountTargetsMountTargetArrayOutput() GetIsShareMountTargetsMountTargetArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetArrayOutput) ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTarget {
-		return vs[0].([]GetIsShareMountTargetsMountTarget)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetOutput)
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIp struct {
-	// The IP address..
-	Address string `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetsMountTargetPrimaryIpDeleted `pulumi:"deleteds"`
-	// The URL for this reserved IP.
-	Href string `pulumi:"href"`
-	// The unique identifier for this reserved IP.
-	Id string `pulumi:"id"`
-	// The user-defined name for this reserved IP.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetsMountTargetPrimaryIpInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpArgs and GetIsShareMountTargetsMountTargetPrimaryIpOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpInput` via:
-//
-//	GetIsShareMountTargetsMountTargetPrimaryIpArgs{...}
-type GetIsShareMountTargetsMountTargetPrimaryIpInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetPrimaryIpOutput() GetIsShareMountTargetsMountTargetPrimaryIpOutput
-	ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpOutput
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpArgs struct {
-	// The IP address..
-	Address pulumi.StringInput `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this reserved IP.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this reserved IP.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this reserved IP.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpOutput() GetIsShareMountTargetsMountTargetPrimaryIpOutput {
-	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpOutput)
-}
-
-// GetIsShareMountTargetsMountTargetPrimaryIpArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpArray and GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetPrimaryIpArray{ GetIsShareMountTargetsMountTargetPrimaryIpArgs{...} }
-type GetIsShareMountTargetsMountTargetPrimaryIpArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput
-	ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpArray []GetIsShareMountTargetsMountTargetPrimaryIpInput
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpArray) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpArray) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpOutput() GetIsShareMountTargetsMountTargetPrimaryIpOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpOutput {
-	return o
-}
-
-// The IP address..
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Address() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Address }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Deleteds() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) []GetIsShareMountTargetsMountTargetPrimaryIpDeleted {
-		return v.Deleteds
-	}).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput)
-}
-
-// The URL for this reserved IP.
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this reserved IP.
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this reserved IP.
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetPrimaryIpOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetPrimaryIp {
-		return vs[0].([]GetIsShareMountTargetsMountTargetPrimaryIp)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetPrimaryIpOutput)
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs and GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput` via:
-//
-//	GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs{...}
-type GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput
-	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
-	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput)
-}
-
-// GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray and GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray{ GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs{...} }
-type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput
-	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray []GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIpDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetPrimaryIpDeleted {
-		return vs[0].([]GetIsShareMountTargetsMountTargetPrimaryIpDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput)
-}
-
-type GetIsShareMountTargetsMountTargetSubnet struct {
-	// The CRN for this subnet.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetsMountTargetSubnetDeleted `pulumi:"deleteds"`
-	// The URL for this subnet.
-	Href string `pulumi:"href"`
-	// The unique identifier for this subnet.
-	Id string `pulumi:"id"`
-	// The user-defined name for this subnet.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetsMountTargetSubnetInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetArgs and GetIsShareMountTargetsMountTargetSubnetOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetInput` via:
-//
-//	GetIsShareMountTargetsMountTargetSubnetArgs{...}
-type GetIsShareMountTargetsMountTargetSubnetInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetSubnetOutput() GetIsShareMountTargetsMountTargetSubnetOutput
-	ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetOutput
-}
-
-type GetIsShareMountTargetsMountTargetSubnetArgs struct {
-	// The CRN for this subnet.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this subnet.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this subnet.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this subnet.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetsMountTargetSubnetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetArgs) ToGetIsShareMountTargetsMountTargetSubnetOutput() GetIsShareMountTargetsMountTargetSubnetOutput {
-	return i.ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetArgs) ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetOutput)
-}
-
-// GetIsShareMountTargetsMountTargetSubnetArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetArray and GetIsShareMountTargetsMountTargetSubnetArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetSubnetArray{ GetIsShareMountTargetsMountTargetSubnetArgs{...} }
-type GetIsShareMountTargetsMountTargetSubnetArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetSubnetArrayOutput() GetIsShareMountTargetsMountTargetSubnetArrayOutput
-	ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetSubnetArray []GetIsShareMountTargetsMountTargetSubnetInput
-
-func (GetIsShareMountTargetsMountTargetSubnetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetArray) ToGetIsShareMountTargetsMountTargetSubnetArrayOutput() GetIsShareMountTargetsMountTargetSubnetArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetArray) ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetSubnetOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetSubnetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) ToGetIsShareMountTargetsMountTargetSubnetOutput() GetIsShareMountTargetsMountTargetSubnetOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetOutput {
-	return o
-}
-
-// The CRN for this subnet.
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) Deleteds() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) []GetIsShareMountTargetsMountTargetSubnetDeleted {
-		return v.Deleteds
-	}).(GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput)
-}
-
-// The URL for this subnet.
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this subnet.
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this subnet.
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetsMountTargetSubnetOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetSubnetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetSubnetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetArrayOutput() GetIsShareMountTargetsMountTargetSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetSubnetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetSubnet {
-		return vs[0].([]GetIsShareMountTargetsMountTargetSubnet)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetSubnetOutput)
-}
-
-type GetIsShareMountTargetsMountTargetSubnetDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetsMountTargetSubnetDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetDeletedArgs and GetIsShareMountTargetsMountTargetSubnetDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetDeletedInput` via:
-//
-//	GetIsShareMountTargetsMountTargetSubnetDeletedArgs{...}
-type GetIsShareMountTargetsMountTargetSubnetDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetSubnetDeletedOutput() GetIsShareMountTargetsMountTargetSubnetDeletedOutput
-	ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedOutput
-}
-
-type GetIsShareMountTargetsMountTargetSubnetDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetsMountTargetSubnetDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutput() GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
-	return i.ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetDeletedOutput)
-}
-
-// GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetDeletedArray and GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetSubnetDeletedArray{ GetIsShareMountTargetsMountTargetSubnetDeletedArgs{...} }
-type GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput
-	ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetSubnetDeletedArray []GetIsShareMountTargetsMountTargetSubnetDeletedInput
-
-func (GetIsShareMountTargetsMountTargetSubnetDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetDeletedArray) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetSubnetDeletedArray) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetSubnetDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetSubnetDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutput() GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetsMountTargetSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetSubnetDeleted {
-		return vs[0].([]GetIsShareMountTargetsMountTargetSubnetDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetSubnetDeletedOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterface struct {
-	// The CRN for this virtual network interface.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted `pulumi:"deleteds"`
-	// The URL for this virtual network interface.
-	Href string `pulumi:"href"`
-	// The unique identifier for this virtual network interface.
-	Id string `pulumi:"id"`
-	// The unique user-defined name for this virtual network interface.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs{...}
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs struct {
-	// The CRN for this virtual network interface.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this virtual network interface.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this virtual network interface.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The unique user-defined name for this virtual network interface.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput)
-}
-
-// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray{ GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs{...} }
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
-	return o
-}
-
-// The CRN for this virtual network interface.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Deleteds() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted {
-		return v.Deleteds
-	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
-}
-
-// The URL for this virtual network interface.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this virtual network interface.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this virtual network interface.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVirtualNetworkInterface {
-		return vs[0].([]GetIsShareMountTargetsMountTargetVirtualNetworkInterface)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs{...}
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput)
-}
-
-// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray{ GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs{...} }
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput
-	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted {
-		return vs[0].([]GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVpc struct {
-	// The CRN for this VPC.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsShareMountTargetsMountTargetVpcDeleted `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href string `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id string `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareMountTargetsMountTargetVpcInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcArgs and GetIsShareMountTargetsMountTargetVpcOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVpcArgs{...}
-type GetIsShareMountTargetsMountTargetVpcInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVpcOutput() GetIsShareMountTargetsMountTargetVpcOutput
-	ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcOutput
-}
-
-type GetIsShareMountTargetsMountTargetVpcArgs struct {
-	// The CRN for this VPC.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsShareMountTargetsMountTargetVpcDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareMountTargetsMountTargetVpcArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcArgs) ToGetIsShareMountTargetsMountTargetVpcOutput() GetIsShareMountTargetsMountTargetVpcOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcArgs) ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcOutput)
-}
-
-// GetIsShareMountTargetsMountTargetVpcArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcArray and GetIsShareMountTargetsMountTargetVpcArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVpcArray{ GetIsShareMountTargetsMountTargetVpcArgs{...} }
-type GetIsShareMountTargetsMountTargetVpcArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVpcArrayOutput() GetIsShareMountTargetsMountTargetVpcArrayOutput
-	ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetVpcArray []GetIsShareMountTargetsMountTargetVpcInput
-
-func (GetIsShareMountTargetsMountTargetVpcArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcArray) ToGetIsShareMountTargetsMountTargetVpcArrayOutput() GetIsShareMountTargetsMountTargetVpcArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcArray) ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVpcOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVpcOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcOutput) ToGetIsShareMountTargetsMountTargetVpcOutput() GetIsShareMountTargetsMountTargetVpcOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcOutput) ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcOutput {
-	return o
-}
-
-// The CRN for this VPC.
-func (o GetIsShareMountTargetsMountTargetVpcOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsShareMountTargetsMountTargetVpcOutput) Deleteds() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) []GetIsShareMountTargetsMountTargetVpcDeleted {
-		return v.Deleteds
-	}).(GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput)
-}
-
-// The URL for this VPC.
-func (o GetIsShareMountTargetsMountTargetVpcOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this VPC.
-func (o GetIsShareMountTargetsMountTargetVpcOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this VPC.
-func (o GetIsShareMountTargetsMountTargetVpcOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareMountTargetsMountTargetVpcOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVpcArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVpcArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcArrayOutput) ToGetIsShareMountTargetsMountTargetVpcArrayOutput() GetIsShareMountTargetsMountTargetVpcArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcArrayOutput) ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVpcOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVpc {
-		return vs[0].([]GetIsShareMountTargetsMountTargetVpc)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetVpcOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVpcDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareMountTargetsMountTargetVpcDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcDeletedArgs and GetIsShareMountTargetsMountTargetVpcDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcDeletedInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVpcDeletedArgs{...}
-type GetIsShareMountTargetsMountTargetVpcDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVpcDeletedOutput() GetIsShareMountTargetsMountTargetVpcDeletedOutput
-	ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcDeletedOutput
-}
-
-type GetIsShareMountTargetsMountTargetVpcDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareMountTargetsMountTargetVpcDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcDeletedArgs) ToGetIsShareMountTargetsMountTargetVpcDeletedOutput() GetIsShareMountTargetsMountTargetVpcDeletedOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcDeletedArgs) ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcDeletedOutput)
-}
-
-// GetIsShareMountTargetsMountTargetVpcDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcDeletedArray and GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcDeletedArrayInput` via:
-//
-//	GetIsShareMountTargetsMountTargetVpcDeletedArray{ GetIsShareMountTargetsMountTargetVpcDeletedArgs{...} }
-type GetIsShareMountTargetsMountTargetVpcDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput
-	ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput
-}
-
-type GetIsShareMountTargetsMountTargetVpcDeletedArray []GetIsShareMountTargetsMountTargetVpcDeletedInput
-
-func (GetIsShareMountTargetsMountTargetVpcDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcDeletedArray) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
-	return i.ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareMountTargetsMountTargetVpcDeletedArray) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVpcDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVpcDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcDeletedOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedOutput() GetIsShareMountTargetsMountTargetVpcDeletedOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcDeletedOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareMountTargetsMountTargetVpcDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpcDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVpcDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVpcDeleted {
-		return vs[0].([]GetIsShareMountTargetsMountTargetVpcDeleted)[vs[1].(int)]
-	}).(GetIsShareMountTargetsMountTargetVpcDeletedOutput)
-}
-
-type GetIsShareOriginShare struct {
-	// The CRN for this file share.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds []GetIsShareOriginShareDeleted `pulumi:"deleteds"`
-	// The URL for this file share.
-	Href string `pulumi:"href"`
-	// The unique identifier for this file share.
-	Id string `pulumi:"id"`
-	// The name for this share. The name is unique across all shares in the region.
-	Name string `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes []GetIsShareOriginShareRemote `pulumi:"remotes"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareOriginShareInput is an input type that accepts GetIsShareOriginShareArgs and GetIsShareOriginShareOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareInput` via:
-//
-//	GetIsShareOriginShareArgs{...}
-type GetIsShareOriginShareInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareOutput() GetIsShareOriginShareOutput
-	ToGetIsShareOriginShareOutputWithContext(context.Context) GetIsShareOriginShareOutput
-}
-
-type GetIsShareOriginShareArgs struct {
-	// The CRN for this file share.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds GetIsShareOriginShareDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this file share.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this file share.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The name for this share. The name is unique across all shares in the region.
-	Name pulumi.StringInput `pulumi:"name"`
-	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-	Remotes GetIsShareOriginShareRemoteArrayInput `pulumi:"remotes"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareOriginShareArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShare)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareArgs) ToGetIsShareOriginShareOutput() GetIsShareOriginShareOutput {
-	return i.ToGetIsShareOriginShareOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareArgs) ToGetIsShareOriginShareOutputWithContext(ctx context.Context) GetIsShareOriginShareOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareOutput)
-}
-
-// GetIsShareOriginShareArrayInput is an input type that accepts GetIsShareOriginShareArray and GetIsShareOriginShareArrayOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareArrayInput` via:
-//
-//	GetIsShareOriginShareArray{ GetIsShareOriginShareArgs{...} }
-type GetIsShareOriginShareArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareArrayOutput() GetIsShareOriginShareArrayOutput
-	ToGetIsShareOriginShareArrayOutputWithContext(context.Context) GetIsShareOriginShareArrayOutput
-}
-
-type GetIsShareOriginShareArray []GetIsShareOriginShareInput
-
-func (GetIsShareOriginShareArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShare)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareArray) ToGetIsShareOriginShareArrayOutput() GetIsShareOriginShareArrayOutput {
-	return i.ToGetIsShareOriginShareArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareArray) ToGetIsShareOriginShareArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareArrayOutput)
-}
-
-type GetIsShareOriginShareOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShare)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareOutput) ToGetIsShareOriginShareOutput() GetIsShareOriginShareOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareOutput) ToGetIsShareOriginShareOutputWithContext(ctx context.Context) GetIsShareOriginShareOutput {
-	return o
-}
-
-// The CRN for this file share.
-func (o GetIsShareOriginShareOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-func (o GetIsShareOriginShareOutput) Deleteds() GetIsShareOriginShareDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) []GetIsShareOriginShareDeleted { return v.Deleteds }).(GetIsShareOriginShareDeletedArrayOutput)
-}
-
-// The URL for this file share.
-func (o GetIsShareOriginShareOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this file share.
-func (o GetIsShareOriginShareOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The name for this share. The name is unique across all shares in the region.
-func (o GetIsShareOriginShareOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
-func (o GetIsShareOriginShareOutput) Remotes() GetIsShareOriginShareRemoteArrayOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) []GetIsShareOriginShareRemote { return v.Remotes }).(GetIsShareOriginShareRemoteArrayOutput)
-}
-
-// The resource type.
-func (o GetIsShareOriginShareOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareOriginShareArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShare)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareArrayOutput) ToGetIsShareOriginShareArrayOutput() GetIsShareOriginShareArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareArrayOutput) ToGetIsShareOriginShareArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShare {
-		return vs[0].([]GetIsShareOriginShare)[vs[1].(int)]
-	}).(GetIsShareOriginShareOutput)
-}
-
-type GetIsShareOriginShareDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsShareOriginShareDeletedInput is an input type that accepts GetIsShareOriginShareDeletedArgs and GetIsShareOriginShareDeletedOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareDeletedInput` via:
-//
-//	GetIsShareOriginShareDeletedArgs{...}
-type GetIsShareOriginShareDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareDeletedOutput() GetIsShareOriginShareDeletedOutput
-	ToGetIsShareOriginShareDeletedOutputWithContext(context.Context) GetIsShareOriginShareDeletedOutput
-}
-
-type GetIsShareOriginShareDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsShareOriginShareDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareDeletedArgs) ToGetIsShareOriginShareDeletedOutput() GetIsShareOriginShareDeletedOutput {
-	return i.ToGetIsShareOriginShareDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareDeletedArgs) ToGetIsShareOriginShareDeletedOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareDeletedOutput)
-}
-
-// GetIsShareOriginShareDeletedArrayInput is an input type that accepts GetIsShareOriginShareDeletedArray and GetIsShareOriginShareDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareDeletedArrayInput` via:
-//
-//	GetIsShareOriginShareDeletedArray{ GetIsShareOriginShareDeletedArgs{...} }
-type GetIsShareOriginShareDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareDeletedArrayOutput() GetIsShareOriginShareDeletedArrayOutput
-	ToGetIsShareOriginShareDeletedArrayOutputWithContext(context.Context) GetIsShareOriginShareDeletedArrayOutput
-}
-
-type GetIsShareOriginShareDeletedArray []GetIsShareOriginShareDeletedInput
-
-func (GetIsShareOriginShareDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareDeleted)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareDeletedArray) ToGetIsShareOriginShareDeletedArrayOutput() GetIsShareOriginShareDeletedArrayOutput {
-	return i.ToGetIsShareOriginShareDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareDeletedArray) ToGetIsShareOriginShareDeletedArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareDeletedArrayOutput)
-}
-
-type GetIsShareOriginShareDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareDeletedOutput) ToGetIsShareOriginShareDeletedOutput() GetIsShareOriginShareDeletedOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareDeletedOutput) ToGetIsShareOriginShareDeletedOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsShareOriginShareDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsShareOriginShareDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareDeleted)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareDeletedArrayOutput) ToGetIsShareOriginShareDeletedArrayOutput() GetIsShareOriginShareDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareDeletedArrayOutput) ToGetIsShareOriginShareDeletedArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareDeleted {
-		return vs[0].([]GetIsShareOriginShareDeleted)[vs[1].(int)]
-	}).(GetIsShareOriginShareDeletedOutput)
-}
-
-type GetIsShareOriginShareRemote struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts []GetIsShareOriginShareRemoteAccount `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions []GetIsShareOriginShareRemoteRegion `pulumi:"regions"`
-}
-
-// GetIsShareOriginShareRemoteInput is an input type that accepts GetIsShareOriginShareRemoteArgs and GetIsShareOriginShareRemoteOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareRemoteInput` via:
-//
-//	GetIsShareOriginShareRemoteArgs{...}
-type GetIsShareOriginShareRemoteInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareRemoteOutput() GetIsShareOriginShareRemoteOutput
-	ToGetIsShareOriginShareRemoteOutputWithContext(context.Context) GetIsShareOriginShareRemoteOutput
-}
-
-type GetIsShareOriginShareRemoteArgs struct {
-	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-	Accounts GetIsShareOriginShareRemoteAccountArrayInput `pulumi:"accounts"`
-	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-	Regions GetIsShareOriginShareRemoteRegionArrayInput `pulumi:"regions"`
-}
-
-func (GetIsShareOriginShareRemoteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareRemote)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareRemoteArgs) ToGetIsShareOriginShareRemoteOutput() GetIsShareOriginShareRemoteOutput {
-	return i.ToGetIsShareOriginShareRemoteOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareRemoteArgs) ToGetIsShareOriginShareRemoteOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteOutput)
-}
-
-// GetIsShareOriginShareRemoteArrayInput is an input type that accepts GetIsShareOriginShareRemoteArray and GetIsShareOriginShareRemoteArrayOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareRemoteArrayInput` via:
-//
-//	GetIsShareOriginShareRemoteArray{ GetIsShareOriginShareRemoteArgs{...} }
-type GetIsShareOriginShareRemoteArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareRemoteArrayOutput() GetIsShareOriginShareRemoteArrayOutput
-	ToGetIsShareOriginShareRemoteArrayOutputWithContext(context.Context) GetIsShareOriginShareRemoteArrayOutput
-}
-
-type GetIsShareOriginShareRemoteArray []GetIsShareOriginShareRemoteInput
-
-func (GetIsShareOriginShareRemoteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareRemote)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareRemoteArray) ToGetIsShareOriginShareRemoteArrayOutput() GetIsShareOriginShareRemoteArrayOutput {
-	return i.ToGetIsShareOriginShareRemoteArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareRemoteArray) ToGetIsShareOriginShareRemoteArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteArrayOutput)
-}
-
-type GetIsShareOriginShareRemoteOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareRemoteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareRemote)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareRemoteOutput) ToGetIsShareOriginShareRemoteOutput() GetIsShareOriginShareRemoteOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteOutput) ToGetIsShareOriginShareRemoteOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteOutput {
-	return o
-}
-
-// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
-func (o GetIsShareOriginShareRemoteOutput) Accounts() GetIsShareOriginShareRemoteAccountArrayOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareRemote) []GetIsShareOriginShareRemoteAccount { return v.Accounts }).(GetIsShareOriginShareRemoteAccountArrayOutput)
-}
-
-// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
-func (o GetIsShareOriginShareRemoteOutput) Regions() GetIsShareOriginShareRemoteRegionArrayOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareRemote) []GetIsShareOriginShareRemoteRegion { return v.Regions }).(GetIsShareOriginShareRemoteRegionArrayOutput)
-}
-
-type GetIsShareOriginShareRemoteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareRemoteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareRemote)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareRemoteArrayOutput) ToGetIsShareOriginShareRemoteArrayOutput() GetIsShareOriginShareRemoteArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteArrayOutput) ToGetIsShareOriginShareRemoteArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareRemoteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareRemote {
-		return vs[0].([]GetIsShareOriginShareRemote)[vs[1].(int)]
-	}).(GetIsShareOriginShareRemoteOutput)
-}
-
-type GetIsShareOriginShareRemoteAccount struct {
-	// The unique identifier for this account.
-	Id string `pulumi:"id"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsShareOriginShareRemoteAccountInput is an input type that accepts GetIsShareOriginShareRemoteAccountArgs and GetIsShareOriginShareRemoteAccountOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareRemoteAccountInput` via:
-//
-//	GetIsShareOriginShareRemoteAccountArgs{...}
-type GetIsShareOriginShareRemoteAccountInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareRemoteAccountOutput() GetIsShareOriginShareRemoteAccountOutput
-	ToGetIsShareOriginShareRemoteAccountOutputWithContext(context.Context) GetIsShareOriginShareRemoteAccountOutput
-}
-
-type GetIsShareOriginShareRemoteAccountArgs struct {
-	// The unique identifier for this account.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsShareOriginShareRemoteAccountArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareRemoteAccount)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareRemoteAccountArgs) ToGetIsShareOriginShareRemoteAccountOutput() GetIsShareOriginShareRemoteAccountOutput {
-	return i.ToGetIsShareOriginShareRemoteAccountOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareRemoteAccountArgs) ToGetIsShareOriginShareRemoteAccountOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteAccountOutput)
-}
-
-// GetIsShareOriginShareRemoteAccountArrayInput is an input type that accepts GetIsShareOriginShareRemoteAccountArray and GetIsShareOriginShareRemoteAccountArrayOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareRemoteAccountArrayInput` via:
-//
-//	GetIsShareOriginShareRemoteAccountArray{ GetIsShareOriginShareRemoteAccountArgs{...} }
-type GetIsShareOriginShareRemoteAccountArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareRemoteAccountArrayOutput() GetIsShareOriginShareRemoteAccountArrayOutput
-	ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(context.Context) GetIsShareOriginShareRemoteAccountArrayOutput
-}
-
-type GetIsShareOriginShareRemoteAccountArray []GetIsShareOriginShareRemoteAccountInput
-
-func (GetIsShareOriginShareRemoteAccountArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteAccount)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareRemoteAccountArray) ToGetIsShareOriginShareRemoteAccountArrayOutput() GetIsShareOriginShareRemoteAccountArrayOutput {
-	return i.ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareRemoteAccountArray) ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteAccountArrayOutput)
-}
-
-type GetIsShareOriginShareRemoteAccountOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareRemoteAccountOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareRemoteAccount)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareRemoteAccountOutput) ToGetIsShareOriginShareRemoteAccountOutput() GetIsShareOriginShareRemoteAccountOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteAccountOutput) ToGetIsShareOriginShareRemoteAccountOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountOutput {
-	return o
-}
-
-// The unique identifier for this account.
-func (o GetIsShareOriginShareRemoteAccountOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareRemoteAccount) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsShareOriginShareRemoteAccountOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareRemoteAccount) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsShareOriginShareRemoteAccountArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareRemoteAccountArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteAccount)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareRemoteAccountArrayOutput) ToGetIsShareOriginShareRemoteAccountArrayOutput() GetIsShareOriginShareRemoteAccountArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteAccountArrayOutput) ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteAccountArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareRemoteAccountOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareRemoteAccount {
-		return vs[0].([]GetIsShareOriginShareRemoteAccount)[vs[1].(int)]
-	}).(GetIsShareOriginShareRemoteAccountOutput)
-}
-
-type GetIsShareOriginShareRemoteRegion struct {
-	// The URL for this region.
-	Href string `pulumi:"href"`
-	// The globally unique name for this region.
-	Name string `pulumi:"name"`
-}
-
-// GetIsShareOriginShareRemoteRegionInput is an input type that accepts GetIsShareOriginShareRemoteRegionArgs and GetIsShareOriginShareRemoteRegionOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareRemoteRegionInput` via:
-//
-//	GetIsShareOriginShareRemoteRegionArgs{...}
-type GetIsShareOriginShareRemoteRegionInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareRemoteRegionOutput() GetIsShareOriginShareRemoteRegionOutput
-	ToGetIsShareOriginShareRemoteRegionOutputWithContext(context.Context) GetIsShareOriginShareRemoteRegionOutput
-}
-
-type GetIsShareOriginShareRemoteRegionArgs struct {
-	// The URL for this region.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The globally unique name for this region.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsShareOriginShareRemoteRegionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareRemoteRegion)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareRemoteRegionArgs) ToGetIsShareOriginShareRemoteRegionOutput() GetIsShareOriginShareRemoteRegionOutput {
-	return i.ToGetIsShareOriginShareRemoteRegionOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareRemoteRegionArgs) ToGetIsShareOriginShareRemoteRegionOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteRegionOutput)
-}
-
-// GetIsShareOriginShareRemoteRegionArrayInput is an input type that accepts GetIsShareOriginShareRemoteRegionArray and GetIsShareOriginShareRemoteRegionArrayOutput values.
-// You can construct a concrete instance of `GetIsShareOriginShareRemoteRegionArrayInput` via:
-//
-//	GetIsShareOriginShareRemoteRegionArray{ GetIsShareOriginShareRemoteRegionArgs{...} }
-type GetIsShareOriginShareRemoteRegionArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareOriginShareRemoteRegionArrayOutput() GetIsShareOriginShareRemoteRegionArrayOutput
-	ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(context.Context) GetIsShareOriginShareRemoteRegionArrayOutput
-}
-
-type GetIsShareOriginShareRemoteRegionArray []GetIsShareOriginShareRemoteRegionInput
-
-func (GetIsShareOriginShareRemoteRegionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteRegion)(nil)).Elem()
-}
-
-func (i GetIsShareOriginShareRemoteRegionArray) ToGetIsShareOriginShareRemoteRegionArrayOutput() GetIsShareOriginShareRemoteRegionArrayOutput {
-	return i.ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareOriginShareRemoteRegionArray) ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteRegionArrayOutput)
-}
-
-type GetIsShareOriginShareRemoteRegionOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareRemoteRegionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareOriginShareRemoteRegion)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareRemoteRegionOutput) ToGetIsShareOriginShareRemoteRegionOutput() GetIsShareOriginShareRemoteRegionOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteRegionOutput) ToGetIsShareOriginShareRemoteRegionOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionOutput {
-	return o
-}
-
-// The URL for this region.
-func (o GetIsShareOriginShareRemoteRegionOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareRemoteRegion) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The globally unique name for this region.
-func (o GetIsShareOriginShareRemoteRegionOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareOriginShareRemoteRegion) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsShareOriginShareRemoteRegionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareOriginShareRemoteRegionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteRegion)(nil)).Elem()
-}
-
-func (o GetIsShareOriginShareRemoteRegionArrayOutput) ToGetIsShareOriginShareRemoteRegionArrayOutput() GetIsShareOriginShareRemoteRegionArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteRegionArrayOutput) ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionArrayOutput {
-	return o
-}
-
-func (o GetIsShareOriginShareRemoteRegionArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareRemoteRegionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareRemoteRegion {
-		return vs[0].([]GetIsShareOriginShareRemoteRegion)[vs[1].(int)]
-	}).(GetIsShareOriginShareRemoteRegionOutput)
-}
-
-type GetIsShareProfileAllowedAccessProtocol struct {
-	// The default allowed access protocol modes for shares with this profile.
-	Defaults []string `pulumi:"defaults"`
-	// The type for this profile field.
-	Type string `pulumi:"type"`
-	// The possible allowed access protocols for shares with this profile.
-	Values []string `pulumi:"values"`
-}
-
-// GetIsShareProfileAllowedAccessProtocolInput is an input type that accepts GetIsShareProfileAllowedAccessProtocolArgs and GetIsShareProfileAllowedAccessProtocolOutput values.
-// You can construct a concrete instance of `GetIsShareProfileAllowedAccessProtocolInput` via:
-//
-//	GetIsShareProfileAllowedAccessProtocolArgs{...}
-type GetIsShareProfileAllowedAccessProtocolInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileAllowedAccessProtocolOutput() GetIsShareProfileAllowedAccessProtocolOutput
-	ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(context.Context) GetIsShareProfileAllowedAccessProtocolOutput
-}
-
-type GetIsShareProfileAllowedAccessProtocolArgs struct {
-	// The default allowed access protocol modes for shares with this profile.
-	Defaults pulumi.StringArrayInput `pulumi:"defaults"`
-	// The type for this profile field.
-	Type pulumi.StringInput `pulumi:"type"`
-	// The possible allowed access protocols for shares with this profile.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetIsShareProfileAllowedAccessProtocolArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
-}
-
-func (i GetIsShareProfileAllowedAccessProtocolArgs) ToGetIsShareProfileAllowedAccessProtocolOutput() GetIsShareProfileAllowedAccessProtocolOutput {
-	return i.ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileAllowedAccessProtocolArgs) ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedAccessProtocolOutput)
-}
-
-// GetIsShareProfileAllowedAccessProtocolArrayInput is an input type that accepts GetIsShareProfileAllowedAccessProtocolArray and GetIsShareProfileAllowedAccessProtocolArrayOutput values.
-// You can construct a concrete instance of `GetIsShareProfileAllowedAccessProtocolArrayInput` via:
-//
-//	GetIsShareProfileAllowedAccessProtocolArray{ GetIsShareProfileAllowedAccessProtocolArgs{...} }
-type GetIsShareProfileAllowedAccessProtocolArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileAllowedAccessProtocolArrayOutput() GetIsShareProfileAllowedAccessProtocolArrayOutput
-	ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(context.Context) GetIsShareProfileAllowedAccessProtocolArrayOutput
-}
-
-type GetIsShareProfileAllowedAccessProtocolArray []GetIsShareProfileAllowedAccessProtocolInput
-
-func (GetIsShareProfileAllowedAccessProtocolArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
-}
-
-func (i GetIsShareProfileAllowedAccessProtocolArray) ToGetIsShareProfileAllowedAccessProtocolArrayOutput() GetIsShareProfileAllowedAccessProtocolArrayOutput {
-	return i.ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileAllowedAccessProtocolArray) ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedAccessProtocolArrayOutput)
-}
-
-type GetIsShareProfileAllowedAccessProtocolOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileAllowedAccessProtocolOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
-}
-
-func (o GetIsShareProfileAllowedAccessProtocolOutput) ToGetIsShareProfileAllowedAccessProtocolOutput() GetIsShareProfileAllowedAccessProtocolOutput {
-	return o
-}
-
-func (o GetIsShareProfileAllowedAccessProtocolOutput) ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolOutput {
-	return o
-}
-
-// The default allowed access protocol modes for shares with this profile.
-func (o GetIsShareProfileAllowedAccessProtocolOutput) Defaults() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsShareProfileAllowedAccessProtocol) []string { return v.Defaults }).(pulumi.StringArrayOutput)
-}
-
-// The type for this profile field.
-func (o GetIsShareProfileAllowedAccessProtocolOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareProfileAllowedAccessProtocol) string { return v.Type }).(pulumi.StringOutput)
-}
-
-// The possible allowed access protocols for shares with this profile.
-func (o GetIsShareProfileAllowedAccessProtocolOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsShareProfileAllowedAccessProtocol) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetIsShareProfileAllowedAccessProtocolArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileAllowedAccessProtocolArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
-}
-
-func (o GetIsShareProfileAllowedAccessProtocolArrayOutput) ToGetIsShareProfileAllowedAccessProtocolArrayOutput() GetIsShareProfileAllowedAccessProtocolArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileAllowedAccessProtocolArrayOutput) ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileAllowedAccessProtocolArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileAllowedAccessProtocolOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileAllowedAccessProtocol {
-		return vs[0].([]GetIsShareProfileAllowedAccessProtocol)[vs[1].(int)]
-	}).(GetIsShareProfileAllowedAccessProtocolOutput)
-}
-
-type GetIsShareProfileAllowedTransitEncryptionMode struct {
-	// The default allowed transit encryption modes for shares with this profile.
-	Defaults []string `pulumi:"defaults"`
-	// The type for this profile field.
-	Type string `pulumi:"type"`
-	// The allowed transit encryption modes for a share with this profile
-	Values []string `pulumi:"values"`
-}
-
-// GetIsShareProfileAllowedTransitEncryptionModeInput is an input type that accepts GetIsShareProfileAllowedTransitEncryptionModeArgs and GetIsShareProfileAllowedTransitEncryptionModeOutput values.
-// You can construct a concrete instance of `GetIsShareProfileAllowedTransitEncryptionModeInput` via:
-//
-//	GetIsShareProfileAllowedTransitEncryptionModeArgs{...}
-type GetIsShareProfileAllowedTransitEncryptionModeInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileAllowedTransitEncryptionModeOutput() GetIsShareProfileAllowedTransitEncryptionModeOutput
-	ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(context.Context) GetIsShareProfileAllowedTransitEncryptionModeOutput
-}
-
-type GetIsShareProfileAllowedTransitEncryptionModeArgs struct {
-	// The default allowed transit encryption modes for shares with this profile.
-	Defaults pulumi.StringArrayInput `pulumi:"defaults"`
-	// The type for this profile field.
-	Type pulumi.StringInput `pulumi:"type"`
-	// The allowed transit encryption modes for a share with this profile
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetIsShareProfileAllowedTransitEncryptionModeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
-}
-
-func (i GetIsShareProfileAllowedTransitEncryptionModeArgs) ToGetIsShareProfileAllowedTransitEncryptionModeOutput() GetIsShareProfileAllowedTransitEncryptionModeOutput {
-	return i.ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileAllowedTransitEncryptionModeArgs) ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedTransitEncryptionModeOutput)
-}
-
-// GetIsShareProfileAllowedTransitEncryptionModeArrayInput is an input type that accepts GetIsShareProfileAllowedTransitEncryptionModeArray and GetIsShareProfileAllowedTransitEncryptionModeArrayOutput values.
-// You can construct a concrete instance of `GetIsShareProfileAllowedTransitEncryptionModeArrayInput` via:
-//
-//	GetIsShareProfileAllowedTransitEncryptionModeArray{ GetIsShareProfileAllowedTransitEncryptionModeArgs{...} }
-type GetIsShareProfileAllowedTransitEncryptionModeArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutput() GetIsShareProfileAllowedTransitEncryptionModeArrayOutput
-	ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(context.Context) GetIsShareProfileAllowedTransitEncryptionModeArrayOutput
-}
-
-type GetIsShareProfileAllowedTransitEncryptionModeArray []GetIsShareProfileAllowedTransitEncryptionModeInput
-
-func (GetIsShareProfileAllowedTransitEncryptionModeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
-}
-
-func (i GetIsShareProfileAllowedTransitEncryptionModeArray) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutput() GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
-	return i.ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileAllowedTransitEncryptionModeArray) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedTransitEncryptionModeArrayOutput)
-}
-
-type GetIsShareProfileAllowedTransitEncryptionModeOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileAllowedTransitEncryptionModeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
-}
-
-func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) ToGetIsShareProfileAllowedTransitEncryptionModeOutput() GetIsShareProfileAllowedTransitEncryptionModeOutput {
-	return o
-}
-
-func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeOutput {
-	return o
-}
-
-// The default allowed transit encryption modes for shares with this profile.
-func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) Defaults() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsShareProfileAllowedTransitEncryptionMode) []string { return v.Defaults }).(pulumi.StringArrayOutput)
-}
-
-// The type for this profile field.
-func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareProfileAllowedTransitEncryptionMode) string { return v.Type }).(pulumi.StringOutput)
-}
-
-// The allowed transit encryption modes for a share with this profile
-func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsShareProfileAllowedTransitEncryptionMode) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetIsShareProfileAllowedTransitEncryptionModeArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
-}
-
-func (o GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutput() GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileAllowedTransitEncryptionModeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileAllowedTransitEncryptionMode {
-		return vs[0].([]GetIsShareProfileAllowedTransitEncryptionMode)[vs[1].(int)]
-	}).(GetIsShareProfileAllowedTransitEncryptionModeOutput)
-}
-
-type GetIsShareProfileAvailabilityMode struct {
-	// The default data availability mode for this profile.
-	Default string `pulumi:"default"`
-	// The type for this profile field.
-	Type string `pulumi:"type"`
-	// The value for this profile field
-	Value string `pulumi:"value"`
-	// The permitted values for this profile field.
-	Values []string `pulumi:"values"`
-}
-
-// GetIsShareProfileAvailabilityModeInput is an input type that accepts GetIsShareProfileAvailabilityModeArgs and GetIsShareProfileAvailabilityModeOutput values.
-// You can construct a concrete instance of `GetIsShareProfileAvailabilityModeInput` via:
-//
-//	GetIsShareProfileAvailabilityModeArgs{...}
-type GetIsShareProfileAvailabilityModeInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileAvailabilityModeOutput() GetIsShareProfileAvailabilityModeOutput
-	ToGetIsShareProfileAvailabilityModeOutputWithContext(context.Context) GetIsShareProfileAvailabilityModeOutput
-}
-
-type GetIsShareProfileAvailabilityModeArgs struct {
-	// The default data availability mode for this profile.
-	Default pulumi.StringInput `pulumi:"default"`
-	// The type for this profile field.
-	Type pulumi.StringInput `pulumi:"type"`
-	// The value for this profile field
-	Value pulumi.StringInput `pulumi:"value"`
-	// The permitted values for this profile field.
-	Values pulumi.StringArrayInput `pulumi:"values"`
-}
-
-func (GetIsShareProfileAvailabilityModeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileAvailabilityMode)(nil)).Elem()
-}
-
-func (i GetIsShareProfileAvailabilityModeArgs) ToGetIsShareProfileAvailabilityModeOutput() GetIsShareProfileAvailabilityModeOutput {
-	return i.ToGetIsShareProfileAvailabilityModeOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileAvailabilityModeArgs) ToGetIsShareProfileAvailabilityModeOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAvailabilityModeOutput)
-}
-
-// GetIsShareProfileAvailabilityModeArrayInput is an input type that accepts GetIsShareProfileAvailabilityModeArray and GetIsShareProfileAvailabilityModeArrayOutput values.
-// You can construct a concrete instance of `GetIsShareProfileAvailabilityModeArrayInput` via:
-//
-//	GetIsShareProfileAvailabilityModeArray{ GetIsShareProfileAvailabilityModeArgs{...} }
-type GetIsShareProfileAvailabilityModeArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileAvailabilityModeArrayOutput() GetIsShareProfileAvailabilityModeArrayOutput
-	ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(context.Context) GetIsShareProfileAvailabilityModeArrayOutput
-}
-
-type GetIsShareProfileAvailabilityModeArray []GetIsShareProfileAvailabilityModeInput
-
-func (GetIsShareProfileAvailabilityModeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileAvailabilityMode)(nil)).Elem()
-}
-
-func (i GetIsShareProfileAvailabilityModeArray) ToGetIsShareProfileAvailabilityModeArrayOutput() GetIsShareProfileAvailabilityModeArrayOutput {
-	return i.ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileAvailabilityModeArray) ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAvailabilityModeArrayOutput)
-}
-
-type GetIsShareProfileAvailabilityModeOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileAvailabilityModeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileAvailabilityMode)(nil)).Elem()
-}
-
-func (o GetIsShareProfileAvailabilityModeOutput) ToGetIsShareProfileAvailabilityModeOutput() GetIsShareProfileAvailabilityModeOutput {
-	return o
-}
-
-func (o GetIsShareProfileAvailabilityModeOutput) ToGetIsShareProfileAvailabilityModeOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeOutput {
-	return o
-}
-
-// The default data availability mode for this profile.
-func (o GetIsShareProfileAvailabilityModeOutput) Default() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) string { return v.Default }).(pulumi.StringOutput)
-}
-
-// The type for this profile field.
-func (o GetIsShareProfileAvailabilityModeOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) string { return v.Type }).(pulumi.StringOutput)
-}
-
-// The value for this profile field
-func (o GetIsShareProfileAvailabilityModeOutput) Value() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) string { return v.Value }).(pulumi.StringOutput)
-}
-
-// The permitted values for this profile field.
-func (o GetIsShareProfileAvailabilityModeOutput) Values() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) []string { return v.Values }).(pulumi.StringArrayOutput)
-}
-
-type GetIsShareProfileAvailabilityModeArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileAvailabilityModeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileAvailabilityMode)(nil)).Elem()
-}
-
-func (o GetIsShareProfileAvailabilityModeArrayOutput) ToGetIsShareProfileAvailabilityModeArrayOutput() GetIsShareProfileAvailabilityModeArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileAvailabilityModeArrayOutput) ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileAvailabilityModeArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileAvailabilityModeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileAvailabilityMode {
-		return vs[0].([]GetIsShareProfileAvailabilityMode)[vs[1].(int)]
-	}).(GetIsShareProfileAvailabilityModeOutput)
-}
-
-type GetIsShareProfileBandwidth struct {
-	// The default capacity.
-	Default int `pulumi:"default"`
-	// The max capacity.
-	Max int `pulumi:"max"`
-	// The min capacity.
-	Min int `pulumi:"min"`
-	// The increment step value for this profile field.
-	Step int `pulumi:"step"`
-	// The type for this profile field.
-	Type string `pulumi:"type"`
-	// The value for this profile field
-	Value int `pulumi:"value"`
-	// The permitted values for this profile field.
-	Values []int `pulumi:"values"`
-}
-
-// GetIsShareProfileBandwidthInput is an input type that accepts GetIsShareProfileBandwidthArgs and GetIsShareProfileBandwidthOutput values.
-// You can construct a concrete instance of `GetIsShareProfileBandwidthInput` via:
-//
-//	GetIsShareProfileBandwidthArgs{...}
-type GetIsShareProfileBandwidthInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileBandwidthOutput() GetIsShareProfileBandwidthOutput
-	ToGetIsShareProfileBandwidthOutputWithContext(context.Context) GetIsShareProfileBandwidthOutput
-}
-
-type GetIsShareProfileBandwidthArgs struct {
-	// The default capacity.
-	Default pulumi.IntInput `pulumi:"default"`
-	// The max capacity.
-	Max pulumi.IntInput `pulumi:"max"`
-	// The min capacity.
-	Min pulumi.IntInput `pulumi:"min"`
-	// The increment step value for this profile field.
-	Step pulumi.IntInput `pulumi:"step"`
-	// The type for this profile field.
-	Type pulumi.StringInput `pulumi:"type"`
-	// The value for this profile field
-	Value pulumi.IntInput `pulumi:"value"`
-	// The permitted values for this profile field.
-	Values pulumi.IntArrayInput `pulumi:"values"`
-}
-
-func (GetIsShareProfileBandwidthArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileBandwidth)(nil)).Elem()
-}
-
-func (i GetIsShareProfileBandwidthArgs) ToGetIsShareProfileBandwidthOutput() GetIsShareProfileBandwidthOutput {
-	return i.ToGetIsShareProfileBandwidthOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileBandwidthArgs) ToGetIsShareProfileBandwidthOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileBandwidthOutput)
-}
-
-// GetIsShareProfileBandwidthArrayInput is an input type that accepts GetIsShareProfileBandwidthArray and GetIsShareProfileBandwidthArrayOutput values.
-// You can construct a concrete instance of `GetIsShareProfileBandwidthArrayInput` via:
-//
-//	GetIsShareProfileBandwidthArray{ GetIsShareProfileBandwidthArgs{...} }
-type GetIsShareProfileBandwidthArrayInput interface {
-	pulumi.Input
-
-	ToGetIsShareProfileBandwidthArrayOutput() GetIsShareProfileBandwidthArrayOutput
-	ToGetIsShareProfileBandwidthArrayOutputWithContext(context.Context) GetIsShareProfileBandwidthArrayOutput
-}
-
-type GetIsShareProfileBandwidthArray []GetIsShareProfileBandwidthInput
-
-func (GetIsShareProfileBandwidthArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileBandwidth)(nil)).Elem()
-}
-
-func (i GetIsShareProfileBandwidthArray) ToGetIsShareProfileBandwidthArrayOutput() GetIsShareProfileBandwidthArrayOutput {
-	return i.ToGetIsShareProfileBandwidthArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsShareProfileBandwidthArray) ToGetIsShareProfileBandwidthArrayOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileBandwidthArrayOutput)
-}
-
-type GetIsShareProfileBandwidthOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileBandwidthOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsShareProfileBandwidth)(nil)).Elem()
-}
-
-func (o GetIsShareProfileBandwidthOutput) ToGetIsShareProfileBandwidthOutput() GetIsShareProfileBandwidthOutput {
-	return o
-}
-
-func (o GetIsShareProfileBandwidthOutput) ToGetIsShareProfileBandwidthOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthOutput {
-	return o
-}
-
-// The default capacity.
-func (o GetIsShareProfileBandwidthOutput) Default() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Default }).(pulumi.IntOutput)
-}
-
-// The max capacity.
-func (o GetIsShareProfileBandwidthOutput) Max() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Max }).(pulumi.IntOutput)
-}
-
-// The min capacity.
-func (o GetIsShareProfileBandwidthOutput) Min() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Min }).(pulumi.IntOutput)
-}
-
-// The increment step value for this profile field.
-func (o GetIsShareProfileBandwidthOutput) Step() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Step }).(pulumi.IntOutput)
-}
-
-// The type for this profile field.
-func (o GetIsShareProfileBandwidthOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) string { return v.Type }).(pulumi.StringOutput)
-}
-
-// The value for this profile field
-func (o GetIsShareProfileBandwidthOutput) Value() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Value }).(pulumi.IntOutput)
-}
-
-// The permitted values for this profile field.
-func (o GetIsShareProfileBandwidthOutput) Values() pulumi.IntArrayOutput {
-	return o.ApplyT(func(v GetIsShareProfileBandwidth) []int { return v.Values }).(pulumi.IntArrayOutput)
-}
-
-type GetIsShareProfileBandwidthArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsShareProfileBandwidthArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsShareProfileBandwidth)(nil)).Elem()
-}
-
-func (o GetIsShareProfileBandwidthArrayOutput) ToGetIsShareProfileBandwidthArrayOutput() GetIsShareProfileBandwidthArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileBandwidthArrayOutput) ToGetIsShareProfileBandwidthArrayOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthArrayOutput {
-	return o
-}
-
-func (o GetIsShareProfileBandwidthArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileBandwidthOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileBandwidth {
-		return vs[0].([]GetIsShareProfileBandwidth)[vs[1].(int)]
-	}).(GetIsShareProfileBandwidthOutput)
-}
-
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDiskInput)(nil)).Elem(), GetIsInstanceDiskArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDiskArrayInput)(nil)).Elem(), GetIsInstanceDiskArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDisksDiskInput)(nil)).Elem(), GetIsInstanceDisksDiskArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDisksDiskArrayInput)(nil)).Elem(), GetIsInstanceDisksDiskArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGpusInput)(nil)).Elem(), GetIsInstanceGpusArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGpusArrayInput)(nil)).Elem(), GetIsInstanceGpusArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionTypeInput)(nil)).Elem(), GetIsInstanceGroupManagerActionTypeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionTypeArrayInput)(nil)).Elem(), GetIsInstanceGroupManagerActionTypeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput)(nil)).Elem(), GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput)(nil)).Elem(), GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput)(nil)).Elem(), GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput)(nil)).Elem(), GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerArrayInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerActionInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerActionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerActionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplateInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceTemplateArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplateArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceTemplateArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroupInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupResourceGroupArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupResourceGroupArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcDeletedArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceHealthReasonInput)(nil)).Elem(), GetIsInstanceHealthReasonArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceHealthReasonArrayInput)(nil)).Elem(), GetIsInstanceHealthReasonArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceKeyInput)(nil)).Elem(), GetIsInstanceKeyArgs{})
@@ -63802,80 +64188,80 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingAccessorRemoteAccountArrayInput)(nil)).Elem(), GetIsShareAccessorBindingAccessorRemoteAccountArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingAccessorRemoteRegionInput)(nil)).Elem(), GetIsShareAccessorBindingAccessorRemoteRegionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingAccessorRemoteRegionArrayInput)(nil)).Elem(), GetIsShareAccessorBindingAccessorRemoteRegionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobInput)(nil)).Elem(), GetIsShareLatestJobArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobArrayInput)(nil)).Elem(), GetIsShareLatestJobArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobStatusReasonInput)(nil)).Elem(), GetIsShareLatestJobStatusReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobStatusReasonArrayInput)(nil)).Elem(), GetIsShareLatestJobStatusReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestSyncInput)(nil)).Elem(), GetIsShareLatestSyncArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestSyncArrayInput)(nil)).Elem(), GetIsShareLatestSyncArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetTypeInput)(nil)).Elem(), GetIsShareMountTargetTypeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetTypeArrayInput)(nil)).Elem(), GetIsShareMountTargetTypeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetDeletedInput)(nil)).Elem(), GetIsShareMountTargetDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpArrayInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeletedInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetInput)(nil)).Elem(), GetIsShareMountTargetSubnetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetArrayInput)(nil)).Elem(), GetIsShareMountTargetSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetDeletedInput)(nil)).Elem(), GetIsShareMountTargetSubnetDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetSubnetDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceArrayInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcInput)(nil)).Elem(), GetIsShareMountTargetVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcArrayInput)(nil)).Elem(), GetIsShareMountTargetVpcArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcDeletedInput)(nil)).Elem(), GetIsShareMountTargetVpcDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetVpcDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareInput)(nil)).Elem(), GetIsShareOriginShareArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareArrayInput)(nil)).Elem(), GetIsShareOriginShareArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareDeletedInput)(nil)).Elem(), GetIsShareOriginShareDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareDeletedArrayInput)(nil)).Elem(), GetIsShareOriginShareDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteInput)(nil)).Elem(), GetIsShareOriginShareRemoteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteArrayInput)(nil)).Elem(), GetIsShareOriginShareRemoteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteAccountInput)(nil)).Elem(), GetIsShareOriginShareRemoteAccountArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteAccountArrayInput)(nil)).Elem(), GetIsShareOriginShareRemoteAccountArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteRegionInput)(nil)).Elem(), GetIsShareOriginShareRemoteRegionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteRegionArrayInput)(nil)).Elem(), GetIsShareOriginShareRemoteRegionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocolInput)(nil)).Elem(), GetIsShareProfileAllowedAccessProtocolArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocolArrayInput)(nil)).Elem(), GetIsShareProfileAllowedAccessProtocolArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionModeInput)(nil)).Elem(), GetIsShareProfileAllowedTransitEncryptionModeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionModeArrayInput)(nil)).Elem(), GetIsShareProfileAllowedTransitEncryptionModeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAvailabilityModeInput)(nil)).Elem(), GetIsShareProfileAvailabilityModeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAvailabilityModeArrayInput)(nil)).Elem(), GetIsShareProfileAvailabilityModeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileBandwidthInput)(nil)).Elem(), GetIsShareProfileBandwidthArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileBandwidthArrayInput)(nil)).Elem(), GetIsShareProfileBandwidthArray{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceDiskOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceDiskArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceDisksDiskOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceDisksDiskArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGpusOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGpusArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionTypeOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionTypeArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerActionOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceTemplateOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceTemplateArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupResourceGroupOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcArrayOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput{})
 	pulumi.RegisterOutputType(GetIsInstanceHealthReasonOutput{})
 	pulumi.RegisterOutputType(GetIsInstanceHealthReasonArrayOutput{})
 	pulumi.RegisterOutputType(GetIsInstanceKeyOutput{})
@@ -64802,78 +65188,4 @@ func init() {
 	pulumi.RegisterOutputType(GetIsShareAccessorBindingAccessorRemoteAccountArrayOutput{})
 	pulumi.RegisterOutputType(GetIsShareAccessorBindingAccessorRemoteRegionOutput{})
 	pulumi.RegisterOutputType(GetIsShareAccessorBindingAccessorRemoteRegionArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput{})
-	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareLatestJobOutput{})
-	pulumi.RegisterOutputType(GetIsShareLatestJobArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareLatestJobStatusReasonOutput{})
-	pulumi.RegisterOutputType(GetIsShareLatestJobStatusReasonArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareLatestSyncOutput{})
-	pulumi.RegisterOutputType(GetIsShareLatestSyncArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetTypeOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetTypeArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVpcOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVpcArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVpcDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetVpcDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteAccountOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteAccountArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteRegionOutput{})
-	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteRegionArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileAllowedAccessProtocolOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileAllowedAccessProtocolArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileAllowedTransitEncryptionModeOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileAllowedTransitEncryptionModeArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileAvailabilityModeOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileAvailabilityModeArrayOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileBandwidthOutput{})
-	pulumi.RegisterOutputType(GetIsShareProfileBandwidthArrayOutput{})
 }

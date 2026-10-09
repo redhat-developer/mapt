@@ -447,6 +447,52 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 		r = &ResourceReclamationDelete{}
 	case "ibmcloud:index/resourceTag:ResourceTag":
 		r = &ResourceTag{}
+	case "ibmcloud:index/smAdminToken:SmAdminToken":
+		r = &SmAdminToken{}
+	case "ibmcloud:index/smArbitrarySecret:SmArbitrarySecret":
+		r = &SmArbitrarySecret{}
+	case "ibmcloud:index/smCustomCredentialsConfiguration:SmCustomCredentialsConfiguration":
+		r = &SmCustomCredentialsConfiguration{}
+	case "ibmcloud:index/smCustomCredentialsSecret:SmCustomCredentialsSecret":
+		r = &SmCustomCredentialsSecret{}
+	case "ibmcloud:index/smEnRegistration:SmEnRegistration":
+		r = &SmEnRegistration{}
+	case "ibmcloud:index/smIamCredentialsConfiguration:SmIamCredentialsConfiguration":
+		r = &SmIamCredentialsConfiguration{}
+	case "ibmcloud:index/smIamCredentialsSecret:SmIamCredentialsSecret":
+		r = &SmIamCredentialsSecret{}
+	case "ibmcloud:index/smImportedCertificate:SmImportedCertificate":
+		r = &SmImportedCertificate{}
+	case "ibmcloud:index/smKvSecret:SmKvSecret":
+		r = &SmKvSecret{}
+	case "ibmcloud:index/smPrivateCertificate:SmPrivateCertificate":
+		r = &SmPrivateCertificate{}
+	case "ibmcloud:index/smPrivateCertificateConfigurationActionSetSigned:SmPrivateCertificateConfigurationActionSetSigned":
+		r = &SmPrivateCertificateConfigurationActionSetSigned{}
+	case "ibmcloud:index/smPrivateCertificateConfigurationActionSignCsr:SmPrivateCertificateConfigurationActionSignCsr":
+		r = &SmPrivateCertificateConfigurationActionSignCsr{}
+	case "ibmcloud:index/smPrivateCertificateConfigurationIntermediateCa:SmPrivateCertificateConfigurationIntermediateCa":
+		r = &SmPrivateCertificateConfigurationIntermediateCa{}
+	case "ibmcloud:index/smPrivateCertificateConfigurationRootCa:SmPrivateCertificateConfigurationRootCa":
+		r = &SmPrivateCertificateConfigurationRootCa{}
+	case "ibmcloud:index/smPrivateCertificateConfigurationTemplate:SmPrivateCertificateConfigurationTemplate":
+		r = &SmPrivateCertificateConfigurationTemplate{}
+	case "ibmcloud:index/smPublicCertificate:SmPublicCertificate":
+		r = &SmPublicCertificate{}
+	case "ibmcloud:index/smPublicCertificateActionValidateManualDns:SmPublicCertificateActionValidateManualDns":
+		r = &SmPublicCertificateActionValidateManualDns{}
+	case "ibmcloud:index/smPublicCertificateConfigurationCaLetsEncrypt:SmPublicCertificateConfigurationCaLetsEncrypt":
+		r = &SmPublicCertificateConfigurationCaLetsEncrypt{}
+	case "ibmcloud:index/smPublicCertificateConfigurationDnsCis:SmPublicCertificateConfigurationDnsCis":
+		r = &SmPublicCertificateConfigurationDnsCis{}
+	case "ibmcloud:index/smPublicCertificateConfigurationDnsClassicInfrastructure:SmPublicCertificateConfigurationDnsClassicInfrastructure":
+		r = &SmPublicCertificateConfigurationDnsClassicInfrastructure{}
+	case "ibmcloud:index/smSecretGroup:SmSecretGroup":
+		r = &SmSecretGroup{}
+	case "ibmcloud:index/smServiceCredentialsSecret:SmServiceCredentialsSecret":
+		r = &SmServiceCredentialsSecret{}
+	case "ibmcloud:index/smUsernamePasswordSecret:SmUsernamePasswordSecret":
+		r = &SmUsernamePasswordSecret{}
 	case "ibmcloud:index/tgConnection:TgConnection":
 		r = &TgConnection{}
 	case "ibmcloud:index/tgConnectionAction:TgConnectionAction":
@@ -1553,6 +1599,121 @@ func init() {
 	pulumi.RegisterResourceModule(
 		"ibmcloud",
 		"index/resourceTag",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smAdminToken",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smArbitrarySecret",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smCustomCredentialsConfiguration",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smCustomCredentialsSecret",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smEnRegistration",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smIamCredentialsConfiguration",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smIamCredentialsSecret",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smImportedCertificate",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smKvSecret",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPrivateCertificate",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPrivateCertificateConfigurationActionSetSigned",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPrivateCertificateConfigurationActionSignCsr",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPrivateCertificateConfigurationIntermediateCa",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPrivateCertificateConfigurationRootCa",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPrivateCertificateConfigurationTemplate",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPublicCertificate",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPublicCertificateActionValidateManualDns",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPublicCertificateConfigurationCaLetsEncrypt",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPublicCertificateConfigurationDnsCis",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smPublicCertificateConfigurationDnsClassicInfrastructure",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smSecretGroup",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smServiceCredentialsSecret",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"ibmcloud",
+		"index/smUsernamePasswordSecret",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(

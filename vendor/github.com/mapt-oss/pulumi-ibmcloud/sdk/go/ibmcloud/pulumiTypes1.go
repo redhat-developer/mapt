@@ -36031,6 +36031,5995 @@ func (o ResourceInstancePlanHistoryArrayOutput) Index(i pulumi.IntInput) Resourc
 	}).(ResourceInstancePlanHistoryOutput)
 }
 
+type SmCustomCredentialsConfigurationCodeEngine struct {
+	// The name of the Code Engine Job.
+	JobName string `pulumi:"jobName"`
+	// The ID of the Code Engine project.
+	ProjectId string `pulumi:"projectId"`
+	// The region of the Code Engine project.
+	Region string `pulumi:"region"`
+}
+
+// SmCustomCredentialsConfigurationCodeEngineInput is an input type that accepts SmCustomCredentialsConfigurationCodeEngineArgs and SmCustomCredentialsConfigurationCodeEngineOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationCodeEngineInput` via:
+//
+//	SmCustomCredentialsConfigurationCodeEngineArgs{...}
+type SmCustomCredentialsConfigurationCodeEngineInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationCodeEngineOutput() SmCustomCredentialsConfigurationCodeEngineOutput
+	ToSmCustomCredentialsConfigurationCodeEngineOutputWithContext(context.Context) SmCustomCredentialsConfigurationCodeEngineOutput
+}
+
+type SmCustomCredentialsConfigurationCodeEngineArgs struct {
+	// The name of the Code Engine Job.
+	JobName pulumi.StringInput `pulumi:"jobName"`
+	// The ID of the Code Engine project.
+	ProjectId pulumi.StringInput `pulumi:"projectId"`
+	// The region of the Code Engine project.
+	Region pulumi.StringInput `pulumi:"region"`
+}
+
+func (SmCustomCredentialsConfigurationCodeEngineArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationCodeEngine)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationCodeEngineArgs) ToSmCustomCredentialsConfigurationCodeEngineOutput() SmCustomCredentialsConfigurationCodeEngineOutput {
+	return i.ToSmCustomCredentialsConfigurationCodeEngineOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationCodeEngineArgs) ToSmCustomCredentialsConfigurationCodeEngineOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationCodeEngineOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationCodeEngineOutput)
+}
+
+func (i SmCustomCredentialsConfigurationCodeEngineArgs) ToSmCustomCredentialsConfigurationCodeEnginePtrOutput() SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return i.ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationCodeEngineArgs) ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationCodeEngineOutput).ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(ctx)
+}
+
+// SmCustomCredentialsConfigurationCodeEnginePtrInput is an input type that accepts SmCustomCredentialsConfigurationCodeEngineArgs, SmCustomCredentialsConfigurationCodeEnginePtr and SmCustomCredentialsConfigurationCodeEnginePtrOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationCodeEnginePtrInput` via:
+//
+//	        SmCustomCredentialsConfigurationCodeEngineArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmCustomCredentialsConfigurationCodeEnginePtrInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationCodeEnginePtrOutput() SmCustomCredentialsConfigurationCodeEnginePtrOutput
+	ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(context.Context) SmCustomCredentialsConfigurationCodeEnginePtrOutput
+}
+
+type smCustomCredentialsConfigurationCodeEnginePtrType SmCustomCredentialsConfigurationCodeEngineArgs
+
+func SmCustomCredentialsConfigurationCodeEnginePtr(v *SmCustomCredentialsConfigurationCodeEngineArgs) SmCustomCredentialsConfigurationCodeEnginePtrInput {
+	return (*smCustomCredentialsConfigurationCodeEnginePtrType)(v)
+}
+
+func (*smCustomCredentialsConfigurationCodeEnginePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmCustomCredentialsConfigurationCodeEngine)(nil)).Elem()
+}
+
+func (i *smCustomCredentialsConfigurationCodeEnginePtrType) ToSmCustomCredentialsConfigurationCodeEnginePtrOutput() SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return i.ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(context.Background())
+}
+
+func (i *smCustomCredentialsConfigurationCodeEnginePtrType) ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationCodeEnginePtrOutput)
+}
+
+type SmCustomCredentialsConfigurationCodeEngineOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationCodeEngineOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationCodeEngine)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) ToSmCustomCredentialsConfigurationCodeEngineOutput() SmCustomCredentialsConfigurationCodeEngineOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) ToSmCustomCredentialsConfigurationCodeEngineOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationCodeEngineOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) ToSmCustomCredentialsConfigurationCodeEnginePtrOutput() SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return o.ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(context.Background())
+}
+
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmCustomCredentialsConfigurationCodeEngine) *SmCustomCredentialsConfigurationCodeEngine {
+		return &v
+	}).(SmCustomCredentialsConfigurationCodeEnginePtrOutput)
+}
+
+// The name of the Code Engine Job.
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) JobName() pulumi.StringOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationCodeEngine) string { return v.JobName }).(pulumi.StringOutput)
+}
+
+// The ID of the Code Engine project.
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) ProjectId() pulumi.StringOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationCodeEngine) string { return v.ProjectId }).(pulumi.StringOutput)
+}
+
+// The region of the Code Engine project.
+func (o SmCustomCredentialsConfigurationCodeEngineOutput) Region() pulumi.StringOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationCodeEngine) string { return v.Region }).(pulumi.StringOutput)
+}
+
+type SmCustomCredentialsConfigurationCodeEnginePtrOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationCodeEnginePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmCustomCredentialsConfigurationCodeEngine)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationCodeEnginePtrOutput) ToSmCustomCredentialsConfigurationCodeEnginePtrOutput() SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationCodeEnginePtrOutput) ToSmCustomCredentialsConfigurationCodeEnginePtrOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationCodeEnginePtrOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationCodeEnginePtrOutput) Elem() SmCustomCredentialsConfigurationCodeEngineOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsConfigurationCodeEngine) SmCustomCredentialsConfigurationCodeEngine {
+		if v != nil {
+			return *v
+		}
+		var ret SmCustomCredentialsConfigurationCodeEngine
+		return ret
+	}).(SmCustomCredentialsConfigurationCodeEngineOutput)
+}
+
+// The name of the Code Engine Job.
+func (o SmCustomCredentialsConfigurationCodeEnginePtrOutput) JobName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsConfigurationCodeEngine) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.JobName
+	}).(pulumi.StringPtrOutput)
+}
+
+// The ID of the Code Engine project.
+func (o SmCustomCredentialsConfigurationCodeEnginePtrOutput) ProjectId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsConfigurationCodeEngine) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ProjectId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The region of the Code Engine project.
+func (o SmCustomCredentialsConfigurationCodeEnginePtrOutput) Region() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsConfigurationCodeEngine) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Region
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmCustomCredentialsConfigurationSchema struct {
+	// The schema of the credentials.
+	Credentials []SmCustomCredentialsConfigurationSchemaCredential `pulumi:"credentials"`
+	// The schema of the input parameters.
+	Parameters []SmCustomCredentialsConfigurationSchemaParameter `pulumi:"parameters"`
+}
+
+// SmCustomCredentialsConfigurationSchemaInput is an input type that accepts SmCustomCredentialsConfigurationSchemaArgs and SmCustomCredentialsConfigurationSchemaOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationSchemaInput` via:
+//
+//	SmCustomCredentialsConfigurationSchemaArgs{...}
+type SmCustomCredentialsConfigurationSchemaInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationSchemaOutput() SmCustomCredentialsConfigurationSchemaOutput
+	ToSmCustomCredentialsConfigurationSchemaOutputWithContext(context.Context) SmCustomCredentialsConfigurationSchemaOutput
+}
+
+type SmCustomCredentialsConfigurationSchemaArgs struct {
+	// The schema of the credentials.
+	Credentials SmCustomCredentialsConfigurationSchemaCredentialArrayInput `pulumi:"credentials"`
+	// The schema of the input parameters.
+	Parameters SmCustomCredentialsConfigurationSchemaParameterArrayInput `pulumi:"parameters"`
+}
+
+func (SmCustomCredentialsConfigurationSchemaArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationSchema)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationSchemaArgs) ToSmCustomCredentialsConfigurationSchemaOutput() SmCustomCredentialsConfigurationSchemaOutput {
+	return i.ToSmCustomCredentialsConfigurationSchemaOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationSchemaArgs) ToSmCustomCredentialsConfigurationSchemaOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationSchemaOutput)
+}
+
+// SmCustomCredentialsConfigurationSchemaArrayInput is an input type that accepts SmCustomCredentialsConfigurationSchemaArray and SmCustomCredentialsConfigurationSchemaArrayOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationSchemaArrayInput` via:
+//
+//	SmCustomCredentialsConfigurationSchemaArray{ SmCustomCredentialsConfigurationSchemaArgs{...} }
+type SmCustomCredentialsConfigurationSchemaArrayInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationSchemaArrayOutput() SmCustomCredentialsConfigurationSchemaArrayOutput
+	ToSmCustomCredentialsConfigurationSchemaArrayOutputWithContext(context.Context) SmCustomCredentialsConfigurationSchemaArrayOutput
+}
+
+type SmCustomCredentialsConfigurationSchemaArray []SmCustomCredentialsConfigurationSchemaInput
+
+func (SmCustomCredentialsConfigurationSchemaArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsConfigurationSchema)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationSchemaArray) ToSmCustomCredentialsConfigurationSchemaArrayOutput() SmCustomCredentialsConfigurationSchemaArrayOutput {
+	return i.ToSmCustomCredentialsConfigurationSchemaArrayOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationSchemaArray) ToSmCustomCredentialsConfigurationSchemaArrayOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationSchemaArrayOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationSchemaOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationSchema)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationSchemaOutput) ToSmCustomCredentialsConfigurationSchemaOutput() SmCustomCredentialsConfigurationSchemaOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaOutput) ToSmCustomCredentialsConfigurationSchemaOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaOutput {
+	return o
+}
+
+// The schema of the credentials.
+func (o SmCustomCredentialsConfigurationSchemaOutput) Credentials() SmCustomCredentialsConfigurationSchemaCredentialArrayOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchema) []SmCustomCredentialsConfigurationSchemaCredential {
+		return v.Credentials
+	}).(SmCustomCredentialsConfigurationSchemaCredentialArrayOutput)
+}
+
+// The schema of the input parameters.
+func (o SmCustomCredentialsConfigurationSchemaOutput) Parameters() SmCustomCredentialsConfigurationSchemaParameterArrayOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchema) []SmCustomCredentialsConfigurationSchemaParameter {
+		return v.Parameters
+	}).(SmCustomCredentialsConfigurationSchemaParameterArrayOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaArrayOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationSchemaArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsConfigurationSchema)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationSchemaArrayOutput) ToSmCustomCredentialsConfigurationSchemaArrayOutput() SmCustomCredentialsConfigurationSchemaArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaArrayOutput) ToSmCustomCredentialsConfigurationSchemaArrayOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaArrayOutput) Index(i pulumi.IntInput) SmCustomCredentialsConfigurationSchemaOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmCustomCredentialsConfigurationSchema {
+		return vs[0].([]SmCustomCredentialsConfigurationSchema)[vs[1].(int)]
+	}).(SmCustomCredentialsConfigurationSchemaOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaCredential struct {
+	// The format of the credential, for example 'required:true, type:string'
+	Format *string `pulumi:"format"`
+	// The name of the credential.
+	Name *string `pulumi:"name"`
+}
+
+// SmCustomCredentialsConfigurationSchemaCredentialInput is an input type that accepts SmCustomCredentialsConfigurationSchemaCredentialArgs and SmCustomCredentialsConfigurationSchemaCredentialOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationSchemaCredentialInput` via:
+//
+//	SmCustomCredentialsConfigurationSchemaCredentialArgs{...}
+type SmCustomCredentialsConfigurationSchemaCredentialInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationSchemaCredentialOutput() SmCustomCredentialsConfigurationSchemaCredentialOutput
+	ToSmCustomCredentialsConfigurationSchemaCredentialOutputWithContext(context.Context) SmCustomCredentialsConfigurationSchemaCredentialOutput
+}
+
+type SmCustomCredentialsConfigurationSchemaCredentialArgs struct {
+	// The format of the credential, for example 'required:true, type:string'
+	Format pulumi.StringPtrInput `pulumi:"format"`
+	// The name of the credential.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+}
+
+func (SmCustomCredentialsConfigurationSchemaCredentialArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaCredential)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationSchemaCredentialArgs) ToSmCustomCredentialsConfigurationSchemaCredentialOutput() SmCustomCredentialsConfigurationSchemaCredentialOutput {
+	return i.ToSmCustomCredentialsConfigurationSchemaCredentialOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationSchemaCredentialArgs) ToSmCustomCredentialsConfigurationSchemaCredentialOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaCredentialOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationSchemaCredentialOutput)
+}
+
+// SmCustomCredentialsConfigurationSchemaCredentialArrayInput is an input type that accepts SmCustomCredentialsConfigurationSchemaCredentialArray and SmCustomCredentialsConfigurationSchemaCredentialArrayOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationSchemaCredentialArrayInput` via:
+//
+//	SmCustomCredentialsConfigurationSchemaCredentialArray{ SmCustomCredentialsConfigurationSchemaCredentialArgs{...} }
+type SmCustomCredentialsConfigurationSchemaCredentialArrayInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutput() SmCustomCredentialsConfigurationSchemaCredentialArrayOutput
+	ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutputWithContext(context.Context) SmCustomCredentialsConfigurationSchemaCredentialArrayOutput
+}
+
+type SmCustomCredentialsConfigurationSchemaCredentialArray []SmCustomCredentialsConfigurationSchemaCredentialInput
+
+func (SmCustomCredentialsConfigurationSchemaCredentialArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsConfigurationSchemaCredential)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationSchemaCredentialArray) ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutput() SmCustomCredentialsConfigurationSchemaCredentialArrayOutput {
+	return i.ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationSchemaCredentialArray) ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaCredentialArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationSchemaCredentialArrayOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaCredentialOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationSchemaCredentialOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaCredential)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationSchemaCredentialOutput) ToSmCustomCredentialsConfigurationSchemaCredentialOutput() SmCustomCredentialsConfigurationSchemaCredentialOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaCredentialOutput) ToSmCustomCredentialsConfigurationSchemaCredentialOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaCredentialOutput {
+	return o
+}
+
+// The format of the credential, for example 'required:true, type:string'
+func (o SmCustomCredentialsConfigurationSchemaCredentialOutput) Format() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchemaCredential) *string { return v.Format }).(pulumi.StringPtrOutput)
+}
+
+// The name of the credential.
+func (o SmCustomCredentialsConfigurationSchemaCredentialOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchemaCredential) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaCredentialArrayOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationSchemaCredentialArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsConfigurationSchemaCredential)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationSchemaCredentialArrayOutput) ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutput() SmCustomCredentialsConfigurationSchemaCredentialArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaCredentialArrayOutput) ToSmCustomCredentialsConfigurationSchemaCredentialArrayOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaCredentialArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaCredentialArrayOutput) Index(i pulumi.IntInput) SmCustomCredentialsConfigurationSchemaCredentialOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmCustomCredentialsConfigurationSchemaCredential {
+		return vs[0].([]SmCustomCredentialsConfigurationSchemaCredential)[vs[1].(int)]
+	}).(SmCustomCredentialsConfigurationSchemaCredentialOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaParameter struct {
+	// The name of the environment variable associated with the configuration schema parameter.
+	EnvVariableName *string `pulumi:"envVariableName"`
+	// The format of the parameter, for example 'required:true, type:string', 'type:int, required:false', 'type:enum[val1|val2|val3], required:true', 'required:true, type:boolean'
+	Format *string `pulumi:"format"`
+	// The name of the parameter.
+	Name *string `pulumi:"name"`
+}
+
+// SmCustomCredentialsConfigurationSchemaParameterInput is an input type that accepts SmCustomCredentialsConfigurationSchemaParameterArgs and SmCustomCredentialsConfigurationSchemaParameterOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationSchemaParameterInput` via:
+//
+//	SmCustomCredentialsConfigurationSchemaParameterArgs{...}
+type SmCustomCredentialsConfigurationSchemaParameterInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationSchemaParameterOutput() SmCustomCredentialsConfigurationSchemaParameterOutput
+	ToSmCustomCredentialsConfigurationSchemaParameterOutputWithContext(context.Context) SmCustomCredentialsConfigurationSchemaParameterOutput
+}
+
+type SmCustomCredentialsConfigurationSchemaParameterArgs struct {
+	// The name of the environment variable associated with the configuration schema parameter.
+	EnvVariableName pulumi.StringPtrInput `pulumi:"envVariableName"`
+	// The format of the parameter, for example 'required:true, type:string', 'type:int, required:false', 'type:enum[val1|val2|val3], required:true', 'required:true, type:boolean'
+	Format pulumi.StringPtrInput `pulumi:"format"`
+	// The name of the parameter.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+}
+
+func (SmCustomCredentialsConfigurationSchemaParameterArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaParameter)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationSchemaParameterArgs) ToSmCustomCredentialsConfigurationSchemaParameterOutput() SmCustomCredentialsConfigurationSchemaParameterOutput {
+	return i.ToSmCustomCredentialsConfigurationSchemaParameterOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationSchemaParameterArgs) ToSmCustomCredentialsConfigurationSchemaParameterOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaParameterOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationSchemaParameterOutput)
+}
+
+// SmCustomCredentialsConfigurationSchemaParameterArrayInput is an input type that accepts SmCustomCredentialsConfigurationSchemaParameterArray and SmCustomCredentialsConfigurationSchemaParameterArrayOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsConfigurationSchemaParameterArrayInput` via:
+//
+//	SmCustomCredentialsConfigurationSchemaParameterArray{ SmCustomCredentialsConfigurationSchemaParameterArgs{...} }
+type SmCustomCredentialsConfigurationSchemaParameterArrayInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsConfigurationSchemaParameterArrayOutput() SmCustomCredentialsConfigurationSchemaParameterArrayOutput
+	ToSmCustomCredentialsConfigurationSchemaParameterArrayOutputWithContext(context.Context) SmCustomCredentialsConfigurationSchemaParameterArrayOutput
+}
+
+type SmCustomCredentialsConfigurationSchemaParameterArray []SmCustomCredentialsConfigurationSchemaParameterInput
+
+func (SmCustomCredentialsConfigurationSchemaParameterArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsConfigurationSchemaParameter)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsConfigurationSchemaParameterArray) ToSmCustomCredentialsConfigurationSchemaParameterArrayOutput() SmCustomCredentialsConfigurationSchemaParameterArrayOutput {
+	return i.ToSmCustomCredentialsConfigurationSchemaParameterArrayOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsConfigurationSchemaParameterArray) ToSmCustomCredentialsConfigurationSchemaParameterArrayOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaParameterArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsConfigurationSchemaParameterArrayOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaParameterOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationSchemaParameterOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaParameter)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationSchemaParameterOutput) ToSmCustomCredentialsConfigurationSchemaParameterOutput() SmCustomCredentialsConfigurationSchemaParameterOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaParameterOutput) ToSmCustomCredentialsConfigurationSchemaParameterOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaParameterOutput {
+	return o
+}
+
+// The name of the environment variable associated with the configuration schema parameter.
+func (o SmCustomCredentialsConfigurationSchemaParameterOutput) EnvVariableName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchemaParameter) *string { return v.EnvVariableName }).(pulumi.StringPtrOutput)
+}
+
+// The format of the parameter, for example 'required:true, type:string', 'type:int, required:false', 'type:enum[val1|val2|val3], required:true', 'required:true, type:boolean'
+func (o SmCustomCredentialsConfigurationSchemaParameterOutput) Format() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchemaParameter) *string { return v.Format }).(pulumi.StringPtrOutput)
+}
+
+// The name of the parameter.
+func (o SmCustomCredentialsConfigurationSchemaParameterOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsConfigurationSchemaParameter) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+type SmCustomCredentialsConfigurationSchemaParameterArrayOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsConfigurationSchemaParameterArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsConfigurationSchemaParameter)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsConfigurationSchemaParameterArrayOutput) ToSmCustomCredentialsConfigurationSchemaParameterArrayOutput() SmCustomCredentialsConfigurationSchemaParameterArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaParameterArrayOutput) ToSmCustomCredentialsConfigurationSchemaParameterArrayOutputWithContext(ctx context.Context) SmCustomCredentialsConfigurationSchemaParameterArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsConfigurationSchemaParameterArrayOutput) Index(i pulumi.IntInput) SmCustomCredentialsConfigurationSchemaParameterOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmCustomCredentialsConfigurationSchemaParameter {
+		return vs[0].([]SmCustomCredentialsConfigurationSchemaParameter)[vs[1].(int)]
+	}).(SmCustomCredentialsConfigurationSchemaParameterOutput)
+}
+
+type SmCustomCredentialsSecretCredentialsContent struct {
+	// Credentials that have boolean values.
+	BooleanValues map[string]bool `pulumi:"booleanValues"`
+	// Credentials that have integer values.
+	IntegerValues map[string]int `pulumi:"integerValues"`
+	// Credentials that have string values.
+	StringValues map[string]string `pulumi:"stringValues"`
+}
+
+// SmCustomCredentialsSecretCredentialsContentInput is an input type that accepts SmCustomCredentialsSecretCredentialsContentArgs and SmCustomCredentialsSecretCredentialsContentOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsSecretCredentialsContentInput` via:
+//
+//	SmCustomCredentialsSecretCredentialsContentArgs{...}
+type SmCustomCredentialsSecretCredentialsContentInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsSecretCredentialsContentOutput() SmCustomCredentialsSecretCredentialsContentOutput
+	ToSmCustomCredentialsSecretCredentialsContentOutputWithContext(context.Context) SmCustomCredentialsSecretCredentialsContentOutput
+}
+
+type SmCustomCredentialsSecretCredentialsContentArgs struct {
+	// Credentials that have boolean values.
+	BooleanValues pulumi.BoolMapInput `pulumi:"booleanValues"`
+	// Credentials that have integer values.
+	IntegerValues pulumi.IntMapInput `pulumi:"integerValues"`
+	// Credentials that have string values.
+	StringValues pulumi.StringMapInput `pulumi:"stringValues"`
+}
+
+func (SmCustomCredentialsSecretCredentialsContentArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsSecretCredentialsContent)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsSecretCredentialsContentArgs) ToSmCustomCredentialsSecretCredentialsContentOutput() SmCustomCredentialsSecretCredentialsContentOutput {
+	return i.ToSmCustomCredentialsSecretCredentialsContentOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsSecretCredentialsContentArgs) ToSmCustomCredentialsSecretCredentialsContentOutputWithContext(ctx context.Context) SmCustomCredentialsSecretCredentialsContentOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretCredentialsContentOutput)
+}
+
+// SmCustomCredentialsSecretCredentialsContentArrayInput is an input type that accepts SmCustomCredentialsSecretCredentialsContentArray and SmCustomCredentialsSecretCredentialsContentArrayOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsSecretCredentialsContentArrayInput` via:
+//
+//	SmCustomCredentialsSecretCredentialsContentArray{ SmCustomCredentialsSecretCredentialsContentArgs{...} }
+type SmCustomCredentialsSecretCredentialsContentArrayInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsSecretCredentialsContentArrayOutput() SmCustomCredentialsSecretCredentialsContentArrayOutput
+	ToSmCustomCredentialsSecretCredentialsContentArrayOutputWithContext(context.Context) SmCustomCredentialsSecretCredentialsContentArrayOutput
+}
+
+type SmCustomCredentialsSecretCredentialsContentArray []SmCustomCredentialsSecretCredentialsContentInput
+
+func (SmCustomCredentialsSecretCredentialsContentArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsSecretCredentialsContent)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsSecretCredentialsContentArray) ToSmCustomCredentialsSecretCredentialsContentArrayOutput() SmCustomCredentialsSecretCredentialsContentArrayOutput {
+	return i.ToSmCustomCredentialsSecretCredentialsContentArrayOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsSecretCredentialsContentArray) ToSmCustomCredentialsSecretCredentialsContentArrayOutputWithContext(ctx context.Context) SmCustomCredentialsSecretCredentialsContentArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretCredentialsContentArrayOutput)
+}
+
+type SmCustomCredentialsSecretCredentialsContentOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsSecretCredentialsContentOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsSecretCredentialsContent)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsSecretCredentialsContentOutput) ToSmCustomCredentialsSecretCredentialsContentOutput() SmCustomCredentialsSecretCredentialsContentOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretCredentialsContentOutput) ToSmCustomCredentialsSecretCredentialsContentOutputWithContext(ctx context.Context) SmCustomCredentialsSecretCredentialsContentOutput {
+	return o
+}
+
+// Credentials that have boolean values.
+func (o SmCustomCredentialsSecretCredentialsContentOutput) BooleanValues() pulumi.BoolMapOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretCredentialsContent) map[string]bool { return v.BooleanValues }).(pulumi.BoolMapOutput)
+}
+
+// Credentials that have integer values.
+func (o SmCustomCredentialsSecretCredentialsContentOutput) IntegerValues() pulumi.IntMapOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretCredentialsContent) map[string]int { return v.IntegerValues }).(pulumi.IntMapOutput)
+}
+
+// Credentials that have string values.
+func (o SmCustomCredentialsSecretCredentialsContentOutput) StringValues() pulumi.StringMapOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretCredentialsContent) map[string]string { return v.StringValues }).(pulumi.StringMapOutput)
+}
+
+type SmCustomCredentialsSecretCredentialsContentArrayOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsSecretCredentialsContentArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmCustomCredentialsSecretCredentialsContent)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsSecretCredentialsContentArrayOutput) ToSmCustomCredentialsSecretCredentialsContentArrayOutput() SmCustomCredentialsSecretCredentialsContentArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretCredentialsContentArrayOutput) ToSmCustomCredentialsSecretCredentialsContentArrayOutputWithContext(ctx context.Context) SmCustomCredentialsSecretCredentialsContentArrayOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretCredentialsContentArrayOutput) Index(i pulumi.IntInput) SmCustomCredentialsSecretCredentialsContentOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmCustomCredentialsSecretCredentialsContent {
+		return vs[0].([]SmCustomCredentialsSecretCredentialsContent)[vs[1].(int)]
+	}).(SmCustomCredentialsSecretCredentialsContentOutput)
+}
+
+type SmCustomCredentialsSecretParameters struct {
+	// Pararmeters that have boolean values.
+	BooleanValues map[string]bool `pulumi:"booleanValues"`
+	// Pararmeters that have integer values.
+	IntegerValues map[string]int `pulumi:"integerValues"`
+	// Pararmeters that have string values.
+	StringValues map[string]string `pulumi:"stringValues"`
+}
+
+// SmCustomCredentialsSecretParametersInput is an input type that accepts SmCustomCredentialsSecretParametersArgs and SmCustomCredentialsSecretParametersOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsSecretParametersInput` via:
+//
+//	SmCustomCredentialsSecretParametersArgs{...}
+type SmCustomCredentialsSecretParametersInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsSecretParametersOutput() SmCustomCredentialsSecretParametersOutput
+	ToSmCustomCredentialsSecretParametersOutputWithContext(context.Context) SmCustomCredentialsSecretParametersOutput
+}
+
+type SmCustomCredentialsSecretParametersArgs struct {
+	// Pararmeters that have boolean values.
+	BooleanValues pulumi.BoolMapInput `pulumi:"booleanValues"`
+	// Pararmeters that have integer values.
+	IntegerValues pulumi.IntMapInput `pulumi:"integerValues"`
+	// Pararmeters that have string values.
+	StringValues pulumi.StringMapInput `pulumi:"stringValues"`
+}
+
+func (SmCustomCredentialsSecretParametersArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsSecretParameters)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsSecretParametersArgs) ToSmCustomCredentialsSecretParametersOutput() SmCustomCredentialsSecretParametersOutput {
+	return i.ToSmCustomCredentialsSecretParametersOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsSecretParametersArgs) ToSmCustomCredentialsSecretParametersOutputWithContext(ctx context.Context) SmCustomCredentialsSecretParametersOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretParametersOutput)
+}
+
+func (i SmCustomCredentialsSecretParametersArgs) ToSmCustomCredentialsSecretParametersPtrOutput() SmCustomCredentialsSecretParametersPtrOutput {
+	return i.ToSmCustomCredentialsSecretParametersPtrOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsSecretParametersArgs) ToSmCustomCredentialsSecretParametersPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretParametersPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretParametersOutput).ToSmCustomCredentialsSecretParametersPtrOutputWithContext(ctx)
+}
+
+// SmCustomCredentialsSecretParametersPtrInput is an input type that accepts SmCustomCredentialsSecretParametersArgs, SmCustomCredentialsSecretParametersPtr and SmCustomCredentialsSecretParametersPtrOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsSecretParametersPtrInput` via:
+//
+//	        SmCustomCredentialsSecretParametersArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmCustomCredentialsSecretParametersPtrInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsSecretParametersPtrOutput() SmCustomCredentialsSecretParametersPtrOutput
+	ToSmCustomCredentialsSecretParametersPtrOutputWithContext(context.Context) SmCustomCredentialsSecretParametersPtrOutput
+}
+
+type smCustomCredentialsSecretParametersPtrType SmCustomCredentialsSecretParametersArgs
+
+func SmCustomCredentialsSecretParametersPtr(v *SmCustomCredentialsSecretParametersArgs) SmCustomCredentialsSecretParametersPtrInput {
+	return (*smCustomCredentialsSecretParametersPtrType)(v)
+}
+
+func (*smCustomCredentialsSecretParametersPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmCustomCredentialsSecretParameters)(nil)).Elem()
+}
+
+func (i *smCustomCredentialsSecretParametersPtrType) ToSmCustomCredentialsSecretParametersPtrOutput() SmCustomCredentialsSecretParametersPtrOutput {
+	return i.ToSmCustomCredentialsSecretParametersPtrOutputWithContext(context.Background())
+}
+
+func (i *smCustomCredentialsSecretParametersPtrType) ToSmCustomCredentialsSecretParametersPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretParametersPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretParametersPtrOutput)
+}
+
+type SmCustomCredentialsSecretParametersOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsSecretParametersOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsSecretParameters)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsSecretParametersOutput) ToSmCustomCredentialsSecretParametersOutput() SmCustomCredentialsSecretParametersOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretParametersOutput) ToSmCustomCredentialsSecretParametersOutputWithContext(ctx context.Context) SmCustomCredentialsSecretParametersOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretParametersOutput) ToSmCustomCredentialsSecretParametersPtrOutput() SmCustomCredentialsSecretParametersPtrOutput {
+	return o.ToSmCustomCredentialsSecretParametersPtrOutputWithContext(context.Background())
+}
+
+func (o SmCustomCredentialsSecretParametersOutput) ToSmCustomCredentialsSecretParametersPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretParametersPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmCustomCredentialsSecretParameters) *SmCustomCredentialsSecretParameters {
+		return &v
+	}).(SmCustomCredentialsSecretParametersPtrOutput)
+}
+
+// Pararmeters that have boolean values.
+func (o SmCustomCredentialsSecretParametersOutput) BooleanValues() pulumi.BoolMapOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretParameters) map[string]bool { return v.BooleanValues }).(pulumi.BoolMapOutput)
+}
+
+// Pararmeters that have integer values.
+func (o SmCustomCredentialsSecretParametersOutput) IntegerValues() pulumi.IntMapOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretParameters) map[string]int { return v.IntegerValues }).(pulumi.IntMapOutput)
+}
+
+// Pararmeters that have string values.
+func (o SmCustomCredentialsSecretParametersOutput) StringValues() pulumi.StringMapOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretParameters) map[string]string { return v.StringValues }).(pulumi.StringMapOutput)
+}
+
+type SmCustomCredentialsSecretParametersPtrOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsSecretParametersPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmCustomCredentialsSecretParameters)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsSecretParametersPtrOutput) ToSmCustomCredentialsSecretParametersPtrOutput() SmCustomCredentialsSecretParametersPtrOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretParametersPtrOutput) ToSmCustomCredentialsSecretParametersPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretParametersPtrOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretParametersPtrOutput) Elem() SmCustomCredentialsSecretParametersOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretParameters) SmCustomCredentialsSecretParameters {
+		if v != nil {
+			return *v
+		}
+		var ret SmCustomCredentialsSecretParameters
+		return ret
+	}).(SmCustomCredentialsSecretParametersOutput)
+}
+
+// Pararmeters that have boolean values.
+func (o SmCustomCredentialsSecretParametersPtrOutput) BooleanValues() pulumi.BoolMapOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretParameters) map[string]bool {
+		if v == nil {
+			return nil
+		}
+		return v.BooleanValues
+	}).(pulumi.BoolMapOutput)
+}
+
+// Pararmeters that have integer values.
+func (o SmCustomCredentialsSecretParametersPtrOutput) IntegerValues() pulumi.IntMapOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretParameters) map[string]int {
+		if v == nil {
+			return nil
+		}
+		return v.IntegerValues
+	}).(pulumi.IntMapOutput)
+}
+
+// Pararmeters that have string values.
+func (o SmCustomCredentialsSecretParametersPtrOutput) StringValues() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretParameters) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.StringValues
+	}).(pulumi.StringMapOutput)
+}
+
+type SmCustomCredentialsSecretRotation struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate *bool `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval *int `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit *string `pulumi:"unit"`
+}
+
+// SmCustomCredentialsSecretRotationInput is an input type that accepts SmCustomCredentialsSecretRotationArgs and SmCustomCredentialsSecretRotationOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsSecretRotationInput` via:
+//
+//	SmCustomCredentialsSecretRotationArgs{...}
+type SmCustomCredentialsSecretRotationInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsSecretRotationOutput() SmCustomCredentialsSecretRotationOutput
+	ToSmCustomCredentialsSecretRotationOutputWithContext(context.Context) SmCustomCredentialsSecretRotationOutput
+}
+
+type SmCustomCredentialsSecretRotationArgs struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate pulumi.BoolPtrInput `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval pulumi.IntPtrInput `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit pulumi.StringPtrInput `pulumi:"unit"`
+}
+
+func (SmCustomCredentialsSecretRotationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (i SmCustomCredentialsSecretRotationArgs) ToSmCustomCredentialsSecretRotationOutput() SmCustomCredentialsSecretRotationOutput {
+	return i.ToSmCustomCredentialsSecretRotationOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsSecretRotationArgs) ToSmCustomCredentialsSecretRotationOutputWithContext(ctx context.Context) SmCustomCredentialsSecretRotationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretRotationOutput)
+}
+
+func (i SmCustomCredentialsSecretRotationArgs) ToSmCustomCredentialsSecretRotationPtrOutput() SmCustomCredentialsSecretRotationPtrOutput {
+	return i.ToSmCustomCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i SmCustomCredentialsSecretRotationArgs) ToSmCustomCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretRotationOutput).ToSmCustomCredentialsSecretRotationPtrOutputWithContext(ctx)
+}
+
+// SmCustomCredentialsSecretRotationPtrInput is an input type that accepts SmCustomCredentialsSecretRotationArgs, SmCustomCredentialsSecretRotationPtr and SmCustomCredentialsSecretRotationPtrOutput values.
+// You can construct a concrete instance of `SmCustomCredentialsSecretRotationPtrInput` via:
+//
+//	        SmCustomCredentialsSecretRotationArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmCustomCredentialsSecretRotationPtrInput interface {
+	pulumi.Input
+
+	ToSmCustomCredentialsSecretRotationPtrOutput() SmCustomCredentialsSecretRotationPtrOutput
+	ToSmCustomCredentialsSecretRotationPtrOutputWithContext(context.Context) SmCustomCredentialsSecretRotationPtrOutput
+}
+
+type smCustomCredentialsSecretRotationPtrType SmCustomCredentialsSecretRotationArgs
+
+func SmCustomCredentialsSecretRotationPtr(v *SmCustomCredentialsSecretRotationArgs) SmCustomCredentialsSecretRotationPtrInput {
+	return (*smCustomCredentialsSecretRotationPtrType)(v)
+}
+
+func (*smCustomCredentialsSecretRotationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmCustomCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (i *smCustomCredentialsSecretRotationPtrType) ToSmCustomCredentialsSecretRotationPtrOutput() SmCustomCredentialsSecretRotationPtrOutput {
+	return i.ToSmCustomCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i *smCustomCredentialsSecretRotationPtrType) ToSmCustomCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmCustomCredentialsSecretRotationPtrOutput)
+}
+
+type SmCustomCredentialsSecretRotationOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsSecretRotationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmCustomCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsSecretRotationOutput) ToSmCustomCredentialsSecretRotationOutput() SmCustomCredentialsSecretRotationOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretRotationOutput) ToSmCustomCredentialsSecretRotationOutputWithContext(ctx context.Context) SmCustomCredentialsSecretRotationOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretRotationOutput) ToSmCustomCredentialsSecretRotationPtrOutput() SmCustomCredentialsSecretRotationPtrOutput {
+	return o.ToSmCustomCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (o SmCustomCredentialsSecretRotationOutput) ToSmCustomCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretRotationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmCustomCredentialsSecretRotation) *SmCustomCredentialsSecretRotation {
+		return &v
+	}).(SmCustomCredentialsSecretRotationPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmCustomCredentialsSecretRotationOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretRotation) *bool { return v.AutoRotate }).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmCustomCredentialsSecretRotationOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretRotation) *int { return v.Interval }).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmCustomCredentialsSecretRotationOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmCustomCredentialsSecretRotation) *string { return v.Unit }).(pulumi.StringPtrOutput)
+}
+
+type SmCustomCredentialsSecretRotationPtrOutput struct{ *pulumi.OutputState }
+
+func (SmCustomCredentialsSecretRotationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmCustomCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (o SmCustomCredentialsSecretRotationPtrOutput) ToSmCustomCredentialsSecretRotationPtrOutput() SmCustomCredentialsSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretRotationPtrOutput) ToSmCustomCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmCustomCredentialsSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmCustomCredentialsSecretRotationPtrOutput) Elem() SmCustomCredentialsSecretRotationOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretRotation) SmCustomCredentialsSecretRotation {
+		if v != nil {
+			return *v
+		}
+		var ret SmCustomCredentialsSecretRotation
+		return ret
+	}).(SmCustomCredentialsSecretRotationOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmCustomCredentialsSecretRotationPtrOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRotate
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmCustomCredentialsSecretRotationPtrOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretRotation) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Interval
+	}).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmCustomCredentialsSecretRotationPtrOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmCustomCredentialsSecretRotation) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Unit
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmIamCredentialsSecretRotation struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate *bool `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval *int `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit *string `pulumi:"unit"`
+}
+
+// SmIamCredentialsSecretRotationInput is an input type that accepts SmIamCredentialsSecretRotationArgs and SmIamCredentialsSecretRotationOutput values.
+// You can construct a concrete instance of `SmIamCredentialsSecretRotationInput` via:
+//
+//	SmIamCredentialsSecretRotationArgs{...}
+type SmIamCredentialsSecretRotationInput interface {
+	pulumi.Input
+
+	ToSmIamCredentialsSecretRotationOutput() SmIamCredentialsSecretRotationOutput
+	ToSmIamCredentialsSecretRotationOutputWithContext(context.Context) SmIamCredentialsSecretRotationOutput
+}
+
+type SmIamCredentialsSecretRotationArgs struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate pulumi.BoolPtrInput `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval pulumi.IntPtrInput `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit pulumi.StringPtrInput `pulumi:"unit"`
+}
+
+func (SmIamCredentialsSecretRotationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmIamCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (i SmIamCredentialsSecretRotationArgs) ToSmIamCredentialsSecretRotationOutput() SmIamCredentialsSecretRotationOutput {
+	return i.ToSmIamCredentialsSecretRotationOutputWithContext(context.Background())
+}
+
+func (i SmIamCredentialsSecretRotationArgs) ToSmIamCredentialsSecretRotationOutputWithContext(ctx context.Context) SmIamCredentialsSecretRotationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmIamCredentialsSecretRotationOutput)
+}
+
+func (i SmIamCredentialsSecretRotationArgs) ToSmIamCredentialsSecretRotationPtrOutput() SmIamCredentialsSecretRotationPtrOutput {
+	return i.ToSmIamCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i SmIamCredentialsSecretRotationArgs) ToSmIamCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmIamCredentialsSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmIamCredentialsSecretRotationOutput).ToSmIamCredentialsSecretRotationPtrOutputWithContext(ctx)
+}
+
+// SmIamCredentialsSecretRotationPtrInput is an input type that accepts SmIamCredentialsSecretRotationArgs, SmIamCredentialsSecretRotationPtr and SmIamCredentialsSecretRotationPtrOutput values.
+// You can construct a concrete instance of `SmIamCredentialsSecretRotationPtrInput` via:
+//
+//	        SmIamCredentialsSecretRotationArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmIamCredentialsSecretRotationPtrInput interface {
+	pulumi.Input
+
+	ToSmIamCredentialsSecretRotationPtrOutput() SmIamCredentialsSecretRotationPtrOutput
+	ToSmIamCredentialsSecretRotationPtrOutputWithContext(context.Context) SmIamCredentialsSecretRotationPtrOutput
+}
+
+type smIamCredentialsSecretRotationPtrType SmIamCredentialsSecretRotationArgs
+
+func SmIamCredentialsSecretRotationPtr(v *SmIamCredentialsSecretRotationArgs) SmIamCredentialsSecretRotationPtrInput {
+	return (*smIamCredentialsSecretRotationPtrType)(v)
+}
+
+func (*smIamCredentialsSecretRotationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmIamCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (i *smIamCredentialsSecretRotationPtrType) ToSmIamCredentialsSecretRotationPtrOutput() SmIamCredentialsSecretRotationPtrOutput {
+	return i.ToSmIamCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i *smIamCredentialsSecretRotationPtrType) ToSmIamCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmIamCredentialsSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmIamCredentialsSecretRotationPtrOutput)
+}
+
+type SmIamCredentialsSecretRotationOutput struct{ *pulumi.OutputState }
+
+func (SmIamCredentialsSecretRotationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmIamCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (o SmIamCredentialsSecretRotationOutput) ToSmIamCredentialsSecretRotationOutput() SmIamCredentialsSecretRotationOutput {
+	return o
+}
+
+func (o SmIamCredentialsSecretRotationOutput) ToSmIamCredentialsSecretRotationOutputWithContext(ctx context.Context) SmIamCredentialsSecretRotationOutput {
+	return o
+}
+
+func (o SmIamCredentialsSecretRotationOutput) ToSmIamCredentialsSecretRotationPtrOutput() SmIamCredentialsSecretRotationPtrOutput {
+	return o.ToSmIamCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (o SmIamCredentialsSecretRotationOutput) ToSmIamCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmIamCredentialsSecretRotationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmIamCredentialsSecretRotation) *SmIamCredentialsSecretRotation {
+		return &v
+	}).(SmIamCredentialsSecretRotationPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmIamCredentialsSecretRotationOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmIamCredentialsSecretRotation) *bool { return v.AutoRotate }).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmIamCredentialsSecretRotationOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmIamCredentialsSecretRotation) *int { return v.Interval }).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmIamCredentialsSecretRotationOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmIamCredentialsSecretRotation) *string { return v.Unit }).(pulumi.StringPtrOutput)
+}
+
+type SmIamCredentialsSecretRotationPtrOutput struct{ *pulumi.OutputState }
+
+func (SmIamCredentialsSecretRotationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmIamCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (o SmIamCredentialsSecretRotationPtrOutput) ToSmIamCredentialsSecretRotationPtrOutput() SmIamCredentialsSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmIamCredentialsSecretRotationPtrOutput) ToSmIamCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmIamCredentialsSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmIamCredentialsSecretRotationPtrOutput) Elem() SmIamCredentialsSecretRotationOutput {
+	return o.ApplyT(func(v *SmIamCredentialsSecretRotation) SmIamCredentialsSecretRotation {
+		if v != nil {
+			return *v
+		}
+		var ret SmIamCredentialsSecretRotation
+		return ret
+	}).(SmIamCredentialsSecretRotationOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmIamCredentialsSecretRotationPtrOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmIamCredentialsSecretRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRotate
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmIamCredentialsSecretRotationPtrOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmIamCredentialsSecretRotation) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Interval
+	}).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmIamCredentialsSecretRotationPtrOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmIamCredentialsSecretRotation) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Unit
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmImportedCertificateManagedCsr struct {
+	// With the Subject Alternative Name field, you can specify additional hostnames to be protected by a single SSL certificate.
+	AltNames *string `pulumi:"altNames"`
+	// This field indicates whether certificate is flagged for client use.
+	ClientFlag *bool `pulumi:"clientFlag"`
+	// This field indicates whether certificate is flagged for code signing use.
+	CodeSigningFlag *bool `pulumi:"codeSigningFlag"`
+	// The Common Name (CN) represents the server name protected by the SSL certificate.
+	CommonName *string `pulumi:"commonName"`
+	// The Country (C) values to define in the subject field of the resulting certificate.
+	Countries []string `pulumi:"countries"`
+	// The certificate signing request.
+	Csr *string `pulumi:"csr"`
+	// This field indicates whether certificate is flagged for email protection use.
+	EmailProtectionFlag *bool `pulumi:"emailProtectionFlag"`
+	// This parameter controls whether the common name is excluded from Subject Alternative Names (SANs).
+	ExcludeCnFromSans *bool `pulumi:"excludeCnFromSans"`
+	// The allowed extended key usage constraint on certificate, in a comma-delimited list.
+	ExtKeyUsage *string `pulumi:"extKeyUsage"`
+	// A comma-delimited list of extended key usage Object Identifiers (OIDs).
+	ExtKeyUsageOids *string `pulumi:"extKeyUsageOids"`
+	// The IP Subject Alternative Names to define for the certificate, in a comma-delimited list.
+	IpSans *string `pulumi:"ipSans"`
+	// The number of bits to use to generate the private key.
+	KeyBits *int `pulumi:"keyBits"`
+	// The type of private key to generate.
+	KeyType *string `pulumi:"keyType"`
+	// The allowed key usage constraint to define for certificate, in a comma-delimited list.
+	KeyUsage *string `pulumi:"keyUsage"`
+	// The Locality (L) values to define in the subject field of the resulting certificate.
+	Localities []string `pulumi:"localities"`
+	// The Organization (O) values to define in the subject field of the resulting certificate.
+	Organizations []string `pulumi:"organizations"`
+	// The custom Object Identifier (OID) or UTF8-string Subject Alternative Names to define for the certificate, in a comma-delimited list.
+	OtherSans *string `pulumi:"otherSans"`
+	// The Organizational Unit (OU) values to define in the subject field of the resulting certificate.
+	Ous []string `pulumi:"ous"`
+	// A comma-delimited list of policy Object Identifiers (OIDs).
+	PolicyIdentifiers *string `pulumi:"policyIdentifiers"`
+	// The postal code values to define in the subject field of the resulting certificate.
+	PostalCodes []string `pulumi:"postalCodes"`
+	// The Province (ST) values to define in the subject field of the resulting certificate.
+	Provinces []string `pulumi:"provinces"`
+	// If set to false, makes the commonName field optional while generating a certificate.
+	RequireCn *bool `pulumi:"requireCn"`
+	// This field indicates whether the private key will be rotated.
+	RotateKeys *bool `pulumi:"rotateKeys"`
+	// This field indicates whether certificate is flagged for server use.
+	ServerFlag *bool `pulumi:"serverFlag"`
+	// The street address values to define in the subject field of the resulting certificate.
+	StreetAddresses []string `pulumi:"streetAddresses"`
+	// The URI Subject Alternative Names to define for the certificate, in a comma-delimited list.
+	UriSans *string `pulumi:"uriSans"`
+	// Specifies the list of requested User ID (OID 0.9.2342.19200300.100.1.1) Subject values to be placed on the signed certificate.
+	UserIds *string `pulumi:"userIds"`
+}
+
+// SmImportedCertificateManagedCsrInput is an input type that accepts SmImportedCertificateManagedCsrArgs and SmImportedCertificateManagedCsrOutput values.
+// You can construct a concrete instance of `SmImportedCertificateManagedCsrInput` via:
+//
+//	SmImportedCertificateManagedCsrArgs{...}
+type SmImportedCertificateManagedCsrInput interface {
+	pulumi.Input
+
+	ToSmImportedCertificateManagedCsrOutput() SmImportedCertificateManagedCsrOutput
+	ToSmImportedCertificateManagedCsrOutputWithContext(context.Context) SmImportedCertificateManagedCsrOutput
+}
+
+type SmImportedCertificateManagedCsrArgs struct {
+	// With the Subject Alternative Name field, you can specify additional hostnames to be protected by a single SSL certificate.
+	AltNames pulumi.StringPtrInput `pulumi:"altNames"`
+	// This field indicates whether certificate is flagged for client use.
+	ClientFlag pulumi.BoolPtrInput `pulumi:"clientFlag"`
+	// This field indicates whether certificate is flagged for code signing use.
+	CodeSigningFlag pulumi.BoolPtrInput `pulumi:"codeSigningFlag"`
+	// The Common Name (CN) represents the server name protected by the SSL certificate.
+	CommonName pulumi.StringPtrInput `pulumi:"commonName"`
+	// The Country (C) values to define in the subject field of the resulting certificate.
+	Countries pulumi.StringArrayInput `pulumi:"countries"`
+	// The certificate signing request.
+	Csr pulumi.StringPtrInput `pulumi:"csr"`
+	// This field indicates whether certificate is flagged for email protection use.
+	EmailProtectionFlag pulumi.BoolPtrInput `pulumi:"emailProtectionFlag"`
+	// This parameter controls whether the common name is excluded from Subject Alternative Names (SANs).
+	ExcludeCnFromSans pulumi.BoolPtrInput `pulumi:"excludeCnFromSans"`
+	// The allowed extended key usage constraint on certificate, in a comma-delimited list.
+	ExtKeyUsage pulumi.StringPtrInput `pulumi:"extKeyUsage"`
+	// A comma-delimited list of extended key usage Object Identifiers (OIDs).
+	ExtKeyUsageOids pulumi.StringPtrInput `pulumi:"extKeyUsageOids"`
+	// The IP Subject Alternative Names to define for the certificate, in a comma-delimited list.
+	IpSans pulumi.StringPtrInput `pulumi:"ipSans"`
+	// The number of bits to use to generate the private key.
+	KeyBits pulumi.IntPtrInput `pulumi:"keyBits"`
+	// The type of private key to generate.
+	KeyType pulumi.StringPtrInput `pulumi:"keyType"`
+	// The allowed key usage constraint to define for certificate, in a comma-delimited list.
+	KeyUsage pulumi.StringPtrInput `pulumi:"keyUsage"`
+	// The Locality (L) values to define in the subject field of the resulting certificate.
+	Localities pulumi.StringArrayInput `pulumi:"localities"`
+	// The Organization (O) values to define in the subject field of the resulting certificate.
+	Organizations pulumi.StringArrayInput `pulumi:"organizations"`
+	// The custom Object Identifier (OID) or UTF8-string Subject Alternative Names to define for the certificate, in a comma-delimited list.
+	OtherSans pulumi.StringPtrInput `pulumi:"otherSans"`
+	// The Organizational Unit (OU) values to define in the subject field of the resulting certificate.
+	Ous pulumi.StringArrayInput `pulumi:"ous"`
+	// A comma-delimited list of policy Object Identifiers (OIDs).
+	PolicyIdentifiers pulumi.StringPtrInput `pulumi:"policyIdentifiers"`
+	// The postal code values to define in the subject field of the resulting certificate.
+	PostalCodes pulumi.StringArrayInput `pulumi:"postalCodes"`
+	// The Province (ST) values to define in the subject field of the resulting certificate.
+	Provinces pulumi.StringArrayInput `pulumi:"provinces"`
+	// If set to false, makes the commonName field optional while generating a certificate.
+	RequireCn pulumi.BoolPtrInput `pulumi:"requireCn"`
+	// This field indicates whether the private key will be rotated.
+	RotateKeys pulumi.BoolPtrInput `pulumi:"rotateKeys"`
+	// This field indicates whether certificate is flagged for server use.
+	ServerFlag pulumi.BoolPtrInput `pulumi:"serverFlag"`
+	// The street address values to define in the subject field of the resulting certificate.
+	StreetAddresses pulumi.StringArrayInput `pulumi:"streetAddresses"`
+	// The URI Subject Alternative Names to define for the certificate, in a comma-delimited list.
+	UriSans pulumi.StringPtrInput `pulumi:"uriSans"`
+	// Specifies the list of requested User ID (OID 0.9.2342.19200300.100.1.1) Subject values to be placed on the signed certificate.
+	UserIds pulumi.StringPtrInput `pulumi:"userIds"`
+}
+
+func (SmImportedCertificateManagedCsrArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmImportedCertificateManagedCsr)(nil)).Elem()
+}
+
+func (i SmImportedCertificateManagedCsrArgs) ToSmImportedCertificateManagedCsrOutput() SmImportedCertificateManagedCsrOutput {
+	return i.ToSmImportedCertificateManagedCsrOutputWithContext(context.Background())
+}
+
+func (i SmImportedCertificateManagedCsrArgs) ToSmImportedCertificateManagedCsrOutputWithContext(ctx context.Context) SmImportedCertificateManagedCsrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmImportedCertificateManagedCsrOutput)
+}
+
+func (i SmImportedCertificateManagedCsrArgs) ToSmImportedCertificateManagedCsrPtrOutput() SmImportedCertificateManagedCsrPtrOutput {
+	return i.ToSmImportedCertificateManagedCsrPtrOutputWithContext(context.Background())
+}
+
+func (i SmImportedCertificateManagedCsrArgs) ToSmImportedCertificateManagedCsrPtrOutputWithContext(ctx context.Context) SmImportedCertificateManagedCsrPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmImportedCertificateManagedCsrOutput).ToSmImportedCertificateManagedCsrPtrOutputWithContext(ctx)
+}
+
+// SmImportedCertificateManagedCsrPtrInput is an input type that accepts SmImportedCertificateManagedCsrArgs, SmImportedCertificateManagedCsrPtr and SmImportedCertificateManagedCsrPtrOutput values.
+// You can construct a concrete instance of `SmImportedCertificateManagedCsrPtrInput` via:
+//
+//	        SmImportedCertificateManagedCsrArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmImportedCertificateManagedCsrPtrInput interface {
+	pulumi.Input
+
+	ToSmImportedCertificateManagedCsrPtrOutput() SmImportedCertificateManagedCsrPtrOutput
+	ToSmImportedCertificateManagedCsrPtrOutputWithContext(context.Context) SmImportedCertificateManagedCsrPtrOutput
+}
+
+type smImportedCertificateManagedCsrPtrType SmImportedCertificateManagedCsrArgs
+
+func SmImportedCertificateManagedCsrPtr(v *SmImportedCertificateManagedCsrArgs) SmImportedCertificateManagedCsrPtrInput {
+	return (*smImportedCertificateManagedCsrPtrType)(v)
+}
+
+func (*smImportedCertificateManagedCsrPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmImportedCertificateManagedCsr)(nil)).Elem()
+}
+
+func (i *smImportedCertificateManagedCsrPtrType) ToSmImportedCertificateManagedCsrPtrOutput() SmImportedCertificateManagedCsrPtrOutput {
+	return i.ToSmImportedCertificateManagedCsrPtrOutputWithContext(context.Background())
+}
+
+func (i *smImportedCertificateManagedCsrPtrType) ToSmImportedCertificateManagedCsrPtrOutputWithContext(ctx context.Context) SmImportedCertificateManagedCsrPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmImportedCertificateManagedCsrPtrOutput)
+}
+
+type SmImportedCertificateManagedCsrOutput struct{ *pulumi.OutputState }
+
+func (SmImportedCertificateManagedCsrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmImportedCertificateManagedCsr)(nil)).Elem()
+}
+
+func (o SmImportedCertificateManagedCsrOutput) ToSmImportedCertificateManagedCsrOutput() SmImportedCertificateManagedCsrOutput {
+	return o
+}
+
+func (o SmImportedCertificateManagedCsrOutput) ToSmImportedCertificateManagedCsrOutputWithContext(ctx context.Context) SmImportedCertificateManagedCsrOutput {
+	return o
+}
+
+func (o SmImportedCertificateManagedCsrOutput) ToSmImportedCertificateManagedCsrPtrOutput() SmImportedCertificateManagedCsrPtrOutput {
+	return o.ToSmImportedCertificateManagedCsrPtrOutputWithContext(context.Background())
+}
+
+func (o SmImportedCertificateManagedCsrOutput) ToSmImportedCertificateManagedCsrPtrOutputWithContext(ctx context.Context) SmImportedCertificateManagedCsrPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmImportedCertificateManagedCsr) *SmImportedCertificateManagedCsr {
+		return &v
+	}).(SmImportedCertificateManagedCsrPtrOutput)
+}
+
+// With the Subject Alternative Name field, you can specify additional hostnames to be protected by a single SSL certificate.
+func (o SmImportedCertificateManagedCsrOutput) AltNames() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.AltNames }).(pulumi.StringPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for client use.
+func (o SmImportedCertificateManagedCsrOutput) ClientFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.ClientFlag }).(pulumi.BoolPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for code signing use.
+func (o SmImportedCertificateManagedCsrOutput) CodeSigningFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.CodeSigningFlag }).(pulumi.BoolPtrOutput)
+}
+
+// The Common Name (CN) represents the server name protected by the SSL certificate.
+func (o SmImportedCertificateManagedCsrOutput) CommonName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.CommonName }).(pulumi.StringPtrOutput)
+}
+
+// The Country (C) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) Countries() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.Countries }).(pulumi.StringArrayOutput)
+}
+
+// The certificate signing request.
+func (o SmImportedCertificateManagedCsrOutput) Csr() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.Csr }).(pulumi.StringPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for email protection use.
+func (o SmImportedCertificateManagedCsrOutput) EmailProtectionFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.EmailProtectionFlag }).(pulumi.BoolPtrOutput)
+}
+
+// This parameter controls whether the common name is excluded from Subject Alternative Names (SANs).
+func (o SmImportedCertificateManagedCsrOutput) ExcludeCnFromSans() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.ExcludeCnFromSans }).(pulumi.BoolPtrOutput)
+}
+
+// The allowed extended key usage constraint on certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrOutput) ExtKeyUsage() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.ExtKeyUsage }).(pulumi.StringPtrOutput)
+}
+
+// A comma-delimited list of extended key usage Object Identifiers (OIDs).
+func (o SmImportedCertificateManagedCsrOutput) ExtKeyUsageOids() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.ExtKeyUsageOids }).(pulumi.StringPtrOutput)
+}
+
+// The IP Subject Alternative Names to define for the certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrOutput) IpSans() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.IpSans }).(pulumi.StringPtrOutput)
+}
+
+// The number of bits to use to generate the private key.
+func (o SmImportedCertificateManagedCsrOutput) KeyBits() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *int { return v.KeyBits }).(pulumi.IntPtrOutput)
+}
+
+// The type of private key to generate.
+func (o SmImportedCertificateManagedCsrOutput) KeyType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.KeyType }).(pulumi.StringPtrOutput)
+}
+
+// The allowed key usage constraint to define for certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrOutput) KeyUsage() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.KeyUsage }).(pulumi.StringPtrOutput)
+}
+
+// The Locality (L) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) Localities() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.Localities }).(pulumi.StringArrayOutput)
+}
+
+// The Organization (O) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) Organizations() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.Organizations }).(pulumi.StringArrayOutput)
+}
+
+// The custom Object Identifier (OID) or UTF8-string Subject Alternative Names to define for the certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrOutput) OtherSans() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.OtherSans }).(pulumi.StringPtrOutput)
+}
+
+// The Organizational Unit (OU) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) Ous() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.Ous }).(pulumi.StringArrayOutput)
+}
+
+// A comma-delimited list of policy Object Identifiers (OIDs).
+func (o SmImportedCertificateManagedCsrOutput) PolicyIdentifiers() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.PolicyIdentifiers }).(pulumi.StringPtrOutput)
+}
+
+// The postal code values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) PostalCodes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.PostalCodes }).(pulumi.StringArrayOutput)
+}
+
+// The Province (ST) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) Provinces() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.Provinces }).(pulumi.StringArrayOutput)
+}
+
+// If set to false, makes the commonName field optional while generating a certificate.
+func (o SmImportedCertificateManagedCsrOutput) RequireCn() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.RequireCn }).(pulumi.BoolPtrOutput)
+}
+
+// This field indicates whether the private key will be rotated.
+func (o SmImportedCertificateManagedCsrOutput) RotateKeys() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.RotateKeys }).(pulumi.BoolPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for server use.
+func (o SmImportedCertificateManagedCsrOutput) ServerFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *bool { return v.ServerFlag }).(pulumi.BoolPtrOutput)
+}
+
+// The street address values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrOutput) StreetAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) []string { return v.StreetAddresses }).(pulumi.StringArrayOutput)
+}
+
+// The URI Subject Alternative Names to define for the certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrOutput) UriSans() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.UriSans }).(pulumi.StringPtrOutput)
+}
+
+// Specifies the list of requested User ID (OID 0.9.2342.19200300.100.1.1) Subject values to be placed on the signed certificate.
+func (o SmImportedCertificateManagedCsrOutput) UserIds() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateManagedCsr) *string { return v.UserIds }).(pulumi.StringPtrOutput)
+}
+
+type SmImportedCertificateManagedCsrPtrOutput struct{ *pulumi.OutputState }
+
+func (SmImportedCertificateManagedCsrPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmImportedCertificateManagedCsr)(nil)).Elem()
+}
+
+func (o SmImportedCertificateManagedCsrPtrOutput) ToSmImportedCertificateManagedCsrPtrOutput() SmImportedCertificateManagedCsrPtrOutput {
+	return o
+}
+
+func (o SmImportedCertificateManagedCsrPtrOutput) ToSmImportedCertificateManagedCsrPtrOutputWithContext(ctx context.Context) SmImportedCertificateManagedCsrPtrOutput {
+	return o
+}
+
+func (o SmImportedCertificateManagedCsrPtrOutput) Elem() SmImportedCertificateManagedCsrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) SmImportedCertificateManagedCsr {
+		if v != nil {
+			return *v
+		}
+		var ret SmImportedCertificateManagedCsr
+		return ret
+	}).(SmImportedCertificateManagedCsrOutput)
+}
+
+// With the Subject Alternative Name field, you can specify additional hostnames to be protected by a single SSL certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) AltNames() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AltNames
+	}).(pulumi.StringPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for client use.
+func (o SmImportedCertificateManagedCsrPtrOutput) ClientFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.ClientFlag
+	}).(pulumi.BoolPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for code signing use.
+func (o SmImportedCertificateManagedCsrPtrOutput) CodeSigningFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.CodeSigningFlag
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The Common Name (CN) represents the server name protected by the SSL certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) CommonName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CommonName
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Country (C) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) Countries() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Countries
+	}).(pulumi.StringArrayOutput)
+}
+
+// The certificate signing request.
+func (o SmImportedCertificateManagedCsrPtrOutput) Csr() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Csr
+	}).(pulumi.StringPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for email protection use.
+func (o SmImportedCertificateManagedCsrPtrOutput) EmailProtectionFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EmailProtectionFlag
+	}).(pulumi.BoolPtrOutput)
+}
+
+// This parameter controls whether the common name is excluded from Subject Alternative Names (SANs).
+func (o SmImportedCertificateManagedCsrPtrOutput) ExcludeCnFromSans() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.ExcludeCnFromSans
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The allowed extended key usage constraint on certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrPtrOutput) ExtKeyUsage() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ExtKeyUsage
+	}).(pulumi.StringPtrOutput)
+}
+
+// A comma-delimited list of extended key usage Object Identifiers (OIDs).
+func (o SmImportedCertificateManagedCsrPtrOutput) ExtKeyUsageOids() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ExtKeyUsageOids
+	}).(pulumi.StringPtrOutput)
+}
+
+// The IP Subject Alternative Names to define for the certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrPtrOutput) IpSans() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.IpSans
+	}).(pulumi.StringPtrOutput)
+}
+
+// The number of bits to use to generate the private key.
+func (o SmImportedCertificateManagedCsrPtrOutput) KeyBits() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *int {
+		if v == nil {
+			return nil
+		}
+		return v.KeyBits
+	}).(pulumi.IntPtrOutput)
+}
+
+// The type of private key to generate.
+func (o SmImportedCertificateManagedCsrPtrOutput) KeyType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.KeyType
+	}).(pulumi.StringPtrOutput)
+}
+
+// The allowed key usage constraint to define for certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrPtrOutput) KeyUsage() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.KeyUsage
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Locality (L) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) Localities() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Localities
+	}).(pulumi.StringArrayOutput)
+}
+
+// The Organization (O) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) Organizations() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Organizations
+	}).(pulumi.StringArrayOutput)
+}
+
+// The custom Object Identifier (OID) or UTF8-string Subject Alternative Names to define for the certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrPtrOutput) OtherSans() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.OtherSans
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Organizational Unit (OU) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) Ous() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Ous
+	}).(pulumi.StringArrayOutput)
+}
+
+// A comma-delimited list of policy Object Identifiers (OIDs).
+func (o SmImportedCertificateManagedCsrPtrOutput) PolicyIdentifiers() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PolicyIdentifiers
+	}).(pulumi.StringPtrOutput)
+}
+
+// The postal code values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) PostalCodes() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.PostalCodes
+	}).(pulumi.StringArrayOutput)
+}
+
+// The Province (ST) values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) Provinces() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Provinces
+	}).(pulumi.StringArrayOutput)
+}
+
+// If set to false, makes the commonName field optional while generating a certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) RequireCn() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.RequireCn
+	}).(pulumi.BoolPtrOutput)
+}
+
+// This field indicates whether the private key will be rotated.
+func (o SmImportedCertificateManagedCsrPtrOutput) RotateKeys() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.RotateKeys
+	}).(pulumi.BoolPtrOutput)
+}
+
+// This field indicates whether certificate is flagged for server use.
+func (o SmImportedCertificateManagedCsrPtrOutput) ServerFlag() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.ServerFlag
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The street address values to define in the subject field of the resulting certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) StreetAddresses() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) []string {
+		if v == nil {
+			return nil
+		}
+		return v.StreetAddresses
+	}).(pulumi.StringArrayOutput)
+}
+
+// The URI Subject Alternative Names to define for the certificate, in a comma-delimited list.
+func (o SmImportedCertificateManagedCsrPtrOutput) UriSans() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.UriSans
+	}).(pulumi.StringPtrOutput)
+}
+
+// Specifies the list of requested User ID (OID 0.9.2342.19200300.100.1.1) Subject values to be placed on the signed certificate.
+func (o SmImportedCertificateManagedCsrPtrOutput) UserIds() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmImportedCertificateManagedCsr) *string {
+		if v == nil {
+			return nil
+		}
+		return v.UserIds
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmImportedCertificateValidity struct {
+	// The date-time format follows RFC 3339.
+	NotAfter *string `pulumi:"notAfter"`
+	// The date-time format follows RFC 3339.
+	NotBefore *string `pulumi:"notBefore"`
+}
+
+// SmImportedCertificateValidityInput is an input type that accepts SmImportedCertificateValidityArgs and SmImportedCertificateValidityOutput values.
+// You can construct a concrete instance of `SmImportedCertificateValidityInput` via:
+//
+//	SmImportedCertificateValidityArgs{...}
+type SmImportedCertificateValidityInput interface {
+	pulumi.Input
+
+	ToSmImportedCertificateValidityOutput() SmImportedCertificateValidityOutput
+	ToSmImportedCertificateValidityOutputWithContext(context.Context) SmImportedCertificateValidityOutput
+}
+
+type SmImportedCertificateValidityArgs struct {
+	// The date-time format follows RFC 3339.
+	NotAfter pulumi.StringPtrInput `pulumi:"notAfter"`
+	// The date-time format follows RFC 3339.
+	NotBefore pulumi.StringPtrInput `pulumi:"notBefore"`
+}
+
+func (SmImportedCertificateValidityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmImportedCertificateValidity)(nil)).Elem()
+}
+
+func (i SmImportedCertificateValidityArgs) ToSmImportedCertificateValidityOutput() SmImportedCertificateValidityOutput {
+	return i.ToSmImportedCertificateValidityOutputWithContext(context.Background())
+}
+
+func (i SmImportedCertificateValidityArgs) ToSmImportedCertificateValidityOutputWithContext(ctx context.Context) SmImportedCertificateValidityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmImportedCertificateValidityOutput)
+}
+
+// SmImportedCertificateValidityArrayInput is an input type that accepts SmImportedCertificateValidityArray and SmImportedCertificateValidityArrayOutput values.
+// You can construct a concrete instance of `SmImportedCertificateValidityArrayInput` via:
+//
+//	SmImportedCertificateValidityArray{ SmImportedCertificateValidityArgs{...} }
+type SmImportedCertificateValidityArrayInput interface {
+	pulumi.Input
+
+	ToSmImportedCertificateValidityArrayOutput() SmImportedCertificateValidityArrayOutput
+	ToSmImportedCertificateValidityArrayOutputWithContext(context.Context) SmImportedCertificateValidityArrayOutput
+}
+
+type SmImportedCertificateValidityArray []SmImportedCertificateValidityInput
+
+func (SmImportedCertificateValidityArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmImportedCertificateValidity)(nil)).Elem()
+}
+
+func (i SmImportedCertificateValidityArray) ToSmImportedCertificateValidityArrayOutput() SmImportedCertificateValidityArrayOutput {
+	return i.ToSmImportedCertificateValidityArrayOutputWithContext(context.Background())
+}
+
+func (i SmImportedCertificateValidityArray) ToSmImportedCertificateValidityArrayOutputWithContext(ctx context.Context) SmImportedCertificateValidityArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmImportedCertificateValidityArrayOutput)
+}
+
+type SmImportedCertificateValidityOutput struct{ *pulumi.OutputState }
+
+func (SmImportedCertificateValidityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmImportedCertificateValidity)(nil)).Elem()
+}
+
+func (o SmImportedCertificateValidityOutput) ToSmImportedCertificateValidityOutput() SmImportedCertificateValidityOutput {
+	return o
+}
+
+func (o SmImportedCertificateValidityOutput) ToSmImportedCertificateValidityOutputWithContext(ctx context.Context) SmImportedCertificateValidityOutput {
+	return o
+}
+
+// The date-time format follows RFC 3339.
+func (o SmImportedCertificateValidityOutput) NotAfter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateValidity) *string { return v.NotAfter }).(pulumi.StringPtrOutput)
+}
+
+// The date-time format follows RFC 3339.
+func (o SmImportedCertificateValidityOutput) NotBefore() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmImportedCertificateValidity) *string { return v.NotBefore }).(pulumi.StringPtrOutput)
+}
+
+type SmImportedCertificateValidityArrayOutput struct{ *pulumi.OutputState }
+
+func (SmImportedCertificateValidityArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmImportedCertificateValidity)(nil)).Elem()
+}
+
+func (o SmImportedCertificateValidityArrayOutput) ToSmImportedCertificateValidityArrayOutput() SmImportedCertificateValidityArrayOutput {
+	return o
+}
+
+func (o SmImportedCertificateValidityArrayOutput) ToSmImportedCertificateValidityArrayOutputWithContext(ctx context.Context) SmImportedCertificateValidityArrayOutput {
+	return o
+}
+
+func (o SmImportedCertificateValidityArrayOutput) Index(i pulumi.IntInput) SmImportedCertificateValidityOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmImportedCertificateValidity {
+		return vs[0].([]SmImportedCertificateValidity)[vs[1].(int)]
+	}).(SmImportedCertificateValidityOutput)
+}
+
+type SmPrivateCertificateConfigurationActionSignCsrData struct {
+	// The chain of certificate authorities that are associated with the certificate.
+	CaChains []string `pulumi:"caChains"`
+	// The PEM-encoded contents of your certificate.
+	Certificate *string `pulumi:"certificate"`
+	// The certificate expiration time.
+	Expiration *int `pulumi:"expiration"`
+	// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+	IssuingCa *string `pulumi:"issuingCa"`
+}
+
+// SmPrivateCertificateConfigurationActionSignCsrDataInput is an input type that accepts SmPrivateCertificateConfigurationActionSignCsrDataArgs and SmPrivateCertificateConfigurationActionSignCsrDataOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationActionSignCsrDataInput` via:
+//
+//	SmPrivateCertificateConfigurationActionSignCsrDataArgs{...}
+type SmPrivateCertificateConfigurationActionSignCsrDataInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationActionSignCsrDataOutput() SmPrivateCertificateConfigurationActionSignCsrDataOutput
+	ToSmPrivateCertificateConfigurationActionSignCsrDataOutputWithContext(context.Context) SmPrivateCertificateConfigurationActionSignCsrDataOutput
+}
+
+type SmPrivateCertificateConfigurationActionSignCsrDataArgs struct {
+	// The chain of certificate authorities that are associated with the certificate.
+	CaChains pulumi.StringArrayInput `pulumi:"caChains"`
+	// The PEM-encoded contents of your certificate.
+	Certificate pulumi.StringPtrInput `pulumi:"certificate"`
+	// The certificate expiration time.
+	Expiration pulumi.IntPtrInput `pulumi:"expiration"`
+	// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+	IssuingCa pulumi.StringPtrInput `pulumi:"issuingCa"`
+}
+
+func (SmPrivateCertificateConfigurationActionSignCsrDataArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationActionSignCsrData)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationActionSignCsrDataArgs) ToSmPrivateCertificateConfigurationActionSignCsrDataOutput() SmPrivateCertificateConfigurationActionSignCsrDataOutput {
+	return i.ToSmPrivateCertificateConfigurationActionSignCsrDataOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationActionSignCsrDataArgs) ToSmPrivateCertificateConfigurationActionSignCsrDataOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationActionSignCsrDataOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationActionSignCsrDataOutput)
+}
+
+// SmPrivateCertificateConfigurationActionSignCsrDataArrayInput is an input type that accepts SmPrivateCertificateConfigurationActionSignCsrDataArray and SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationActionSignCsrDataArrayInput` via:
+//
+//	SmPrivateCertificateConfigurationActionSignCsrDataArray{ SmPrivateCertificateConfigurationActionSignCsrDataArgs{...} }
+type SmPrivateCertificateConfigurationActionSignCsrDataArrayInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutput() SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput
+	ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutputWithContext(context.Context) SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput
+}
+
+type SmPrivateCertificateConfigurationActionSignCsrDataArray []SmPrivateCertificateConfigurationActionSignCsrDataInput
+
+func (SmPrivateCertificateConfigurationActionSignCsrDataArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateConfigurationActionSignCsrData)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationActionSignCsrDataArray) ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutput() SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput {
+	return i.ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationActionSignCsrDataArray) ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput)
+}
+
+type SmPrivateCertificateConfigurationActionSignCsrDataOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationActionSignCsrDataOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationActionSignCsrData)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationActionSignCsrDataOutput) ToSmPrivateCertificateConfigurationActionSignCsrDataOutput() SmPrivateCertificateConfigurationActionSignCsrDataOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationActionSignCsrDataOutput) ToSmPrivateCertificateConfigurationActionSignCsrDataOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationActionSignCsrDataOutput {
+	return o
+}
+
+// The chain of certificate authorities that are associated with the certificate.
+func (o SmPrivateCertificateConfigurationActionSignCsrDataOutput) CaChains() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationActionSignCsrData) []string { return v.CaChains }).(pulumi.StringArrayOutput)
+}
+
+// The PEM-encoded contents of your certificate.
+func (o SmPrivateCertificateConfigurationActionSignCsrDataOutput) Certificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationActionSignCsrData) *string { return v.Certificate }).(pulumi.StringPtrOutput)
+}
+
+// The certificate expiration time.
+func (o SmPrivateCertificateConfigurationActionSignCsrDataOutput) Expiration() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationActionSignCsrData) *int { return v.Expiration }).(pulumi.IntPtrOutput)
+}
+
+// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+func (o SmPrivateCertificateConfigurationActionSignCsrDataOutput) IssuingCa() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationActionSignCsrData) *string { return v.IssuingCa }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateConfigurationActionSignCsrData)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput) ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutput() SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput) ToSmPrivateCertificateConfigurationActionSignCsrDataArrayOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput) Index(i pulumi.IntInput) SmPrivateCertificateConfigurationActionSignCsrDataOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPrivateCertificateConfigurationActionSignCsrData {
+		return vs[0].([]SmPrivateCertificateConfigurationActionSignCsrData)[vs[1].(int)]
+	}).(SmPrivateCertificateConfigurationActionSignCsrDataOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKey struct {
+	// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+	AllowGenerateKey *bool `pulumi:"allowGenerateKey"`
+	// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+	Id *string `pulumi:"id"`
+	// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+	Label *string `pulumi:"label"`
+	// The data that is associated with a cryptographic provider.
+	Provider *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider `pulumi:"provider"`
+}
+
+// SmPrivateCertificateConfigurationIntermediateCaCryptoKeyInput is an input type that accepts SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs and SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationIntermediateCaCryptoKeyInput` via:
+//
+//	SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs{...}
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutputWithContext(context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs struct {
+	// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+	AllowGenerateKey pulumi.BoolPtrInput `pulumi:"allowGenerateKey"`
+	// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+	Label pulumi.StringPtrInput `pulumi:"label"`
+	// The data that is associated with a cryptographic provider.
+	Provider SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrInput `pulumi:"provider"`
+}
+
+func (SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKey)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput)
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput).ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(ctx)
+}
+
+// SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrInput is an input type that accepts SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs, SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtr and SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrInput` via:
+//
+//	        SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput
+}
+
+type smPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrType SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs
+
+func SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtr(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrInput {
+	return (*smPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrType)(v)
+}
+
+func (*smPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationIntermediateCaCryptoKey)(nil)).Elem()
+}
+
+func (i *smPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrType) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(context.Background())
+}
+
+func (i *smPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrType) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKey)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return o.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(context.Background())
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *SmPrivateCertificateConfigurationIntermediateCaCryptoKey {
+		return &v
+	}).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput)
+}
+
+// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) AllowGenerateKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *bool { return v.AllowGenerateKey }).(pulumi.BoolPtrOutput)
+}
+
+// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) Label() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *string { return v.Label }).(pulumi.StringPtrOutput)
+}
+
+// The data that is associated with a cryptographic provider.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput) Provider() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider {
+		return v.Provider
+	}).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationIntermediateCaCryptoKey)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) Elem() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKey) SmPrivateCertificateConfigurationIntermediateCaCryptoKey {
+		if v != nil {
+			return *v
+		}
+		var ret SmPrivateCertificateConfigurationIntermediateCaCryptoKey
+		return ret
+	}).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput)
+}
+
+// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) AllowGenerateKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowGenerateKey
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) Label() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Label
+	}).(pulumi.StringPtrOutput)
+}
+
+// The data that is associated with a cryptographic provider.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput) Provider() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKey) *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider {
+		if v == nil {
+			return nil
+		}
+		return v.Provider
+	}).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider struct {
+	// The HPCS instance CRN.
+	InstanceCrn *string `pulumi:"instanceCrn"`
+	// The secret Id of iam credentials with api key to access HPCS instance.
+	PinIamCredentialsSecretId *string `pulumi:"pinIamCredentialsSecretId"`
+	// The HPCS private key store space id.
+	PrivateKeystoreId *string `pulumi:"privateKeystoreId"`
+	// The type of cryptographic provider.
+	Type *string `pulumi:"type"`
+}
+
+// SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderInput is an input type that accepts SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs and SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderInput` via:
+//
+//	SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs{...}
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutputWithContext(context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs struct {
+	// The HPCS instance CRN.
+	InstanceCrn pulumi.StringPtrInput `pulumi:"instanceCrn"`
+	// The secret Id of iam credentials with api key to access HPCS instance.
+	PinIamCredentialsSecretId pulumi.StringPtrInput `pulumi:"pinIamCredentialsSecretId"`
+	// The HPCS private key store space id.
+	PrivateKeystoreId pulumi.StringPtrInput `pulumi:"privateKeystoreId"`
+	// The type of cryptographic provider.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput)
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput).ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(ctx)
+}
+
+// SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrInput is an input type that accepts SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs, SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtr and SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrInput` via:
+//
+//	        SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput
+	ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput
+}
+
+type smPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrType SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs
+
+func SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtr(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrInput {
+	return (*smPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrType)(v)
+}
+
+func (*smPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (i *smPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrType) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(context.Background())
+}
+
+func (i *smPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrType) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return o.ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(context.Background())
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider {
+		return &v
+	}).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput)
+}
+
+// The HPCS instance CRN.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) InstanceCrn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string { return v.InstanceCrn }).(pulumi.StringPtrOutput)
+}
+
+// The secret Id of iam credentials with api key to access HPCS instance.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) PinIamCredentialsSecretId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string {
+		return v.PinIamCredentialsSecretId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The HPCS private key store space id.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) PrivateKeystoreId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string {
+		return v.PrivateKeystoreId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of cryptographic provider.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) ToSmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) Elem() SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider {
+		if v != nil {
+			return *v
+		}
+		var ret SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider
+		return ret
+	}).(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput)
+}
+
+// The HPCS instance CRN.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) InstanceCrn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.InstanceCrn
+	}).(pulumi.StringPtrOutput)
+}
+
+// The secret Id of iam credentials with api key to access HPCS instance.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) PinIamCredentialsSecretId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PinIamCredentialsSecretId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The HPCS private key store space id.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) PrivateKeystoreId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateKeystoreId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of cryptographic provider.
+func (o SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaData struct {
+	// The chain of certificate authorities that are associated with the certificate.
+	CaChains []string `pulumi:"caChains"`
+	// The PEM-encoded contents of your certificate.
+	Certificate *string `pulumi:"certificate"`
+	// The certificate signing request.
+	Csr *string `pulumi:"csr"`
+	// The certificate expiration time.
+	Expiration *int `pulumi:"expiration"`
+	// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+	IssuingCa *string `pulumi:"issuingCa"`
+	// (Optional) The PEM-encoded private key to associate with the certificate.
+	PrivateKey *string `pulumi:"privateKey"`
+	// The type of private key to generate.
+	PrivateKeyType *string `pulumi:"privateKeyType"`
+}
+
+// SmPrivateCertificateConfigurationIntermediateCaDataInput is an input type that accepts SmPrivateCertificateConfigurationIntermediateCaDataArgs and SmPrivateCertificateConfigurationIntermediateCaDataOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationIntermediateCaDataInput` via:
+//
+//	SmPrivateCertificateConfigurationIntermediateCaDataArgs{...}
+type SmPrivateCertificateConfigurationIntermediateCaDataInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationIntermediateCaDataOutput() SmPrivateCertificateConfigurationIntermediateCaDataOutput
+	ToSmPrivateCertificateConfigurationIntermediateCaDataOutputWithContext(context.Context) SmPrivateCertificateConfigurationIntermediateCaDataOutput
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaDataArgs struct {
+	// The chain of certificate authorities that are associated with the certificate.
+	CaChains pulumi.StringArrayInput `pulumi:"caChains"`
+	// The PEM-encoded contents of your certificate.
+	Certificate pulumi.StringPtrInput `pulumi:"certificate"`
+	// The certificate signing request.
+	Csr pulumi.StringPtrInput `pulumi:"csr"`
+	// The certificate expiration time.
+	Expiration pulumi.IntPtrInput `pulumi:"expiration"`
+	// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+	IssuingCa pulumi.StringPtrInput `pulumi:"issuingCa"`
+	// (Optional) The PEM-encoded private key to associate with the certificate.
+	PrivateKey pulumi.StringPtrInput `pulumi:"privateKey"`
+	// The type of private key to generate.
+	PrivateKeyType pulumi.StringPtrInput `pulumi:"privateKeyType"`
+}
+
+func (SmPrivateCertificateConfigurationIntermediateCaDataArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaData)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaDataArgs) ToSmPrivateCertificateConfigurationIntermediateCaDataOutput() SmPrivateCertificateConfigurationIntermediateCaDataOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaDataOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaDataArgs) ToSmPrivateCertificateConfigurationIntermediateCaDataOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaDataOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaDataOutput)
+}
+
+// SmPrivateCertificateConfigurationIntermediateCaDataArrayInput is an input type that accepts SmPrivateCertificateConfigurationIntermediateCaDataArray and SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationIntermediateCaDataArrayInput` via:
+//
+//	SmPrivateCertificateConfigurationIntermediateCaDataArray{ SmPrivateCertificateConfigurationIntermediateCaDataArgs{...} }
+type SmPrivateCertificateConfigurationIntermediateCaDataArrayInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutput() SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput
+	ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutputWithContext(context.Context) SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaDataArray []SmPrivateCertificateConfigurationIntermediateCaDataInput
+
+func (SmPrivateCertificateConfigurationIntermediateCaDataArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateConfigurationIntermediateCaData)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaDataArray) ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutput() SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput {
+	return i.ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationIntermediateCaDataArray) ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaDataOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationIntermediateCaDataOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaData)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) ToSmPrivateCertificateConfigurationIntermediateCaDataOutput() SmPrivateCertificateConfigurationIntermediateCaDataOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) ToSmPrivateCertificateConfigurationIntermediateCaDataOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaDataOutput {
+	return o
+}
+
+// The chain of certificate authorities that are associated with the certificate.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) CaChains() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) []string { return v.CaChains }).(pulumi.StringArrayOutput)
+}
+
+// The PEM-encoded contents of your certificate.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) Certificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) *string { return v.Certificate }).(pulumi.StringPtrOutput)
+}
+
+// The certificate signing request.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) Csr() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) *string { return v.Csr }).(pulumi.StringPtrOutput)
+}
+
+// The certificate expiration time.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) Expiration() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) *int { return v.Expiration }).(pulumi.IntPtrOutput)
+}
+
+// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) IssuingCa() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) *string { return v.IssuingCa }).(pulumi.StringPtrOutput)
+}
+
+// (Optional) The PEM-encoded private key to associate with the certificate.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) PrivateKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) *string { return v.PrivateKey }).(pulumi.StringPtrOutput)
+}
+
+// The type of private key to generate.
+func (o SmPrivateCertificateConfigurationIntermediateCaDataOutput) PrivateKeyType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationIntermediateCaData) *string { return v.PrivateKeyType }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateConfigurationIntermediateCaData)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput) ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutput() SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput) ToSmPrivateCertificateConfigurationIntermediateCaDataArrayOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput) Index(i pulumi.IntInput) SmPrivateCertificateConfigurationIntermediateCaDataOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPrivateCertificateConfigurationIntermediateCaData {
+		return vs[0].([]SmPrivateCertificateConfigurationIntermediateCaData)[vs[1].(int)]
+	}).(SmPrivateCertificateConfigurationIntermediateCaDataOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKey struct {
+	// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+	AllowGenerateKey *bool `pulumi:"allowGenerateKey"`
+	// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+	Id *string `pulumi:"id"`
+	// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+	Label *string `pulumi:"label"`
+	// The data that is associated with a cryptographic provider.
+	Provider *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider `pulumi:"provider"`
+}
+
+// SmPrivateCertificateConfigurationRootCaCryptoKeyInput is an input type that accepts SmPrivateCertificateConfigurationRootCaCryptoKeyArgs and SmPrivateCertificateConfigurationRootCaCryptoKeyOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationRootCaCryptoKeyInput` via:
+//
+//	SmPrivateCertificateConfigurationRootCaCryptoKeyArgs{...}
+type SmPrivateCertificateConfigurationRootCaCryptoKeyInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyOutput
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutputWithContext(context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyOutput
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyArgs struct {
+	// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+	AllowGenerateKey pulumi.BoolPtrInput `pulumi:"allowGenerateKey"`
+	// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+	Label pulumi.StringPtrInput `pulumi:"label"`
+	// The data that is associated with a cryptographic provider.
+	Provider SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrInput `pulumi:"provider"`
+}
+
+func (SmPrivateCertificateConfigurationRootCaCryptoKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKey)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaCryptoKeyOutput)
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaCryptoKeyOutput).ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(ctx)
+}
+
+// SmPrivateCertificateConfigurationRootCaCryptoKeyPtrInput is an input type that accepts SmPrivateCertificateConfigurationRootCaCryptoKeyArgs, SmPrivateCertificateConfigurationRootCaCryptoKeyPtr and SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationRootCaCryptoKeyPtrInput` via:
+//
+//	        SmPrivateCertificateConfigurationRootCaCryptoKeyArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPrivateCertificateConfigurationRootCaCryptoKeyPtrInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput
+}
+
+type smPrivateCertificateConfigurationRootCaCryptoKeyPtrType SmPrivateCertificateConfigurationRootCaCryptoKeyArgs
+
+func SmPrivateCertificateConfigurationRootCaCryptoKeyPtr(v *SmPrivateCertificateConfigurationRootCaCryptoKeyArgs) SmPrivateCertificateConfigurationRootCaCryptoKeyPtrInput {
+	return (*smPrivateCertificateConfigurationRootCaCryptoKeyPtrType)(v)
+}
+
+func (*smPrivateCertificateConfigurationRootCaCryptoKeyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationRootCaCryptoKey)(nil)).Elem()
+}
+
+func (i *smPrivateCertificateConfigurationRootCaCryptoKeyPtrType) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(context.Background())
+}
+
+func (i *smPrivateCertificateConfigurationRootCaCryptoKeyPtrType) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKey)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return o.ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(context.Background())
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPrivateCertificateConfigurationRootCaCryptoKey) *SmPrivateCertificateConfigurationRootCaCryptoKey {
+		return &v
+	}).(SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput)
+}
+
+// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) AllowGenerateKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKey) *bool { return v.AllowGenerateKey }).(pulumi.BoolPtrOutput)
+}
+
+// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKey) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) Label() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKey) *string { return v.Label }).(pulumi.StringPtrOutput)
+}
+
+// The data that is associated with a cryptographic provider.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyOutput) Provider() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKey) *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider {
+		return v.Provider
+	}).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationRootCaCryptoKey)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) Elem() SmPrivateCertificateConfigurationRootCaCryptoKeyOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKey) SmPrivateCertificateConfigurationRootCaCryptoKey {
+		if v != nil {
+			return *v
+		}
+		var ret SmPrivateCertificateConfigurationRootCaCryptoKey
+		return ret
+	}).(SmPrivateCertificateConfigurationRootCaCryptoKeyOutput)
+}
+
+// The indication of whether a new key is generated by the crypto provider if the given key name cannot be found.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) AllowGenerateKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKey) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowGenerateKey
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The ID of a PKCS#11 key to use. If the key does not exist and generation is enabled, this ID is given to the generated key. If the key exists, and generation is disabled, then this ID is used to look up the key. This value or the crypto key label must be specified.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKey) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Id
+	}).(pulumi.StringPtrOutput)
+}
+
+// The label of the key to use. If the key does not exist and generation is enabled, this field is the label that is given to the generated key. If the key exists, and generation is disabled, then this label is used to look up the key. This value or the crypto key ID must be specified.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) Label() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKey) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Label
+	}).(pulumi.StringPtrOutput)
+}
+
+// The data that is associated with a cryptographic provider.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput) Provider() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKey) *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider {
+		if v == nil {
+			return nil
+		}
+		return v.Provider
+	}).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyProvider struct {
+	// The HPCS instance CRN.
+	InstanceCrn *string `pulumi:"instanceCrn"`
+	// The secret Id of iam credentials with api key to access HPCS instance.
+	PinIamCredentialsSecretId *string `pulumi:"pinIamCredentialsSecretId"`
+	// The HPCS private key store space id.
+	PrivateKeystoreId *string `pulumi:"privateKeystoreId"`
+	// The type of cryptographic provider.
+	Type *string `pulumi:"type"`
+}
+
+// SmPrivateCertificateConfigurationRootCaCryptoKeyProviderInput is an input type that accepts SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs and SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationRootCaCryptoKeyProviderInput` via:
+//
+//	SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs{...}
+type SmPrivateCertificateConfigurationRootCaCryptoKeyProviderInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutputWithContext(context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs struct {
+	// The HPCS instance CRN.
+	InstanceCrn pulumi.StringPtrInput `pulumi:"instanceCrn"`
+	// The secret Id of iam credentials with api key to access HPCS instance.
+	PinIamCredentialsSecretId pulumi.StringPtrInput `pulumi:"pinIamCredentialsSecretId"`
+	// The HPCS private key store space id.
+	PrivateKeystoreId pulumi.StringPtrInput `pulumi:"privateKeystoreId"`
+	// The type of cryptographic provider.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput)
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput).ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(ctx)
+}
+
+// SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrInput is an input type that accepts SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs, SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtr and SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrInput` via:
+//
+//	        SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput
+	ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput
+}
+
+type smPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrType SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs
+
+func SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtr(v *SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrInput {
+	return (*smPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrType)(v)
+}
+
+func (*smPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationRootCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (i *smPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrType) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(context.Background())
+}
+
+func (i *smPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrType) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return o.ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(context.Background())
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider {
+		return &v
+	}).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput)
+}
+
+// The HPCS instance CRN.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) InstanceCrn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string { return v.InstanceCrn }).(pulumi.StringPtrOutput)
+}
+
+// The secret Id of iam credentials with api key to access HPCS instance.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) PinIamCredentialsSecretId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string {
+		return v.PinIamCredentialsSecretId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The HPCS private key store space id.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) PrivateKeystoreId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string { return v.PrivateKeystoreId }).(pulumi.StringPtrOutput)
+}
+
+// The type of cryptographic provider.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateConfigurationRootCaCryptoKeyProvider)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) ToSmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) Elem() SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) SmPrivateCertificateConfigurationRootCaCryptoKeyProvider {
+		if v != nil {
+			return *v
+		}
+		var ret SmPrivateCertificateConfigurationRootCaCryptoKeyProvider
+		return ret
+	}).(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput)
+}
+
+// The HPCS instance CRN.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) InstanceCrn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.InstanceCrn
+	}).(pulumi.StringPtrOutput)
+}
+
+// The secret Id of iam credentials with api key to access HPCS instance.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) PinIamCredentialsSecretId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PinIamCredentialsSecretId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The HPCS private key store space id.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) PrivateKeystoreId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateKeystoreId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of cryptographic provider.
+func (o SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateConfigurationRootCaCryptoKeyProvider) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaData struct {
+	// The chain of certificate authorities that are associated with the certificate.
+	CaChains []string `pulumi:"caChains"`
+	// The PEM-encoded contents of your certificate.
+	Certificate *string `pulumi:"certificate"`
+	// The certificate signing request.
+	Csr *string `pulumi:"csr"`
+	// The certificate expiration time.
+	Expiration *int `pulumi:"expiration"`
+	// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+	IssuingCa *string `pulumi:"issuingCa"`
+	// (Optional) The PEM-encoded private key to associate with the certificate.
+	PrivateKey *string `pulumi:"privateKey"`
+	// The type of private key to generate.
+	PrivateKeyType *string `pulumi:"privateKeyType"`
+}
+
+// SmPrivateCertificateConfigurationRootCaDataInput is an input type that accepts SmPrivateCertificateConfigurationRootCaDataArgs and SmPrivateCertificateConfigurationRootCaDataOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationRootCaDataInput` via:
+//
+//	SmPrivateCertificateConfigurationRootCaDataArgs{...}
+type SmPrivateCertificateConfigurationRootCaDataInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationRootCaDataOutput() SmPrivateCertificateConfigurationRootCaDataOutput
+	ToSmPrivateCertificateConfigurationRootCaDataOutputWithContext(context.Context) SmPrivateCertificateConfigurationRootCaDataOutput
+}
+
+type SmPrivateCertificateConfigurationRootCaDataArgs struct {
+	// The chain of certificate authorities that are associated with the certificate.
+	CaChains pulumi.StringArrayInput `pulumi:"caChains"`
+	// The PEM-encoded contents of your certificate.
+	Certificate pulumi.StringPtrInput `pulumi:"certificate"`
+	// The certificate signing request.
+	Csr pulumi.StringPtrInput `pulumi:"csr"`
+	// The certificate expiration time.
+	Expiration pulumi.IntPtrInput `pulumi:"expiration"`
+	// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+	IssuingCa pulumi.StringPtrInput `pulumi:"issuingCa"`
+	// (Optional) The PEM-encoded private key to associate with the certificate.
+	PrivateKey pulumi.StringPtrInput `pulumi:"privateKey"`
+	// The type of private key to generate.
+	PrivateKeyType pulumi.StringPtrInput `pulumi:"privateKeyType"`
+}
+
+func (SmPrivateCertificateConfigurationRootCaDataArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaData)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationRootCaDataArgs) ToSmPrivateCertificateConfigurationRootCaDataOutput() SmPrivateCertificateConfigurationRootCaDataOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaDataOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationRootCaDataArgs) ToSmPrivateCertificateConfigurationRootCaDataOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaDataOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaDataOutput)
+}
+
+// SmPrivateCertificateConfigurationRootCaDataArrayInput is an input type that accepts SmPrivateCertificateConfigurationRootCaDataArray and SmPrivateCertificateConfigurationRootCaDataArrayOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateConfigurationRootCaDataArrayInput` via:
+//
+//	SmPrivateCertificateConfigurationRootCaDataArray{ SmPrivateCertificateConfigurationRootCaDataArgs{...} }
+type SmPrivateCertificateConfigurationRootCaDataArrayInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateConfigurationRootCaDataArrayOutput() SmPrivateCertificateConfigurationRootCaDataArrayOutput
+	ToSmPrivateCertificateConfigurationRootCaDataArrayOutputWithContext(context.Context) SmPrivateCertificateConfigurationRootCaDataArrayOutput
+}
+
+type SmPrivateCertificateConfigurationRootCaDataArray []SmPrivateCertificateConfigurationRootCaDataInput
+
+func (SmPrivateCertificateConfigurationRootCaDataArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateConfigurationRootCaData)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateConfigurationRootCaDataArray) ToSmPrivateCertificateConfigurationRootCaDataArrayOutput() SmPrivateCertificateConfigurationRootCaDataArrayOutput {
+	return i.ToSmPrivateCertificateConfigurationRootCaDataArrayOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateConfigurationRootCaDataArray) ToSmPrivateCertificateConfigurationRootCaDataArrayOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaDataArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateConfigurationRootCaDataArrayOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaDataOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationRootCaDataOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaData)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) ToSmPrivateCertificateConfigurationRootCaDataOutput() SmPrivateCertificateConfigurationRootCaDataOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) ToSmPrivateCertificateConfigurationRootCaDataOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaDataOutput {
+	return o
+}
+
+// The chain of certificate authorities that are associated with the certificate.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) CaChains() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) []string { return v.CaChains }).(pulumi.StringArrayOutput)
+}
+
+// The PEM-encoded contents of your certificate.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) Certificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) *string { return v.Certificate }).(pulumi.StringPtrOutput)
+}
+
+// The certificate signing request.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) Csr() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) *string { return v.Csr }).(pulumi.StringPtrOutput)
+}
+
+// The certificate expiration time.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) Expiration() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) *int { return v.Expiration }).(pulumi.IntPtrOutput)
+}
+
+// The PEM-encoded certificate of the certificate authority that signed and issued this certificate.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) IssuingCa() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) *string { return v.IssuingCa }).(pulumi.StringPtrOutput)
+}
+
+// (Optional) The PEM-encoded private key to associate with the certificate.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) PrivateKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) *string { return v.PrivateKey }).(pulumi.StringPtrOutput)
+}
+
+// The type of private key to generate.
+func (o SmPrivateCertificateConfigurationRootCaDataOutput) PrivateKeyType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateConfigurationRootCaData) *string { return v.PrivateKeyType }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateConfigurationRootCaDataArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateConfigurationRootCaDataArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateConfigurationRootCaData)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateConfigurationRootCaDataArrayOutput) ToSmPrivateCertificateConfigurationRootCaDataArrayOutput() SmPrivateCertificateConfigurationRootCaDataArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaDataArrayOutput) ToSmPrivateCertificateConfigurationRootCaDataArrayOutputWithContext(ctx context.Context) SmPrivateCertificateConfigurationRootCaDataArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateConfigurationRootCaDataArrayOutput) Index(i pulumi.IntInput) SmPrivateCertificateConfigurationRootCaDataOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPrivateCertificateConfigurationRootCaData {
+		return vs[0].([]SmPrivateCertificateConfigurationRootCaData)[vs[1].(int)]
+	}).(SmPrivateCertificateConfigurationRootCaDataOutput)
+}
+
+type SmPrivateCertificateRotation struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate *bool `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval *int `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit *string `pulumi:"unit"`
+}
+
+// SmPrivateCertificateRotationInput is an input type that accepts SmPrivateCertificateRotationArgs and SmPrivateCertificateRotationOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateRotationInput` via:
+//
+//	SmPrivateCertificateRotationArgs{...}
+type SmPrivateCertificateRotationInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateRotationOutput() SmPrivateCertificateRotationOutput
+	ToSmPrivateCertificateRotationOutputWithContext(context.Context) SmPrivateCertificateRotationOutput
+}
+
+type SmPrivateCertificateRotationArgs struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate pulumi.BoolPtrInput `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval pulumi.IntPtrInput `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit pulumi.StringPtrInput `pulumi:"unit"`
+}
+
+func (SmPrivateCertificateRotationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateRotation)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateRotationArgs) ToSmPrivateCertificateRotationOutput() SmPrivateCertificateRotationOutput {
+	return i.ToSmPrivateCertificateRotationOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateRotationArgs) ToSmPrivateCertificateRotationOutputWithContext(ctx context.Context) SmPrivateCertificateRotationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateRotationOutput)
+}
+
+func (i SmPrivateCertificateRotationArgs) ToSmPrivateCertificateRotationPtrOutput() SmPrivateCertificateRotationPtrOutput {
+	return i.ToSmPrivateCertificateRotationPtrOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateRotationArgs) ToSmPrivateCertificateRotationPtrOutputWithContext(ctx context.Context) SmPrivateCertificateRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateRotationOutput).ToSmPrivateCertificateRotationPtrOutputWithContext(ctx)
+}
+
+// SmPrivateCertificateRotationPtrInput is an input type that accepts SmPrivateCertificateRotationArgs, SmPrivateCertificateRotationPtr and SmPrivateCertificateRotationPtrOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateRotationPtrInput` via:
+//
+//	        SmPrivateCertificateRotationArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPrivateCertificateRotationPtrInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateRotationPtrOutput() SmPrivateCertificateRotationPtrOutput
+	ToSmPrivateCertificateRotationPtrOutputWithContext(context.Context) SmPrivateCertificateRotationPtrOutput
+}
+
+type smPrivateCertificateRotationPtrType SmPrivateCertificateRotationArgs
+
+func SmPrivateCertificateRotationPtr(v *SmPrivateCertificateRotationArgs) SmPrivateCertificateRotationPtrInput {
+	return (*smPrivateCertificateRotationPtrType)(v)
+}
+
+func (*smPrivateCertificateRotationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateRotation)(nil)).Elem()
+}
+
+func (i *smPrivateCertificateRotationPtrType) ToSmPrivateCertificateRotationPtrOutput() SmPrivateCertificateRotationPtrOutput {
+	return i.ToSmPrivateCertificateRotationPtrOutputWithContext(context.Background())
+}
+
+func (i *smPrivateCertificateRotationPtrType) ToSmPrivateCertificateRotationPtrOutputWithContext(ctx context.Context) SmPrivateCertificateRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateRotationPtrOutput)
+}
+
+type SmPrivateCertificateRotationOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateRotationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateRotation)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateRotationOutput) ToSmPrivateCertificateRotationOutput() SmPrivateCertificateRotationOutput {
+	return o
+}
+
+func (o SmPrivateCertificateRotationOutput) ToSmPrivateCertificateRotationOutputWithContext(ctx context.Context) SmPrivateCertificateRotationOutput {
+	return o
+}
+
+func (o SmPrivateCertificateRotationOutput) ToSmPrivateCertificateRotationPtrOutput() SmPrivateCertificateRotationPtrOutput {
+	return o.ToSmPrivateCertificateRotationPtrOutputWithContext(context.Background())
+}
+
+func (o SmPrivateCertificateRotationOutput) ToSmPrivateCertificateRotationPtrOutputWithContext(ctx context.Context) SmPrivateCertificateRotationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPrivateCertificateRotation) *SmPrivateCertificateRotation {
+		return &v
+	}).(SmPrivateCertificateRotationPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmPrivateCertificateRotationOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateRotation) *bool { return v.AutoRotate }).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmPrivateCertificateRotationOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateRotation) *int { return v.Interval }).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmPrivateCertificateRotationOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateRotation) *string { return v.Unit }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateRotationPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateRotationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPrivateCertificateRotation)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateRotationPtrOutput) ToSmPrivateCertificateRotationPtrOutput() SmPrivateCertificateRotationPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateRotationPtrOutput) ToSmPrivateCertificateRotationPtrOutputWithContext(ctx context.Context) SmPrivateCertificateRotationPtrOutput {
+	return o
+}
+
+func (o SmPrivateCertificateRotationPtrOutput) Elem() SmPrivateCertificateRotationOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateRotation) SmPrivateCertificateRotation {
+		if v != nil {
+			return *v
+		}
+		var ret SmPrivateCertificateRotation
+		return ret
+	}).(SmPrivateCertificateRotationOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmPrivateCertificateRotationPtrOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRotate
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmPrivateCertificateRotationPtrOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateRotation) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Interval
+	}).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmPrivateCertificateRotationPtrOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPrivateCertificateRotation) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Unit
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateValidity struct {
+	// The date-time format follows RFC 3339.
+	NotAfter *string `pulumi:"notAfter"`
+	// The date-time format follows RFC 3339.
+	NotBefore *string `pulumi:"notBefore"`
+}
+
+// SmPrivateCertificateValidityInput is an input type that accepts SmPrivateCertificateValidityArgs and SmPrivateCertificateValidityOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateValidityInput` via:
+//
+//	SmPrivateCertificateValidityArgs{...}
+type SmPrivateCertificateValidityInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateValidityOutput() SmPrivateCertificateValidityOutput
+	ToSmPrivateCertificateValidityOutputWithContext(context.Context) SmPrivateCertificateValidityOutput
+}
+
+type SmPrivateCertificateValidityArgs struct {
+	// The date-time format follows RFC 3339.
+	NotAfter pulumi.StringPtrInput `pulumi:"notAfter"`
+	// The date-time format follows RFC 3339.
+	NotBefore pulumi.StringPtrInput `pulumi:"notBefore"`
+}
+
+func (SmPrivateCertificateValidityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateValidity)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateValidityArgs) ToSmPrivateCertificateValidityOutput() SmPrivateCertificateValidityOutput {
+	return i.ToSmPrivateCertificateValidityOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateValidityArgs) ToSmPrivateCertificateValidityOutputWithContext(ctx context.Context) SmPrivateCertificateValidityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateValidityOutput)
+}
+
+// SmPrivateCertificateValidityArrayInput is an input type that accepts SmPrivateCertificateValidityArray and SmPrivateCertificateValidityArrayOutput values.
+// You can construct a concrete instance of `SmPrivateCertificateValidityArrayInput` via:
+//
+//	SmPrivateCertificateValidityArray{ SmPrivateCertificateValidityArgs{...} }
+type SmPrivateCertificateValidityArrayInput interface {
+	pulumi.Input
+
+	ToSmPrivateCertificateValidityArrayOutput() SmPrivateCertificateValidityArrayOutput
+	ToSmPrivateCertificateValidityArrayOutputWithContext(context.Context) SmPrivateCertificateValidityArrayOutput
+}
+
+type SmPrivateCertificateValidityArray []SmPrivateCertificateValidityInput
+
+func (SmPrivateCertificateValidityArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateValidity)(nil)).Elem()
+}
+
+func (i SmPrivateCertificateValidityArray) ToSmPrivateCertificateValidityArrayOutput() SmPrivateCertificateValidityArrayOutput {
+	return i.ToSmPrivateCertificateValidityArrayOutputWithContext(context.Background())
+}
+
+func (i SmPrivateCertificateValidityArray) ToSmPrivateCertificateValidityArrayOutputWithContext(ctx context.Context) SmPrivateCertificateValidityArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPrivateCertificateValidityArrayOutput)
+}
+
+type SmPrivateCertificateValidityOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateValidityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPrivateCertificateValidity)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateValidityOutput) ToSmPrivateCertificateValidityOutput() SmPrivateCertificateValidityOutput {
+	return o
+}
+
+func (o SmPrivateCertificateValidityOutput) ToSmPrivateCertificateValidityOutputWithContext(ctx context.Context) SmPrivateCertificateValidityOutput {
+	return o
+}
+
+// The date-time format follows RFC 3339.
+func (o SmPrivateCertificateValidityOutput) NotAfter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateValidity) *string { return v.NotAfter }).(pulumi.StringPtrOutput)
+}
+
+// The date-time format follows RFC 3339.
+func (o SmPrivateCertificateValidityOutput) NotBefore() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPrivateCertificateValidity) *string { return v.NotBefore }).(pulumi.StringPtrOutput)
+}
+
+type SmPrivateCertificateValidityArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPrivateCertificateValidityArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPrivateCertificateValidity)(nil)).Elem()
+}
+
+func (o SmPrivateCertificateValidityArrayOutput) ToSmPrivateCertificateValidityArrayOutput() SmPrivateCertificateValidityArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateValidityArrayOutput) ToSmPrivateCertificateValidityArrayOutputWithContext(ctx context.Context) SmPrivateCertificateValidityArrayOutput {
+	return o
+}
+
+func (o SmPrivateCertificateValidityArrayOutput) Index(i pulumi.IntInput) SmPrivateCertificateValidityOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPrivateCertificateValidity {
+		return vs[0].([]SmPrivateCertificateValidity)[vs[1].(int)]
+	}).(SmPrivateCertificateValidityOutput)
+}
+
+type SmPublicCertificateAkamai struct {
+	// Akamai credentials
+	Config *SmPublicCertificateAkamaiConfig `pulumi:"config"`
+	// Akamai credentials
+	Edgerc *SmPublicCertificateAkamaiEdgerc `pulumi:"edgerc"`
+}
+
+// SmPublicCertificateAkamaiInput is an input type that accepts SmPublicCertificateAkamaiArgs and SmPublicCertificateAkamaiOutput values.
+// You can construct a concrete instance of `SmPublicCertificateAkamaiInput` via:
+//
+//	SmPublicCertificateAkamaiArgs{...}
+type SmPublicCertificateAkamaiInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateAkamaiOutput() SmPublicCertificateAkamaiOutput
+	ToSmPublicCertificateAkamaiOutputWithContext(context.Context) SmPublicCertificateAkamaiOutput
+}
+
+type SmPublicCertificateAkamaiArgs struct {
+	// Akamai credentials
+	Config SmPublicCertificateAkamaiConfigPtrInput `pulumi:"config"`
+	// Akamai credentials
+	Edgerc SmPublicCertificateAkamaiEdgercPtrInput `pulumi:"edgerc"`
+}
+
+func (SmPublicCertificateAkamaiArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateAkamai)(nil)).Elem()
+}
+
+func (i SmPublicCertificateAkamaiArgs) ToSmPublicCertificateAkamaiOutput() SmPublicCertificateAkamaiOutput {
+	return i.ToSmPublicCertificateAkamaiOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateAkamaiArgs) ToSmPublicCertificateAkamaiOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiOutput)
+}
+
+func (i SmPublicCertificateAkamaiArgs) ToSmPublicCertificateAkamaiPtrOutput() SmPublicCertificateAkamaiPtrOutput {
+	return i.ToSmPublicCertificateAkamaiPtrOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateAkamaiArgs) ToSmPublicCertificateAkamaiPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiOutput).ToSmPublicCertificateAkamaiPtrOutputWithContext(ctx)
+}
+
+// SmPublicCertificateAkamaiPtrInput is an input type that accepts SmPublicCertificateAkamaiArgs, SmPublicCertificateAkamaiPtr and SmPublicCertificateAkamaiPtrOutput values.
+// You can construct a concrete instance of `SmPublicCertificateAkamaiPtrInput` via:
+//
+//	        SmPublicCertificateAkamaiArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPublicCertificateAkamaiPtrInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateAkamaiPtrOutput() SmPublicCertificateAkamaiPtrOutput
+	ToSmPublicCertificateAkamaiPtrOutputWithContext(context.Context) SmPublicCertificateAkamaiPtrOutput
+}
+
+type smPublicCertificateAkamaiPtrType SmPublicCertificateAkamaiArgs
+
+func SmPublicCertificateAkamaiPtr(v *SmPublicCertificateAkamaiArgs) SmPublicCertificateAkamaiPtrInput {
+	return (*smPublicCertificateAkamaiPtrType)(v)
+}
+
+func (*smPublicCertificateAkamaiPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateAkamai)(nil)).Elem()
+}
+
+func (i *smPublicCertificateAkamaiPtrType) ToSmPublicCertificateAkamaiPtrOutput() SmPublicCertificateAkamaiPtrOutput {
+	return i.ToSmPublicCertificateAkamaiPtrOutputWithContext(context.Background())
+}
+
+func (i *smPublicCertificateAkamaiPtrType) ToSmPublicCertificateAkamaiPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiPtrOutput)
+}
+
+type SmPublicCertificateAkamaiOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateAkamaiOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateAkamai)(nil)).Elem()
+}
+
+func (o SmPublicCertificateAkamaiOutput) ToSmPublicCertificateAkamaiOutput() SmPublicCertificateAkamaiOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiOutput) ToSmPublicCertificateAkamaiOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiOutput) ToSmPublicCertificateAkamaiPtrOutput() SmPublicCertificateAkamaiPtrOutput {
+	return o.ToSmPublicCertificateAkamaiPtrOutputWithContext(context.Background())
+}
+
+func (o SmPublicCertificateAkamaiOutput) ToSmPublicCertificateAkamaiPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPublicCertificateAkamai) *SmPublicCertificateAkamai {
+		return &v
+	}).(SmPublicCertificateAkamaiPtrOutput)
+}
+
+// Akamai credentials
+func (o SmPublicCertificateAkamaiOutput) Config() SmPublicCertificateAkamaiConfigPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamai) *SmPublicCertificateAkamaiConfig { return v.Config }).(SmPublicCertificateAkamaiConfigPtrOutput)
+}
+
+// Akamai credentials
+func (o SmPublicCertificateAkamaiOutput) Edgerc() SmPublicCertificateAkamaiEdgercPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamai) *SmPublicCertificateAkamaiEdgerc { return v.Edgerc }).(SmPublicCertificateAkamaiEdgercPtrOutput)
+}
+
+type SmPublicCertificateAkamaiPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateAkamaiPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateAkamai)(nil)).Elem()
+}
+
+func (o SmPublicCertificateAkamaiPtrOutput) ToSmPublicCertificateAkamaiPtrOutput() SmPublicCertificateAkamaiPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiPtrOutput) ToSmPublicCertificateAkamaiPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiPtrOutput) Elem() SmPublicCertificateAkamaiOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamai) SmPublicCertificateAkamai {
+		if v != nil {
+			return *v
+		}
+		var ret SmPublicCertificateAkamai
+		return ret
+	}).(SmPublicCertificateAkamaiOutput)
+}
+
+// Akamai credentials
+func (o SmPublicCertificateAkamaiPtrOutput) Config() SmPublicCertificateAkamaiConfigPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamai) *SmPublicCertificateAkamaiConfig {
+		if v == nil {
+			return nil
+		}
+		return v.Config
+	}).(SmPublicCertificateAkamaiConfigPtrOutput)
+}
+
+// Akamai credentials
+func (o SmPublicCertificateAkamaiPtrOutput) Edgerc() SmPublicCertificateAkamaiEdgercPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamai) *SmPublicCertificateAkamaiEdgerc {
+		if v == nil {
+			return nil
+		}
+		return v.Edgerc
+	}).(SmPublicCertificateAkamaiEdgercPtrOutput)
+}
+
+type SmPublicCertificateAkamaiConfig struct {
+	AccessToken  *string `pulumi:"accessToken"`
+	ClientSecret *string `pulumi:"clientSecret"`
+	ClientToken  *string `pulumi:"clientToken"`
+	Host         *string `pulumi:"host"`
+}
+
+// SmPublicCertificateAkamaiConfigInput is an input type that accepts SmPublicCertificateAkamaiConfigArgs and SmPublicCertificateAkamaiConfigOutput values.
+// You can construct a concrete instance of `SmPublicCertificateAkamaiConfigInput` via:
+//
+//	SmPublicCertificateAkamaiConfigArgs{...}
+type SmPublicCertificateAkamaiConfigInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateAkamaiConfigOutput() SmPublicCertificateAkamaiConfigOutput
+	ToSmPublicCertificateAkamaiConfigOutputWithContext(context.Context) SmPublicCertificateAkamaiConfigOutput
+}
+
+type SmPublicCertificateAkamaiConfigArgs struct {
+	AccessToken  pulumi.StringPtrInput `pulumi:"accessToken"`
+	ClientSecret pulumi.StringPtrInput `pulumi:"clientSecret"`
+	ClientToken  pulumi.StringPtrInput `pulumi:"clientToken"`
+	Host         pulumi.StringPtrInput `pulumi:"host"`
+}
+
+func (SmPublicCertificateAkamaiConfigArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateAkamaiConfig)(nil)).Elem()
+}
+
+func (i SmPublicCertificateAkamaiConfigArgs) ToSmPublicCertificateAkamaiConfigOutput() SmPublicCertificateAkamaiConfigOutput {
+	return i.ToSmPublicCertificateAkamaiConfigOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateAkamaiConfigArgs) ToSmPublicCertificateAkamaiConfigOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiConfigOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiConfigOutput)
+}
+
+func (i SmPublicCertificateAkamaiConfigArgs) ToSmPublicCertificateAkamaiConfigPtrOutput() SmPublicCertificateAkamaiConfigPtrOutput {
+	return i.ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateAkamaiConfigArgs) ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiConfigPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiConfigOutput).ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(ctx)
+}
+
+// SmPublicCertificateAkamaiConfigPtrInput is an input type that accepts SmPublicCertificateAkamaiConfigArgs, SmPublicCertificateAkamaiConfigPtr and SmPublicCertificateAkamaiConfigPtrOutput values.
+// You can construct a concrete instance of `SmPublicCertificateAkamaiConfigPtrInput` via:
+//
+//	        SmPublicCertificateAkamaiConfigArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPublicCertificateAkamaiConfigPtrInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateAkamaiConfigPtrOutput() SmPublicCertificateAkamaiConfigPtrOutput
+	ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(context.Context) SmPublicCertificateAkamaiConfigPtrOutput
+}
+
+type smPublicCertificateAkamaiConfigPtrType SmPublicCertificateAkamaiConfigArgs
+
+func SmPublicCertificateAkamaiConfigPtr(v *SmPublicCertificateAkamaiConfigArgs) SmPublicCertificateAkamaiConfigPtrInput {
+	return (*smPublicCertificateAkamaiConfigPtrType)(v)
+}
+
+func (*smPublicCertificateAkamaiConfigPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateAkamaiConfig)(nil)).Elem()
+}
+
+func (i *smPublicCertificateAkamaiConfigPtrType) ToSmPublicCertificateAkamaiConfigPtrOutput() SmPublicCertificateAkamaiConfigPtrOutput {
+	return i.ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(context.Background())
+}
+
+func (i *smPublicCertificateAkamaiConfigPtrType) ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiConfigPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiConfigPtrOutput)
+}
+
+type SmPublicCertificateAkamaiConfigOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateAkamaiConfigOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateAkamaiConfig)(nil)).Elem()
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) ToSmPublicCertificateAkamaiConfigOutput() SmPublicCertificateAkamaiConfigOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) ToSmPublicCertificateAkamaiConfigOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiConfigOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) ToSmPublicCertificateAkamaiConfigPtrOutput() SmPublicCertificateAkamaiConfigPtrOutput {
+	return o.ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(context.Background())
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiConfigPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPublicCertificateAkamaiConfig) *SmPublicCertificateAkamaiConfig {
+		return &v
+	}).(SmPublicCertificateAkamaiConfigPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) AccessToken() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamaiConfig) *string { return v.AccessToken }).(pulumi.StringPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) ClientSecret() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamaiConfig) *string { return v.ClientSecret }).(pulumi.StringPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) ClientToken() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamaiConfig) *string { return v.ClientToken }).(pulumi.StringPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigOutput) Host() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamaiConfig) *string { return v.Host }).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateAkamaiConfigPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateAkamaiConfigPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateAkamaiConfig)(nil)).Elem()
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) ToSmPublicCertificateAkamaiConfigPtrOutput() SmPublicCertificateAkamaiConfigPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) ToSmPublicCertificateAkamaiConfigPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiConfigPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) Elem() SmPublicCertificateAkamaiConfigOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiConfig) SmPublicCertificateAkamaiConfig {
+		if v != nil {
+			return *v
+		}
+		var ret SmPublicCertificateAkamaiConfig
+		return ret
+	}).(SmPublicCertificateAkamaiConfigOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) AccessToken() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AccessToken
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) ClientSecret() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ClientSecret
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) ClientToken() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ClientToken
+	}).(pulumi.StringPtrOutput)
+}
+
+func (o SmPublicCertificateAkamaiConfigPtrOutput) Host() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiConfig) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Host
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateAkamaiEdgerc struct {
+	// The section of the edgerc file to use for configuration.
+	ConfigSection *string `pulumi:"configSection"`
+	// Path to Akamai's configuration file.
+	PathToEdgerc *string `pulumi:"pathToEdgerc"`
+}
+
+// SmPublicCertificateAkamaiEdgercInput is an input type that accepts SmPublicCertificateAkamaiEdgercArgs and SmPublicCertificateAkamaiEdgercOutput values.
+// You can construct a concrete instance of `SmPublicCertificateAkamaiEdgercInput` via:
+//
+//	SmPublicCertificateAkamaiEdgercArgs{...}
+type SmPublicCertificateAkamaiEdgercInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateAkamaiEdgercOutput() SmPublicCertificateAkamaiEdgercOutput
+	ToSmPublicCertificateAkamaiEdgercOutputWithContext(context.Context) SmPublicCertificateAkamaiEdgercOutput
+}
+
+type SmPublicCertificateAkamaiEdgercArgs struct {
+	// The section of the edgerc file to use for configuration.
+	ConfigSection pulumi.StringPtrInput `pulumi:"configSection"`
+	// Path to Akamai's configuration file.
+	PathToEdgerc pulumi.StringPtrInput `pulumi:"pathToEdgerc"`
+}
+
+func (SmPublicCertificateAkamaiEdgercArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateAkamaiEdgerc)(nil)).Elem()
+}
+
+func (i SmPublicCertificateAkamaiEdgercArgs) ToSmPublicCertificateAkamaiEdgercOutput() SmPublicCertificateAkamaiEdgercOutput {
+	return i.ToSmPublicCertificateAkamaiEdgercOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateAkamaiEdgercArgs) ToSmPublicCertificateAkamaiEdgercOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiEdgercOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiEdgercOutput)
+}
+
+func (i SmPublicCertificateAkamaiEdgercArgs) ToSmPublicCertificateAkamaiEdgercPtrOutput() SmPublicCertificateAkamaiEdgercPtrOutput {
+	return i.ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateAkamaiEdgercArgs) ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiEdgercPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiEdgercOutput).ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(ctx)
+}
+
+// SmPublicCertificateAkamaiEdgercPtrInput is an input type that accepts SmPublicCertificateAkamaiEdgercArgs, SmPublicCertificateAkamaiEdgercPtr and SmPublicCertificateAkamaiEdgercPtrOutput values.
+// You can construct a concrete instance of `SmPublicCertificateAkamaiEdgercPtrInput` via:
+//
+//	        SmPublicCertificateAkamaiEdgercArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPublicCertificateAkamaiEdgercPtrInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateAkamaiEdgercPtrOutput() SmPublicCertificateAkamaiEdgercPtrOutput
+	ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(context.Context) SmPublicCertificateAkamaiEdgercPtrOutput
+}
+
+type smPublicCertificateAkamaiEdgercPtrType SmPublicCertificateAkamaiEdgercArgs
+
+func SmPublicCertificateAkamaiEdgercPtr(v *SmPublicCertificateAkamaiEdgercArgs) SmPublicCertificateAkamaiEdgercPtrInput {
+	return (*smPublicCertificateAkamaiEdgercPtrType)(v)
+}
+
+func (*smPublicCertificateAkamaiEdgercPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateAkamaiEdgerc)(nil)).Elem()
+}
+
+func (i *smPublicCertificateAkamaiEdgercPtrType) ToSmPublicCertificateAkamaiEdgercPtrOutput() SmPublicCertificateAkamaiEdgercPtrOutput {
+	return i.ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(context.Background())
+}
+
+func (i *smPublicCertificateAkamaiEdgercPtrType) ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiEdgercPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateAkamaiEdgercPtrOutput)
+}
+
+type SmPublicCertificateAkamaiEdgercOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateAkamaiEdgercOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateAkamaiEdgerc)(nil)).Elem()
+}
+
+func (o SmPublicCertificateAkamaiEdgercOutput) ToSmPublicCertificateAkamaiEdgercOutput() SmPublicCertificateAkamaiEdgercOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiEdgercOutput) ToSmPublicCertificateAkamaiEdgercOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiEdgercOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiEdgercOutput) ToSmPublicCertificateAkamaiEdgercPtrOutput() SmPublicCertificateAkamaiEdgercPtrOutput {
+	return o.ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(context.Background())
+}
+
+func (o SmPublicCertificateAkamaiEdgercOutput) ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiEdgercPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPublicCertificateAkamaiEdgerc) *SmPublicCertificateAkamaiEdgerc {
+		return &v
+	}).(SmPublicCertificateAkamaiEdgercPtrOutput)
+}
+
+// The section of the edgerc file to use for configuration.
+func (o SmPublicCertificateAkamaiEdgercOutput) ConfigSection() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamaiEdgerc) *string { return v.ConfigSection }).(pulumi.StringPtrOutput)
+}
+
+// Path to Akamai's configuration file.
+func (o SmPublicCertificateAkamaiEdgercOutput) PathToEdgerc() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateAkamaiEdgerc) *string { return v.PathToEdgerc }).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateAkamaiEdgercPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateAkamaiEdgercPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateAkamaiEdgerc)(nil)).Elem()
+}
+
+func (o SmPublicCertificateAkamaiEdgercPtrOutput) ToSmPublicCertificateAkamaiEdgercPtrOutput() SmPublicCertificateAkamaiEdgercPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiEdgercPtrOutput) ToSmPublicCertificateAkamaiEdgercPtrOutputWithContext(ctx context.Context) SmPublicCertificateAkamaiEdgercPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateAkamaiEdgercPtrOutput) Elem() SmPublicCertificateAkamaiEdgercOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiEdgerc) SmPublicCertificateAkamaiEdgerc {
+		if v != nil {
+			return *v
+		}
+		var ret SmPublicCertificateAkamaiEdgerc
+		return ret
+	}).(SmPublicCertificateAkamaiEdgercOutput)
+}
+
+// The section of the edgerc file to use for configuration.
+func (o SmPublicCertificateAkamaiEdgercPtrOutput) ConfigSection() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiEdgerc) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ConfigSection
+	}).(pulumi.StringPtrOutput)
+}
+
+// Path to Akamai's configuration file.
+func (o SmPublicCertificateAkamaiEdgercPtrOutput) PathToEdgerc() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateAkamaiEdgerc) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PathToEdgerc
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateIssuanceInfo struct {
+	// Indicates whether the issued certificate is configured with an automatic rotation policy.
+	AutoRotated *bool `pulumi:"autoRotated"`
+	// The set of challenges. It is returned only when ordering public certificates by using manual DNS configuration.
+	Challenges []SmPublicCertificateIssuanceInfoChallenge `pulumi:"challenges"`
+	// The date that a user requests to validate DNS challenges for certificates that are ordered with a manual DNS provider. The date format follows RFC 3339.
+	DnsChallengeValidationTime *string `pulumi:"dnsChallengeValidationTime"`
+	// A code that identifies an issuance error.This field, along with `errorMessage`, is returned when Secrets Manager successfully processes your request, but the certificate authority is unable to issue a certificate.
+	ErrorCode *string `pulumi:"errorCode"`
+	// A human-readable message that provides details about the issuance error.
+	ErrorMessage *string `pulumi:"errorMessage"`
+	// The date when the certificate is ordered. The date format follows RFC 3339.
+	OrderedOn *string `pulumi:"orderedOn"`
+	// The secret state that is based on NIST SP 800-57. States are integers and correspond to the `Pre-activation = 0`, `Active = 1`,  `Suspended = 2`, `Deactivated = 3`, and `Destroyed = 5` values.
+	State *int `pulumi:"state"`
+	// A text representation of the secret state.
+	StateDescription *string `pulumi:"stateDescription"`
+}
+
+// SmPublicCertificateIssuanceInfoInput is an input type that accepts SmPublicCertificateIssuanceInfoArgs and SmPublicCertificateIssuanceInfoOutput values.
+// You can construct a concrete instance of `SmPublicCertificateIssuanceInfoInput` via:
+//
+//	SmPublicCertificateIssuanceInfoArgs{...}
+type SmPublicCertificateIssuanceInfoInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateIssuanceInfoOutput() SmPublicCertificateIssuanceInfoOutput
+	ToSmPublicCertificateIssuanceInfoOutputWithContext(context.Context) SmPublicCertificateIssuanceInfoOutput
+}
+
+type SmPublicCertificateIssuanceInfoArgs struct {
+	// Indicates whether the issued certificate is configured with an automatic rotation policy.
+	AutoRotated pulumi.BoolPtrInput `pulumi:"autoRotated"`
+	// The set of challenges. It is returned only when ordering public certificates by using manual DNS configuration.
+	Challenges SmPublicCertificateIssuanceInfoChallengeArrayInput `pulumi:"challenges"`
+	// The date that a user requests to validate DNS challenges for certificates that are ordered with a manual DNS provider. The date format follows RFC 3339.
+	DnsChallengeValidationTime pulumi.StringPtrInput `pulumi:"dnsChallengeValidationTime"`
+	// A code that identifies an issuance error.This field, along with `errorMessage`, is returned when Secrets Manager successfully processes your request, but the certificate authority is unable to issue a certificate.
+	ErrorCode pulumi.StringPtrInput `pulumi:"errorCode"`
+	// A human-readable message that provides details about the issuance error.
+	ErrorMessage pulumi.StringPtrInput `pulumi:"errorMessage"`
+	// The date when the certificate is ordered. The date format follows RFC 3339.
+	OrderedOn pulumi.StringPtrInput `pulumi:"orderedOn"`
+	// The secret state that is based on NIST SP 800-57. States are integers and correspond to the `Pre-activation = 0`, `Active = 1`,  `Suspended = 2`, `Deactivated = 3`, and `Destroyed = 5` values.
+	State pulumi.IntPtrInput `pulumi:"state"`
+	// A text representation of the secret state.
+	StateDescription pulumi.StringPtrInput `pulumi:"stateDescription"`
+}
+
+func (SmPublicCertificateIssuanceInfoArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateIssuanceInfo)(nil)).Elem()
+}
+
+func (i SmPublicCertificateIssuanceInfoArgs) ToSmPublicCertificateIssuanceInfoOutput() SmPublicCertificateIssuanceInfoOutput {
+	return i.ToSmPublicCertificateIssuanceInfoOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateIssuanceInfoArgs) ToSmPublicCertificateIssuanceInfoOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateIssuanceInfoOutput)
+}
+
+// SmPublicCertificateIssuanceInfoArrayInput is an input type that accepts SmPublicCertificateIssuanceInfoArray and SmPublicCertificateIssuanceInfoArrayOutput values.
+// You can construct a concrete instance of `SmPublicCertificateIssuanceInfoArrayInput` via:
+//
+//	SmPublicCertificateIssuanceInfoArray{ SmPublicCertificateIssuanceInfoArgs{...} }
+type SmPublicCertificateIssuanceInfoArrayInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateIssuanceInfoArrayOutput() SmPublicCertificateIssuanceInfoArrayOutput
+	ToSmPublicCertificateIssuanceInfoArrayOutputWithContext(context.Context) SmPublicCertificateIssuanceInfoArrayOutput
+}
+
+type SmPublicCertificateIssuanceInfoArray []SmPublicCertificateIssuanceInfoInput
+
+func (SmPublicCertificateIssuanceInfoArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPublicCertificateIssuanceInfo)(nil)).Elem()
+}
+
+func (i SmPublicCertificateIssuanceInfoArray) ToSmPublicCertificateIssuanceInfoArrayOutput() SmPublicCertificateIssuanceInfoArrayOutput {
+	return i.ToSmPublicCertificateIssuanceInfoArrayOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateIssuanceInfoArray) ToSmPublicCertificateIssuanceInfoArrayOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateIssuanceInfoArrayOutput)
+}
+
+type SmPublicCertificateIssuanceInfoOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateIssuanceInfoOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateIssuanceInfo)(nil)).Elem()
+}
+
+func (o SmPublicCertificateIssuanceInfoOutput) ToSmPublicCertificateIssuanceInfoOutput() SmPublicCertificateIssuanceInfoOutput {
+	return o
+}
+
+func (o SmPublicCertificateIssuanceInfoOutput) ToSmPublicCertificateIssuanceInfoOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoOutput {
+	return o
+}
+
+// Indicates whether the issued certificate is configured with an automatic rotation policy.
+func (o SmPublicCertificateIssuanceInfoOutput) AutoRotated() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *bool { return v.AutoRotated }).(pulumi.BoolPtrOutput)
+}
+
+// The set of challenges. It is returned only when ordering public certificates by using manual DNS configuration.
+func (o SmPublicCertificateIssuanceInfoOutput) Challenges() SmPublicCertificateIssuanceInfoChallengeArrayOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) []SmPublicCertificateIssuanceInfoChallenge {
+		return v.Challenges
+	}).(SmPublicCertificateIssuanceInfoChallengeArrayOutput)
+}
+
+// The date that a user requests to validate DNS challenges for certificates that are ordered with a manual DNS provider. The date format follows RFC 3339.
+func (o SmPublicCertificateIssuanceInfoOutput) DnsChallengeValidationTime() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *string { return v.DnsChallengeValidationTime }).(pulumi.StringPtrOutput)
+}
+
+// A code that identifies an issuance error.This field, along with `errorMessage`, is returned when Secrets Manager successfully processes your request, but the certificate authority is unable to issue a certificate.
+func (o SmPublicCertificateIssuanceInfoOutput) ErrorCode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *string { return v.ErrorCode }).(pulumi.StringPtrOutput)
+}
+
+// A human-readable message that provides details about the issuance error.
+func (o SmPublicCertificateIssuanceInfoOutput) ErrorMessage() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *string { return v.ErrorMessage }).(pulumi.StringPtrOutput)
+}
+
+// The date when the certificate is ordered. The date format follows RFC 3339.
+func (o SmPublicCertificateIssuanceInfoOutput) OrderedOn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *string { return v.OrderedOn }).(pulumi.StringPtrOutput)
+}
+
+// The secret state that is based on NIST SP 800-57. States are integers and correspond to the `Pre-activation = 0`, `Active = 1`,  `Suspended = 2`, `Deactivated = 3`, and `Destroyed = 5` values.
+func (o SmPublicCertificateIssuanceInfoOutput) State() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *int { return v.State }).(pulumi.IntPtrOutput)
+}
+
+// A text representation of the secret state.
+func (o SmPublicCertificateIssuanceInfoOutput) StateDescription() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfo) *string { return v.StateDescription }).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateIssuanceInfoArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateIssuanceInfoArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPublicCertificateIssuanceInfo)(nil)).Elem()
+}
+
+func (o SmPublicCertificateIssuanceInfoArrayOutput) ToSmPublicCertificateIssuanceInfoArrayOutput() SmPublicCertificateIssuanceInfoArrayOutput {
+	return o
+}
+
+func (o SmPublicCertificateIssuanceInfoArrayOutput) ToSmPublicCertificateIssuanceInfoArrayOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoArrayOutput {
+	return o
+}
+
+func (o SmPublicCertificateIssuanceInfoArrayOutput) Index(i pulumi.IntInput) SmPublicCertificateIssuanceInfoOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPublicCertificateIssuanceInfo {
+		return vs[0].([]SmPublicCertificateIssuanceInfo)[vs[1].(int)]
+	}).(SmPublicCertificateIssuanceInfoOutput)
+}
+
+type SmPublicCertificateIssuanceInfoChallenge struct {
+	// The challenge domain.
+	Domain *string `pulumi:"domain"`
+	// The challenge expiration date. The date format follows RFC 3339.
+	Expiration *string `pulumi:"expiration"`
+	// The challenge status.
+	Status *string `pulumi:"status"`
+	// The TXT record name.
+	TxtRecordName *string `pulumi:"txtRecordName"`
+	// The TXT record value.
+	TxtRecordValue *string `pulumi:"txtRecordValue"`
+}
+
+// SmPublicCertificateIssuanceInfoChallengeInput is an input type that accepts SmPublicCertificateIssuanceInfoChallengeArgs and SmPublicCertificateIssuanceInfoChallengeOutput values.
+// You can construct a concrete instance of `SmPublicCertificateIssuanceInfoChallengeInput` via:
+//
+//	SmPublicCertificateIssuanceInfoChallengeArgs{...}
+type SmPublicCertificateIssuanceInfoChallengeInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateIssuanceInfoChallengeOutput() SmPublicCertificateIssuanceInfoChallengeOutput
+	ToSmPublicCertificateIssuanceInfoChallengeOutputWithContext(context.Context) SmPublicCertificateIssuanceInfoChallengeOutput
+}
+
+type SmPublicCertificateIssuanceInfoChallengeArgs struct {
+	// The challenge domain.
+	Domain pulumi.StringPtrInput `pulumi:"domain"`
+	// The challenge expiration date. The date format follows RFC 3339.
+	Expiration pulumi.StringPtrInput `pulumi:"expiration"`
+	// The challenge status.
+	Status pulumi.StringPtrInput `pulumi:"status"`
+	// The TXT record name.
+	TxtRecordName pulumi.StringPtrInput `pulumi:"txtRecordName"`
+	// The TXT record value.
+	TxtRecordValue pulumi.StringPtrInput `pulumi:"txtRecordValue"`
+}
+
+func (SmPublicCertificateIssuanceInfoChallengeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateIssuanceInfoChallenge)(nil)).Elem()
+}
+
+func (i SmPublicCertificateIssuanceInfoChallengeArgs) ToSmPublicCertificateIssuanceInfoChallengeOutput() SmPublicCertificateIssuanceInfoChallengeOutput {
+	return i.ToSmPublicCertificateIssuanceInfoChallengeOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateIssuanceInfoChallengeArgs) ToSmPublicCertificateIssuanceInfoChallengeOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoChallengeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateIssuanceInfoChallengeOutput)
+}
+
+// SmPublicCertificateIssuanceInfoChallengeArrayInput is an input type that accepts SmPublicCertificateIssuanceInfoChallengeArray and SmPublicCertificateIssuanceInfoChallengeArrayOutput values.
+// You can construct a concrete instance of `SmPublicCertificateIssuanceInfoChallengeArrayInput` via:
+//
+//	SmPublicCertificateIssuanceInfoChallengeArray{ SmPublicCertificateIssuanceInfoChallengeArgs{...} }
+type SmPublicCertificateIssuanceInfoChallengeArrayInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateIssuanceInfoChallengeArrayOutput() SmPublicCertificateIssuanceInfoChallengeArrayOutput
+	ToSmPublicCertificateIssuanceInfoChallengeArrayOutputWithContext(context.Context) SmPublicCertificateIssuanceInfoChallengeArrayOutput
+}
+
+type SmPublicCertificateIssuanceInfoChallengeArray []SmPublicCertificateIssuanceInfoChallengeInput
+
+func (SmPublicCertificateIssuanceInfoChallengeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPublicCertificateIssuanceInfoChallenge)(nil)).Elem()
+}
+
+func (i SmPublicCertificateIssuanceInfoChallengeArray) ToSmPublicCertificateIssuanceInfoChallengeArrayOutput() SmPublicCertificateIssuanceInfoChallengeArrayOutput {
+	return i.ToSmPublicCertificateIssuanceInfoChallengeArrayOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateIssuanceInfoChallengeArray) ToSmPublicCertificateIssuanceInfoChallengeArrayOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoChallengeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateIssuanceInfoChallengeArrayOutput)
+}
+
+type SmPublicCertificateIssuanceInfoChallengeOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateIssuanceInfoChallengeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateIssuanceInfoChallenge)(nil)).Elem()
+}
+
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) ToSmPublicCertificateIssuanceInfoChallengeOutput() SmPublicCertificateIssuanceInfoChallengeOutput {
+	return o
+}
+
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) ToSmPublicCertificateIssuanceInfoChallengeOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoChallengeOutput {
+	return o
+}
+
+// The challenge domain.
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) Domain() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfoChallenge) *string { return v.Domain }).(pulumi.StringPtrOutput)
+}
+
+// The challenge expiration date. The date format follows RFC 3339.
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) Expiration() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfoChallenge) *string { return v.Expiration }).(pulumi.StringPtrOutput)
+}
+
+// The challenge status.
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) Status() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfoChallenge) *string { return v.Status }).(pulumi.StringPtrOutput)
+}
+
+// The TXT record name.
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) TxtRecordName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfoChallenge) *string { return v.TxtRecordName }).(pulumi.StringPtrOutput)
+}
+
+// The TXT record value.
+func (o SmPublicCertificateIssuanceInfoChallengeOutput) TxtRecordValue() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateIssuanceInfoChallenge) *string { return v.TxtRecordValue }).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateIssuanceInfoChallengeArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateIssuanceInfoChallengeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPublicCertificateIssuanceInfoChallenge)(nil)).Elem()
+}
+
+func (o SmPublicCertificateIssuanceInfoChallengeArrayOutput) ToSmPublicCertificateIssuanceInfoChallengeArrayOutput() SmPublicCertificateIssuanceInfoChallengeArrayOutput {
+	return o
+}
+
+func (o SmPublicCertificateIssuanceInfoChallengeArrayOutput) ToSmPublicCertificateIssuanceInfoChallengeArrayOutputWithContext(ctx context.Context) SmPublicCertificateIssuanceInfoChallengeArrayOutput {
+	return o
+}
+
+func (o SmPublicCertificateIssuanceInfoChallengeArrayOutput) Index(i pulumi.IntInput) SmPublicCertificateIssuanceInfoChallengeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPublicCertificateIssuanceInfoChallenge {
+		return vs[0].([]SmPublicCertificateIssuanceInfoChallenge)[vs[1].(int)]
+	}).(SmPublicCertificateIssuanceInfoChallengeOutput)
+}
+
+type SmPublicCertificateRotation struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your certificate 31 days before it expires.
+	AutoRotate *bool `pulumi:"autoRotate"`
+	// Determines whether Secrets Manager rotates the private key for your public certificate automatically.Default is `false`. If it is set to `true`, the service generates and stores a new private key for your rotated certificate.
+	RotateKeys *bool `pulumi:"rotateKeys"`
+}
+
+// SmPublicCertificateRotationInput is an input type that accepts SmPublicCertificateRotationArgs and SmPublicCertificateRotationOutput values.
+// You can construct a concrete instance of `SmPublicCertificateRotationInput` via:
+//
+//	SmPublicCertificateRotationArgs{...}
+type SmPublicCertificateRotationInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateRotationOutput() SmPublicCertificateRotationOutput
+	ToSmPublicCertificateRotationOutputWithContext(context.Context) SmPublicCertificateRotationOutput
+}
+
+type SmPublicCertificateRotationArgs struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your certificate 31 days before it expires.
+	AutoRotate pulumi.BoolPtrInput `pulumi:"autoRotate"`
+	// Determines whether Secrets Manager rotates the private key for your public certificate automatically.Default is `false`. If it is set to `true`, the service generates and stores a new private key for your rotated certificate.
+	RotateKeys pulumi.BoolPtrInput `pulumi:"rotateKeys"`
+}
+
+func (SmPublicCertificateRotationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateRotation)(nil)).Elem()
+}
+
+func (i SmPublicCertificateRotationArgs) ToSmPublicCertificateRotationOutput() SmPublicCertificateRotationOutput {
+	return i.ToSmPublicCertificateRotationOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateRotationArgs) ToSmPublicCertificateRotationOutputWithContext(ctx context.Context) SmPublicCertificateRotationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateRotationOutput)
+}
+
+func (i SmPublicCertificateRotationArgs) ToSmPublicCertificateRotationPtrOutput() SmPublicCertificateRotationPtrOutput {
+	return i.ToSmPublicCertificateRotationPtrOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateRotationArgs) ToSmPublicCertificateRotationPtrOutputWithContext(ctx context.Context) SmPublicCertificateRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateRotationOutput).ToSmPublicCertificateRotationPtrOutputWithContext(ctx)
+}
+
+// SmPublicCertificateRotationPtrInput is an input type that accepts SmPublicCertificateRotationArgs, SmPublicCertificateRotationPtr and SmPublicCertificateRotationPtrOutput values.
+// You can construct a concrete instance of `SmPublicCertificateRotationPtrInput` via:
+//
+//	        SmPublicCertificateRotationArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmPublicCertificateRotationPtrInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateRotationPtrOutput() SmPublicCertificateRotationPtrOutput
+	ToSmPublicCertificateRotationPtrOutputWithContext(context.Context) SmPublicCertificateRotationPtrOutput
+}
+
+type smPublicCertificateRotationPtrType SmPublicCertificateRotationArgs
+
+func SmPublicCertificateRotationPtr(v *SmPublicCertificateRotationArgs) SmPublicCertificateRotationPtrInput {
+	return (*smPublicCertificateRotationPtrType)(v)
+}
+
+func (*smPublicCertificateRotationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateRotation)(nil)).Elem()
+}
+
+func (i *smPublicCertificateRotationPtrType) ToSmPublicCertificateRotationPtrOutput() SmPublicCertificateRotationPtrOutput {
+	return i.ToSmPublicCertificateRotationPtrOutputWithContext(context.Background())
+}
+
+func (i *smPublicCertificateRotationPtrType) ToSmPublicCertificateRotationPtrOutputWithContext(ctx context.Context) SmPublicCertificateRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateRotationPtrOutput)
+}
+
+type SmPublicCertificateRotationOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateRotationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateRotation)(nil)).Elem()
+}
+
+func (o SmPublicCertificateRotationOutput) ToSmPublicCertificateRotationOutput() SmPublicCertificateRotationOutput {
+	return o
+}
+
+func (o SmPublicCertificateRotationOutput) ToSmPublicCertificateRotationOutputWithContext(ctx context.Context) SmPublicCertificateRotationOutput {
+	return o
+}
+
+func (o SmPublicCertificateRotationOutput) ToSmPublicCertificateRotationPtrOutput() SmPublicCertificateRotationPtrOutput {
+	return o.ToSmPublicCertificateRotationPtrOutputWithContext(context.Background())
+}
+
+func (o SmPublicCertificateRotationOutput) ToSmPublicCertificateRotationPtrOutputWithContext(ctx context.Context) SmPublicCertificateRotationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmPublicCertificateRotation) *SmPublicCertificateRotation {
+		return &v
+	}).(SmPublicCertificateRotationPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your certificate 31 days before it expires.
+func (o SmPublicCertificateRotationOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateRotation) *bool { return v.AutoRotate }).(pulumi.BoolPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates the private key for your public certificate automatically.Default is `false`. If it is set to `true`, the service generates and stores a new private key for your rotated certificate.
+func (o SmPublicCertificateRotationOutput) RotateKeys() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateRotation) *bool { return v.RotateKeys }).(pulumi.BoolPtrOutput)
+}
+
+type SmPublicCertificateRotationPtrOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateRotationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmPublicCertificateRotation)(nil)).Elem()
+}
+
+func (o SmPublicCertificateRotationPtrOutput) ToSmPublicCertificateRotationPtrOutput() SmPublicCertificateRotationPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateRotationPtrOutput) ToSmPublicCertificateRotationPtrOutputWithContext(ctx context.Context) SmPublicCertificateRotationPtrOutput {
+	return o
+}
+
+func (o SmPublicCertificateRotationPtrOutput) Elem() SmPublicCertificateRotationOutput {
+	return o.ApplyT(func(v *SmPublicCertificateRotation) SmPublicCertificateRotation {
+		if v != nil {
+			return *v
+		}
+		var ret SmPublicCertificateRotation
+		return ret
+	}).(SmPublicCertificateRotationOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your certificate 31 days before it expires.
+func (o SmPublicCertificateRotationPtrOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRotate
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates the private key for your public certificate automatically.Default is `false`. If it is set to `true`, the service generates and stores a new private key for your rotated certificate.
+func (o SmPublicCertificateRotationPtrOutput) RotateKeys() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmPublicCertificateRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.RotateKeys
+	}).(pulumi.BoolPtrOutput)
+}
+
+type SmPublicCertificateValidity struct {
+	// The date-time format follows RFC 3339.
+	NotAfter *string `pulumi:"notAfter"`
+	// The date-time format follows RFC 3339.
+	NotBefore *string `pulumi:"notBefore"`
+}
+
+// SmPublicCertificateValidityInput is an input type that accepts SmPublicCertificateValidityArgs and SmPublicCertificateValidityOutput values.
+// You can construct a concrete instance of `SmPublicCertificateValidityInput` via:
+//
+//	SmPublicCertificateValidityArgs{...}
+type SmPublicCertificateValidityInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateValidityOutput() SmPublicCertificateValidityOutput
+	ToSmPublicCertificateValidityOutputWithContext(context.Context) SmPublicCertificateValidityOutput
+}
+
+type SmPublicCertificateValidityArgs struct {
+	// The date-time format follows RFC 3339.
+	NotAfter pulumi.StringPtrInput `pulumi:"notAfter"`
+	// The date-time format follows RFC 3339.
+	NotBefore pulumi.StringPtrInput `pulumi:"notBefore"`
+}
+
+func (SmPublicCertificateValidityArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateValidity)(nil)).Elem()
+}
+
+func (i SmPublicCertificateValidityArgs) ToSmPublicCertificateValidityOutput() SmPublicCertificateValidityOutput {
+	return i.ToSmPublicCertificateValidityOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateValidityArgs) ToSmPublicCertificateValidityOutputWithContext(ctx context.Context) SmPublicCertificateValidityOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateValidityOutput)
+}
+
+// SmPublicCertificateValidityArrayInput is an input type that accepts SmPublicCertificateValidityArray and SmPublicCertificateValidityArrayOutput values.
+// You can construct a concrete instance of `SmPublicCertificateValidityArrayInput` via:
+//
+//	SmPublicCertificateValidityArray{ SmPublicCertificateValidityArgs{...} }
+type SmPublicCertificateValidityArrayInput interface {
+	pulumi.Input
+
+	ToSmPublicCertificateValidityArrayOutput() SmPublicCertificateValidityArrayOutput
+	ToSmPublicCertificateValidityArrayOutputWithContext(context.Context) SmPublicCertificateValidityArrayOutput
+}
+
+type SmPublicCertificateValidityArray []SmPublicCertificateValidityInput
+
+func (SmPublicCertificateValidityArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPublicCertificateValidity)(nil)).Elem()
+}
+
+func (i SmPublicCertificateValidityArray) ToSmPublicCertificateValidityArrayOutput() SmPublicCertificateValidityArrayOutput {
+	return i.ToSmPublicCertificateValidityArrayOutputWithContext(context.Background())
+}
+
+func (i SmPublicCertificateValidityArray) ToSmPublicCertificateValidityArrayOutputWithContext(ctx context.Context) SmPublicCertificateValidityArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmPublicCertificateValidityArrayOutput)
+}
+
+type SmPublicCertificateValidityOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateValidityOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmPublicCertificateValidity)(nil)).Elem()
+}
+
+func (o SmPublicCertificateValidityOutput) ToSmPublicCertificateValidityOutput() SmPublicCertificateValidityOutput {
+	return o
+}
+
+func (o SmPublicCertificateValidityOutput) ToSmPublicCertificateValidityOutputWithContext(ctx context.Context) SmPublicCertificateValidityOutput {
+	return o
+}
+
+// The date-time format follows RFC 3339.
+func (o SmPublicCertificateValidityOutput) NotAfter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateValidity) *string { return v.NotAfter }).(pulumi.StringPtrOutput)
+}
+
+// The date-time format follows RFC 3339.
+func (o SmPublicCertificateValidityOutput) NotBefore() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmPublicCertificateValidity) *string { return v.NotBefore }).(pulumi.StringPtrOutput)
+}
+
+type SmPublicCertificateValidityArrayOutput struct{ *pulumi.OutputState }
+
+func (SmPublicCertificateValidityArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmPublicCertificateValidity)(nil)).Elem()
+}
+
+func (o SmPublicCertificateValidityArrayOutput) ToSmPublicCertificateValidityArrayOutput() SmPublicCertificateValidityArrayOutput {
+	return o
+}
+
+func (o SmPublicCertificateValidityArrayOutput) ToSmPublicCertificateValidityArrayOutputWithContext(ctx context.Context) SmPublicCertificateValidityArrayOutput {
+	return o
+}
+
+func (o SmPublicCertificateValidityArrayOutput) Index(i pulumi.IntInput) SmPublicCertificateValidityOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmPublicCertificateValidity {
+		return vs[0].([]SmPublicCertificateValidity)[vs[1].(int)]
+	}).(SmPublicCertificateValidityOutput)
+}
+
+type SmServiceCredentialsSecretRotation struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate *bool `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval *int `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit *string `pulumi:"unit"`
+}
+
+// SmServiceCredentialsSecretRotationInput is an input type that accepts SmServiceCredentialsSecretRotationArgs and SmServiceCredentialsSecretRotationOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretRotationInput` via:
+//
+//	SmServiceCredentialsSecretRotationArgs{...}
+type SmServiceCredentialsSecretRotationInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretRotationOutput() SmServiceCredentialsSecretRotationOutput
+	ToSmServiceCredentialsSecretRotationOutputWithContext(context.Context) SmServiceCredentialsSecretRotationOutput
+}
+
+type SmServiceCredentialsSecretRotationArgs struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate pulumi.BoolPtrInput `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval pulumi.IntPtrInput `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit pulumi.StringPtrInput `pulumi:"unit"`
+}
+
+func (SmServiceCredentialsSecretRotationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretRotationArgs) ToSmServiceCredentialsSecretRotationOutput() SmServiceCredentialsSecretRotationOutput {
+	return i.ToSmServiceCredentialsSecretRotationOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretRotationArgs) ToSmServiceCredentialsSecretRotationOutputWithContext(ctx context.Context) SmServiceCredentialsSecretRotationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretRotationOutput)
+}
+
+func (i SmServiceCredentialsSecretRotationArgs) ToSmServiceCredentialsSecretRotationPtrOutput() SmServiceCredentialsSecretRotationPtrOutput {
+	return i.ToSmServiceCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretRotationArgs) ToSmServiceCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretRotationOutput).ToSmServiceCredentialsSecretRotationPtrOutputWithContext(ctx)
+}
+
+// SmServiceCredentialsSecretRotationPtrInput is an input type that accepts SmServiceCredentialsSecretRotationArgs, SmServiceCredentialsSecretRotationPtr and SmServiceCredentialsSecretRotationPtrOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretRotationPtrInput` via:
+//
+//	        SmServiceCredentialsSecretRotationArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmServiceCredentialsSecretRotationPtrInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretRotationPtrOutput() SmServiceCredentialsSecretRotationPtrOutput
+	ToSmServiceCredentialsSecretRotationPtrOutputWithContext(context.Context) SmServiceCredentialsSecretRotationPtrOutput
+}
+
+type smServiceCredentialsSecretRotationPtrType SmServiceCredentialsSecretRotationArgs
+
+func SmServiceCredentialsSecretRotationPtr(v *SmServiceCredentialsSecretRotationArgs) SmServiceCredentialsSecretRotationPtrInput {
+	return (*smServiceCredentialsSecretRotationPtrType)(v)
+}
+
+func (*smServiceCredentialsSecretRotationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (i *smServiceCredentialsSecretRotationPtrType) ToSmServiceCredentialsSecretRotationPtrOutput() SmServiceCredentialsSecretRotationPtrOutput {
+	return i.ToSmServiceCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i *smServiceCredentialsSecretRotationPtrType) ToSmServiceCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretRotationPtrOutput)
+}
+
+type SmServiceCredentialsSecretRotationOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretRotationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretRotationOutput) ToSmServiceCredentialsSecretRotationOutput() SmServiceCredentialsSecretRotationOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretRotationOutput) ToSmServiceCredentialsSecretRotationOutputWithContext(ctx context.Context) SmServiceCredentialsSecretRotationOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretRotationOutput) ToSmServiceCredentialsSecretRotationPtrOutput() SmServiceCredentialsSecretRotationPtrOutput {
+	return o.ToSmServiceCredentialsSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (o SmServiceCredentialsSecretRotationOutput) ToSmServiceCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretRotationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmServiceCredentialsSecretRotation) *SmServiceCredentialsSecretRotation {
+		return &v
+	}).(SmServiceCredentialsSecretRotationPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmServiceCredentialsSecretRotationOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretRotation) *bool { return v.AutoRotate }).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmServiceCredentialsSecretRotationOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretRotation) *int { return v.Interval }).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmServiceCredentialsSecretRotationOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretRotation) *string { return v.Unit }).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretRotationPtrOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretRotationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretRotation)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretRotationPtrOutput) ToSmServiceCredentialsSecretRotationPtrOutput() SmServiceCredentialsSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretRotationPtrOutput) ToSmServiceCredentialsSecretRotationPtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretRotationPtrOutput) Elem() SmServiceCredentialsSecretRotationOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretRotation) SmServiceCredentialsSecretRotation {
+		if v != nil {
+			return *v
+		}
+		var ret SmServiceCredentialsSecretRotation
+		return ret
+	}).(SmServiceCredentialsSecretRotationOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmServiceCredentialsSecretRotationPtrOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRotate
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmServiceCredentialsSecretRotationPtrOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretRotation) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Interval
+	}).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmServiceCredentialsSecretRotationPtrOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretRotation) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Unit
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceService struct {
+	// The source service IAM data is returned in case IAM credentials where created for this secret.
+	Iams []SmServiceCredentialsSecretSourceServiceIam `pulumi:"iams"`
+	// The source service instance identifier.
+	Instance SmServiceCredentialsSecretSourceServiceInstance `pulumi:"instance"`
+	// The collection of parameters for the service credentials target.
+	Parameters map[string]string `pulumi:"parameters"`
+	// The source service resource key data of the generated service credentials.
+	ResourceKeys []SmServiceCredentialsSecretSourceServiceResourceKey `pulumi:"resourceKeys"`
+	// The service-specific custom role object, CRN role is accepted. Refer to the service’s documentation for supported roles.
+	Role *SmServiceCredentialsSecretSourceServiceRole `pulumi:"role"`
+}
+
+// SmServiceCredentialsSecretSourceServiceInput is an input type that accepts SmServiceCredentialsSecretSourceServiceArgs and SmServiceCredentialsSecretSourceServiceOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceArgs{...}
+type SmServiceCredentialsSecretSourceServiceInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceOutput() SmServiceCredentialsSecretSourceServiceOutput
+	ToSmServiceCredentialsSecretSourceServiceOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceArgs struct {
+	// The source service IAM data is returned in case IAM credentials where created for this secret.
+	Iams SmServiceCredentialsSecretSourceServiceIamArrayInput `pulumi:"iams"`
+	// The source service instance identifier.
+	Instance SmServiceCredentialsSecretSourceServiceInstanceInput `pulumi:"instance"`
+	// The collection of parameters for the service credentials target.
+	Parameters pulumi.StringMapInput `pulumi:"parameters"`
+	// The source service resource key data of the generated service credentials.
+	ResourceKeys SmServiceCredentialsSecretSourceServiceResourceKeyArrayInput `pulumi:"resourceKeys"`
+	// The service-specific custom role object, CRN role is accepted. Refer to the service’s documentation for supported roles.
+	Role SmServiceCredentialsSecretSourceServiceRolePtrInput `pulumi:"role"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceService)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceArgs) ToSmServiceCredentialsSecretSourceServiceOutput() SmServiceCredentialsSecretSourceServiceOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceArgs) ToSmServiceCredentialsSecretSourceServiceOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceOutput)
+}
+
+func (i SmServiceCredentialsSecretSourceServiceArgs) ToSmServiceCredentialsSecretSourceServicePtrOutput() SmServiceCredentialsSecretSourceServicePtrOutput {
+	return i.ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceArgs) ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServicePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceOutput).ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(ctx)
+}
+
+// SmServiceCredentialsSecretSourceServicePtrInput is an input type that accepts SmServiceCredentialsSecretSourceServiceArgs, SmServiceCredentialsSecretSourceServicePtr and SmServiceCredentialsSecretSourceServicePtrOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServicePtrInput` via:
+//
+//	        SmServiceCredentialsSecretSourceServiceArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmServiceCredentialsSecretSourceServicePtrInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServicePtrOutput() SmServiceCredentialsSecretSourceServicePtrOutput
+	ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServicePtrOutput
+}
+
+type smServiceCredentialsSecretSourceServicePtrType SmServiceCredentialsSecretSourceServiceArgs
+
+func SmServiceCredentialsSecretSourceServicePtr(v *SmServiceCredentialsSecretSourceServiceArgs) SmServiceCredentialsSecretSourceServicePtrInput {
+	return (*smServiceCredentialsSecretSourceServicePtrType)(v)
+}
+
+func (*smServiceCredentialsSecretSourceServicePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretSourceService)(nil)).Elem()
+}
+
+func (i *smServiceCredentialsSecretSourceServicePtrType) ToSmServiceCredentialsSecretSourceServicePtrOutput() SmServiceCredentialsSecretSourceServicePtrOutput {
+	return i.ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(context.Background())
+}
+
+func (i *smServiceCredentialsSecretSourceServicePtrType) ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServicePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServicePtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceService)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceOutput) ToSmServiceCredentialsSecretSourceServiceOutput() SmServiceCredentialsSecretSourceServiceOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceOutput) ToSmServiceCredentialsSecretSourceServiceOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceOutput) ToSmServiceCredentialsSecretSourceServicePtrOutput() SmServiceCredentialsSecretSourceServicePtrOutput {
+	return o.ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(context.Background())
+}
+
+func (o SmServiceCredentialsSecretSourceServiceOutput) ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServicePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmServiceCredentialsSecretSourceService) *SmServiceCredentialsSecretSourceService {
+		return &v
+	}).(SmServiceCredentialsSecretSourceServicePtrOutput)
+}
+
+// The source service IAM data is returned in case IAM credentials where created for this secret.
+func (o SmServiceCredentialsSecretSourceServiceOutput) Iams() SmServiceCredentialsSecretSourceServiceIamArrayOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceService) []SmServiceCredentialsSecretSourceServiceIam {
+		return v.Iams
+	}).(SmServiceCredentialsSecretSourceServiceIamArrayOutput)
+}
+
+// The source service instance identifier.
+func (o SmServiceCredentialsSecretSourceServiceOutput) Instance() SmServiceCredentialsSecretSourceServiceInstanceOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceService) SmServiceCredentialsSecretSourceServiceInstance {
+		return v.Instance
+	}).(SmServiceCredentialsSecretSourceServiceInstanceOutput)
+}
+
+// The collection of parameters for the service credentials target.
+func (o SmServiceCredentialsSecretSourceServiceOutput) Parameters() pulumi.StringMapOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceService) map[string]string { return v.Parameters }).(pulumi.StringMapOutput)
+}
+
+// The source service resource key data of the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceOutput) ResourceKeys() SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceService) []SmServiceCredentialsSecretSourceServiceResourceKey {
+		return v.ResourceKeys
+	}).(SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput)
+}
+
+// The service-specific custom role object, CRN role is accepted. Refer to the service’s documentation for supported roles.
+func (o SmServiceCredentialsSecretSourceServiceOutput) Role() SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceService) *SmServiceCredentialsSecretSourceServiceRole {
+		return v.Role
+	}).(SmServiceCredentialsSecretSourceServiceRolePtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServicePtrOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServicePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretSourceService)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) ToSmServiceCredentialsSecretSourceServicePtrOutput() SmServiceCredentialsSecretSourceServicePtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) ToSmServiceCredentialsSecretSourceServicePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServicePtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) Elem() SmServiceCredentialsSecretSourceServiceOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceService) SmServiceCredentialsSecretSourceService {
+		if v != nil {
+			return *v
+		}
+		var ret SmServiceCredentialsSecretSourceService
+		return ret
+	}).(SmServiceCredentialsSecretSourceServiceOutput)
+}
+
+// The source service IAM data is returned in case IAM credentials where created for this secret.
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) Iams() SmServiceCredentialsSecretSourceServiceIamArrayOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceService) []SmServiceCredentialsSecretSourceServiceIam {
+		if v == nil {
+			return nil
+		}
+		return v.Iams
+	}).(SmServiceCredentialsSecretSourceServiceIamArrayOutput)
+}
+
+// The source service instance identifier.
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) Instance() SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceService) *SmServiceCredentialsSecretSourceServiceInstance {
+		if v == nil {
+			return nil
+		}
+		return &v.Instance
+	}).(SmServiceCredentialsSecretSourceServiceInstancePtrOutput)
+}
+
+// The collection of parameters for the service credentials target.
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) Parameters() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceService) map[string]string {
+		if v == nil {
+			return nil
+		}
+		return v.Parameters
+	}).(pulumi.StringMapOutput)
+}
+
+// The source service resource key data of the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) ResourceKeys() SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceService) []SmServiceCredentialsSecretSourceServiceResourceKey {
+		if v == nil {
+			return nil
+		}
+		return v.ResourceKeys
+	}).(SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput)
+}
+
+// The service-specific custom role object, CRN role is accepted. Refer to the service’s documentation for supported roles.
+func (o SmServiceCredentialsSecretSourceServicePtrOutput) Role() SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceService) *SmServiceCredentialsSecretSourceServiceRole {
+		if v == nil {
+			return nil
+		}
+		return v.Role
+	}).(SmServiceCredentialsSecretSourceServiceRolePtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIam struct {
+	// The IAM apikey metadata for the IAM credentials that were generated.
+	Apikeys []SmServiceCredentialsSecretSourceServiceIamApikey `pulumi:"apikeys"`
+	// The IAM role for the generate service credentials.
+	Roles []SmServiceCredentialsSecretSourceServiceIamRole `pulumi:"roles"`
+	// The IAM serviceid for the generated service credentials.
+	Serviceids []SmServiceCredentialsSecretSourceServiceIamServiceid `pulumi:"serviceids"`
+}
+
+// SmServiceCredentialsSecretSourceServiceIamInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamArgs and SmServiceCredentialsSecretSourceServiceIamOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamArgs{...}
+type SmServiceCredentialsSecretSourceServiceIamInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamOutput() SmServiceCredentialsSecretSourceServiceIamOutput
+	ToSmServiceCredentialsSecretSourceServiceIamOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamArgs struct {
+	// The IAM apikey metadata for the IAM credentials that were generated.
+	Apikeys SmServiceCredentialsSecretSourceServiceIamApikeyArrayInput `pulumi:"apikeys"`
+	// The IAM role for the generate service credentials.
+	Roles SmServiceCredentialsSecretSourceServiceIamRoleArrayInput `pulumi:"roles"`
+	// The IAM serviceid for the generated service credentials.
+	Serviceids SmServiceCredentialsSecretSourceServiceIamServiceidArrayInput `pulumi:"serviceids"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceIamArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIam)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamArgs) ToSmServiceCredentialsSecretSourceServiceIamOutput() SmServiceCredentialsSecretSourceServiceIamOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamArgs) ToSmServiceCredentialsSecretSourceServiceIamOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamOutput)
+}
+
+// SmServiceCredentialsSecretSourceServiceIamArrayInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamArray and SmServiceCredentialsSecretSourceServiceIamArrayOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamArrayInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamArray{ SmServiceCredentialsSecretSourceServiceIamArgs{...} }
+type SmServiceCredentialsSecretSourceServiceIamArrayInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamArrayOutput() SmServiceCredentialsSecretSourceServiceIamArrayOutput
+	ToSmServiceCredentialsSecretSourceServiceIamArrayOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamArrayOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamArray []SmServiceCredentialsSecretSourceServiceIamInput
+
+func (SmServiceCredentialsSecretSourceServiceIamArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIam)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamArray) ToSmServiceCredentialsSecretSourceServiceIamArrayOutput() SmServiceCredentialsSecretSourceServiceIamArrayOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamArrayOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamArray) ToSmServiceCredentialsSecretSourceServiceIamArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamArrayOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIam)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamOutput) ToSmServiceCredentialsSecretSourceServiceIamOutput() SmServiceCredentialsSecretSourceServiceIamOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamOutput) ToSmServiceCredentialsSecretSourceServiceIamOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamOutput {
+	return o
+}
+
+// The IAM apikey metadata for the IAM credentials that were generated.
+func (o SmServiceCredentialsSecretSourceServiceIamOutput) Apikeys() SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIam) []SmServiceCredentialsSecretSourceServiceIamApikey {
+		return v.Apikeys
+	}).(SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput)
+}
+
+// The IAM role for the generate service credentials.
+func (o SmServiceCredentialsSecretSourceServiceIamOutput) Roles() SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIam) []SmServiceCredentialsSecretSourceServiceIamRole {
+		return v.Roles
+	}).(SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput)
+}
+
+// The IAM serviceid for the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceIamOutput) Serviceids() SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIam) []SmServiceCredentialsSecretSourceServiceIamServiceid {
+		return v.Serviceids
+	}).(SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamArrayOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIam)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamArrayOutput() SmServiceCredentialsSecretSourceServiceIamArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamArrayOutput) Index(i pulumi.IntInput) SmServiceCredentialsSecretSourceServiceIamOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmServiceCredentialsSecretSourceServiceIam {
+		return vs[0].([]SmServiceCredentialsSecretSourceServiceIam)[vs[1].(int)]
+	}).(SmServiceCredentialsSecretSourceServiceIamOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamApikey struct {
+	// The IAM API key description for the generated service credentials.
+	Description *string `pulumi:"description"`
+	// The IAM API key name for the generated service credentials.
+	Name *string `pulumi:"name"`
+}
+
+// SmServiceCredentialsSecretSourceServiceIamApikeyInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamApikeyArgs and SmServiceCredentialsSecretSourceServiceIamApikeyOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamApikeyInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamApikeyArgs{...}
+type SmServiceCredentialsSecretSourceServiceIamApikeyInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamApikeyOutput() SmServiceCredentialsSecretSourceServiceIamApikeyOutput
+	ToSmServiceCredentialsSecretSourceServiceIamApikeyOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamApikeyOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamApikeyArgs struct {
+	// The IAM API key description for the generated service credentials.
+	Description pulumi.StringPtrInput `pulumi:"description"`
+	// The IAM API key name for the generated service credentials.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceIamApikeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamApikey)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamApikeyArgs) ToSmServiceCredentialsSecretSourceServiceIamApikeyOutput() SmServiceCredentialsSecretSourceServiceIamApikeyOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamApikeyOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamApikeyArgs) ToSmServiceCredentialsSecretSourceServiceIamApikeyOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamApikeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamApikeyOutput)
+}
+
+// SmServiceCredentialsSecretSourceServiceIamApikeyArrayInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamApikeyArray and SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamApikeyArrayInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamApikeyArray{ SmServiceCredentialsSecretSourceServiceIamApikeyArgs{...} }
+type SmServiceCredentialsSecretSourceServiceIamApikeyArrayInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput() SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput
+	ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamApikeyArray []SmServiceCredentialsSecretSourceServiceIamApikeyInput
+
+func (SmServiceCredentialsSecretSourceServiceIamApikeyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIamApikey)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamApikeyArray) ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput() SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamApikeyArray) ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamApikeyOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamApikeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamApikey)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyOutput) ToSmServiceCredentialsSecretSourceServiceIamApikeyOutput() SmServiceCredentialsSecretSourceServiceIamApikeyOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyOutput) ToSmServiceCredentialsSecretSourceServiceIamApikeyOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamApikeyOutput {
+	return o
+}
+
+// The IAM API key description for the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyOutput) Description() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIamApikey) *string { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// The IAM API key name for the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIamApikey) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIamApikey)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput() SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamApikeyArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput) Index(i pulumi.IntInput) SmServiceCredentialsSecretSourceServiceIamApikeyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmServiceCredentialsSecretSourceServiceIamApikey {
+		return vs[0].([]SmServiceCredentialsSecretSourceServiceIamApikey)[vs[1].(int)]
+	}).(SmServiceCredentialsSecretSourceServiceIamApikeyOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamRole struct {
+	// The IAM role CRN assigned to the generated service credentials.
+	Crn *string `pulumi:"crn"`
+}
+
+// SmServiceCredentialsSecretSourceServiceIamRoleInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamRoleArgs and SmServiceCredentialsSecretSourceServiceIamRoleOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamRoleInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamRoleArgs{...}
+type SmServiceCredentialsSecretSourceServiceIamRoleInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamRoleOutput() SmServiceCredentialsSecretSourceServiceIamRoleOutput
+	ToSmServiceCredentialsSecretSourceServiceIamRoleOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamRoleOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamRoleArgs struct {
+	// The IAM role CRN assigned to the generated service credentials.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceIamRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamRole)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamRoleArgs) ToSmServiceCredentialsSecretSourceServiceIamRoleOutput() SmServiceCredentialsSecretSourceServiceIamRoleOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamRoleOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamRoleArgs) ToSmServiceCredentialsSecretSourceServiceIamRoleOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamRoleOutput)
+}
+
+// SmServiceCredentialsSecretSourceServiceIamRoleArrayInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamRoleArray and SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamRoleArrayInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamRoleArray{ SmServiceCredentialsSecretSourceServiceIamRoleArgs{...} }
+type SmServiceCredentialsSecretSourceServiceIamRoleArrayInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutput() SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput
+	ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamRoleArray []SmServiceCredentialsSecretSourceServiceIamRoleInput
+
+func (SmServiceCredentialsSecretSourceServiceIamRoleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIamRole)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamRoleArray) ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutput() SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamRoleArray) ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamRoleOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamRole)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamRoleOutput) ToSmServiceCredentialsSecretSourceServiceIamRoleOutput() SmServiceCredentialsSecretSourceServiceIamRoleOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamRoleOutput) ToSmServiceCredentialsSecretSourceServiceIamRoleOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamRoleOutput {
+	return o
+}
+
+// The IAM role CRN assigned to the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceIamRoleOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIamRole) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIamRole)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutput() SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamRoleArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput) Index(i pulumi.IntInput) SmServiceCredentialsSecretSourceServiceIamRoleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmServiceCredentialsSecretSourceServiceIamRole {
+		return vs[0].([]SmServiceCredentialsSecretSourceServiceIamRole)[vs[1].(int)]
+	}).(SmServiceCredentialsSecretSourceServiceIamRoleOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamServiceid struct {
+	// The IAM Service ID CRN.
+	Crn *string `pulumi:"crn"`
+}
+
+// SmServiceCredentialsSecretSourceServiceIamServiceidInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamServiceidArgs and SmServiceCredentialsSecretSourceServiceIamServiceidOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamServiceidInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamServiceidArgs{...}
+type SmServiceCredentialsSecretSourceServiceIamServiceidInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamServiceidOutput() SmServiceCredentialsSecretSourceServiceIamServiceidOutput
+	ToSmServiceCredentialsSecretSourceServiceIamServiceidOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamServiceidOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamServiceidArgs struct {
+	// The IAM Service ID CRN.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceIamServiceidArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamServiceid)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamServiceidArgs) ToSmServiceCredentialsSecretSourceServiceIamServiceidOutput() SmServiceCredentialsSecretSourceServiceIamServiceidOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamServiceidOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamServiceidArgs) ToSmServiceCredentialsSecretSourceServiceIamServiceidOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamServiceidOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamServiceidOutput)
+}
+
+// SmServiceCredentialsSecretSourceServiceIamServiceidArrayInput is an input type that accepts SmServiceCredentialsSecretSourceServiceIamServiceidArray and SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceIamServiceidArrayInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceIamServiceidArray{ SmServiceCredentialsSecretSourceServiceIamServiceidArgs{...} }
+type SmServiceCredentialsSecretSourceServiceIamServiceidArrayInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput() SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput
+	ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceIamServiceidArray []SmServiceCredentialsSecretSourceServiceIamServiceidInput
+
+func (SmServiceCredentialsSecretSourceServiceIamServiceidArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIamServiceid)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamServiceidArray) ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput() SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceIamServiceidArray) ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamServiceidOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamServiceidOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamServiceid)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamServiceidOutput) ToSmServiceCredentialsSecretSourceServiceIamServiceidOutput() SmServiceCredentialsSecretSourceServiceIamServiceidOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamServiceidOutput) ToSmServiceCredentialsSecretSourceServiceIamServiceidOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamServiceidOutput {
+	return o
+}
+
+// The IAM Service ID CRN.
+func (o SmServiceCredentialsSecretSourceServiceIamServiceidOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceIamServiceid) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceIamServiceid)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput() SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput) ToSmServiceCredentialsSecretSourceServiceIamServiceidArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput) Index(i pulumi.IntInput) SmServiceCredentialsSecretSourceServiceIamServiceidOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmServiceCredentialsSecretSourceServiceIamServiceid {
+		return vs[0].([]SmServiceCredentialsSecretSourceServiceIamServiceid)[vs[1].(int)]
+	}).(SmServiceCredentialsSecretSourceServiceIamServiceidOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceInstance struct {
+	// A CRN that uniquely identifies a service credentials target.
+	Crn string `pulumi:"crn"`
+}
+
+// SmServiceCredentialsSecretSourceServiceInstanceInput is an input type that accepts SmServiceCredentialsSecretSourceServiceInstanceArgs and SmServiceCredentialsSecretSourceServiceInstanceOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceInstanceInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceInstanceArgs{...}
+type SmServiceCredentialsSecretSourceServiceInstanceInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceInstanceOutput() SmServiceCredentialsSecretSourceServiceInstanceOutput
+	ToSmServiceCredentialsSecretSourceServiceInstanceOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceInstanceOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceInstanceArgs struct {
+	// A CRN that uniquely identifies a service credentials target.
+	Crn pulumi.StringInput `pulumi:"crn"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceInstanceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceInstance)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceInstanceArgs) ToSmServiceCredentialsSecretSourceServiceInstanceOutput() SmServiceCredentialsSecretSourceServiceInstanceOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceInstanceOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceInstanceArgs) ToSmServiceCredentialsSecretSourceServiceInstanceOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceInstanceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceInstanceOutput)
+}
+
+func (i SmServiceCredentialsSecretSourceServiceInstanceArgs) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutput() SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceInstanceArgs) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceInstanceOutput).ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(ctx)
+}
+
+// SmServiceCredentialsSecretSourceServiceInstancePtrInput is an input type that accepts SmServiceCredentialsSecretSourceServiceInstanceArgs, SmServiceCredentialsSecretSourceServiceInstancePtr and SmServiceCredentialsSecretSourceServiceInstancePtrOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceInstancePtrInput` via:
+//
+//	        SmServiceCredentialsSecretSourceServiceInstanceArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmServiceCredentialsSecretSourceServiceInstancePtrInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceInstancePtrOutput() SmServiceCredentialsSecretSourceServiceInstancePtrOutput
+	ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceInstancePtrOutput
+}
+
+type smServiceCredentialsSecretSourceServiceInstancePtrType SmServiceCredentialsSecretSourceServiceInstanceArgs
+
+func SmServiceCredentialsSecretSourceServiceInstancePtr(v *SmServiceCredentialsSecretSourceServiceInstanceArgs) SmServiceCredentialsSecretSourceServiceInstancePtrInput {
+	return (*smServiceCredentialsSecretSourceServiceInstancePtrType)(v)
+}
+
+func (*smServiceCredentialsSecretSourceServiceInstancePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretSourceServiceInstance)(nil)).Elem()
+}
+
+func (i *smServiceCredentialsSecretSourceServiceInstancePtrType) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutput() SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(context.Background())
+}
+
+func (i *smServiceCredentialsSecretSourceServiceInstancePtrType) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceInstancePtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceInstanceOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceInstanceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceInstance)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstanceOutput) ToSmServiceCredentialsSecretSourceServiceInstanceOutput() SmServiceCredentialsSecretSourceServiceInstanceOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstanceOutput) ToSmServiceCredentialsSecretSourceServiceInstanceOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceInstanceOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstanceOutput) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutput() SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return o.ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(context.Background())
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstanceOutput) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmServiceCredentialsSecretSourceServiceInstance) *SmServiceCredentialsSecretSourceServiceInstance {
+		return &v
+	}).(SmServiceCredentialsSecretSourceServiceInstancePtrOutput)
+}
+
+// A CRN that uniquely identifies a service credentials target.
+func (o SmServiceCredentialsSecretSourceServiceInstanceOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceInstance) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceInstancePtrOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceInstancePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretSourceServiceInstance)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstancePtrOutput) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutput() SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstancePtrOutput) ToSmServiceCredentialsSecretSourceServiceInstancePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceInstancePtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceInstancePtrOutput) Elem() SmServiceCredentialsSecretSourceServiceInstanceOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceServiceInstance) SmServiceCredentialsSecretSourceServiceInstance {
+		if v != nil {
+			return *v
+		}
+		var ret SmServiceCredentialsSecretSourceServiceInstance
+		return ret
+	}).(SmServiceCredentialsSecretSourceServiceInstanceOutput)
+}
+
+// A CRN that uniquely identifies a service credentials target.
+func (o SmServiceCredentialsSecretSourceServiceInstancePtrOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceServiceInstance) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Crn
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceResourceKey struct {
+	// The resource key CRN of the generated service credentials.
+	Crn *string `pulumi:"crn"`
+	// The resource key name of the generated service credentials.
+	Name *string `pulumi:"name"`
+}
+
+// SmServiceCredentialsSecretSourceServiceResourceKeyInput is an input type that accepts SmServiceCredentialsSecretSourceServiceResourceKeyArgs and SmServiceCredentialsSecretSourceServiceResourceKeyOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceResourceKeyInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceResourceKeyArgs{...}
+type SmServiceCredentialsSecretSourceServiceResourceKeyInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceResourceKeyOutput() SmServiceCredentialsSecretSourceServiceResourceKeyOutput
+	ToSmServiceCredentialsSecretSourceServiceResourceKeyOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceResourceKeyOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceResourceKeyArgs struct {
+	// The resource key CRN of the generated service credentials.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+	// The resource key name of the generated service credentials.
+	Name pulumi.StringPtrInput `pulumi:"name"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceResourceKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceResourceKey)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceResourceKeyArgs) ToSmServiceCredentialsSecretSourceServiceResourceKeyOutput() SmServiceCredentialsSecretSourceServiceResourceKeyOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceResourceKeyOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceResourceKeyArgs) ToSmServiceCredentialsSecretSourceServiceResourceKeyOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceResourceKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceResourceKeyOutput)
+}
+
+// SmServiceCredentialsSecretSourceServiceResourceKeyArrayInput is an input type that accepts SmServiceCredentialsSecretSourceServiceResourceKeyArray and SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceResourceKeyArrayInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceResourceKeyArray{ SmServiceCredentialsSecretSourceServiceResourceKeyArgs{...} }
+type SmServiceCredentialsSecretSourceServiceResourceKeyArrayInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput() SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput
+	ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceResourceKeyArray []SmServiceCredentialsSecretSourceServiceResourceKeyInput
+
+func (SmServiceCredentialsSecretSourceServiceResourceKeyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceResourceKey)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceResourceKeyArray) ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput() SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceResourceKeyArray) ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceResourceKeyOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceResourceKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceResourceKey)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyOutput) ToSmServiceCredentialsSecretSourceServiceResourceKeyOutput() SmServiceCredentialsSecretSourceServiceResourceKeyOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyOutput) ToSmServiceCredentialsSecretSourceServiceResourceKeyOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceResourceKeyOutput {
+	return o
+}
+
+// The resource key CRN of the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceResourceKey) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+// The resource key name of the generated service credentials.
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyOutput) Name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceResourceKey) *string { return v.Name }).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]SmServiceCredentialsSecretSourceServiceResourceKey)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput) ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput() SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput) ToSmServiceCredentialsSecretSourceServiceResourceKeyArrayOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput) Index(i pulumi.IntInput) SmServiceCredentialsSecretSourceServiceResourceKeyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) SmServiceCredentialsSecretSourceServiceResourceKey {
+		return vs[0].([]SmServiceCredentialsSecretSourceServiceResourceKey)[vs[1].(int)]
+	}).(SmServiceCredentialsSecretSourceServiceResourceKeyOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceRole struct {
+	// The CRN role identifier for creating a service-id.
+	Crn *string `pulumi:"crn"`
+}
+
+// SmServiceCredentialsSecretSourceServiceRoleInput is an input type that accepts SmServiceCredentialsSecretSourceServiceRoleArgs and SmServiceCredentialsSecretSourceServiceRoleOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceRoleInput` via:
+//
+//	SmServiceCredentialsSecretSourceServiceRoleArgs{...}
+type SmServiceCredentialsSecretSourceServiceRoleInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceRoleOutput() SmServiceCredentialsSecretSourceServiceRoleOutput
+	ToSmServiceCredentialsSecretSourceServiceRoleOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceRoleOutput
+}
+
+type SmServiceCredentialsSecretSourceServiceRoleArgs struct {
+	// The CRN role identifier for creating a service-id.
+	Crn pulumi.StringPtrInput `pulumi:"crn"`
+}
+
+func (SmServiceCredentialsSecretSourceServiceRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceRole)(nil)).Elem()
+}
+
+func (i SmServiceCredentialsSecretSourceServiceRoleArgs) ToSmServiceCredentialsSecretSourceServiceRoleOutput() SmServiceCredentialsSecretSourceServiceRoleOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceRoleOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceRoleArgs) ToSmServiceCredentialsSecretSourceServiceRoleOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceRoleOutput)
+}
+
+func (i SmServiceCredentialsSecretSourceServiceRoleArgs) ToSmServiceCredentialsSecretSourceServiceRolePtrOutput() SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(context.Background())
+}
+
+func (i SmServiceCredentialsSecretSourceServiceRoleArgs) ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceRoleOutput).ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(ctx)
+}
+
+// SmServiceCredentialsSecretSourceServiceRolePtrInput is an input type that accepts SmServiceCredentialsSecretSourceServiceRoleArgs, SmServiceCredentialsSecretSourceServiceRolePtr and SmServiceCredentialsSecretSourceServiceRolePtrOutput values.
+// You can construct a concrete instance of `SmServiceCredentialsSecretSourceServiceRolePtrInput` via:
+//
+//	        SmServiceCredentialsSecretSourceServiceRoleArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmServiceCredentialsSecretSourceServiceRolePtrInput interface {
+	pulumi.Input
+
+	ToSmServiceCredentialsSecretSourceServiceRolePtrOutput() SmServiceCredentialsSecretSourceServiceRolePtrOutput
+	ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(context.Context) SmServiceCredentialsSecretSourceServiceRolePtrOutput
+}
+
+type smServiceCredentialsSecretSourceServiceRolePtrType SmServiceCredentialsSecretSourceServiceRoleArgs
+
+func SmServiceCredentialsSecretSourceServiceRolePtr(v *SmServiceCredentialsSecretSourceServiceRoleArgs) SmServiceCredentialsSecretSourceServiceRolePtrInput {
+	return (*smServiceCredentialsSecretSourceServiceRolePtrType)(v)
+}
+
+func (*smServiceCredentialsSecretSourceServiceRolePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretSourceServiceRole)(nil)).Elem()
+}
+
+func (i *smServiceCredentialsSecretSourceServiceRolePtrType) ToSmServiceCredentialsSecretSourceServiceRolePtrOutput() SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return i.ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(context.Background())
+}
+
+func (i *smServiceCredentialsSecretSourceServiceRolePtrType) ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmServiceCredentialsSecretSourceServiceRolePtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceRoleOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceRole)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRoleOutput) ToSmServiceCredentialsSecretSourceServiceRoleOutput() SmServiceCredentialsSecretSourceServiceRoleOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRoleOutput) ToSmServiceCredentialsSecretSourceServiceRoleOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceRoleOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRoleOutput) ToSmServiceCredentialsSecretSourceServiceRolePtrOutput() SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return o.ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(context.Background())
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRoleOutput) ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmServiceCredentialsSecretSourceServiceRole) *SmServiceCredentialsSecretSourceServiceRole {
+		return &v
+	}).(SmServiceCredentialsSecretSourceServiceRolePtrOutput)
+}
+
+// The CRN role identifier for creating a service-id.
+func (o SmServiceCredentialsSecretSourceServiceRoleOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmServiceCredentialsSecretSourceServiceRole) *string { return v.Crn }).(pulumi.StringPtrOutput)
+}
+
+type SmServiceCredentialsSecretSourceServiceRolePtrOutput struct{ *pulumi.OutputState }
+
+func (SmServiceCredentialsSecretSourceServiceRolePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmServiceCredentialsSecretSourceServiceRole)(nil)).Elem()
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRolePtrOutput) ToSmServiceCredentialsSecretSourceServiceRolePtrOutput() SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRolePtrOutput) ToSmServiceCredentialsSecretSourceServiceRolePtrOutputWithContext(ctx context.Context) SmServiceCredentialsSecretSourceServiceRolePtrOutput {
+	return o
+}
+
+func (o SmServiceCredentialsSecretSourceServiceRolePtrOutput) Elem() SmServiceCredentialsSecretSourceServiceRoleOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceServiceRole) SmServiceCredentialsSecretSourceServiceRole {
+		if v != nil {
+			return *v
+		}
+		var ret SmServiceCredentialsSecretSourceServiceRole
+		return ret
+	}).(SmServiceCredentialsSecretSourceServiceRoleOutput)
+}
+
+// The CRN role identifier for creating a service-id.
+func (o SmServiceCredentialsSecretSourceServiceRolePtrOutput) Crn() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmServiceCredentialsSecretSourceServiceRole) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Crn
+	}).(pulumi.StringPtrOutput)
+}
+
+type SmUsernamePasswordSecretPasswordGenerationPolicy struct {
+	// Include digits in auto-generated passwords.
+	IncludeDigits *bool `pulumi:"includeDigits"`
+	// Include symbols in auto-generated passwords.
+	IncludeSymbols *bool `pulumi:"includeSymbols"`
+	// Include uppercase letters in auto-generated passwords.
+	IncludeUppercase *bool `pulumi:"includeUppercase"`
+	// The length of auto-generated passwords.
+	Length *int `pulumi:"length"`
+}
+
+// SmUsernamePasswordSecretPasswordGenerationPolicyInput is an input type that accepts SmUsernamePasswordSecretPasswordGenerationPolicyArgs and SmUsernamePasswordSecretPasswordGenerationPolicyOutput values.
+// You can construct a concrete instance of `SmUsernamePasswordSecretPasswordGenerationPolicyInput` via:
+//
+//	SmUsernamePasswordSecretPasswordGenerationPolicyArgs{...}
+type SmUsernamePasswordSecretPasswordGenerationPolicyInput interface {
+	pulumi.Input
+
+	ToSmUsernamePasswordSecretPasswordGenerationPolicyOutput() SmUsernamePasswordSecretPasswordGenerationPolicyOutput
+	ToSmUsernamePasswordSecretPasswordGenerationPolicyOutputWithContext(context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyOutput
+}
+
+type SmUsernamePasswordSecretPasswordGenerationPolicyArgs struct {
+	// Include digits in auto-generated passwords.
+	IncludeDigits pulumi.BoolPtrInput `pulumi:"includeDigits"`
+	// Include symbols in auto-generated passwords.
+	IncludeSymbols pulumi.BoolPtrInput `pulumi:"includeSymbols"`
+	// Include uppercase letters in auto-generated passwords.
+	IncludeUppercase pulumi.BoolPtrInput `pulumi:"includeUppercase"`
+	// The length of auto-generated passwords.
+	Length pulumi.IntPtrInput `pulumi:"length"`
+}
+
+func (SmUsernamePasswordSecretPasswordGenerationPolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmUsernamePasswordSecretPasswordGenerationPolicy)(nil)).Elem()
+}
+
+func (i SmUsernamePasswordSecretPasswordGenerationPolicyArgs) ToSmUsernamePasswordSecretPasswordGenerationPolicyOutput() SmUsernamePasswordSecretPasswordGenerationPolicyOutput {
+	return i.ToSmUsernamePasswordSecretPasswordGenerationPolicyOutputWithContext(context.Background())
+}
+
+func (i SmUsernamePasswordSecretPasswordGenerationPolicyArgs) ToSmUsernamePasswordSecretPasswordGenerationPolicyOutputWithContext(ctx context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmUsernamePasswordSecretPasswordGenerationPolicyOutput)
+}
+
+func (i SmUsernamePasswordSecretPasswordGenerationPolicyArgs) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput() SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return i.ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i SmUsernamePasswordSecretPasswordGenerationPolicyArgs) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmUsernamePasswordSecretPasswordGenerationPolicyOutput).ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(ctx)
+}
+
+// SmUsernamePasswordSecretPasswordGenerationPolicyPtrInput is an input type that accepts SmUsernamePasswordSecretPasswordGenerationPolicyArgs, SmUsernamePasswordSecretPasswordGenerationPolicyPtr and SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput values.
+// You can construct a concrete instance of `SmUsernamePasswordSecretPasswordGenerationPolicyPtrInput` via:
+//
+//	        SmUsernamePasswordSecretPasswordGenerationPolicyArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmUsernamePasswordSecretPasswordGenerationPolicyPtrInput interface {
+	pulumi.Input
+
+	ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput() SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput
+	ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput
+}
+
+type smUsernamePasswordSecretPasswordGenerationPolicyPtrType SmUsernamePasswordSecretPasswordGenerationPolicyArgs
+
+func SmUsernamePasswordSecretPasswordGenerationPolicyPtr(v *SmUsernamePasswordSecretPasswordGenerationPolicyArgs) SmUsernamePasswordSecretPasswordGenerationPolicyPtrInput {
+	return (*smUsernamePasswordSecretPasswordGenerationPolicyPtrType)(v)
+}
+
+func (*smUsernamePasswordSecretPasswordGenerationPolicyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmUsernamePasswordSecretPasswordGenerationPolicy)(nil)).Elem()
+}
+
+func (i *smUsernamePasswordSecretPasswordGenerationPolicyPtrType) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput() SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return i.ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(context.Background())
+}
+
+func (i *smUsernamePasswordSecretPasswordGenerationPolicyPtrType) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput)
+}
+
+type SmUsernamePasswordSecretPasswordGenerationPolicyOutput struct{ *pulumi.OutputState }
+
+func (SmUsernamePasswordSecretPasswordGenerationPolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmUsernamePasswordSecretPasswordGenerationPolicy)(nil)).Elem()
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) ToSmUsernamePasswordSecretPasswordGenerationPolicyOutput() SmUsernamePasswordSecretPasswordGenerationPolicyOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) ToSmUsernamePasswordSecretPasswordGenerationPolicyOutputWithContext(ctx context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput() SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return o.ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(context.Background())
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmUsernamePasswordSecretPasswordGenerationPolicy) *SmUsernamePasswordSecretPasswordGenerationPolicy {
+		return &v
+	}).(SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput)
+}
+
+// Include digits in auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) IncludeDigits() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretPasswordGenerationPolicy) *bool { return v.IncludeDigits }).(pulumi.BoolPtrOutput)
+}
+
+// Include symbols in auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) IncludeSymbols() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretPasswordGenerationPolicy) *bool { return v.IncludeSymbols }).(pulumi.BoolPtrOutput)
+}
+
+// Include uppercase letters in auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) IncludeUppercase() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretPasswordGenerationPolicy) *bool { return v.IncludeUppercase }).(pulumi.BoolPtrOutput)
+}
+
+// The length of auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyOutput) Length() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretPasswordGenerationPolicy) *int { return v.Length }).(pulumi.IntPtrOutput)
+}
+
+type SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput struct{ *pulumi.OutputState }
+
+func (SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmUsernamePasswordSecretPasswordGenerationPolicy)(nil)).Elem()
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput() SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) ToSmUsernamePasswordSecretPasswordGenerationPolicyPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) Elem() SmUsernamePasswordSecretPasswordGenerationPolicyOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretPasswordGenerationPolicy) SmUsernamePasswordSecretPasswordGenerationPolicy {
+		if v != nil {
+			return *v
+		}
+		var ret SmUsernamePasswordSecretPasswordGenerationPolicy
+		return ret
+	}).(SmUsernamePasswordSecretPasswordGenerationPolicyOutput)
+}
+
+// Include digits in auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) IncludeDigits() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretPasswordGenerationPolicy) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.IncludeDigits
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Include symbols in auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) IncludeSymbols() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretPasswordGenerationPolicy) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.IncludeSymbols
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Include uppercase letters in auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) IncludeUppercase() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretPasswordGenerationPolicy) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.IncludeUppercase
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The length of auto-generated passwords.
+func (o SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput) Length() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretPasswordGenerationPolicy) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Length
+	}).(pulumi.IntPtrOutput)
+}
+
+type SmUsernamePasswordSecretRotation struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate *bool `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval *int `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit *string `pulumi:"unit"`
+}
+
+// SmUsernamePasswordSecretRotationInput is an input type that accepts SmUsernamePasswordSecretRotationArgs and SmUsernamePasswordSecretRotationOutput values.
+// You can construct a concrete instance of `SmUsernamePasswordSecretRotationInput` via:
+//
+//	SmUsernamePasswordSecretRotationArgs{...}
+type SmUsernamePasswordSecretRotationInput interface {
+	pulumi.Input
+
+	ToSmUsernamePasswordSecretRotationOutput() SmUsernamePasswordSecretRotationOutput
+	ToSmUsernamePasswordSecretRotationOutputWithContext(context.Context) SmUsernamePasswordSecretRotationOutput
+}
+
+type SmUsernamePasswordSecretRotationArgs struct {
+	// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+	AutoRotate pulumi.BoolPtrInput `pulumi:"autoRotate"`
+	// The length of the secret rotation time interval.
+	Interval pulumi.IntPtrInput `pulumi:"interval"`
+	// The units for the secret rotation time interval.
+	Unit pulumi.StringPtrInput `pulumi:"unit"`
+}
+
+func (SmUsernamePasswordSecretRotationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmUsernamePasswordSecretRotation)(nil)).Elem()
+}
+
+func (i SmUsernamePasswordSecretRotationArgs) ToSmUsernamePasswordSecretRotationOutput() SmUsernamePasswordSecretRotationOutput {
+	return i.ToSmUsernamePasswordSecretRotationOutputWithContext(context.Background())
+}
+
+func (i SmUsernamePasswordSecretRotationArgs) ToSmUsernamePasswordSecretRotationOutputWithContext(ctx context.Context) SmUsernamePasswordSecretRotationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmUsernamePasswordSecretRotationOutput)
+}
+
+func (i SmUsernamePasswordSecretRotationArgs) ToSmUsernamePasswordSecretRotationPtrOutput() SmUsernamePasswordSecretRotationPtrOutput {
+	return i.ToSmUsernamePasswordSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i SmUsernamePasswordSecretRotationArgs) ToSmUsernamePasswordSecretRotationPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmUsernamePasswordSecretRotationOutput).ToSmUsernamePasswordSecretRotationPtrOutputWithContext(ctx)
+}
+
+// SmUsernamePasswordSecretRotationPtrInput is an input type that accepts SmUsernamePasswordSecretRotationArgs, SmUsernamePasswordSecretRotationPtr and SmUsernamePasswordSecretRotationPtrOutput values.
+// You can construct a concrete instance of `SmUsernamePasswordSecretRotationPtrInput` via:
+//
+//	        SmUsernamePasswordSecretRotationArgs{...}
+//
+//	or:
+//
+//	        nil
+type SmUsernamePasswordSecretRotationPtrInput interface {
+	pulumi.Input
+
+	ToSmUsernamePasswordSecretRotationPtrOutput() SmUsernamePasswordSecretRotationPtrOutput
+	ToSmUsernamePasswordSecretRotationPtrOutputWithContext(context.Context) SmUsernamePasswordSecretRotationPtrOutput
+}
+
+type smUsernamePasswordSecretRotationPtrType SmUsernamePasswordSecretRotationArgs
+
+func SmUsernamePasswordSecretRotationPtr(v *SmUsernamePasswordSecretRotationArgs) SmUsernamePasswordSecretRotationPtrInput {
+	return (*smUsernamePasswordSecretRotationPtrType)(v)
+}
+
+func (*smUsernamePasswordSecretRotationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmUsernamePasswordSecretRotation)(nil)).Elem()
+}
+
+func (i *smUsernamePasswordSecretRotationPtrType) ToSmUsernamePasswordSecretRotationPtrOutput() SmUsernamePasswordSecretRotationPtrOutput {
+	return i.ToSmUsernamePasswordSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (i *smUsernamePasswordSecretRotationPtrType) ToSmUsernamePasswordSecretRotationPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretRotationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SmUsernamePasswordSecretRotationPtrOutput)
+}
+
+type SmUsernamePasswordSecretRotationOutput struct{ *pulumi.OutputState }
+
+func (SmUsernamePasswordSecretRotationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*SmUsernamePasswordSecretRotation)(nil)).Elem()
+}
+
+func (o SmUsernamePasswordSecretRotationOutput) ToSmUsernamePasswordSecretRotationOutput() SmUsernamePasswordSecretRotationOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretRotationOutput) ToSmUsernamePasswordSecretRotationOutputWithContext(ctx context.Context) SmUsernamePasswordSecretRotationOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretRotationOutput) ToSmUsernamePasswordSecretRotationPtrOutput() SmUsernamePasswordSecretRotationPtrOutput {
+	return o.ToSmUsernamePasswordSecretRotationPtrOutputWithContext(context.Background())
+}
+
+func (o SmUsernamePasswordSecretRotationOutput) ToSmUsernamePasswordSecretRotationPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretRotationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v SmUsernamePasswordSecretRotation) *SmUsernamePasswordSecretRotation {
+		return &v
+	}).(SmUsernamePasswordSecretRotationPtrOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmUsernamePasswordSecretRotationOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretRotation) *bool { return v.AutoRotate }).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmUsernamePasswordSecretRotationOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretRotation) *int { return v.Interval }).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmUsernamePasswordSecretRotationOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v SmUsernamePasswordSecretRotation) *string { return v.Unit }).(pulumi.StringPtrOutput)
+}
+
+type SmUsernamePasswordSecretRotationPtrOutput struct{ *pulumi.OutputState }
+
+func (SmUsernamePasswordSecretRotationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**SmUsernamePasswordSecretRotation)(nil)).Elem()
+}
+
+func (o SmUsernamePasswordSecretRotationPtrOutput) ToSmUsernamePasswordSecretRotationPtrOutput() SmUsernamePasswordSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretRotationPtrOutput) ToSmUsernamePasswordSecretRotationPtrOutputWithContext(ctx context.Context) SmUsernamePasswordSecretRotationPtrOutput {
+	return o
+}
+
+func (o SmUsernamePasswordSecretRotationPtrOutput) Elem() SmUsernamePasswordSecretRotationOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretRotation) SmUsernamePasswordSecretRotation {
+		if v != nil {
+			return *v
+		}
+		var ret SmUsernamePasswordSecretRotation
+		return ret
+	}).(SmUsernamePasswordSecretRotationOutput)
+}
+
+// Determines whether Secrets Manager rotates your secret automatically.Default is `false`. If `autoRotate` is set to `true` the service rotates your secret based on the defined interval.
+func (o SmUsernamePasswordSecretRotationPtrOutput) AutoRotate() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretRotation) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AutoRotate
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The length of the secret rotation time interval.
+func (o SmUsernamePasswordSecretRotationPtrOutput) Interval() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretRotation) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Interval
+	}).(pulumi.IntPtrOutput)
+}
+
+// The units for the secret rotation time interval.
+func (o SmUsernamePasswordSecretRotationPtrOutput) Unit() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *SmUsernamePasswordSecretRotation) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Unit
+	}).(pulumi.StringPtrOutput)
+}
+
 type TgConnectionTunnel struct {
 	// The date and time that this connection was created
 	CreatedAt *string `pulumi:"createdAt"`
@@ -62060,4596 +68049,6 @@ func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteracti
 	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeOutput)
 }
 
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService struct {
-	// List of accounts that the state applies to for the service identity type.
-	ExternalAllowedAccounts []string `pulumi:"externalAllowedAccounts"`
-	// The state of the service identity type.
-	State string `pulumi:"state"`
-}
-
-// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput` via:
-//
-//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs{...}
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs struct {
-	// List of accounts that the state applies to for the service identity type.
-	ExternalAllowedAccounts pulumi.StringArrayInput `pulumi:"externalAllowedAccounts"`
-	// The state of the service identity type.
-	State pulumi.StringInput `pulumi:"state"`
-}
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
-	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput)
-}
-
-// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput` via:
-//
-//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray{ GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs{...} }
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray []GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
-	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
-	return o
-}
-
-// List of accounts that the state applies to for the service identity type.
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ExternalAllowedAccounts() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService) []string {
-		return v.ExternalAllowedAccounts
-	}).(pulumi.StringArrayOutput)
-}
-
-// The state of the service identity type.
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService) string {
-		return v.State
-	}).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService {
-		return vs[0].([]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)[vs[1].(int)]
-	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId struct {
-	// List of accounts that the state applies to for the serviceId identity type.
-	ExternalAllowedAccounts []string `pulumi:"externalAllowedAccounts"`
-	// The state of the serviceId identity type.
-	State string `pulumi:"state"`
-}
-
-// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput` via:
-//
-//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs{...}
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs struct {
-	// List of accounts that the state applies to for the serviceId identity type.
-	ExternalAllowedAccounts pulumi.StringArrayInput `pulumi:"externalAllowedAccounts"`
-	// The state of the serviceId identity type.
-	State pulumi.StringInput `pulumi:"state"`
-}
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
-	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput)
-}
-
-// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput` via:
-//
-//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray{ GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs{...} }
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray []GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
-	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
-	return o
-}
-
-// List of accounts that the state applies to for the serviceId identity type.
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ExternalAllowedAccounts() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId) []string {
-		return v.ExternalAllowedAccounts
-	}).(pulumi.StringArrayOutput)
-}
-
-// The state of the serviceId identity type.
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId) string {
-		return v.State
-	}).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId {
-		return vs[0].([]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)[vs[1].(int)]
-	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser struct {
-	// List of accounts that the state applies to for the user identity type.
-	ExternalAllowedAccounts []string `pulumi:"externalAllowedAccounts"`
-	// The state of the user identity type.
-	State string `pulumi:"state"`
-}
-
-// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput` via:
-//
-//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs{...}
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs struct {
-	// List of accounts that the state applies to for the user identity type.
-	ExternalAllowedAccounts pulumi.StringArrayInput `pulumi:"externalAllowedAccounts"`
-	// The state of the user identity type.
-	State pulumi.StringInput `pulumi:"state"`
-}
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
-	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput)
-}
-
-// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput` via:
-//
-//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray{ GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs{...} }
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput
-	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray []GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
-	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
-	return o
-}
-
-// List of accounts that the state applies to for the user identity type.
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ExternalAllowedAccounts() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser) []string {
-		return v.ExternalAllowedAccounts
-	}).(pulumi.StringArrayOutput)
-}
-
-// The state of the user identity type.
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser) string {
-		return v.State
-	}).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser {
-		return vs[0].([]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)[vs[1].(int)]
-	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput)
-}
-
-type GetIamAccountSettingsHistory struct {
-	// Action of the history entry.
-	Action string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp string `pulumi:"timestamp"`
-}
-
-// GetIamAccountSettingsHistoryInput is an input type that accepts GetIamAccountSettingsHistoryArgs and GetIamAccountSettingsHistoryOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsHistoryInput` via:
-//
-//	GetIamAccountSettingsHistoryArgs{...}
-type GetIamAccountSettingsHistoryInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsHistoryOutput() GetIamAccountSettingsHistoryOutput
-	ToGetIamAccountSettingsHistoryOutputWithContext(context.Context) GetIamAccountSettingsHistoryOutput
-}
-
-type GetIamAccountSettingsHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringInput `pulumi:"timestamp"`
-}
-
-func (GetIamAccountSettingsHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsHistory)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsHistoryArgs) ToGetIamAccountSettingsHistoryOutput() GetIamAccountSettingsHistoryOutput {
-	return i.ToGetIamAccountSettingsHistoryOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsHistoryArgs) ToGetIamAccountSettingsHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsHistoryOutput)
-}
-
-// GetIamAccountSettingsHistoryArrayInput is an input type that accepts GetIamAccountSettingsHistoryArray and GetIamAccountSettingsHistoryArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsHistoryArrayInput` via:
-//
-//	GetIamAccountSettingsHistoryArray{ GetIamAccountSettingsHistoryArgs{...} }
-type GetIamAccountSettingsHistoryArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsHistoryArrayOutput() GetIamAccountSettingsHistoryArrayOutput
-	ToGetIamAccountSettingsHistoryArrayOutputWithContext(context.Context) GetIamAccountSettingsHistoryArrayOutput
-}
-
-type GetIamAccountSettingsHistoryArray []GetIamAccountSettingsHistoryInput
-
-func (GetIamAccountSettingsHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsHistory)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsHistoryArray) ToGetIamAccountSettingsHistoryArrayOutput() GetIamAccountSettingsHistoryArrayOutput {
-	return i.ToGetIamAccountSettingsHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsHistoryArray) ToGetIamAccountSettingsHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsHistoryArrayOutput)
-}
-
-type GetIamAccountSettingsHistoryOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsHistory)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsHistoryOutput) ToGetIamAccountSettingsHistoryOutput() GetIamAccountSettingsHistoryOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsHistoryOutput) ToGetIamAccountSettingsHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o GetIamAccountSettingsHistoryOutput) Action() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.Action }).(pulumi.StringOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o GetIamAccountSettingsHistoryOutput) IamId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.IamId }).(pulumi.StringOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o GetIamAccountSettingsHistoryOutput) IamIdAccount() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.IamIdAccount }).(pulumi.StringOutput)
-}
-
-// Message which summarizes the executed action.
-func (o GetIamAccountSettingsHistoryOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Params of the history entry.
-func (o GetIamAccountSettingsHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o GetIamAccountSettingsHistoryOutput) Timestamp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.Timestamp }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsHistory)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsHistoryArrayOutput) ToGetIamAccountSettingsHistoryArrayOutput() GetIamAccountSettingsHistoryArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsHistoryArrayOutput) ToGetIamAccountSettingsHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsHistoryArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsHistory {
-		return vs[0].([]GetIamAccountSettingsHistory)[vs[1].(int)]
-	}).(GetIamAccountSettingsHistoryOutput)
-}
-
-type GetIamAccountSettingsRestrictUserDomain struct {
-	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
-	InvitationEmailAllowPatterns []string `pulumi:"invitationEmailAllowPatterns"`
-	// The realm that the restrictions apply to.
-	RealmId string `pulumi:"realmId"`
-	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
-	RestrictInvitation bool `pulumi:"restrictInvitation"`
-}
-
-// GetIamAccountSettingsRestrictUserDomainInput is an input type that accepts GetIamAccountSettingsRestrictUserDomainArgs and GetIamAccountSettingsRestrictUserDomainOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsRestrictUserDomainInput` via:
-//
-//	GetIamAccountSettingsRestrictUserDomainArgs{...}
-type GetIamAccountSettingsRestrictUserDomainInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsRestrictUserDomainOutput() GetIamAccountSettingsRestrictUserDomainOutput
-	ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(context.Context) GetIamAccountSettingsRestrictUserDomainOutput
-}
-
-type GetIamAccountSettingsRestrictUserDomainArgs struct {
-	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
-	InvitationEmailAllowPatterns pulumi.StringArrayInput `pulumi:"invitationEmailAllowPatterns"`
-	// The realm that the restrictions apply to.
-	RealmId pulumi.StringInput `pulumi:"realmId"`
-	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
-	RestrictInvitation pulumi.BoolInput `pulumi:"restrictInvitation"`
-}
-
-func (GetIamAccountSettingsRestrictUserDomainArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsRestrictUserDomainArgs) ToGetIamAccountSettingsRestrictUserDomainOutput() GetIamAccountSettingsRestrictUserDomainOutput {
-	return i.ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsRestrictUserDomainArgs) ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsRestrictUserDomainOutput)
-}
-
-// GetIamAccountSettingsRestrictUserDomainArrayInput is an input type that accepts GetIamAccountSettingsRestrictUserDomainArray and GetIamAccountSettingsRestrictUserDomainArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsRestrictUserDomainArrayInput` via:
-//
-//	GetIamAccountSettingsRestrictUserDomainArray{ GetIamAccountSettingsRestrictUserDomainArgs{...} }
-type GetIamAccountSettingsRestrictUserDomainArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsRestrictUserDomainArrayOutput() GetIamAccountSettingsRestrictUserDomainArrayOutput
-	ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(context.Context) GetIamAccountSettingsRestrictUserDomainArrayOutput
-}
-
-type GetIamAccountSettingsRestrictUserDomainArray []GetIamAccountSettingsRestrictUserDomainInput
-
-func (GetIamAccountSettingsRestrictUserDomainArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsRestrictUserDomainArray) ToGetIamAccountSettingsRestrictUserDomainArrayOutput() GetIamAccountSettingsRestrictUserDomainArrayOutput {
-	return i.ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsRestrictUserDomainArray) ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsRestrictUserDomainArrayOutput)
-}
-
-type GetIamAccountSettingsRestrictUserDomainOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsRestrictUserDomainOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsRestrictUserDomainOutput) ToGetIamAccountSettingsRestrictUserDomainOutput() GetIamAccountSettingsRestrictUserDomainOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsRestrictUserDomainOutput) ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainOutput {
-	return o
-}
-
-// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
-func (o GetIamAccountSettingsRestrictUserDomainOutput) InvitationEmailAllowPatterns() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsRestrictUserDomain) []string { return v.InvitationEmailAllowPatterns }).(pulumi.StringArrayOutput)
-}
-
-// The realm that the restrictions apply to.
-func (o GetIamAccountSettingsRestrictUserDomainOutput) RealmId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsRestrictUserDomain) string { return v.RealmId }).(pulumi.StringOutput)
-}
-
-// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
-func (o GetIamAccountSettingsRestrictUserDomainOutput) RestrictInvitation() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsRestrictUserDomain) bool { return v.RestrictInvitation }).(pulumi.BoolOutput)
-}
-
-type GetIamAccountSettingsRestrictUserDomainArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsRestrictUserDomainArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsRestrictUserDomainArrayOutput) ToGetIamAccountSettingsRestrictUserDomainArrayOutput() GetIamAccountSettingsRestrictUserDomainArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsRestrictUserDomainArrayOutput) ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsRestrictUserDomainArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsRestrictUserDomainOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsRestrictUserDomain {
-		return vs[0].([]GetIamAccountSettingsRestrictUserDomain)[vs[1].(int)]
-	}).(GetIamAccountSettingsRestrictUserDomainOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSetting struct {
-	// Defines the IP addresses and subnets from which IAM tokens can be created for the account.
-	AllowedIpAddresses string `pulumi:"allowedIpAddresses"`
-	// Defines the max allowed sessions per identity required by the account. Valid values:  * Any whole number greater than 0  * NOT_SET - To unset account setting and use service default.
-	MaxSessionsPerIdentity string `pulumi:"maxSessionsPerIdentity"`
-	// Defines the MFA trait for the account. Valid values:  * NONE - No MFA trait set  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
-	Mfa string `pulumi:"mfa"`
-	// Defines whether or not creating platform API keys is access controlled. Valid values:  * RESTRICTED - to apply access control  * NOT_RESTRICTED - to remove access control  * NOT_SET - to 'unset' a previous set value.
-	RestrictCreatePlatformApikey string `pulumi:"restrictCreatePlatformApikey"`
-	// Defines whether or not creating a service ID is access controlled. Valid values:  * RESTRICTED - only users assigned the 'Service ID creator' role on the IAM Identity Service can create service IDs, including the account owner  * NOT_RESTRICTED - all members of an account can create service IDs  * NOT_SET - to 'unset' a previous set value.
-	RestrictCreateServiceId string                                                          `pulumi:"restrictCreateServiceId"`
-	RestrictUserDomains     []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain `pulumi:"restrictUserDomains"`
-	// Defines whether or not user visibility is access controlled. Valid values:  * RESTRICTED - users can view only specific types of users in the account, such as those the user has invited to the account, or descendants of those users based on the classic infrastructure hierarchy  * NOT_RESTRICTED - any user in the account can view other users from the Users page in IBM Cloud console  * NOT_SET - to 'unset' a previous set value.
-	RestrictUserListVisibility string `pulumi:"restrictUserListVisibility"`
-	// Defines the session expiration in seconds for the account. Valid values:  * Any whole number between between '900' and '86400'  * NOT_SET - To unset account setting and use service default.
-	SessionExpirationInSeconds string `pulumi:"sessionExpirationInSeconds"`
-	// Defines the period of time in seconds in which a session will be invalidated due to inactivity. Valid values:  * Any whole number between '900' and '7200'  * NOT_SET - To unset account setting and use service default.
-	SessionInvalidationInSeconds string `pulumi:"sessionInvalidationInSeconds"`
-	// Defines the access token expiration in seconds. Valid values:  * Any whole number between '900' and '3600'  * NOT_SET - To unset account setting and use service default.
-	SystemAccessTokenExpirationInSeconds string `pulumi:"systemAccessTokenExpirationInSeconds"`
-	// Defines the refresh token expiration in seconds. Valid values:  * Any whole number between '900' and '259200'  * NOT_SET - To unset account setting and use service default.
-	SystemRefreshTokenExpirationInSeconds string `pulumi:"systemRefreshTokenExpirationInSeconds"`
-	// List of users that are exempted from the MFA requirement of the account.
-	UserMfas []GetIamAccountSettingsTemplateAccountSettingUserMfa `pulumi:"userMfas"`
-}
-
-// GetIamAccountSettingsTemplateAccountSettingInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingArgs and GetIamAccountSettingsTemplateAccountSettingOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingArgs{...}
-type GetIamAccountSettingsTemplateAccountSettingInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingOutput() GetIamAccountSettingsTemplateAccountSettingOutput
-	ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingArgs struct {
-	// Defines the IP addresses and subnets from which IAM tokens can be created for the account.
-	AllowedIpAddresses pulumi.StringInput `pulumi:"allowedIpAddresses"`
-	// Defines the max allowed sessions per identity required by the account. Valid values:  * Any whole number greater than 0  * NOT_SET - To unset account setting and use service default.
-	MaxSessionsPerIdentity pulumi.StringInput `pulumi:"maxSessionsPerIdentity"`
-	// Defines the MFA trait for the account. Valid values:  * NONE - No MFA trait set  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
-	Mfa pulumi.StringInput `pulumi:"mfa"`
-	// Defines whether or not creating platform API keys is access controlled. Valid values:  * RESTRICTED - to apply access control  * NOT_RESTRICTED - to remove access control  * NOT_SET - to 'unset' a previous set value.
-	RestrictCreatePlatformApikey pulumi.StringInput `pulumi:"restrictCreatePlatformApikey"`
-	// Defines whether or not creating a service ID is access controlled. Valid values:  * RESTRICTED - only users assigned the 'Service ID creator' role on the IAM Identity Service can create service IDs, including the account owner  * NOT_RESTRICTED - all members of an account can create service IDs  * NOT_SET - to 'unset' a previous set value.
-	RestrictCreateServiceId pulumi.StringInput                                                      `pulumi:"restrictCreateServiceId"`
-	RestrictUserDomains     GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput `pulumi:"restrictUserDomains"`
-	// Defines whether or not user visibility is access controlled. Valid values:  * RESTRICTED - users can view only specific types of users in the account, such as those the user has invited to the account, or descendants of those users based on the classic infrastructure hierarchy  * NOT_RESTRICTED - any user in the account can view other users from the Users page in IBM Cloud console  * NOT_SET - to 'unset' a previous set value.
-	RestrictUserListVisibility pulumi.StringInput `pulumi:"restrictUserListVisibility"`
-	// Defines the session expiration in seconds for the account. Valid values:  * Any whole number between between '900' and '86400'  * NOT_SET - To unset account setting and use service default.
-	SessionExpirationInSeconds pulumi.StringInput `pulumi:"sessionExpirationInSeconds"`
-	// Defines the period of time in seconds in which a session will be invalidated due to inactivity. Valid values:  * Any whole number between '900' and '7200'  * NOT_SET - To unset account setting and use service default.
-	SessionInvalidationInSeconds pulumi.StringInput `pulumi:"sessionInvalidationInSeconds"`
-	// Defines the access token expiration in seconds. Valid values:  * Any whole number between '900' and '3600'  * NOT_SET - To unset account setting and use service default.
-	SystemAccessTokenExpirationInSeconds pulumi.StringInput `pulumi:"systemAccessTokenExpirationInSeconds"`
-	// Defines the refresh token expiration in seconds. Valid values:  * Any whole number between '900' and '259200'  * NOT_SET - To unset account setting and use service default.
-	SystemRefreshTokenExpirationInSeconds pulumi.StringInput `pulumi:"systemRefreshTokenExpirationInSeconds"`
-	// List of users that are exempted from the MFA requirement of the account.
-	UserMfas GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput `pulumi:"userMfas"`
-}
-
-func (GetIamAccountSettingsTemplateAccountSettingArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingArgs) ToGetIamAccountSettingsTemplateAccountSettingOutput() GetIamAccountSettingsTemplateAccountSettingOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingArgs) ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingOutput)
-}
-
-// GetIamAccountSettingsTemplateAccountSettingArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingArray and GetIamAccountSettingsTemplateAccountSettingArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingArray{ GetIamAccountSettingsTemplateAccountSettingArgs{...} }
-type GetIamAccountSettingsTemplateAccountSettingArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingArrayOutput() GetIamAccountSettingsTemplateAccountSettingArrayOutput
-	ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingArray []GetIamAccountSettingsTemplateAccountSettingInput
-
-func (GetIamAccountSettingsTemplateAccountSettingArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingArray) ToGetIamAccountSettingsTemplateAccountSettingArrayOutput() GetIamAccountSettingsTemplateAccountSettingArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingArray) ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) ToGetIamAccountSettingsTemplateAccountSettingOutput() GetIamAccountSettingsTemplateAccountSettingOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingOutput {
-	return o
-}
-
-// Defines the IP addresses and subnets from which IAM tokens can be created for the account.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) AllowedIpAddresses() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.AllowedIpAddresses }).(pulumi.StringOutput)
-}
-
-// Defines the max allowed sessions per identity required by the account. Valid values:  * Any whole number greater than 0  * NOT_SET - To unset account setting and use service default.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) MaxSessionsPerIdentity() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.MaxSessionsPerIdentity }).(pulumi.StringOutput)
-}
-
-// Defines the MFA trait for the account. Valid values:  * NONE - No MFA trait set  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) Mfa() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.Mfa }).(pulumi.StringOutput)
-}
-
-// Defines whether or not creating platform API keys is access controlled. Valid values:  * RESTRICTED - to apply access control  * NOT_RESTRICTED - to remove access control  * NOT_SET - to 'unset' a previous set value.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictCreatePlatformApikey() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.RestrictCreatePlatformApikey }).(pulumi.StringOutput)
-}
-
-// Defines whether or not creating a service ID is access controlled. Valid values:  * RESTRICTED - only users assigned the 'Service ID creator' role on the IAM Identity Service can create service IDs, including the account owner  * NOT_RESTRICTED - all members of an account can create service IDs  * NOT_SET - to 'unset' a previous set value.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictCreateServiceId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.RestrictCreateServiceId }).(pulumi.StringOutput)
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictUserDomains() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain {
-		return v.RestrictUserDomains
-	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput)
-}
-
-// Defines whether or not user visibility is access controlled. Valid values:  * RESTRICTED - users can view only specific types of users in the account, such as those the user has invited to the account, or descendants of those users based on the classic infrastructure hierarchy  * NOT_RESTRICTED - any user in the account can view other users from the Users page in IBM Cloud console  * NOT_SET - to 'unset' a previous set value.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictUserListVisibility() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.RestrictUserListVisibility }).(pulumi.StringOutput)
-}
-
-// Defines the session expiration in seconds for the account. Valid values:  * Any whole number between between '900' and '86400'  * NOT_SET - To unset account setting and use service default.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) SessionExpirationInSeconds() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.SessionExpirationInSeconds }).(pulumi.StringOutput)
-}
-
-// Defines the period of time in seconds in which a session will be invalidated due to inactivity. Valid values:  * Any whole number between '900' and '7200'  * NOT_SET - To unset account setting and use service default.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) SessionInvalidationInSeconds() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.SessionInvalidationInSeconds }).(pulumi.StringOutput)
-}
-
-// Defines the access token expiration in seconds. Valid values:  * Any whole number between '900' and '3600'  * NOT_SET - To unset account setting and use service default.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) SystemAccessTokenExpirationInSeconds() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string {
-		return v.SystemAccessTokenExpirationInSeconds
-	}).(pulumi.StringOutput)
-}
-
-// Defines the refresh token expiration in seconds. Valid values:  * Any whole number between '900' and '259200'  * NOT_SET - To unset account setting and use service default.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) SystemRefreshTokenExpirationInSeconds() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string {
-		return v.SystemRefreshTokenExpirationInSeconds
-	}).(pulumi.StringOutput)
-}
-
-// List of users that are exempted from the MFA requirement of the account.
-func (o GetIamAccountSettingsTemplateAccountSettingOutput) UserMfas() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) []GetIamAccountSettingsTemplateAccountSettingUserMfa {
-		return v.UserMfas
-	}).(GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingArrayOutput() GetIamAccountSettingsTemplateAccountSettingArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSetting {
-		return vs[0].([]GetIamAccountSettingsTemplateAccountSetting)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAccountSettingOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain struct {
-	AccountSufficient bool `pulumi:"accountSufficient"`
-	// Defines if account invitations are restricted to specified domains. To remove an entry for a realm_id, perform an update (PUT) request with only the realmId set.
-	Restrictions []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction `pulumi:"restrictions"`
-}
-
-// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs{...}
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs struct {
-	AccountSufficient pulumi.BoolInput `pulumi:"accountSufficient"`
-	// Defines if account invitations are restricted to specified domains. To remove an entry for a realm_id, perform an update (PUT) request with only the realmId set.
-	Restrictions GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput `pulumi:"restrictions"`
-}
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput)
-}
-
-// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray{ GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs{...} }
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) AccountSufficient() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain) bool { return v.AccountSufficient }).(pulumi.BoolOutput)
-}
-
-// Defines if account invitations are restricted to specified domains. To remove an entry for a realm_id, perform an update (PUT) request with only the realmId set.
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) Restrictions() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain) []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction {
-		return v.Restrictions
-	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain {
-		return vs[0].([]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction struct {
-	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
-	InvitationEmailAllowPatterns []string `pulumi:"invitationEmailAllowPatterns"`
-	// The realm that the restrictions apply to.
-	RealmId string `pulumi:"realmId"`
-	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
-	RestrictInvitation bool `pulumi:"restrictInvitation"`
-}
-
-// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs{...}
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs struct {
-	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
-	InvitationEmailAllowPatterns pulumi.StringArrayInput `pulumi:"invitationEmailAllowPatterns"`
-	// The realm that the restrictions apply to.
-	RealmId pulumi.StringInput `pulumi:"realmId"`
-	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
-	RestrictInvitation pulumi.BoolInput `pulumi:"restrictInvitation"`
-}
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput)
-}
-
-// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray{ GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs{...} }
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput
-	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
-	return o
-}
-
-// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) InvitationEmailAllowPatterns() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction) []string {
-		return v.InvitationEmailAllowPatterns
-	}).(pulumi.StringArrayOutput)
-}
-
-// The realm that the restrictions apply to.
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) RealmId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction) string {
-		return v.RealmId
-	}).(pulumi.StringOutput)
-}
-
-// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) RestrictInvitation() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction) bool {
-		return v.RestrictInvitation
-	}).(pulumi.BoolOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction {
-		return vs[0].([]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingUserMfa struct {
-	// The iamId of the user.
-	IamId string `pulumi:"iamId"`
-	// Defines the MFA requirement for the user. Valid values:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
-	Mfa string `pulumi:"mfa"`
-}
-
-// GetIamAccountSettingsTemplateAccountSettingUserMfaInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingUserMfaArgs and GetIamAccountSettingsTemplateAccountSettingUserMfaOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingUserMfaInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingUserMfaArgs{...}
-type GetIamAccountSettingsTemplateAccountSettingUserMfaInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaOutput
-	ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingUserMfaArgs struct {
-	// The iamId of the user.
-	IamId pulumi.StringInput `pulumi:"iamId"`
-	// Defines the MFA requirement for the user. Valid values:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
-	Mfa pulumi.StringInput `pulumi:"mfa"`
-}
-
-func (GetIamAccountSettingsTemplateAccountSettingUserMfaArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArgs) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArgs) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingUserMfaOutput)
-}
-
-// GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingUserMfaArray and GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAccountSettingUserMfaArray{ GetIamAccountSettingsTemplateAccountSettingUserMfaArgs{...} }
-type GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput
-	ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAccountSettingUserMfaArray []GetIamAccountSettingsTemplateAccountSettingUserMfaInput
-
-func (GetIamAccountSettingsTemplateAccountSettingUserMfaArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArray) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArray) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingUserMfaOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
-	return o
-}
-
-// The iamId of the user.
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) IamId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingUserMfa) string { return v.IamId }).(pulumi.StringOutput)
-}
-
-// Defines the MFA requirement for the user. Valid values:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) Mfa() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingUserMfa) string { return v.Mfa }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSettingUserMfa {
-		return vs[0].([]GetIamAccountSettingsTemplateAccountSettingUserMfa)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAccountSettingUserMfaOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentContext struct {
-	// The cluster name.
-	ClusterName string `pulumi:"clusterName"`
-	// The elapsed time in msec.
-	ElapsedTime string `pulumi:"elapsedTime"`
-	// The finish time of the request.
-	EndTime string `pulumi:"endTime"`
-	// The host of the server instance processing the request.
-	Host string `pulumi:"host"`
-	// The instance ID of the server instance processing the request.
-	InstanceId string `pulumi:"instanceId"`
-	// The operation of the inbound REST request.
-	Operation string `pulumi:"operation"`
-	// The start time of the request.
-	StartTime string `pulumi:"startTime"`
-	// The thread ID of the server instance processing the request.
-	ThreadId string `pulumi:"threadId"`
-	// The transaction ID of the inbound REST request.
-	TransactionId string `pulumi:"transactionId"`
-	// The URL of that cluster.
-	Url string `pulumi:"url"`
-	// The user agent of the inbound REST request.
-	UserAgent string `pulumi:"userAgent"`
-}
-
-// GetIamAccountSettingsTemplateAssignmentContextInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentContextArgs and GetIamAccountSettingsTemplateAssignmentContextOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentContextInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentContextArgs{...}
-type GetIamAccountSettingsTemplateAssignmentContextInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentContextOutput() GetIamAccountSettingsTemplateAssignmentContextOutput
-	ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentContextOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentContextArgs struct {
-	// The cluster name.
-	ClusterName pulumi.StringInput `pulumi:"clusterName"`
-	// The elapsed time in msec.
-	ElapsedTime pulumi.StringInput `pulumi:"elapsedTime"`
-	// The finish time of the request.
-	EndTime pulumi.StringInput `pulumi:"endTime"`
-	// The host of the server instance processing the request.
-	Host pulumi.StringInput `pulumi:"host"`
-	// The instance ID of the server instance processing the request.
-	InstanceId pulumi.StringInput `pulumi:"instanceId"`
-	// The operation of the inbound REST request.
-	Operation pulumi.StringInput `pulumi:"operation"`
-	// The start time of the request.
-	StartTime pulumi.StringInput `pulumi:"startTime"`
-	// The thread ID of the server instance processing the request.
-	ThreadId pulumi.StringInput `pulumi:"threadId"`
-	// The transaction ID of the inbound REST request.
-	TransactionId pulumi.StringInput `pulumi:"transactionId"`
-	// The URL of that cluster.
-	Url pulumi.StringInput `pulumi:"url"`
-	// The user agent of the inbound REST request.
-	UserAgent pulumi.StringInput `pulumi:"userAgent"`
-}
-
-func (GetIamAccountSettingsTemplateAssignmentContextArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentContextArgs) ToGetIamAccountSettingsTemplateAssignmentContextOutput() GetIamAccountSettingsTemplateAssignmentContextOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentContextArgs) ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentContextOutput)
-}
-
-// GetIamAccountSettingsTemplateAssignmentContextArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentContextArray and GetIamAccountSettingsTemplateAssignmentContextArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentContextArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentContextArray{ GetIamAccountSettingsTemplateAssignmentContextArgs{...} }
-type GetIamAccountSettingsTemplateAssignmentContextArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentContextArrayOutput() GetIamAccountSettingsTemplateAssignmentContextArrayOutput
-	ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentContextArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentContextArray []GetIamAccountSettingsTemplateAssignmentContextInput
-
-func (GetIamAccountSettingsTemplateAssignmentContextArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentContextArray) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutput() GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentContextArray) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentContextArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentContextOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentContextOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ToGetIamAccountSettingsTemplateAssignmentContextOutput() GetIamAccountSettingsTemplateAssignmentContextOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextOutput {
-	return o
-}
-
-// The cluster name.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ClusterName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.ClusterName }).(pulumi.StringOutput)
-}
-
-// The elapsed time in msec.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ElapsedTime() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.ElapsedTime }).(pulumi.StringOutput)
-}
-
-// The finish time of the request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) EndTime() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.EndTime }).(pulumi.StringOutput)
-}
-
-// The host of the server instance processing the request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) Host() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.Host }).(pulumi.StringOutput)
-}
-
-// The instance ID of the server instance processing the request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) InstanceId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.InstanceId }).(pulumi.StringOutput)
-}
-
-// The operation of the inbound REST request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) Operation() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.Operation }).(pulumi.StringOutput)
-}
-
-// The start time of the request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) StartTime() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.StartTime }).(pulumi.StringOutput)
-}
-
-// The thread ID of the server instance processing the request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ThreadId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.ThreadId }).(pulumi.StringOutput)
-}
-
-// The transaction ID of the inbound REST request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) TransactionId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.TransactionId }).(pulumi.StringOutput)
-}
-
-// The URL of that cluster.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) Url() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.Url }).(pulumi.StringOutput)
-}
-
-// The user agent of the inbound REST request.
-func (o GetIamAccountSettingsTemplateAssignmentContextOutput) UserAgent() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.UserAgent }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentContextArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentContextArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentContextArrayOutput) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutput() GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentContextArrayOutput) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentContextArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentContextOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentContext {
-		return vs[0].([]GetIamAccountSettingsTemplateAssignmentContext)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAssignmentContextOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentHistory struct {
-	// Action of the history entry.
-	Action string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp string `pulumi:"timestamp"`
-}
-
-// GetIamAccountSettingsTemplateAssignmentHistoryInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentHistoryArgs and GetIamAccountSettingsTemplateAssignmentHistoryOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentHistoryInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentHistoryArgs{...}
-type GetIamAccountSettingsTemplateAssignmentHistoryInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentHistoryOutput() GetIamAccountSettingsTemplateAssignmentHistoryOutput
-	ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentHistoryOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringInput `pulumi:"timestamp"`
-}
-
-func (GetIamAccountSettingsTemplateAssignmentHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentHistoryArgs) ToGetIamAccountSettingsTemplateAssignmentHistoryOutput() GetIamAccountSettingsTemplateAssignmentHistoryOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentHistoryArgs) ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentHistoryOutput)
-}
-
-// GetIamAccountSettingsTemplateAssignmentHistoryArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentHistoryArray and GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentHistoryArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentHistoryArray{ GetIamAccountSettingsTemplateAssignmentHistoryArgs{...} }
-type GetIamAccountSettingsTemplateAssignmentHistoryArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutput() GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput
-	ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentHistoryArray []GetIamAccountSettingsTemplateAssignmentHistoryInput
-
-func (GetIamAccountSettingsTemplateAssignmentHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentHistoryArray) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutput() GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentHistoryArray) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentHistoryOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryOutput() GetIamAccountSettingsTemplateAssignmentHistoryOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Action() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.Action }).(pulumi.StringOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) IamId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.IamId }).(pulumi.StringOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) IamIdAccount() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.IamIdAccount }).(pulumi.StringOutput)
-}
-
-// Message which summarizes the executed action.
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Params of the history entry.
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Timestamp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.Timestamp }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutput() GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentHistory {
-		return vs[0].([]GetIamAccountSettingsTemplateAssignmentHistory)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAssignmentHistoryOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResource struct {
-	AccountSettings []GetIamAccountSettingsTemplateAssignmentResourceAccountSetting `pulumi:"accountSettings"`
-	// Target account where the IAM resource is created.
-	Target string `pulumi:"target"`
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceArgs and GetIamAccountSettingsTemplateAssignmentResourceOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceArgs{...}
-type GetIamAccountSettingsTemplateAssignmentResourceInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceOutput() GetIamAccountSettingsTemplateAssignmentResourceOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceArgs struct {
-	AccountSettings GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput `pulumi:"accountSettings"`
-	// Target account where the IAM resource is created.
-	Target pulumi.StringInput `pulumi:"target"`
-}
-
-func (GetIamAccountSettingsTemplateAssignmentResourceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceArgs) ToGetIamAccountSettingsTemplateAssignmentResourceOutput() GetIamAccountSettingsTemplateAssignmentResourceOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceArgs) ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceOutput)
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceArray and GetIamAccountSettingsTemplateAssignmentResourceArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceArray{ GetIamAccountSettingsTemplateAssignmentResourceArgs{...} }
-type GetIamAccountSettingsTemplateAssignmentResourceArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceArrayOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceArray []GetIamAccountSettingsTemplateAssignmentResourceInput
-
-func (GetIamAccountSettingsTemplateAssignmentResourceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceArray) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceArray) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) ToGetIamAccountSettingsTemplateAssignmentResourceOutput() GetIamAccountSettingsTemplateAssignmentResourceOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) AccountSettings() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResource) []GetIamAccountSettingsTemplateAssignmentResourceAccountSetting {
-		return v.AccountSettings
-	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput)
-}
-
-// Target account where the IAM resource is created.
-func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) Target() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResource) string { return v.Target }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResource {
-		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResource)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAssignmentResourceOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSetting struct {
-	// Body parameters for assignment error.
-	ErrorMessages []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage `pulumi:"errorMessages"`
-	// Policy Template Id, only returned for a profile assignment with policy references.
-	Id string `pulumi:"id"`
-	// Body parameters for created resource.
-	ResourceCreateds []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated `pulumi:"resourceCreateds"`
-	// Status for the target account's assignment.
-	Status string `pulumi:"status"`
-	// Policy version, only returned for a profile assignment with policy references.
-	Version string `pulumi:"version"`
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{...}
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs struct {
-	// Body parameters for assignment error.
-	ErrorMessages GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput `pulumi:"errorMessages"`
-	// Policy Template Id, only returned for a profile assignment with policy references.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Body parameters for created resource.
-	ResourceCreateds GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput `pulumi:"resourceCreateds"`
-	// Status for the target account's assignment.
-	Status pulumi.StringInput `pulumi:"status"`
-	// Policy version, only returned for a profile assignment with policy references.
-	Version pulumi.StringInput `pulumi:"version"`
-}
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput)
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray{ GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{...} }
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
-	return o
-}
-
-// Body parameters for assignment error.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ErrorMessages() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage {
-		return v.ErrorMessages
-	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput)
-}
-
-// Policy Template Id, only returned for a profile assignment with policy references.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Body parameters for created resource.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ResourceCreateds() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated {
-		return v.ResourceCreateds
-	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput)
-}
-
-// Status for the target account's assignment.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// Policy version, only returned for a profile assignment with policy references.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) Version() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) string { return v.Version }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResourceAccountSetting {
-		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage struct {
-	// Internal error code.
-	ErrorCode string `pulumi:"errorCode"`
-	// Error message detailing the nature of the error.
-	Message string `pulumi:"message"`
-	// Name of the error.
-	Name string `pulumi:"name"`
-	// Internal status code for the error.
-	StatusCode string `pulumi:"statusCode"`
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs{...}
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs struct {
-	// Internal error code.
-	ErrorCode pulumi.StringInput `pulumi:"errorCode"`
-	// Error message detailing the nature of the error.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Name of the error.
-	Name pulumi.StringInput `pulumi:"name"`
-	// Internal status code for the error.
-	StatusCode pulumi.StringInput `pulumi:"statusCode"`
-}
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput)
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray{ GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs{...} }
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
-	return o
-}
-
-// Internal error code.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ErrorCode() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
-		return v.ErrorCode
-	}).(pulumi.StringOutput)
-}
-
-// Error message detailing the nature of the error.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
-		return v.Message
-	}).(pulumi.StringOutput)
-}
-
-// Name of the error.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
-		return v.Name
-	}).(pulumi.StringOutput)
-}
-
-// Internal status code for the error.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) StatusCode() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
-		return v.StatusCode
-	}).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage {
-		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated struct {
-	// Id of the created resource.
-	Id string `pulumi:"id"`
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{...}
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs struct {
-	// Id of the created resource.
-	Id pulumi.StringInput `pulumi:"id"`
-}
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput)
-}
-
-// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray{ GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{...} }
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput
-	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
-	return o
-}
-
-// Id of the created resource.
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated) string {
-		return v.Id
-	}).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated {
-		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput)
-}
-
-type GetIamAccountSettingsTemplateHistory struct {
-	// Action of the history entry.
-	Action string `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId string `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount string `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message string `pulumi:"message"`
-	// Params of the history entry.
-	Params []string `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp string `pulumi:"timestamp"`
-}
-
-// GetIamAccountSettingsTemplateHistoryInput is an input type that accepts GetIamAccountSettingsTemplateHistoryArgs and GetIamAccountSettingsTemplateHistoryOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateHistoryInput` via:
-//
-//	GetIamAccountSettingsTemplateHistoryArgs{...}
-type GetIamAccountSettingsTemplateHistoryInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateHistoryOutput() GetIamAccountSettingsTemplateHistoryOutput
-	ToGetIamAccountSettingsTemplateHistoryOutputWithContext(context.Context) GetIamAccountSettingsTemplateHistoryOutput
-}
-
-type GetIamAccountSettingsTemplateHistoryArgs struct {
-	// Action of the history entry.
-	Action pulumi.StringInput `pulumi:"action"`
-	// IAM ID of the identity which triggered the action.
-	IamId pulumi.StringInput `pulumi:"iamId"`
-	// Account of the identity which triggered the action.
-	IamIdAccount pulumi.StringInput `pulumi:"iamIdAccount"`
-	// Message which summarizes the executed action.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Params of the history entry.
-	Params pulumi.StringArrayInput `pulumi:"params"`
-	// Timestamp when the action was triggered.
-	Timestamp pulumi.StringInput `pulumi:"timestamp"`
-}
-
-func (GetIamAccountSettingsTemplateHistoryArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateHistoryArgs) ToGetIamAccountSettingsTemplateHistoryOutput() GetIamAccountSettingsTemplateHistoryOutput {
-	return i.ToGetIamAccountSettingsTemplateHistoryOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateHistoryArgs) ToGetIamAccountSettingsTemplateHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateHistoryOutput)
-}
-
-// GetIamAccountSettingsTemplateHistoryArrayInput is an input type that accepts GetIamAccountSettingsTemplateHistoryArray and GetIamAccountSettingsTemplateHistoryArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsTemplateHistoryArrayInput` via:
-//
-//	GetIamAccountSettingsTemplateHistoryArray{ GetIamAccountSettingsTemplateHistoryArgs{...} }
-type GetIamAccountSettingsTemplateHistoryArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsTemplateHistoryArrayOutput() GetIamAccountSettingsTemplateHistoryArrayOutput
-	ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateHistoryArrayOutput
-}
-
-type GetIamAccountSettingsTemplateHistoryArray []GetIamAccountSettingsTemplateHistoryInput
-
-func (GetIamAccountSettingsTemplateHistoryArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsTemplateHistoryArray) ToGetIamAccountSettingsTemplateHistoryArrayOutput() GetIamAccountSettingsTemplateHistoryArrayOutput {
-	return i.ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsTemplateHistoryArray) ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateHistoryArrayOutput)
-}
-
-type GetIamAccountSettingsTemplateHistoryOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateHistoryOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateHistoryOutput) ToGetIamAccountSettingsTemplateHistoryOutput() GetIamAccountSettingsTemplateHistoryOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateHistoryOutput) ToGetIamAccountSettingsTemplateHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryOutput {
-	return o
-}
-
-// Action of the history entry.
-func (o GetIamAccountSettingsTemplateHistoryOutput) Action() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.Action }).(pulumi.StringOutput)
-}
-
-// IAM ID of the identity which triggered the action.
-func (o GetIamAccountSettingsTemplateHistoryOutput) IamId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.IamId }).(pulumi.StringOutput)
-}
-
-// Account of the identity which triggered the action.
-func (o GetIamAccountSettingsTemplateHistoryOutput) IamIdAccount() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.IamIdAccount }).(pulumi.StringOutput)
-}
-
-// Message which summarizes the executed action.
-func (o GetIamAccountSettingsTemplateHistoryOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Params of the history entry.
-func (o GetIamAccountSettingsTemplateHistoryOutput) Params() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
-}
-
-// Timestamp when the action was triggered.
-func (o GetIamAccountSettingsTemplateHistoryOutput) Timestamp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.Timestamp }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsTemplateHistoryArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsTemplateHistoryArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateHistory)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsTemplateHistoryArrayOutput) ToGetIamAccountSettingsTemplateHistoryArrayOutput() GetIamAccountSettingsTemplateHistoryArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateHistoryArrayOutput) ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsTemplateHistoryArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateHistoryOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateHistory {
-		return vs[0].([]GetIamAccountSettingsTemplateHistory)[vs[1].(int)]
-	}).(GetIamAccountSettingsTemplateHistoryOutput)
-}
-
-type GetIamAccountSettingsUserMfa struct {
-	// optional description.
-	Description string `pulumi:"description"`
-	// email of the user.
-	Email string `pulumi:"email"`
-	// The iamId of the user.
-	IamId string `pulumi:"iamId"`
-	// MFA trait definitions as follows:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - Security Key MFA for all users.
-	Mfa string `pulumi:"mfa"`
-	// name of the user account.
-	Name string `pulumi:"name"`
-	// userName of the user.
-	UserName string `pulumi:"userName"`
-}
-
-// GetIamAccountSettingsUserMfaInput is an input type that accepts GetIamAccountSettingsUserMfaArgs and GetIamAccountSettingsUserMfaOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsUserMfaInput` via:
-//
-//	GetIamAccountSettingsUserMfaArgs{...}
-type GetIamAccountSettingsUserMfaInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsUserMfaOutput() GetIamAccountSettingsUserMfaOutput
-	ToGetIamAccountSettingsUserMfaOutputWithContext(context.Context) GetIamAccountSettingsUserMfaOutput
-}
-
-type GetIamAccountSettingsUserMfaArgs struct {
-	// optional description.
-	Description pulumi.StringInput `pulumi:"description"`
-	// email of the user.
-	Email pulumi.StringInput `pulumi:"email"`
-	// The iamId of the user.
-	IamId pulumi.StringInput `pulumi:"iamId"`
-	// MFA trait definitions as follows:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - Security Key MFA for all users.
-	Mfa pulumi.StringInput `pulumi:"mfa"`
-	// name of the user account.
-	Name pulumi.StringInput `pulumi:"name"`
-	// userName of the user.
-	UserName pulumi.StringInput `pulumi:"userName"`
-}
-
-func (GetIamAccountSettingsUserMfaArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsUserMfa)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsUserMfaArgs) ToGetIamAccountSettingsUserMfaOutput() GetIamAccountSettingsUserMfaOutput {
-	return i.ToGetIamAccountSettingsUserMfaOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsUserMfaArgs) ToGetIamAccountSettingsUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsUserMfaOutput)
-}
-
-// GetIamAccountSettingsUserMfaArrayInput is an input type that accepts GetIamAccountSettingsUserMfaArray and GetIamAccountSettingsUserMfaArrayOutput values.
-// You can construct a concrete instance of `GetIamAccountSettingsUserMfaArrayInput` via:
-//
-//	GetIamAccountSettingsUserMfaArray{ GetIamAccountSettingsUserMfaArgs{...} }
-type GetIamAccountSettingsUserMfaArrayInput interface {
-	pulumi.Input
-
-	ToGetIamAccountSettingsUserMfaArrayOutput() GetIamAccountSettingsUserMfaArrayOutput
-	ToGetIamAccountSettingsUserMfaArrayOutputWithContext(context.Context) GetIamAccountSettingsUserMfaArrayOutput
-}
-
-type GetIamAccountSettingsUserMfaArray []GetIamAccountSettingsUserMfaInput
-
-func (GetIamAccountSettingsUserMfaArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsUserMfa)(nil)).Elem()
-}
-
-func (i GetIamAccountSettingsUserMfaArray) ToGetIamAccountSettingsUserMfaArrayOutput() GetIamAccountSettingsUserMfaArrayOutput {
-	return i.ToGetIamAccountSettingsUserMfaArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamAccountSettingsUserMfaArray) ToGetIamAccountSettingsUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsUserMfaArrayOutput)
-}
-
-type GetIamAccountSettingsUserMfaOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsUserMfaOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamAccountSettingsUserMfa)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsUserMfaOutput) ToGetIamAccountSettingsUserMfaOutput() GetIamAccountSettingsUserMfaOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsUserMfaOutput) ToGetIamAccountSettingsUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaOutput {
-	return o
-}
-
-// optional description.
-func (o GetIamAccountSettingsUserMfaOutput) Description() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Description }).(pulumi.StringOutput)
-}
-
-// email of the user.
-func (o GetIamAccountSettingsUserMfaOutput) Email() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Email }).(pulumi.StringOutput)
-}
-
-// The iamId of the user.
-func (o GetIamAccountSettingsUserMfaOutput) IamId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.IamId }).(pulumi.StringOutput)
-}
-
-// MFA trait definitions as follows:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - Security Key MFA for all users.
-func (o GetIamAccountSettingsUserMfaOutput) Mfa() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Mfa }).(pulumi.StringOutput)
-}
-
-// name of the user account.
-func (o GetIamAccountSettingsUserMfaOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// userName of the user.
-func (o GetIamAccountSettingsUserMfaOutput) UserName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.UserName }).(pulumi.StringOutput)
-}
-
-type GetIamAccountSettingsUserMfaArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamAccountSettingsUserMfaArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamAccountSettingsUserMfa)(nil)).Elem()
-}
-
-func (o GetIamAccountSettingsUserMfaArrayOutput) ToGetIamAccountSettingsUserMfaArrayOutput() GetIamAccountSettingsUserMfaArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsUserMfaArrayOutput) ToGetIamAccountSettingsUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaArrayOutput {
-	return o
-}
-
-func (o GetIamAccountSettingsUserMfaArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsUserMfaOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsUserMfa {
-		return vs[0].([]GetIamAccountSettingsUserMfa)[vs[1].(int)]
-	}).(GetIamAccountSettingsUserMfaOutput)
-}
-
-type GetIamActionControlAssignmentResource struct {
-	// Set of properties of the assigned resource or error message if assignment failed.
-	ActionControls []GetIamActionControlAssignmentResourceActionControl `pulumi:"actionControls"`
-	// assignment target account and type.
-	Targets []GetIamActionControlAssignmentResourceTarget `pulumi:"targets"`
-}
-
-// GetIamActionControlAssignmentResourceInput is an input type that accepts GetIamActionControlAssignmentResourceArgs and GetIamActionControlAssignmentResourceOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceInput` via:
-//
-//	GetIamActionControlAssignmentResourceArgs{...}
-type GetIamActionControlAssignmentResourceInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceOutput() GetIamActionControlAssignmentResourceOutput
-	ToGetIamActionControlAssignmentResourceOutputWithContext(context.Context) GetIamActionControlAssignmentResourceOutput
-}
-
-type GetIamActionControlAssignmentResourceArgs struct {
-	// Set of properties of the assigned resource or error message if assignment failed.
-	ActionControls GetIamActionControlAssignmentResourceActionControlArrayInput `pulumi:"actionControls"`
-	// assignment target account and type.
-	Targets GetIamActionControlAssignmentResourceTargetArrayInput `pulumi:"targets"`
-}
-
-func (GetIamActionControlAssignmentResourceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResource)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceArgs) ToGetIamActionControlAssignmentResourceOutput() GetIamActionControlAssignmentResourceOutput {
-	return i.ToGetIamActionControlAssignmentResourceOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceArgs) ToGetIamActionControlAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceOutput)
-}
-
-// GetIamActionControlAssignmentResourceArrayInput is an input type that accepts GetIamActionControlAssignmentResourceArray and GetIamActionControlAssignmentResourceArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceArray{ GetIamActionControlAssignmentResourceArgs{...} }
-type GetIamActionControlAssignmentResourceArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceArrayOutput() GetIamActionControlAssignmentResourceArrayOutput
-	ToGetIamActionControlAssignmentResourceArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceArray []GetIamActionControlAssignmentResourceInput
-
-func (GetIamActionControlAssignmentResourceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResource)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceArray) ToGetIamActionControlAssignmentResourceArrayOutput() GetIamActionControlAssignmentResourceArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceArray) ToGetIamActionControlAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResource)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceOutput) ToGetIamActionControlAssignmentResourceOutput() GetIamActionControlAssignmentResourceOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceOutput) ToGetIamActionControlAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceOutput {
-	return o
-}
-
-// Set of properties of the assigned resource or error message if assignment failed.
-func (o GetIamActionControlAssignmentResourceOutput) ActionControls() GetIamActionControlAssignmentResourceActionControlArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResource) []GetIamActionControlAssignmentResourceActionControl {
-		return v.ActionControls
-	}).(GetIamActionControlAssignmentResourceActionControlArrayOutput)
-}
-
-// assignment target account and type.
-func (o GetIamActionControlAssignmentResourceOutput) Targets() GetIamActionControlAssignmentResourceTargetArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResource) []GetIamActionControlAssignmentResourceTarget {
-		return v.Targets
-	}).(GetIamActionControlAssignmentResourceTargetArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResource)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentResourceArrayOutput() GetIamActionControlAssignmentResourceArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResource {
-		return vs[0].([]GetIamActionControlAssignmentResource)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControl struct {
-	// Body parameters for assignment error.
-	ErrorMessages []GetIamActionControlAssignmentResourceActionControlErrorMessage `pulumi:"errorMessages"`
-	// On success, it includes the action control assigned.
-	ResourceCreateds []GetIamActionControlAssignmentResourceActionControlResourceCreated `pulumi:"resourceCreateds"`
-}
-
-// GetIamActionControlAssignmentResourceActionControlInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlArgs and GetIamActionControlAssignmentResourceActionControlOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlArgs{...}
-type GetIamActionControlAssignmentResourceActionControlInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlOutput() GetIamActionControlAssignmentResourceActionControlOutput
-	ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlArgs struct {
-	// Body parameters for assignment error.
-	ErrorMessages GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput `pulumi:"errorMessages"`
-	// On success, it includes the action control assigned.
-	ResourceCreateds GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput `pulumi:"resourceCreateds"`
-}
-
-func (GetIamActionControlAssignmentResourceActionControlArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentResourceActionControlOutput() GetIamActionControlAssignmentResourceActionControlOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlOutput)
-}
-
-// GetIamActionControlAssignmentResourceActionControlArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlArray and GetIamActionControlAssignmentResourceActionControlArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlArray{ GetIamActionControlAssignmentResourceActionControlArgs{...} }
-type GetIamActionControlAssignmentResourceActionControlArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentResourceActionControlArrayOutput
-	ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlArray []GetIamActionControlAssignmentResourceActionControlInput
-
-func (GetIamActionControlAssignmentResourceActionControlArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentResourceActionControlArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentResourceActionControlOutput() GetIamActionControlAssignmentResourceActionControlOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlOutput {
-	return o
-}
-
-// Body parameters for assignment error.
-func (o GetIamActionControlAssignmentResourceActionControlOutput) ErrorMessages() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControl) []GetIamActionControlAssignmentResourceActionControlErrorMessage {
-		return v.ErrorMessages
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput)
-}
-
-// On success, it includes the action control assigned.
-func (o GetIamActionControlAssignmentResourceActionControlOutput) ResourceCreateds() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControl) []GetIamActionControlAssignmentResourceActionControlResourceCreated {
-		return v.ResourceCreateds
-	}).(GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentResourceActionControlArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControl {
-		return vs[0].([]GetIamActionControlAssignmentResourceActionControl)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceActionControlOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessage struct {
-	// Internal status code for the error.
-	Code string `pulumi:"code"`
-	// Internal error code.
-	ErrorCode string `pulumi:"errorCode"`
-	// The errors encountered during the response.
-	Errors []GetIamActionControlAssignmentResourceActionControlErrorMessageError `pulumi:"errors"`
-	// Error message detailing the nature of the error.
-	Message string `pulumi:"message"`
-	// Name of the error.
-	Name string `pulumi:"name"`
-	// The HTTP error code of the response.
-	StatusCode int `pulumi:"statusCode"`
-	// The unique transaction ID for the request.
-	Trace string `pulumi:"trace"`
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageArgs{...}
-type GetIamActionControlAssignmentResourceActionControlErrorMessageInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageArgs struct {
-	// Internal status code for the error.
-	Code pulumi.StringInput `pulumi:"code"`
-	// Internal error code.
-	ErrorCode pulumi.StringInput `pulumi:"errorCode"`
-	// The errors encountered during the response.
-	Errors GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput `pulumi:"errors"`
-	// Error message detailing the nature of the error.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Name of the error.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The HTTP error code of the response.
-	StatusCode pulumi.IntInput `pulumi:"statusCode"`
-	// The unique transaction ID for the request.
-	Trace pulumi.StringInput `pulumi:"trace"`
-}
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageOutput)
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageArray and GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageArgs{...} }
-type GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageArray []GetIamActionControlAssignmentResourceActionControlErrorMessageInput
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
-	return o
-}
-
-// Internal status code for the error.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Code }).(pulumi.StringOutput)
-}
-
-// Internal error code.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ErrorCode() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.ErrorCode }).(pulumi.StringOutput)
-}
-
-// The errors encountered during the response.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Errors() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) []GetIamActionControlAssignmentResourceActionControlErrorMessageError {
-		return v.Errors
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput)
-}
-
-// Error message detailing the nature of the error.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Name of the error.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The HTTP error code of the response.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) StatusCode() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) int { return v.StatusCode }).(pulumi.IntOutput)
-}
-
-// The unique transaction ID for the request.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Trace() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Trace }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessage {
-		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessage)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageError struct {
-	// The API error code for the error.
-	Code string `pulumi:"code"`
-	// Additional error details.
-	Details []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail `pulumi:"details"`
-	// The error message returned by the API.
-	Message string `pulumi:"message"`
-	// Additional info for error.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs{...}
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs struct {
-	// The API error code for the error.
-	Code pulumi.StringInput `pulumi:"code"`
-	// Additional error details.
-	Details GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput `pulumi:"details"`
-	// The error message returned by the API.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Additional info for error.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput)
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs{...} }
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
-	return o
-}
-
-// The API error code for the error.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) string { return v.Code }).(pulumi.StringOutput)
-}
-
-// Additional error details.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) Details() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail {
-		return v.Details
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
-}
-
-// The error message returned by the API.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Additional info for error.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessageError {
-		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessageError)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail struct {
-	// Details of conflicting resource.
-	ConflictsWiths []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith `pulumi:"conflictsWiths"`
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs{...}
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs struct {
-	// Details of conflicting resource.
-	ConflictsWiths GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput `pulumi:"conflictsWiths"`
-}
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput)
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs{...} }
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return o
-}
-
-// Details of conflicting resource.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ConflictsWiths() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail) []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
-		return v.ConflictsWiths
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail {
-		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith struct {
-	// The revision number of the resource.
-	Etag string `pulumi:"etag"`
-	// The conflicting policy ID.
-	Policy string `pulumi:"policy"`
-	// The conflicting role of ID.
-	Role string `pulumi:"role"`
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...}
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs struct {
-	// The revision number of the resource.
-	Etag pulumi.StringInput `pulumi:"etag"`
-	// The conflicting policy ID.
-	Policy pulumi.StringInput `pulumi:"policy"`
-	// The conflicting role of ID.
-	Role pulumi.StringInput `pulumi:"role"`
-}
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
-}
-
-// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...} }
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
-	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return o
-}
-
-// The revision number of the resource.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Etag() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
-		return v.Etag
-	}).(pulumi.StringOutput)
-}
-
-// The conflicting policy ID.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Policy() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
-		return v.Policy
-	}).(pulumi.StringOutput)
-}
-
-// The conflicting role of ID.
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Role() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
-		return v.Role
-	}).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
-		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlResourceCreated struct {
-	// action control id.
-	Id string `pulumi:"id"`
-}
-
-// GetIamActionControlAssignmentResourceActionControlResourceCreatedInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs and GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlResourceCreatedInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs{...}
-type GetIamActionControlAssignmentResourceActionControlResourceCreatedInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput
-	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs struct {
-	// action control id.
-	Id pulumi.StringInput `pulumi:"id"`
-}
-
-func (GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput)
-}
-
-// GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlResourceCreatedArray and GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceActionControlResourceCreatedArray{ GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs{...} }
-type GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput
-	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceActionControlResourceCreatedArray []GetIamActionControlAssignmentResourceActionControlResourceCreatedInput
-
-func (GetIamActionControlAssignmentResourceActionControlResourceCreatedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
-	return o
-}
-
-// action control id.
-func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlResourceCreated) string { return v.Id }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlResourceCreated {
-		return vs[0].([]GetIamActionControlAssignmentResourceActionControlResourceCreated)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput)
-}
-
-type GetIamActionControlAssignmentResourceTarget struct {
-	// ID of the target account.
-	Id string `pulumi:"id"`
-	// Assignment target type.
-	Type string `pulumi:"type"`
-}
-
-// GetIamActionControlAssignmentResourceTargetInput is an input type that accepts GetIamActionControlAssignmentResourceTargetArgs and GetIamActionControlAssignmentResourceTargetOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceTargetInput` via:
-//
-//	GetIamActionControlAssignmentResourceTargetArgs{...}
-type GetIamActionControlAssignmentResourceTargetInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceTargetOutput() GetIamActionControlAssignmentResourceTargetOutput
-	ToGetIamActionControlAssignmentResourceTargetOutputWithContext(context.Context) GetIamActionControlAssignmentResourceTargetOutput
-}
-
-type GetIamActionControlAssignmentResourceTargetArgs struct {
-	// ID of the target account.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Assignment target type.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetIamActionControlAssignmentResourceTargetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentResourceTargetOutput() GetIamActionControlAssignmentResourceTargetOutput {
-	return i.ToGetIamActionControlAssignmentResourceTargetOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceTargetOutput)
-}
-
-// GetIamActionControlAssignmentResourceTargetArrayInput is an input type that accepts GetIamActionControlAssignmentResourceTargetArray and GetIamActionControlAssignmentResourceTargetArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentResourceTargetArrayInput` via:
-//
-//	GetIamActionControlAssignmentResourceTargetArray{ GetIamActionControlAssignmentResourceTargetArgs{...} }
-type GetIamActionControlAssignmentResourceTargetArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentResourceTargetArrayOutput
-	ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceTargetArrayOutput
-}
-
-type GetIamActionControlAssignmentResourceTargetArray []GetIamActionControlAssignmentResourceTargetInput
-
-func (GetIamActionControlAssignmentResourceTargetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentResourceTargetArray) ToGetIamActionControlAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentResourceTargetArrayOutput {
-	return i.ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentResourceTargetArray) ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceTargetArrayOutput)
-}
-
-type GetIamActionControlAssignmentResourceTargetOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceTargetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentResourceTargetOutput() GetIamActionControlAssignmentResourceTargetOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetOutput {
-	return o
-}
-
-// ID of the target account.
-func (o GetIamActionControlAssignmentResourceTargetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceTarget) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Assignment target type.
-func (o GetIamActionControlAssignmentResourceTargetOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentResourceTarget) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentResourceTargetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentResourceTargetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentResourceTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentResourceTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceTargetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceTarget {
-		return vs[0].([]GetIamActionControlAssignmentResourceTarget)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentResourceTargetOutput)
-}
-
-type GetIamActionControlAssignmentTarget struct {
-	// ID of the target account.
-	Id string `pulumi:"id"`
-	// Assignment target type.
-	Type string `pulumi:"type"`
-}
-
-// GetIamActionControlAssignmentTargetInput is an input type that accepts GetIamActionControlAssignmentTargetArgs and GetIamActionControlAssignmentTargetOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentTargetInput` via:
-//
-//	GetIamActionControlAssignmentTargetArgs{...}
-type GetIamActionControlAssignmentTargetInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentTargetOutput() GetIamActionControlAssignmentTargetOutput
-	ToGetIamActionControlAssignmentTargetOutputWithContext(context.Context) GetIamActionControlAssignmentTargetOutput
-}
-
-type GetIamActionControlAssignmentTargetArgs struct {
-	// ID of the target account.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Assignment target type.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetIamActionControlAssignmentTargetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentTargetArgs) ToGetIamActionControlAssignmentTargetOutput() GetIamActionControlAssignmentTargetOutput {
-	return i.ToGetIamActionControlAssignmentTargetOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentTargetArgs) ToGetIamActionControlAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTargetOutput)
-}
-
-// GetIamActionControlAssignmentTargetArrayInput is an input type that accepts GetIamActionControlAssignmentTargetArray and GetIamActionControlAssignmentTargetArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentTargetArrayInput` via:
-//
-//	GetIamActionControlAssignmentTargetArray{ GetIamActionControlAssignmentTargetArgs{...} }
-type GetIamActionControlAssignmentTargetArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentTargetArrayOutput() GetIamActionControlAssignmentTargetArrayOutput
-	ToGetIamActionControlAssignmentTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentTargetArrayOutput
-}
-
-type GetIamActionControlAssignmentTargetArray []GetIamActionControlAssignmentTargetInput
-
-func (GetIamActionControlAssignmentTargetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentTargetArray) ToGetIamActionControlAssignmentTargetArrayOutput() GetIamActionControlAssignmentTargetArrayOutput {
-	return i.ToGetIamActionControlAssignmentTargetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentTargetArray) ToGetIamActionControlAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTargetArrayOutput)
-}
-
-type GetIamActionControlAssignmentTargetOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentTargetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentTargetOutput) ToGetIamActionControlAssignmentTargetOutput() GetIamActionControlAssignmentTargetOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentTargetOutput) ToGetIamActionControlAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetOutput {
-	return o
-}
-
-// ID of the target account.
-func (o GetIamActionControlAssignmentTargetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentTarget) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Assignment target type.
-func (o GetIamActionControlAssignmentTargetOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentTarget) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentTargetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentTargetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentTargetArrayOutput() GetIamActionControlAssignmentTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentTargetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentTarget {
-		return vs[0].([]GetIamActionControlAssignmentTarget)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentTargetOutput)
-}
-
-type GetIamActionControlAssignmentTemplate struct {
-	// Action control template ID.
-	Id string `pulumi:"id"`
-	// Action control template version.
-	Version string `pulumi:"version"`
-}
-
-// GetIamActionControlAssignmentTemplateInput is an input type that accepts GetIamActionControlAssignmentTemplateArgs and GetIamActionControlAssignmentTemplateOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentTemplateInput` via:
-//
-//	GetIamActionControlAssignmentTemplateArgs{...}
-type GetIamActionControlAssignmentTemplateInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentTemplateOutput() GetIamActionControlAssignmentTemplateOutput
-	ToGetIamActionControlAssignmentTemplateOutputWithContext(context.Context) GetIamActionControlAssignmentTemplateOutput
-}
-
-type GetIamActionControlAssignmentTemplateArgs struct {
-	// Action control template ID.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Action control template version.
-	Version pulumi.StringInput `pulumi:"version"`
-}
-
-func (GetIamActionControlAssignmentTemplateArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentTemplate)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentTemplateArgs) ToGetIamActionControlAssignmentTemplateOutput() GetIamActionControlAssignmentTemplateOutput {
-	return i.ToGetIamActionControlAssignmentTemplateOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentTemplateArgs) ToGetIamActionControlAssignmentTemplateOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTemplateOutput)
-}
-
-// GetIamActionControlAssignmentTemplateArrayInput is an input type that accepts GetIamActionControlAssignmentTemplateArray and GetIamActionControlAssignmentTemplateArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentTemplateArrayInput` via:
-//
-//	GetIamActionControlAssignmentTemplateArray{ GetIamActionControlAssignmentTemplateArgs{...} }
-type GetIamActionControlAssignmentTemplateArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentTemplateArrayOutput() GetIamActionControlAssignmentTemplateArrayOutput
-	ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(context.Context) GetIamActionControlAssignmentTemplateArrayOutput
-}
-
-type GetIamActionControlAssignmentTemplateArray []GetIamActionControlAssignmentTemplateInput
-
-func (GetIamActionControlAssignmentTemplateArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentTemplate)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentTemplateArray) ToGetIamActionControlAssignmentTemplateArrayOutput() GetIamActionControlAssignmentTemplateArrayOutput {
-	return i.ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentTemplateArray) ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTemplateArrayOutput)
-}
-
-type GetIamActionControlAssignmentTemplateOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentTemplateOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentTemplate)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentTemplateOutput) ToGetIamActionControlAssignmentTemplateOutput() GetIamActionControlAssignmentTemplateOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentTemplateOutput) ToGetIamActionControlAssignmentTemplateOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateOutput {
-	return o
-}
-
-// Action control template ID.
-func (o GetIamActionControlAssignmentTemplateOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentTemplate) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Action control template version.
-func (o GetIamActionControlAssignmentTemplateOutput) Version() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentTemplate) string { return v.Version }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentTemplateArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentTemplateArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentTemplate)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentTemplateArrayOutput) ToGetIamActionControlAssignmentTemplateArrayOutput() GetIamActionControlAssignmentTemplateArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentTemplateArrayOutput) ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentTemplateArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentTemplateOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentTemplate {
-		return vs[0].([]GetIamActionControlAssignmentTemplate)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentTemplateOutput)
-}
-
-type GetIamActionControlAssignmentsAssignment struct {
-	// The account GUID that the action control assignments belong to.
-	AccountId string `pulumi:"accountId"`
-	// The UTC timestamp when the action control assignment was created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The IAM ID of the entity that created the action control assignment.
-	CreatedById string `pulumi:"createdById"`
-	// The href URL that links to the action control assignments API by action control assignment ID.
-	Href string `pulumi:"href"`
-	// Action control assignment ID.
-	Id string `pulumi:"id"`
-	// The UTC timestamp when the action control assignment was last modified.
-	LastModifiedAt string `pulumi:"lastModifiedAt"`
-	// The IAM ID of the entity that last modified the action control assignment.
-	LastModifiedById string `pulumi:"lastModifiedById"`
-	// The current operation of the action control assignment.
-	Operation string `pulumi:"operation"`
-	// Resources created when action control template is assigned.
-	Resources []GetIamActionControlAssignmentsAssignmentResource `pulumi:"resources"`
-	// The action control assignment status.
-	Status string `pulumi:"status"`
-	// assignment target account and type.
-	Targets []GetIamActionControlAssignmentsAssignmentTarget `pulumi:"targets"`
-	// The action control template id and version that will be assigned.
-	Templates []GetIamActionControlAssignmentsAssignmentTemplate `pulumi:"templates"`
-}
-
-// GetIamActionControlAssignmentsAssignmentInput is an input type that accepts GetIamActionControlAssignmentsAssignmentArgs and GetIamActionControlAssignmentsAssignmentOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentArgs{...}
-type GetIamActionControlAssignmentsAssignmentInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentOutput() GetIamActionControlAssignmentsAssignmentOutput
-	ToGetIamActionControlAssignmentsAssignmentOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentArgs struct {
-	// The account GUID that the action control assignments belong to.
-	AccountId pulumi.StringInput `pulumi:"accountId"`
-	// The UTC timestamp when the action control assignment was created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The IAM ID of the entity that created the action control assignment.
-	CreatedById pulumi.StringInput `pulumi:"createdById"`
-	// The href URL that links to the action control assignments API by action control assignment ID.
-	Href pulumi.StringInput `pulumi:"href"`
-	// Action control assignment ID.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The UTC timestamp when the action control assignment was last modified.
-	LastModifiedAt pulumi.StringInput `pulumi:"lastModifiedAt"`
-	// The IAM ID of the entity that last modified the action control assignment.
-	LastModifiedById pulumi.StringInput `pulumi:"lastModifiedById"`
-	// The current operation of the action control assignment.
-	Operation pulumi.StringInput `pulumi:"operation"`
-	// Resources created when action control template is assigned.
-	Resources GetIamActionControlAssignmentsAssignmentResourceArrayInput `pulumi:"resources"`
-	// The action control assignment status.
-	Status pulumi.StringInput `pulumi:"status"`
-	// assignment target account and type.
-	Targets GetIamActionControlAssignmentsAssignmentTargetArrayInput `pulumi:"targets"`
-	// The action control template id and version that will be assigned.
-	Templates GetIamActionControlAssignmentsAssignmentTemplateArrayInput `pulumi:"templates"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignment)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentArgs) ToGetIamActionControlAssignmentsAssignmentOutput() GetIamActionControlAssignmentsAssignmentOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentArgs) ToGetIamActionControlAssignmentsAssignmentOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentArray and GetIamActionControlAssignmentsAssignmentArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentArray{ GetIamActionControlAssignmentsAssignmentArgs{...} }
-type GetIamActionControlAssignmentsAssignmentArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentArrayOutput() GetIamActionControlAssignmentsAssignmentArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentArray []GetIamActionControlAssignmentsAssignmentInput
-
-func (GetIamActionControlAssignmentsAssignmentArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignment)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentArray) ToGetIamActionControlAssignmentsAssignmentArrayOutput() GetIamActionControlAssignmentsAssignmentArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentArray) ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignment)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentOutput) ToGetIamActionControlAssignmentsAssignmentOutput() GetIamActionControlAssignmentsAssignmentOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentOutput) ToGetIamActionControlAssignmentsAssignmentOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentOutput {
-	return o
-}
-
-// The account GUID that the action control assignments belong to.
-func (o GetIamActionControlAssignmentsAssignmentOutput) AccountId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.AccountId }).(pulumi.StringOutput)
-}
-
-// The UTC timestamp when the action control assignment was created.
-func (o GetIamActionControlAssignmentsAssignmentOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The IAM ID of the entity that created the action control assignment.
-func (o GetIamActionControlAssignmentsAssignmentOutput) CreatedById() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.CreatedById }).(pulumi.StringOutput)
-}
-
-// The href URL that links to the action control assignments API by action control assignment ID.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// Action control assignment ID.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The UTC timestamp when the action control assignment was last modified.
-func (o GetIamActionControlAssignmentsAssignmentOutput) LastModifiedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.LastModifiedAt }).(pulumi.StringOutput)
-}
-
-// The IAM ID of the entity that last modified the action control assignment.
-func (o GetIamActionControlAssignmentsAssignmentOutput) LastModifiedById() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.LastModifiedById }).(pulumi.StringOutput)
-}
-
-// The current operation of the action control assignment.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Operation() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Operation }).(pulumi.StringOutput)
-}
-
-// Resources created when action control template is assigned.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Resources() GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) []GetIamActionControlAssignmentsAssignmentResource {
-		return v.Resources
-	}).(GetIamActionControlAssignmentsAssignmentResourceArrayOutput)
-}
-
-// The action control assignment status.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// assignment target account and type.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Targets() GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) []GetIamActionControlAssignmentsAssignmentTarget {
-		return v.Targets
-	}).(GetIamActionControlAssignmentsAssignmentTargetArrayOutput)
-}
-
-// The action control template id and version that will be assigned.
-func (o GetIamActionControlAssignmentsAssignmentOutput) Templates() GetIamActionControlAssignmentsAssignmentTemplateArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) []GetIamActionControlAssignmentsAssignmentTemplate {
-		return v.Templates
-	}).(GetIamActionControlAssignmentsAssignmentTemplateArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignment)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentArrayOutput) ToGetIamActionControlAssignmentsAssignmentArrayOutput() GetIamActionControlAssignmentsAssignmentArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentArrayOutput) ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignment {
-		return vs[0].([]GetIamActionControlAssignmentsAssignment)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResource struct {
-	// Set of properties of the assigned resource or error message if assignment failed.
-	ActionControls []GetIamActionControlAssignmentsAssignmentResourceActionControl `pulumi:"actionControls"`
-	// assignment target account and type.
-	Targets []GetIamActionControlAssignmentsAssignmentResourceTarget `pulumi:"targets"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceArgs and GetIamActionControlAssignmentsAssignmentResourceOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceOutput() GetIamActionControlAssignmentsAssignmentResourceOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceArgs struct {
-	// Set of properties of the assigned resource or error message if assignment failed.
-	ActionControls GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput `pulumi:"actionControls"`
-	// assignment target account and type.
-	Targets GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput `pulumi:"targets"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceArgs) ToGetIamActionControlAssignmentsAssignmentResourceOutput() GetIamActionControlAssignmentsAssignmentResourceOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceArgs) ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceArray and GetIamActionControlAssignmentsAssignmentResourceArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceArray{ GetIamActionControlAssignmentsAssignmentResourceArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceArrayOutput() GetIamActionControlAssignmentsAssignmentResourceArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceArray []GetIamActionControlAssignmentsAssignmentResourceInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceArray) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutput() GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceArray) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceOutput) ToGetIamActionControlAssignmentsAssignmentResourceOutput() GetIamActionControlAssignmentsAssignmentResourceOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceOutput) ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceOutput {
-	return o
-}
-
-// Set of properties of the assigned resource or error message if assignment failed.
-func (o GetIamActionControlAssignmentsAssignmentResourceOutput) ActionControls() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResource) []GetIamActionControlAssignmentsAssignmentResourceActionControl {
-		return v.ActionControls
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput)
-}
-
-// assignment target account and type.
-func (o GetIamActionControlAssignmentsAssignmentResourceOutput) Targets() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResource) []GetIamActionControlAssignmentsAssignmentResourceTarget {
-		return v.Targets
-	}).(GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutput() GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResource {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResource)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControl struct {
-	// The error response from API.
-	ErrorMessages []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage `pulumi:"errorMessages"`
-	// On success, it includes the action control assigned.
-	ResourceCreateds []GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated `pulumi:"resourceCreateds"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceActionControlInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlArgs struct {
-	// The error response from API.
-	ErrorMessages GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput `pulumi:"errorMessages"`
-	// On success, it includes the action control assigned.
-	ResourceCreateds GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput `pulumi:"resourceCreateds"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlArray and GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlArray []GetIamActionControlAssignmentsAssignmentResourceActionControlInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
-	return o
-}
-
-// The error response from API.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ErrorMessages() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControl) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage {
-		return v.ErrorMessages
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput)
-}
-
-// On success, it includes the action control assigned.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ResourceCreateds() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControl) []GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated {
-		return v.ResourceCreateds
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControl {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControl)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage struct {
-	// Internal status code for the error.
-	Code string `pulumi:"code"`
-	// Internal error code.
-	ErrorCode string `pulumi:"errorCode"`
-	// The errors encountered during the response.
-	Errors []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError `pulumi:"errors"`
-	// Error message detailing the nature of the error.
-	Message string `pulumi:"message"`
-	// Name of the error.
-	Name string `pulumi:"name"`
-	// The HTTP error code of the response.
-	StatusCode int `pulumi:"statusCode"`
-	// The unique transaction ID for the request.
-	Trace string `pulumi:"trace"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs struct {
-	// Internal status code for the error.
-	Code pulumi.StringInput `pulumi:"code"`
-	// Internal error code.
-	ErrorCode pulumi.StringInput `pulumi:"errorCode"`
-	// The errors encountered during the response.
-	Errors GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput `pulumi:"errors"`
-	// Error message detailing the nature of the error.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Name of the error.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The HTTP error code of the response.
-	StatusCode pulumi.IntInput `pulumi:"statusCode"`
-	// The unique transaction ID for the request.
-	Trace pulumi.StringInput `pulumi:"trace"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
-	return o
-}
-
-// Internal status code for the error.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
-		return v.Code
-	}).(pulumi.StringOutput)
-}
-
-// Internal error code.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ErrorCode() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
-		return v.ErrorCode
-	}).(pulumi.StringOutput)
-}
-
-// The errors encountered during the response.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Errors() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError {
-		return v.Errors
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput)
-}
-
-// Error message detailing the nature of the error.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
-		return v.Message
-	}).(pulumi.StringOutput)
-}
-
-// Name of the error.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
-		return v.Name
-	}).(pulumi.StringOutput)
-}
-
-// The HTTP error code of the response.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) StatusCode() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) int {
-		return v.StatusCode
-	}).(pulumi.IntOutput)
-}
-
-// The unique transaction ID for the request.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Trace() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
-		return v.Trace
-	}).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError struct {
-	// The API error code for the error.
-	Code string `pulumi:"code"`
-	// Additional error details.
-	Details []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail `pulumi:"details"`
-	// The error message returned by the API.
-	Message string `pulumi:"message"`
-	// Additional info for error.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs struct {
-	// The API error code for the error.
-	Code pulumi.StringInput `pulumi:"code"`
-	// Additional error details.
-	Details GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput `pulumi:"details"`
-	// The error message returned by the API.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Additional info for error.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
-	return o
-}
-
-// The API error code for the error.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) string {
-		return v.Code
-	}).(pulumi.StringOutput)
-}
-
-// Additional error details.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) Details() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail {
-		return v.Details
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
-}
-
-// The error message returned by the API.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) string {
-		return v.Message
-	}).(pulumi.StringOutput)
-}
-
-// Additional info for error.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) string {
-		return v.MoreInfo
-	}).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail struct {
-	// Details of conflicting resource.
-	ConflictsWiths []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith `pulumi:"conflictsWiths"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs struct {
-	// Details of conflicting resource.
-	ConflictsWiths GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput `pulumi:"conflictsWiths"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return o
-}
-
-// Details of conflicting resource.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ConflictsWiths() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
-		return v.ConflictsWiths
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith struct {
-	// The revision number of the resource.
-	Etag string `pulumi:"etag"`
-	// The conflicting policy ID.
-	Policy string `pulumi:"policy"`
-	// The conflicting role of ID.
-	Role string `pulumi:"role"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs struct {
-	// The revision number of the resource.
-	Etag pulumi.StringInput `pulumi:"etag"`
-	// The conflicting policy ID.
-	Policy pulumi.StringInput `pulumi:"policy"`
-	// The conflicting role of ID.
-	Role pulumi.StringInput `pulumi:"role"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return o
-}
-
-// The revision number of the resource.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Etag() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
-		return v.Etag
-	}).(pulumi.StringOutput)
-}
-
-// The conflicting policy ID.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Policy() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
-		return v.Policy
-	}).(pulumi.StringOutput)
-}
-
-// The conflicting role of ID.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Role() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
-		return v.Role
-	}).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated struct {
-	// action control id.
-	Id string `pulumi:"id"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs struct {
-	// action control id.
-	Id pulumi.StringInput `pulumi:"id"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray and GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray []GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
-	return o
-}
-
-// action control id.
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated) string {
-		return v.Id
-	}).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceTarget struct {
-	// ID of the target account.
-	Id string `pulumi:"id"`
-	// Assignment target type.
-	Type string `pulumi:"type"`
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceTargetInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceTargetArgs and GetIamActionControlAssignmentsAssignmentResourceTargetOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceTargetInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceTargetArgs{...}
-type GetIamActionControlAssignmentsAssignmentResourceTargetInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceTargetOutput() GetIamActionControlAssignmentsAssignmentResourceTargetOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceTargetArgs struct {
-	// ID of the target account.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Assignment target type.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentResourceTargetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutput() GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceTargetOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceTargetArray and GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentResourceTargetArray{ GetIamActionControlAssignmentsAssignmentResourceTargetArgs{...} }
-type GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceTargetArray []GetIamActionControlAssignmentsAssignmentResourceTargetInput
-
-func (GetIamActionControlAssignmentsAssignmentResourceTargetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceTargetArray) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentResourceTargetArray) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceTargetOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceTargetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutput() GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
-	return o
-}
-
-// ID of the target account.
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceTarget) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Assignment target type.
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceTarget) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceTarget {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceTarget)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentResourceTargetOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentTarget struct {
-	// ID of the target account.
-	Id string `pulumi:"id"`
-	// Assignment target type.
-	Type string `pulumi:"type"`
-}
-
-// GetIamActionControlAssignmentsAssignmentTargetInput is an input type that accepts GetIamActionControlAssignmentsAssignmentTargetArgs and GetIamActionControlAssignmentsAssignmentTargetOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentTargetInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentTargetArgs{...}
-type GetIamActionControlAssignmentsAssignmentTargetInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentTargetOutput() GetIamActionControlAssignmentsAssignmentTargetOutput
-	ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentTargetOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentTargetArgs struct {
-	// ID of the target account.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Assignment target type.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetIamActionControlAssignmentsAssignmentTargetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentTargetArgs) ToGetIamActionControlAssignmentsAssignmentTargetOutput() GetIamActionControlAssignmentsAssignmentTargetOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentTargetArgs) ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentTargetOutput)
-}
-
-// GetIamActionControlAssignmentsAssignmentTargetArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentTargetArray and GetIamActionControlAssignmentsAssignmentTargetArrayOutput values.
-// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentTargetArrayInput` via:
-//
-//	GetIamActionControlAssignmentsAssignmentTargetArray{ GetIamActionControlAssignmentsAssignmentTargetArgs{...} }
-type GetIamActionControlAssignmentsAssignmentTargetArrayInput interface {
-	pulumi.Input
-
-	ToGetIamActionControlAssignmentsAssignmentTargetArrayOutput() GetIamActionControlAssignmentsAssignmentTargetArrayOutput
-	ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentTargetArrayOutput
-}
-
-type GetIamActionControlAssignmentsAssignmentTargetArray []GetIamActionControlAssignmentsAssignmentTargetInput
-
-func (GetIamActionControlAssignmentsAssignmentTargetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
-}
-
-func (i GetIamActionControlAssignmentsAssignmentTargetArray) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutput() GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
-	return i.ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIamActionControlAssignmentsAssignmentTargetArray) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentTargetArrayOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentTargetOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentTargetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentTargetOutput) ToGetIamActionControlAssignmentsAssignmentTargetOutput() GetIamActionControlAssignmentsAssignmentTargetOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentTargetOutput) ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetOutput {
-	return o
-}
-
-// ID of the target account.
-func (o GetIamActionControlAssignmentsAssignmentTargetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentTarget) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Assignment target type.
-func (o GetIamActionControlAssignmentsAssignmentTargetOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentTarget) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetIamActionControlAssignmentsAssignmentTargetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIamActionControlAssignmentsAssignmentTargetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
-}
-
-func (o GetIamActionControlAssignmentsAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutput() GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
-	return o
-}
-
-func (o GetIamActionControlAssignmentsAssignmentTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentTargetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentTarget {
-		return vs[0].([]GetIamActionControlAssignmentsAssignmentTarget)[vs[1].(int)]
-	}).(GetIamActionControlAssignmentsAssignmentTargetOutput)
-}
-
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplatePrimaryNetworkAttachmentInput)(nil)).Elem(), IsInstanceTemplatePrimaryNetworkAttachmentArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*IsInstanceTemplatePrimaryNetworkAttachmentPtrInput)(nil)).Elem(), IsInstanceTemplatePrimaryNetworkAttachmentArgs{})
@@ -67171,6 +68570,80 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*PiVolumeOnboardingResultsVolumeOnboardingFailureArrayInput)(nil)).Elem(), PiVolumeOnboardingResultsVolumeOnboardingFailureArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ResourceInstancePlanHistoryInput)(nil)).Elem(), ResourceInstancePlanHistoryArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ResourceInstancePlanHistoryArrayInput)(nil)).Elem(), ResourceInstancePlanHistoryArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationCodeEngineInput)(nil)).Elem(), SmCustomCredentialsConfigurationCodeEngineArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationCodeEnginePtrInput)(nil)).Elem(), SmCustomCredentialsConfigurationCodeEngineArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaInput)(nil)).Elem(), SmCustomCredentialsConfigurationSchemaArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaArrayInput)(nil)).Elem(), SmCustomCredentialsConfigurationSchemaArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaCredentialInput)(nil)).Elem(), SmCustomCredentialsConfigurationSchemaCredentialArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaCredentialArrayInput)(nil)).Elem(), SmCustomCredentialsConfigurationSchemaCredentialArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaParameterInput)(nil)).Elem(), SmCustomCredentialsConfigurationSchemaParameterArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsConfigurationSchemaParameterArrayInput)(nil)).Elem(), SmCustomCredentialsConfigurationSchemaParameterArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsSecretCredentialsContentInput)(nil)).Elem(), SmCustomCredentialsSecretCredentialsContentArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsSecretCredentialsContentArrayInput)(nil)).Elem(), SmCustomCredentialsSecretCredentialsContentArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsSecretParametersInput)(nil)).Elem(), SmCustomCredentialsSecretParametersArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsSecretParametersPtrInput)(nil)).Elem(), SmCustomCredentialsSecretParametersArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsSecretRotationInput)(nil)).Elem(), SmCustomCredentialsSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmCustomCredentialsSecretRotationPtrInput)(nil)).Elem(), SmCustomCredentialsSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmIamCredentialsSecretRotationInput)(nil)).Elem(), SmIamCredentialsSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmIamCredentialsSecretRotationPtrInput)(nil)).Elem(), SmIamCredentialsSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmImportedCertificateManagedCsrInput)(nil)).Elem(), SmImportedCertificateManagedCsrArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmImportedCertificateManagedCsrPtrInput)(nil)).Elem(), SmImportedCertificateManagedCsrArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmImportedCertificateValidityInput)(nil)).Elem(), SmImportedCertificateValidityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmImportedCertificateValidityArrayInput)(nil)).Elem(), SmImportedCertificateValidityArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationActionSignCsrDataInput)(nil)).Elem(), SmPrivateCertificateConfigurationActionSignCsrDataArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationActionSignCsrDataArrayInput)(nil)).Elem(), SmPrivateCertificateConfigurationActionSignCsrDataArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKeyInput)(nil)).Elem(), SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrInput)(nil)).Elem(), SmPrivateCertificateConfigurationIntermediateCaCryptoKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderInput)(nil)).Elem(), SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrInput)(nil)).Elem(), SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaDataInput)(nil)).Elem(), SmPrivateCertificateConfigurationIntermediateCaDataArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationIntermediateCaDataArrayInput)(nil)).Elem(), SmPrivateCertificateConfigurationIntermediateCaDataArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKeyInput)(nil)).Elem(), SmPrivateCertificateConfigurationRootCaCryptoKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKeyPtrInput)(nil)).Elem(), SmPrivateCertificateConfigurationRootCaCryptoKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKeyProviderInput)(nil)).Elem(), SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrInput)(nil)).Elem(), SmPrivateCertificateConfigurationRootCaCryptoKeyProviderArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaDataInput)(nil)).Elem(), SmPrivateCertificateConfigurationRootCaDataArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateConfigurationRootCaDataArrayInput)(nil)).Elem(), SmPrivateCertificateConfigurationRootCaDataArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateRotationInput)(nil)).Elem(), SmPrivateCertificateRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateRotationPtrInput)(nil)).Elem(), SmPrivateCertificateRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateValidityInput)(nil)).Elem(), SmPrivateCertificateValidityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPrivateCertificateValidityArrayInput)(nil)).Elem(), SmPrivateCertificateValidityArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateAkamaiInput)(nil)).Elem(), SmPublicCertificateAkamaiArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateAkamaiPtrInput)(nil)).Elem(), SmPublicCertificateAkamaiArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateAkamaiConfigInput)(nil)).Elem(), SmPublicCertificateAkamaiConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateAkamaiConfigPtrInput)(nil)).Elem(), SmPublicCertificateAkamaiConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateAkamaiEdgercInput)(nil)).Elem(), SmPublicCertificateAkamaiEdgercArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateAkamaiEdgercPtrInput)(nil)).Elem(), SmPublicCertificateAkamaiEdgercArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateIssuanceInfoInput)(nil)).Elem(), SmPublicCertificateIssuanceInfoArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateIssuanceInfoArrayInput)(nil)).Elem(), SmPublicCertificateIssuanceInfoArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateIssuanceInfoChallengeInput)(nil)).Elem(), SmPublicCertificateIssuanceInfoChallengeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateIssuanceInfoChallengeArrayInput)(nil)).Elem(), SmPublicCertificateIssuanceInfoChallengeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateRotationInput)(nil)).Elem(), SmPublicCertificateRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateRotationPtrInput)(nil)).Elem(), SmPublicCertificateRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateValidityInput)(nil)).Elem(), SmPublicCertificateValidityArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmPublicCertificateValidityArrayInput)(nil)).Elem(), SmPublicCertificateValidityArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretRotationInput)(nil)).Elem(), SmServiceCredentialsSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretRotationPtrInput)(nil)).Elem(), SmServiceCredentialsSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServicePtrInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamArrayInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamApikeyInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamApikeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamApikeyArrayInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamApikeyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamRoleInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamRoleArrayInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamRoleArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamServiceidInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamServiceidArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceIamServiceidArrayInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceIamServiceidArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceInstanceInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceInstanceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceInstancePtrInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceInstanceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceResourceKeyInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceResourceKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceResourceKeyArrayInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceResourceKeyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceRoleInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmServiceCredentialsSecretSourceServiceRolePtrInput)(nil)).Elem(), SmServiceCredentialsSecretSourceServiceRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmUsernamePasswordSecretPasswordGenerationPolicyInput)(nil)).Elem(), SmUsernamePasswordSecretPasswordGenerationPolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmUsernamePasswordSecretPasswordGenerationPolicyPtrInput)(nil)).Elem(), SmUsernamePasswordSecretPasswordGenerationPolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmUsernamePasswordSecretRotationInput)(nil)).Elem(), SmUsernamePasswordSecretRotationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SmUsernamePasswordSecretRotationPtrInput)(nil)).Elem(), SmUsernamePasswordSecretRotationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TgConnectionTunnelInput)(nil)).Elem(), TgConnectionTunnelArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TgConnectionTunnelArrayInput)(nil)).Elem(), TgConnectionTunnelArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*TgRouteReportConnectionInput)(nil)).Elem(), TgRouteReportConnectionArgs{})
@@ -67577,80 +69050,6 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsHistoryInput)(nil)).Elem(), GetIamAccountSettingsHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsHistoryArrayInput)(nil)).Elem(), GetIamAccountSettingsHistoryArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomainInput)(nil)).Elem(), GetIamAccountSettingsRestrictUserDomainArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomainArrayInput)(nil)).Elem(), GetIamAccountSettingsRestrictUserDomainArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfaInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingUserMfaArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingUserMfaArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContextInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentContextArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContextArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentContextArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistoryInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistoryArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentHistoryArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateHistoryInput)(nil)).Elem(), GetIamAccountSettingsTemplateHistoryArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateHistoryArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateHistoryArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsUserMfaInput)(nil)).Elem(), GetIamAccountSettingsUserMfaArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsUserMfaArrayInput)(nil)).Elem(), GetIamAccountSettingsUserMfaArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceInput)(nil)).Elem(), GetIamActionControlAssignmentResourceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreatedInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlResourceCreatedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceTargetInput)(nil)).Elem(), GetIamActionControlAssignmentResourceTargetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceTargetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTargetInput)(nil)).Elem(), GetIamActionControlAssignmentTargetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentTargetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTemplateInput)(nil)).Elem(), GetIamActionControlAssignmentTemplateArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTemplateArrayInput)(nil)).Elem(), GetIamActionControlAssignmentTemplateArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTargetInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceTargetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceTargetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTargetInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentTargetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentTargetArray{})
 	pulumi.RegisterOutputType(IsInstanceTemplatePrimaryNetworkAttachmentOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplatePrimaryNetworkAttachmentPtrOutput{})
 	pulumi.RegisterOutputType(IsInstanceTemplatePrimaryNetworkAttachmentDeletedOutput{})
@@ -68171,6 +69570,80 @@ func init() {
 	pulumi.RegisterOutputType(PiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput{})
 	pulumi.RegisterOutputType(ResourceInstancePlanHistoryOutput{})
 	pulumi.RegisterOutputType(ResourceInstancePlanHistoryArrayOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationCodeEngineOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationCodeEnginePtrOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationSchemaOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationSchemaArrayOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationSchemaCredentialOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationSchemaCredentialArrayOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationSchemaParameterOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsConfigurationSchemaParameterArrayOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsSecretCredentialsContentOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsSecretCredentialsContentArrayOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsSecretParametersOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsSecretParametersPtrOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsSecretRotationOutput{})
+	pulumi.RegisterOutputType(SmCustomCredentialsSecretRotationPtrOutput{})
+	pulumi.RegisterOutputType(SmIamCredentialsSecretRotationOutput{})
+	pulumi.RegisterOutputType(SmIamCredentialsSecretRotationPtrOutput{})
+	pulumi.RegisterOutputType(SmImportedCertificateManagedCsrOutput{})
+	pulumi.RegisterOutputType(SmImportedCertificateManagedCsrPtrOutput{})
+	pulumi.RegisterOutputType(SmImportedCertificateValidityOutput{})
+	pulumi.RegisterOutputType(SmImportedCertificateValidityArrayOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationActionSignCsrDataOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationActionSignCsrDataArrayOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyPtrOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationIntermediateCaCryptoKeyProviderPtrOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationIntermediateCaDataOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationIntermediateCaDataArrayOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationRootCaCryptoKeyOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationRootCaCryptoKeyPtrOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationRootCaCryptoKeyProviderPtrOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationRootCaDataOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateConfigurationRootCaDataArrayOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateRotationOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateRotationPtrOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateValidityOutput{})
+	pulumi.RegisterOutputType(SmPrivateCertificateValidityArrayOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateAkamaiOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateAkamaiPtrOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateAkamaiConfigOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateAkamaiConfigPtrOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateAkamaiEdgercOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateAkamaiEdgercPtrOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateIssuanceInfoOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateIssuanceInfoArrayOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateIssuanceInfoChallengeOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateIssuanceInfoChallengeArrayOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateRotationOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateRotationPtrOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateValidityOutput{})
+	pulumi.RegisterOutputType(SmPublicCertificateValidityArrayOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretRotationOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretRotationPtrOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServicePtrOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamArrayOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamApikeyOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamApikeyArrayOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamRoleOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamRoleArrayOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamServiceidOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceIamServiceidArrayOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceInstanceOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceInstancePtrOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceResourceKeyOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceResourceKeyArrayOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceRoleOutput{})
+	pulumi.RegisterOutputType(SmServiceCredentialsSecretSourceServiceRolePtrOutput{})
+	pulumi.RegisterOutputType(SmUsernamePasswordSecretPasswordGenerationPolicyOutput{})
+	pulumi.RegisterOutputType(SmUsernamePasswordSecretPasswordGenerationPolicyPtrOutput{})
+	pulumi.RegisterOutputType(SmUsernamePasswordSecretRotationOutput{})
+	pulumi.RegisterOutputType(SmUsernamePasswordSecretRotationPtrOutput{})
 	pulumi.RegisterOutputType(TgConnectionTunnelOutput{})
 	pulumi.RegisterOutputType(TgConnectionTunnelArrayOutput{})
 	pulumi.RegisterOutputType(TgRouteReportConnectionOutput{})
@@ -68577,78 +70050,4 @@ func init() {
 	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionArrayOutput{})
 	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeOutput{})
 	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsHistoryOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsHistoryArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsRestrictUserDomainOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsRestrictUserDomainArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingUserMfaOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentContextOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentContextArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentHistoryOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateHistoryOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateHistoryArrayOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsUserMfaOutput{})
-	pulumi.RegisterOutputType(GetIamAccountSettingsUserMfaArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceTargetOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceTargetArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentTargetOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentTargetArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentTemplateOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentTemplateArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceTargetOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentTargetOutput{})
-	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentTargetArrayOutput{})
 }

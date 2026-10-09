@@ -13,6 +13,14 @@ const (
 	defaultDiskSize = 200
 
 	imageNamePattern = "openshift-local-%s-%s"
+
+	smPullSecretSuffix    = "pull-secret"
+	smKubeAdminPassSuffix = "kubeadminpassword"
+	smDeveloperPassSuffix = "devpassword"
+
+	// smInstancePlan is the Secrets Manager plan used for ephemeral instances.
+	// Use "standard" if a trial instance already exists in the region.
+	smInstancePlan = "standard"
 )
 
 func imageName(version, arch string) string {

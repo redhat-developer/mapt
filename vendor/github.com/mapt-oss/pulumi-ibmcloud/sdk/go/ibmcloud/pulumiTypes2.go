@@ -13,6 +13,4596 @@ import (
 
 var _ = internal.GetEnvOrDefault
 
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService struct {
+	// List of accounts that the state applies to for the service identity type.
+	ExternalAllowedAccounts []string `pulumi:"externalAllowedAccounts"`
+	// The state of the service identity type.
+	State string `pulumi:"state"`
+}
+
+// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput` via:
+//
+//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs{...}
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs struct {
+	// List of accounts that the state applies to for the service identity type.
+	ExternalAllowedAccounts pulumi.StringArrayInput `pulumi:"externalAllowedAccounts"`
+	// The state of the service identity type.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
+	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput)
+}
+
+// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput` via:
+//
+//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray{ GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs{...} }
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray []GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
+	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
+	return o
+}
+
+// List of accounts that the state applies to for the service identity type.
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) ExternalAllowedAccounts() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService) []string {
+		return v.ExternalAllowedAccounts
+	}).(pulumi.StringArrayOutput)
+}
+
+// The state of the service identity type.
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService) string {
+		return v.State
+	}).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService {
+		return vs[0].([]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeService)[vs[1].(int)]
+	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId struct {
+	// List of accounts that the state applies to for the serviceId identity type.
+	ExternalAllowedAccounts []string `pulumi:"externalAllowedAccounts"`
+	// The state of the serviceId identity type.
+	State string `pulumi:"state"`
+}
+
+// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput` via:
+//
+//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs{...}
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs struct {
+	// List of accounts that the state applies to for the serviceId identity type.
+	ExternalAllowedAccounts pulumi.StringArrayInput `pulumi:"externalAllowedAccounts"`
+	// The state of the serviceId identity type.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
+	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput)
+}
+
+// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput` via:
+//
+//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray{ GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs{...} }
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray []GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
+	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
+	return o
+}
+
+// List of accounts that the state applies to for the serviceId identity type.
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) ExternalAllowedAccounts() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId) []string {
+		return v.ExternalAllowedAccounts
+	}).(pulumi.StringArrayOutput)
+}
+
+// The state of the serviceId identity type.
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId) string {
+		return v.State
+	}).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId {
+		return vs[0].([]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceId)[vs[1].(int)]
+	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser struct {
+	// List of accounts that the state applies to for the user identity type.
+	ExternalAllowedAccounts []string `pulumi:"externalAllowedAccounts"`
+	// The state of the user identity type.
+	State string `pulumi:"state"`
+}
+
+// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput` via:
+//
+//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs{...}
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs struct {
+	// List of accounts that the state applies to for the user identity type.
+	ExternalAllowedAccounts pulumi.StringArrayInput `pulumi:"externalAllowedAccounts"`
+	// The state of the user identity type.
+	State pulumi.StringInput `pulumi:"state"`
+}
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
+	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput)
+}
+
+// GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput is an input type that accepts GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray and GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput` via:
+//
+//	GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray{ GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs{...} }
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput
+	ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray []GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
+	return i.ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
+	return o
+}
+
+// List of accounts that the state applies to for the user identity type.
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) ExternalAllowedAccounts() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser) []string {
+		return v.ExternalAllowedAccounts
+	}).(pulumi.StringArrayOutput)
+}
+
+// The state of the user identity type.
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser) string {
+		return v.State
+	}).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput() GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) ToGetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser {
+		return vs[0].([]GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUser)[vs[1].(int)]
+	}).(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput)
+}
+
+type GetIamAccountSettingsHistory struct {
+	// Action of the history entry.
+	Action string `pulumi:"action"`
+	// IAM ID of the identity which triggered the action.
+	IamId string `pulumi:"iamId"`
+	// Account of the identity which triggered the action.
+	IamIdAccount string `pulumi:"iamIdAccount"`
+	// Message which summarizes the executed action.
+	Message string `pulumi:"message"`
+	// Params of the history entry.
+	Params []string `pulumi:"params"`
+	// Timestamp when the action was triggered.
+	Timestamp string `pulumi:"timestamp"`
+}
+
+// GetIamAccountSettingsHistoryInput is an input type that accepts GetIamAccountSettingsHistoryArgs and GetIamAccountSettingsHistoryOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsHistoryInput` via:
+//
+//	GetIamAccountSettingsHistoryArgs{...}
+type GetIamAccountSettingsHistoryInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsHistoryOutput() GetIamAccountSettingsHistoryOutput
+	ToGetIamAccountSettingsHistoryOutputWithContext(context.Context) GetIamAccountSettingsHistoryOutput
+}
+
+type GetIamAccountSettingsHistoryArgs struct {
+	// Action of the history entry.
+	Action pulumi.StringInput `pulumi:"action"`
+	// IAM ID of the identity which triggered the action.
+	IamId pulumi.StringInput `pulumi:"iamId"`
+	// Account of the identity which triggered the action.
+	IamIdAccount pulumi.StringInput `pulumi:"iamIdAccount"`
+	// Message which summarizes the executed action.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Params of the history entry.
+	Params pulumi.StringArrayInput `pulumi:"params"`
+	// Timestamp when the action was triggered.
+	Timestamp pulumi.StringInput `pulumi:"timestamp"`
+}
+
+func (GetIamAccountSettingsHistoryArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsHistory)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsHistoryArgs) ToGetIamAccountSettingsHistoryOutput() GetIamAccountSettingsHistoryOutput {
+	return i.ToGetIamAccountSettingsHistoryOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsHistoryArgs) ToGetIamAccountSettingsHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsHistoryOutput)
+}
+
+// GetIamAccountSettingsHistoryArrayInput is an input type that accepts GetIamAccountSettingsHistoryArray and GetIamAccountSettingsHistoryArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsHistoryArrayInput` via:
+//
+//	GetIamAccountSettingsHistoryArray{ GetIamAccountSettingsHistoryArgs{...} }
+type GetIamAccountSettingsHistoryArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsHistoryArrayOutput() GetIamAccountSettingsHistoryArrayOutput
+	ToGetIamAccountSettingsHistoryArrayOutputWithContext(context.Context) GetIamAccountSettingsHistoryArrayOutput
+}
+
+type GetIamAccountSettingsHistoryArray []GetIamAccountSettingsHistoryInput
+
+func (GetIamAccountSettingsHistoryArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsHistory)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsHistoryArray) ToGetIamAccountSettingsHistoryArrayOutput() GetIamAccountSettingsHistoryArrayOutput {
+	return i.ToGetIamAccountSettingsHistoryArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsHistoryArray) ToGetIamAccountSettingsHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsHistoryArrayOutput)
+}
+
+type GetIamAccountSettingsHistoryOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsHistoryOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsHistory)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsHistoryOutput) ToGetIamAccountSettingsHistoryOutput() GetIamAccountSettingsHistoryOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsHistoryOutput) ToGetIamAccountSettingsHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryOutput {
+	return o
+}
+
+// Action of the history entry.
+func (o GetIamAccountSettingsHistoryOutput) Action() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.Action }).(pulumi.StringOutput)
+}
+
+// IAM ID of the identity which triggered the action.
+func (o GetIamAccountSettingsHistoryOutput) IamId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.IamId }).(pulumi.StringOutput)
+}
+
+// Account of the identity which triggered the action.
+func (o GetIamAccountSettingsHistoryOutput) IamIdAccount() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.IamIdAccount }).(pulumi.StringOutput)
+}
+
+// Message which summarizes the executed action.
+func (o GetIamAccountSettingsHistoryOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Params of the history entry.
+func (o GetIamAccountSettingsHistoryOutput) Params() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
+}
+
+// Timestamp when the action was triggered.
+func (o GetIamAccountSettingsHistoryOutput) Timestamp() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsHistory) string { return v.Timestamp }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsHistoryArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsHistoryArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsHistory)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsHistoryArrayOutput) ToGetIamAccountSettingsHistoryArrayOutput() GetIamAccountSettingsHistoryArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsHistoryArrayOutput) ToGetIamAccountSettingsHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsHistoryArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsHistoryArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsHistoryOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsHistory {
+		return vs[0].([]GetIamAccountSettingsHistory)[vs[1].(int)]
+	}).(GetIamAccountSettingsHistoryOutput)
+}
+
+type GetIamAccountSettingsRestrictUserDomain struct {
+	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
+	InvitationEmailAllowPatterns []string `pulumi:"invitationEmailAllowPatterns"`
+	// The realm that the restrictions apply to.
+	RealmId string `pulumi:"realmId"`
+	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
+	RestrictInvitation bool `pulumi:"restrictInvitation"`
+}
+
+// GetIamAccountSettingsRestrictUserDomainInput is an input type that accepts GetIamAccountSettingsRestrictUserDomainArgs and GetIamAccountSettingsRestrictUserDomainOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsRestrictUserDomainInput` via:
+//
+//	GetIamAccountSettingsRestrictUserDomainArgs{...}
+type GetIamAccountSettingsRestrictUserDomainInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsRestrictUserDomainOutput() GetIamAccountSettingsRestrictUserDomainOutput
+	ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(context.Context) GetIamAccountSettingsRestrictUserDomainOutput
+}
+
+type GetIamAccountSettingsRestrictUserDomainArgs struct {
+	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
+	InvitationEmailAllowPatterns pulumi.StringArrayInput `pulumi:"invitationEmailAllowPatterns"`
+	// The realm that the restrictions apply to.
+	RealmId pulumi.StringInput `pulumi:"realmId"`
+	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
+	RestrictInvitation pulumi.BoolInput `pulumi:"restrictInvitation"`
+}
+
+func (GetIamAccountSettingsRestrictUserDomainArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsRestrictUserDomainArgs) ToGetIamAccountSettingsRestrictUserDomainOutput() GetIamAccountSettingsRestrictUserDomainOutput {
+	return i.ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsRestrictUserDomainArgs) ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsRestrictUserDomainOutput)
+}
+
+// GetIamAccountSettingsRestrictUserDomainArrayInput is an input type that accepts GetIamAccountSettingsRestrictUserDomainArray and GetIamAccountSettingsRestrictUserDomainArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsRestrictUserDomainArrayInput` via:
+//
+//	GetIamAccountSettingsRestrictUserDomainArray{ GetIamAccountSettingsRestrictUserDomainArgs{...} }
+type GetIamAccountSettingsRestrictUserDomainArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsRestrictUserDomainArrayOutput() GetIamAccountSettingsRestrictUserDomainArrayOutput
+	ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(context.Context) GetIamAccountSettingsRestrictUserDomainArrayOutput
+}
+
+type GetIamAccountSettingsRestrictUserDomainArray []GetIamAccountSettingsRestrictUserDomainInput
+
+func (GetIamAccountSettingsRestrictUserDomainArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsRestrictUserDomainArray) ToGetIamAccountSettingsRestrictUserDomainArrayOutput() GetIamAccountSettingsRestrictUserDomainArrayOutput {
+	return i.ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsRestrictUserDomainArray) ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsRestrictUserDomainArrayOutput)
+}
+
+type GetIamAccountSettingsRestrictUserDomainOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsRestrictUserDomainOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsRestrictUserDomainOutput) ToGetIamAccountSettingsRestrictUserDomainOutput() GetIamAccountSettingsRestrictUserDomainOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsRestrictUserDomainOutput) ToGetIamAccountSettingsRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainOutput {
+	return o
+}
+
+// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
+func (o GetIamAccountSettingsRestrictUserDomainOutput) InvitationEmailAllowPatterns() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsRestrictUserDomain) []string { return v.InvitationEmailAllowPatterns }).(pulumi.StringArrayOutput)
+}
+
+// The realm that the restrictions apply to.
+func (o GetIamAccountSettingsRestrictUserDomainOutput) RealmId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsRestrictUserDomain) string { return v.RealmId }).(pulumi.StringOutput)
+}
+
+// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
+func (o GetIamAccountSettingsRestrictUserDomainOutput) RestrictInvitation() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsRestrictUserDomain) bool { return v.RestrictInvitation }).(pulumi.BoolOutput)
+}
+
+type GetIamAccountSettingsRestrictUserDomainArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsRestrictUserDomainArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsRestrictUserDomain)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsRestrictUserDomainArrayOutput) ToGetIamAccountSettingsRestrictUserDomainArrayOutput() GetIamAccountSettingsRestrictUserDomainArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsRestrictUserDomainArrayOutput) ToGetIamAccountSettingsRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsRestrictUserDomainArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsRestrictUserDomainArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsRestrictUserDomainOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsRestrictUserDomain {
+		return vs[0].([]GetIamAccountSettingsRestrictUserDomain)[vs[1].(int)]
+	}).(GetIamAccountSettingsRestrictUserDomainOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSetting struct {
+	// Defines the IP addresses and subnets from which IAM tokens can be created for the account.
+	AllowedIpAddresses string `pulumi:"allowedIpAddresses"`
+	// Defines the max allowed sessions per identity required by the account. Valid values:  * Any whole number greater than 0  * NOT_SET - To unset account setting and use service default.
+	MaxSessionsPerIdentity string `pulumi:"maxSessionsPerIdentity"`
+	// Defines the MFA trait for the account. Valid values:  * NONE - No MFA trait set  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
+	Mfa string `pulumi:"mfa"`
+	// Defines whether or not creating platform API keys is access controlled. Valid values:  * RESTRICTED - to apply access control  * NOT_RESTRICTED - to remove access control  * NOT_SET - to 'unset' a previous set value.
+	RestrictCreatePlatformApikey string `pulumi:"restrictCreatePlatformApikey"`
+	// Defines whether or not creating a service ID is access controlled. Valid values:  * RESTRICTED - only users assigned the 'Service ID creator' role on the IAM Identity Service can create service IDs, including the account owner  * NOT_RESTRICTED - all members of an account can create service IDs  * NOT_SET - to 'unset' a previous set value.
+	RestrictCreateServiceId string                                                          `pulumi:"restrictCreateServiceId"`
+	RestrictUserDomains     []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain `pulumi:"restrictUserDomains"`
+	// Defines whether or not user visibility is access controlled. Valid values:  * RESTRICTED - users can view only specific types of users in the account, such as those the user has invited to the account, or descendants of those users based on the classic infrastructure hierarchy  * NOT_RESTRICTED - any user in the account can view other users from the Users page in IBM Cloud console  * NOT_SET - to 'unset' a previous set value.
+	RestrictUserListVisibility string `pulumi:"restrictUserListVisibility"`
+	// Defines the session expiration in seconds for the account. Valid values:  * Any whole number between between '900' and '86400'  * NOT_SET - To unset account setting and use service default.
+	SessionExpirationInSeconds string `pulumi:"sessionExpirationInSeconds"`
+	// Defines the period of time in seconds in which a session will be invalidated due to inactivity. Valid values:  * Any whole number between '900' and '7200'  * NOT_SET - To unset account setting and use service default.
+	SessionInvalidationInSeconds string `pulumi:"sessionInvalidationInSeconds"`
+	// Defines the access token expiration in seconds. Valid values:  * Any whole number between '900' and '3600'  * NOT_SET - To unset account setting and use service default.
+	SystemAccessTokenExpirationInSeconds string `pulumi:"systemAccessTokenExpirationInSeconds"`
+	// Defines the refresh token expiration in seconds. Valid values:  * Any whole number between '900' and '259200'  * NOT_SET - To unset account setting and use service default.
+	SystemRefreshTokenExpirationInSeconds string `pulumi:"systemRefreshTokenExpirationInSeconds"`
+	// List of users that are exempted from the MFA requirement of the account.
+	UserMfas []GetIamAccountSettingsTemplateAccountSettingUserMfa `pulumi:"userMfas"`
+}
+
+// GetIamAccountSettingsTemplateAccountSettingInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingArgs and GetIamAccountSettingsTemplateAccountSettingOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingArgs{...}
+type GetIamAccountSettingsTemplateAccountSettingInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingOutput() GetIamAccountSettingsTemplateAccountSettingOutput
+	ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingArgs struct {
+	// Defines the IP addresses and subnets from which IAM tokens can be created for the account.
+	AllowedIpAddresses pulumi.StringInput `pulumi:"allowedIpAddresses"`
+	// Defines the max allowed sessions per identity required by the account. Valid values:  * Any whole number greater than 0  * NOT_SET - To unset account setting and use service default.
+	MaxSessionsPerIdentity pulumi.StringInput `pulumi:"maxSessionsPerIdentity"`
+	// Defines the MFA trait for the account. Valid values:  * NONE - No MFA trait set  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
+	Mfa pulumi.StringInput `pulumi:"mfa"`
+	// Defines whether or not creating platform API keys is access controlled. Valid values:  * RESTRICTED - to apply access control  * NOT_RESTRICTED - to remove access control  * NOT_SET - to 'unset' a previous set value.
+	RestrictCreatePlatformApikey pulumi.StringInput `pulumi:"restrictCreatePlatformApikey"`
+	// Defines whether or not creating a service ID is access controlled. Valid values:  * RESTRICTED - only users assigned the 'Service ID creator' role on the IAM Identity Service can create service IDs, including the account owner  * NOT_RESTRICTED - all members of an account can create service IDs  * NOT_SET - to 'unset' a previous set value.
+	RestrictCreateServiceId pulumi.StringInput                                                      `pulumi:"restrictCreateServiceId"`
+	RestrictUserDomains     GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput `pulumi:"restrictUserDomains"`
+	// Defines whether or not user visibility is access controlled. Valid values:  * RESTRICTED - users can view only specific types of users in the account, such as those the user has invited to the account, or descendants of those users based on the classic infrastructure hierarchy  * NOT_RESTRICTED - any user in the account can view other users from the Users page in IBM Cloud console  * NOT_SET - to 'unset' a previous set value.
+	RestrictUserListVisibility pulumi.StringInput `pulumi:"restrictUserListVisibility"`
+	// Defines the session expiration in seconds for the account. Valid values:  * Any whole number between between '900' and '86400'  * NOT_SET - To unset account setting and use service default.
+	SessionExpirationInSeconds pulumi.StringInput `pulumi:"sessionExpirationInSeconds"`
+	// Defines the period of time in seconds in which a session will be invalidated due to inactivity. Valid values:  * Any whole number between '900' and '7200'  * NOT_SET - To unset account setting and use service default.
+	SessionInvalidationInSeconds pulumi.StringInput `pulumi:"sessionInvalidationInSeconds"`
+	// Defines the access token expiration in seconds. Valid values:  * Any whole number between '900' and '3600'  * NOT_SET - To unset account setting and use service default.
+	SystemAccessTokenExpirationInSeconds pulumi.StringInput `pulumi:"systemAccessTokenExpirationInSeconds"`
+	// Defines the refresh token expiration in seconds. Valid values:  * Any whole number between '900' and '259200'  * NOT_SET - To unset account setting and use service default.
+	SystemRefreshTokenExpirationInSeconds pulumi.StringInput `pulumi:"systemRefreshTokenExpirationInSeconds"`
+	// List of users that are exempted from the MFA requirement of the account.
+	UserMfas GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput `pulumi:"userMfas"`
+}
+
+func (GetIamAccountSettingsTemplateAccountSettingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingArgs) ToGetIamAccountSettingsTemplateAccountSettingOutput() GetIamAccountSettingsTemplateAccountSettingOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingArgs) ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingOutput)
+}
+
+// GetIamAccountSettingsTemplateAccountSettingArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingArray and GetIamAccountSettingsTemplateAccountSettingArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingArray{ GetIamAccountSettingsTemplateAccountSettingArgs{...} }
+type GetIamAccountSettingsTemplateAccountSettingArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingArrayOutput() GetIamAccountSettingsTemplateAccountSettingArrayOutput
+	ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingArray []GetIamAccountSettingsTemplateAccountSettingInput
+
+func (GetIamAccountSettingsTemplateAccountSettingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingArray) ToGetIamAccountSettingsTemplateAccountSettingArrayOutput() GetIamAccountSettingsTemplateAccountSettingArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingArray) ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) ToGetIamAccountSettingsTemplateAccountSettingOutput() GetIamAccountSettingsTemplateAccountSettingOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) ToGetIamAccountSettingsTemplateAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingOutput {
+	return o
+}
+
+// Defines the IP addresses and subnets from which IAM tokens can be created for the account.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) AllowedIpAddresses() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.AllowedIpAddresses }).(pulumi.StringOutput)
+}
+
+// Defines the max allowed sessions per identity required by the account. Valid values:  * Any whole number greater than 0  * NOT_SET - To unset account setting and use service default.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) MaxSessionsPerIdentity() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.MaxSessionsPerIdentity }).(pulumi.StringOutput)
+}
+
+// Defines the MFA trait for the account. Valid values:  * NONE - No MFA trait set  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) Mfa() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.Mfa }).(pulumi.StringOutput)
+}
+
+// Defines whether or not creating platform API keys is access controlled. Valid values:  * RESTRICTED - to apply access control  * NOT_RESTRICTED - to remove access control  * NOT_SET - to 'unset' a previous set value.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictCreatePlatformApikey() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.RestrictCreatePlatformApikey }).(pulumi.StringOutput)
+}
+
+// Defines whether or not creating a service ID is access controlled. Valid values:  * RESTRICTED - only users assigned the 'Service ID creator' role on the IAM Identity Service can create service IDs, including the account owner  * NOT_RESTRICTED - all members of an account can create service IDs  * NOT_SET - to 'unset' a previous set value.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictCreateServiceId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.RestrictCreateServiceId }).(pulumi.StringOutput)
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictUserDomains() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain {
+		return v.RestrictUserDomains
+	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput)
+}
+
+// Defines whether or not user visibility is access controlled. Valid values:  * RESTRICTED - users can view only specific types of users in the account, such as those the user has invited to the account, or descendants of those users based on the classic infrastructure hierarchy  * NOT_RESTRICTED - any user in the account can view other users from the Users page in IBM Cloud console  * NOT_SET - to 'unset' a previous set value.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) RestrictUserListVisibility() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.RestrictUserListVisibility }).(pulumi.StringOutput)
+}
+
+// Defines the session expiration in seconds for the account. Valid values:  * Any whole number between between '900' and '86400'  * NOT_SET - To unset account setting and use service default.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) SessionExpirationInSeconds() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.SessionExpirationInSeconds }).(pulumi.StringOutput)
+}
+
+// Defines the period of time in seconds in which a session will be invalidated due to inactivity. Valid values:  * Any whole number between '900' and '7200'  * NOT_SET - To unset account setting and use service default.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) SessionInvalidationInSeconds() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string { return v.SessionInvalidationInSeconds }).(pulumi.StringOutput)
+}
+
+// Defines the access token expiration in seconds. Valid values:  * Any whole number between '900' and '3600'  * NOT_SET - To unset account setting and use service default.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) SystemAccessTokenExpirationInSeconds() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string {
+		return v.SystemAccessTokenExpirationInSeconds
+	}).(pulumi.StringOutput)
+}
+
+// Defines the refresh token expiration in seconds. Valid values:  * Any whole number between '900' and '259200'  * NOT_SET - To unset account setting and use service default.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) SystemRefreshTokenExpirationInSeconds() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) string {
+		return v.SystemRefreshTokenExpirationInSeconds
+	}).(pulumi.StringOutput)
+}
+
+// List of users that are exempted from the MFA requirement of the account.
+func (o GetIamAccountSettingsTemplateAccountSettingOutput) UserMfas() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSetting) []GetIamAccountSettingsTemplateAccountSettingUserMfa {
+		return v.UserMfas
+	}).(GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSetting)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingArrayOutput() GetIamAccountSettingsTemplateAccountSettingArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSetting {
+		return vs[0].([]GetIamAccountSettingsTemplateAccountSetting)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAccountSettingOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain struct {
+	AccountSufficient bool `pulumi:"accountSufficient"`
+	// Defines if account invitations are restricted to specified domains. To remove an entry for a realm_id, perform an update (PUT) request with only the realmId set.
+	Restrictions []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction `pulumi:"restrictions"`
+}
+
+// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs{...}
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs struct {
+	AccountSufficient pulumi.BoolInput `pulumi:"accountSufficient"`
+	// Defines if account invitations are restricted to specified domains. To remove an entry for a realm_id, perform an update (PUT) request with only the realmId set.
+	Restrictions GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput `pulumi:"restrictions"`
+}
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput)
+}
+
+// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray{ GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs{...} }
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) AccountSufficient() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain) bool { return v.AccountSufficient }).(pulumi.BoolOutput)
+}
+
+// Defines if account invitations are restricted to specified domains. To remove an entry for a realm_id, perform an update (PUT) request with only the realmId set.
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput) Restrictions() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain) []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction {
+		return v.Restrictions
+	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain {
+		return vs[0].([]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomain)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction struct {
+	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
+	InvitationEmailAllowPatterns []string `pulumi:"invitationEmailAllowPatterns"`
+	// The realm that the restrictions apply to.
+	RealmId string `pulumi:"realmId"`
+	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
+	RestrictInvitation bool `pulumi:"restrictInvitation"`
+}
+
+// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs{...}
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs struct {
+	// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
+	InvitationEmailAllowPatterns pulumi.StringArrayInput `pulumi:"invitationEmailAllowPatterns"`
+	// The realm that the restrictions apply to.
+	RealmId pulumi.StringInput `pulumi:"realmId"`
+	// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
+	RestrictInvitation pulumi.BoolInput `pulumi:"restrictInvitation"`
+}
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput)
+}
+
+// GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray and GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray{ GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs{...} }
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput
+	ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray []GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
+	return o
+}
+
+// The list of allowed email patterns. Wildcard syntax is supported, '*' represents any sequence of zero or more characters in the string, except for '.' and '@'. The sequence ends if a '.' or '@' was found. '**' represents any sequence of zero or more characters in the string - without limit.
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) InvitationEmailAllowPatterns() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction) []string {
+		return v.InvitationEmailAllowPatterns
+	}).(pulumi.StringArrayOutput)
+}
+
+// The realm that the restrictions apply to.
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) RealmId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction) string {
+		return v.RealmId
+	}).(pulumi.StringOutput)
+}
+
+// When true invites will only be possible to the domain patterns provided, otherwise invites are unrestricted.
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput) RestrictInvitation() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction) bool {
+		return v.RestrictInvitation
+	}).(pulumi.BoolOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput() GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction {
+		return vs[0].([]GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestriction)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingUserMfa struct {
+	// The iamId of the user.
+	IamId string `pulumi:"iamId"`
+	// Defines the MFA requirement for the user. Valid values:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
+	Mfa string `pulumi:"mfa"`
+}
+
+// GetIamAccountSettingsTemplateAccountSettingUserMfaInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingUserMfaArgs and GetIamAccountSettingsTemplateAccountSettingUserMfaOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingUserMfaInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingUserMfaArgs{...}
+type GetIamAccountSettingsTemplateAccountSettingUserMfaInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaOutput
+	ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingUserMfaArgs struct {
+	// The iamId of the user.
+	IamId pulumi.StringInput `pulumi:"iamId"`
+	// Defines the MFA requirement for the user. Valid values:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
+	Mfa pulumi.StringInput `pulumi:"mfa"`
+}
+
+func (GetIamAccountSettingsTemplateAccountSettingUserMfaArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArgs) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArgs) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingUserMfaOutput)
+}
+
+// GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput is an input type that accepts GetIamAccountSettingsTemplateAccountSettingUserMfaArray and GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAccountSettingUserMfaArray{ GetIamAccountSettingsTemplateAccountSettingUserMfaArgs{...} }
+type GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput
+	ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAccountSettingUserMfaArray []GetIamAccountSettingsTemplateAccountSettingUserMfaInput
+
+func (GetIamAccountSettingsTemplateAccountSettingUserMfaArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArray) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAccountSettingUserMfaArray) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingUserMfaOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
+	return o
+}
+
+// The iamId of the user.
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) IamId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingUserMfa) string { return v.IamId }).(pulumi.StringOutput)
+}
+
+// Defines the MFA requirement for the user. Valid values:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - U2F MFA for all users.
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaOutput) Mfa() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAccountSettingUserMfa) string { return v.Mfa }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAccountSettingUserMfa)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput() GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) ToGetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAccountSettingUserMfaOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAccountSettingUserMfa {
+		return vs[0].([]GetIamAccountSettingsTemplateAccountSettingUserMfa)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAccountSettingUserMfaOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentContext struct {
+	// The cluster name.
+	ClusterName string `pulumi:"clusterName"`
+	// The elapsed time in msec.
+	ElapsedTime string `pulumi:"elapsedTime"`
+	// The finish time of the request.
+	EndTime string `pulumi:"endTime"`
+	// The host of the server instance processing the request.
+	Host string `pulumi:"host"`
+	// The instance ID of the server instance processing the request.
+	InstanceId string `pulumi:"instanceId"`
+	// The operation of the inbound REST request.
+	Operation string `pulumi:"operation"`
+	// The start time of the request.
+	StartTime string `pulumi:"startTime"`
+	// The thread ID of the server instance processing the request.
+	ThreadId string `pulumi:"threadId"`
+	// The transaction ID of the inbound REST request.
+	TransactionId string `pulumi:"transactionId"`
+	// The URL of that cluster.
+	Url string `pulumi:"url"`
+	// The user agent of the inbound REST request.
+	UserAgent string `pulumi:"userAgent"`
+}
+
+// GetIamAccountSettingsTemplateAssignmentContextInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentContextArgs and GetIamAccountSettingsTemplateAssignmentContextOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentContextInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentContextArgs{...}
+type GetIamAccountSettingsTemplateAssignmentContextInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentContextOutput() GetIamAccountSettingsTemplateAssignmentContextOutput
+	ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentContextOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentContextArgs struct {
+	// The cluster name.
+	ClusterName pulumi.StringInput `pulumi:"clusterName"`
+	// The elapsed time in msec.
+	ElapsedTime pulumi.StringInput `pulumi:"elapsedTime"`
+	// The finish time of the request.
+	EndTime pulumi.StringInput `pulumi:"endTime"`
+	// The host of the server instance processing the request.
+	Host pulumi.StringInput `pulumi:"host"`
+	// The instance ID of the server instance processing the request.
+	InstanceId pulumi.StringInput `pulumi:"instanceId"`
+	// The operation of the inbound REST request.
+	Operation pulumi.StringInput `pulumi:"operation"`
+	// The start time of the request.
+	StartTime pulumi.StringInput `pulumi:"startTime"`
+	// The thread ID of the server instance processing the request.
+	ThreadId pulumi.StringInput `pulumi:"threadId"`
+	// The transaction ID of the inbound REST request.
+	TransactionId pulumi.StringInput `pulumi:"transactionId"`
+	// The URL of that cluster.
+	Url pulumi.StringInput `pulumi:"url"`
+	// The user agent of the inbound REST request.
+	UserAgent pulumi.StringInput `pulumi:"userAgent"`
+}
+
+func (GetIamAccountSettingsTemplateAssignmentContextArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentContextArgs) ToGetIamAccountSettingsTemplateAssignmentContextOutput() GetIamAccountSettingsTemplateAssignmentContextOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentContextArgs) ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentContextOutput)
+}
+
+// GetIamAccountSettingsTemplateAssignmentContextArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentContextArray and GetIamAccountSettingsTemplateAssignmentContextArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentContextArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentContextArray{ GetIamAccountSettingsTemplateAssignmentContextArgs{...} }
+type GetIamAccountSettingsTemplateAssignmentContextArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentContextArrayOutput() GetIamAccountSettingsTemplateAssignmentContextArrayOutput
+	ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentContextArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentContextArray []GetIamAccountSettingsTemplateAssignmentContextInput
+
+func (GetIamAccountSettingsTemplateAssignmentContextArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentContextArray) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutput() GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentContextArray) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentContextArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentContextOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentContextOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ToGetIamAccountSettingsTemplateAssignmentContextOutput() GetIamAccountSettingsTemplateAssignmentContextOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ToGetIamAccountSettingsTemplateAssignmentContextOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextOutput {
+	return o
+}
+
+// The cluster name.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ClusterName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.ClusterName }).(pulumi.StringOutput)
+}
+
+// The elapsed time in msec.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ElapsedTime() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.ElapsedTime }).(pulumi.StringOutput)
+}
+
+// The finish time of the request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) EndTime() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.EndTime }).(pulumi.StringOutput)
+}
+
+// The host of the server instance processing the request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) Host() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.Host }).(pulumi.StringOutput)
+}
+
+// The instance ID of the server instance processing the request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) InstanceId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.InstanceId }).(pulumi.StringOutput)
+}
+
+// The operation of the inbound REST request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) Operation() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.Operation }).(pulumi.StringOutput)
+}
+
+// The start time of the request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) StartTime() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.StartTime }).(pulumi.StringOutput)
+}
+
+// The thread ID of the server instance processing the request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) ThreadId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.ThreadId }).(pulumi.StringOutput)
+}
+
+// The transaction ID of the inbound REST request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) TransactionId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.TransactionId }).(pulumi.StringOutput)
+}
+
+// The URL of that cluster.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) Url() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.Url }).(pulumi.StringOutput)
+}
+
+// The user agent of the inbound REST request.
+func (o GetIamAccountSettingsTemplateAssignmentContextOutput) UserAgent() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentContext) string { return v.UserAgent }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentContextArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentContextArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentContext)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentContextArrayOutput) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutput() GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentContextArrayOutput) ToGetIamAccountSettingsTemplateAssignmentContextArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentContextArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentContextArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentContextOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentContext {
+		return vs[0].([]GetIamAccountSettingsTemplateAssignmentContext)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAssignmentContextOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentHistory struct {
+	// Action of the history entry.
+	Action string `pulumi:"action"`
+	// IAM ID of the identity which triggered the action.
+	IamId string `pulumi:"iamId"`
+	// Account of the identity which triggered the action.
+	IamIdAccount string `pulumi:"iamIdAccount"`
+	// Message which summarizes the executed action.
+	Message string `pulumi:"message"`
+	// Params of the history entry.
+	Params []string `pulumi:"params"`
+	// Timestamp when the action was triggered.
+	Timestamp string `pulumi:"timestamp"`
+}
+
+// GetIamAccountSettingsTemplateAssignmentHistoryInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentHistoryArgs and GetIamAccountSettingsTemplateAssignmentHistoryOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentHistoryInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentHistoryArgs{...}
+type GetIamAccountSettingsTemplateAssignmentHistoryInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentHistoryOutput() GetIamAccountSettingsTemplateAssignmentHistoryOutput
+	ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentHistoryOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentHistoryArgs struct {
+	// Action of the history entry.
+	Action pulumi.StringInput `pulumi:"action"`
+	// IAM ID of the identity which triggered the action.
+	IamId pulumi.StringInput `pulumi:"iamId"`
+	// Account of the identity which triggered the action.
+	IamIdAccount pulumi.StringInput `pulumi:"iamIdAccount"`
+	// Message which summarizes the executed action.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Params of the history entry.
+	Params pulumi.StringArrayInput `pulumi:"params"`
+	// Timestamp when the action was triggered.
+	Timestamp pulumi.StringInput `pulumi:"timestamp"`
+}
+
+func (GetIamAccountSettingsTemplateAssignmentHistoryArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentHistoryArgs) ToGetIamAccountSettingsTemplateAssignmentHistoryOutput() GetIamAccountSettingsTemplateAssignmentHistoryOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentHistoryArgs) ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentHistoryOutput)
+}
+
+// GetIamAccountSettingsTemplateAssignmentHistoryArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentHistoryArray and GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentHistoryArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentHistoryArray{ GetIamAccountSettingsTemplateAssignmentHistoryArgs{...} }
+type GetIamAccountSettingsTemplateAssignmentHistoryArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutput() GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput
+	ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentHistoryArray []GetIamAccountSettingsTemplateAssignmentHistoryInput
+
+func (GetIamAccountSettingsTemplateAssignmentHistoryArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentHistoryArray) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutput() GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentHistoryArray) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentHistoryOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentHistoryOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryOutput() GetIamAccountSettingsTemplateAssignmentHistoryOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryOutput {
+	return o
+}
+
+// Action of the history entry.
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Action() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.Action }).(pulumi.StringOutput)
+}
+
+// IAM ID of the identity which triggered the action.
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) IamId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.IamId }).(pulumi.StringOutput)
+}
+
+// Account of the identity which triggered the action.
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) IamIdAccount() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.IamIdAccount }).(pulumi.StringOutput)
+}
+
+// Message which summarizes the executed action.
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Params of the history entry.
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Params() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
+}
+
+// Timestamp when the action was triggered.
+func (o GetIamAccountSettingsTemplateAssignmentHistoryOutput) Timestamp() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentHistory) string { return v.Timestamp }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentHistory)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutput() GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) ToGetIamAccountSettingsTemplateAssignmentHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentHistoryOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentHistory {
+		return vs[0].([]GetIamAccountSettingsTemplateAssignmentHistory)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAssignmentHistoryOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResource struct {
+	AccountSettings []GetIamAccountSettingsTemplateAssignmentResourceAccountSetting `pulumi:"accountSettings"`
+	// Target account where the IAM resource is created.
+	Target string `pulumi:"target"`
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceArgs and GetIamAccountSettingsTemplateAssignmentResourceOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceArgs{...}
+type GetIamAccountSettingsTemplateAssignmentResourceInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceOutput() GetIamAccountSettingsTemplateAssignmentResourceOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceArgs struct {
+	AccountSettings GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput `pulumi:"accountSettings"`
+	// Target account where the IAM resource is created.
+	Target pulumi.StringInput `pulumi:"target"`
+}
+
+func (GetIamAccountSettingsTemplateAssignmentResourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceArgs) ToGetIamAccountSettingsTemplateAssignmentResourceOutput() GetIamAccountSettingsTemplateAssignmentResourceOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceArgs) ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceOutput)
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceArray and GetIamAccountSettingsTemplateAssignmentResourceArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceArray{ GetIamAccountSettingsTemplateAssignmentResourceArgs{...} }
+type GetIamAccountSettingsTemplateAssignmentResourceArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceArrayOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceArray []GetIamAccountSettingsTemplateAssignmentResourceInput
+
+func (GetIamAccountSettingsTemplateAssignmentResourceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceArray) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceArray) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) ToGetIamAccountSettingsTemplateAssignmentResourceOutput() GetIamAccountSettingsTemplateAssignmentResourceOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) ToGetIamAccountSettingsTemplateAssignmentResourceOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) AccountSettings() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResource) []GetIamAccountSettingsTemplateAssignmentResourceAccountSetting {
+		return v.AccountSettings
+	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput)
+}
+
+// Target account where the IAM resource is created.
+func (o GetIamAccountSettingsTemplateAssignmentResourceOutput) Target() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResource) string { return v.Target }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResource)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResource {
+		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResource)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAssignmentResourceOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSetting struct {
+	// Body parameters for assignment error.
+	ErrorMessages []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage `pulumi:"errorMessages"`
+	// Policy Template Id, only returned for a profile assignment with policy references.
+	Id string `pulumi:"id"`
+	// Body parameters for created resource.
+	ResourceCreateds []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated `pulumi:"resourceCreateds"`
+	// Status for the target account's assignment.
+	Status string `pulumi:"status"`
+	// Policy version, only returned for a profile assignment with policy references.
+	Version string `pulumi:"version"`
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{...}
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs struct {
+	// Body parameters for assignment error.
+	ErrorMessages GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput `pulumi:"errorMessages"`
+	// Policy Template Id, only returned for a profile assignment with policy references.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Body parameters for created resource.
+	ResourceCreateds GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput `pulumi:"resourceCreateds"`
+	// Status for the target account's assignment.
+	Status pulumi.StringInput `pulumi:"status"`
+	// Policy version, only returned for a profile assignment with policy references.
+	Version pulumi.StringInput `pulumi:"version"`
+}
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput)
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray{ GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{...} }
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
+	return o
+}
+
+// Body parameters for assignment error.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ErrorMessages() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage {
+		return v.ErrorMessages
+	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput)
+}
+
+// Policy Template Id, only returned for a profile assignment with policy references.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Body parameters for created resource.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) ResourceCreateds() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated {
+		return v.ResourceCreateds
+	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput)
+}
+
+// Status for the target account's assignment.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) string { return v.Status }).(pulumi.StringOutput)
+}
+
+// Policy version, only returned for a profile assignment with policy references.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput) Version() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSetting) string { return v.Version }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResourceAccountSetting {
+		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResourceAccountSetting)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage struct {
+	// Internal error code.
+	ErrorCode string `pulumi:"errorCode"`
+	// Error message detailing the nature of the error.
+	Message string `pulumi:"message"`
+	// Name of the error.
+	Name string `pulumi:"name"`
+	// Internal status code for the error.
+	StatusCode string `pulumi:"statusCode"`
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs{...}
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs struct {
+	// Internal error code.
+	ErrorCode pulumi.StringInput `pulumi:"errorCode"`
+	// Error message detailing the nature of the error.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Name of the error.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Internal status code for the error.
+	StatusCode pulumi.StringInput `pulumi:"statusCode"`
+}
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput)
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray{ GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs{...} }
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
+	return o
+}
+
+// Internal error code.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) ErrorCode() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
+		return v.ErrorCode
+	}).(pulumi.StringOutput)
+}
+
+// Error message detailing the nature of the error.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
+		return v.Message
+	}).(pulumi.StringOutput)
+}
+
+// Name of the error.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
+		return v.Name
+	}).(pulumi.StringOutput)
+}
+
+// Internal status code for the error.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput) StatusCode() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage) string {
+		return v.StatusCode
+	}).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage {
+		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessage)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated struct {
+	// Id of the created resource.
+	Id string `pulumi:"id"`
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{...}
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs struct {
+	// Id of the created resource.
+	Id pulumi.StringInput `pulumi:"id"`
+}
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput)
+}
+
+// GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput is an input type that accepts GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray and GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray{ GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{...} }
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput
+	ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray []GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
+	return o
+}
+
+// Id of the created resource.
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated) string {
+		return v.Id
+	}).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput() GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) ToGetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated {
+		return vs[0].([]GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreated)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput)
+}
+
+type GetIamAccountSettingsTemplateHistory struct {
+	// Action of the history entry.
+	Action string `pulumi:"action"`
+	// IAM ID of the identity which triggered the action.
+	IamId string `pulumi:"iamId"`
+	// Account of the identity which triggered the action.
+	IamIdAccount string `pulumi:"iamIdAccount"`
+	// Message which summarizes the executed action.
+	Message string `pulumi:"message"`
+	// Params of the history entry.
+	Params []string `pulumi:"params"`
+	// Timestamp when the action was triggered.
+	Timestamp string `pulumi:"timestamp"`
+}
+
+// GetIamAccountSettingsTemplateHistoryInput is an input type that accepts GetIamAccountSettingsTemplateHistoryArgs and GetIamAccountSettingsTemplateHistoryOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateHistoryInput` via:
+//
+//	GetIamAccountSettingsTemplateHistoryArgs{...}
+type GetIamAccountSettingsTemplateHistoryInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateHistoryOutput() GetIamAccountSettingsTemplateHistoryOutput
+	ToGetIamAccountSettingsTemplateHistoryOutputWithContext(context.Context) GetIamAccountSettingsTemplateHistoryOutput
+}
+
+type GetIamAccountSettingsTemplateHistoryArgs struct {
+	// Action of the history entry.
+	Action pulumi.StringInput `pulumi:"action"`
+	// IAM ID of the identity which triggered the action.
+	IamId pulumi.StringInput `pulumi:"iamId"`
+	// Account of the identity which triggered the action.
+	IamIdAccount pulumi.StringInput `pulumi:"iamIdAccount"`
+	// Message which summarizes the executed action.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Params of the history entry.
+	Params pulumi.StringArrayInput `pulumi:"params"`
+	// Timestamp when the action was triggered.
+	Timestamp pulumi.StringInput `pulumi:"timestamp"`
+}
+
+func (GetIamAccountSettingsTemplateHistoryArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateHistory)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateHistoryArgs) ToGetIamAccountSettingsTemplateHistoryOutput() GetIamAccountSettingsTemplateHistoryOutput {
+	return i.ToGetIamAccountSettingsTemplateHistoryOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateHistoryArgs) ToGetIamAccountSettingsTemplateHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateHistoryOutput)
+}
+
+// GetIamAccountSettingsTemplateHistoryArrayInput is an input type that accepts GetIamAccountSettingsTemplateHistoryArray and GetIamAccountSettingsTemplateHistoryArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsTemplateHistoryArrayInput` via:
+//
+//	GetIamAccountSettingsTemplateHistoryArray{ GetIamAccountSettingsTemplateHistoryArgs{...} }
+type GetIamAccountSettingsTemplateHistoryArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsTemplateHistoryArrayOutput() GetIamAccountSettingsTemplateHistoryArrayOutput
+	ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(context.Context) GetIamAccountSettingsTemplateHistoryArrayOutput
+}
+
+type GetIamAccountSettingsTemplateHistoryArray []GetIamAccountSettingsTemplateHistoryInput
+
+func (GetIamAccountSettingsTemplateHistoryArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateHistory)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsTemplateHistoryArray) ToGetIamAccountSettingsTemplateHistoryArrayOutput() GetIamAccountSettingsTemplateHistoryArrayOutput {
+	return i.ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsTemplateHistoryArray) ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsTemplateHistoryArrayOutput)
+}
+
+type GetIamAccountSettingsTemplateHistoryOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateHistoryOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsTemplateHistory)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateHistoryOutput) ToGetIamAccountSettingsTemplateHistoryOutput() GetIamAccountSettingsTemplateHistoryOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateHistoryOutput) ToGetIamAccountSettingsTemplateHistoryOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryOutput {
+	return o
+}
+
+// Action of the history entry.
+func (o GetIamAccountSettingsTemplateHistoryOutput) Action() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.Action }).(pulumi.StringOutput)
+}
+
+// IAM ID of the identity which triggered the action.
+func (o GetIamAccountSettingsTemplateHistoryOutput) IamId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.IamId }).(pulumi.StringOutput)
+}
+
+// Account of the identity which triggered the action.
+func (o GetIamAccountSettingsTemplateHistoryOutput) IamIdAccount() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.IamIdAccount }).(pulumi.StringOutput)
+}
+
+// Message which summarizes the executed action.
+func (o GetIamAccountSettingsTemplateHistoryOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Params of the history entry.
+func (o GetIamAccountSettingsTemplateHistoryOutput) Params() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) []string { return v.Params }).(pulumi.StringArrayOutput)
+}
+
+// Timestamp when the action was triggered.
+func (o GetIamAccountSettingsTemplateHistoryOutput) Timestamp() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsTemplateHistory) string { return v.Timestamp }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsTemplateHistoryArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsTemplateHistoryArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsTemplateHistory)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsTemplateHistoryArrayOutput) ToGetIamAccountSettingsTemplateHistoryArrayOutput() GetIamAccountSettingsTemplateHistoryArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateHistoryArrayOutput) ToGetIamAccountSettingsTemplateHistoryArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsTemplateHistoryArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsTemplateHistoryArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsTemplateHistoryOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsTemplateHistory {
+		return vs[0].([]GetIamAccountSettingsTemplateHistory)[vs[1].(int)]
+	}).(GetIamAccountSettingsTemplateHistoryOutput)
+}
+
+type GetIamAccountSettingsUserMfa struct {
+	// optional description.
+	Description string `pulumi:"description"`
+	// email of the user.
+	Email string `pulumi:"email"`
+	// The iamId of the user.
+	IamId string `pulumi:"iamId"`
+	// MFA trait definitions as follows:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - Security Key MFA for all users.
+	Mfa string `pulumi:"mfa"`
+	// name of the user account.
+	Name string `pulumi:"name"`
+	// userName of the user.
+	UserName string `pulumi:"userName"`
+}
+
+// GetIamAccountSettingsUserMfaInput is an input type that accepts GetIamAccountSettingsUserMfaArgs and GetIamAccountSettingsUserMfaOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsUserMfaInput` via:
+//
+//	GetIamAccountSettingsUserMfaArgs{...}
+type GetIamAccountSettingsUserMfaInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsUserMfaOutput() GetIamAccountSettingsUserMfaOutput
+	ToGetIamAccountSettingsUserMfaOutputWithContext(context.Context) GetIamAccountSettingsUserMfaOutput
+}
+
+type GetIamAccountSettingsUserMfaArgs struct {
+	// optional description.
+	Description pulumi.StringInput `pulumi:"description"`
+	// email of the user.
+	Email pulumi.StringInput `pulumi:"email"`
+	// The iamId of the user.
+	IamId pulumi.StringInput `pulumi:"iamId"`
+	// MFA trait definitions as follows:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - Security Key MFA for all users.
+	Mfa pulumi.StringInput `pulumi:"mfa"`
+	// name of the user account.
+	Name pulumi.StringInput `pulumi:"name"`
+	// userName of the user.
+	UserName pulumi.StringInput `pulumi:"userName"`
+}
+
+func (GetIamAccountSettingsUserMfaArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsUserMfa)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsUserMfaArgs) ToGetIamAccountSettingsUserMfaOutput() GetIamAccountSettingsUserMfaOutput {
+	return i.ToGetIamAccountSettingsUserMfaOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsUserMfaArgs) ToGetIamAccountSettingsUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsUserMfaOutput)
+}
+
+// GetIamAccountSettingsUserMfaArrayInput is an input type that accepts GetIamAccountSettingsUserMfaArray and GetIamAccountSettingsUserMfaArrayOutput values.
+// You can construct a concrete instance of `GetIamAccountSettingsUserMfaArrayInput` via:
+//
+//	GetIamAccountSettingsUserMfaArray{ GetIamAccountSettingsUserMfaArgs{...} }
+type GetIamAccountSettingsUserMfaArrayInput interface {
+	pulumi.Input
+
+	ToGetIamAccountSettingsUserMfaArrayOutput() GetIamAccountSettingsUserMfaArrayOutput
+	ToGetIamAccountSettingsUserMfaArrayOutputWithContext(context.Context) GetIamAccountSettingsUserMfaArrayOutput
+}
+
+type GetIamAccountSettingsUserMfaArray []GetIamAccountSettingsUserMfaInput
+
+func (GetIamAccountSettingsUserMfaArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsUserMfa)(nil)).Elem()
+}
+
+func (i GetIamAccountSettingsUserMfaArray) ToGetIamAccountSettingsUserMfaArrayOutput() GetIamAccountSettingsUserMfaArrayOutput {
+	return i.ToGetIamAccountSettingsUserMfaArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamAccountSettingsUserMfaArray) ToGetIamAccountSettingsUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamAccountSettingsUserMfaArrayOutput)
+}
+
+type GetIamAccountSettingsUserMfaOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsUserMfaOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamAccountSettingsUserMfa)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsUserMfaOutput) ToGetIamAccountSettingsUserMfaOutput() GetIamAccountSettingsUserMfaOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsUserMfaOutput) ToGetIamAccountSettingsUserMfaOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaOutput {
+	return o
+}
+
+// optional description.
+func (o GetIamAccountSettingsUserMfaOutput) Description() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Description }).(pulumi.StringOutput)
+}
+
+// email of the user.
+func (o GetIamAccountSettingsUserMfaOutput) Email() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Email }).(pulumi.StringOutput)
+}
+
+// The iamId of the user.
+func (o GetIamAccountSettingsUserMfaOutput) IamId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.IamId }).(pulumi.StringOutput)
+}
+
+// MFA trait definitions as follows:  * NONE - No MFA trait set  * NONE_NO_ROPC- No MFA, disable CLI logins with only a password  * TOTP - For all non-federated IBMId users  * TOTP4ALL - For all users  * LEVEL1 - Email-based MFA for all users  * LEVEL2 - TOTP-based MFA for all users  * LEVEL3 - Security Key MFA for all users.
+func (o GetIamAccountSettingsUserMfaOutput) Mfa() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Mfa }).(pulumi.StringOutput)
+}
+
+// name of the user account.
+func (o GetIamAccountSettingsUserMfaOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// userName of the user.
+func (o GetIamAccountSettingsUserMfaOutput) UserName() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamAccountSettingsUserMfa) string { return v.UserName }).(pulumi.StringOutput)
+}
+
+type GetIamAccountSettingsUserMfaArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamAccountSettingsUserMfaArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamAccountSettingsUserMfa)(nil)).Elem()
+}
+
+func (o GetIamAccountSettingsUserMfaArrayOutput) ToGetIamAccountSettingsUserMfaArrayOutput() GetIamAccountSettingsUserMfaArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsUserMfaArrayOutput) ToGetIamAccountSettingsUserMfaArrayOutputWithContext(ctx context.Context) GetIamAccountSettingsUserMfaArrayOutput {
+	return o
+}
+
+func (o GetIamAccountSettingsUserMfaArrayOutput) Index(i pulumi.IntInput) GetIamAccountSettingsUserMfaOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamAccountSettingsUserMfa {
+		return vs[0].([]GetIamAccountSettingsUserMfa)[vs[1].(int)]
+	}).(GetIamAccountSettingsUserMfaOutput)
+}
+
+type GetIamActionControlAssignmentResource struct {
+	// Set of properties of the assigned resource or error message if assignment failed.
+	ActionControls []GetIamActionControlAssignmentResourceActionControl `pulumi:"actionControls"`
+	// assignment target account and type.
+	Targets []GetIamActionControlAssignmentResourceTarget `pulumi:"targets"`
+}
+
+// GetIamActionControlAssignmentResourceInput is an input type that accepts GetIamActionControlAssignmentResourceArgs and GetIamActionControlAssignmentResourceOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceInput` via:
+//
+//	GetIamActionControlAssignmentResourceArgs{...}
+type GetIamActionControlAssignmentResourceInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceOutput() GetIamActionControlAssignmentResourceOutput
+	ToGetIamActionControlAssignmentResourceOutputWithContext(context.Context) GetIamActionControlAssignmentResourceOutput
+}
+
+type GetIamActionControlAssignmentResourceArgs struct {
+	// Set of properties of the assigned resource or error message if assignment failed.
+	ActionControls GetIamActionControlAssignmentResourceActionControlArrayInput `pulumi:"actionControls"`
+	// assignment target account and type.
+	Targets GetIamActionControlAssignmentResourceTargetArrayInput `pulumi:"targets"`
+}
+
+func (GetIamActionControlAssignmentResourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResource)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceArgs) ToGetIamActionControlAssignmentResourceOutput() GetIamActionControlAssignmentResourceOutput {
+	return i.ToGetIamActionControlAssignmentResourceOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceArgs) ToGetIamActionControlAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceOutput)
+}
+
+// GetIamActionControlAssignmentResourceArrayInput is an input type that accepts GetIamActionControlAssignmentResourceArray and GetIamActionControlAssignmentResourceArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceArray{ GetIamActionControlAssignmentResourceArgs{...} }
+type GetIamActionControlAssignmentResourceArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceArrayOutput() GetIamActionControlAssignmentResourceArrayOutput
+	ToGetIamActionControlAssignmentResourceArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceArray []GetIamActionControlAssignmentResourceInput
+
+func (GetIamActionControlAssignmentResourceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResource)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceArray) ToGetIamActionControlAssignmentResourceArrayOutput() GetIamActionControlAssignmentResourceArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceArray) ToGetIamActionControlAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResource)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceOutput) ToGetIamActionControlAssignmentResourceOutput() GetIamActionControlAssignmentResourceOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceOutput) ToGetIamActionControlAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceOutput {
+	return o
+}
+
+// Set of properties of the assigned resource or error message if assignment failed.
+func (o GetIamActionControlAssignmentResourceOutput) ActionControls() GetIamActionControlAssignmentResourceActionControlArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResource) []GetIamActionControlAssignmentResourceActionControl {
+		return v.ActionControls
+	}).(GetIamActionControlAssignmentResourceActionControlArrayOutput)
+}
+
+// assignment target account and type.
+func (o GetIamActionControlAssignmentResourceOutput) Targets() GetIamActionControlAssignmentResourceTargetArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResource) []GetIamActionControlAssignmentResourceTarget {
+		return v.Targets
+	}).(GetIamActionControlAssignmentResourceTargetArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResource)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentResourceArrayOutput() GetIamActionControlAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResource {
+		return vs[0].([]GetIamActionControlAssignmentResource)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControl struct {
+	// Body parameters for assignment error.
+	ErrorMessages []GetIamActionControlAssignmentResourceActionControlErrorMessage `pulumi:"errorMessages"`
+	// On success, it includes the action control assigned.
+	ResourceCreateds []GetIamActionControlAssignmentResourceActionControlResourceCreated `pulumi:"resourceCreateds"`
+}
+
+// GetIamActionControlAssignmentResourceActionControlInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlArgs and GetIamActionControlAssignmentResourceActionControlOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlArgs{...}
+type GetIamActionControlAssignmentResourceActionControlInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlOutput() GetIamActionControlAssignmentResourceActionControlOutput
+	ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlArgs struct {
+	// Body parameters for assignment error.
+	ErrorMessages GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput `pulumi:"errorMessages"`
+	// On success, it includes the action control assigned.
+	ResourceCreateds GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput `pulumi:"resourceCreateds"`
+}
+
+func (GetIamActionControlAssignmentResourceActionControlArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentResourceActionControlOutput() GetIamActionControlAssignmentResourceActionControlOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlOutput)
+}
+
+// GetIamActionControlAssignmentResourceActionControlArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlArray and GetIamActionControlAssignmentResourceActionControlArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlArray{ GetIamActionControlAssignmentResourceActionControlArgs{...} }
+type GetIamActionControlAssignmentResourceActionControlArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentResourceActionControlArrayOutput
+	ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlArray []GetIamActionControlAssignmentResourceActionControlInput
+
+func (GetIamActionControlAssignmentResourceActionControlArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentResourceActionControlArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentResourceActionControlOutput() GetIamActionControlAssignmentResourceActionControlOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlOutput {
+	return o
+}
+
+// Body parameters for assignment error.
+func (o GetIamActionControlAssignmentResourceActionControlOutput) ErrorMessages() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControl) []GetIamActionControlAssignmentResourceActionControlErrorMessage {
+		return v.ErrorMessages
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput)
+}
+
+// On success, it includes the action control assigned.
+func (o GetIamActionControlAssignmentResourceActionControlOutput) ResourceCreateds() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControl) []GetIamActionControlAssignmentResourceActionControlResourceCreated {
+		return v.ResourceCreateds
+	}).(GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentResourceActionControlArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControl {
+		return vs[0].([]GetIamActionControlAssignmentResourceActionControl)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceActionControlOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessage struct {
+	// Internal status code for the error.
+	Code string `pulumi:"code"`
+	// Internal error code.
+	ErrorCode string `pulumi:"errorCode"`
+	// The errors encountered during the response.
+	Errors []GetIamActionControlAssignmentResourceActionControlErrorMessageError `pulumi:"errors"`
+	// Error message detailing the nature of the error.
+	Message string `pulumi:"message"`
+	// Name of the error.
+	Name string `pulumi:"name"`
+	// The HTTP error code of the response.
+	StatusCode int `pulumi:"statusCode"`
+	// The unique transaction ID for the request.
+	Trace string `pulumi:"trace"`
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageArgs{...}
+type GetIamActionControlAssignmentResourceActionControlErrorMessageInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageArgs struct {
+	// Internal status code for the error.
+	Code pulumi.StringInput `pulumi:"code"`
+	// Internal error code.
+	ErrorCode pulumi.StringInput `pulumi:"errorCode"`
+	// The errors encountered during the response.
+	Errors GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput `pulumi:"errors"`
+	// Error message detailing the nature of the error.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Name of the error.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The HTTP error code of the response.
+	StatusCode pulumi.IntInput `pulumi:"statusCode"`
+	// The unique transaction ID for the request.
+	Trace pulumi.StringInput `pulumi:"trace"`
+}
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageOutput)
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageArray and GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageArgs{...} }
+type GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageArray []GetIamActionControlAssignmentResourceActionControlErrorMessageInput
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
+	return o
+}
+
+// Internal status code for the error.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Code }).(pulumi.StringOutput)
+}
+
+// Internal error code.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) ErrorCode() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.ErrorCode }).(pulumi.StringOutput)
+}
+
+// The errors encountered during the response.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Errors() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) []GetIamActionControlAssignmentResourceActionControlErrorMessageError {
+		return v.Errors
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput)
+}
+
+// Error message detailing the nature of the error.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Name of the error.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The HTTP error code of the response.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) StatusCode() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) int { return v.StatusCode }).(pulumi.IntOutput)
+}
+
+// The unique transaction ID for the request.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageOutput) Trace() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessage) string { return v.Trace }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessage {
+		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessage)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageError struct {
+	// The API error code for the error.
+	Code string `pulumi:"code"`
+	// Additional error details.
+	Details []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail `pulumi:"details"`
+	// The error message returned by the API.
+	Message string `pulumi:"message"`
+	// Additional info for error.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs{...}
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs struct {
+	// The API error code for the error.
+	Code pulumi.StringInput `pulumi:"code"`
+	// Additional error details.
+	Details GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput `pulumi:"details"`
+	// The error message returned by the API.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Additional info for error.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput)
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs{...} }
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
+	return o
+}
+
+// The API error code for the error.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) string { return v.Code }).(pulumi.StringOutput)
+}
+
+// Additional error details.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) Details() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail {
+		return v.Details
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
+}
+
+// The error message returned by the API.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Additional info for error.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageError) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessageError {
+		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessageError)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail struct {
+	// Details of conflicting resource.
+	ConflictsWiths []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith `pulumi:"conflictsWiths"`
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs{...}
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs struct {
+	// Details of conflicting resource.
+	ConflictsWiths GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput `pulumi:"conflictsWiths"`
+}
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput)
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs{...} }
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return o
+}
+
+// Details of conflicting resource.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput) ConflictsWiths() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail) []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
+		return v.ConflictsWiths
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail {
+		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetail)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith struct {
+	// The revision number of the resource.
+	Etag string `pulumi:"etag"`
+	// The conflicting policy ID.
+	Policy string `pulumi:"policy"`
+	// The conflicting role of ID.
+	Role string `pulumi:"role"`
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...}
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs struct {
+	// The revision number of the resource.
+	Etag pulumi.StringInput `pulumi:"etag"`
+	// The conflicting policy ID.
+	Policy pulumi.StringInput `pulumi:"policy"`
+	// The conflicting role of ID.
+	Role pulumi.StringInput `pulumi:"role"`
+}
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
+}
+
+// GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray and GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{ GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...} }
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
+	ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray []GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return o
+}
+
+// The revision number of the resource.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Etag() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
+		return v.Etag
+	}).(pulumi.StringOutput)
+}
+
+// The conflicting policy ID.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Policy() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
+		return v.Policy
+	}).(pulumi.StringOutput)
+}
+
+// The conflicting role of ID.
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
+		return v.Role
+	}).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
+		return vs[0].([]GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlResourceCreated struct {
+	// action control id.
+	Id string `pulumi:"id"`
+}
+
+// GetIamActionControlAssignmentResourceActionControlResourceCreatedInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs and GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlResourceCreatedInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs{...}
+type GetIamActionControlAssignmentResourceActionControlResourceCreatedInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput
+	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs struct {
+	// action control id.
+	Id pulumi.StringInput `pulumi:"id"`
+}
+
+func (GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput)
+}
+
+// GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput is an input type that accepts GetIamActionControlAssignmentResourceActionControlResourceCreatedArray and GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceActionControlResourceCreatedArray{ GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs{...} }
+type GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput
+	ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceActionControlResourceCreatedArray []GetIamActionControlAssignmentResourceActionControlResourceCreatedInput
+
+func (GetIamActionControlAssignmentResourceActionControlResourceCreatedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
+	return o
+}
+
+// action control id.
+func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceActionControlResourceCreated) string { return v.Id }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceActionControlResourceCreated {
+		return vs[0].([]GetIamActionControlAssignmentResourceActionControlResourceCreated)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput)
+}
+
+type GetIamActionControlAssignmentResourceTarget struct {
+	// ID of the target account.
+	Id string `pulumi:"id"`
+	// Assignment target type.
+	Type string `pulumi:"type"`
+}
+
+// GetIamActionControlAssignmentResourceTargetInput is an input type that accepts GetIamActionControlAssignmentResourceTargetArgs and GetIamActionControlAssignmentResourceTargetOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceTargetInput` via:
+//
+//	GetIamActionControlAssignmentResourceTargetArgs{...}
+type GetIamActionControlAssignmentResourceTargetInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceTargetOutput() GetIamActionControlAssignmentResourceTargetOutput
+	ToGetIamActionControlAssignmentResourceTargetOutputWithContext(context.Context) GetIamActionControlAssignmentResourceTargetOutput
+}
+
+type GetIamActionControlAssignmentResourceTargetArgs struct {
+	// ID of the target account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Assignment target type.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetIamActionControlAssignmentResourceTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentResourceTargetOutput() GetIamActionControlAssignmentResourceTargetOutput {
+	return i.ToGetIamActionControlAssignmentResourceTargetOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceTargetOutput)
+}
+
+// GetIamActionControlAssignmentResourceTargetArrayInput is an input type that accepts GetIamActionControlAssignmentResourceTargetArray and GetIamActionControlAssignmentResourceTargetArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentResourceTargetArrayInput` via:
+//
+//	GetIamActionControlAssignmentResourceTargetArray{ GetIamActionControlAssignmentResourceTargetArgs{...} }
+type GetIamActionControlAssignmentResourceTargetArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentResourceTargetArrayOutput
+	ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentResourceTargetArrayOutput
+}
+
+type GetIamActionControlAssignmentResourceTargetArray []GetIamActionControlAssignmentResourceTargetInput
+
+func (GetIamActionControlAssignmentResourceTargetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentResourceTargetArray) ToGetIamActionControlAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentResourceTargetArrayOutput {
+	return i.ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentResourceTargetArray) ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentResourceTargetArrayOutput)
+}
+
+type GetIamActionControlAssignmentResourceTargetOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentResourceTargetOutput() GetIamActionControlAssignmentResourceTargetOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetOutput {
+	return o
+}
+
+// ID of the target account.
+func (o GetIamActionControlAssignmentResourceTargetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceTarget) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Assignment target type.
+func (o GetIamActionControlAssignmentResourceTargetOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentResourceTarget) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentResourceTargetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentResourceTargetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentResourceTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentResourceTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentResourceTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentResourceTargetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentResourceTarget {
+		return vs[0].([]GetIamActionControlAssignmentResourceTarget)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentResourceTargetOutput)
+}
+
+type GetIamActionControlAssignmentTarget struct {
+	// ID of the target account.
+	Id string `pulumi:"id"`
+	// Assignment target type.
+	Type string `pulumi:"type"`
+}
+
+// GetIamActionControlAssignmentTargetInput is an input type that accepts GetIamActionControlAssignmentTargetArgs and GetIamActionControlAssignmentTargetOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentTargetInput` via:
+//
+//	GetIamActionControlAssignmentTargetArgs{...}
+type GetIamActionControlAssignmentTargetInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentTargetOutput() GetIamActionControlAssignmentTargetOutput
+	ToGetIamActionControlAssignmentTargetOutputWithContext(context.Context) GetIamActionControlAssignmentTargetOutput
+}
+
+type GetIamActionControlAssignmentTargetArgs struct {
+	// ID of the target account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Assignment target type.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetIamActionControlAssignmentTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentTargetArgs) ToGetIamActionControlAssignmentTargetOutput() GetIamActionControlAssignmentTargetOutput {
+	return i.ToGetIamActionControlAssignmentTargetOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentTargetArgs) ToGetIamActionControlAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTargetOutput)
+}
+
+// GetIamActionControlAssignmentTargetArrayInput is an input type that accepts GetIamActionControlAssignmentTargetArray and GetIamActionControlAssignmentTargetArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentTargetArrayInput` via:
+//
+//	GetIamActionControlAssignmentTargetArray{ GetIamActionControlAssignmentTargetArgs{...} }
+type GetIamActionControlAssignmentTargetArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentTargetArrayOutput() GetIamActionControlAssignmentTargetArrayOutput
+	ToGetIamActionControlAssignmentTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentTargetArrayOutput
+}
+
+type GetIamActionControlAssignmentTargetArray []GetIamActionControlAssignmentTargetInput
+
+func (GetIamActionControlAssignmentTargetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentTargetArray) ToGetIamActionControlAssignmentTargetArrayOutput() GetIamActionControlAssignmentTargetArrayOutput {
+	return i.ToGetIamActionControlAssignmentTargetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentTargetArray) ToGetIamActionControlAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTargetArrayOutput)
+}
+
+type GetIamActionControlAssignmentTargetOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentTargetOutput) ToGetIamActionControlAssignmentTargetOutput() GetIamActionControlAssignmentTargetOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentTargetOutput) ToGetIamActionControlAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetOutput {
+	return o
+}
+
+// ID of the target account.
+func (o GetIamActionControlAssignmentTargetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentTarget) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Assignment target type.
+func (o GetIamActionControlAssignmentTargetOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentTarget) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentTargetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentTargetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentTargetArrayOutput() GetIamActionControlAssignmentTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentTargetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentTarget {
+		return vs[0].([]GetIamActionControlAssignmentTarget)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentTargetOutput)
+}
+
+type GetIamActionControlAssignmentTemplate struct {
+	// Action control template ID.
+	Id string `pulumi:"id"`
+	// Action control template version.
+	Version string `pulumi:"version"`
+}
+
+// GetIamActionControlAssignmentTemplateInput is an input type that accepts GetIamActionControlAssignmentTemplateArgs and GetIamActionControlAssignmentTemplateOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentTemplateInput` via:
+//
+//	GetIamActionControlAssignmentTemplateArgs{...}
+type GetIamActionControlAssignmentTemplateInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentTemplateOutput() GetIamActionControlAssignmentTemplateOutput
+	ToGetIamActionControlAssignmentTemplateOutputWithContext(context.Context) GetIamActionControlAssignmentTemplateOutput
+}
+
+type GetIamActionControlAssignmentTemplateArgs struct {
+	// Action control template ID.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Action control template version.
+	Version pulumi.StringInput `pulumi:"version"`
+}
+
+func (GetIamActionControlAssignmentTemplateArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentTemplate)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentTemplateArgs) ToGetIamActionControlAssignmentTemplateOutput() GetIamActionControlAssignmentTemplateOutput {
+	return i.ToGetIamActionControlAssignmentTemplateOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentTemplateArgs) ToGetIamActionControlAssignmentTemplateOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTemplateOutput)
+}
+
+// GetIamActionControlAssignmentTemplateArrayInput is an input type that accepts GetIamActionControlAssignmentTemplateArray and GetIamActionControlAssignmentTemplateArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentTemplateArrayInput` via:
+//
+//	GetIamActionControlAssignmentTemplateArray{ GetIamActionControlAssignmentTemplateArgs{...} }
+type GetIamActionControlAssignmentTemplateArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentTemplateArrayOutput() GetIamActionControlAssignmentTemplateArrayOutput
+	ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(context.Context) GetIamActionControlAssignmentTemplateArrayOutput
+}
+
+type GetIamActionControlAssignmentTemplateArray []GetIamActionControlAssignmentTemplateInput
+
+func (GetIamActionControlAssignmentTemplateArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentTemplate)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentTemplateArray) ToGetIamActionControlAssignmentTemplateArrayOutput() GetIamActionControlAssignmentTemplateArrayOutput {
+	return i.ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentTemplateArray) ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentTemplateArrayOutput)
+}
+
+type GetIamActionControlAssignmentTemplateOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentTemplateOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentTemplate)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentTemplateOutput) ToGetIamActionControlAssignmentTemplateOutput() GetIamActionControlAssignmentTemplateOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentTemplateOutput) ToGetIamActionControlAssignmentTemplateOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateOutput {
+	return o
+}
+
+// Action control template ID.
+func (o GetIamActionControlAssignmentTemplateOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentTemplate) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Action control template version.
+func (o GetIamActionControlAssignmentTemplateOutput) Version() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentTemplate) string { return v.Version }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentTemplateArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentTemplateArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentTemplate)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentTemplateArrayOutput) ToGetIamActionControlAssignmentTemplateArrayOutput() GetIamActionControlAssignmentTemplateArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentTemplateArrayOutput) ToGetIamActionControlAssignmentTemplateArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentTemplateArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentTemplateArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentTemplateOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentTemplate {
+		return vs[0].([]GetIamActionControlAssignmentTemplate)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentTemplateOutput)
+}
+
+type GetIamActionControlAssignmentsAssignment struct {
+	// The account GUID that the action control assignments belong to.
+	AccountId string `pulumi:"accountId"`
+	// The UTC timestamp when the action control assignment was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// The IAM ID of the entity that created the action control assignment.
+	CreatedById string `pulumi:"createdById"`
+	// The href URL that links to the action control assignments API by action control assignment ID.
+	Href string `pulumi:"href"`
+	// Action control assignment ID.
+	Id string `pulumi:"id"`
+	// The UTC timestamp when the action control assignment was last modified.
+	LastModifiedAt string `pulumi:"lastModifiedAt"`
+	// The IAM ID of the entity that last modified the action control assignment.
+	LastModifiedById string `pulumi:"lastModifiedById"`
+	// The current operation of the action control assignment.
+	Operation string `pulumi:"operation"`
+	// Resources created when action control template is assigned.
+	Resources []GetIamActionControlAssignmentsAssignmentResource `pulumi:"resources"`
+	// The action control assignment status.
+	Status string `pulumi:"status"`
+	// assignment target account and type.
+	Targets []GetIamActionControlAssignmentsAssignmentTarget `pulumi:"targets"`
+	// The action control template id and version that will be assigned.
+	Templates []GetIamActionControlAssignmentsAssignmentTemplate `pulumi:"templates"`
+}
+
+// GetIamActionControlAssignmentsAssignmentInput is an input type that accepts GetIamActionControlAssignmentsAssignmentArgs and GetIamActionControlAssignmentsAssignmentOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentArgs{...}
+type GetIamActionControlAssignmentsAssignmentInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentOutput() GetIamActionControlAssignmentsAssignmentOutput
+	ToGetIamActionControlAssignmentsAssignmentOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentArgs struct {
+	// The account GUID that the action control assignments belong to.
+	AccountId pulumi.StringInput `pulumi:"accountId"`
+	// The UTC timestamp when the action control assignment was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The IAM ID of the entity that created the action control assignment.
+	CreatedById pulumi.StringInput `pulumi:"createdById"`
+	// The href URL that links to the action control assignments API by action control assignment ID.
+	Href pulumi.StringInput `pulumi:"href"`
+	// Action control assignment ID.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The UTC timestamp when the action control assignment was last modified.
+	LastModifiedAt pulumi.StringInput `pulumi:"lastModifiedAt"`
+	// The IAM ID of the entity that last modified the action control assignment.
+	LastModifiedById pulumi.StringInput `pulumi:"lastModifiedById"`
+	// The current operation of the action control assignment.
+	Operation pulumi.StringInput `pulumi:"operation"`
+	// Resources created when action control template is assigned.
+	Resources GetIamActionControlAssignmentsAssignmentResourceArrayInput `pulumi:"resources"`
+	// The action control assignment status.
+	Status pulumi.StringInput `pulumi:"status"`
+	// assignment target account and type.
+	Targets GetIamActionControlAssignmentsAssignmentTargetArrayInput `pulumi:"targets"`
+	// The action control template id and version that will be assigned.
+	Templates GetIamActionControlAssignmentsAssignmentTemplateArrayInput `pulumi:"templates"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignment)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentArgs) ToGetIamActionControlAssignmentsAssignmentOutput() GetIamActionControlAssignmentsAssignmentOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentArgs) ToGetIamActionControlAssignmentsAssignmentOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentArray and GetIamActionControlAssignmentsAssignmentArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentArray{ GetIamActionControlAssignmentsAssignmentArgs{...} }
+type GetIamActionControlAssignmentsAssignmentArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentArrayOutput() GetIamActionControlAssignmentsAssignmentArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentArray []GetIamActionControlAssignmentsAssignmentInput
+
+func (GetIamActionControlAssignmentsAssignmentArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignment)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentArray) ToGetIamActionControlAssignmentsAssignmentArrayOutput() GetIamActionControlAssignmentsAssignmentArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentArray) ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignment)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentOutput) ToGetIamActionControlAssignmentsAssignmentOutput() GetIamActionControlAssignmentsAssignmentOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentOutput) ToGetIamActionControlAssignmentsAssignmentOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentOutput {
+	return o
+}
+
+// The account GUID that the action control assignments belong to.
+func (o GetIamActionControlAssignmentsAssignmentOutput) AccountId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.AccountId }).(pulumi.StringOutput)
+}
+
+// The UTC timestamp when the action control assignment was created.
+func (o GetIamActionControlAssignmentsAssignmentOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The IAM ID of the entity that created the action control assignment.
+func (o GetIamActionControlAssignmentsAssignmentOutput) CreatedById() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.CreatedById }).(pulumi.StringOutput)
+}
+
+// The href URL that links to the action control assignments API by action control assignment ID.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// Action control assignment ID.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The UTC timestamp when the action control assignment was last modified.
+func (o GetIamActionControlAssignmentsAssignmentOutput) LastModifiedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.LastModifiedAt }).(pulumi.StringOutput)
+}
+
+// The IAM ID of the entity that last modified the action control assignment.
+func (o GetIamActionControlAssignmentsAssignmentOutput) LastModifiedById() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.LastModifiedById }).(pulumi.StringOutput)
+}
+
+// The current operation of the action control assignment.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Operation() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Operation }).(pulumi.StringOutput)
+}
+
+// Resources created when action control template is assigned.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Resources() GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) []GetIamActionControlAssignmentsAssignmentResource {
+		return v.Resources
+	}).(GetIamActionControlAssignmentsAssignmentResourceArrayOutput)
+}
+
+// The action control assignment status.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) string { return v.Status }).(pulumi.StringOutput)
+}
+
+// assignment target account and type.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Targets() GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) []GetIamActionControlAssignmentsAssignmentTarget {
+		return v.Targets
+	}).(GetIamActionControlAssignmentsAssignmentTargetArrayOutput)
+}
+
+// The action control template id and version that will be assigned.
+func (o GetIamActionControlAssignmentsAssignmentOutput) Templates() GetIamActionControlAssignmentsAssignmentTemplateArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignment) []GetIamActionControlAssignmentsAssignmentTemplate {
+		return v.Templates
+	}).(GetIamActionControlAssignmentsAssignmentTemplateArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignment)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentArrayOutput) ToGetIamActionControlAssignmentsAssignmentArrayOutput() GetIamActionControlAssignmentsAssignmentArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentArrayOutput) ToGetIamActionControlAssignmentsAssignmentArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignment {
+		return vs[0].([]GetIamActionControlAssignmentsAssignment)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResource struct {
+	// Set of properties of the assigned resource or error message if assignment failed.
+	ActionControls []GetIamActionControlAssignmentsAssignmentResourceActionControl `pulumi:"actionControls"`
+	// assignment target account and type.
+	Targets []GetIamActionControlAssignmentsAssignmentResourceTarget `pulumi:"targets"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceArgs and GetIamActionControlAssignmentsAssignmentResourceOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceOutput() GetIamActionControlAssignmentsAssignmentResourceOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceArgs struct {
+	// Set of properties of the assigned resource or error message if assignment failed.
+	ActionControls GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput `pulumi:"actionControls"`
+	// assignment target account and type.
+	Targets GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput `pulumi:"targets"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceArgs) ToGetIamActionControlAssignmentsAssignmentResourceOutput() GetIamActionControlAssignmentsAssignmentResourceOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceArgs) ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceArray and GetIamActionControlAssignmentsAssignmentResourceArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceArray{ GetIamActionControlAssignmentsAssignmentResourceArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceArrayOutput() GetIamActionControlAssignmentsAssignmentResourceArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceArray []GetIamActionControlAssignmentsAssignmentResourceInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceArray) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutput() GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceArray) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceOutput) ToGetIamActionControlAssignmentsAssignmentResourceOutput() GetIamActionControlAssignmentsAssignmentResourceOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceOutput) ToGetIamActionControlAssignmentsAssignmentResourceOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceOutput {
+	return o
+}
+
+// Set of properties of the assigned resource or error message if assignment failed.
+func (o GetIamActionControlAssignmentsAssignmentResourceOutput) ActionControls() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResource) []GetIamActionControlAssignmentsAssignmentResourceActionControl {
+		return v.ActionControls
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput)
+}
+
+// assignment target account and type.
+func (o GetIamActionControlAssignmentsAssignmentResourceOutput) Targets() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResource) []GetIamActionControlAssignmentsAssignmentResourceTarget {
+		return v.Targets
+	}).(GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResource)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutput() GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResource {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResource)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControl struct {
+	// The error response from API.
+	ErrorMessages []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage `pulumi:"errorMessages"`
+	// On success, it includes the action control assigned.
+	ResourceCreateds []GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated `pulumi:"resourceCreateds"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceActionControlInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlArgs struct {
+	// The error response from API.
+	ErrorMessages GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput `pulumi:"errorMessages"`
+	// On success, it includes the action control assigned.
+	ResourceCreateds GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput `pulumi:"resourceCreateds"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlArray and GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlArray []GetIamActionControlAssignmentsAssignmentResourceActionControlInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
+	return o
+}
+
+// The error response from API.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ErrorMessages() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControl) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage {
+		return v.ErrorMessages
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput)
+}
+
+// On success, it includes the action control assigned.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlOutput) ResourceCreateds() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControl) []GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated {
+		return v.ResourceCreateds
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControl)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControl {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControl)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage struct {
+	// Internal status code for the error.
+	Code string `pulumi:"code"`
+	// Internal error code.
+	ErrorCode string `pulumi:"errorCode"`
+	// The errors encountered during the response.
+	Errors []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError `pulumi:"errors"`
+	// Error message detailing the nature of the error.
+	Message string `pulumi:"message"`
+	// Name of the error.
+	Name string `pulumi:"name"`
+	// The HTTP error code of the response.
+	StatusCode int `pulumi:"statusCode"`
+	// The unique transaction ID for the request.
+	Trace string `pulumi:"trace"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs struct {
+	// Internal status code for the error.
+	Code pulumi.StringInput `pulumi:"code"`
+	// Internal error code.
+	ErrorCode pulumi.StringInput `pulumi:"errorCode"`
+	// The errors encountered during the response.
+	Errors GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput `pulumi:"errors"`
+	// Error message detailing the nature of the error.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Name of the error.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The HTTP error code of the response.
+	StatusCode pulumi.IntInput `pulumi:"statusCode"`
+	// The unique transaction ID for the request.
+	Trace pulumi.StringInput `pulumi:"trace"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
+	return o
+}
+
+// Internal status code for the error.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
+		return v.Code
+	}).(pulumi.StringOutput)
+}
+
+// Internal error code.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) ErrorCode() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
+		return v.ErrorCode
+	}).(pulumi.StringOutput)
+}
+
+// The errors encountered during the response.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Errors() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError {
+		return v.Errors
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput)
+}
+
+// Error message detailing the nature of the error.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
+		return v.Message
+	}).(pulumi.StringOutput)
+}
+
+// Name of the error.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
+		return v.Name
+	}).(pulumi.StringOutput)
+}
+
+// The HTTP error code of the response.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) StatusCode() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) int {
+		return v.StatusCode
+	}).(pulumi.IntOutput)
+}
+
+// The unique transaction ID for the request.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput) Trace() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage) string {
+		return v.Trace
+	}).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessage)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError struct {
+	// The API error code for the error.
+	Code string `pulumi:"code"`
+	// Additional error details.
+	Details []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail `pulumi:"details"`
+	// The error message returned by the API.
+	Message string `pulumi:"message"`
+	// Additional info for error.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs struct {
+	// The API error code for the error.
+	Code pulumi.StringInput `pulumi:"code"`
+	// Additional error details.
+	Details GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput `pulumi:"details"`
+	// The error message returned by the API.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Additional info for error.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
+	return o
+}
+
+// The API error code for the error.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) string {
+		return v.Code
+	}).(pulumi.StringOutput)
+}
+
+// Additional error details.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) Details() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail {
+		return v.Details
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
+}
+
+// The error message returned by the API.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) string {
+		return v.Message
+	}).(pulumi.StringOutput)
+}
+
+// Additional info for error.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError) string {
+		return v.MoreInfo
+	}).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageError)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail struct {
+	// Details of conflicting resource.
+	ConflictsWiths []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith `pulumi:"conflictsWiths"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs struct {
+	// Details of conflicting resource.
+	ConflictsWiths GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput `pulumi:"conflictsWiths"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return o
+}
+
+// Details of conflicting resource.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput) ConflictsWiths() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail) []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
+		return v.ConflictsWiths
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetail)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith struct {
+	// The revision number of the resource.
+	Etag string `pulumi:"etag"`
+	// The conflicting policy ID.
+	Policy string `pulumi:"policy"`
+	// The conflicting role of ID.
+	Role string `pulumi:"role"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs struct {
+	// The revision number of the resource.
+	Etag pulumi.StringInput `pulumi:"etag"`
+	// The conflicting policy ID.
+	Policy pulumi.StringInput `pulumi:"policy"`
+	// The conflicting role of ID.
+	Role pulumi.StringInput `pulumi:"role"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray and GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray []GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return o
+}
+
+// The revision number of the resource.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Etag() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
+		return v.Etag
+	}).(pulumi.StringOutput)
+}
+
+// The conflicting policy ID.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Policy() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
+		return v.Policy
+	}).(pulumi.StringOutput)
+}
+
+// The conflicting role of ID.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith) string {
+		return v.Role
+	}).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWith)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated struct {
+	// action control id.
+	Id string `pulumi:"id"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs and GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs struct {
+	// action control id.
+	Id pulumi.StringInput `pulumi:"id"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray and GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray{ GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray []GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
+	return o
+}
+
+// action control id.
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated) string {
+		return v.Id
+	}).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput() GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreated)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceTarget struct {
+	// ID of the target account.
+	Id string `pulumi:"id"`
+	// Assignment target type.
+	Type string `pulumi:"type"`
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceTargetInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceTargetArgs and GetIamActionControlAssignmentsAssignmentResourceTargetOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceTargetInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceTargetArgs{...}
+type GetIamActionControlAssignmentsAssignmentResourceTargetInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceTargetOutput() GetIamActionControlAssignmentsAssignmentResourceTargetOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceTargetArgs struct {
+	// ID of the target account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Assignment target type.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentResourceTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutput() GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceTargetArgs) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceTargetOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentResourceTargetArray and GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentResourceTargetArray{ GetIamActionControlAssignmentsAssignmentResourceTargetArgs{...} }
+type GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceTargetArray []GetIamActionControlAssignmentsAssignmentResourceTargetInput
+
+func (GetIamActionControlAssignmentsAssignmentResourceTargetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceTargetArray) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentResourceTargetArray) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceTargetOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutput() GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
+	return o
+}
+
+// ID of the target account.
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceTarget) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Assignment target type.
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentResourceTarget) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentResourceTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput() GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentResourceTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentResourceTargetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentResourceTarget {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentResourceTarget)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentResourceTargetOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentTarget struct {
+	// ID of the target account.
+	Id string `pulumi:"id"`
+	// Assignment target type.
+	Type string `pulumi:"type"`
+}
+
+// GetIamActionControlAssignmentsAssignmentTargetInput is an input type that accepts GetIamActionControlAssignmentsAssignmentTargetArgs and GetIamActionControlAssignmentsAssignmentTargetOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentTargetInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentTargetArgs{...}
+type GetIamActionControlAssignmentsAssignmentTargetInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentTargetOutput() GetIamActionControlAssignmentsAssignmentTargetOutput
+	ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentTargetOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentTargetArgs struct {
+	// ID of the target account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Assignment target type.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetIamActionControlAssignmentsAssignmentTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentTargetArgs) ToGetIamActionControlAssignmentsAssignmentTargetOutput() GetIamActionControlAssignmentsAssignmentTargetOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentTargetArgs) ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentTargetOutput)
+}
+
+// GetIamActionControlAssignmentsAssignmentTargetArrayInput is an input type that accepts GetIamActionControlAssignmentsAssignmentTargetArray and GetIamActionControlAssignmentsAssignmentTargetArrayOutput values.
+// You can construct a concrete instance of `GetIamActionControlAssignmentsAssignmentTargetArrayInput` via:
+//
+//	GetIamActionControlAssignmentsAssignmentTargetArray{ GetIamActionControlAssignmentsAssignmentTargetArgs{...} }
+type GetIamActionControlAssignmentsAssignmentTargetArrayInput interface {
+	pulumi.Input
+
+	ToGetIamActionControlAssignmentsAssignmentTargetArrayOutput() GetIamActionControlAssignmentsAssignmentTargetArrayOutput
+	ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(context.Context) GetIamActionControlAssignmentsAssignmentTargetArrayOutput
+}
+
+type GetIamActionControlAssignmentsAssignmentTargetArray []GetIamActionControlAssignmentsAssignmentTargetInput
+
+func (GetIamActionControlAssignmentsAssignmentTargetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
+}
+
+func (i GetIamActionControlAssignmentsAssignmentTargetArray) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutput() GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
+	return i.ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIamActionControlAssignmentsAssignmentTargetArray) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIamActionControlAssignmentsAssignmentTargetArrayOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentTargetOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentTargetOutput) ToGetIamActionControlAssignmentsAssignmentTargetOutput() GetIamActionControlAssignmentsAssignmentTargetOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentTargetOutput) ToGetIamActionControlAssignmentsAssignmentTargetOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetOutput {
+	return o
+}
+
+// ID of the target account.
+func (o GetIamActionControlAssignmentsAssignmentTargetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentTarget) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Assignment target type.
+func (o GetIamActionControlAssignmentsAssignmentTargetOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIamActionControlAssignmentsAssignmentTarget) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetIamActionControlAssignmentsAssignmentTargetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIamActionControlAssignmentsAssignmentTargetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIamActionControlAssignmentsAssignmentTarget)(nil)).Elem()
+}
+
+func (o GetIamActionControlAssignmentsAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutput() GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentTargetArrayOutput) ToGetIamActionControlAssignmentsAssignmentTargetArrayOutputWithContext(ctx context.Context) GetIamActionControlAssignmentsAssignmentTargetArrayOutput {
+	return o
+}
+
+func (o GetIamActionControlAssignmentsAssignmentTargetArrayOutput) Index(i pulumi.IntInput) GetIamActionControlAssignmentsAssignmentTargetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIamActionControlAssignmentsAssignmentTarget {
+		return vs[0].([]GetIamActionControlAssignmentsAssignmentTarget)[vs[1].(int)]
+	}).(GetIamActionControlAssignmentsAssignmentTargetOutput)
+}
+
 type GetIamActionControlAssignmentsAssignmentTemplate struct {
 	// Action control template ID.
 	Id string `pulumi:"id"`
@@ -58621,4820 +63211,81 @@ func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayO
 	}).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput)
 }
 
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs and GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...}
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
-	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray and GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{ GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray []GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput
-
-func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted) string {
-		return v.MoreInfo
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-	Code string `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message string `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs and GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs{...}
-type GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput
-	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-	Code pulumi.StringInput `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray and GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray{ GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray []GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput
-
-func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
-	return o
-}
-
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentLifecycleReason) string { return v.Code }).(pulumi.StringOutput)
-}
-
-// An explanation of the reason for this lifecycle state.
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentLifecycleReason) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// Link to documentation about the reason for this lifecycle state.
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentLifecycleReason) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentLifecycleReason {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentLifecycleReason)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment struct {
-	// The instance cluster network attachment that is immediately before. If absent, this is thelast instance cluster network attachment.
-	Befores []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore `pulumi:"befores"`
-	// The cluster network interface for this instance cluster network attachment.
-	ClusterNetworkInterfaces []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface `pulumi:"clusterNetworkInterfaces"`
-	// The URL for this instance cluster network attachment.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance cluster network attachment.
-	Id string `pulumi:"id"`
-	// The reasons for the current `lifecycleState` (if any).
-	LifecycleReasons []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason `pulumi:"lifecycleReasons"`
-	// The lifecycle state of the instance cluster network attachment.
-	LifecycleState string `pulumi:"lifecycleState"`
-	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs struct {
-	// The instance cluster network attachment that is immediately before. If absent, this is thelast instance cluster network attachment.
-	Befores GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput `pulumi:"befores"`
-	// The cluster network interface for this instance cluster network attachment.
-	ClusterNetworkInterfaces GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput `pulumi:"clusterNetworkInterfaces"`
-	// The URL for this instance cluster network attachment.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance cluster network attachment.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The reasons for the current `lifecycleState` (if any).
-	LifecycleReasons GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput `pulumi:"lifecycleReasons"`
-	// The lifecycle state of the instance cluster network attachment.
-	LifecycleState pulumi.StringInput `pulumi:"lifecycleState"`
-	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
-	return o
-}
-
-// The instance cluster network attachment that is immediately before. If absent, this is thelast instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Befores() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore {
-		return v.Befores
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput)
-}
-
-// The cluster network interface for this instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ClusterNetworkInterfaces() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface {
-		return v.ClusterNetworkInterfaces
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput)
-}
-
-// The URL for this instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The reasons for the current `lifecycleState` (if any).
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) LifecycleReasons() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason {
-		return v.LifecycleReasons
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput)
-}
-
-// The lifecycle state of the instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) LifecycleState() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.LifecycleState }).(pulumi.StringOutput)
-}
-
-// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachment)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore struct {
-	// The URL for this instance cluster network attachment.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance cluster network attachment.
-	Id string `pulumi:"id"`
-	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs struct {
-	// The URL for this instance cluster network attachment.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance cluster network attachment.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
-	return o
-}
-
-// The URL for this instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance cluster network attachment.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The name for this instance cluster network attachment. The name is unique across all network attachments for the instance.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore) string {
-		return v.ResourceType
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBefore)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface struct {
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted `pulumi:"deleteds"`
-	// The URL for this cluster network interface.
-	Href string `pulumi:"href"`
-	// The unique identifier for this cluster network interface.
-	Id string `pulumi:"id"`
-	// The name for this cluster network interface. The name is unique across all interfaces in the cluster network.
-	Name string `pulumi:"name"`
-	// The primary IP for this cluster network interface.
-	PrimaryIps []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp `pulumi:"primaryIps"`
-	// The resource type.
-	ResourceType string                                                                                        `pulumi:"resourceType"`
-	Subnets      []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet `pulumi:"subnets"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs struct {
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this cluster network interface.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this cluster network interface.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The name for this cluster network interface. The name is unique across all interfaces in the cluster network.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The primary IP for this cluster network interface.
-	PrimaryIps GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput `pulumi:"primaryIps"`
-	// The resource type.
-	ResourceType pulumi.StringInput                                                                                    `pulumi:"resourceType"`
-	Subnets      GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput `pulumi:"subnets"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
-	return o
-}
-
-// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Deleteds() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput)
-}
-
-// The URL for this cluster network interface.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
-		return v.Href
-	}).(pulumi.StringOutput)
-}
-
-// The unique identifier for this cluster network interface.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
-		return v.Id
-	}).(pulumi.StringOutput)
-}
-
-// The name for this cluster network interface. The name is unique across all interfaces in the cluster network.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
-		return v.Name
-	}).(pulumi.StringOutput)
-}
-
-// The primary IP for this cluster network interface.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) PrimaryIps() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp {
-		return v.PrimaryIps
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) string {
-		return v.ResourceType
-	}).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput) Subnets() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet {
-		return v.Subnets
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterface)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted) string {
-		return v.MoreInfo
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeleted)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp struct {
-	// The IP address.If the address is pending allocation, the value will be `0.0.0.0`.This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in the future.
-	Address string `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted `pulumi:"deleteds"`
-	// The URL for this cluster network subnet reserved IP.
-	Href string `pulumi:"href"`
-	// The unique identifier for this cluster network subnet reserved IP.
-	Id string `pulumi:"id"`
-	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs struct {
-	// The IP address.If the address is pending allocation, the value will be `0.0.0.0`.This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in the future.
-	Address pulumi.StringInput `pulumi:"address"`
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this cluster network subnet reserved IP.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this cluster network subnet reserved IP.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
-	return o
-}
-
-// The IP address.If the address is pending allocation, the value will be `0.0.0.0`.This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in the future.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Address() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
-		return v.Address
-	}).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Deleteds() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput)
-}
-
-// The URL for this cluster network subnet reserved IP.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
-		return v.Href
-	}).(pulumi.StringOutput)
-}
-
-// The unique identifier for this cluster network subnet reserved IP.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
-		return v.Id
-	}).(pulumi.StringOutput)
-}
-
-// The name for this cluster network subnet reserved IP. The name is unique across all reserved IPs in a cluster network subnet.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
-		return v.Name
-	}).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp) string {
-		return v.ResourceType
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIp)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted) string {
-		return v.MoreInfo
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeleted)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet struct {
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted `pulumi:"deleteds"`
-	// The URL for this cluster network subnet.
-	Href string `pulumi:"href"`
-	// The unique identifier for this cluster network subnet.
-	Id string `pulumi:"id"`
-	// The name for this cluster network subnet. The name is unique across all cluster network subnets in the cluster network.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs struct {
-	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-	Deleteds GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this cluster network subnet.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this cluster network subnet.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The name for this cluster network subnet. The name is unique across all cluster network subnets in the cluster network.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
-	return o
-}
-
-// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Deleteds() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput)
-}
-
-// The URL for this cluster network subnet.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
-		return v.Href
-	}).(pulumi.StringOutput)
-}
-
-// The unique identifier for this cluster network subnet.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
-		return v.Id
-	}).(pulumi.StringOutput)
-}
-
-// The name for this cluster network subnet. The name is unique across all cluster network subnets in the cluster network.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
-		return v.Name
-	}).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet) string {
-		return v.ResourceType
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnet)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted) string {
-		return v.MoreInfo
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeleted)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-	Code string `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message string `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs{...}
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs struct {
-	// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-	Code pulumi.StringInput `pulumi:"code"`
-	// An explanation of the reason for this lifecycle state.
-	Message pulumi.StringInput `pulumi:"message"`
-	// Link to documentation about the reason for this lifecycle state.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput)
-}
-
-// GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput is an input type that accepts GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray and GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray{ GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs{...} }
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput
-	ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray []GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
-	return o
-}
-
-// A reason code for this lifecycle state:- `internalError`: internal error (contact IBM support)- `resourceSuspendedByProvider`: The resource has been suspended (contact IBM  support)The enumerated values for this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) Code() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason) string {
-		return v.Code
-	}).(pulumi.StringOutput)
-}
-
-// An explanation of the reason for this lifecycle state.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason) string {
-		return v.Message
-	}).(pulumi.StringOutput)
-}
-
-// Link to documentation about the reason for this lifecycle state.
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason) string {
-		return v.MoreInfo
-	}).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput() GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) ToGetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason {
-		return vs[0].([]GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReason)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput)
-}
-
-type GetIsInstanceClusterNetworkDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceClusterNetworkDeletedInput is an input type that accepts GetIsInstanceClusterNetworkDeletedArgs and GetIsInstanceClusterNetworkDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkDeletedInput` via:
-//
-//	GetIsInstanceClusterNetworkDeletedArgs{...}
-type GetIsInstanceClusterNetworkDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkDeletedOutput() GetIsInstanceClusterNetworkDeletedOutput
-	ToGetIsInstanceClusterNetworkDeletedOutputWithContext(context.Context) GetIsInstanceClusterNetworkDeletedOutput
-}
-
-type GetIsInstanceClusterNetworkDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceClusterNetworkDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkDeletedArgs) ToGetIsInstanceClusterNetworkDeletedOutput() GetIsInstanceClusterNetworkDeletedOutput {
-	return i.ToGetIsInstanceClusterNetworkDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkDeletedArgs) ToGetIsInstanceClusterNetworkDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkDeletedOutput)
-}
-
-// GetIsInstanceClusterNetworkDeletedArrayInput is an input type that accepts GetIsInstanceClusterNetworkDeletedArray and GetIsInstanceClusterNetworkDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceClusterNetworkDeletedArrayInput` via:
-//
-//	GetIsInstanceClusterNetworkDeletedArray{ GetIsInstanceClusterNetworkDeletedArgs{...} }
-type GetIsInstanceClusterNetworkDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceClusterNetworkDeletedArrayOutput() GetIsInstanceClusterNetworkDeletedArrayOutput
-	ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(context.Context) GetIsInstanceClusterNetworkDeletedArrayOutput
-}
-
-type GetIsInstanceClusterNetworkDeletedArray []GetIsInstanceClusterNetworkDeletedInput
-
-func (GetIsInstanceClusterNetworkDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceClusterNetworkDeletedArray) ToGetIsInstanceClusterNetworkDeletedArrayOutput() GetIsInstanceClusterNetworkDeletedArrayOutput {
-	return i.ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceClusterNetworkDeletedArray) ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceClusterNetworkDeletedArrayOutput)
-}
-
-type GetIsInstanceClusterNetworkDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkDeletedOutput) ToGetIsInstanceClusterNetworkDeletedOutput() GetIsInstanceClusterNetworkDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkDeletedOutput) ToGetIsInstanceClusterNetworkDeletedOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceClusterNetworkDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceClusterNetworkDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceClusterNetworkDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceClusterNetworkDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceClusterNetworkDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceClusterNetworkDeletedArrayOutput) ToGetIsInstanceClusterNetworkDeletedArrayOutput() GetIsInstanceClusterNetworkDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkDeletedArrayOutput) ToGetIsInstanceClusterNetworkDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceClusterNetworkDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceClusterNetworkDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceClusterNetworkDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceClusterNetworkDeleted {
-		return vs[0].([]GetIsInstanceClusterNetworkDeleted)[vs[1].(int)]
-	}).(GetIsInstanceClusterNetworkDeletedOutput)
-}
-
-type GetIsInstanceDisk struct {
-	// The date and time that the disk was created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The URL for this instance disk.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance disk.
-	Id string `pulumi:"id"`
-	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
-	InterfaceType string `pulumi:"interfaceType"`
-	// The user-defined name for this disk.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-	// The size of the disk in GB (gigabytes).
-	Size int `pulumi:"size"`
-}
-
-// GetIsInstanceDiskInput is an input type that accepts GetIsInstanceDiskArgs and GetIsInstanceDiskOutput values.
-// You can construct a concrete instance of `GetIsInstanceDiskInput` via:
-//
-//	GetIsInstanceDiskArgs{...}
-type GetIsInstanceDiskInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceDiskOutput() GetIsInstanceDiskOutput
-	ToGetIsInstanceDiskOutputWithContext(context.Context) GetIsInstanceDiskOutput
-}
-
-type GetIsInstanceDiskArgs struct {
-	// The date and time that the disk was created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The URL for this instance disk.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance disk.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
-	InterfaceType pulumi.StringInput `pulumi:"interfaceType"`
-	// The user-defined name for this disk.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-	// The size of the disk in GB (gigabytes).
-	Size pulumi.IntInput `pulumi:"size"`
-}
-
-func (GetIsInstanceDiskArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceDisk)(nil)).Elem()
-}
-
-func (i GetIsInstanceDiskArgs) ToGetIsInstanceDiskOutput() GetIsInstanceDiskOutput {
-	return i.ToGetIsInstanceDiskOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceDiskArgs) ToGetIsInstanceDiskOutputWithContext(ctx context.Context) GetIsInstanceDiskOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDiskOutput)
-}
-
-// GetIsInstanceDiskArrayInput is an input type that accepts GetIsInstanceDiskArray and GetIsInstanceDiskArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceDiskArrayInput` via:
-//
-//	GetIsInstanceDiskArray{ GetIsInstanceDiskArgs{...} }
-type GetIsInstanceDiskArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceDiskArrayOutput() GetIsInstanceDiskArrayOutput
-	ToGetIsInstanceDiskArrayOutputWithContext(context.Context) GetIsInstanceDiskArrayOutput
-}
-
-type GetIsInstanceDiskArray []GetIsInstanceDiskInput
-
-func (GetIsInstanceDiskArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceDisk)(nil)).Elem()
-}
-
-func (i GetIsInstanceDiskArray) ToGetIsInstanceDiskArrayOutput() GetIsInstanceDiskArrayOutput {
-	return i.ToGetIsInstanceDiskArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceDiskArray) ToGetIsInstanceDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDiskArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDiskArrayOutput)
-}
-
-type GetIsInstanceDiskOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceDiskOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceDisk)(nil)).Elem()
-}
-
-func (o GetIsInstanceDiskOutput) ToGetIsInstanceDiskOutput() GetIsInstanceDiskOutput {
-	return o
-}
-
-func (o GetIsInstanceDiskOutput) ToGetIsInstanceDiskOutputWithContext(ctx context.Context) GetIsInstanceDiskOutput {
-	return o
-}
-
-// The date and time that the disk was created.
-func (o GetIsInstanceDiskOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The URL for this instance disk.
-func (o GetIsInstanceDiskOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance disk.
-func (o GetIsInstanceDiskOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
-func (o GetIsInstanceDiskOutput) InterfaceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.InterfaceType }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this disk.
-func (o GetIsInstanceDiskOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceDiskOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-// The size of the disk in GB (gigabytes).
-func (o GetIsInstanceDiskOutput) Size() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceDisk) int { return v.Size }).(pulumi.IntOutput)
-}
-
-type GetIsInstanceDiskArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceDiskArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceDisk)(nil)).Elem()
-}
-
-func (o GetIsInstanceDiskArrayOutput) ToGetIsInstanceDiskArrayOutput() GetIsInstanceDiskArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceDiskArrayOutput) ToGetIsInstanceDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDiskArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceDiskArrayOutput) Index(i pulumi.IntInput) GetIsInstanceDiskOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceDisk {
-		return vs[0].([]GetIsInstanceDisk)[vs[1].(int)]
-	}).(GetIsInstanceDiskOutput)
-}
-
-type GetIsInstanceDisksDisk struct {
-	// The date and time that the disk was created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The URL for this instance disk.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance disk.
-	Id string `pulumi:"id"`
-	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
-	InterfaceType string `pulumi:"interfaceType"`
-	// The user-defined name for this disk.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-	// The size of the disk in GB (gigabytes).
-	Size int `pulumi:"size"`
-}
-
-// GetIsInstanceDisksDiskInput is an input type that accepts GetIsInstanceDisksDiskArgs and GetIsInstanceDisksDiskOutput values.
-// You can construct a concrete instance of `GetIsInstanceDisksDiskInput` via:
-//
-//	GetIsInstanceDisksDiskArgs{...}
-type GetIsInstanceDisksDiskInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceDisksDiskOutput() GetIsInstanceDisksDiskOutput
-	ToGetIsInstanceDisksDiskOutputWithContext(context.Context) GetIsInstanceDisksDiskOutput
-}
-
-type GetIsInstanceDisksDiskArgs struct {
-	// The date and time that the disk was created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The URL for this instance disk.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance disk.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
-	InterfaceType pulumi.StringInput `pulumi:"interfaceType"`
-	// The user-defined name for this disk.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-	// The size of the disk in GB (gigabytes).
-	Size pulumi.IntInput `pulumi:"size"`
-}
-
-func (GetIsInstanceDisksDiskArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceDisksDisk)(nil)).Elem()
-}
-
-func (i GetIsInstanceDisksDiskArgs) ToGetIsInstanceDisksDiskOutput() GetIsInstanceDisksDiskOutput {
-	return i.ToGetIsInstanceDisksDiskOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceDisksDiskArgs) ToGetIsInstanceDisksDiskOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDisksDiskOutput)
-}
-
-// GetIsInstanceDisksDiskArrayInput is an input type that accepts GetIsInstanceDisksDiskArray and GetIsInstanceDisksDiskArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceDisksDiskArrayInput` via:
-//
-//	GetIsInstanceDisksDiskArray{ GetIsInstanceDisksDiskArgs{...} }
-type GetIsInstanceDisksDiskArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceDisksDiskArrayOutput() GetIsInstanceDisksDiskArrayOutput
-	ToGetIsInstanceDisksDiskArrayOutputWithContext(context.Context) GetIsInstanceDisksDiskArrayOutput
-}
-
-type GetIsInstanceDisksDiskArray []GetIsInstanceDisksDiskInput
-
-func (GetIsInstanceDisksDiskArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceDisksDisk)(nil)).Elem()
-}
-
-func (i GetIsInstanceDisksDiskArray) ToGetIsInstanceDisksDiskArrayOutput() GetIsInstanceDisksDiskArrayOutput {
-	return i.ToGetIsInstanceDisksDiskArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceDisksDiskArray) ToGetIsInstanceDisksDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceDisksDiskArrayOutput)
-}
-
-type GetIsInstanceDisksDiskOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceDisksDiskOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceDisksDisk)(nil)).Elem()
-}
-
-func (o GetIsInstanceDisksDiskOutput) ToGetIsInstanceDisksDiskOutput() GetIsInstanceDisksDiskOutput {
-	return o
-}
-
-func (o GetIsInstanceDisksDiskOutput) ToGetIsInstanceDisksDiskOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskOutput {
-	return o
-}
-
-// The date and time that the disk was created.
-func (o GetIsInstanceDisksDiskOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The URL for this instance disk.
-func (o GetIsInstanceDisksDiskOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance disk.
-func (o GetIsInstanceDisksDiskOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The disk interface used for attaching the disk.The enumerated values for this property are expected to expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected property value was encountered.
-func (o GetIsInstanceDisksDiskOutput) InterfaceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.InterfaceType }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this disk.
-func (o GetIsInstanceDisksDiskOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceDisksDiskOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-// The size of the disk in GB (gigabytes).
-func (o GetIsInstanceDisksDiskOutput) Size() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceDisksDisk) int { return v.Size }).(pulumi.IntOutput)
-}
-
-type GetIsInstanceDisksDiskArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceDisksDiskArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceDisksDisk)(nil)).Elem()
-}
-
-func (o GetIsInstanceDisksDiskArrayOutput) ToGetIsInstanceDisksDiskArrayOutput() GetIsInstanceDisksDiskArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceDisksDiskArrayOutput) ToGetIsInstanceDisksDiskArrayOutputWithContext(ctx context.Context) GetIsInstanceDisksDiskArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceDisksDiskArrayOutput) Index(i pulumi.IntInput) GetIsInstanceDisksDiskOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceDisksDisk {
-		return vs[0].([]GetIsInstanceDisksDisk)[vs[1].(int)]
-	}).(GetIsInstanceDisksDiskOutput)
-}
-
-type GetIsInstanceGpus struct {
-	// Instance GPU Count
-	Count int `pulumi:"count"`
-	// Instance GPU Manufacturer
-	Manufacturer string `pulumi:"manufacturer"`
-	// Instance GPU Memory
-	Memory int `pulumi:"memory"`
-	// Instance GPU Model
-	Model string `pulumi:"model"`
-}
-
-// GetIsInstanceGpusInput is an input type that accepts GetIsInstanceGpusArgs and GetIsInstanceGpusOutput values.
-// You can construct a concrete instance of `GetIsInstanceGpusInput` via:
-//
-//	GetIsInstanceGpusArgs{...}
-type GetIsInstanceGpusInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGpusOutput() GetIsInstanceGpusOutput
-	ToGetIsInstanceGpusOutputWithContext(context.Context) GetIsInstanceGpusOutput
-}
-
-type GetIsInstanceGpusArgs struct {
-	// Instance GPU Count
-	Count pulumi.IntInput `pulumi:"count"`
-	// Instance GPU Manufacturer
-	Manufacturer pulumi.StringInput `pulumi:"manufacturer"`
-	// Instance GPU Memory
-	Memory pulumi.IntInput `pulumi:"memory"`
-	// Instance GPU Model
-	Model pulumi.StringInput `pulumi:"model"`
-}
-
-func (GetIsInstanceGpusArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGpus)(nil)).Elem()
-}
-
-func (i GetIsInstanceGpusArgs) ToGetIsInstanceGpusOutput() GetIsInstanceGpusOutput {
-	return i.ToGetIsInstanceGpusOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGpusArgs) ToGetIsInstanceGpusOutputWithContext(ctx context.Context) GetIsInstanceGpusOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGpusOutput)
-}
-
-// GetIsInstanceGpusArrayInput is an input type that accepts GetIsInstanceGpusArray and GetIsInstanceGpusArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGpusArrayInput` via:
-//
-//	GetIsInstanceGpusArray{ GetIsInstanceGpusArgs{...} }
-type GetIsInstanceGpusArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGpusArrayOutput() GetIsInstanceGpusArrayOutput
-	ToGetIsInstanceGpusArrayOutputWithContext(context.Context) GetIsInstanceGpusArrayOutput
-}
-
-type GetIsInstanceGpusArray []GetIsInstanceGpusInput
-
-func (GetIsInstanceGpusArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGpus)(nil)).Elem()
-}
-
-func (i GetIsInstanceGpusArray) ToGetIsInstanceGpusArrayOutput() GetIsInstanceGpusArrayOutput {
-	return i.ToGetIsInstanceGpusArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGpusArray) ToGetIsInstanceGpusArrayOutputWithContext(ctx context.Context) GetIsInstanceGpusArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGpusArrayOutput)
-}
-
-type GetIsInstanceGpusOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGpusOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGpus)(nil)).Elem()
-}
-
-func (o GetIsInstanceGpusOutput) ToGetIsInstanceGpusOutput() GetIsInstanceGpusOutput {
-	return o
-}
-
-func (o GetIsInstanceGpusOutput) ToGetIsInstanceGpusOutputWithContext(ctx context.Context) GetIsInstanceGpusOutput {
-	return o
-}
-
-// Instance GPU Count
-func (o GetIsInstanceGpusOutput) Count() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGpus) int { return v.Count }).(pulumi.IntOutput)
-}
-
-// Instance GPU Manufacturer
-func (o GetIsInstanceGpusOutput) Manufacturer() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGpus) string { return v.Manufacturer }).(pulumi.StringOutput)
-}
-
-// Instance GPU Memory
-func (o GetIsInstanceGpusOutput) Memory() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGpus) int { return v.Memory }).(pulumi.IntOutput)
-}
-
-// Instance GPU Model
-func (o GetIsInstanceGpusOutput) Model() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGpus) string { return v.Model }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGpusArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGpusArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGpus)(nil)).Elem()
-}
-
-func (o GetIsInstanceGpusArrayOutput) ToGetIsInstanceGpusArrayOutput() GetIsInstanceGpusArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGpusArrayOutput) ToGetIsInstanceGpusArrayOutputWithContext(ctx context.Context) GetIsInstanceGpusArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGpusArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGpusOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGpus {
-		return vs[0].([]GetIsInstanceGpus)[vs[1].(int)]
-	}).(GetIsInstanceGpusOutput)
-}
-
-type GetIsInstanceGroupManagerActionType struct {
-	InstanceGroupManagerAction     string `pulumi:"instanceGroupManagerAction"`
-	InstanceGroupManagerActionName string `pulumi:"instanceGroupManagerActionName"`
-	ResourceType                   string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceGroupManagerActionTypeInput is an input type that accepts GetIsInstanceGroupManagerActionTypeArgs and GetIsInstanceGroupManagerActionTypeOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagerActionTypeInput` via:
-//
-//	GetIsInstanceGroupManagerActionTypeArgs{...}
-type GetIsInstanceGroupManagerActionTypeInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagerActionTypeOutput() GetIsInstanceGroupManagerActionTypeOutput
-	ToGetIsInstanceGroupManagerActionTypeOutputWithContext(context.Context) GetIsInstanceGroupManagerActionTypeOutput
-}
-
-type GetIsInstanceGroupManagerActionTypeArgs struct {
-	InstanceGroupManagerAction     pulumi.StringInput `pulumi:"instanceGroupManagerAction"`
-	InstanceGroupManagerActionName pulumi.StringInput `pulumi:"instanceGroupManagerActionName"`
-	ResourceType                   pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceGroupManagerActionTypeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagerActionType)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagerActionTypeArgs) ToGetIsInstanceGroupManagerActionTypeOutput() GetIsInstanceGroupManagerActionTypeOutput {
-	return i.ToGetIsInstanceGroupManagerActionTypeOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagerActionTypeArgs) ToGetIsInstanceGroupManagerActionTypeOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionTypeOutput)
-}
-
-// GetIsInstanceGroupManagerActionTypeArrayInput is an input type that accepts GetIsInstanceGroupManagerActionTypeArray and GetIsInstanceGroupManagerActionTypeArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagerActionTypeArrayInput` via:
-//
-//	GetIsInstanceGroupManagerActionTypeArray{ GetIsInstanceGroupManagerActionTypeArgs{...} }
-type GetIsInstanceGroupManagerActionTypeArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagerActionTypeArrayOutput() GetIsInstanceGroupManagerActionTypeArrayOutput
-	ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(context.Context) GetIsInstanceGroupManagerActionTypeArrayOutput
-}
-
-type GetIsInstanceGroupManagerActionTypeArray []GetIsInstanceGroupManagerActionTypeInput
-
-func (GetIsInstanceGroupManagerActionTypeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionType)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagerActionTypeArray) ToGetIsInstanceGroupManagerActionTypeArrayOutput() GetIsInstanceGroupManagerActionTypeArrayOutput {
-	return i.ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagerActionTypeArray) ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionTypeArrayOutput)
-}
-
-type GetIsInstanceGroupManagerActionTypeOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagerActionTypeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagerActionType)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagerActionTypeOutput) ToGetIsInstanceGroupManagerActionTypeOutput() GetIsInstanceGroupManagerActionTypeOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionTypeOutput) ToGetIsInstanceGroupManagerActionTypeOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionTypeOutput) InstanceGroupManagerAction() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionType) string { return v.InstanceGroupManagerAction }).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupManagerActionTypeOutput) InstanceGroupManagerActionName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionType) string { return v.InstanceGroupManagerActionName }).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupManagerActionTypeOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionType) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupManagerActionTypeArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagerActionTypeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionType)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagerActionTypeArrayOutput) ToGetIsInstanceGroupManagerActionTypeArrayOutput() GetIsInstanceGroupManagerActionTypeArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionTypeArrayOutput) ToGetIsInstanceGroupManagerActionTypeArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionTypeArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionTypeArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagerActionTypeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagerActionType {
-		return vs[0].([]GetIsInstanceGroupManagerActionType)[vs[1].(int)]
-	}).(GetIsInstanceGroupManagerActionTypeOutput)
-}
-
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerAction struct {
-	// Instance group manager action ID
-	ActionId string `pulumi:"actionId"`
-	// The type of action for the instance group.
-	ActionType        string `pulumi:"actionType"`
-	AutoDelete        bool   `pulumi:"autoDelete"`
-	AutoDeleteTimeout int    `pulumi:"autoDeleteTimeout"`
-	// The date and time that the instance group manager action was modified.
-	CreatedAt string `pulumi:"createdAt"`
-	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min period.
-	CronSpec string `pulumi:"cronSpec"`
-	// instance group ID
-	InstanceGroup string `pulumi:"instanceGroup"`
-	// The date and time the scheduled action was last applied. If empty the action has never been applied.
-	LastAppliedAt string `pulumi:"lastAppliedAt"`
-	// The maximum number of members in a managed instance group
-	MaxMembershipCount int `pulumi:"maxMembershipCount"`
-	// The number of members the instance group should have at the scheduled time.
-	MembershipCount int `pulumi:"membershipCount"`
-	// The minimum number of members in a managed instance group
-	MinMembershipCount int `pulumi:"minMembershipCount"`
-	// instance group manager action name
-	Name string `pulumi:"name"`
-	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run time.
-	NextRunAt string `pulumi:"nextRunAt"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-	// The date and time the scheduled action will run.
-	RunAt string `pulumi:"runAt"`
-	// The status of the instance group action- `active`: Action is ready to be run- `completed`: Action was completed successfully- `failed`: Action could not be completed successfully- `incompatible`: Action parameters are not compatible with the group or manager- `omitted`: Action was not applied because this action's manager was disabled.
-	Status string `pulumi:"status"`
-	// The unique identifier for this instance group manager of type autoscale.
-	TargetManager string `pulumi:"targetManager"`
-	// Instance group manager name of type autoscale.
-	TargetManagerName string `pulumi:"targetManagerName"`
-	// The date and time that the instance group manager action was modified.
-	UpdatedAt string `pulumi:"updatedAt"`
-}
-
-// GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput is an input type that accepts GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs and GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput` via:
-//
-//	GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs{...}
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput
-	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput
-}
-
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs struct {
-	// Instance group manager action ID
-	ActionId pulumi.StringInput `pulumi:"actionId"`
-	// The type of action for the instance group.
-	ActionType        pulumi.StringInput `pulumi:"actionType"`
-	AutoDelete        pulumi.BoolInput   `pulumi:"autoDelete"`
-	AutoDeleteTimeout pulumi.IntInput    `pulumi:"autoDeleteTimeout"`
-	// The date and time that the instance group manager action was modified.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min period.
-	CronSpec pulumi.StringInput `pulumi:"cronSpec"`
-	// instance group ID
-	InstanceGroup pulumi.StringInput `pulumi:"instanceGroup"`
-	// The date and time the scheduled action was last applied. If empty the action has never been applied.
-	LastAppliedAt pulumi.StringInput `pulumi:"lastAppliedAt"`
-	// The maximum number of members in a managed instance group
-	MaxMembershipCount pulumi.IntInput `pulumi:"maxMembershipCount"`
-	// The number of members the instance group should have at the scheduled time.
-	MembershipCount pulumi.IntInput `pulumi:"membershipCount"`
-	// The minimum number of members in a managed instance group
-	MinMembershipCount pulumi.IntInput `pulumi:"minMembershipCount"`
-	// instance group manager action name
-	Name pulumi.StringInput `pulumi:"name"`
-	// The date and time the scheduled action will next run. If empty the system is currently calculating the next run time.
-	NextRunAt pulumi.StringInput `pulumi:"nextRunAt"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-	// The date and time the scheduled action will run.
-	RunAt pulumi.StringInput `pulumi:"runAt"`
-	// The status of the instance group action- `active`: Action is ready to be run- `completed`: Action was completed successfully- `failed`: Action could not be completed successfully- `incompatible`: Action parameters are not compatible with the group or manager- `omitted`: Action was not applied because this action's manager was disabled.
-	Status pulumi.StringInput `pulumi:"status"`
-	// The unique identifier for this instance group manager of type autoscale.
-	TargetManager pulumi.StringInput `pulumi:"targetManager"`
-	// Instance group manager name of type autoscale.
-	TargetManagerName pulumi.StringInput `pulumi:"targetManagerName"`
-	// The date and time that the instance group manager action was modified.
-	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
-}
-
-func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
-	return i.ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput)
-}
-
-// GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput is an input type that accepts GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray and GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput` via:
-//
-//	GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray{ GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs{...} }
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput
-	ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput
-}
-
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray []GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput
-
-func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
-	return i.ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput)
-}
-
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
-	return o
-}
-
-// Instance group manager action ID
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ActionId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.ActionId }).(pulumi.StringOutput)
-}
-
-// The type of action for the instance group.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ActionType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.ActionType }).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) AutoDelete() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) bool { return v.AutoDelete }).(pulumi.BoolOutput)
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) AutoDeleteTimeout() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.AutoDeleteTimeout }).(pulumi.IntOutput)
-}
-
-// The date and time that the instance group manager action was modified.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The cron specification for a recurring scheduled action. Actions can be applied a maximum of one time within a 5 min period.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) CronSpec() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.CronSpec }).(pulumi.StringOutput)
-}
-
-// instance group ID
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) InstanceGroup() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.InstanceGroup }).(pulumi.StringOutput)
-}
-
-// The date and time the scheduled action was last applied. If empty the action has never been applied.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) LastAppliedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.LastAppliedAt }).(pulumi.StringOutput)
-}
-
-// The maximum number of members in a managed instance group
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) MaxMembershipCount() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.MaxMembershipCount }).(pulumi.IntOutput)
-}
-
-// The number of members the instance group should have at the scheduled time.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) MembershipCount() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.MembershipCount }).(pulumi.IntOutput)
-}
-
-// The minimum number of members in a managed instance group
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) MinMembershipCount() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) int { return v.MinMembershipCount }).(pulumi.IntOutput)
-}
-
-// instance group manager action name
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The date and time the scheduled action will next run. If empty the system is currently calculating the next run time.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) NextRunAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.NextRunAt }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-// The date and time the scheduled action will run.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) RunAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.RunAt }).(pulumi.StringOutput)
-}
-
-// The status of the instance group action- `active`: Action is ready to be run- `completed`: Action was completed successfully- `failed`: Action could not be completed successfully- `incompatible`: Action parameters are not compatible with the group or manager- `omitted`: Action was not applied because this action's manager was disabled.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance group manager of type autoscale.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) TargetManager() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.TargetManager }).(pulumi.StringOutput)
-}
-
-// Instance group manager name of type autoscale.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) TargetManagerName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.TargetManagerName }).(pulumi.StringOutput)
-}
-
-// The date and time that the instance group manager action was modified.
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerActionsInstanceGroupManagerAction) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagerActionsInstanceGroupManagerAction {
-		return vs[0].([]GetIsInstanceGroupManagerActionsInstanceGroupManagerAction)[vs[1].(int)]
-	}).(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput)
-}
-
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy struct {
-	// ID of the instance group manager policy.
-	Id string `pulumi:"id"`
-	// The type of metric to be evaluated
-	MetricType string `pulumi:"metricType"`
-	// The metric value to be evaluated
-	MetricValue int `pulumi:"metricValue"`
-	// The name of the instance group manager policy
-	Name string `pulumi:"name"`
-	// The policy ID
-	PolicyId string `pulumi:"policyId"`
-	// The type of Policy for the Instance Group
-	PolicyType string `pulumi:"policyType"`
-}
-
-// GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput is an input type that accepts GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs and GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput` via:
-//
-//	GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs{...}
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput
-	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput
-}
-
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs struct {
-	// ID of the instance group manager policy.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The type of metric to be evaluated
-	MetricType pulumi.StringInput `pulumi:"metricType"`
-	// The metric value to be evaluated
-	MetricValue pulumi.IntInput `pulumi:"metricValue"`
-	// The name of the instance group manager policy
-	Name pulumi.StringInput `pulumi:"name"`
-	// The policy ID
-	PolicyId pulumi.StringInput `pulumi:"policyId"`
-	// The type of Policy for the Instance Group
-	PolicyType pulumi.StringInput `pulumi:"policyType"`
-}
-
-func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
-	return i.ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput)
-}
-
-// GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput is an input type that accepts GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray and GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput` via:
-//
-//	GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray{ GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs{...} }
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput
-	ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput
-}
-
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray []GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput
-
-func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
-	return i.ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput)
-}
-
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
-	return o
-}
-
-// ID of the instance group manager policy.
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The type of metric to be evaluated
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) MetricType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.MetricType }).(pulumi.StringOutput)
-}
-
-// The metric value to be evaluated
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) MetricValue() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) int { return v.MetricValue }).(pulumi.IntOutput)
-}
-
-// The name of the instance group manager policy
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The policy ID
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) PolicyId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.PolicyId }).(pulumi.StringOutput)
-}
-
-// The type of Policy for the Instance Group
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput) PolicyType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy) string { return v.PolicyType }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput() GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) ToGetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy {
-		return vs[0].([]GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicy)[vs[1].(int)]
-	}).(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput)
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManager struct {
-	Actions []GetIsInstanceGroupManagersInstanceGroupManagerAction `pulumi:"actions"`
-	// The time window in seconds to aggregate metrics prior to evaluation
-	AggregationWindow int `pulumi:"aggregationWindow"`
-	// The duration of time in seconds to pause further scale actions after scaling has taken place
-	Cooldown int `pulumi:"cooldown"`
-	// ID of the instance group manager.
-	Id string `pulumi:"id"`
-	// The ID of instance group manager.
-	ManagerId string `pulumi:"managerId"`
-	// The type of instance group manager.
-	ManagerType string `pulumi:"managerType"`
-	// The maximum number of members in a managed instance group
-	MaxMembershipCount int `pulumi:"maxMembershipCount"`
-	// The minimum number of members in a managed instance group
-	MinMembershipCount int `pulumi:"minMembershipCount"`
-	// Name of the instance group manager.
-	Name string `pulumi:"name"`
-	// list of Policies associated with instancegroup manager
-	Policies []string `pulumi:"policies"`
-}
-
-// GetIsInstanceGroupManagersInstanceGroupManagerInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerArgs and GetIsInstanceGroupManagersInstanceGroupManagerOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerInput` via:
-//
-//	GetIsInstanceGroupManagersInstanceGroupManagerArgs{...}
-type GetIsInstanceGroupManagersInstanceGroupManagerInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagersInstanceGroupManagerOutput() GetIsInstanceGroupManagersInstanceGroupManagerOutput
-	ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerOutput
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerArgs struct {
-	Actions GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput `pulumi:"actions"`
-	// The time window in seconds to aggregate metrics prior to evaluation
-	AggregationWindow pulumi.IntInput `pulumi:"aggregationWindow"`
-	// The duration of time in seconds to pause further scale actions after scaling has taken place
-	Cooldown pulumi.IntInput `pulumi:"cooldown"`
-	// ID of the instance group manager.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The ID of instance group manager.
-	ManagerId pulumi.StringInput `pulumi:"managerId"`
-	// The type of instance group manager.
-	ManagerType pulumi.StringInput `pulumi:"managerType"`
-	// The maximum number of members in a managed instance group
-	MaxMembershipCount pulumi.IntInput `pulumi:"maxMembershipCount"`
-	// The minimum number of members in a managed instance group
-	MinMembershipCount pulumi.IntInput `pulumi:"minMembershipCount"`
-	// Name of the instance group manager.
-	Name pulumi.StringInput `pulumi:"name"`
-	// list of Policies associated with instancegroup manager
-	Policies pulumi.StringArrayInput `pulumi:"policies"`
-}
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerOutput() GetIsInstanceGroupManagersInstanceGroupManagerOutput {
-	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerOutput)
-}
-
-// GetIsInstanceGroupManagersInstanceGroupManagerArrayInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerArray and GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerArrayInput` via:
-//
-//	GetIsInstanceGroupManagersInstanceGroupManagerArray{ GetIsInstanceGroupManagersInstanceGroupManagerArgs{...} }
-type GetIsInstanceGroupManagersInstanceGroupManagerArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput
-	ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerArray []GetIsInstanceGroupManagersInstanceGroupManagerInput
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerArray) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
-	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerArray) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput)
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerOutput() GetIsInstanceGroupManagersInstanceGroupManagerOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Actions() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) []GetIsInstanceGroupManagersInstanceGroupManagerAction {
-		return v.Actions
-	}).(GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput)
-}
-
-// The time window in seconds to aggregate metrics prior to evaluation
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) AggregationWindow() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.AggregationWindow }).(pulumi.IntOutput)
-}
-
-// The duration of time in seconds to pause further scale actions after scaling has taken place
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Cooldown() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.Cooldown }).(pulumi.IntOutput)
-}
-
-// ID of the instance group manager.
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The ID of instance group manager.
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ManagerId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.ManagerId }).(pulumi.StringOutput)
-}
-
-// The type of instance group manager.
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) ManagerType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.ManagerType }).(pulumi.StringOutput)
-}
-
-// The maximum number of members in a managed instance group
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) MaxMembershipCount() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.MaxMembershipCount }).(pulumi.IntOutput)
-}
-
-// The minimum number of members in a managed instance group
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) MinMembershipCount() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) int { return v.MinMembershipCount }).(pulumi.IntOutput)
-}
-
-// Name of the instance group manager.
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// list of Policies associated with instancegroup manager
-func (o GetIsInstanceGroupManagersInstanceGroupManagerOutput) Policies() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManager) []string { return v.Policies }).(pulumi.StringArrayOutput)
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManager)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagersInstanceGroupManagerOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagersInstanceGroupManager {
-		return vs[0].([]GetIsInstanceGroupManagersInstanceGroupManager)[vs[1].(int)]
-	}).(GetIsInstanceGroupManagersInstanceGroupManagerOutput)
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerAction struct {
-	InstanceGroupManagerAction     string `pulumi:"instanceGroupManagerAction"`
-	InstanceGroupManagerActionName string `pulumi:"instanceGroupManagerActionName"`
-	ResourceType                   string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceGroupManagersInstanceGroupManagerActionInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerActionArgs and GetIsInstanceGroupManagersInstanceGroupManagerActionOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerActionInput` via:
-//
-//	GetIsInstanceGroupManagersInstanceGroupManagerActionArgs{...}
-type GetIsInstanceGroupManagersInstanceGroupManagerActionInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionOutput
-	ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerActionArgs struct {
-	InstanceGroupManagerAction     pulumi.StringInput `pulumi:"instanceGroupManagerAction"`
-	InstanceGroupManagerActionName pulumi.StringInput `pulumi:"instanceGroupManagerActionName"`
-	ResourceType                   pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerActionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
-	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArgs) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerActionOutput)
-}
-
-// GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput is an input type that accepts GetIsInstanceGroupManagersInstanceGroupManagerActionArray and GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput` via:
-//
-//	GetIsInstanceGroupManagersInstanceGroupManagerActionArray{ GetIsInstanceGroupManagersInstanceGroupManagerActionArgs{...} }
-type GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput
-	ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerActionArray []GetIsInstanceGroupManagersInstanceGroupManagerActionInput
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerActionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
-	return i.ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupManagersInstanceGroupManagerActionArray) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput)
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerActionOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) InstanceGroupManagerAction() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManagerAction) string {
-		return v.InstanceGroupManagerAction
-	}).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) InstanceGroupManagerActionName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManagerAction) string {
-		return v.InstanceGroupManagerActionName
-	}).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupManagersInstanceGroupManagerAction) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupManagersInstanceGroupManagerAction)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput() GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) ToGetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupManagersInstanceGroupManagerActionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupManagersInstanceGroupManagerAction {
-		return vs[0].([]GetIsInstanceGroupManagersInstanceGroupManagerAction)[vs[1].(int)]
-	}).(GetIsInstanceGroupManagersInstanceGroupManagerActionOutput)
-}
-
-type GetIsInstanceGroupMembershipInstance struct {
-	// The CRN for this virtual server instance.
-	Crn string `pulumi:"crn"`
-	// The user-defined name for this virtual server instance (and default system hostname).
-	Name string `pulumi:"name"`
-	// The unique identifier for this virtual server instance.
-	VirtualServerInstance string `pulumi:"virtualServerInstance"`
-}
-
-// GetIsInstanceGroupMembershipInstanceInput is an input type that accepts GetIsInstanceGroupMembershipInstanceArgs and GetIsInstanceGroupMembershipInstanceOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceInput` via:
-//
-//	GetIsInstanceGroupMembershipInstanceArgs{...}
-type GetIsInstanceGroupMembershipInstanceInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipInstanceOutput() GetIsInstanceGroupMembershipInstanceOutput
-	ToGetIsInstanceGroupMembershipInstanceOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceOutput
-}
-
-type GetIsInstanceGroupMembershipInstanceArgs struct {
-	// The CRN for this virtual server instance.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The user-defined name for this virtual server instance (and default system hostname).
-	Name pulumi.StringInput `pulumi:"name"`
-	// The unique identifier for this virtual server instance.
-	VirtualServerInstance pulumi.StringInput `pulumi:"virtualServerInstance"`
-}
-
-func (GetIsInstanceGroupMembershipInstanceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstance)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipInstanceArgs) ToGetIsInstanceGroupMembershipInstanceOutput() GetIsInstanceGroupMembershipInstanceOutput {
-	return i.ToGetIsInstanceGroupMembershipInstanceOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipInstanceArgs) ToGetIsInstanceGroupMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceOutput)
-}
-
-// GetIsInstanceGroupMembershipInstanceArrayInput is an input type that accepts GetIsInstanceGroupMembershipInstanceArray and GetIsInstanceGroupMembershipInstanceArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceArrayInput` via:
-//
-//	GetIsInstanceGroupMembershipInstanceArray{ GetIsInstanceGroupMembershipInstanceArgs{...} }
-type GetIsInstanceGroupMembershipInstanceArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipInstanceArrayOutput
-	ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceArrayOutput
-}
-
-type GetIsInstanceGroupMembershipInstanceArray []GetIsInstanceGroupMembershipInstanceInput
-
-func (GetIsInstanceGroupMembershipInstanceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstance)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipInstanceArray) ToGetIsInstanceGroupMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipInstanceArrayOutput {
-	return i.ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipInstanceArray) ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceArrayOutput)
-}
-
-type GetIsInstanceGroupMembershipInstanceOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipInstanceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstance)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipInstanceOutput) ToGetIsInstanceGroupMembershipInstanceOutput() GetIsInstanceGroupMembershipInstanceOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipInstanceOutput) ToGetIsInstanceGroupMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceOutput {
-	return o
-}
-
-// The CRN for this virtual server instance.
-func (o GetIsInstanceGroupMembershipInstanceOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstance) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this virtual server instance (and default system hostname).
-func (o GetIsInstanceGroupMembershipInstanceOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstance) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this virtual server instance.
-func (o GetIsInstanceGroupMembershipInstanceOutput) VirtualServerInstance() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstance) string { return v.VirtualServerInstance }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupMembershipInstanceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipInstanceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstance)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipInstanceArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipInstanceArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipInstanceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipInstance {
-		return vs[0].([]GetIsInstanceGroupMembershipInstance)[vs[1].(int)]
-	}).(GetIsInstanceGroupMembershipInstanceOutput)
-}
-
-type GetIsInstanceGroupMembershipInstanceTemplate struct {
-	// The CRN for this instance template.
-	Crn string `pulumi:"crn"`
-	// The unique identifier for this instance template.
-	InstanceTemplate string `pulumi:"instanceTemplate"`
-	// The unique user-defined name for this instance template.
-	Name string `pulumi:"name"`
-}
-
-// GetIsInstanceGroupMembershipInstanceTemplateInput is an input type that accepts GetIsInstanceGroupMembershipInstanceTemplateArgs and GetIsInstanceGroupMembershipInstanceTemplateOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceTemplateInput` via:
-//
-//	GetIsInstanceGroupMembershipInstanceTemplateArgs{...}
-type GetIsInstanceGroupMembershipInstanceTemplateInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipInstanceTemplateOutput
-	ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceTemplateOutput
-}
-
-type GetIsInstanceGroupMembershipInstanceTemplateArgs struct {
-	// The CRN for this instance template.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The unique identifier for this instance template.
-	InstanceTemplate pulumi.StringInput `pulumi:"instanceTemplate"`
-	// The unique user-defined name for this instance template.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsInstanceGroupMembershipInstanceTemplateArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipInstanceTemplateOutput {
-	return i.ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceTemplateOutput)
-}
-
-// GetIsInstanceGroupMembershipInstanceTemplateArrayInput is an input type that accepts GetIsInstanceGroupMembershipInstanceTemplateArray and GetIsInstanceGroupMembershipInstanceTemplateArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipInstanceTemplateArrayInput` via:
-//
-//	GetIsInstanceGroupMembershipInstanceTemplateArray{ GetIsInstanceGroupMembershipInstanceTemplateArgs{...} }
-type GetIsInstanceGroupMembershipInstanceTemplateArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipInstanceTemplateArrayOutput
-	ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipInstanceTemplateArrayOutput
-}
-
-type GetIsInstanceGroupMembershipInstanceTemplateArray []GetIsInstanceGroupMembershipInstanceTemplateInput
-
-func (GetIsInstanceGroupMembershipInstanceTemplateArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
-	return i.ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipInstanceTemplateArrayOutput)
-}
-
-type GetIsInstanceGroupMembershipInstanceTemplateOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipInstanceTemplateOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipInstanceTemplateOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateOutput {
-	return o
-}
-
-// The CRN for this instance template.
-func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstanceTemplate) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance template.
-func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) InstanceTemplate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstanceTemplate) string { return v.InstanceTemplate }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this instance template.
-func (o GetIsInstanceGroupMembershipInstanceTemplateOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipInstanceTemplate) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupMembershipInstanceTemplateArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipInstanceTemplateArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipInstanceTemplateArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipInstanceTemplateOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipInstanceTemplate {
-		return vs[0].([]GetIsInstanceGroupMembershipInstanceTemplate)[vs[1].(int)]
-	}).(GetIsInstanceGroupMembershipInstanceTemplateOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembership struct {
-	// If set to true, when deleting the membership the instance will also be deleted.
-	DeleteInstanceOnMembershipDelete bool `pulumi:"deleteInstanceOnMembershipDelete"`
-	// The unique identifier for this instance group membership.
-	InstanceGroupMembership string                                                    `pulumi:"instanceGroupMembership"`
-	InstanceTemplates       []GetIsInstanceGroupMembershipsMembershipInstanceTemplate `pulumi:"instanceTemplates"`
-	Instances               []GetIsInstanceGroupMembershipsMembershipInstance         `pulumi:"instances"`
-	// The unique identifier for this load balancer pool member.
-	LoadBalancerPoolMember string `pulumi:"loadBalancerPoolMember"`
-	// The user-defined name for this instance group membership. Names must be unique within the instance group.
-	Name string `pulumi:"name"`
-	// The status of the instance group membership- `deleting`: Membership is deleting dependent resources- `failed`: Membership was unable to maintain dependent resources- `healthy`: Membership is active and serving in the group- `pending`: Membership is waiting for dependent resources- `unhealthy`: Membership has unhealthy dependent resources.
-	Status string `pulumi:"status"`
-}
-
-// GetIsInstanceGroupMembershipsMembershipInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipArgs and GetIsInstanceGroupMembershipsMembershipOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInput` via:
-//
-//	GetIsInstanceGroupMembershipsMembershipArgs{...}
-type GetIsInstanceGroupMembershipsMembershipInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipsMembershipOutput() GetIsInstanceGroupMembershipsMembershipOutput
-	ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipOutput
-}
-
-type GetIsInstanceGroupMembershipsMembershipArgs struct {
-	// If set to true, when deleting the membership the instance will also be deleted.
-	DeleteInstanceOnMembershipDelete pulumi.BoolInput `pulumi:"deleteInstanceOnMembershipDelete"`
-	// The unique identifier for this instance group membership.
-	InstanceGroupMembership pulumi.StringInput                                                `pulumi:"instanceGroupMembership"`
-	InstanceTemplates       GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput `pulumi:"instanceTemplates"`
-	Instances               GetIsInstanceGroupMembershipsMembershipInstanceArrayInput         `pulumi:"instances"`
-	// The unique identifier for this load balancer pool member.
-	LoadBalancerPoolMember pulumi.StringInput `pulumi:"loadBalancerPoolMember"`
-	// The user-defined name for this instance group membership. Names must be unique within the instance group.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The status of the instance group membership- `deleting`: Membership is deleting dependent resources- `failed`: Membership was unable to maintain dependent resources- `healthy`: Membership is active and serving in the group- `pending`: Membership is waiting for dependent resources- `unhealthy`: Membership has unhealthy dependent resources.
-	Status pulumi.StringInput `pulumi:"status"`
-}
-
-func (GetIsInstanceGroupMembershipsMembershipArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipArgs) ToGetIsInstanceGroupMembershipsMembershipOutput() GetIsInstanceGroupMembershipsMembershipOutput {
-	return i.ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipArgs) ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipOutput)
-}
-
-// GetIsInstanceGroupMembershipsMembershipArrayInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipArray and GetIsInstanceGroupMembershipsMembershipArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipArrayInput` via:
-//
-//	GetIsInstanceGroupMembershipsMembershipArray{ GetIsInstanceGroupMembershipsMembershipArgs{...} }
-type GetIsInstanceGroupMembershipsMembershipArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipsMembershipArrayOutput() GetIsInstanceGroupMembershipsMembershipArrayOutput
-	ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipArrayOutput
-}
-
-type GetIsInstanceGroupMembershipsMembershipArray []GetIsInstanceGroupMembershipsMembershipInput
-
-func (GetIsInstanceGroupMembershipsMembershipArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipArray) ToGetIsInstanceGroupMembershipsMembershipArrayOutput() GetIsInstanceGroupMembershipsMembershipArrayOutput {
-	return i.ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipArray) ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipArrayOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipsMembershipOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipOutput) ToGetIsInstanceGroupMembershipsMembershipOutput() GetIsInstanceGroupMembershipsMembershipOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipOutput) ToGetIsInstanceGroupMembershipsMembershipOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipOutput {
-	return o
-}
-
-// If set to true, when deleting the membership the instance will also be deleted.
-func (o GetIsInstanceGroupMembershipsMembershipOutput) DeleteInstanceOnMembershipDelete() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) bool { return v.DeleteInstanceOnMembershipDelete }).(pulumi.BoolOutput)
-}
-
-// The unique identifier for this instance group membership.
-func (o GetIsInstanceGroupMembershipsMembershipOutput) InstanceGroupMembership() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.InstanceGroupMembership }).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipOutput) InstanceTemplates() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) []GetIsInstanceGroupMembershipsMembershipInstanceTemplate {
-		return v.InstanceTemplates
-	}).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput)
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipOutput) Instances() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) []GetIsInstanceGroupMembershipsMembershipInstance {
-		return v.Instances
-	}).(GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput)
-}
-
-// The unique identifier for this load balancer pool member.
-func (o GetIsInstanceGroupMembershipsMembershipOutput) LoadBalancerPoolMember() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.LoadBalancerPoolMember }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this instance group membership. Names must be unique within the instance group.
-func (o GetIsInstanceGroupMembershipsMembershipOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The status of the instance group membership- `deleting`: Membership is deleting dependent resources- `failed`: Membership was unable to maintain dependent resources- `healthy`: Membership is active and serving in the group- `pending`: Membership is waiting for dependent resources- `unhealthy`: Membership has unhealthy dependent resources.
-func (o GetIsInstanceGroupMembershipsMembershipOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembership) string { return v.Status }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipsMembershipArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembership)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipArrayOutput) ToGetIsInstanceGroupMembershipsMembershipArrayOutput() GetIsInstanceGroupMembershipsMembershipArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipArrayOutput) ToGetIsInstanceGroupMembershipsMembershipArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipsMembershipOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipsMembership {
-		return vs[0].([]GetIsInstanceGroupMembershipsMembership)[vs[1].(int)]
-	}).(GetIsInstanceGroupMembershipsMembershipOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstance struct {
-	// The CRN for this virtual server instance.
-	Crn string `pulumi:"crn"`
-	// The user-defined name for this virtual server instance (and default system hostname).
-	Name string `pulumi:"name"`
-	// The unique identifier for this virtual server instance.
-	VirtualServerInstance string `pulumi:"virtualServerInstance"`
-}
-
-// GetIsInstanceGroupMembershipsMembershipInstanceInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceArgs and GetIsInstanceGroupMembershipsMembershipInstanceOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceInput` via:
-//
-//	GetIsInstanceGroupMembershipsMembershipInstanceArgs{...}
-type GetIsInstanceGroupMembershipsMembershipInstanceInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipsMembershipInstanceOutput() GetIsInstanceGroupMembershipsMembershipInstanceOutput
-	ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceOutput
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceArgs struct {
-	// The CRN for this virtual server instance.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The user-defined name for this virtual server instance (and default system hostname).
-	Name pulumi.StringInput `pulumi:"name"`
-	// The unique identifier for this virtual server instance.
-	VirtualServerInstance pulumi.StringInput `pulumi:"virtualServerInstance"`
-}
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceOutput() GetIsInstanceGroupMembershipsMembershipInstanceOutput {
-	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceOutput)
-}
-
-// GetIsInstanceGroupMembershipsMembershipInstanceArrayInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceArray and GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceArrayInput` via:
-//
-//	GetIsInstanceGroupMembershipsMembershipInstanceArray{ GetIsInstanceGroupMembershipsMembershipInstanceArgs{...} }
-type GetIsInstanceGroupMembershipsMembershipInstanceArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput
-	ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceArray []GetIsInstanceGroupMembershipsMembershipInstanceInput
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceArray) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
-	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceArray) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceOutput() GetIsInstanceGroupMembershipsMembershipInstanceOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceOutput {
-	return o
-}
-
-// The CRN for this virtual server instance.
-func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstance) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this virtual server instance (and default system hostname).
-func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstance) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this virtual server instance.
-func (o GetIsInstanceGroupMembershipsMembershipInstanceOutput) VirtualServerInstance() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstance) string { return v.VirtualServerInstance }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstance)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipsMembershipInstanceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipsMembershipInstance {
-		return vs[0].([]GetIsInstanceGroupMembershipsMembershipInstance)[vs[1].(int)]
-	}).(GetIsInstanceGroupMembershipsMembershipInstanceOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplate struct {
-	// The CRN for this instance template.
-	Crn string `pulumi:"crn"`
-	// The unique identifier for this instance template.
-	InstanceTemplate string `pulumi:"instanceTemplate"`
-	// The unique user-defined name for this instance template.
-	Name string `pulumi:"name"`
-}
-
-// GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs and GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput` via:
-//
-//	GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs{...}
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput
-	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs struct {
-	// The CRN for this instance template.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The unique identifier for this instance template.
-	InstanceTemplate pulumi.StringInput `pulumi:"instanceTemplate"`
-	// The unique user-defined name for this instance template.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
-	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput)
-}
-
-// GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput is an input type that accepts GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray and GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput` via:
-//
-//	GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray{ GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs{...} }
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput
-	ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray []GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
-	return i.ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
-	return o
-}
-
-// The CRN for this instance template.
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstanceTemplate) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance template.
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) InstanceTemplate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstanceTemplate) string { return v.InstanceTemplate }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this instance template.
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupMembershipsMembershipInstanceTemplate) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupMembershipsMembershipInstanceTemplate)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput() GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) ToGetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupMembershipsMembershipInstanceTemplate {
-		return vs[0].([]GetIsInstanceGroupMembershipsMembershipInstanceTemplate)[vs[1].(int)]
-	}).(GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroup struct {
-	// List of access tags
-	AccessTags []string `pulumi:"accessTags"`
-	// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the port for the load balancer pool member.
-	ApplicationPort int `pulumi:"applicationPort"`
-	// The date and time that the instance group was created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The CRN for this instance group.
-	Crn string `pulumi:"crn"`
-	// The URL for this instance group.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance group.
-	Id string `pulumi:"id"`
-	// The template used to create new instances for this group.
-	InstanceTemplates []GetIsInstanceGroupsInstanceGroupInstanceTemplate `pulumi:"instanceTemplates"`
-	// The load balancer pool managed by this group. Instances createdby this group will have a new load balancer pool member in thatpool created.
-	LoadBalancerPools []GetIsInstanceGroupsInstanceGroupLoadBalancerPool `pulumi:"loadBalancerPools"`
-	// The managers for the instance group.
-	Managers []GetIsInstanceGroupsInstanceGroupManager `pulumi:"managers"`
-	// The number of instances in the instance group.
-	MembershipCount int `pulumi:"membershipCount"`
-	// The user-defined name for this instance group.
-	Name           string                                          `pulumi:"name"`
-	ResourceGroups []GetIsInstanceGroupsInstanceGroupResourceGroup `pulumi:"resourceGroups"`
-	// The status of the instance group- `deleting`: Group is being deleted- `healthy`: Group has `membershipCount` instances- `scaling`: Instances in the group are being created or deleted to reach             `membershipCount`- `unhealthy`: Group is unable to reach `membershipCount` instances.
-	Status string `pulumi:"status"`
-	// The subnets to use when creating new instances.
-	Subnets []GetIsInstanceGroupsInstanceGroupSubnet `pulumi:"subnets"`
-	// The date and time that the instance group was updated.
-	UpdatedAt string `pulumi:"updatedAt"`
-	// The VPC the instance group resides in.
-	Vpcs []GetIsInstanceGroupsInstanceGroupVpc `pulumi:"vpcs"`
-}
-
-// GetIsInstanceGroupsInstanceGroupInput is an input type that accepts GetIsInstanceGroupsInstanceGroupArgs and GetIsInstanceGroupsInstanceGroupOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupArgs{...}
-type GetIsInstanceGroupsInstanceGroupInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupOutput() GetIsInstanceGroupsInstanceGroupOutput
-	ToGetIsInstanceGroupsInstanceGroupOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupArgs struct {
-	// List of access tags
-	AccessTags pulumi.StringArrayInput `pulumi:"accessTags"`
-	// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the port for the load balancer pool member.
-	ApplicationPort pulumi.IntInput `pulumi:"applicationPort"`
-	// The date and time that the instance group was created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The CRN for this instance group.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The URL for this instance group.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance group.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The template used to create new instances for this group.
-	InstanceTemplates GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput `pulumi:"instanceTemplates"`
-	// The load balancer pool managed by this group. Instances createdby this group will have a new load balancer pool member in thatpool created.
-	LoadBalancerPools GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput `pulumi:"loadBalancerPools"`
-	// The managers for the instance group.
-	Managers GetIsInstanceGroupsInstanceGroupManagerArrayInput `pulumi:"managers"`
-	// The number of instances in the instance group.
-	MembershipCount pulumi.IntInput `pulumi:"membershipCount"`
-	// The user-defined name for this instance group.
-	Name           pulumi.StringInput                                      `pulumi:"name"`
-	ResourceGroups GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput `pulumi:"resourceGroups"`
-	// The status of the instance group- `deleting`: Group is being deleted- `healthy`: Group has `membershipCount` instances- `scaling`: Instances in the group are being created or deleted to reach             `membershipCount`- `unhealthy`: Group is unable to reach `membershipCount` instances.
-	Status pulumi.StringInput `pulumi:"status"`
-	// The subnets to use when creating new instances.
-	Subnets GetIsInstanceGroupsInstanceGroupSubnetArrayInput `pulumi:"subnets"`
-	// The date and time that the instance group was updated.
-	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
-	// The VPC the instance group resides in.
-	Vpcs GetIsInstanceGroupsInstanceGroupVpcArrayInput `pulumi:"vpcs"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupArgs) ToGetIsInstanceGroupsInstanceGroupOutput() GetIsInstanceGroupsInstanceGroupOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupArgs) ToGetIsInstanceGroupsInstanceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupArray and GetIsInstanceGroupsInstanceGroupArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupArray{ GetIsInstanceGroupsInstanceGroupArgs{...} }
-type GetIsInstanceGroupsInstanceGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupArray []GetIsInstanceGroupsInstanceGroupInput
-
-func (GetIsInstanceGroupsInstanceGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupArray) ToGetIsInstanceGroupsInstanceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupArray) ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupOutput) ToGetIsInstanceGroupsInstanceGroupOutput() GetIsInstanceGroupsInstanceGroupOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupOutput) ToGetIsInstanceGroupsInstanceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupOutput {
-	return o
-}
-
-// List of access tags
-func (o GetIsInstanceGroupsInstanceGroupOutput) AccessTags() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []string { return v.AccessTags }).(pulumi.StringArrayOutput)
-}
-
-// Required if specifying a load balancer pool only. Used by the instance group when scaling up instances to supply the port for the load balancer pool member.
-func (o GetIsInstanceGroupsInstanceGroupOutput) ApplicationPort() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) int { return v.ApplicationPort }).(pulumi.IntOutput)
-}
-
-// The date and time that the instance group was created.
-func (o GetIsInstanceGroupsInstanceGroupOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The CRN for this instance group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The URL for this instance group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The template used to create new instances for this group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) InstanceTemplates() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupInstanceTemplate {
-		return v.InstanceTemplates
-	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput)
-}
-
-// The load balancer pool managed by this group. Instances createdby this group will have a new load balancer pool member in thatpool created.
-func (o GetIsInstanceGroupsInstanceGroupOutput) LoadBalancerPools() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupLoadBalancerPool {
-		return v.LoadBalancerPools
-	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput)
-}
-
-// The managers for the instance group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Managers() GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupManager { return v.Managers }).(GetIsInstanceGroupsInstanceGroupManagerArrayOutput)
-}
-
-// The number of instances in the instance group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) MembershipCount() pulumi.IntOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) int { return v.MembershipCount }).(pulumi.IntOutput)
-}
-
-// The user-defined name for this instance group.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Name }).(pulumi.StringOutput)
-}
-
-func (o GetIsInstanceGroupsInstanceGroupOutput) ResourceGroups() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupResourceGroup {
-		return v.ResourceGroups
-	}).(GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput)
-}
-
-// The status of the instance group- `deleting`: Group is being deleted- `healthy`: Group has `membershipCount` instances- `scaling`: Instances in the group are being created or deleted to reach             `membershipCount`- `unhealthy`: Group is unable to reach `membershipCount` instances.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The subnets to use when creating new instances.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Subnets() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupSubnet { return v.Subnets }).(GetIsInstanceGroupsInstanceGroupSubnetArrayOutput)
-}
-
-// The date and time that the instance group was updated.
-func (o GetIsInstanceGroupsInstanceGroupOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-// The VPC the instance group resides in.
-func (o GetIsInstanceGroupsInstanceGroupOutput) Vpcs() GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroup) []GetIsInstanceGroupsInstanceGroupVpc { return v.Vpcs }).(GetIsInstanceGroupsInstanceGroupVpcArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroup)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroup {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroup)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplate struct {
-	// The CRN for this instance template.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted `pulumi:"deleteds"`
-	// The URL for this instance template.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance template.
-	Id string `pulumi:"id"`
-	// The unique user-defined name for this instance template.
-	Name string `pulumi:"name"`
-}
-
-// GetIsInstanceGroupsInstanceGroupInstanceTemplateInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs and GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs{...}
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs struct {
-	// The CRN for this instance template.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this instance template.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance template.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The unique user-defined name for this instance template.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateArray and GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupInstanceTemplateArray{ GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs{...} }
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateArray []GetIsInstanceGroupsInstanceGroupInstanceTemplateInput
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
-	return o
-}
-
-// The CRN for this instance template.
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Deleteds() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) []GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput)
-}
-
-// The URL for this instance template.
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance template.
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this instance template.
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplate) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplate)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupInstanceTemplate {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupInstanceTemplate)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs and GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs{...}
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray and GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray{ GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs{...} }
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray []GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupInstanceTemplateDeleted)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPool struct {
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted `pulumi:"deleteds"`
-	// The pool's canonical URL.
-	Href string `pulumi:"href"`
-	// The unique identifier for this load balancer pool.
-	Id string `pulumi:"id"`
-	// The user-defined name for this load balancer pool.
-	Name string `pulumi:"name"`
-}
-
-// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs{...}
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs struct {
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput `pulumi:"deleteds"`
-	// The pool's canonical URL.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this load balancer pool.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this load balancer pool.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray{ GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs{...} }
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
-	return o
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Deleteds() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput)
-}
-
-// The pool's canonical URL.
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this load balancer pool.
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this load balancer pool.
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPool) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPool)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupLoadBalancerPool {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupLoadBalancerPool)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs{...}
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray and GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray{ GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs{...} }
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray []GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeleted)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupManager struct {
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsInstanceGroupsInstanceGroupManagerDeleted `pulumi:"deleteds"`
-	// The URL for this instance group manager.
-	Href string `pulumi:"href"`
-	// The unique identifier for this instance group manager.
-	Id string `pulumi:"id"`
-	// The user-defined name for this instance group manager.
-	Name string `pulumi:"name"`
-}
-
-// GetIsInstanceGroupsInstanceGroupManagerInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerArgs and GetIsInstanceGroupsInstanceGroupManagerOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupManagerArgs{...}
-type GetIsInstanceGroupsInstanceGroupManagerInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupManagerOutput() GetIsInstanceGroupsInstanceGroupManagerOutput
-	ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerArgs struct {
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this instance group manager.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this instance group manager.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this instance group manager.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupManagerArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerArgs) ToGetIsInstanceGroupsInstanceGroupManagerOutput() GetIsInstanceGroupsInstanceGroupManagerOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerArgs) ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupManagerArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerArray and GetIsInstanceGroupsInstanceGroupManagerArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupManagerArray{ GetIsInstanceGroupsInstanceGroupManagerArgs{...} }
-type GetIsInstanceGroupsInstanceGroupManagerArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupManagerArrayOutput() GetIsInstanceGroupsInstanceGroupManagerArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerArray []GetIsInstanceGroupsInstanceGroupManagerInput
-
-func (GetIsInstanceGroupsInstanceGroupManagerArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerArray) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutput() GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerArray) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupManagerOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerOutput) ToGetIsInstanceGroupsInstanceGroupManagerOutput() GetIsInstanceGroupsInstanceGroupManagerOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerOutput) ToGetIsInstanceGroupsInstanceGroupManagerOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerOutput {
-	return o
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Deleteds() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) []GetIsInstanceGroupsInstanceGroupManagerDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput)
-}
-
-// The URL for this instance group manager.
-func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this instance group manager.
-func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this instance group manager.
-func (o GetIsInstanceGroupsInstanceGroupManagerOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManager) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupManagerArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManager)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutput() GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupManagerOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupManager {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupManager)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupManagerOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceGroupsInstanceGroupManagerDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerDeletedArgs and GetIsInstanceGroupsInstanceGroupManagerDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerDeletedInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupManagerDeletedArgs{...}
-type GetIsInstanceGroupsInstanceGroupManagerDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedOutput
-	ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupManagerDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArgs) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArgs) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerDeletedOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupManagerDeletedArray and GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupManagerDeletedArray{ GetIsInstanceGroupsInstanceGroupManagerDeletedArgs{...} }
-type GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerDeletedArray []GetIsInstanceGroupsInstanceGroupManagerDeletedInput
-
-func (GetIsInstanceGroupsInstanceGroupManagerDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArray) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupManagerDeletedArray) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceGroupsInstanceGroupManagerDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupManagerDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupManagerDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupManagerDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupManagerDeleted {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupManagerDeleted)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupManagerDeletedOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupResourceGroup struct {
-	// The URL for this resource group.
-	Href string `pulumi:"href"`
-	// The unique identifier for this resource group.
-	Id string `pulumi:"id"`
-	// The user-defined name for this resource group.
-	Name string `pulumi:"name"`
-}
-
-// GetIsInstanceGroupsInstanceGroupResourceGroupInput is an input type that accepts GetIsInstanceGroupsInstanceGroupResourceGroupArgs and GetIsInstanceGroupsInstanceGroupResourceGroupOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupResourceGroupInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupResourceGroupArgs{...}
-type GetIsInstanceGroupsInstanceGroupResourceGroupInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupResourceGroupOutput() GetIsInstanceGroupsInstanceGroupResourceGroupOutput
-	ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupResourceGroupArgs struct {
-	// The URL for this resource group.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this resource group.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this resource group.
-	Name pulumi.StringInput `pulumi:"name"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupResourceGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupResourceGroupArgs) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutput() GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupResourceGroupArgs) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupResourceGroupOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupResourceGroupArray and GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupResourceGroupArray{ GetIsInstanceGroupsInstanceGroupResourceGroupArgs{...} }
-type GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupResourceGroupArray []GetIsInstanceGroupsInstanceGroupResourceGroupInput
-
-func (GetIsInstanceGroupsInstanceGroupResourceGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupResourceGroupArray) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupResourceGroupArray) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupResourceGroupOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupResourceGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutput() GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
-	return o
-}
-
-// The URL for this resource group.
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupResourceGroup) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this resource group.
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupResourceGroup) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this resource group.
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupResourceGroup) string { return v.Name }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupResourceGroup)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput() GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) ToGetIsInstanceGroupsInstanceGroupResourceGroupArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupResourceGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupResourceGroup {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupResourceGroup)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupResourceGroupOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnet struct {
-	// The CRN for this subnet.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsInstanceGroupsInstanceGroupSubnetDeleted `pulumi:"deleteds"`
-	// The URL for this subnet.
-	Href string `pulumi:"href"`
-	// The unique identifier for this subnet.
-	Id string `pulumi:"id"`
-	// The user-defined name for this subnet.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceGroupsInstanceGroupSubnetInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetArgs and GetIsInstanceGroupsInstanceGroupSubnetOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupSubnetArgs{...}
-type GetIsInstanceGroupsInstanceGroupSubnetInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupSubnetOutput() GetIsInstanceGroupsInstanceGroupSubnetOutput
-	ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetArgs struct {
-	// The CRN for this subnet.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this subnet.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this subnet.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The user-defined name for this subnet.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupSubnetArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetArgs) ToGetIsInstanceGroupsInstanceGroupSubnetOutput() GetIsInstanceGroupsInstanceGroupSubnetOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetArgs) ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupSubnetArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetArray and GetIsInstanceGroupsInstanceGroupSubnetArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupSubnetArray{ GetIsInstanceGroupsInstanceGroupSubnetArgs{...} }
-type GetIsInstanceGroupsInstanceGroupSubnetArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetArray []GetIsInstanceGroupsInstanceGroupSubnetInput
-
-func (GetIsInstanceGroupsInstanceGroupSubnetArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetArray) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetArray) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupSubnetOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) ToGetIsInstanceGroupsInstanceGroupSubnetOutput() GetIsInstanceGroupsInstanceGroupSubnetOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) ToGetIsInstanceGroupsInstanceGroupSubnetOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetOutput {
-	return o
-}
-
-// The CRN for this subnet.
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Deleteds() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) []GetIsInstanceGroupsInstanceGroupSubnetDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput)
-}
-
-// The URL for this subnet.
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this subnet.
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The user-defined name for this subnet.
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceGroupsInstanceGroupSubnetOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnet) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnet)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupSubnetOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupSubnet {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupSubnet)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupSubnetOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceGroupsInstanceGroupSubnetDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs and GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetDeletedInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs{...}
-type GetIsInstanceGroupsInstanceGroupSubnetDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput
-	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupSubnetDeletedArray and GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupSubnetDeletedArray{ GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs{...} }
-type GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetDeletedArray []GetIsInstanceGroupsInstanceGroupSubnetDeletedInput
-
-func (GetIsInstanceGroupsInstanceGroupSubnetDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArray) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupSubnetDeletedArray) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupSubnetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupSubnetDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupSubnetDeleted {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupSubnetDeleted)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupVpc struct {
-	// The CRN for this VPC.
-	Crn string `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds []GetIsInstanceGroupsInstanceGroupVpcDeleted `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href string `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id string `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name string `pulumi:"name"`
-	// The resource type.
-	ResourceType string `pulumi:"resourceType"`
-}
-
-// GetIsInstanceGroupsInstanceGroupVpcInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcArgs and GetIsInstanceGroupsInstanceGroupVpcOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupVpcArgs{...}
-type GetIsInstanceGroupsInstanceGroupVpcInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupVpcOutput() GetIsInstanceGroupsInstanceGroupVpcOutput
-	ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcArgs struct {
-	// The CRN for this VPC.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-	Deleteds GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput `pulumi:"deleteds"`
-	// The URL for this VPC.
-	Href pulumi.StringInput `pulumi:"href"`
-	// The unique identifier for this VPC.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The unique user-defined name for this VPC.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The resource type.
-	ResourceType pulumi.StringInput `pulumi:"resourceType"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupVpcArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcArgs) ToGetIsInstanceGroupsInstanceGroupVpcOutput() GetIsInstanceGroupsInstanceGroupVpcOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcArgs) ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupVpcArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcArray and GetIsInstanceGroupsInstanceGroupVpcArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupVpcArray{ GetIsInstanceGroupsInstanceGroupVpcArgs{...} }
-type GetIsInstanceGroupsInstanceGroupVpcArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupVpcArrayOutput() GetIsInstanceGroupsInstanceGroupVpcArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcArray []GetIsInstanceGroupsInstanceGroupVpcInput
-
-func (GetIsInstanceGroupsInstanceGroupVpcArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcArray) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutput() GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcArray) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupVpcOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) ToGetIsInstanceGroupsInstanceGroupVpcOutput() GetIsInstanceGroupsInstanceGroupVpcOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) ToGetIsInstanceGroupsInstanceGroupVpcOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcOutput {
-	return o
-}
-
-// The CRN for this VPC.
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Deleteds() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) []GetIsInstanceGroupsInstanceGroupVpcDeleted {
-		return v.Deleteds
-	}).(GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput)
-}
-
-// The URL for this VPC.
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Href() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Href }).(pulumi.StringOutput)
-}
-
-// The unique identifier for this VPC.
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The unique user-defined name for this VPC.
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The resource type.
-func (o GetIsInstanceGroupsInstanceGroupVpcOutput) ResourceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpc) string { return v.ResourceType }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupVpcArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpc)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutput() GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupVpcOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupVpc {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupVpc)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupVpcOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcDeleted struct {
-	// Link to documentation about deleted resources.
-	MoreInfo string `pulumi:"moreInfo"`
-}
-
-// GetIsInstanceGroupsInstanceGroupVpcDeletedInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcDeletedArgs and GetIsInstanceGroupsInstanceGroupVpcDeletedOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcDeletedInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupVpcDeletedArgs{...}
-type GetIsInstanceGroupsInstanceGroupVpcDeletedInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedOutput
-	ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcDeletedArgs struct {
-	// Link to documentation about deleted resources.
-	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
-}
-
-func (GetIsInstanceGroupsInstanceGroupVpcDeletedArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArgs) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArgs) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcDeletedOutput)
-}
-
-// GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput is an input type that accepts GetIsInstanceGroupsInstanceGroupVpcDeletedArray and GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput values.
-// You can construct a concrete instance of `GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput` via:
-//
-//	GetIsInstanceGroupsInstanceGroupVpcDeletedArray{ GetIsInstanceGroupsInstanceGroupVpcDeletedArgs{...} }
-type GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput interface {
-	pulumi.Input
-
-	ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput
-	ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcDeletedArray []GetIsInstanceGroupsInstanceGroupVpcDeletedInput
-
-func (GetIsInstanceGroupsInstanceGroupVpcDeletedArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArray) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
-	return i.ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(context.Background())
-}
-
-func (i GetIsInstanceGroupsInstanceGroupVpcDeletedArray) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcDeletedOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
-	return o
-}
-
-// Link to documentation about deleted resources.
-func (o GetIsInstanceGroupsInstanceGroupVpcDeletedOutput) MoreInfo() pulumi.StringOutput {
-	return o.ApplyT(func(v GetIsInstanceGroupsInstanceGroupVpcDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
-}
-
-type GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput struct{ *pulumi.OutputState }
-
-func (GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetIsInstanceGroupsInstanceGroupVpcDeleted)(nil)).Elem()
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput() GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) ToGetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput {
-	return o
-}
-
-func (o GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput) Index(i pulumi.IntInput) GetIsInstanceGroupsInstanceGroupVpcDeletedOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsInstanceGroupsInstanceGroupVpcDeleted {
-		return vs[0].([]GetIsInstanceGroupsInstanceGroupVpcDeleted)[vs[1].(int)]
-	}).(GetIsInstanceGroupsInstanceGroupVpcDeletedOutput)
-}
-
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayInput)(nil)).Elem(), GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsHistoryInput)(nil)).Elem(), GetIamAccountSettingsHistoryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsHistoryArrayInput)(nil)).Elem(), GetIamAccountSettingsHistoryArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomainInput)(nil)).Elem(), GetIamAccountSettingsRestrictUserDomainArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsRestrictUserDomainArrayInput)(nil)).Elem(), GetIamAccountSettingsRestrictUserDomainArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfaInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingUserMfaArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAccountSettingUserMfaArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAccountSettingUserMfaArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContextInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentContextArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentContextArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentContextArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistoryInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentHistoryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentHistoryArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentHistoryArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateHistoryInput)(nil)).Elem(), GetIamAccountSettingsTemplateHistoryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsTemplateHistoryArrayInput)(nil)).Elem(), GetIamAccountSettingsTemplateHistoryArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsUserMfaInput)(nil)).Elem(), GetIamAccountSettingsUserMfaArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamAccountSettingsUserMfaArrayInput)(nil)).Elem(), GetIamAccountSettingsUserMfaArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceInput)(nil)).Elem(), GetIamActionControlAssignmentResourceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreatedInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlResourceCreatedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceActionControlResourceCreatedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceTargetInput)(nil)).Elem(), GetIamActionControlAssignmentResourceTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentResourceTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentResourceTargetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTargetInput)(nil)).Elem(), GetIamActionControlAssignmentTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentTargetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTemplateInput)(nil)).Elem(), GetIamActionControlAssignmentTemplateArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentTemplateArrayInput)(nil)).Elem(), GetIamActionControlAssignmentTemplateArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTargetInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentResourceTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentResourceTargetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTargetInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTargetArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentTargetArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTemplateInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentTemplateArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlAssignmentsAssignmentTemplateArrayInput)(nil)).Elem(), GetIamActionControlAssignmentsAssignmentTemplateArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIamActionControlTemplateActionControlTemplateInput)(nil)).Elem(), GetIamActionControlTemplateActionControlTemplateArgs{})
@@ -64361,80 +64212,80 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReasonInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentLifecycleReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentLifecycleReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkDeletedInput)(nil)).Elem(), GetIsInstanceClusterNetworkDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceClusterNetworkDeletedArrayInput)(nil)).Elem(), GetIsInstanceClusterNetworkDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDiskInput)(nil)).Elem(), GetIsInstanceDiskArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDiskArrayInput)(nil)).Elem(), GetIsInstanceDiskArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDisksDiskInput)(nil)).Elem(), GetIsInstanceDisksDiskArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceDisksDiskArrayInput)(nil)).Elem(), GetIsInstanceDisksDiskArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGpusInput)(nil)).Elem(), GetIsInstanceGpusArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGpusArrayInput)(nil)).Elem(), GetIsInstanceGpusArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionTypeInput)(nil)).Elem(), GetIsInstanceGroupManagerActionTypeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionTypeArrayInput)(nil)).Elem(), GetIsInstanceGroupManagerActionTypeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerActionInput)(nil)).Elem(), GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayInput)(nil)).Elem(), GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyInput)(nil)).Elem(), GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayInput)(nil)).Elem(), GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerArrayInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerActionInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerActionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupManagersInstanceGroupManagerActionArrayInput)(nil)).Elem(), GetIsInstanceGroupManagersInstanceGroupManagerActionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplateInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceTemplateArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipInstanceTemplateArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipInstanceTemplateArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplateInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceTemplateArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayInput)(nil)).Elem(), GetIsInstanceGroupMembershipsMembershipInstanceTemplateArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupManagerDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupManagerDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroupInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupResourceGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupResourceGroupArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupResourceGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupSubnetDeletedArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeletedInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcDeletedArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetIsInstanceGroupsInstanceGroupVpcDeletedArrayInput)(nil)).Elem(), GetIsInstanceGroupsInstanceGroupVpcDeletedArray{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeServiceIdArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsExternalInteractionExternalAccountIdentityInteractionIdentityTypeUserArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsHistoryOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsHistoryArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsRestrictUserDomainOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsRestrictUserDomainArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingRestrictUserDomainRestrictionArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingUserMfaOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAccountSettingUserMfaArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentContextOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentContextArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentHistoryOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentHistoryArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingErrorMessageArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateAssignmentResourceAccountSettingResourceCreatedArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateHistoryOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsTemplateHistoryArrayOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsUserMfaOutput{})
+	pulumi.RegisterOutputType(GetIamAccountSettingsUserMfaArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlResourceCreatedOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceActionControlResourceCreatedArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceTargetOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentResourceTargetArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentTargetOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentTargetArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentTemplateOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentTemplateArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlErrorMessageErrorDetailConflictsWithArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceActionControlResourceCreatedArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceTargetOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentResourceTargetArrayOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentTargetOutput{})
+	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentTargetArrayOutput{})
 	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentTemplateOutput{})
 	pulumi.RegisterOutputType(GetIamActionControlAssignmentsAssignmentTemplateArrayOutput{})
 	pulumi.RegisterOutputType(GetIamActionControlTemplateActionControlTemplateOutput{})
@@ -65361,78 +65212,4 @@ func init() {
 	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput{})
 	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput{})
 	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentLifecycleReasonOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentLifecycleReasonArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentBeforeArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfacePrimaryIpDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentClusterNetworkInterfaceSubnetDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkAttachmentsClusterNetworkAttachmentLifecycleReasonArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceClusterNetworkDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceDiskOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceDiskArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceDisksDiskOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceDisksDiskArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGpusOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGpusArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionTypeOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionTypeArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagerActionsInstanceGroupManagerActionArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagerPoliciesInstanceGroupManagerPolicyArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerActionOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupManagersInstanceGroupManagerActionArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceTemplateOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipInstanceTemplateArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceTemplateOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupMembershipsMembershipInstanceTemplateArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupInstanceTemplateDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupLoadBalancerPoolDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupManagerDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupResourceGroupOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupResourceGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupSubnetDeletedArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcArrayOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcDeletedOutput{})
-	pulumi.RegisterOutputType(GetIsInstanceGroupsInstanceGroupVpcDeletedArrayOutput{})
 }
