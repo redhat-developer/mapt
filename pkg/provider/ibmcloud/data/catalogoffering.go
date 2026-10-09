@@ -18,7 +18,7 @@ const (
 	offeringNamePrefix            = "openshift-local-"
 )
 
-func GetCatalogOfferingVersionCRN(offeringName, version string) (string, error) {
+func GetCatalogOfferingVersionCRN(offeringName string) (string, error) {
 	client, err := catalogManagementService()
 	if err != nil {
 		return "", fmt.Errorf("creating catalog management client: %w", err)
@@ -42,12 +42,12 @@ func GetCatalogOfferingVersionCRN(offeringName, version string) (string, error) 
 			logging.Debugf("found offering %s (id=%s)", *offering.Name, *offering.ID)
 			for _, kind := range offering.Kinds {
 				for _, v := range kind.Versions {
-					if v.Version != nil && *v.Version == version && v.CRN != nil {
+					if v.CRN != nil {
 						return *v.CRN, nil
 					}
 				}
 			}
-			return "", fmt.Errorf("offering %q found but version %q not available", offeringName, version)
+			return "", fmt.Errorf("offering %q found but has no available versions", offeringName)
 		}
 
 		offset += consumptionOfferingsPageLimit
@@ -100,7 +100,7 @@ func GetLatestCatalogOfferingVersionCRN(arch string) (string, string, error) {
 
 			for _, kind := range offering.Kinds {
 				for _, v := range kind.Versions {
-					if v.Version != nil && *v.Version == version && v.CRN != nil {
+					if v.CRN != nil {
 						candidates = append(candidates, versionEntry{version: version, crn: *v.CRN})
 						break
 					}

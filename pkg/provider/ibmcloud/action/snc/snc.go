@@ -82,7 +82,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 	} else {
 		offeringName := imageName(version, args.Arch)
 		logging.Debugf("Looking up catalog offering %s", offeringName)
-		crn, err := icdata.GetCatalogOfferingVersionCRN(offeringName, version)
+		crn, err := icdata.GetCatalogOfferingVersionCRN(offeringName)
 		if err != nil {
 			return nil, fmt.Errorf("looking up catalog offering for version %s: %w", version, err)
 		}
