@@ -97,6 +97,7 @@ func createSNC() *cobra.Command {
 					Profiles:                profiles,
 					OperatorChannels:        viper.GetStringMapString(operatorChannel),
 					CatalogSources:          viper.GetStringMapString(catalogSource),
+					VpcID:                   viper.GetString(params.VpcID),
 				}); err != nil {
 				return err
 			}
@@ -112,6 +113,7 @@ func createSNC() *cobra.Command {
 	flagSet.StringSliceP(sncProfile, "", []string{}, sncProfileDesc)
 	flagSet.StringToStringP(operatorChannel, "", nil, operatorChannelDesc)
 	flagSet.StringToStringP(catalogSource, "", nil, catalogSourceDesc)
+	flagSet.StringP(params.VpcID, "", "", params.VpcIDDesc)
 	params.AddComputeRequestFlags(flagSet)
 	params.AddSpotFlags(flagSet)
 	c.PersistentFlags().AddFlagSet(flagSet)
