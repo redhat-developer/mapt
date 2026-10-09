@@ -1,7 +1,6 @@
 package snc
 
 import (
-	"encoding/base64"
 	"fmt"
 	"os"
 	"regexp"
@@ -133,9 +132,9 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	if err != nil {
 		return err
 	}
-	// Best-effort secret cleanup — also handled by the createSecrets remote.Command
-	// Delete in normal flow. This fallback handles cases where the VM is not
-	// SSH-accessible (e.g., manual instance termination before destroy).
+	// Best-effort secret cleanup — also handled by each secret's local.Command
+	// Delete in normal flow. This fallback handles edge cases where Pulumi
+	// state is lost or the SM instance was deleted out-of-band.
 	cleanupSMSecrets()
 	if err := ibmcloudp.DestroyStack(mCtx, apiSNC.StackName); err != nil {
 		return err
@@ -234,6 +233,9 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 			Location:        pulumi.String(region),
 			ResourceGroupId: rg.ID(),
 			Tags:            userTags,
+			Parameters: pulumi.StringMap{
+				"allowed_network": pulumi.String("public-and-private"),
+			},
 		})
 	if err != nil {
 		return err
@@ -298,7 +300,7 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputHost),
 		n.Floatingip.Address)
 
-	kc, sshReadyCmd, err := kubeconfig(ctx, r.prefix, n.Floatingip.Address, pk,
+	kc, _, err := kubeconfig(ctx, r.prefix, n.Floatingip.Address, pk,
 		*r.version, r.disableClusterReadiness, []pulumi.Resource{fipAssoc})
 	if err != nil {
 		return err
@@ -306,11 +308,11 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputKubeconfig),
 		pulumi.ToSecret(kc))
 
-	// Create secrets in SM after SM is ready and VM is SSH-accessible.
-	// On destroy, Pulumi runs this resource's Delete first (deleting secrets),
-	// then destroys the SM instance — preserving the correct cleanup order.
-	if err := r.createSecrets(ctx, smInstance, sshReadyCmd,
-		n.Floatingip.Address, pk, region, ps,
+	// Create secrets in SM as tracked Pulumi resources. The SM instance is
+	// provisioned with allowed_network=public-and-private so its endpoint is
+	// reachable from the provisioner; a readiness probe waits for DNS to resolve
+	// before attempting secret creation.
+	if err := r.createSecrets(ctx, smInstance, region, ps,
 		kaPassword.Result, devPassword.Result); err != nil {
 		return err
 	}
@@ -366,16 +368,13 @@ func (r *sncRequest) userData(
 	return wrapped, nil
 }
 
-// createSecrets registers a remote.Command that stores the three SNC secrets in
-// the SM instance once both the SM instance and the VM are ready.
-// Pulumi's destroy order (reversed from create) runs the Delete script — which
-// removes the secrets from SM — before destroying the SM instance itself.
+// createSecrets creates one SmArbitrarySecret Pulumi resource per SNC secret.
+// The SM instance is provisioned with allowed_network=public-and-private, so
+// the IBM Cloud resource controller only marks it created once its public API
+// endpoint is live — no extra readiness probe needed.
 func (r *sncRequest) createSecrets(
 	ctx *pulumi.Context,
 	smInstance *ibmcloud.ResourceInstance,
-	sshReadyCmd *remote.Command,
-	ip pulumi.StringOutput,
-	mk *tls.PrivateKey,
 	region string,
 	pullSecret []byte,
 	kaPass, devPass pulumi.StringOutput,
@@ -383,85 +382,36 @@ func (r *sncRequest) createSecrets(
 	psSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smPullSecretSuffix)
 	kaSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smKubeAdminPassSuffix)
 	devSecretName := resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, smDeveloperPassSuffix)
-	psB64 := base64.StdEncoding.EncodeToString(pullSecret)
-	apiKey := os.Getenv(sm.IBMCloudAPIKeyEnv)
 
-	createCmd := pulumi.All(smInstance.Guid, kaPass, devPass).ApplyT(
-		func(args []interface{}) (string, error) {
-			endpoint := fmt.Sprintf(sm.EndpointURLFormat, args[0].(string), region)
-			kaB64 := base64.StdEncoding.EncodeToString([]byte(args[1].(string)))
-			devB64 := base64.StdEncoding.EncodeToString([]byte(args[2].(string)))
-			return smCreateSecretsScript(endpoint, apiKey,
-				psSecretName, psB64,
-				kaSecretName, kaB64,
-				devSecretName, devB64), nil
-		}).(pulumi.StringOutput)
-
-	deleteCmd := smInstance.Guid.ApplyT(func(guid string) (string, error) {
-		endpoint := fmt.Sprintf(sm.EndpointURLFormat, guid, region)
-		return smDeleteSecretsScript(endpoint, apiKey,
-			psSecretName, kaSecretName, devSecretName), nil
-	}).(pulumi.StringOutput)
-
-	_, err := remote.NewCommand(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "sm-secrets"),
-		&remote.CommandArgs{
-			Connection: remote.ConnectionArgs{
-				Host:       ip,
-				User:       pulumi.String(defaultUser),
-				PrivateKey: mk.PrivateKeyOpenssh,
-			},
-			Create: createCmd,
-			Delete: deleteCmd,
-		},
-		pulumi.DependsOn([]pulumi.Resource{smInstance, sshReadyCmd}),
-		pulumi.AdditionalSecretOutputs([]string{"stdout"}))
-	return err
-}
-
-// smCreateSecretsScript returns a shell script that authenticates with the IBM
-// Cloud IAM using an API key, then creates three arbitrary secrets in the SM
-// instance at the given endpoint. Secret values are passed base64-encoded to
-// avoid quoting issues with special characters.
-func smCreateSecretsScript(endpoint, apiKey, psName, psB64, kaName, kaB64, devName, devB64 string) string {
-	return fmt.Sprintf(`set -euo pipefail
-IAM_TOKEN=$(curl -sf -X POST "https://iam.cloud.ibm.com/identity/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=%s" | jq -r '.access_token')
-create_secret() {
-  local name="$1" payload
-  payload=$(echo "$2" | base64 -d)
-  curl -sf -X POST "%s/api/v2/secrets" \
-    -H "Authorization: Bearer ${IAM_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -d "$(jq -nc --arg n "${name}" --arg p "${payload}" '{name:$n,secret_type:"arbitrary",payload:$p}')"
-}
-create_secret "%s" "%s"
-create_secret "%s" "%s"
-create_secret "%s" "%s"
-`, apiKey, endpoint, psName, psB64, kaName, kaB64, devName, devB64)
-}
-
-// smDeleteSecretsScript returns a shell script that finds each secret by name
-// and deletes it. Individual failures are treated as non-fatal so a missing
-// secret does not prevent the others from being cleaned up.
-func smDeleteSecretsScript(endpoint, apiKey, psName, kaName, devName string) string {
-	return fmt.Sprintf(`set -euo pipefail
-IAM_TOKEN=$(curl -sf -X POST "https://iam.cloud.ibm.com/identity/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=%s" | jq -r '.access_token')
-delete_secret() {
-  local name="$1" secret_id
-  secret_id=$(curl -sf -H "Authorization: Bearer ${IAM_TOKEN}" \
-    "%s/api/v2/secrets?search=name:equals:${name}&secret_types=arbitrary" \
-    | jq -r '.secrets[0].id // empty') || return 0
-  [ -n "${secret_id}" ] && curl -sf -X DELETE \
-    -H "Authorization: Bearer ${IAM_TOKEN}" "%s/api/v2/secrets/${secret_id}" || true
-}
-delete_secret "%s"
-delete_secret "%s"
-delete_secret "%s"
-`, apiKey, endpoint, endpoint, psName, kaName, devName)
+	secretOpts := []pulumi.ResourceOption{pulumi.DependsOn([]pulumi.Resource{smInstance})}
+	if _, err := ibmcloud.NewSmArbitrarySecret(ctx, psSecretName,
+		&ibmcloud.SmArbitrarySecretArgs{
+			InstanceId: smInstance.Guid,
+			Region:     pulumi.StringPtr(region),
+			Name:       pulumi.StringPtr(psSecretName),
+			Payload:    pulumi.String(string(pullSecret)),
+		}, secretOpts...); err != nil {
+		return err
+	}
+	if _, err := ibmcloud.NewSmArbitrarySecret(ctx, kaSecretName,
+		&ibmcloud.SmArbitrarySecretArgs{
+			InstanceId: smInstance.Guid,
+			Region:     pulumi.StringPtr(region),
+			Name:       pulumi.StringPtr(kaSecretName),
+			Payload:    kaPass,
+		}, secretOpts...); err != nil {
+		return err
+	}
+	if _, err := ibmcloud.NewSmArbitrarySecret(ctx, devSecretName,
+		&ibmcloud.SmArbitrarySecretArgs{
+			InstanceId: smInstance.Guid,
+			Region:     pulumi.StringPtr(region),
+			Name:       pulumi.StringPtr(devSecretName),
+			Payload:    devPass,
+		}, secretOpts...); err != nil {
+		return err
+	}
+	return nil
 }
 
 func addSNCSecurityGroupRules(ctx *pulumi.Context, prefix *string, sg *ibmcloud.IsSecurityGroup) error {

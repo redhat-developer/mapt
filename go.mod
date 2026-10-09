@@ -31,7 +31,7 @@ require (
 	github.com/aws/smithy-go v1.28.2
 	github.com/coocood/freecache v1.2.7
 	github.com/go-playground/validator/v10 v10.30.5
-	github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.14
+	github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.16
 	github.com/pulumi/pulumi-aws-native/sdk v1.82.0
 	github.com/pulumi/pulumi-aws/sdk/v7 v7.48.0
 	github.com/pulumi/pulumi-awsx/sdk/v3 v3.10.0

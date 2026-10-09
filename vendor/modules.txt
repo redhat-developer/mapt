@@ -877,7 +877,7 @@ github.com/leodido/go-urn/scim/schema
 # github.com/lucasb-eyer/go-colorful v1.4.1
 ## explicit; go 1.12
 github.com/lucasb-eyer/go-colorful
-# github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.14
+# github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.16
 ## explicit; go 1.24.0
 github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud
 github.com/mapt-oss/pulumi-ibmcloud/sdk/go/ibmcloud/internal
@@ -1036,6 +1036,7 @@ github.com/pulumi/pulumi-cloud-sdk/go/apitype/jsonvalue
 # github.com/pulumi/pulumi-command/sdk v1.2.1
 ## explicit; go 1.24.7
 github.com/pulumi/pulumi-command/sdk/go/command/internal
+github.com/pulumi/pulumi-command/sdk/go/command/local
 github.com/pulumi/pulumi-command/sdk/go/command/remote
 # github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.22
 ## explicit; go 1.26.0

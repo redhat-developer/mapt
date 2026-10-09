@@ -144,6 +144,16 @@ type listSecretsResponse struct {
 // EndpointURL returns the Secrets Manager instance endpoint URL.
 func (c *Client) EndpointURL() string { return c.endpointURL }
 
+// EnsureArbitrarySecret deletes any existing secret with the given name and
+// creates a fresh one. This is idempotent: safe to call on every pulumi up.
+func (c *Client) EnsureArbitrarySecret(name, value string) error {
+	if err := c.DeleteSecretByName(name); err != nil {
+		return err
+	}
+	_, err := c.CreateArbitrarySecret(name, value)
+	return err
+}
+
 // CreateArbitrarySecret creates an arbitrary secret with the given name and
 // plaintext value. Returns the secret ID assigned by Secrets Manager.
 func (c *Client) CreateArbitrarySecret(name, value string) (string, error) {
