@@ -18,10 +18,16 @@ type NetworkArgs struct {
 	RG          *ibmcloud.ResourceGroup
 	Zone        *string
 	Tags        pulumi.StringArray
+	// VpcID, when set, reuses an existing VPC instead of creating one.
+	// A new subnet, security group, public gateway, and floating IP are still
+	// created inside the existing VPC.
+	VpcID *string
 }
 
 type Network struct {
-	VPC           *ibmcloud.IsVpc
+	// VPCID is the resolved VPC ID — set regardless of whether the VPC was
+	// created by mapt or provided via VpcID.
+	VPCID         pulumi.StringOutput
 	Subnet        *ibmcloud.IsSubnet
 	SecurityGroup *ibmcloud.IsSecurityGroup
 	Floatingip    *ibmcloud.IsFloatingIp
@@ -107,37 +113,48 @@ func NewFloatingIP(ctx *pulumi.Context, args *FloatingIPArgs) (*ibmcloud.IsFloat
 }
 
 func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
-	vpc, err := ibmcloud.NewIsVpc(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "isvpc"),
-		&ibmcloud.IsVpcArgs{
-			Name:          pulumi.String(args.Name),
-			ResourceGroup: args.RG.ID(),
-			Tags:          args.Tags,
-		})
-	if err != nil {
-		return nil, err
+	var vpcID pulumi.StringOutput
+	var subnetDeps []pulumi.Resource
+
+	if args.VpcID != nil {
+		// Reuse an existing VPC — skip creation and address prefix.
+		vpcID = pulumi.String(*args.VpcID).ToStringOutput()
+	} else {
+		vpc, err := ibmcloud.NewIsVpc(ctx,
+			resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "isvpc"),
+			&ibmcloud.IsVpcArgs{
+				Name:          pulumi.String(args.Name),
+				ResourceGroup: args.RG.ID(),
+				Tags:          args.Tags,
+			})
+		if err != nil {
+			return nil, err
+		}
+		vpcap, err := ibmcloud.NewIsVpcAddressPrefix(ctx,
+			resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "isvpcaddpre"),
+			&ibmcloud.IsVpcAddressPrefixArgs{
+				Vpc:  vpc.ID(),
+				Zone: pulumi.String(*args.Zone),
+				Cidr: pulumi.String(cidrVN),
+				Name: pulumi.String(args.Name),
+			})
+		if err != nil {
+			return nil, err
+		}
+		vpcID = vpc.ID().ToStringOutput()
+		subnetDeps = []pulumi.Resource{vpcap}
 	}
-	vpcap, err := ibmcloud.NewIsVpcAddressPrefix(ctx,
-		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "isvpcaddpre"),
-		&ibmcloud.IsVpcAddressPrefixArgs{
-			Vpc:  vpc.ID(),
-			Zone: pulumi.String(*args.Zone),
-			Cidr: pulumi.String(cidrVN),
-			Name: pulumi.String(args.Name),
-		})
-	if err != nil {
-		return nil, err
-	}
+
 	subnet, err := ibmcloud.NewIsSubnet(ctx,
 		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "issubnet"),
 		&ibmcloud.IsSubnetArgs{
 			Name:          pulumi.String(args.Name),
-			Vpc:           vpc.ID(),
+			Vpc:           vpcID,
 			Zone:          pulumi.String(*args.Zone),
 			Ipv4CidrBlock: pulumi.String(cidrSN),
 			ResourceGroup: args.RG.ID(),
 			Tags:          args.Tags,
-		}, pulumi.DependsOn([]pulumi.Resource{vpcap}))
+		}, pulumi.DependsOn(subnetDeps))
 	if err != nil {
 		return nil, err
 	}
@@ -145,7 +162,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 		resourcesUtil.GetResourceName(args.Prefix, args.ComponentID, "pgw"),
 		&ibmcloud.IsPublicGatewayArgs{
 			Name:          pulumi.String(args.Name),
-			Vpc:           vpc.ID(),
+			Vpc:           vpcID,
 			Zone:          pulumi.String(*args.Zone),
 			ResourceGroup: args.RG.ID(),
 			Tags:          args.Tags,
@@ -166,7 +183,7 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 		Prefix:      args.Prefix,
 		ComponentID: args.ComponentID,
 		Name:        args.Name,
-		VPC:         vpc.ID(),
+		VPC:         vpcID,
 		RG:          args.RG,
 		Tags:        args.Tags,
 	})
@@ -185,8 +202,9 @@ func New(ctx *pulumi.Context, args *NetworkArgs) (*Network, error) {
 		return nil, err
 	}
 	return &Network{
-		VPC:           vpc,
+		VPCID:         vpcID,
 		Subnet:        subnet,
 		SecurityGroup: securityGroup,
-		Floatingip:    fip}, nil
+		Floatingip:    fip,
+	}, nil
 }

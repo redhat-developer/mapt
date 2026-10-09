@@ -2,10 +2,11 @@
 
 This action provisions an Ubuntu 22.04 s390x machine on IBM Cloud VPC. The instance is assigned a floating IP for direct SSH access.
 
-Two networking modes are supported:
+Three networking modes are supported:
 
 - **Existing subnet** (`--subnet-id`): the instance is placed in a pre-existing VPC subnet. VPC, subnet, and gateway are not created. Only `IC_REGION` is required.
-- **Auto-provision** (no `--subnet-id`): a new VPC, subnet, and public gateway are created from scratch. Both `IC_REGION` and `IC_ZONE` are required.
+- **Existing VPC** (`--vpc-id`): reuses an existing VPC and provisions a new subnet inside it. Useful when near the VPC quota limit. Both `IC_REGION` and `IC_ZONE` are required.
+- **Auto-provision** (no flags): a new VPC, subnet, and public gateway are created from scratch. Both `IC_REGION` and `IC_ZONE` are required.
 
 ## Environment variables
 
@@ -39,6 +40,7 @@ Flags:
       --otel-endpoint string                 OTLP HTTP endpoint to export logs to (default "https://otel-input.corp.redhat.com")
       --subnet-id string                     ID of an existing VPC subnet to deploy the instance into (optional)
       --tags stringToString                  tags to add on each resource (--tags name1=value1,name2=value2) (default [])
+      --vpc-id string                        ID of an existing VPC to reuse instead of creating one (optional)
 
 Global Flags:
       --backed-url string     backed for stack state. (local) file:///path/subpath (s3) s3://existing-bucket, (azure) azblob://existing-blobcontainer. See more https://www.pulumi.com/docs/iac/concepts/state-and-backends/#using-a-self-managed-backend
@@ -93,6 +95,18 @@ podman run -d --name ibm-z \
             --project-name ibm-z \
             --backed-url file:///workspace \
             --conn-details-output /workspace
+
+# Reusing an existing VPC (new subnet created inside it)
+podman run -d --name ibm-z \
+        -v ${PWD}:/workspace:z \
+        -e IBMCLOUD_API_KEY=XXX \
+        -e IC_REGION=us-south \
+        -e IC_ZONE=us-south-2 \
+        quay.io/redhat-developer/mapt:v0.8.0 ibmcloud ibm-z create \
+            --project-name ibm-z \
+            --backed-url file:///workspace \
+            --conn-details-output /workspace \
+            --vpc-id <vpc-id>
 ```
 
 ## OpenTelemetry log collection
