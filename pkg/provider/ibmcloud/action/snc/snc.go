@@ -477,6 +477,9 @@ func kubeconfig(ctx *pulumi.Context, prefix *string, ip pulumi.StringOutput,
 			},
 			Create: pulumi.String(getKCCmd),
 			Update: pulumi.String(getKCCmd),
+			// The kubeconfig carries the cluster admin cert and key, so it must
+			// not be streamed to the logs; it is only exposed as a secret output.
+			Logging: remote.LoggingNone,
 		},
 		pulumi.Timeouts(&pulumi.CustomTimeouts{Create: command.RemoteTimeout, Update: command.RemoteTimeout}),
 		pulumi.DependsOn([]pulumi.Resource{ocpCaCmd}),
