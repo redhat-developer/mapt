@@ -13,6 +13,4507 @@ import (
 
 var _ = internal.GetEnvOrDefault
 
+type GetIsShareAccessorBindingsAccessorBinding struct {
+	// The accessor for this share accessor binding.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Accessors []GetIsShareAccessorBindingsAccessorBindingAccessor `pulumi:"accessors"`
+	// The date and time that the share accessor binding was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// The URL for this share accessor binding.
+	Href string `pulumi:"href"`
+	// The unique identifier for this share accessor binding.
+	Id string `pulumi:"id"`
+	// The lifecycle state of the file share accessor binding.
+	LifecycleState string `pulumi:"lifecycleState"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareAccessorBindingsAccessorBindingInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingArgs and GetIsShareAccessorBindingsAccessorBindingOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingArgs{...}
+type GetIsShareAccessorBindingsAccessorBindingInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingOutput() GetIsShareAccessorBindingsAccessorBindingOutput
+	ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingArgs struct {
+	// The accessor for this share accessor binding.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+	Accessors GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput `pulumi:"accessors"`
+	// The date and time that the share accessor binding was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The URL for this share accessor binding.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this share accessor binding.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The lifecycle state of the file share accessor binding.
+	LifecycleState pulumi.StringInput `pulumi:"lifecycleState"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareAccessorBindingsAccessorBindingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingArgs) ToGetIsShareAccessorBindingsAccessorBindingOutput() GetIsShareAccessorBindingsAccessorBindingOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingArgs) ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingOutput)
+}
+
+// GetIsShareAccessorBindingsAccessorBindingArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingArray and GetIsShareAccessorBindingsAccessorBindingArrayOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingArrayInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingArray{ GetIsShareAccessorBindingsAccessorBindingArgs{...} }
+type GetIsShareAccessorBindingsAccessorBindingArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingArrayOutput() GetIsShareAccessorBindingsAccessorBindingArrayOutput
+	ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingArrayOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingArray []GetIsShareAccessorBindingsAccessorBindingInput
+
+func (GetIsShareAccessorBindingsAccessorBindingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingArray) ToGetIsShareAccessorBindingsAccessorBindingArrayOutput() GetIsShareAccessorBindingsAccessorBindingArrayOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingArray) ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) ToGetIsShareAccessorBindingsAccessorBindingOutput() GetIsShareAccessorBindingsAccessorBindingOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) ToGetIsShareAccessorBindingsAccessorBindingOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingOutput {
+	return o
+}
+
+// The accessor for this share accessor binding.The resources supported by this property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) in the future.
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) Accessors() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) []GetIsShareAccessorBindingsAccessorBindingAccessor {
+		return v.Accessors
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput)
+}
+
+// The date and time that the share accessor binding was created.
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The URL for this share accessor binding.
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this share accessor binding.
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The lifecycle state of the file share accessor binding.
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) LifecycleState() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.LifecycleState }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareAccessorBindingsAccessorBindingOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBinding) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBinding)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingArrayOutput() GetIsShareAccessorBindingsAccessorBindingArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBinding {
+		return vs[0].([]GetIsShareAccessorBindingsAccessorBinding)[vs[1].(int)]
+	}).(GetIsShareAccessorBindingsAccessorBindingOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessor struct {
+	// The CRN for this file share.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []GetIsShareAccessorBindingsAccessorBindingAccessorDeleted `pulumi:"deleteds"`
+	// The URL for this file share.
+	Href string `pulumi:"href"`
+	// The unique identifier for this file share.
+	Id string `pulumi:"id"`
+	// The name for this share. The name is unique across all shares in the region.
+	Name string `pulumi:"name"`
+	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
+	Remotes []GetIsShareAccessorBindingsAccessorBindingAccessorRemote `pulumi:"remotes"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorArgs and GetIsShareAccessorBindingsAccessorBindingAccessorOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorArgs{...}
+type GetIsShareAccessorBindingsAccessorBindingAccessorInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorOutput() GetIsShareAccessorBindingsAccessorBindingAccessorOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorArgs struct {
+	// The CRN for this file share.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this file share.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this file share.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name for this share. The name is unique across all shares in the region.
+	Name pulumi.StringInput `pulumi:"name"`
+	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
+	Remotes GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput `pulumi:"remotes"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutput() GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorOutput)
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorArray and GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorArray{ GetIsShareAccessorBindingsAccessorBindingAccessorArgs{...} }
+type GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorArray []GetIsShareAccessorBindingsAccessorBindingAccessorInput
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutput() GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
+	return o
+}
+
+// The CRN for this file share.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Deleteds() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) []GetIsShareAccessorBindingsAccessorBindingAccessorDeleted {
+		return v.Deleteds
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput)
+}
+
+// The URL for this file share.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this file share.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The name for this share. The name is unique across all shares in the region.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) Remotes() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) []GetIsShareAccessorBindingsAccessorBindingAccessorRemote {
+		return v.Remotes
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput)
+}
+
+// The resource type.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessor) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessor)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessor {
+		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessor)[vs[1].(int)]
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs and GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs{...}
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput)
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray and GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray{ GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs{...} }
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray []GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorDeleted {
+		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorDeleted)[vs[1].(int)]
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemote struct {
+	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
+	Accounts []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount `pulumi:"accounts"`
+	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
+	Regions []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion `pulumi:"regions"`
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs{...}
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs struct {
+	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
+	Accounts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput `pulumi:"accounts"`
+	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
+	Regions GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput `pulumi:"regions"`
+}
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput)
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray{ GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs{...} }
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
+	return o
+}
+
+// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) Accounts() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemote) []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount {
+		return v.Accounts
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput)
+}
+
+// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput) Regions() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemote) []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion {
+		return v.Regions
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemote)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorRemote {
+		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorRemote)[vs[1].(int)]
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount struct {
+	// The unique identifier for this account.
+	Id string `pulumi:"id"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs{...}
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs struct {
+	// The unique identifier for this account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput)
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray{ GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs{...} }
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
+	return o
+}
+
+// The unique identifier for this account.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount {
+		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccount)[vs[1].(int)]
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion struct {
+	// The URL for this region.
+	Href string `pulumi:"href"`
+	// The globally unique name for this region.
+	Name string `pulumi:"name"`
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs{...}
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs struct {
+	// The URL for this region.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The globally unique name for this region.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput)
+}
+
+// GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput is an input type that accepts GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray and GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput values.
+// You can construct a concrete instance of `GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput` via:
+//
+//	GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray{ GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs{...} }
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput
+	ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray []GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
+	return i.ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
+	return o
+}
+
+// The URL for this region.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The globally unique name for this region.
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)(nil)).Elem()
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput() GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) ToGetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput {
+	return o
+}
+
+func (o GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput) Index(i pulumi.IntInput) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion {
+		return vs[0].([]GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegion)[vs[1].(int)]
+	}).(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput)
+}
+
+type GetIsShareLatestJob struct {
+	// The status of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `cancelled`: This job has been cancelled.* `failed`: This job has failed.* `queued`: This job is queued.* `running`: This job is running.* `succeeded`: This job completed successfully.
+	Status string `pulumi:"status"`
+	// The reasons for the file share job status (if any).The enumerated reason code values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected reason code was encountered.
+	StatusReasons []GetIsShareLatestJobStatusReason `pulumi:"statusReasons"`
+	// The type of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `replicationFailover`: This is a share replication failover job.* `replicationInit`: This is a share replication is initialization job.* `replicationSplit`: This is a share replication split job.
+	Type string `pulumi:"type"`
+}
+
+// GetIsShareLatestJobInput is an input type that accepts GetIsShareLatestJobArgs and GetIsShareLatestJobOutput values.
+// You can construct a concrete instance of `GetIsShareLatestJobInput` via:
+//
+//	GetIsShareLatestJobArgs{...}
+type GetIsShareLatestJobInput interface {
+	pulumi.Input
+
+	ToGetIsShareLatestJobOutput() GetIsShareLatestJobOutput
+	ToGetIsShareLatestJobOutputWithContext(context.Context) GetIsShareLatestJobOutput
+}
+
+type GetIsShareLatestJobArgs struct {
+	// The status of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `cancelled`: This job has been cancelled.* `failed`: This job has failed.* `queued`: This job is queued.* `running`: This job is running.* `succeeded`: This job completed successfully.
+	Status pulumi.StringInput `pulumi:"status"`
+	// The reasons for the file share job status (if any).The enumerated reason code values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected reason code was encountered.
+	StatusReasons GetIsShareLatestJobStatusReasonArrayInput `pulumi:"statusReasons"`
+	// The type of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `replicationFailover`: This is a share replication failover job.* `replicationInit`: This is a share replication is initialization job.* `replicationSplit`: This is a share replication split job.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetIsShareLatestJobArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareLatestJob)(nil)).Elem()
+}
+
+func (i GetIsShareLatestJobArgs) ToGetIsShareLatestJobOutput() GetIsShareLatestJobOutput {
+	return i.ToGetIsShareLatestJobOutputWithContext(context.Background())
+}
+
+func (i GetIsShareLatestJobArgs) ToGetIsShareLatestJobOutputWithContext(ctx context.Context) GetIsShareLatestJobOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobOutput)
+}
+
+// GetIsShareLatestJobArrayInput is an input type that accepts GetIsShareLatestJobArray and GetIsShareLatestJobArrayOutput values.
+// You can construct a concrete instance of `GetIsShareLatestJobArrayInput` via:
+//
+//	GetIsShareLatestJobArray{ GetIsShareLatestJobArgs{...} }
+type GetIsShareLatestJobArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareLatestJobArrayOutput() GetIsShareLatestJobArrayOutput
+	ToGetIsShareLatestJobArrayOutputWithContext(context.Context) GetIsShareLatestJobArrayOutput
+}
+
+type GetIsShareLatestJobArray []GetIsShareLatestJobInput
+
+func (GetIsShareLatestJobArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareLatestJob)(nil)).Elem()
+}
+
+func (i GetIsShareLatestJobArray) ToGetIsShareLatestJobArrayOutput() GetIsShareLatestJobArrayOutput {
+	return i.ToGetIsShareLatestJobArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareLatestJobArray) ToGetIsShareLatestJobArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobArrayOutput)
+}
+
+type GetIsShareLatestJobOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareLatestJobOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareLatestJob)(nil)).Elem()
+}
+
+func (o GetIsShareLatestJobOutput) ToGetIsShareLatestJobOutput() GetIsShareLatestJobOutput {
+	return o
+}
+
+func (o GetIsShareLatestJobOutput) ToGetIsShareLatestJobOutputWithContext(ctx context.Context) GetIsShareLatestJobOutput {
+	return o
+}
+
+// The status of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `cancelled`: This job has been cancelled.* `failed`: This job has failed.* `queued`: This job is queued.* `running`: This job is running.* `succeeded`: This job completed successfully.
+func (o GetIsShareLatestJobOutput) Status() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestJob) string { return v.Status }).(pulumi.StringOutput)
+}
+
+// The reasons for the file share job status (if any).The enumerated reason code values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the resource on which the unexpected reason code was encountered.
+func (o GetIsShareLatestJobOutput) StatusReasons() GetIsShareLatestJobStatusReasonArrayOutput {
+	return o.ApplyT(func(v GetIsShareLatestJob) []GetIsShareLatestJobStatusReason { return v.StatusReasons }).(GetIsShareLatestJobStatusReasonArrayOutput)
+}
+
+// The type of the file share job.The enumerated values for this property will expand in the future. When processing this property, check for and log unknown values. Optionally halt processing and surface the error, or bypass the file share job on which the unexpected property value was encountered.* `replicationFailover`: This is a share replication failover job.* `replicationInit`: This is a share replication is initialization job.* `replicationSplit`: This is a share replication split job.
+func (o GetIsShareLatestJobOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestJob) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetIsShareLatestJobArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareLatestJobArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareLatestJob)(nil)).Elem()
+}
+
+func (o GetIsShareLatestJobArrayOutput) ToGetIsShareLatestJobArrayOutput() GetIsShareLatestJobArrayOutput {
+	return o
+}
+
+func (o GetIsShareLatestJobArrayOutput) ToGetIsShareLatestJobArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobArrayOutput {
+	return o
+}
+
+func (o GetIsShareLatestJobArrayOutput) Index(i pulumi.IntInput) GetIsShareLatestJobOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareLatestJob {
+		return vs[0].([]GetIsShareLatestJob)[vs[1].(int)]
+	}).(GetIsShareLatestJobOutput)
+}
+
+type GetIsShareLatestJobStatusReason struct {
+	// A snake case string succinctly identifying the status reason.
+	Code string `pulumi:"code"`
+	// An explanation of the status reason.
+	Message string `pulumi:"message"`
+	// Link to documentation about this status reason.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareLatestJobStatusReasonInput is an input type that accepts GetIsShareLatestJobStatusReasonArgs and GetIsShareLatestJobStatusReasonOutput values.
+// You can construct a concrete instance of `GetIsShareLatestJobStatusReasonInput` via:
+//
+//	GetIsShareLatestJobStatusReasonArgs{...}
+type GetIsShareLatestJobStatusReasonInput interface {
+	pulumi.Input
+
+	ToGetIsShareLatestJobStatusReasonOutput() GetIsShareLatestJobStatusReasonOutput
+	ToGetIsShareLatestJobStatusReasonOutputWithContext(context.Context) GetIsShareLatestJobStatusReasonOutput
+}
+
+type GetIsShareLatestJobStatusReasonArgs struct {
+	// A snake case string succinctly identifying the status reason.
+	Code pulumi.StringInput `pulumi:"code"`
+	// An explanation of the status reason.
+	Message pulumi.StringInput `pulumi:"message"`
+	// Link to documentation about this status reason.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareLatestJobStatusReasonArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareLatestJobStatusReason)(nil)).Elem()
+}
+
+func (i GetIsShareLatestJobStatusReasonArgs) ToGetIsShareLatestJobStatusReasonOutput() GetIsShareLatestJobStatusReasonOutput {
+	return i.ToGetIsShareLatestJobStatusReasonOutputWithContext(context.Background())
+}
+
+func (i GetIsShareLatestJobStatusReasonArgs) ToGetIsShareLatestJobStatusReasonOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobStatusReasonOutput)
+}
+
+// GetIsShareLatestJobStatusReasonArrayInput is an input type that accepts GetIsShareLatestJobStatusReasonArray and GetIsShareLatestJobStatusReasonArrayOutput values.
+// You can construct a concrete instance of `GetIsShareLatestJobStatusReasonArrayInput` via:
+//
+//	GetIsShareLatestJobStatusReasonArray{ GetIsShareLatestJobStatusReasonArgs{...} }
+type GetIsShareLatestJobStatusReasonArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareLatestJobStatusReasonArrayOutput() GetIsShareLatestJobStatusReasonArrayOutput
+	ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(context.Context) GetIsShareLatestJobStatusReasonArrayOutput
+}
+
+type GetIsShareLatestJobStatusReasonArray []GetIsShareLatestJobStatusReasonInput
+
+func (GetIsShareLatestJobStatusReasonArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareLatestJobStatusReason)(nil)).Elem()
+}
+
+func (i GetIsShareLatestJobStatusReasonArray) ToGetIsShareLatestJobStatusReasonArrayOutput() GetIsShareLatestJobStatusReasonArrayOutput {
+	return i.ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareLatestJobStatusReasonArray) ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestJobStatusReasonArrayOutput)
+}
+
+type GetIsShareLatestJobStatusReasonOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareLatestJobStatusReasonOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareLatestJobStatusReason)(nil)).Elem()
+}
+
+func (o GetIsShareLatestJobStatusReasonOutput) ToGetIsShareLatestJobStatusReasonOutput() GetIsShareLatestJobStatusReasonOutput {
+	return o
+}
+
+func (o GetIsShareLatestJobStatusReasonOutput) ToGetIsShareLatestJobStatusReasonOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonOutput {
+	return o
+}
+
+// A snake case string succinctly identifying the status reason.
+func (o GetIsShareLatestJobStatusReasonOutput) Code() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestJobStatusReason) string { return v.Code }).(pulumi.StringOutput)
+}
+
+// An explanation of the status reason.
+func (o GetIsShareLatestJobStatusReasonOutput) Message() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestJobStatusReason) string { return v.Message }).(pulumi.StringOutput)
+}
+
+// Link to documentation about this status reason.
+func (o GetIsShareLatestJobStatusReasonOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestJobStatusReason) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareLatestJobStatusReasonArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareLatestJobStatusReasonArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareLatestJobStatusReason)(nil)).Elem()
+}
+
+func (o GetIsShareLatestJobStatusReasonArrayOutput) ToGetIsShareLatestJobStatusReasonArrayOutput() GetIsShareLatestJobStatusReasonArrayOutput {
+	return o
+}
+
+func (o GetIsShareLatestJobStatusReasonArrayOutput) ToGetIsShareLatestJobStatusReasonArrayOutputWithContext(ctx context.Context) GetIsShareLatestJobStatusReasonArrayOutput {
+	return o
+}
+
+func (o GetIsShareLatestJobStatusReasonArrayOutput) Index(i pulumi.IntInput) GetIsShareLatestJobStatusReasonOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareLatestJobStatusReason {
+		return vs[0].([]GetIsShareLatestJobStatusReason)[vs[1].(int)]
+	}).(GetIsShareLatestJobStatusReasonOutput)
+}
+
+type GetIsShareLatestSync struct {
+	// The completed date and time of last synchronization between the replica share and its source.
+	CompletedAt string `pulumi:"completedAt"`
+	// The data transferred (in bytes) in the last synchronization between the replica and its source.
+	DataTransferred int `pulumi:"dataTransferred"`
+	// The start date and time of last synchronization between the replica share and its source.
+	StartedAt string `pulumi:"startedAt"`
+}
+
+// GetIsShareLatestSyncInput is an input type that accepts GetIsShareLatestSyncArgs and GetIsShareLatestSyncOutput values.
+// You can construct a concrete instance of `GetIsShareLatestSyncInput` via:
+//
+//	GetIsShareLatestSyncArgs{...}
+type GetIsShareLatestSyncInput interface {
+	pulumi.Input
+
+	ToGetIsShareLatestSyncOutput() GetIsShareLatestSyncOutput
+	ToGetIsShareLatestSyncOutputWithContext(context.Context) GetIsShareLatestSyncOutput
+}
+
+type GetIsShareLatestSyncArgs struct {
+	// The completed date and time of last synchronization between the replica share and its source.
+	CompletedAt pulumi.StringInput `pulumi:"completedAt"`
+	// The data transferred (in bytes) in the last synchronization between the replica and its source.
+	DataTransferred pulumi.IntInput `pulumi:"dataTransferred"`
+	// The start date and time of last synchronization between the replica share and its source.
+	StartedAt pulumi.StringInput `pulumi:"startedAt"`
+}
+
+func (GetIsShareLatestSyncArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareLatestSync)(nil)).Elem()
+}
+
+func (i GetIsShareLatestSyncArgs) ToGetIsShareLatestSyncOutput() GetIsShareLatestSyncOutput {
+	return i.ToGetIsShareLatestSyncOutputWithContext(context.Background())
+}
+
+func (i GetIsShareLatestSyncArgs) ToGetIsShareLatestSyncOutputWithContext(ctx context.Context) GetIsShareLatestSyncOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestSyncOutput)
+}
+
+// GetIsShareLatestSyncArrayInput is an input type that accepts GetIsShareLatestSyncArray and GetIsShareLatestSyncArrayOutput values.
+// You can construct a concrete instance of `GetIsShareLatestSyncArrayInput` via:
+//
+//	GetIsShareLatestSyncArray{ GetIsShareLatestSyncArgs{...} }
+type GetIsShareLatestSyncArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareLatestSyncArrayOutput() GetIsShareLatestSyncArrayOutput
+	ToGetIsShareLatestSyncArrayOutputWithContext(context.Context) GetIsShareLatestSyncArrayOutput
+}
+
+type GetIsShareLatestSyncArray []GetIsShareLatestSyncInput
+
+func (GetIsShareLatestSyncArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareLatestSync)(nil)).Elem()
+}
+
+func (i GetIsShareLatestSyncArray) ToGetIsShareLatestSyncArrayOutput() GetIsShareLatestSyncArrayOutput {
+	return i.ToGetIsShareLatestSyncArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareLatestSyncArray) ToGetIsShareLatestSyncArrayOutputWithContext(ctx context.Context) GetIsShareLatestSyncArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareLatestSyncArrayOutput)
+}
+
+type GetIsShareLatestSyncOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareLatestSyncOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareLatestSync)(nil)).Elem()
+}
+
+func (o GetIsShareLatestSyncOutput) ToGetIsShareLatestSyncOutput() GetIsShareLatestSyncOutput {
+	return o
+}
+
+func (o GetIsShareLatestSyncOutput) ToGetIsShareLatestSyncOutputWithContext(ctx context.Context) GetIsShareLatestSyncOutput {
+	return o
+}
+
+// The completed date and time of last synchronization between the replica share and its source.
+func (o GetIsShareLatestSyncOutput) CompletedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestSync) string { return v.CompletedAt }).(pulumi.StringOutput)
+}
+
+// The data transferred (in bytes) in the last synchronization between the replica and its source.
+func (o GetIsShareLatestSyncOutput) DataTransferred() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsShareLatestSync) int { return v.DataTransferred }).(pulumi.IntOutput)
+}
+
+// The start date and time of last synchronization between the replica share and its source.
+func (o GetIsShareLatestSyncOutput) StartedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareLatestSync) string { return v.StartedAt }).(pulumi.StringOutput)
+}
+
+type GetIsShareLatestSyncArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareLatestSyncArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareLatestSync)(nil)).Elem()
+}
+
+func (o GetIsShareLatestSyncArrayOutput) ToGetIsShareLatestSyncArrayOutput() GetIsShareLatestSyncArrayOutput {
+	return o
+}
+
+func (o GetIsShareLatestSyncArrayOutput) ToGetIsShareLatestSyncArrayOutputWithContext(ctx context.Context) GetIsShareLatestSyncArrayOutput {
+	return o
+}
+
+func (o GetIsShareLatestSyncArrayOutput) Index(i pulumi.IntInput) GetIsShareLatestSyncOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareLatestSync {
+		return vs[0].([]GetIsShareLatestSync)[vs[1].(int)]
+	}).(GetIsShareLatestSyncOutput)
+}
+
+type GetIsShareMountTargetType struct {
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetDeleted `pulumi:"deleteds"`
+	// The URL for this share target.
+	Href string `pulumi:"href"`
+	// The unique identifier for this share target.
+	Id string `pulumi:"id"`
+	// The user-defined name for this share target.
+	Name string `pulumi:"name"`
+	// The type of resource referenced.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetTypeInput is an input type that accepts GetIsShareMountTargetTypeArgs and GetIsShareMountTargetTypeOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetTypeInput` via:
+//
+//	GetIsShareMountTargetTypeArgs{...}
+type GetIsShareMountTargetTypeInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetTypeOutput() GetIsShareMountTargetTypeOutput
+	ToGetIsShareMountTargetTypeOutputWithContext(context.Context) GetIsShareMountTargetTypeOutput
+}
+
+type GetIsShareMountTargetTypeArgs struct {
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this share target.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this share target.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this share target.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The type of resource referenced.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetTypeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetType)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetTypeArgs) ToGetIsShareMountTargetTypeOutput() GetIsShareMountTargetTypeOutput {
+	return i.ToGetIsShareMountTargetTypeOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetTypeArgs) ToGetIsShareMountTargetTypeOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetTypeOutput)
+}
+
+// GetIsShareMountTargetTypeArrayInput is an input type that accepts GetIsShareMountTargetTypeArray and GetIsShareMountTargetTypeArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetTypeArrayInput` via:
+//
+//	GetIsShareMountTargetTypeArray{ GetIsShareMountTargetTypeArgs{...} }
+type GetIsShareMountTargetTypeArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetTypeArrayOutput() GetIsShareMountTargetTypeArrayOutput
+	ToGetIsShareMountTargetTypeArrayOutputWithContext(context.Context) GetIsShareMountTargetTypeArrayOutput
+}
+
+type GetIsShareMountTargetTypeArray []GetIsShareMountTargetTypeInput
+
+func (GetIsShareMountTargetTypeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetType)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetTypeArray) ToGetIsShareMountTargetTypeArrayOutput() GetIsShareMountTargetTypeArrayOutput {
+	return i.ToGetIsShareMountTargetTypeArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetTypeArray) ToGetIsShareMountTargetTypeArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetTypeArrayOutput)
+}
+
+type GetIsShareMountTargetTypeOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetTypeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetType)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetTypeOutput) ToGetIsShareMountTargetTypeOutput() GetIsShareMountTargetTypeOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetTypeOutput) ToGetIsShareMountTargetTypeOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeOutput {
+	return o
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetTypeOutput) Deleteds() GetIsShareMountTargetDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetType) []GetIsShareMountTargetDeleted { return v.Deleteds }).(GetIsShareMountTargetDeletedArrayOutput)
+}
+
+// The URL for this share target.
+func (o GetIsShareMountTargetTypeOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this share target.
+func (o GetIsShareMountTargetTypeOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this share target.
+func (o GetIsShareMountTargetTypeOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The type of resource referenced.
+func (o GetIsShareMountTargetTypeOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetType) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetTypeArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetTypeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetType)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetTypeArrayOutput) ToGetIsShareMountTargetTypeArrayOutput() GetIsShareMountTargetTypeArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetTypeArrayOutput) ToGetIsShareMountTargetTypeArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetTypeArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetTypeArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetTypeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetType {
+		return vs[0].([]GetIsShareMountTargetType)[vs[1].(int)]
+	}).(GetIsShareMountTargetTypeOutput)
+}
+
+type GetIsShareMountTargetDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetDeletedInput is an input type that accepts GetIsShareMountTargetDeletedArgs and GetIsShareMountTargetDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetDeletedInput` via:
+//
+//	GetIsShareMountTargetDeletedArgs{...}
+type GetIsShareMountTargetDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetDeletedOutput() GetIsShareMountTargetDeletedOutput
+	ToGetIsShareMountTargetDeletedOutputWithContext(context.Context) GetIsShareMountTargetDeletedOutput
+}
+
+type GetIsShareMountTargetDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetDeletedArgs) ToGetIsShareMountTargetDeletedOutput() GetIsShareMountTargetDeletedOutput {
+	return i.ToGetIsShareMountTargetDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetDeletedArgs) ToGetIsShareMountTargetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetDeletedOutput)
+}
+
+// GetIsShareMountTargetDeletedArrayInput is an input type that accepts GetIsShareMountTargetDeletedArray and GetIsShareMountTargetDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetDeletedArray{ GetIsShareMountTargetDeletedArgs{...} }
+type GetIsShareMountTargetDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetDeletedArrayOutput() GetIsShareMountTargetDeletedArrayOutput
+	ToGetIsShareMountTargetDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetDeletedArrayOutput
+}
+
+type GetIsShareMountTargetDeletedArray []GetIsShareMountTargetDeletedInput
+
+func (GetIsShareMountTargetDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetDeletedArray) ToGetIsShareMountTargetDeletedArrayOutput() GetIsShareMountTargetDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetDeletedArray) ToGetIsShareMountTargetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetDeletedOutput) ToGetIsShareMountTargetDeletedOutput() GetIsShareMountTargetDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetDeletedOutput) ToGetIsShareMountTargetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetDeletedArrayOutput) ToGetIsShareMountTargetDeletedArrayOutput() GetIsShareMountTargetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetDeletedArrayOutput) ToGetIsShareMountTargetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetDeleted {
+		return vs[0].([]GetIsShareMountTargetDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetDeletedOutput)
+}
+
+type GetIsShareMountTargetPrimaryIp struct {
+	// The IP address..
+	Address string `pulumi:"address"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetPrimaryIpDeleted `pulumi:"deleteds"`
+	// The URL for this reserved IP.
+	Href string `pulumi:"href"`
+	// The unique identifier for this reserved IP.
+	Id string `pulumi:"id"`
+	// The user-defined name for this reserved IP.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetPrimaryIpInput is an input type that accepts GetIsShareMountTargetPrimaryIpArgs and GetIsShareMountTargetPrimaryIpOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpInput` via:
+//
+//	GetIsShareMountTargetPrimaryIpArgs{...}
+type GetIsShareMountTargetPrimaryIpInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetPrimaryIpOutput() GetIsShareMountTargetPrimaryIpOutput
+	ToGetIsShareMountTargetPrimaryIpOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpOutput
+}
+
+type GetIsShareMountTargetPrimaryIpArgs struct {
+	// The IP address..
+	Address pulumi.StringInput `pulumi:"address"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetPrimaryIpDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this reserved IP.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this reserved IP.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this reserved IP.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetPrimaryIpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetPrimaryIpArgs) ToGetIsShareMountTargetPrimaryIpOutput() GetIsShareMountTargetPrimaryIpOutput {
+	return i.ToGetIsShareMountTargetPrimaryIpOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetPrimaryIpArgs) ToGetIsShareMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpOutput)
+}
+
+// GetIsShareMountTargetPrimaryIpArrayInput is an input type that accepts GetIsShareMountTargetPrimaryIpArray and GetIsShareMountTargetPrimaryIpArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpArrayInput` via:
+//
+//	GetIsShareMountTargetPrimaryIpArray{ GetIsShareMountTargetPrimaryIpArgs{...} }
+type GetIsShareMountTargetPrimaryIpArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetPrimaryIpArrayOutput
+	ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpArrayOutput
+}
+
+type GetIsShareMountTargetPrimaryIpArray []GetIsShareMountTargetPrimaryIpInput
+
+func (GetIsShareMountTargetPrimaryIpArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetPrimaryIpArray) ToGetIsShareMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetPrimaryIpArrayOutput {
+	return i.ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetPrimaryIpArray) ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpArrayOutput)
+}
+
+type GetIsShareMountTargetPrimaryIpOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetPrimaryIpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetPrimaryIpOutput) ToGetIsShareMountTargetPrimaryIpOutput() GetIsShareMountTargetPrimaryIpOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetPrimaryIpOutput) ToGetIsShareMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpOutput {
+	return o
+}
+
+// The IP address..
+func (o GetIsShareMountTargetPrimaryIpOutput) Address() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Address }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetPrimaryIpOutput) Deleteds() GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) []GetIsShareMountTargetPrimaryIpDeleted { return v.Deleteds }).(GetIsShareMountTargetPrimaryIpDeletedArrayOutput)
+}
+
+// The URL for this reserved IP.
+func (o GetIsShareMountTargetPrimaryIpOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this reserved IP.
+func (o GetIsShareMountTargetPrimaryIpOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this reserved IP.
+func (o GetIsShareMountTargetPrimaryIpOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetPrimaryIpOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIp) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetPrimaryIpArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetPrimaryIpArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetPrimaryIpArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetPrimaryIpArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetPrimaryIpOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetPrimaryIp {
+		return vs[0].([]GetIsShareMountTargetPrimaryIp)[vs[1].(int)]
+	}).(GetIsShareMountTargetPrimaryIpOutput)
+}
+
+type GetIsShareMountTargetPrimaryIpDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetPrimaryIpDeletedInput is an input type that accepts GetIsShareMountTargetPrimaryIpDeletedArgs and GetIsShareMountTargetPrimaryIpDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpDeletedInput` via:
+//
+//	GetIsShareMountTargetPrimaryIpDeletedArgs{...}
+type GetIsShareMountTargetPrimaryIpDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetPrimaryIpDeletedOutput
+	ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpDeletedOutput
+}
+
+type GetIsShareMountTargetPrimaryIpDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetPrimaryIpDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetPrimaryIpDeletedOutput {
+	return i.ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpDeletedOutput)
+}
+
+// GetIsShareMountTargetPrimaryIpDeletedArrayInput is an input type that accepts GetIsShareMountTargetPrimaryIpDeletedArray and GetIsShareMountTargetPrimaryIpDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetPrimaryIpDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetPrimaryIpDeletedArray{ GetIsShareMountTargetPrimaryIpDeletedArgs{...} }
+type GetIsShareMountTargetPrimaryIpDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetPrimaryIpDeletedArrayOutput
+	ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetPrimaryIpDeletedArrayOutput
+}
+
+type GetIsShareMountTargetPrimaryIpDeletedArray []GetIsShareMountTargetPrimaryIpDeletedInput
+
+func (GetIsShareMountTargetPrimaryIpDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetPrimaryIpDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetPrimaryIpDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetPrimaryIpDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetPrimaryIpDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetPrimaryIpDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetPrimaryIpDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetPrimaryIpDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetPrimaryIpDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetPrimaryIpDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetPrimaryIpDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetPrimaryIpDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetPrimaryIpDeleted {
+		return vs[0].([]GetIsShareMountTargetPrimaryIpDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetPrimaryIpDeletedOutput)
+}
+
+type GetIsShareMountTargetSubnet struct {
+	// The CRN for this subnet.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetSubnetDeleted `pulumi:"deleteds"`
+	// The URL for this subnet.
+	Href string `pulumi:"href"`
+	// The unique identifier for this subnet.
+	Id string `pulumi:"id"`
+	// The user-defined name for this subnet.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetSubnetInput is an input type that accepts GetIsShareMountTargetSubnetArgs and GetIsShareMountTargetSubnetOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetSubnetInput` via:
+//
+//	GetIsShareMountTargetSubnetArgs{...}
+type GetIsShareMountTargetSubnetInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetSubnetOutput() GetIsShareMountTargetSubnetOutput
+	ToGetIsShareMountTargetSubnetOutputWithContext(context.Context) GetIsShareMountTargetSubnetOutput
+}
+
+type GetIsShareMountTargetSubnetArgs struct {
+	// The CRN for this subnet.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetSubnetDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this subnet.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this subnet.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this subnet.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetSubnetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetSubnet)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetSubnetArgs) ToGetIsShareMountTargetSubnetOutput() GetIsShareMountTargetSubnetOutput {
+	return i.ToGetIsShareMountTargetSubnetOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetSubnetArgs) ToGetIsShareMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetOutput)
+}
+
+// GetIsShareMountTargetSubnetArrayInput is an input type that accepts GetIsShareMountTargetSubnetArray and GetIsShareMountTargetSubnetArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetSubnetArrayInput` via:
+//
+//	GetIsShareMountTargetSubnetArray{ GetIsShareMountTargetSubnetArgs{...} }
+type GetIsShareMountTargetSubnetArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetSubnetArrayOutput() GetIsShareMountTargetSubnetArrayOutput
+	ToGetIsShareMountTargetSubnetArrayOutputWithContext(context.Context) GetIsShareMountTargetSubnetArrayOutput
+}
+
+type GetIsShareMountTargetSubnetArray []GetIsShareMountTargetSubnetInput
+
+func (GetIsShareMountTargetSubnetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetSubnet)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetSubnetArray) ToGetIsShareMountTargetSubnetArrayOutput() GetIsShareMountTargetSubnetArrayOutput {
+	return i.ToGetIsShareMountTargetSubnetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetSubnetArray) ToGetIsShareMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetArrayOutput)
+}
+
+type GetIsShareMountTargetSubnetOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetSubnetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetSubnet)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetSubnetOutput) ToGetIsShareMountTargetSubnetOutput() GetIsShareMountTargetSubnetOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetSubnetOutput) ToGetIsShareMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetOutput {
+	return o
+}
+
+// The CRN for this subnet.
+func (o GetIsShareMountTargetSubnetOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetSubnetOutput) Deleteds() GetIsShareMountTargetSubnetDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnet) []GetIsShareMountTargetSubnetDeleted { return v.Deleteds }).(GetIsShareMountTargetSubnetDeletedArrayOutput)
+}
+
+// The URL for this subnet.
+func (o GetIsShareMountTargetSubnetOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this subnet.
+func (o GetIsShareMountTargetSubnetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this subnet.
+func (o GetIsShareMountTargetSubnetOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetSubnetOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnet) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetSubnetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetSubnetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetSubnet)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetSubnetArrayOutput) ToGetIsShareMountTargetSubnetArrayOutput() GetIsShareMountTargetSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetSubnetArrayOutput) ToGetIsShareMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetSubnetArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetSubnetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetSubnet {
+		return vs[0].([]GetIsShareMountTargetSubnet)[vs[1].(int)]
+	}).(GetIsShareMountTargetSubnetOutput)
+}
+
+type GetIsShareMountTargetSubnetDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetSubnetDeletedInput is an input type that accepts GetIsShareMountTargetSubnetDeletedArgs and GetIsShareMountTargetSubnetDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetSubnetDeletedInput` via:
+//
+//	GetIsShareMountTargetSubnetDeletedArgs{...}
+type GetIsShareMountTargetSubnetDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetSubnetDeletedOutput() GetIsShareMountTargetSubnetDeletedOutput
+	ToGetIsShareMountTargetSubnetDeletedOutputWithContext(context.Context) GetIsShareMountTargetSubnetDeletedOutput
+}
+
+type GetIsShareMountTargetSubnetDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetSubnetDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetSubnetDeletedOutput() GetIsShareMountTargetSubnetDeletedOutput {
+	return i.ToGetIsShareMountTargetSubnetDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetDeletedOutput)
+}
+
+// GetIsShareMountTargetSubnetDeletedArrayInput is an input type that accepts GetIsShareMountTargetSubnetDeletedArray and GetIsShareMountTargetSubnetDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetSubnetDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetSubnetDeletedArray{ GetIsShareMountTargetSubnetDeletedArgs{...} }
+type GetIsShareMountTargetSubnetDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetSubnetDeletedArrayOutput
+	ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetSubnetDeletedArrayOutput
+}
+
+type GetIsShareMountTargetSubnetDeletedArray []GetIsShareMountTargetSubnetDeletedInput
+
+func (GetIsShareMountTargetSubnetDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetSubnetDeletedArray) ToGetIsShareMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetSubnetDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetSubnetDeletedArray) ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetSubnetDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetSubnetDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetSubnetDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetSubnetDeletedOutput() GetIsShareMountTargetSubnetDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetSubnetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetSubnetDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetSubnetDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetSubnetDeleted {
+		return vs[0].([]GetIsShareMountTargetSubnetDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetSubnetDeletedOutput)
+}
+
+type GetIsShareMountTargetVirtualNetworkInterface struct {
+	// The CRN for this virtual network interface.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetVirtualNetworkInterfaceDeleted `pulumi:"deleteds"`
+	// The URL for this virtual network interface.
+	Href string `pulumi:"href"`
+	// The unique identifier for this virtual network interface.
+	Id string `pulumi:"id"`
+	// The unique user-defined name for this virtual network interface.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetVirtualNetworkInterfaceInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceArgs and GetIsShareMountTargetVirtualNetworkInterfaceOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceInput` via:
+//
+//	GetIsShareMountTargetVirtualNetworkInterfaceArgs{...}
+type GetIsShareMountTargetVirtualNetworkInterfaceInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetVirtualNetworkInterfaceOutput
+	ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceOutput
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceArgs struct {
+	// The CRN for this virtual network interface.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this virtual network interface.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this virtual network interface.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The unique user-defined name for this virtual network interface.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetVirtualNetworkInterfaceOutput {
+	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceOutput)
+}
+
+// GetIsShareMountTargetVirtualNetworkInterfaceArrayInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceArray and GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceArrayInput` via:
+//
+//	GetIsShareMountTargetVirtualNetworkInterfaceArray{ GetIsShareMountTargetVirtualNetworkInterfaceArgs{...} }
+type GetIsShareMountTargetVirtualNetworkInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput
+	ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceArray []GetIsShareMountTargetVirtualNetworkInterfaceInput
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
+	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput)
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetVirtualNetworkInterfaceOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceOutput {
+	return o
+}
+
+// The CRN for this virtual network interface.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Deleteds() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) []GetIsShareMountTargetVirtualNetworkInterfaceDeleted {
+		return v.Deleteds
+	}).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
+}
+
+// The URL for this virtual network interface.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this virtual network interface.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this virtual network interface.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterface) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVirtualNetworkInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVirtualNetworkInterface {
+		return vs[0].([]GetIsShareMountTargetVirtualNetworkInterface)[vs[1].(int)]
+	}).(GetIsShareMountTargetVirtualNetworkInterfaceOutput)
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs and GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput` via:
+//
+//	GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs{...}
+type GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput
+	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput)
+}
+
+// GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput is an input type that accepts GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray and GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray{ GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs{...} }
+type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput
+	ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray []GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVirtualNetworkInterfaceDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVirtualNetworkInterfaceDeleted {
+		return vs[0].([]GetIsShareMountTargetVirtualNetworkInterfaceDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput)
+}
+
+type GetIsShareMountTargetVpc struct {
+	// The CRN for this VPC.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetVpcDeleted `pulumi:"deleteds"`
+	// The URL for this VPC.
+	Href string `pulumi:"href"`
+	// The unique identifier for this VPC.
+	Id string `pulumi:"id"`
+	// The unique user-defined name for this VPC.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetVpcInput is an input type that accepts GetIsShareMountTargetVpcArgs and GetIsShareMountTargetVpcOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVpcInput` via:
+//
+//	GetIsShareMountTargetVpcArgs{...}
+type GetIsShareMountTargetVpcInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVpcOutput() GetIsShareMountTargetVpcOutput
+	ToGetIsShareMountTargetVpcOutputWithContext(context.Context) GetIsShareMountTargetVpcOutput
+}
+
+type GetIsShareMountTargetVpcArgs struct {
+	// The CRN for this VPC.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetVpcDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this VPC.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this VPC.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The unique user-defined name for this VPC.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetVpcArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVpc)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVpcArgs) ToGetIsShareMountTargetVpcOutput() GetIsShareMountTargetVpcOutput {
+	return i.ToGetIsShareMountTargetVpcOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVpcArgs) ToGetIsShareMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcOutput)
+}
+
+// GetIsShareMountTargetVpcArrayInput is an input type that accepts GetIsShareMountTargetVpcArray and GetIsShareMountTargetVpcArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVpcArrayInput` via:
+//
+//	GetIsShareMountTargetVpcArray{ GetIsShareMountTargetVpcArgs{...} }
+type GetIsShareMountTargetVpcArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVpcArrayOutput() GetIsShareMountTargetVpcArrayOutput
+	ToGetIsShareMountTargetVpcArrayOutputWithContext(context.Context) GetIsShareMountTargetVpcArrayOutput
+}
+
+type GetIsShareMountTargetVpcArray []GetIsShareMountTargetVpcInput
+
+func (GetIsShareMountTargetVpcArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVpc)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVpcArray) ToGetIsShareMountTargetVpcArrayOutput() GetIsShareMountTargetVpcArrayOutput {
+	return i.ToGetIsShareMountTargetVpcArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVpcArray) ToGetIsShareMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcArrayOutput)
+}
+
+type GetIsShareMountTargetVpcOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVpcOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVpc)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVpcOutput) ToGetIsShareMountTargetVpcOutput() GetIsShareMountTargetVpcOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVpcOutput) ToGetIsShareMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcOutput {
+	return o
+}
+
+// The CRN for this VPC.
+func (o GetIsShareMountTargetVpcOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetVpcOutput) Deleteds() GetIsShareMountTargetVpcDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpc) []GetIsShareMountTargetVpcDeleted { return v.Deleteds }).(GetIsShareMountTargetVpcDeletedArrayOutput)
+}
+
+// The URL for this VPC.
+func (o GetIsShareMountTargetVpcOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this VPC.
+func (o GetIsShareMountTargetVpcOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this VPC.
+func (o GetIsShareMountTargetVpcOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetVpcOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpc) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetVpcArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVpcArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVpc)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVpcArrayOutput) ToGetIsShareMountTargetVpcArrayOutput() GetIsShareMountTargetVpcArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVpcArrayOutput) ToGetIsShareMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVpcArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVpcOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVpc {
+		return vs[0].([]GetIsShareMountTargetVpc)[vs[1].(int)]
+	}).(GetIsShareMountTargetVpcOutput)
+}
+
+type GetIsShareMountTargetVpcDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetVpcDeletedInput is an input type that accepts GetIsShareMountTargetVpcDeletedArgs and GetIsShareMountTargetVpcDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVpcDeletedInput` via:
+//
+//	GetIsShareMountTargetVpcDeletedArgs{...}
+type GetIsShareMountTargetVpcDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVpcDeletedOutput() GetIsShareMountTargetVpcDeletedOutput
+	ToGetIsShareMountTargetVpcDeletedOutputWithContext(context.Context) GetIsShareMountTargetVpcDeletedOutput
+}
+
+type GetIsShareMountTargetVpcDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetVpcDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVpcDeletedArgs) ToGetIsShareMountTargetVpcDeletedOutput() GetIsShareMountTargetVpcDeletedOutput {
+	return i.ToGetIsShareMountTargetVpcDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVpcDeletedArgs) ToGetIsShareMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcDeletedOutput)
+}
+
+// GetIsShareMountTargetVpcDeletedArrayInput is an input type that accepts GetIsShareMountTargetVpcDeletedArray and GetIsShareMountTargetVpcDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetVpcDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetVpcDeletedArray{ GetIsShareMountTargetVpcDeletedArgs{...} }
+type GetIsShareMountTargetVpcDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetVpcDeletedArrayOutput
+	ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetVpcDeletedArrayOutput
+}
+
+type GetIsShareMountTargetVpcDeletedArray []GetIsShareMountTargetVpcDeletedInput
+
+func (GetIsShareMountTargetVpcDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetVpcDeletedArray) ToGetIsShareMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetVpcDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetVpcDeletedArray) ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetVpcDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetVpcDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVpcDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVpcDeletedOutput) ToGetIsShareMountTargetVpcDeletedOutput() GetIsShareMountTargetVpcDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVpcDeletedOutput) ToGetIsShareMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetVpcDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetVpcDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetVpcDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetVpcDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetVpcDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetVpcDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetVpcDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetVpcDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetVpcDeleted {
+		return vs[0].([]GetIsShareMountTargetVpcDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetVpcDeletedOutput)
+}
+
+type GetIsShareMountTargetsMountTarget struct {
+	// The access control mode for the share
+	AccessControlMode string `pulumi:"accessControlMode"`
+	// The protocol to use to access the share for this share mount target.
+	AccessProtocol string `pulumi:"accessProtocol"`
+	// The date and time that the share target was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// The URL for this share target.
+	Href string `pulumi:"href"`
+	// The unique identifier for this share target.
+	Id string `pulumi:"id"`
+	// The lifecycle state of the mount target.
+	LifecycleState string `pulumi:"lifecycleState"`
+	// The mount path for the share.The IP addresses used in the mount path are currently within the IBM services IP range, but are expected to change to be within one of the VPC's subnets in the future.
+	MountPath string `pulumi:"mountPath"`
+	// The user-defined name for this share target.
+	Name string `pulumi:"name"`
+	// The primary IP address of the virtual network interface for the share mount target.
+	PrimaryIps []GetIsShareMountTargetsMountTargetPrimaryIp `pulumi:"primaryIps"`
+	// The type of resource referenced.
+	ResourceType string `pulumi:"resourceType"`
+	// The subnet associated with this file share target.
+	Subnets           []GetIsShareMountTargetsMountTargetSubnet `pulumi:"subnets"`
+	TransitEncryption string                                    `pulumi:"transitEncryption"`
+	// The virtual network interface for this file share mount target.
+	VirtualNetworkInterfaces []GetIsShareMountTargetsMountTargetVirtualNetworkInterface `pulumi:"virtualNetworkInterfaces"`
+	// The VPC to which this share target is allowing to mount the file share.
+	Vpcs []GetIsShareMountTargetsMountTargetVpc `pulumi:"vpcs"`
+}
+
+// GetIsShareMountTargetsMountTargetInput is an input type that accepts GetIsShareMountTargetsMountTargetArgs and GetIsShareMountTargetsMountTargetOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetInput` via:
+//
+//	GetIsShareMountTargetsMountTargetArgs{...}
+type GetIsShareMountTargetsMountTargetInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetOutput() GetIsShareMountTargetsMountTargetOutput
+	ToGetIsShareMountTargetsMountTargetOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetOutput
+}
+
+type GetIsShareMountTargetsMountTargetArgs struct {
+	// The access control mode for the share
+	AccessControlMode pulumi.StringInput `pulumi:"accessControlMode"`
+	// The protocol to use to access the share for this share mount target.
+	AccessProtocol pulumi.StringInput `pulumi:"accessProtocol"`
+	// The date and time that the share target was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// The URL for this share target.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this share target.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The lifecycle state of the mount target.
+	LifecycleState pulumi.StringInput `pulumi:"lifecycleState"`
+	// The mount path for the share.The IP addresses used in the mount path are currently within the IBM services IP range, but are expected to change to be within one of the VPC's subnets in the future.
+	MountPath pulumi.StringInput `pulumi:"mountPath"`
+	// The user-defined name for this share target.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The primary IP address of the virtual network interface for the share mount target.
+	PrimaryIps GetIsShareMountTargetsMountTargetPrimaryIpArrayInput `pulumi:"primaryIps"`
+	// The type of resource referenced.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+	// The subnet associated with this file share target.
+	Subnets           GetIsShareMountTargetsMountTargetSubnetArrayInput `pulumi:"subnets"`
+	TransitEncryption pulumi.StringInput                                `pulumi:"transitEncryption"`
+	// The virtual network interface for this file share mount target.
+	VirtualNetworkInterfaces GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput `pulumi:"virtualNetworkInterfaces"`
+	// The VPC to which this share target is allowing to mount the file share.
+	Vpcs GetIsShareMountTargetsMountTargetVpcArrayInput `pulumi:"vpcs"`
+}
+
+func (GetIsShareMountTargetsMountTargetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTarget)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetArgs) ToGetIsShareMountTargetsMountTargetOutput() GetIsShareMountTargetsMountTargetOutput {
+	return i.ToGetIsShareMountTargetsMountTargetOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetArgs) ToGetIsShareMountTargetsMountTargetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetOutput)
+}
+
+// GetIsShareMountTargetsMountTargetArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetArray and GetIsShareMountTargetsMountTargetArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetArray{ GetIsShareMountTargetsMountTargetArgs{...} }
+type GetIsShareMountTargetsMountTargetArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetArrayOutput() GetIsShareMountTargetsMountTargetArrayOutput
+	ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetArray []GetIsShareMountTargetsMountTargetInput
+
+func (GetIsShareMountTargetsMountTargetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTarget)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetArray) ToGetIsShareMountTargetsMountTargetArrayOutput() GetIsShareMountTargetsMountTargetArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetArray) ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTarget)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetOutput) ToGetIsShareMountTargetsMountTargetOutput() GetIsShareMountTargetsMountTargetOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetOutput) ToGetIsShareMountTargetsMountTargetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetOutput {
+	return o
+}
+
+// The access control mode for the share
+func (o GetIsShareMountTargetsMountTargetOutput) AccessControlMode() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.AccessControlMode }).(pulumi.StringOutput)
+}
+
+// The protocol to use to access the share for this share mount target.
+func (o GetIsShareMountTargetsMountTargetOutput) AccessProtocol() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.AccessProtocol }).(pulumi.StringOutput)
+}
+
+// The date and time that the share target was created.
+func (o GetIsShareMountTargetsMountTargetOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// The URL for this share target.
+func (o GetIsShareMountTargetsMountTargetOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this share target.
+func (o GetIsShareMountTargetsMountTargetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The lifecycle state of the mount target.
+func (o GetIsShareMountTargetsMountTargetOutput) LifecycleState() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.LifecycleState }).(pulumi.StringOutput)
+}
+
+// The mount path for the share.The IP addresses used in the mount path are currently within the IBM services IP range, but are expected to change to be within one of the VPC's subnets in the future.
+func (o GetIsShareMountTargetsMountTargetOutput) MountPath() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.MountPath }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this share target.
+func (o GetIsShareMountTargetsMountTargetOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The primary IP address of the virtual network interface for the share mount target.
+func (o GetIsShareMountTargetsMountTargetOutput) PrimaryIps() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetPrimaryIp {
+		return v.PrimaryIps
+	}).(GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput)
+}
+
+// The type of resource referenced.
+func (o GetIsShareMountTargetsMountTargetOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+// The subnet associated with this file share target.
+func (o GetIsShareMountTargetsMountTargetOutput) Subnets() GetIsShareMountTargetsMountTargetSubnetArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetSubnet { return v.Subnets }).(GetIsShareMountTargetsMountTargetSubnetArrayOutput)
+}
+
+func (o GetIsShareMountTargetsMountTargetOutput) TransitEncryption() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) string { return v.TransitEncryption }).(pulumi.StringOutput)
+}
+
+// The virtual network interface for this file share mount target.
+func (o GetIsShareMountTargetsMountTargetOutput) VirtualNetworkInterfaces() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetVirtualNetworkInterface {
+		return v.VirtualNetworkInterfaces
+	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput)
+}
+
+// The VPC to which this share target is allowing to mount the file share.
+func (o GetIsShareMountTargetsMountTargetOutput) Vpcs() GetIsShareMountTargetsMountTargetVpcArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTarget) []GetIsShareMountTargetsMountTargetVpc { return v.Vpcs }).(GetIsShareMountTargetsMountTargetVpcArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTarget)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetArrayOutput) ToGetIsShareMountTargetsMountTargetArrayOutput() GetIsShareMountTargetsMountTargetArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetArrayOutput) ToGetIsShareMountTargetsMountTargetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTarget {
+		return vs[0].([]GetIsShareMountTargetsMountTarget)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetOutput)
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIp struct {
+	// The IP address..
+	Address string `pulumi:"address"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetsMountTargetPrimaryIpDeleted `pulumi:"deleteds"`
+	// The URL for this reserved IP.
+	Href string `pulumi:"href"`
+	// The unique identifier for this reserved IP.
+	Id string `pulumi:"id"`
+	// The user-defined name for this reserved IP.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetsMountTargetPrimaryIpInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpArgs and GetIsShareMountTargetsMountTargetPrimaryIpOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpInput` via:
+//
+//	GetIsShareMountTargetsMountTargetPrimaryIpArgs{...}
+type GetIsShareMountTargetsMountTargetPrimaryIpInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetPrimaryIpOutput() GetIsShareMountTargetsMountTargetPrimaryIpOutput
+	ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpOutput
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpArgs struct {
+	// The IP address..
+	Address pulumi.StringInput `pulumi:"address"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this reserved IP.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this reserved IP.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this reserved IP.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpOutput() GetIsShareMountTargetsMountTargetPrimaryIpOutput {
+	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpOutput)
+}
+
+// GetIsShareMountTargetsMountTargetPrimaryIpArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpArray and GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetPrimaryIpArray{ GetIsShareMountTargetsMountTargetPrimaryIpArgs{...} }
+type GetIsShareMountTargetsMountTargetPrimaryIpArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput
+	ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpArray []GetIsShareMountTargetsMountTargetPrimaryIpInput
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpArray) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpArray) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpOutput() GetIsShareMountTargetsMountTargetPrimaryIpOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpOutput {
+	return o
+}
+
+// The IP address..
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Address() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Address }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Deleteds() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) []GetIsShareMountTargetsMountTargetPrimaryIpDeleted {
+		return v.Deleteds
+	}).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput)
+}
+
+// The URL for this reserved IP.
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this reserved IP.
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this reserved IP.
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetsMountTargetPrimaryIpOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIp) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIp)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetPrimaryIpOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetPrimaryIp {
+		return vs[0].([]GetIsShareMountTargetsMountTargetPrimaryIp)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetPrimaryIpOutput)
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs and GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput` via:
+//
+//	GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs{...}
+type GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput
+	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
+	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput)
+}
+
+// GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray and GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray{ GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs{...} }
+type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput
+	ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray []GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetPrimaryIpDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetPrimaryIpDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput() GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetPrimaryIpDeleted {
+		return vs[0].([]GetIsShareMountTargetsMountTargetPrimaryIpDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput)
+}
+
+type GetIsShareMountTargetsMountTargetSubnet struct {
+	// The CRN for this subnet.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetsMountTargetSubnetDeleted `pulumi:"deleteds"`
+	// The URL for this subnet.
+	Href string `pulumi:"href"`
+	// The unique identifier for this subnet.
+	Id string `pulumi:"id"`
+	// The user-defined name for this subnet.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetsMountTargetSubnetInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetArgs and GetIsShareMountTargetsMountTargetSubnetOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetInput` via:
+//
+//	GetIsShareMountTargetsMountTargetSubnetArgs{...}
+type GetIsShareMountTargetsMountTargetSubnetInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetSubnetOutput() GetIsShareMountTargetsMountTargetSubnetOutput
+	ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetOutput
+}
+
+type GetIsShareMountTargetsMountTargetSubnetArgs struct {
+	// The CRN for this subnet.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this subnet.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this subnet.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The user-defined name for this subnet.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetsMountTargetSubnetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetArgs) ToGetIsShareMountTargetsMountTargetSubnetOutput() GetIsShareMountTargetsMountTargetSubnetOutput {
+	return i.ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetArgs) ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetOutput)
+}
+
+// GetIsShareMountTargetsMountTargetSubnetArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetArray and GetIsShareMountTargetsMountTargetSubnetArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetSubnetArray{ GetIsShareMountTargetsMountTargetSubnetArgs{...} }
+type GetIsShareMountTargetsMountTargetSubnetArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetSubnetArrayOutput() GetIsShareMountTargetsMountTargetSubnetArrayOutput
+	ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetSubnetArray []GetIsShareMountTargetsMountTargetSubnetInput
+
+func (GetIsShareMountTargetsMountTargetSubnetArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetArray) ToGetIsShareMountTargetsMountTargetSubnetArrayOutput() GetIsShareMountTargetsMountTargetSubnetArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetArray) ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetSubnetOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetSubnetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) ToGetIsShareMountTargetsMountTargetSubnetOutput() GetIsShareMountTargetsMountTargetSubnetOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) ToGetIsShareMountTargetsMountTargetSubnetOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetOutput {
+	return o
+}
+
+// The CRN for this subnet.
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) Deleteds() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) []GetIsShareMountTargetsMountTargetSubnetDeleted {
+		return v.Deleteds
+	}).(GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput)
+}
+
+// The URL for this subnet.
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this subnet.
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The user-defined name for this subnet.
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetsMountTargetSubnetOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnet) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetSubnetArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetSubnetArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnet)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetArrayOutput() GetIsShareMountTargetsMountTargetSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetSubnetOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetSubnet {
+		return vs[0].([]GetIsShareMountTargetsMountTargetSubnet)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetSubnetOutput)
+}
+
+type GetIsShareMountTargetsMountTargetSubnetDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetsMountTargetSubnetDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetDeletedArgs and GetIsShareMountTargetsMountTargetSubnetDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetDeletedInput` via:
+//
+//	GetIsShareMountTargetsMountTargetSubnetDeletedArgs{...}
+type GetIsShareMountTargetsMountTargetSubnetDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetSubnetDeletedOutput() GetIsShareMountTargetsMountTargetSubnetDeletedOutput
+	ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedOutput
+}
+
+type GetIsShareMountTargetsMountTargetSubnetDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetsMountTargetSubnetDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutput() GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
+	return i.ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetDeletedArgs) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetDeletedOutput)
+}
+
+// GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetSubnetDeletedArray and GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetSubnetDeletedArray{ GetIsShareMountTargetsMountTargetSubnetDeletedArgs{...} }
+type GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput
+	ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetSubnetDeletedArray []GetIsShareMountTargetsMountTargetSubnetDeletedInput
+
+func (GetIsShareMountTargetsMountTargetSubnetDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetDeletedArray) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetSubnetDeletedArray) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetSubnetDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetSubnetDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutput() GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetDeletedOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetsMountTargetSubnetDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetSubnetDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetSubnetDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput() GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetSubnetDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetSubnetDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetSubnetDeleted {
+		return vs[0].([]GetIsShareMountTargetsMountTargetSubnetDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetSubnetDeletedOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterface struct {
+	// The CRN for this virtual network interface.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted `pulumi:"deleteds"`
+	// The URL for this virtual network interface.
+	Href string `pulumi:"href"`
+	// The unique identifier for this virtual network interface.
+	Id string `pulumi:"id"`
+	// The unique user-defined name for this virtual network interface.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs{...}
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs struct {
+	// The CRN for this virtual network interface.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this virtual network interface.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this virtual network interface.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The unique user-defined name for this virtual network interface.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput)
+}
+
+// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray{ GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs{...} }
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
+	return o
+}
+
+// The CRN for this virtual network interface.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Deleteds() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted {
+		return v.Deleteds
+	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
+}
+
+// The URL for this virtual network interface.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this virtual network interface.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this virtual network interface.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterface) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterface)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVirtualNetworkInterface {
+		return vs[0].([]GetIsShareMountTargetsMountTargetVirtualNetworkInterface)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs{...}
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput)
+}
+
+// GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray and GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray{ GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs{...} }
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput
+	ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray []GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput() GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted {
+		return vs[0].([]GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVpc struct {
+	// The CRN for this VPC.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds []GetIsShareMountTargetsMountTargetVpcDeleted `pulumi:"deleteds"`
+	// The URL for this VPC.
+	Href string `pulumi:"href"`
+	// The unique identifier for this VPC.
+	Id string `pulumi:"id"`
+	// The unique user-defined name for this VPC.
+	Name string `pulumi:"name"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareMountTargetsMountTargetVpcInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcArgs and GetIsShareMountTargetsMountTargetVpcOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVpcArgs{...}
+type GetIsShareMountTargetsMountTargetVpcInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVpcOutput() GetIsShareMountTargetsMountTargetVpcOutput
+	ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcOutput
+}
+
+type GetIsShareMountTargetsMountTargetVpcArgs struct {
+	// The CRN for this VPC.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+	Deleteds GetIsShareMountTargetsMountTargetVpcDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this VPC.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this VPC.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The unique user-defined name for this VPC.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareMountTargetsMountTargetVpcArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcArgs) ToGetIsShareMountTargetsMountTargetVpcOutput() GetIsShareMountTargetsMountTargetVpcOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcArgs) ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcOutput)
+}
+
+// GetIsShareMountTargetsMountTargetVpcArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcArray and GetIsShareMountTargetsMountTargetVpcArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVpcArray{ GetIsShareMountTargetsMountTargetVpcArgs{...} }
+type GetIsShareMountTargetsMountTargetVpcArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVpcArrayOutput() GetIsShareMountTargetsMountTargetVpcArrayOutput
+	ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetVpcArray []GetIsShareMountTargetsMountTargetVpcInput
+
+func (GetIsShareMountTargetsMountTargetVpcArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcArray) ToGetIsShareMountTargetsMountTargetVpcArrayOutput() GetIsShareMountTargetsMountTargetVpcArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcArray) ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVpcOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVpcOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcOutput) ToGetIsShareMountTargetsMountTargetVpcOutput() GetIsShareMountTargetsMountTargetVpcOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcOutput) ToGetIsShareMountTargetsMountTargetVpcOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcOutput {
+	return o
+}
+
+// The CRN for this VPC.
+func (o GetIsShareMountTargetsMountTargetVpcOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted and providessome supplementary information.
+func (o GetIsShareMountTargetsMountTargetVpcOutput) Deleteds() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) []GetIsShareMountTargetsMountTargetVpcDeleted {
+		return v.Deleteds
+	}).(GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput)
+}
+
+// The URL for this VPC.
+func (o GetIsShareMountTargetsMountTargetVpcOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this VPC.
+func (o GetIsShareMountTargetsMountTargetVpcOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The unique user-defined name for this VPC.
+func (o GetIsShareMountTargetsMountTargetVpcOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareMountTargetsMountTargetVpcOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpc) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVpcArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVpcArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpc)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcArrayOutput) ToGetIsShareMountTargetsMountTargetVpcArrayOutput() GetIsShareMountTargetsMountTargetVpcArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcArrayOutput) ToGetIsShareMountTargetsMountTargetVpcArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVpcOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVpc {
+		return vs[0].([]GetIsShareMountTargetsMountTargetVpc)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetVpcOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVpcDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareMountTargetsMountTargetVpcDeletedInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcDeletedArgs and GetIsShareMountTargetsMountTargetVpcDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcDeletedInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVpcDeletedArgs{...}
+type GetIsShareMountTargetsMountTargetVpcDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVpcDeletedOutput() GetIsShareMountTargetsMountTargetVpcDeletedOutput
+	ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcDeletedOutput
+}
+
+type GetIsShareMountTargetsMountTargetVpcDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareMountTargetsMountTargetVpcDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcDeletedArgs) ToGetIsShareMountTargetsMountTargetVpcDeletedOutput() GetIsShareMountTargetsMountTargetVpcDeletedOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcDeletedArgs) ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcDeletedOutput)
+}
+
+// GetIsShareMountTargetsMountTargetVpcDeletedArrayInput is an input type that accepts GetIsShareMountTargetsMountTargetVpcDeletedArray and GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareMountTargetsMountTargetVpcDeletedArrayInput` via:
+//
+//	GetIsShareMountTargetsMountTargetVpcDeletedArray{ GetIsShareMountTargetsMountTargetVpcDeletedArgs{...} }
+type GetIsShareMountTargetsMountTargetVpcDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput
+	ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(context.Context) GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput
+}
+
+type GetIsShareMountTargetsMountTargetVpcDeletedArray []GetIsShareMountTargetsMountTargetVpcDeletedInput
+
+func (GetIsShareMountTargetsMountTargetVpcDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcDeletedArray) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
+	return i.ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareMountTargetsMountTargetVpcDeletedArray) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVpcDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVpcDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcDeletedOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedOutput() GetIsShareMountTargetsMountTargetVpcDeletedOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcDeletedOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareMountTargetsMountTargetVpcDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareMountTargetsMountTargetVpcDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareMountTargetsMountTargetVpcDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutput() GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) ToGetIsShareMountTargetsMountTargetVpcDeletedArrayOutputWithContext(ctx context.Context) GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareMountTargetsMountTargetVpcDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareMountTargetsMountTargetVpcDeleted {
+		return vs[0].([]GetIsShareMountTargetsMountTargetVpcDeleted)[vs[1].(int)]
+	}).(GetIsShareMountTargetsMountTargetVpcDeletedOutput)
+}
+
+type GetIsShareOriginShare struct {
+	// The CRN for this file share.
+	Crn string `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds []GetIsShareOriginShareDeleted `pulumi:"deleteds"`
+	// The URL for this file share.
+	Href string `pulumi:"href"`
+	// The unique identifier for this file share.
+	Id string `pulumi:"id"`
+	// The name for this share. The name is unique across all shares in the region.
+	Name string `pulumi:"name"`
+	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
+	Remotes []GetIsShareOriginShareRemote `pulumi:"remotes"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareOriginShareInput is an input type that accepts GetIsShareOriginShareArgs and GetIsShareOriginShareOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareInput` via:
+//
+//	GetIsShareOriginShareArgs{...}
+type GetIsShareOriginShareInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareOutput() GetIsShareOriginShareOutput
+	ToGetIsShareOriginShareOutputWithContext(context.Context) GetIsShareOriginShareOutput
+}
+
+type GetIsShareOriginShareArgs struct {
+	// The CRN for this file share.
+	Crn pulumi.StringInput `pulumi:"crn"`
+	// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+	Deleteds GetIsShareOriginShareDeletedArrayInput `pulumi:"deleteds"`
+	// The URL for this file share.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The unique identifier for this file share.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name for this share. The name is unique across all shares in the region.
+	Name pulumi.StringInput `pulumi:"name"`
+	// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
+	Remotes GetIsShareOriginShareRemoteArrayInput `pulumi:"remotes"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareOriginShareArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShare)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareArgs) ToGetIsShareOriginShareOutput() GetIsShareOriginShareOutput {
+	return i.ToGetIsShareOriginShareOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareArgs) ToGetIsShareOriginShareOutputWithContext(ctx context.Context) GetIsShareOriginShareOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareOutput)
+}
+
+// GetIsShareOriginShareArrayInput is an input type that accepts GetIsShareOriginShareArray and GetIsShareOriginShareArrayOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareArrayInput` via:
+//
+//	GetIsShareOriginShareArray{ GetIsShareOriginShareArgs{...} }
+type GetIsShareOriginShareArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareArrayOutput() GetIsShareOriginShareArrayOutput
+	ToGetIsShareOriginShareArrayOutputWithContext(context.Context) GetIsShareOriginShareArrayOutput
+}
+
+type GetIsShareOriginShareArray []GetIsShareOriginShareInput
+
+func (GetIsShareOriginShareArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShare)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareArray) ToGetIsShareOriginShareArrayOutput() GetIsShareOriginShareArrayOutput {
+	return i.ToGetIsShareOriginShareArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareArray) ToGetIsShareOriginShareArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareArrayOutput)
+}
+
+type GetIsShareOriginShareOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShare)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareOutput) ToGetIsShareOriginShareOutput() GetIsShareOriginShareOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareOutput) ToGetIsShareOriginShareOutputWithContext(ctx context.Context) GetIsShareOriginShareOutput {
+	return o
+}
+
+// The CRN for this file share.
+func (o GetIsShareOriginShareOutput) Crn() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Crn }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates the referenced resource has been deleted, and providessome supplementary information.
+func (o GetIsShareOriginShareOutput) Deleteds() GetIsShareOriginShareDeletedArrayOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) []GetIsShareOriginShareDeleted { return v.Deleteds }).(GetIsShareOriginShareDeletedArrayOutput)
+}
+
+// The URL for this file share.
+func (o GetIsShareOriginShareOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The unique identifier for this file share.
+func (o GetIsShareOriginShareOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The name for this share. The name is unique across all shares in the region.
+func (o GetIsShareOriginShareOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// If present, this property indicates that the resource associated with this referenceis remote and therefore may not be directly retrievable.
+func (o GetIsShareOriginShareOutput) Remotes() GetIsShareOriginShareRemoteArrayOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) []GetIsShareOriginShareRemote { return v.Remotes }).(GetIsShareOriginShareRemoteArrayOutput)
+}
+
+// The resource type.
+func (o GetIsShareOriginShareOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShare) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareOriginShareArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShare)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareArrayOutput) ToGetIsShareOriginShareArrayOutput() GetIsShareOriginShareArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareArrayOutput) ToGetIsShareOriginShareArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShare {
+		return vs[0].([]GetIsShareOriginShare)[vs[1].(int)]
+	}).(GetIsShareOriginShareOutput)
+}
+
+type GetIsShareOriginShareDeleted struct {
+	// Link to documentation about deleted resources.
+	MoreInfo string `pulumi:"moreInfo"`
+}
+
+// GetIsShareOriginShareDeletedInput is an input type that accepts GetIsShareOriginShareDeletedArgs and GetIsShareOriginShareDeletedOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareDeletedInput` via:
+//
+//	GetIsShareOriginShareDeletedArgs{...}
+type GetIsShareOriginShareDeletedInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareDeletedOutput() GetIsShareOriginShareDeletedOutput
+	ToGetIsShareOriginShareDeletedOutputWithContext(context.Context) GetIsShareOriginShareDeletedOutput
+}
+
+type GetIsShareOriginShareDeletedArgs struct {
+	// Link to documentation about deleted resources.
+	MoreInfo pulumi.StringInput `pulumi:"moreInfo"`
+}
+
+func (GetIsShareOriginShareDeletedArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareDeletedArgs) ToGetIsShareOriginShareDeletedOutput() GetIsShareOriginShareDeletedOutput {
+	return i.ToGetIsShareOriginShareDeletedOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareDeletedArgs) ToGetIsShareOriginShareDeletedOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareDeletedOutput)
+}
+
+// GetIsShareOriginShareDeletedArrayInput is an input type that accepts GetIsShareOriginShareDeletedArray and GetIsShareOriginShareDeletedArrayOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareDeletedArrayInput` via:
+//
+//	GetIsShareOriginShareDeletedArray{ GetIsShareOriginShareDeletedArgs{...} }
+type GetIsShareOriginShareDeletedArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareDeletedArrayOutput() GetIsShareOriginShareDeletedArrayOutput
+	ToGetIsShareOriginShareDeletedArrayOutputWithContext(context.Context) GetIsShareOriginShareDeletedArrayOutput
+}
+
+type GetIsShareOriginShareDeletedArray []GetIsShareOriginShareDeletedInput
+
+func (GetIsShareOriginShareDeletedArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareDeleted)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareDeletedArray) ToGetIsShareOriginShareDeletedArrayOutput() GetIsShareOriginShareDeletedArrayOutput {
+	return i.ToGetIsShareOriginShareDeletedArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareDeletedArray) ToGetIsShareOriginShareDeletedArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareDeletedArrayOutput)
+}
+
+type GetIsShareOriginShareDeletedOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareDeletedOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareDeletedOutput) ToGetIsShareOriginShareDeletedOutput() GetIsShareOriginShareDeletedOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareDeletedOutput) ToGetIsShareOriginShareDeletedOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedOutput {
+	return o
+}
+
+// Link to documentation about deleted resources.
+func (o GetIsShareOriginShareDeletedOutput) MoreInfo() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareDeleted) string { return v.MoreInfo }).(pulumi.StringOutput)
+}
+
+type GetIsShareOriginShareDeletedArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareDeletedArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareDeleted)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareDeletedArrayOutput) ToGetIsShareOriginShareDeletedArrayOutput() GetIsShareOriginShareDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareDeletedArrayOutput) ToGetIsShareOriginShareDeletedArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareDeletedArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareDeletedArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareDeletedOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareDeleted {
+		return vs[0].([]GetIsShareOriginShareDeleted)[vs[1].(int)]
+	}).(GetIsShareOriginShareDeletedOutput)
+}
+
+type GetIsShareOriginShareRemote struct {
+	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
+	Accounts []GetIsShareOriginShareRemoteAccount `pulumi:"accounts"`
+	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
+	Regions []GetIsShareOriginShareRemoteRegion `pulumi:"regions"`
+}
+
+// GetIsShareOriginShareRemoteInput is an input type that accepts GetIsShareOriginShareRemoteArgs and GetIsShareOriginShareRemoteOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareRemoteInput` via:
+//
+//	GetIsShareOriginShareRemoteArgs{...}
+type GetIsShareOriginShareRemoteInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareRemoteOutput() GetIsShareOriginShareRemoteOutput
+	ToGetIsShareOriginShareRemoteOutputWithContext(context.Context) GetIsShareOriginShareRemoteOutput
+}
+
+type GetIsShareOriginShareRemoteArgs struct {
+	// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
+	Accounts GetIsShareOriginShareRemoteAccountArrayInput `pulumi:"accounts"`
+	// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
+	Regions GetIsShareOriginShareRemoteRegionArrayInput `pulumi:"regions"`
+}
+
+func (GetIsShareOriginShareRemoteArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareRemote)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareRemoteArgs) ToGetIsShareOriginShareRemoteOutput() GetIsShareOriginShareRemoteOutput {
+	return i.ToGetIsShareOriginShareRemoteOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareRemoteArgs) ToGetIsShareOriginShareRemoteOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteOutput)
+}
+
+// GetIsShareOriginShareRemoteArrayInput is an input type that accepts GetIsShareOriginShareRemoteArray and GetIsShareOriginShareRemoteArrayOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareRemoteArrayInput` via:
+//
+//	GetIsShareOriginShareRemoteArray{ GetIsShareOriginShareRemoteArgs{...} }
+type GetIsShareOriginShareRemoteArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareRemoteArrayOutput() GetIsShareOriginShareRemoteArrayOutput
+	ToGetIsShareOriginShareRemoteArrayOutputWithContext(context.Context) GetIsShareOriginShareRemoteArrayOutput
+}
+
+type GetIsShareOriginShareRemoteArray []GetIsShareOriginShareRemoteInput
+
+func (GetIsShareOriginShareRemoteArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareRemote)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareRemoteArray) ToGetIsShareOriginShareRemoteArrayOutput() GetIsShareOriginShareRemoteArrayOutput {
+	return i.ToGetIsShareOriginShareRemoteArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareRemoteArray) ToGetIsShareOriginShareRemoteArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteArrayOutput)
+}
+
+type GetIsShareOriginShareRemoteOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareRemoteOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareRemote)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareRemoteOutput) ToGetIsShareOriginShareRemoteOutput() GetIsShareOriginShareRemoteOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteOutput) ToGetIsShareOriginShareRemoteOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteOutput {
+	return o
+}
+
+// If present, this property indicates that the referenced resource is remote to thisaccount, and identifies the owning account.
+func (o GetIsShareOriginShareRemoteOutput) Accounts() GetIsShareOriginShareRemoteAccountArrayOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareRemote) []GetIsShareOriginShareRemoteAccount { return v.Accounts }).(GetIsShareOriginShareRemoteAccountArrayOutput)
+}
+
+// If present, this property indicates that the referenced resource is remote to thisregion, and identifies the native region.
+func (o GetIsShareOriginShareRemoteOutput) Regions() GetIsShareOriginShareRemoteRegionArrayOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareRemote) []GetIsShareOriginShareRemoteRegion { return v.Regions }).(GetIsShareOriginShareRemoteRegionArrayOutput)
+}
+
+type GetIsShareOriginShareRemoteArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareRemoteArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareRemote)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareRemoteArrayOutput) ToGetIsShareOriginShareRemoteArrayOutput() GetIsShareOriginShareRemoteArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteArrayOutput) ToGetIsShareOriginShareRemoteArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareRemoteOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareRemote {
+		return vs[0].([]GetIsShareOriginShareRemote)[vs[1].(int)]
+	}).(GetIsShareOriginShareRemoteOutput)
+}
+
+type GetIsShareOriginShareRemoteAccount struct {
+	// The unique identifier for this account.
+	Id string `pulumi:"id"`
+	// The resource type.
+	ResourceType string `pulumi:"resourceType"`
+}
+
+// GetIsShareOriginShareRemoteAccountInput is an input type that accepts GetIsShareOriginShareRemoteAccountArgs and GetIsShareOriginShareRemoteAccountOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareRemoteAccountInput` via:
+//
+//	GetIsShareOriginShareRemoteAccountArgs{...}
+type GetIsShareOriginShareRemoteAccountInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareRemoteAccountOutput() GetIsShareOriginShareRemoteAccountOutput
+	ToGetIsShareOriginShareRemoteAccountOutputWithContext(context.Context) GetIsShareOriginShareRemoteAccountOutput
+}
+
+type GetIsShareOriginShareRemoteAccountArgs struct {
+	// The unique identifier for this account.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The resource type.
+	ResourceType pulumi.StringInput `pulumi:"resourceType"`
+}
+
+func (GetIsShareOriginShareRemoteAccountArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareRemoteAccount)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareRemoteAccountArgs) ToGetIsShareOriginShareRemoteAccountOutput() GetIsShareOriginShareRemoteAccountOutput {
+	return i.ToGetIsShareOriginShareRemoteAccountOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareRemoteAccountArgs) ToGetIsShareOriginShareRemoteAccountOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteAccountOutput)
+}
+
+// GetIsShareOriginShareRemoteAccountArrayInput is an input type that accepts GetIsShareOriginShareRemoteAccountArray and GetIsShareOriginShareRemoteAccountArrayOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareRemoteAccountArrayInput` via:
+//
+//	GetIsShareOriginShareRemoteAccountArray{ GetIsShareOriginShareRemoteAccountArgs{...} }
+type GetIsShareOriginShareRemoteAccountArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareRemoteAccountArrayOutput() GetIsShareOriginShareRemoteAccountArrayOutput
+	ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(context.Context) GetIsShareOriginShareRemoteAccountArrayOutput
+}
+
+type GetIsShareOriginShareRemoteAccountArray []GetIsShareOriginShareRemoteAccountInput
+
+func (GetIsShareOriginShareRemoteAccountArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteAccount)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareRemoteAccountArray) ToGetIsShareOriginShareRemoteAccountArrayOutput() GetIsShareOriginShareRemoteAccountArrayOutput {
+	return i.ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareRemoteAccountArray) ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteAccountArrayOutput)
+}
+
+type GetIsShareOriginShareRemoteAccountOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareRemoteAccountOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareRemoteAccount)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareRemoteAccountOutput) ToGetIsShareOriginShareRemoteAccountOutput() GetIsShareOriginShareRemoteAccountOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteAccountOutput) ToGetIsShareOriginShareRemoteAccountOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountOutput {
+	return o
+}
+
+// The unique identifier for this account.
+func (o GetIsShareOriginShareRemoteAccountOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareRemoteAccount) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The resource type.
+func (o GetIsShareOriginShareRemoteAccountOutput) ResourceType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareRemoteAccount) string { return v.ResourceType }).(pulumi.StringOutput)
+}
+
+type GetIsShareOriginShareRemoteAccountArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareRemoteAccountArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteAccount)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareRemoteAccountArrayOutput) ToGetIsShareOriginShareRemoteAccountArrayOutput() GetIsShareOriginShareRemoteAccountArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteAccountArrayOutput) ToGetIsShareOriginShareRemoteAccountArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteAccountArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteAccountArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareRemoteAccountOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareRemoteAccount {
+		return vs[0].([]GetIsShareOriginShareRemoteAccount)[vs[1].(int)]
+	}).(GetIsShareOriginShareRemoteAccountOutput)
+}
+
+type GetIsShareOriginShareRemoteRegion struct {
+	// The URL for this region.
+	Href string `pulumi:"href"`
+	// The globally unique name for this region.
+	Name string `pulumi:"name"`
+}
+
+// GetIsShareOriginShareRemoteRegionInput is an input type that accepts GetIsShareOriginShareRemoteRegionArgs and GetIsShareOriginShareRemoteRegionOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareRemoteRegionInput` via:
+//
+//	GetIsShareOriginShareRemoteRegionArgs{...}
+type GetIsShareOriginShareRemoteRegionInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareRemoteRegionOutput() GetIsShareOriginShareRemoteRegionOutput
+	ToGetIsShareOriginShareRemoteRegionOutputWithContext(context.Context) GetIsShareOriginShareRemoteRegionOutput
+}
+
+type GetIsShareOriginShareRemoteRegionArgs struct {
+	// The URL for this region.
+	Href pulumi.StringInput `pulumi:"href"`
+	// The globally unique name for this region.
+	Name pulumi.StringInput `pulumi:"name"`
+}
+
+func (GetIsShareOriginShareRemoteRegionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareRemoteRegion)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareRemoteRegionArgs) ToGetIsShareOriginShareRemoteRegionOutput() GetIsShareOriginShareRemoteRegionOutput {
+	return i.ToGetIsShareOriginShareRemoteRegionOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareRemoteRegionArgs) ToGetIsShareOriginShareRemoteRegionOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteRegionOutput)
+}
+
+// GetIsShareOriginShareRemoteRegionArrayInput is an input type that accepts GetIsShareOriginShareRemoteRegionArray and GetIsShareOriginShareRemoteRegionArrayOutput values.
+// You can construct a concrete instance of `GetIsShareOriginShareRemoteRegionArrayInput` via:
+//
+//	GetIsShareOriginShareRemoteRegionArray{ GetIsShareOriginShareRemoteRegionArgs{...} }
+type GetIsShareOriginShareRemoteRegionArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareOriginShareRemoteRegionArrayOutput() GetIsShareOriginShareRemoteRegionArrayOutput
+	ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(context.Context) GetIsShareOriginShareRemoteRegionArrayOutput
+}
+
+type GetIsShareOriginShareRemoteRegionArray []GetIsShareOriginShareRemoteRegionInput
+
+func (GetIsShareOriginShareRemoteRegionArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteRegion)(nil)).Elem()
+}
+
+func (i GetIsShareOriginShareRemoteRegionArray) ToGetIsShareOriginShareRemoteRegionArrayOutput() GetIsShareOriginShareRemoteRegionArrayOutput {
+	return i.ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareOriginShareRemoteRegionArray) ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareOriginShareRemoteRegionArrayOutput)
+}
+
+type GetIsShareOriginShareRemoteRegionOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareRemoteRegionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareOriginShareRemoteRegion)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareRemoteRegionOutput) ToGetIsShareOriginShareRemoteRegionOutput() GetIsShareOriginShareRemoteRegionOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteRegionOutput) ToGetIsShareOriginShareRemoteRegionOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionOutput {
+	return o
+}
+
+// The URL for this region.
+func (o GetIsShareOriginShareRemoteRegionOutput) Href() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareRemoteRegion) string { return v.Href }).(pulumi.StringOutput)
+}
+
+// The globally unique name for this region.
+func (o GetIsShareOriginShareRemoteRegionOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareOriginShareRemoteRegion) string { return v.Name }).(pulumi.StringOutput)
+}
+
+type GetIsShareOriginShareRemoteRegionArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareOriginShareRemoteRegionArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareOriginShareRemoteRegion)(nil)).Elem()
+}
+
+func (o GetIsShareOriginShareRemoteRegionArrayOutput) ToGetIsShareOriginShareRemoteRegionArrayOutput() GetIsShareOriginShareRemoteRegionArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteRegionArrayOutput) ToGetIsShareOriginShareRemoteRegionArrayOutputWithContext(ctx context.Context) GetIsShareOriginShareRemoteRegionArrayOutput {
+	return o
+}
+
+func (o GetIsShareOriginShareRemoteRegionArrayOutput) Index(i pulumi.IntInput) GetIsShareOriginShareRemoteRegionOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareOriginShareRemoteRegion {
+		return vs[0].([]GetIsShareOriginShareRemoteRegion)[vs[1].(int)]
+	}).(GetIsShareOriginShareRemoteRegionOutput)
+}
+
+type GetIsShareProfileAllowedAccessProtocol struct {
+	// The default allowed access protocol modes for shares with this profile.
+	Defaults []string `pulumi:"defaults"`
+	// The type for this profile field.
+	Type string `pulumi:"type"`
+	// The possible allowed access protocols for shares with this profile.
+	Values []string `pulumi:"values"`
+}
+
+// GetIsShareProfileAllowedAccessProtocolInput is an input type that accepts GetIsShareProfileAllowedAccessProtocolArgs and GetIsShareProfileAllowedAccessProtocolOutput values.
+// You can construct a concrete instance of `GetIsShareProfileAllowedAccessProtocolInput` via:
+//
+//	GetIsShareProfileAllowedAccessProtocolArgs{...}
+type GetIsShareProfileAllowedAccessProtocolInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileAllowedAccessProtocolOutput() GetIsShareProfileAllowedAccessProtocolOutput
+	ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(context.Context) GetIsShareProfileAllowedAccessProtocolOutput
+}
+
+type GetIsShareProfileAllowedAccessProtocolArgs struct {
+	// The default allowed access protocol modes for shares with this profile.
+	Defaults pulumi.StringArrayInput `pulumi:"defaults"`
+	// The type for this profile field.
+	Type pulumi.StringInput `pulumi:"type"`
+	// The possible allowed access protocols for shares with this profile.
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (GetIsShareProfileAllowedAccessProtocolArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
+}
+
+func (i GetIsShareProfileAllowedAccessProtocolArgs) ToGetIsShareProfileAllowedAccessProtocolOutput() GetIsShareProfileAllowedAccessProtocolOutput {
+	return i.ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileAllowedAccessProtocolArgs) ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedAccessProtocolOutput)
+}
+
+// GetIsShareProfileAllowedAccessProtocolArrayInput is an input type that accepts GetIsShareProfileAllowedAccessProtocolArray and GetIsShareProfileAllowedAccessProtocolArrayOutput values.
+// You can construct a concrete instance of `GetIsShareProfileAllowedAccessProtocolArrayInput` via:
+//
+//	GetIsShareProfileAllowedAccessProtocolArray{ GetIsShareProfileAllowedAccessProtocolArgs{...} }
+type GetIsShareProfileAllowedAccessProtocolArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileAllowedAccessProtocolArrayOutput() GetIsShareProfileAllowedAccessProtocolArrayOutput
+	ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(context.Context) GetIsShareProfileAllowedAccessProtocolArrayOutput
+}
+
+type GetIsShareProfileAllowedAccessProtocolArray []GetIsShareProfileAllowedAccessProtocolInput
+
+func (GetIsShareProfileAllowedAccessProtocolArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
+}
+
+func (i GetIsShareProfileAllowedAccessProtocolArray) ToGetIsShareProfileAllowedAccessProtocolArrayOutput() GetIsShareProfileAllowedAccessProtocolArrayOutput {
+	return i.ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileAllowedAccessProtocolArray) ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedAccessProtocolArrayOutput)
+}
+
+type GetIsShareProfileAllowedAccessProtocolOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileAllowedAccessProtocolOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
+}
+
+func (o GetIsShareProfileAllowedAccessProtocolOutput) ToGetIsShareProfileAllowedAccessProtocolOutput() GetIsShareProfileAllowedAccessProtocolOutput {
+	return o
+}
+
+func (o GetIsShareProfileAllowedAccessProtocolOutput) ToGetIsShareProfileAllowedAccessProtocolOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolOutput {
+	return o
+}
+
+// The default allowed access protocol modes for shares with this profile.
+func (o GetIsShareProfileAllowedAccessProtocolOutput) Defaults() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsShareProfileAllowedAccessProtocol) []string { return v.Defaults }).(pulumi.StringArrayOutput)
+}
+
+// The type for this profile field.
+func (o GetIsShareProfileAllowedAccessProtocolOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareProfileAllowedAccessProtocol) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The possible allowed access protocols for shares with this profile.
+func (o GetIsShareProfileAllowedAccessProtocolOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsShareProfileAllowedAccessProtocol) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type GetIsShareProfileAllowedAccessProtocolArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileAllowedAccessProtocolArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileAllowedAccessProtocol)(nil)).Elem()
+}
+
+func (o GetIsShareProfileAllowedAccessProtocolArrayOutput) ToGetIsShareProfileAllowedAccessProtocolArrayOutput() GetIsShareProfileAllowedAccessProtocolArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileAllowedAccessProtocolArrayOutput) ToGetIsShareProfileAllowedAccessProtocolArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedAccessProtocolArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileAllowedAccessProtocolArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileAllowedAccessProtocolOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileAllowedAccessProtocol {
+		return vs[0].([]GetIsShareProfileAllowedAccessProtocol)[vs[1].(int)]
+	}).(GetIsShareProfileAllowedAccessProtocolOutput)
+}
+
+type GetIsShareProfileAllowedTransitEncryptionMode struct {
+	// The default allowed transit encryption modes for shares with this profile.
+	Defaults []string `pulumi:"defaults"`
+	// The type for this profile field.
+	Type string `pulumi:"type"`
+	// The allowed transit encryption modes for a share with this profile
+	Values []string `pulumi:"values"`
+}
+
+// GetIsShareProfileAllowedTransitEncryptionModeInput is an input type that accepts GetIsShareProfileAllowedTransitEncryptionModeArgs and GetIsShareProfileAllowedTransitEncryptionModeOutput values.
+// You can construct a concrete instance of `GetIsShareProfileAllowedTransitEncryptionModeInput` via:
+//
+//	GetIsShareProfileAllowedTransitEncryptionModeArgs{...}
+type GetIsShareProfileAllowedTransitEncryptionModeInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileAllowedTransitEncryptionModeOutput() GetIsShareProfileAllowedTransitEncryptionModeOutput
+	ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(context.Context) GetIsShareProfileAllowedTransitEncryptionModeOutput
+}
+
+type GetIsShareProfileAllowedTransitEncryptionModeArgs struct {
+	// The default allowed transit encryption modes for shares with this profile.
+	Defaults pulumi.StringArrayInput `pulumi:"defaults"`
+	// The type for this profile field.
+	Type pulumi.StringInput `pulumi:"type"`
+	// The allowed transit encryption modes for a share with this profile
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (GetIsShareProfileAllowedTransitEncryptionModeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
+}
+
+func (i GetIsShareProfileAllowedTransitEncryptionModeArgs) ToGetIsShareProfileAllowedTransitEncryptionModeOutput() GetIsShareProfileAllowedTransitEncryptionModeOutput {
+	return i.ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileAllowedTransitEncryptionModeArgs) ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedTransitEncryptionModeOutput)
+}
+
+// GetIsShareProfileAllowedTransitEncryptionModeArrayInput is an input type that accepts GetIsShareProfileAllowedTransitEncryptionModeArray and GetIsShareProfileAllowedTransitEncryptionModeArrayOutput values.
+// You can construct a concrete instance of `GetIsShareProfileAllowedTransitEncryptionModeArrayInput` via:
+//
+//	GetIsShareProfileAllowedTransitEncryptionModeArray{ GetIsShareProfileAllowedTransitEncryptionModeArgs{...} }
+type GetIsShareProfileAllowedTransitEncryptionModeArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutput() GetIsShareProfileAllowedTransitEncryptionModeArrayOutput
+	ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(context.Context) GetIsShareProfileAllowedTransitEncryptionModeArrayOutput
+}
+
+type GetIsShareProfileAllowedTransitEncryptionModeArray []GetIsShareProfileAllowedTransitEncryptionModeInput
+
+func (GetIsShareProfileAllowedTransitEncryptionModeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
+}
+
+func (i GetIsShareProfileAllowedTransitEncryptionModeArray) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutput() GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
+	return i.ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileAllowedTransitEncryptionModeArray) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAllowedTransitEncryptionModeArrayOutput)
+}
+
+type GetIsShareProfileAllowedTransitEncryptionModeOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileAllowedTransitEncryptionModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
+}
+
+func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) ToGetIsShareProfileAllowedTransitEncryptionModeOutput() GetIsShareProfileAllowedTransitEncryptionModeOutput {
+	return o
+}
+
+func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) ToGetIsShareProfileAllowedTransitEncryptionModeOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeOutput {
+	return o
+}
+
+// The default allowed transit encryption modes for shares with this profile.
+func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) Defaults() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsShareProfileAllowedTransitEncryptionMode) []string { return v.Defaults }).(pulumi.StringArrayOutput)
+}
+
+// The type for this profile field.
+func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareProfileAllowedTransitEncryptionMode) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The allowed transit encryption modes for a share with this profile
+func (o GetIsShareProfileAllowedTransitEncryptionModeOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsShareProfileAllowedTransitEncryptionMode) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type GetIsShareProfileAllowedTransitEncryptionModeArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileAllowedTransitEncryptionMode)(nil)).Elem()
+}
+
+func (o GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutput() GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) ToGetIsShareProfileAllowedTransitEncryptionModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAllowedTransitEncryptionModeArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileAllowedTransitEncryptionModeArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileAllowedTransitEncryptionModeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileAllowedTransitEncryptionMode {
+		return vs[0].([]GetIsShareProfileAllowedTransitEncryptionMode)[vs[1].(int)]
+	}).(GetIsShareProfileAllowedTransitEncryptionModeOutput)
+}
+
+type GetIsShareProfileAvailabilityMode struct {
+	// The default data availability mode for this profile.
+	Default string `pulumi:"default"`
+	// The type for this profile field.
+	Type string `pulumi:"type"`
+	// The value for this profile field
+	Value string `pulumi:"value"`
+	// The permitted values for this profile field.
+	Values []string `pulumi:"values"`
+}
+
+// GetIsShareProfileAvailabilityModeInput is an input type that accepts GetIsShareProfileAvailabilityModeArgs and GetIsShareProfileAvailabilityModeOutput values.
+// You can construct a concrete instance of `GetIsShareProfileAvailabilityModeInput` via:
+//
+//	GetIsShareProfileAvailabilityModeArgs{...}
+type GetIsShareProfileAvailabilityModeInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileAvailabilityModeOutput() GetIsShareProfileAvailabilityModeOutput
+	ToGetIsShareProfileAvailabilityModeOutputWithContext(context.Context) GetIsShareProfileAvailabilityModeOutput
+}
+
+type GetIsShareProfileAvailabilityModeArgs struct {
+	// The default data availability mode for this profile.
+	Default pulumi.StringInput `pulumi:"default"`
+	// The type for this profile field.
+	Type pulumi.StringInput `pulumi:"type"`
+	// The value for this profile field
+	Value pulumi.StringInput `pulumi:"value"`
+	// The permitted values for this profile field.
+	Values pulumi.StringArrayInput `pulumi:"values"`
+}
+
+func (GetIsShareProfileAvailabilityModeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileAvailabilityMode)(nil)).Elem()
+}
+
+func (i GetIsShareProfileAvailabilityModeArgs) ToGetIsShareProfileAvailabilityModeOutput() GetIsShareProfileAvailabilityModeOutput {
+	return i.ToGetIsShareProfileAvailabilityModeOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileAvailabilityModeArgs) ToGetIsShareProfileAvailabilityModeOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAvailabilityModeOutput)
+}
+
+// GetIsShareProfileAvailabilityModeArrayInput is an input type that accepts GetIsShareProfileAvailabilityModeArray and GetIsShareProfileAvailabilityModeArrayOutput values.
+// You can construct a concrete instance of `GetIsShareProfileAvailabilityModeArrayInput` via:
+//
+//	GetIsShareProfileAvailabilityModeArray{ GetIsShareProfileAvailabilityModeArgs{...} }
+type GetIsShareProfileAvailabilityModeArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileAvailabilityModeArrayOutput() GetIsShareProfileAvailabilityModeArrayOutput
+	ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(context.Context) GetIsShareProfileAvailabilityModeArrayOutput
+}
+
+type GetIsShareProfileAvailabilityModeArray []GetIsShareProfileAvailabilityModeInput
+
+func (GetIsShareProfileAvailabilityModeArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileAvailabilityMode)(nil)).Elem()
+}
+
+func (i GetIsShareProfileAvailabilityModeArray) ToGetIsShareProfileAvailabilityModeArrayOutput() GetIsShareProfileAvailabilityModeArrayOutput {
+	return i.ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileAvailabilityModeArray) ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileAvailabilityModeArrayOutput)
+}
+
+type GetIsShareProfileAvailabilityModeOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileAvailabilityModeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileAvailabilityMode)(nil)).Elem()
+}
+
+func (o GetIsShareProfileAvailabilityModeOutput) ToGetIsShareProfileAvailabilityModeOutput() GetIsShareProfileAvailabilityModeOutput {
+	return o
+}
+
+func (o GetIsShareProfileAvailabilityModeOutput) ToGetIsShareProfileAvailabilityModeOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeOutput {
+	return o
+}
+
+// The default data availability mode for this profile.
+func (o GetIsShareProfileAvailabilityModeOutput) Default() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) string { return v.Default }).(pulumi.StringOutput)
+}
+
+// The type for this profile field.
+func (o GetIsShareProfileAvailabilityModeOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The value for this profile field
+func (o GetIsShareProfileAvailabilityModeOutput) Value() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) string { return v.Value }).(pulumi.StringOutput)
+}
+
+// The permitted values for this profile field.
+func (o GetIsShareProfileAvailabilityModeOutput) Values() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetIsShareProfileAvailabilityMode) []string { return v.Values }).(pulumi.StringArrayOutput)
+}
+
+type GetIsShareProfileAvailabilityModeArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileAvailabilityModeArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileAvailabilityMode)(nil)).Elem()
+}
+
+func (o GetIsShareProfileAvailabilityModeArrayOutput) ToGetIsShareProfileAvailabilityModeArrayOutput() GetIsShareProfileAvailabilityModeArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileAvailabilityModeArrayOutput) ToGetIsShareProfileAvailabilityModeArrayOutputWithContext(ctx context.Context) GetIsShareProfileAvailabilityModeArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileAvailabilityModeArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileAvailabilityModeOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileAvailabilityMode {
+		return vs[0].([]GetIsShareProfileAvailabilityMode)[vs[1].(int)]
+	}).(GetIsShareProfileAvailabilityModeOutput)
+}
+
+type GetIsShareProfileBandwidth struct {
+	// The default capacity.
+	Default int `pulumi:"default"`
+	// The max capacity.
+	Max int `pulumi:"max"`
+	// The min capacity.
+	Min int `pulumi:"min"`
+	// The increment step value for this profile field.
+	Step int `pulumi:"step"`
+	// The type for this profile field.
+	Type string `pulumi:"type"`
+	// The value for this profile field
+	Value int `pulumi:"value"`
+	// The permitted values for this profile field.
+	Values []int `pulumi:"values"`
+}
+
+// GetIsShareProfileBandwidthInput is an input type that accepts GetIsShareProfileBandwidthArgs and GetIsShareProfileBandwidthOutput values.
+// You can construct a concrete instance of `GetIsShareProfileBandwidthInput` via:
+//
+//	GetIsShareProfileBandwidthArgs{...}
+type GetIsShareProfileBandwidthInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileBandwidthOutput() GetIsShareProfileBandwidthOutput
+	ToGetIsShareProfileBandwidthOutputWithContext(context.Context) GetIsShareProfileBandwidthOutput
+}
+
+type GetIsShareProfileBandwidthArgs struct {
+	// The default capacity.
+	Default pulumi.IntInput `pulumi:"default"`
+	// The max capacity.
+	Max pulumi.IntInput `pulumi:"max"`
+	// The min capacity.
+	Min pulumi.IntInput `pulumi:"min"`
+	// The increment step value for this profile field.
+	Step pulumi.IntInput `pulumi:"step"`
+	// The type for this profile field.
+	Type pulumi.StringInput `pulumi:"type"`
+	// The value for this profile field
+	Value pulumi.IntInput `pulumi:"value"`
+	// The permitted values for this profile field.
+	Values pulumi.IntArrayInput `pulumi:"values"`
+}
+
+func (GetIsShareProfileBandwidthArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileBandwidth)(nil)).Elem()
+}
+
+func (i GetIsShareProfileBandwidthArgs) ToGetIsShareProfileBandwidthOutput() GetIsShareProfileBandwidthOutput {
+	return i.ToGetIsShareProfileBandwidthOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileBandwidthArgs) ToGetIsShareProfileBandwidthOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileBandwidthOutput)
+}
+
+// GetIsShareProfileBandwidthArrayInput is an input type that accepts GetIsShareProfileBandwidthArray and GetIsShareProfileBandwidthArrayOutput values.
+// You can construct a concrete instance of `GetIsShareProfileBandwidthArrayInput` via:
+//
+//	GetIsShareProfileBandwidthArray{ GetIsShareProfileBandwidthArgs{...} }
+type GetIsShareProfileBandwidthArrayInput interface {
+	pulumi.Input
+
+	ToGetIsShareProfileBandwidthArrayOutput() GetIsShareProfileBandwidthArrayOutput
+	ToGetIsShareProfileBandwidthArrayOutputWithContext(context.Context) GetIsShareProfileBandwidthArrayOutput
+}
+
+type GetIsShareProfileBandwidthArray []GetIsShareProfileBandwidthInput
+
+func (GetIsShareProfileBandwidthArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileBandwidth)(nil)).Elem()
+}
+
+func (i GetIsShareProfileBandwidthArray) ToGetIsShareProfileBandwidthArrayOutput() GetIsShareProfileBandwidthArrayOutput {
+	return i.ToGetIsShareProfileBandwidthArrayOutputWithContext(context.Background())
+}
+
+func (i GetIsShareProfileBandwidthArray) ToGetIsShareProfileBandwidthArrayOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetIsShareProfileBandwidthArrayOutput)
+}
+
+type GetIsShareProfileBandwidthOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileBandwidthOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetIsShareProfileBandwidth)(nil)).Elem()
+}
+
+func (o GetIsShareProfileBandwidthOutput) ToGetIsShareProfileBandwidthOutput() GetIsShareProfileBandwidthOutput {
+	return o
+}
+
+func (o GetIsShareProfileBandwidthOutput) ToGetIsShareProfileBandwidthOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthOutput {
+	return o
+}
+
+// The default capacity.
+func (o GetIsShareProfileBandwidthOutput) Default() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Default }).(pulumi.IntOutput)
+}
+
+// The max capacity.
+func (o GetIsShareProfileBandwidthOutput) Max() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Max }).(pulumi.IntOutput)
+}
+
+// The min capacity.
+func (o GetIsShareProfileBandwidthOutput) Min() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Min }).(pulumi.IntOutput)
+}
+
+// The increment step value for this profile field.
+func (o GetIsShareProfileBandwidthOutput) Step() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Step }).(pulumi.IntOutput)
+}
+
+// The type for this profile field.
+func (o GetIsShareProfileBandwidthOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// The value for this profile field
+func (o GetIsShareProfileBandwidthOutput) Value() pulumi.IntOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) int { return v.Value }).(pulumi.IntOutput)
+}
+
+// The permitted values for this profile field.
+func (o GetIsShareProfileBandwidthOutput) Values() pulumi.IntArrayOutput {
+	return o.ApplyT(func(v GetIsShareProfileBandwidth) []int { return v.Values }).(pulumi.IntArrayOutput)
+}
+
+type GetIsShareProfileBandwidthArrayOutput struct{ *pulumi.OutputState }
+
+func (GetIsShareProfileBandwidthArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetIsShareProfileBandwidth)(nil)).Elem()
+}
+
+func (o GetIsShareProfileBandwidthArrayOutput) ToGetIsShareProfileBandwidthArrayOutput() GetIsShareProfileBandwidthArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileBandwidthArrayOutput) ToGetIsShareProfileBandwidthArrayOutputWithContext(ctx context.Context) GetIsShareProfileBandwidthArrayOutput {
+	return o
+}
+
+func (o GetIsShareProfileBandwidthArrayOutput) Index(i pulumi.IntInput) GetIsShareProfileBandwidthOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetIsShareProfileBandwidth {
+		return vs[0].([]GetIsShareProfileBandwidth)[vs[1].(int)]
+	}).(GetIsShareProfileBandwidthOutput)
+}
+
 type GetIsShareProfileCapacity struct {
 	// The default capacity.
 	Default int `pulumi:"default"`
@@ -59810,4843 +64311,81 @@ func (o GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipArrayOutput
 	}).(GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipOutput)
 }
 
-type GetPiVolumeGroupStatusDescriptionError struct {
-	// The volume group error key.
-	Key string `pulumi:"key"`
-	// The failure message providing more details about the error key.
-	Message string `pulumi:"message"`
-	// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-	VolumeIds []string `pulumi:"volumeIds"`
-}
-
-// GetPiVolumeGroupStatusDescriptionErrorInput is an input type that accepts GetPiVolumeGroupStatusDescriptionErrorArgs and GetPiVolumeGroupStatusDescriptionErrorOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupStatusDescriptionErrorInput` via:
-//
-//	GetPiVolumeGroupStatusDescriptionErrorArgs{...}
-type GetPiVolumeGroupStatusDescriptionErrorInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupStatusDescriptionErrorOutput
-	ToGetPiVolumeGroupStatusDescriptionErrorOutputWithContext(context.Context) GetPiVolumeGroupStatusDescriptionErrorOutput
-}
-
-type GetPiVolumeGroupStatusDescriptionErrorArgs struct {
-	// The volume group error key.
-	Key pulumi.StringInput `pulumi:"key"`
-	// The failure message providing more details about the error key.
-	Message pulumi.StringInput `pulumi:"message"`
-	// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-	VolumeIds pulumi.StringArrayInput `pulumi:"volumeIds"`
-}
-
-func (GetPiVolumeGroupStatusDescriptionErrorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupStatusDescriptionErrorArgs) ToGetPiVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupStatusDescriptionErrorOutput {
-	return i.ToGetPiVolumeGroupStatusDescriptionErrorOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupStatusDescriptionErrorArgs) ToGetPiVolumeGroupStatusDescriptionErrorOutputWithContext(ctx context.Context) GetPiVolumeGroupStatusDescriptionErrorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupStatusDescriptionErrorOutput)
-}
-
-// GetPiVolumeGroupStatusDescriptionErrorArrayInput is an input type that accepts GetPiVolumeGroupStatusDescriptionErrorArray and GetPiVolumeGroupStatusDescriptionErrorArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupStatusDescriptionErrorArrayInput` via:
-//
-//	GetPiVolumeGroupStatusDescriptionErrorArray{ GetPiVolumeGroupStatusDescriptionErrorArgs{...} }
-type GetPiVolumeGroupStatusDescriptionErrorArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupStatusDescriptionErrorArrayOutput
-	ToGetPiVolumeGroupStatusDescriptionErrorArrayOutputWithContext(context.Context) GetPiVolumeGroupStatusDescriptionErrorArrayOutput
-}
-
-type GetPiVolumeGroupStatusDescriptionErrorArray []GetPiVolumeGroupStatusDescriptionErrorInput
-
-func (GetPiVolumeGroupStatusDescriptionErrorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupStatusDescriptionErrorArray) ToGetPiVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupStatusDescriptionErrorArrayOutput {
-	return i.ToGetPiVolumeGroupStatusDescriptionErrorArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupStatusDescriptionErrorArray) ToGetPiVolumeGroupStatusDescriptionErrorArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupStatusDescriptionErrorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupStatusDescriptionErrorArrayOutput)
-}
-
-type GetPiVolumeGroupStatusDescriptionErrorOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupStatusDescriptionErrorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupStatusDescriptionErrorOutput) ToGetPiVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupStatusDescriptionErrorOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupStatusDescriptionErrorOutput) ToGetPiVolumeGroupStatusDescriptionErrorOutputWithContext(ctx context.Context) GetPiVolumeGroupStatusDescriptionErrorOutput {
-	return o
-}
-
-// The volume group error key.
-func (o GetPiVolumeGroupStatusDescriptionErrorOutput) Key() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupStatusDescriptionError) string { return v.Key }).(pulumi.StringOutput)
-}
-
-// The failure message providing more details about the error key.
-func (o GetPiVolumeGroupStatusDescriptionErrorOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupStatusDescriptionError) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-func (o GetPiVolumeGroupStatusDescriptionErrorOutput) VolumeIds() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupStatusDescriptionError) []string { return v.VolumeIds }).(pulumi.StringArrayOutput)
-}
-
-type GetPiVolumeGroupStatusDescriptionErrorArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupStatusDescriptionErrorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupStatusDescriptionErrorArrayOutput) ToGetPiVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupStatusDescriptionErrorArrayOutput) ToGetPiVolumeGroupStatusDescriptionErrorArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupStatusDescriptionErrorArrayOutput) Index(i pulumi.IntInput) GetPiVolumeGroupStatusDescriptionErrorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeGroupStatusDescriptionError {
-		return vs[0].([]GetPiVolumeGroupStatusDescriptionError)[vs[1].(int)]
-	}).(GetPiVolumeGroupStatusDescriptionErrorOutput)
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroup struct {
-	// Indicates if the volume is auxiliary or not.
-	Auxiliary bool `pulumi:"auxiliary"`
-	// The name of consistency group at storage controller level.
-	ConsistencyGroupName string `pulumi:"consistencyGroupName"`
-	// The unique identifier of the volume group.
-	Id string `pulumi:"id"`
-	// Indicates the replication sites of the volume group.
-	ReplicationSites []string `pulumi:"replicationSites"`
-	// The replication status of volume group.
-	ReplicationStatus string `pulumi:"replicationStatus"`
-	// The status of the volume group.
-	Status string `pulumi:"status"`
-	// The status details of the volume group.
-	StatusDescriptionErrors []GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError `pulumi:"statusDescriptionErrors"`
-	// Indicates the storage pool of the volume group
-	StoragePool string `pulumi:"storagePool"`
-	// The name of the volume group.
-	VolumeGroupName string `pulumi:"volumeGroupName"`
-	// List of volume IDs, member of volume group.
-	VolumeIds []string `pulumi:"volumeIds"`
-}
-
-// GetPiVolumeGroupsDetailsVolumeGroupInput is an input type that accepts GetPiVolumeGroupsDetailsVolumeGroupArgs and GetPiVolumeGroupsDetailsVolumeGroupOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsDetailsVolumeGroupInput` via:
-//
-//	GetPiVolumeGroupsDetailsVolumeGroupArgs{...}
-type GetPiVolumeGroupsDetailsVolumeGroupInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsDetailsVolumeGroupOutput() GetPiVolumeGroupsDetailsVolumeGroupOutput
-	ToGetPiVolumeGroupsDetailsVolumeGroupOutputWithContext(context.Context) GetPiVolumeGroupsDetailsVolumeGroupOutput
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupArgs struct {
-	// Indicates if the volume is auxiliary or not.
-	Auxiliary pulumi.BoolInput `pulumi:"auxiliary"`
-	// The name of consistency group at storage controller level.
-	ConsistencyGroupName pulumi.StringInput `pulumi:"consistencyGroupName"`
-	// The unique identifier of the volume group.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Indicates the replication sites of the volume group.
-	ReplicationSites pulumi.StringArrayInput `pulumi:"replicationSites"`
-	// The replication status of volume group.
-	ReplicationStatus pulumi.StringInput `pulumi:"replicationStatus"`
-	// The status of the volume group.
-	Status pulumi.StringInput `pulumi:"status"`
-	// The status details of the volume group.
-	StatusDescriptionErrors GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayInput `pulumi:"statusDescriptionErrors"`
-	// Indicates the storage pool of the volume group
-	StoragePool pulumi.StringInput `pulumi:"storagePool"`
-	// The name of the volume group.
-	VolumeGroupName pulumi.StringInput `pulumi:"volumeGroupName"`
-	// List of volume IDs, member of volume group.
-	VolumeIds pulumi.StringArrayInput `pulumi:"volumeIds"`
-}
-
-func (GetPiVolumeGroupsDetailsVolumeGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroup)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupArgs) ToGetPiVolumeGroupsDetailsVolumeGroupOutput() GetPiVolumeGroupsDetailsVolumeGroupOutput {
-	return i.ToGetPiVolumeGroupsDetailsVolumeGroupOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupArgs) ToGetPiVolumeGroupsDetailsVolumeGroupOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsDetailsVolumeGroupOutput)
-}
-
-// GetPiVolumeGroupsDetailsVolumeGroupArrayInput is an input type that accepts GetPiVolumeGroupsDetailsVolumeGroupArray and GetPiVolumeGroupsDetailsVolumeGroupArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsDetailsVolumeGroupArrayInput` via:
-//
-//	GetPiVolumeGroupsDetailsVolumeGroupArray{ GetPiVolumeGroupsDetailsVolumeGroupArgs{...} }
-type GetPiVolumeGroupsDetailsVolumeGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutput() GetPiVolumeGroupsDetailsVolumeGroupArrayOutput
-	ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutputWithContext(context.Context) GetPiVolumeGroupsDetailsVolumeGroupArrayOutput
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupArray []GetPiVolumeGroupsDetailsVolumeGroupInput
-
-func (GetPiVolumeGroupsDetailsVolumeGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsDetailsVolumeGroup)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupArray) ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutput() GetPiVolumeGroupsDetailsVolumeGroupArrayOutput {
-	return i.ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupArray) ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsDetailsVolumeGroupArrayOutput)
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsDetailsVolumeGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroup)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) ToGetPiVolumeGroupsDetailsVolumeGroupOutput() GetPiVolumeGroupsDetailsVolumeGroupOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) ToGetPiVolumeGroupsDetailsVolumeGroupOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupOutput {
-	return o
-}
-
-// Indicates if the volume is auxiliary or not.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) Auxiliary() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) bool { return v.Auxiliary }).(pulumi.BoolOutput)
-}
-
-// The name of consistency group at storage controller level.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) ConsistencyGroupName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) string { return v.ConsistencyGroupName }).(pulumi.StringOutput)
-}
-
-// The unique identifier of the volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Indicates the replication sites of the volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) ReplicationSites() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) []string { return v.ReplicationSites }).(pulumi.StringArrayOutput)
-}
-
-// The replication status of volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) ReplicationStatus() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) string { return v.ReplicationStatus }).(pulumi.StringOutput)
-}
-
-// The status of the volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The status details of the volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) StatusDescriptionErrors() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) []GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError {
-		return v.StatusDescriptionErrors
-	}).(GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput)
-}
-
-// Indicates the storage pool of the volume group
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) StoragePool() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) string { return v.StoragePool }).(pulumi.StringOutput)
-}
-
-// The name of the volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) VolumeGroupName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) string { return v.VolumeGroupName }).(pulumi.StringOutput)
-}
-
-// List of volume IDs, member of volume group.
-func (o GetPiVolumeGroupsDetailsVolumeGroupOutput) VolumeIds() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroup) []string { return v.VolumeIds }).(pulumi.StringArrayOutput)
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsDetailsVolumeGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsDetailsVolumeGroup)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupArrayOutput) ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutput() GetPiVolumeGroupsDetailsVolumeGroupArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupArrayOutput) ToGetPiVolumeGroupsDetailsVolumeGroupArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupArrayOutput) Index(i pulumi.IntInput) GetPiVolumeGroupsDetailsVolumeGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeGroupsDetailsVolumeGroup {
-		return vs[0].([]GetPiVolumeGroupsDetailsVolumeGroup)[vs[1].(int)]
-	}).(GetPiVolumeGroupsDetailsVolumeGroupOutput)
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError struct {
-	// The volume group error key.
-	Key string `pulumi:"key"`
-	// The failure message providing more details about the error key.
-	Message string `pulumi:"message"`
-	// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-	VolumeIds []string `pulumi:"volumeIds"`
-}
-
-// GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorInput is an input type that accepts GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs and GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorInput` via:
-//
-//	GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs{...}
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput
-	ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutputWithContext(context.Context) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs struct {
-	// The volume group error key.
-	Key pulumi.StringInput `pulumi:"key"`
-	// The failure message providing more details about the error key.
-	Message pulumi.StringInput `pulumi:"message"`
-	// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-	VolumeIds pulumi.StringArrayInput `pulumi:"volumeIds"`
-}
-
-func (GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput {
-	return i.ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput)
-}
-
-// GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayInput is an input type that accepts GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray and GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayInput` via:
-//
-//	GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray{ GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs{...} }
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput
-	ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(context.Context) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray []GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorInput
-
-func (GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return i.ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput)
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput {
-	return o
-}
-
-// The volume group error key.
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput) Key() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError) string { return v.Key }).(pulumi.StringOutput)
-}
-
-// The failure message providing more details about the error key.
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput) VolumeIds() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError) []string { return v.VolumeIds }).(pulumi.StringArrayOutput)
-}
-
-type GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput) ToGetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput) Index(i pulumi.IntInput) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError {
-		return vs[0].([]GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionError)[vs[1].(int)]
-	}).(GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput)
-}
-
-type GetPiVolumeGroupsVolumeGroup struct {
-	// Indicates if the volume is auxiliary or not.
-	Auxiliary bool `pulumi:"auxiliary"`
-	// The name of consistency group at storage controller level.
-	ConsistencyGroupName string `pulumi:"consistencyGroupName"`
-	// The unique identifier of the volume group.
-	Id string `pulumi:"id"`
-	// Indicates the replication sites of the volume group.
-	ReplicationSites []string `pulumi:"replicationSites"`
-	// The replication status of volume group.
-	ReplicationStatus string `pulumi:"replicationStatus"`
-	// The status of the volume group.
-	Status string `pulumi:"status"`
-	// The status details of the volume group.
-	StatusDescriptionErrors []GetPiVolumeGroupsVolumeGroupStatusDescriptionError `pulumi:"statusDescriptionErrors"`
-	// Indicates the storage pool of the volume group
-	StoragePool string `pulumi:"storagePool"`
-	// The name of the volume group.
-	VolumeGroupName string `pulumi:"volumeGroupName"`
-}
-
-// GetPiVolumeGroupsVolumeGroupInput is an input type that accepts GetPiVolumeGroupsVolumeGroupArgs and GetPiVolumeGroupsVolumeGroupOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsVolumeGroupInput` via:
-//
-//	GetPiVolumeGroupsVolumeGroupArgs{...}
-type GetPiVolumeGroupsVolumeGroupInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsVolumeGroupOutput() GetPiVolumeGroupsVolumeGroupOutput
-	ToGetPiVolumeGroupsVolumeGroupOutputWithContext(context.Context) GetPiVolumeGroupsVolumeGroupOutput
-}
-
-type GetPiVolumeGroupsVolumeGroupArgs struct {
-	// Indicates if the volume is auxiliary or not.
-	Auxiliary pulumi.BoolInput `pulumi:"auxiliary"`
-	// The name of consistency group at storage controller level.
-	ConsistencyGroupName pulumi.StringInput `pulumi:"consistencyGroupName"`
-	// The unique identifier of the volume group.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Indicates the replication sites of the volume group.
-	ReplicationSites pulumi.StringArrayInput `pulumi:"replicationSites"`
-	// The replication status of volume group.
-	ReplicationStatus pulumi.StringInput `pulumi:"replicationStatus"`
-	// The status of the volume group.
-	Status pulumi.StringInput `pulumi:"status"`
-	// The status details of the volume group.
-	StatusDescriptionErrors GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayInput `pulumi:"statusDescriptionErrors"`
-	// Indicates the storage pool of the volume group
-	StoragePool pulumi.StringInput `pulumi:"storagePool"`
-	// The name of the volume group.
-	VolumeGroupName pulumi.StringInput `pulumi:"volumeGroupName"`
-}
-
-func (GetPiVolumeGroupsVolumeGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsVolumeGroup)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsVolumeGroupArgs) ToGetPiVolumeGroupsVolumeGroupOutput() GetPiVolumeGroupsVolumeGroupOutput {
-	return i.ToGetPiVolumeGroupsVolumeGroupOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsVolumeGroupArgs) ToGetPiVolumeGroupsVolumeGroupOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsVolumeGroupOutput)
-}
-
-// GetPiVolumeGroupsVolumeGroupArrayInput is an input type that accepts GetPiVolumeGroupsVolumeGroupArray and GetPiVolumeGroupsVolumeGroupArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsVolumeGroupArrayInput` via:
-//
-//	GetPiVolumeGroupsVolumeGroupArray{ GetPiVolumeGroupsVolumeGroupArgs{...} }
-type GetPiVolumeGroupsVolumeGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsVolumeGroupArrayOutput() GetPiVolumeGroupsVolumeGroupArrayOutput
-	ToGetPiVolumeGroupsVolumeGroupArrayOutputWithContext(context.Context) GetPiVolumeGroupsVolumeGroupArrayOutput
-}
-
-type GetPiVolumeGroupsVolumeGroupArray []GetPiVolumeGroupsVolumeGroupInput
-
-func (GetPiVolumeGroupsVolumeGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsVolumeGroup)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsVolumeGroupArray) ToGetPiVolumeGroupsVolumeGroupArrayOutput() GetPiVolumeGroupsVolumeGroupArrayOutput {
-	return i.ToGetPiVolumeGroupsVolumeGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsVolumeGroupArray) ToGetPiVolumeGroupsVolumeGroupArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsVolumeGroupArrayOutput)
-}
-
-type GetPiVolumeGroupsVolumeGroupOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsVolumeGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsVolumeGroup)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsVolumeGroupOutput) ToGetPiVolumeGroupsVolumeGroupOutput() GetPiVolumeGroupsVolumeGroupOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsVolumeGroupOutput) ToGetPiVolumeGroupsVolumeGroupOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupOutput {
-	return o
-}
-
-// Indicates if the volume is auxiliary or not.
-func (o GetPiVolumeGroupsVolumeGroupOutput) Auxiliary() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) bool { return v.Auxiliary }).(pulumi.BoolOutput)
-}
-
-// The name of consistency group at storage controller level.
-func (o GetPiVolumeGroupsVolumeGroupOutput) ConsistencyGroupName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) string { return v.ConsistencyGroupName }).(pulumi.StringOutput)
-}
-
-// The unique identifier of the volume group.
-func (o GetPiVolumeGroupsVolumeGroupOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Indicates the replication sites of the volume group.
-func (o GetPiVolumeGroupsVolumeGroupOutput) ReplicationSites() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) []string { return v.ReplicationSites }).(pulumi.StringArrayOutput)
-}
-
-// The replication status of volume group.
-func (o GetPiVolumeGroupsVolumeGroupOutput) ReplicationStatus() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) string { return v.ReplicationStatus }).(pulumi.StringOutput)
-}
-
-// The status of the volume group.
-func (o GetPiVolumeGroupsVolumeGroupOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The status details of the volume group.
-func (o GetPiVolumeGroupsVolumeGroupOutput) StatusDescriptionErrors() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) []GetPiVolumeGroupsVolumeGroupStatusDescriptionError {
-		return v.StatusDescriptionErrors
-	}).(GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput)
-}
-
-// Indicates the storage pool of the volume group
-func (o GetPiVolumeGroupsVolumeGroupOutput) StoragePool() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) string { return v.StoragePool }).(pulumi.StringOutput)
-}
-
-// The name of the volume group.
-func (o GetPiVolumeGroupsVolumeGroupOutput) VolumeGroupName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroup) string { return v.VolumeGroupName }).(pulumi.StringOutput)
-}
-
-type GetPiVolumeGroupsVolumeGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsVolumeGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsVolumeGroup)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsVolumeGroupArrayOutput) ToGetPiVolumeGroupsVolumeGroupArrayOutput() GetPiVolumeGroupsVolumeGroupArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsVolumeGroupArrayOutput) ToGetPiVolumeGroupsVolumeGroupArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsVolumeGroupArrayOutput) Index(i pulumi.IntInput) GetPiVolumeGroupsVolumeGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeGroupsVolumeGroup {
-		return vs[0].([]GetPiVolumeGroupsVolumeGroup)[vs[1].(int)]
-	}).(GetPiVolumeGroupsVolumeGroupOutput)
-}
-
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionError struct {
-	// The volume group error key.
-	Key string `pulumi:"key"`
-	// The failure message providing more details about the error key.
-	Message string `pulumi:"message"`
-	// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-	VolumeIds []string `pulumi:"volumeIds"`
-}
-
-// GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorInput is an input type that accepts GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs and GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorInput` via:
-//
-//	GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs{...}
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput
-	ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutputWithContext(context.Context) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput
-}
-
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs struct {
-	// The volume group error key.
-	Key pulumi.StringInput `pulumi:"key"`
-	// The failure message providing more details about the error key.
-	Message pulumi.StringInput `pulumi:"message"`
-	// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-	VolumeIds pulumi.StringArrayInput `pulumi:"volumeIds"`
-}
-
-func (GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput {
-	return i.ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput)
-}
-
-// GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayInput is an input type that accepts GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray and GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayInput` via:
-//
-//	GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray{ GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs{...} }
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput
-	ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(context.Context) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput
-}
-
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray []GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorInput
-
-func (GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (i GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return i.ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput)
-}
-
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeGroupsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput {
-	return o
-}
-
-// The volume group error key.
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput) Key() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroupStatusDescriptionError) string { return v.Key }).(pulumi.StringOutput)
-}
-
-// The failure message providing more details about the error key.
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput) Message() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroupStatusDescriptionError) string { return v.Message }).(pulumi.StringOutput)
-}
-
-// List of volume IDs, which failed to be added/removed to/from the volume group, with the given error.
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput) VolumeIds() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeGroupsVolumeGroupStatusDescriptionError) []string { return v.VolumeIds }).(pulumi.StringArrayOutput)
-}
-
-type GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeGroupsVolumeGroupStatusDescriptionError)(nil)).Elem()
-}
-
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput() GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput) ToGetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutputWithContext(ctx context.Context) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput) Index(i pulumi.IntInput) GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeGroupsVolumeGroupStatusDescriptionError {
-		return vs[0].([]GetPiVolumeGroupsVolumeGroupStatusDescriptionError)[vs[1].(int)]
-	}).(GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput)
-}
-
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailure struct {
-	// The failure reason for the volumes which have failed to be onboarded.
-	FailureMessage string `pulumi:"failureMessage"`
-	// List of volumes which have failed to be onboarded.
-	Volumes []string `pulumi:"volumes"`
-}
-
-// GetPiVolumeOnboardingResultsVolumeOnboardingFailureInput is an input type that accepts GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs and GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput values.
-// You can construct a concrete instance of `GetPiVolumeOnboardingResultsVolumeOnboardingFailureInput` via:
-//
-//	GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs{...}
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailureInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput() GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput
-	ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutputWithContext(context.Context) GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput
-}
-
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs struct {
-	// The failure reason for the volumes which have failed to be onboarded.
-	FailureMessage pulumi.StringInput `pulumi:"failureMessage"`
-	// List of volumes which have failed to be onboarded.
-	Volumes pulumi.StringArrayInput `pulumi:"volumes"`
-}
-
-func (GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeOnboardingResultsVolumeOnboardingFailure)(nil)).Elem()
-}
-
-func (i GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput() GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput {
-	return i.ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutputWithContext(ctx context.Context) GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput)
-}
-
-// GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayInput is an input type that accepts GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray and GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayInput` via:
-//
-//	GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray{ GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs{...} }
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput() GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput
-	ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutputWithContext(context.Context) GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput
-}
-
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray []GetPiVolumeOnboardingResultsVolumeOnboardingFailureInput
-
-func (GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeOnboardingResultsVolumeOnboardingFailure)(nil)).Elem()
-}
-
-func (i GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput() GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput {
-	return i.ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutputWithContext(ctx context.Context) GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput)
-}
-
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeOnboardingResultsVolumeOnboardingFailure)(nil)).Elem()
-}
-
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput() GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput {
-	return o
-}
-
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureOutputWithContext(ctx context.Context) GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput {
-	return o
-}
-
-// The failure reason for the volumes which have failed to be onboarded.
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput) FailureMessage() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeOnboardingResultsVolumeOnboardingFailure) string { return v.FailureMessage }).(pulumi.StringOutput)
-}
-
-// List of volumes which have failed to be onboarded.
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput) Volumes() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeOnboardingResultsVolumeOnboardingFailure) []string { return v.Volumes }).(pulumi.StringArrayOutput)
-}
-
-type GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeOnboardingResultsVolumeOnboardingFailure)(nil)).Elem()
-}
-
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput() GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput) ToGetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutputWithContext(ctx context.Context) GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput) Index(i pulumi.IntInput) GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeOnboardingResultsVolumeOnboardingFailure {
-		return vs[0].([]GetPiVolumeOnboardingResultsVolumeOnboardingFailure)[vs[1].(int)]
-	}).(GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput)
-}
-
-type GetPiVolumeOnboardingsOnboarding struct {
-	// The description of the volume onboarding operation.
-	Description string `pulumi:"description"`
-	// The type of cycling mode used.
-	Id string `pulumi:"id"`
-	// List of volumes requested to be onboarded.
-	InputVolumes []string `pulumi:"inputVolumes"`
-	// The status of volume onboarding operation.
-	Status string `pulumi:"status"`
-}
-
-// GetPiVolumeOnboardingsOnboardingInput is an input type that accepts GetPiVolumeOnboardingsOnboardingArgs and GetPiVolumeOnboardingsOnboardingOutput values.
-// You can construct a concrete instance of `GetPiVolumeOnboardingsOnboardingInput` via:
-//
-//	GetPiVolumeOnboardingsOnboardingArgs{...}
-type GetPiVolumeOnboardingsOnboardingInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeOnboardingsOnboardingOutput() GetPiVolumeOnboardingsOnboardingOutput
-	ToGetPiVolumeOnboardingsOnboardingOutputWithContext(context.Context) GetPiVolumeOnboardingsOnboardingOutput
-}
-
-type GetPiVolumeOnboardingsOnboardingArgs struct {
-	// The description of the volume onboarding operation.
-	Description pulumi.StringInput `pulumi:"description"`
-	// The type of cycling mode used.
-	Id pulumi.StringInput `pulumi:"id"`
-	// List of volumes requested to be onboarded.
-	InputVolumes pulumi.StringArrayInput `pulumi:"inputVolumes"`
-	// The status of volume onboarding operation.
-	Status pulumi.StringInput `pulumi:"status"`
-}
-
-func (GetPiVolumeOnboardingsOnboardingArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeOnboardingsOnboarding)(nil)).Elem()
-}
-
-func (i GetPiVolumeOnboardingsOnboardingArgs) ToGetPiVolumeOnboardingsOnboardingOutput() GetPiVolumeOnboardingsOnboardingOutput {
-	return i.ToGetPiVolumeOnboardingsOnboardingOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeOnboardingsOnboardingArgs) ToGetPiVolumeOnboardingsOnboardingOutputWithContext(ctx context.Context) GetPiVolumeOnboardingsOnboardingOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeOnboardingsOnboardingOutput)
-}
-
-// GetPiVolumeOnboardingsOnboardingArrayInput is an input type that accepts GetPiVolumeOnboardingsOnboardingArray and GetPiVolumeOnboardingsOnboardingArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeOnboardingsOnboardingArrayInput` via:
-//
-//	GetPiVolumeOnboardingsOnboardingArray{ GetPiVolumeOnboardingsOnboardingArgs{...} }
-type GetPiVolumeOnboardingsOnboardingArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeOnboardingsOnboardingArrayOutput() GetPiVolumeOnboardingsOnboardingArrayOutput
-	ToGetPiVolumeOnboardingsOnboardingArrayOutputWithContext(context.Context) GetPiVolumeOnboardingsOnboardingArrayOutput
-}
-
-type GetPiVolumeOnboardingsOnboardingArray []GetPiVolumeOnboardingsOnboardingInput
-
-func (GetPiVolumeOnboardingsOnboardingArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeOnboardingsOnboarding)(nil)).Elem()
-}
-
-func (i GetPiVolumeOnboardingsOnboardingArray) ToGetPiVolumeOnboardingsOnboardingArrayOutput() GetPiVolumeOnboardingsOnboardingArrayOutput {
-	return i.ToGetPiVolumeOnboardingsOnboardingArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeOnboardingsOnboardingArray) ToGetPiVolumeOnboardingsOnboardingArrayOutputWithContext(ctx context.Context) GetPiVolumeOnboardingsOnboardingArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeOnboardingsOnboardingArrayOutput)
-}
-
-type GetPiVolumeOnboardingsOnboardingOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeOnboardingsOnboardingOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeOnboardingsOnboarding)(nil)).Elem()
-}
-
-func (o GetPiVolumeOnboardingsOnboardingOutput) ToGetPiVolumeOnboardingsOnboardingOutput() GetPiVolumeOnboardingsOnboardingOutput {
-	return o
-}
-
-func (o GetPiVolumeOnboardingsOnboardingOutput) ToGetPiVolumeOnboardingsOnboardingOutputWithContext(ctx context.Context) GetPiVolumeOnboardingsOnboardingOutput {
-	return o
-}
-
-// The description of the volume onboarding operation.
-func (o GetPiVolumeOnboardingsOnboardingOutput) Description() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeOnboardingsOnboarding) string { return v.Description }).(pulumi.StringOutput)
-}
-
-// The type of cycling mode used.
-func (o GetPiVolumeOnboardingsOnboardingOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeOnboardingsOnboarding) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// List of volumes requested to be onboarded.
-func (o GetPiVolumeOnboardingsOnboardingOutput) InputVolumes() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumeOnboardingsOnboarding) []string { return v.InputVolumes }).(pulumi.StringArrayOutput)
-}
-
-// The status of volume onboarding operation.
-func (o GetPiVolumeOnboardingsOnboardingOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeOnboardingsOnboarding) string { return v.Status }).(pulumi.StringOutput)
-}
-
-type GetPiVolumeOnboardingsOnboardingArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeOnboardingsOnboardingArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeOnboardingsOnboarding)(nil)).Elem()
-}
-
-func (o GetPiVolumeOnboardingsOnboardingArrayOutput) ToGetPiVolumeOnboardingsOnboardingArrayOutput() GetPiVolumeOnboardingsOnboardingArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeOnboardingsOnboardingArrayOutput) ToGetPiVolumeOnboardingsOnboardingArrayOutputWithContext(ctx context.Context) GetPiVolumeOnboardingsOnboardingArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeOnboardingsOnboardingArrayOutput) Index(i pulumi.IntInput) GetPiVolumeOnboardingsOnboardingOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeOnboardingsOnboarding {
-		return vs[0].([]GetPiVolumeOnboardingsOnboarding)[vs[1].(int)]
-	}).(GetPiVolumeOnboardingsOnboardingOutput)
-}
-
-type GetPiVolumeSnapshotsVolumeSnapshot struct {
-	// The date and time when the volume snapshot was created.
-	CreationDate string `pulumi:"creationDate"`
-	// The CRN of the volume snapshot.
-	//
-	// Deprecated: This field is deprecated.
-	Crn string `pulumi:"crn"`
-	// The snapshot UUID.
-	Id string `pulumi:"id"`
-	// The volume snapshot name.
-	Name string `pulumi:"name"`
-	// The size of the volume snapshot, in gibibytes (GiB).
-	Size float64 `pulumi:"size"`
-	// The status for the volume snapshot.
-	Status string `pulumi:"status"`
-	// The date and time when the volume snapshot was last updated.
-	UpdatedDate string `pulumi:"updatedDate"`
-	// The volume UUID associated with the snapshot.
-	VolumeId string `pulumi:"volumeId"`
-}
-
-// GetPiVolumeSnapshotsVolumeSnapshotInput is an input type that accepts GetPiVolumeSnapshotsVolumeSnapshotArgs and GetPiVolumeSnapshotsVolumeSnapshotOutput values.
-// You can construct a concrete instance of `GetPiVolumeSnapshotsVolumeSnapshotInput` via:
-//
-//	GetPiVolumeSnapshotsVolumeSnapshotArgs{...}
-type GetPiVolumeSnapshotsVolumeSnapshotInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeSnapshotsVolumeSnapshotOutput() GetPiVolumeSnapshotsVolumeSnapshotOutput
-	ToGetPiVolumeSnapshotsVolumeSnapshotOutputWithContext(context.Context) GetPiVolumeSnapshotsVolumeSnapshotOutput
-}
-
-type GetPiVolumeSnapshotsVolumeSnapshotArgs struct {
-	// The date and time when the volume snapshot was created.
-	CreationDate pulumi.StringInput `pulumi:"creationDate"`
-	// The CRN of the volume snapshot.
-	//
-	// Deprecated: This field is deprecated.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The snapshot UUID.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The volume snapshot name.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The size of the volume snapshot, in gibibytes (GiB).
-	Size pulumi.Float64Input `pulumi:"size"`
-	// The status for the volume snapshot.
-	Status pulumi.StringInput `pulumi:"status"`
-	// The date and time when the volume snapshot was last updated.
-	UpdatedDate pulumi.StringInput `pulumi:"updatedDate"`
-	// The volume UUID associated with the snapshot.
-	VolumeId pulumi.StringInput `pulumi:"volumeId"`
-}
-
-func (GetPiVolumeSnapshotsVolumeSnapshotArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeSnapshotsVolumeSnapshot)(nil)).Elem()
-}
-
-func (i GetPiVolumeSnapshotsVolumeSnapshotArgs) ToGetPiVolumeSnapshotsVolumeSnapshotOutput() GetPiVolumeSnapshotsVolumeSnapshotOutput {
-	return i.ToGetPiVolumeSnapshotsVolumeSnapshotOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeSnapshotsVolumeSnapshotArgs) ToGetPiVolumeSnapshotsVolumeSnapshotOutputWithContext(ctx context.Context) GetPiVolumeSnapshotsVolumeSnapshotOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeSnapshotsVolumeSnapshotOutput)
-}
-
-// GetPiVolumeSnapshotsVolumeSnapshotArrayInput is an input type that accepts GetPiVolumeSnapshotsVolumeSnapshotArray and GetPiVolumeSnapshotsVolumeSnapshotArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumeSnapshotsVolumeSnapshotArrayInput` via:
-//
-//	GetPiVolumeSnapshotsVolumeSnapshotArray{ GetPiVolumeSnapshotsVolumeSnapshotArgs{...} }
-type GetPiVolumeSnapshotsVolumeSnapshotArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutput() GetPiVolumeSnapshotsVolumeSnapshotArrayOutput
-	ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutputWithContext(context.Context) GetPiVolumeSnapshotsVolumeSnapshotArrayOutput
-}
-
-type GetPiVolumeSnapshotsVolumeSnapshotArray []GetPiVolumeSnapshotsVolumeSnapshotInput
-
-func (GetPiVolumeSnapshotsVolumeSnapshotArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeSnapshotsVolumeSnapshot)(nil)).Elem()
-}
-
-func (i GetPiVolumeSnapshotsVolumeSnapshotArray) ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutput() GetPiVolumeSnapshotsVolumeSnapshotArrayOutput {
-	return i.ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumeSnapshotsVolumeSnapshotArray) ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutputWithContext(ctx context.Context) GetPiVolumeSnapshotsVolumeSnapshotArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumeSnapshotsVolumeSnapshotArrayOutput)
-}
-
-type GetPiVolumeSnapshotsVolumeSnapshotOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeSnapshotsVolumeSnapshotOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumeSnapshotsVolumeSnapshot)(nil)).Elem()
-}
-
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) ToGetPiVolumeSnapshotsVolumeSnapshotOutput() GetPiVolumeSnapshotsVolumeSnapshotOutput {
-	return o
-}
-
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) ToGetPiVolumeSnapshotsVolumeSnapshotOutputWithContext(ctx context.Context) GetPiVolumeSnapshotsVolumeSnapshotOutput {
-	return o
-}
-
-// The date and time when the volume snapshot was created.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) CreationDate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.CreationDate }).(pulumi.StringOutput)
-}
-
-// The CRN of the volume snapshot.
-//
-// Deprecated: This field is deprecated.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The snapshot UUID.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The volume snapshot name.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The size of the volume snapshot, in gibibytes (GiB).
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) Size() pulumi.Float64Output {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) float64 { return v.Size }).(pulumi.Float64Output)
-}
-
-// The status for the volume snapshot.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The date and time when the volume snapshot was last updated.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) UpdatedDate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.UpdatedDate }).(pulumi.StringOutput)
-}
-
-// The volume UUID associated with the snapshot.
-func (o GetPiVolumeSnapshotsVolumeSnapshotOutput) VolumeId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumeSnapshotsVolumeSnapshot) string { return v.VolumeId }).(pulumi.StringOutput)
-}
-
-type GetPiVolumeSnapshotsVolumeSnapshotArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumeSnapshotsVolumeSnapshotArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumeSnapshotsVolumeSnapshot)(nil)).Elem()
-}
-
-func (o GetPiVolumeSnapshotsVolumeSnapshotArrayOutput) ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutput() GetPiVolumeSnapshotsVolumeSnapshotArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeSnapshotsVolumeSnapshotArrayOutput) ToGetPiVolumeSnapshotsVolumeSnapshotArrayOutputWithContext(ctx context.Context) GetPiVolumeSnapshotsVolumeSnapshotArrayOutput {
-	return o
-}
-
-func (o GetPiVolumeSnapshotsVolumeSnapshotArrayOutput) Index(i pulumi.IntInput) GetPiVolumeSnapshotsVolumeSnapshotOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumeSnapshotsVolumeSnapshot {
-		return vs[0].([]GetPiVolumeSnapshotsVolumeSnapshot)[vs[1].(int)]
-	}).(GetPiVolumeSnapshotsVolumeSnapshotOutput)
-}
-
-type GetPiVolumesVolume struct {
-	// Indicates if the volume is auxiliary or not.
-	Auxiliary bool `pulumi:"auxiliary"`
-	// The auxiliary volume name.
-	AuxiliaryVolumeName string `pulumi:"auxiliaryVolumeName"`
-	// Indicates if the volume is boot capable.
-	Bootable bool `pulumi:"bootable"`
-	// Consistency group name if volume is a part of volume group.
-	ConsistencyGroupName string `pulumi:"consistencyGroupName"`
-	// Date volume was created.
-	CreationDate string `pulumi:"creationDate"`
-	// The CRN of this resource.
-	Crn string `pulumi:"crn"`
-	// The disk type that is used for the volume.
-	DiskType string `pulumi:"diskType"`
-	// The freeze time of remote copy.
-	FreezeTime string `pulumi:"freezeTime"`
-	// The volume group id in which the volume belongs.
-	GroupId string `pulumi:"groupId"`
-	// The unique identifier of the volume.
-	Id string `pulumi:"id"`
-	// Amount of iops assigned to the volume
-	IoThrottleRate string `pulumi:"ioThrottleRate"`
-	// The last updated date of the volume.
-	LastUpdateDate string `pulumi:"lastUpdateDate"`
-	// The master volume name.
-	MasterVolumeName string `pulumi:"masterVolumeName"`
-	// Mirroring state for replication enabled volume.
-	MirroringState string `pulumi:"mirroringState"`
-	// The name of the volume.
-	Name string `pulumi:"name"`
-	// Indicates if the volume does not exist on storage controller.
-	OutOfBandDeleted bool `pulumi:"outOfBandDeleted"`
-	// Indicates whether master/auxiliary volume is playing the primary role.
-	PrimaryRole string `pulumi:"primaryRole"`
-	// Indicates if the volume should be replication enabled or not.
-	ReplicationEnabled bool `pulumi:"replicationEnabled"`
-	// List of replication sites for volume replication.
-	ReplicationSites []string `pulumi:"replicationSites"`
-	// The replication status of the volume.
-	ReplicationStatus string `pulumi:"replicationStatus"`
-	// The replication type of the volume, metro or global.
-	ReplicationType string `pulumi:"replicationType"`
-	// Indicates if the volume is shareable between VMs.
-	Shreable bool `pulumi:"shreable"`
-	// The size of the volume in GiB.
-	Size int `pulumi:"size"`
-	// The state of the volume.
-	State string `pulumi:"state"`
-	// List of user tags attached to the resource.
-	UserTags []string `pulumi:"userTags"`
-	// The name of storage pool where the volume is located.
-	VolumePool string `pulumi:"volumePool"`
-	// The name of storage template used to create the volume.
-	VolumeType string `pulumi:"volumeType"`
-	// The world wide name of the volume.
-	Wwn string `pulumi:"wwn"`
-}
-
-// GetPiVolumesVolumeInput is an input type that accepts GetPiVolumesVolumeArgs and GetPiVolumesVolumeOutput values.
-// You can construct a concrete instance of `GetPiVolumesVolumeInput` via:
-//
-//	GetPiVolumesVolumeArgs{...}
-type GetPiVolumesVolumeInput interface {
-	pulumi.Input
-
-	ToGetPiVolumesVolumeOutput() GetPiVolumesVolumeOutput
-	ToGetPiVolumesVolumeOutputWithContext(context.Context) GetPiVolumesVolumeOutput
-}
-
-type GetPiVolumesVolumeArgs struct {
-	// Indicates if the volume is auxiliary or not.
-	Auxiliary pulumi.BoolInput `pulumi:"auxiliary"`
-	// The auxiliary volume name.
-	AuxiliaryVolumeName pulumi.StringInput `pulumi:"auxiliaryVolumeName"`
-	// Indicates if the volume is boot capable.
-	Bootable pulumi.BoolInput `pulumi:"bootable"`
-	// Consistency group name if volume is a part of volume group.
-	ConsistencyGroupName pulumi.StringInput `pulumi:"consistencyGroupName"`
-	// Date volume was created.
-	CreationDate pulumi.StringInput `pulumi:"creationDate"`
-	// The CRN of this resource.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The disk type that is used for the volume.
-	DiskType pulumi.StringInput `pulumi:"diskType"`
-	// The freeze time of remote copy.
-	FreezeTime pulumi.StringInput `pulumi:"freezeTime"`
-	// The volume group id in which the volume belongs.
-	GroupId pulumi.StringInput `pulumi:"groupId"`
-	// The unique identifier of the volume.
-	Id pulumi.StringInput `pulumi:"id"`
-	// Amount of iops assigned to the volume
-	IoThrottleRate pulumi.StringInput `pulumi:"ioThrottleRate"`
-	// The last updated date of the volume.
-	LastUpdateDate pulumi.StringInput `pulumi:"lastUpdateDate"`
-	// The master volume name.
-	MasterVolumeName pulumi.StringInput `pulumi:"masterVolumeName"`
-	// Mirroring state for replication enabled volume.
-	MirroringState pulumi.StringInput `pulumi:"mirroringState"`
-	// The name of the volume.
-	Name pulumi.StringInput `pulumi:"name"`
-	// Indicates if the volume does not exist on storage controller.
-	OutOfBandDeleted pulumi.BoolInput `pulumi:"outOfBandDeleted"`
-	// Indicates whether master/auxiliary volume is playing the primary role.
-	PrimaryRole pulumi.StringInput `pulumi:"primaryRole"`
-	// Indicates if the volume should be replication enabled or not.
-	ReplicationEnabled pulumi.BoolInput `pulumi:"replicationEnabled"`
-	// List of replication sites for volume replication.
-	ReplicationSites pulumi.StringArrayInput `pulumi:"replicationSites"`
-	// The replication status of the volume.
-	ReplicationStatus pulumi.StringInput `pulumi:"replicationStatus"`
-	// The replication type of the volume, metro or global.
-	ReplicationType pulumi.StringInput `pulumi:"replicationType"`
-	// Indicates if the volume is shareable between VMs.
-	Shreable pulumi.BoolInput `pulumi:"shreable"`
-	// The size of the volume in GiB.
-	Size pulumi.IntInput `pulumi:"size"`
-	// The state of the volume.
-	State pulumi.StringInput `pulumi:"state"`
-	// List of user tags attached to the resource.
-	UserTags pulumi.StringArrayInput `pulumi:"userTags"`
-	// The name of storage pool where the volume is located.
-	VolumePool pulumi.StringInput `pulumi:"volumePool"`
-	// The name of storage template used to create the volume.
-	VolumeType pulumi.StringInput `pulumi:"volumeType"`
-	// The world wide name of the volume.
-	Wwn pulumi.StringInput `pulumi:"wwn"`
-}
-
-func (GetPiVolumesVolumeArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumesVolume)(nil)).Elem()
-}
-
-func (i GetPiVolumesVolumeArgs) ToGetPiVolumesVolumeOutput() GetPiVolumesVolumeOutput {
-	return i.ToGetPiVolumesVolumeOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumesVolumeArgs) ToGetPiVolumesVolumeOutputWithContext(ctx context.Context) GetPiVolumesVolumeOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumesVolumeOutput)
-}
-
-// GetPiVolumesVolumeArrayInput is an input type that accepts GetPiVolumesVolumeArray and GetPiVolumesVolumeArrayOutput values.
-// You can construct a concrete instance of `GetPiVolumesVolumeArrayInput` via:
-//
-//	GetPiVolumesVolumeArray{ GetPiVolumesVolumeArgs{...} }
-type GetPiVolumesVolumeArrayInput interface {
-	pulumi.Input
-
-	ToGetPiVolumesVolumeArrayOutput() GetPiVolumesVolumeArrayOutput
-	ToGetPiVolumesVolumeArrayOutputWithContext(context.Context) GetPiVolumesVolumeArrayOutput
-}
-
-type GetPiVolumesVolumeArray []GetPiVolumesVolumeInput
-
-func (GetPiVolumesVolumeArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumesVolume)(nil)).Elem()
-}
-
-func (i GetPiVolumesVolumeArray) ToGetPiVolumesVolumeArrayOutput() GetPiVolumesVolumeArrayOutput {
-	return i.ToGetPiVolumesVolumeArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiVolumesVolumeArray) ToGetPiVolumesVolumeArrayOutputWithContext(ctx context.Context) GetPiVolumesVolumeArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiVolumesVolumeArrayOutput)
-}
-
-type GetPiVolumesVolumeOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumesVolumeOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiVolumesVolume)(nil)).Elem()
-}
-
-func (o GetPiVolumesVolumeOutput) ToGetPiVolumesVolumeOutput() GetPiVolumesVolumeOutput {
-	return o
-}
-
-func (o GetPiVolumesVolumeOutput) ToGetPiVolumesVolumeOutputWithContext(ctx context.Context) GetPiVolumesVolumeOutput {
-	return o
-}
-
-// Indicates if the volume is auxiliary or not.
-func (o GetPiVolumesVolumeOutput) Auxiliary() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) bool { return v.Auxiliary }).(pulumi.BoolOutput)
-}
-
-// The auxiliary volume name.
-func (o GetPiVolumesVolumeOutput) AuxiliaryVolumeName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.AuxiliaryVolumeName }).(pulumi.StringOutput)
-}
-
-// Indicates if the volume is boot capable.
-func (o GetPiVolumesVolumeOutput) Bootable() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) bool { return v.Bootable }).(pulumi.BoolOutput)
-}
-
-// Consistency group name if volume is a part of volume group.
-func (o GetPiVolumesVolumeOutput) ConsistencyGroupName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.ConsistencyGroupName }).(pulumi.StringOutput)
-}
-
-// Date volume was created.
-func (o GetPiVolumesVolumeOutput) CreationDate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.CreationDate }).(pulumi.StringOutput)
-}
-
-// The CRN of this resource.
-func (o GetPiVolumesVolumeOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The disk type that is used for the volume.
-func (o GetPiVolumesVolumeOutput) DiskType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.DiskType }).(pulumi.StringOutput)
-}
-
-// The freeze time of remote copy.
-func (o GetPiVolumesVolumeOutput) FreezeTime() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.FreezeTime }).(pulumi.StringOutput)
-}
-
-// The volume group id in which the volume belongs.
-func (o GetPiVolumesVolumeOutput) GroupId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.GroupId }).(pulumi.StringOutput)
-}
-
-// The unique identifier of the volume.
-func (o GetPiVolumesVolumeOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Amount of iops assigned to the volume
-func (o GetPiVolumesVolumeOutput) IoThrottleRate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.IoThrottleRate }).(pulumi.StringOutput)
-}
-
-// The last updated date of the volume.
-func (o GetPiVolumesVolumeOutput) LastUpdateDate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.LastUpdateDate }).(pulumi.StringOutput)
-}
-
-// The master volume name.
-func (o GetPiVolumesVolumeOutput) MasterVolumeName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.MasterVolumeName }).(pulumi.StringOutput)
-}
-
-// Mirroring state for replication enabled volume.
-func (o GetPiVolumesVolumeOutput) MirroringState() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.MirroringState }).(pulumi.StringOutput)
-}
-
-// The name of the volume.
-func (o GetPiVolumesVolumeOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Indicates if the volume does not exist on storage controller.
-func (o GetPiVolumesVolumeOutput) OutOfBandDeleted() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) bool { return v.OutOfBandDeleted }).(pulumi.BoolOutput)
-}
-
-// Indicates whether master/auxiliary volume is playing the primary role.
-func (o GetPiVolumesVolumeOutput) PrimaryRole() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.PrimaryRole }).(pulumi.StringOutput)
-}
-
-// Indicates if the volume should be replication enabled or not.
-func (o GetPiVolumesVolumeOutput) ReplicationEnabled() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) bool { return v.ReplicationEnabled }).(pulumi.BoolOutput)
-}
-
-// List of replication sites for volume replication.
-func (o GetPiVolumesVolumeOutput) ReplicationSites() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) []string { return v.ReplicationSites }).(pulumi.StringArrayOutput)
-}
-
-// The replication status of the volume.
-func (o GetPiVolumesVolumeOutput) ReplicationStatus() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.ReplicationStatus }).(pulumi.StringOutput)
-}
-
-// The replication type of the volume, metro or global.
-func (o GetPiVolumesVolumeOutput) ReplicationType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.ReplicationType }).(pulumi.StringOutput)
-}
-
-// Indicates if the volume is shareable between VMs.
-func (o GetPiVolumesVolumeOutput) Shreable() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) bool { return v.Shreable }).(pulumi.BoolOutput)
-}
-
-// The size of the volume in GiB.
-func (o GetPiVolumesVolumeOutput) Size() pulumi.IntOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) int { return v.Size }).(pulumi.IntOutput)
-}
-
-// The state of the volume.
-func (o GetPiVolumesVolumeOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.State }).(pulumi.StringOutput)
-}
-
-// List of user tags attached to the resource.
-func (o GetPiVolumesVolumeOutput) UserTags() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) []string { return v.UserTags }).(pulumi.StringArrayOutput)
-}
-
-// The name of storage pool where the volume is located.
-func (o GetPiVolumesVolumeOutput) VolumePool() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.VolumePool }).(pulumi.StringOutput)
-}
-
-// The name of storage template used to create the volume.
-func (o GetPiVolumesVolumeOutput) VolumeType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.VolumeType }).(pulumi.StringOutput)
-}
-
-// The world wide name of the volume.
-func (o GetPiVolumesVolumeOutput) Wwn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiVolumesVolume) string { return v.Wwn }).(pulumi.StringOutput)
-}
-
-type GetPiVolumesVolumeArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiVolumesVolumeArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiVolumesVolume)(nil)).Elem()
-}
-
-func (o GetPiVolumesVolumeArrayOutput) ToGetPiVolumesVolumeArrayOutput() GetPiVolumesVolumeArrayOutput {
-	return o
-}
-
-func (o GetPiVolumesVolumeArrayOutput) ToGetPiVolumesVolumeArrayOutputWithContext(ctx context.Context) GetPiVolumesVolumeArrayOutput {
-	return o
-}
-
-func (o GetPiVolumesVolumeArrayOutput) Index(i pulumi.IntInput) GetPiVolumesVolumeOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiVolumesVolume {
-		return vs[0].([]GetPiVolumesVolume)[vs[1].(int)]
-	}).(GetPiVolumesVolumeOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetail struct {
-	// Workspace creation date.
-	CreationDate string `pulumi:"creationDate"`
-	// The Workspace crn.
-	Crn string `pulumi:"crn"`
-	// Network security groups configuration.
-	NetworkSecurityGroups []GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup `pulumi:"networkSecurityGroups"`
-	PowerEdgeRouters      []GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter      `pulumi:"powerEdgeRouters"`
-}
-
-// GetPiWorkspacePiWorkspaceDetailInput is an input type that accepts GetPiWorkspacePiWorkspaceDetailArgs and GetPiWorkspacePiWorkspaceDetailOutput values.
-// You can construct a concrete instance of `GetPiWorkspacePiWorkspaceDetailInput` via:
-//
-//	GetPiWorkspacePiWorkspaceDetailArgs{...}
-type GetPiWorkspacePiWorkspaceDetailInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacePiWorkspaceDetailOutput() GetPiWorkspacePiWorkspaceDetailOutput
-	ToGetPiWorkspacePiWorkspaceDetailOutputWithContext(context.Context) GetPiWorkspacePiWorkspaceDetailOutput
-}
-
-type GetPiWorkspacePiWorkspaceDetailArgs struct {
-	// Workspace creation date.
-	CreationDate pulumi.StringInput `pulumi:"creationDate"`
-	// The Workspace crn.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// Network security groups configuration.
-	NetworkSecurityGroups GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput `pulumi:"networkSecurityGroups"`
-	PowerEdgeRouters      GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput      `pulumi:"powerEdgeRouters"`
-}
-
-func (GetPiWorkspacePiWorkspaceDetailArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailArgs) ToGetPiWorkspacePiWorkspaceDetailOutput() GetPiWorkspacePiWorkspaceDetailOutput {
-	return i.ToGetPiWorkspacePiWorkspaceDetailOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailArgs) ToGetPiWorkspacePiWorkspaceDetailOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacePiWorkspaceDetailOutput)
-}
-
-// GetPiWorkspacePiWorkspaceDetailArrayInput is an input type that accepts GetPiWorkspacePiWorkspaceDetailArray and GetPiWorkspacePiWorkspaceDetailArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacePiWorkspaceDetailArrayInput` via:
-//
-//	GetPiWorkspacePiWorkspaceDetailArray{ GetPiWorkspacePiWorkspaceDetailArgs{...} }
-type GetPiWorkspacePiWorkspaceDetailArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacePiWorkspaceDetailArrayOutput() GetPiWorkspacePiWorkspaceDetailArrayOutput
-	ToGetPiWorkspacePiWorkspaceDetailArrayOutputWithContext(context.Context) GetPiWorkspacePiWorkspaceDetailArrayOutput
-}
-
-type GetPiWorkspacePiWorkspaceDetailArray []GetPiWorkspacePiWorkspaceDetailInput
-
-func (GetPiWorkspacePiWorkspaceDetailArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailArray) ToGetPiWorkspacePiWorkspaceDetailArrayOutput() GetPiWorkspacePiWorkspaceDetailArrayOutput {
-	return i.ToGetPiWorkspacePiWorkspaceDetailArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailArray) ToGetPiWorkspacePiWorkspaceDetailArrayOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacePiWorkspaceDetailArrayOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacePiWorkspaceDetailOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailOutput) ToGetPiWorkspacePiWorkspaceDetailOutput() GetPiWorkspacePiWorkspaceDetailOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailOutput) ToGetPiWorkspacePiWorkspaceDetailOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailOutput {
-	return o
-}
-
-// Workspace creation date.
-func (o GetPiWorkspacePiWorkspaceDetailOutput) CreationDate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetail) string { return v.CreationDate }).(pulumi.StringOutput)
-}
-
-// The Workspace crn.
-func (o GetPiWorkspacePiWorkspaceDetailOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetail) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// Network security groups configuration.
-func (o GetPiWorkspacePiWorkspaceDetailOutput) NetworkSecurityGroups() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetail) []GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup {
-		return v.NetworkSecurityGroups
-	}).(GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput)
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailOutput) PowerEdgeRouters() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetail) []GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter {
-		return v.PowerEdgeRouters
-	}).(GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacePiWorkspaceDetailArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailArrayOutput) ToGetPiWorkspacePiWorkspaceDetailArrayOutput() GetPiWorkspacePiWorkspaceDetailArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailArrayOutput) ToGetPiWorkspacePiWorkspaceDetailArrayOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacePiWorkspaceDetailOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacePiWorkspaceDetail {
-		return vs[0].([]GetPiWorkspacePiWorkspaceDetail)[vs[1].(int)]
-	}).(GetPiWorkspacePiWorkspaceDetailOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup struct {
-	// The state of a Network Security Groups configuration.
-	State string `pulumi:"state"`
-}
-
-// GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupInput is an input type that accepts GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs and GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput values.
-// You can construct a concrete instance of `GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupInput` via:
-//
-//	GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs{...}
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput
-	ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(context.Context) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput
-}
-
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs struct {
-	// The state of a Network Security Groups configuration.
-	State pulumi.StringInput `pulumi:"state"`
-}
-
-func (GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return i.ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput)
-}
-
-// GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput is an input type that accepts GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray and GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput` via:
-//
-//	GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray{ GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs{...} }
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput
-	ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(context.Context) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput
-}
-
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray []GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupInput
-
-func (GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return i.ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return o
-}
-
-// The state of a Network Security Groups configuration.
-func (o GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup) string { return v.State }).(pulumi.StringOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput() GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) ToGetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup {
-		return vs[0].([]GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroup)[vs[1].(int)]
-	}).(GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter struct {
-	// The migration status of a Power Edge Router.
-	MigrationStatus string `pulumi:"migrationStatus"`
-	// The state of a Power Edge Router.
-	State string `pulumi:"state"`
-	// The Power Edge Router type.
-	Type string `pulumi:"type"`
-}
-
-// GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterInput is an input type that accepts GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs and GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput values.
-// You can construct a concrete instance of `GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterInput` via:
-//
-//	GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs{...}
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput
-	ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(context.Context) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput
-}
-
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs struct {
-	// The migration status of a Power Edge Router.
-	MigrationStatus pulumi.StringInput `pulumi:"migrationStatus"`
-	// The state of a Power Edge Router.
-	State pulumi.StringInput `pulumi:"state"`
-	// The Power Edge Router type.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return i.ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput)
-}
-
-// GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput is an input type that accepts GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray and GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput` via:
-//
-//	GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray{ GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs{...} }
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput
-	ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(context.Context) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput
-}
-
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray []GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterInput
-
-func (GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return i.ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return o
-}
-
-// The migration status of a Power Edge Router.
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) MigrationStatus() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter) string { return v.MigrationStatus }).(pulumi.StringOutput)
-}
-
-// The state of a Power Edge Router.
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter) string { return v.State }).(pulumi.StringOutput)
-}
-
-// The Power Edge Router type.
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput() GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) ToGetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(ctx context.Context) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter {
-		return vs[0].([]GetPiWorkspacePiWorkspaceDetailPowerEdgeRouter)[vs[1].(int)]
-	}).(GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput)
-}
-
-type GetPiWorkspacesWorkspace struct {
-	// Workspace Capabilities.
-	PiWorkspaceCapabilities map[string]bool                             `pulumi:"piWorkspaceCapabilities"`
-	PiWorkspaceDetails      []GetPiWorkspacesWorkspacePiWorkspaceDetail `pulumi:"piWorkspaceDetails"`
-	// Workspace ID.
-	PiWorkspaceId string `pulumi:"piWorkspaceId"`
-	// Workspace location.
-	PiWorkspaceLocation map[string]string `pulumi:"piWorkspaceLocation"`
-	// Workspace name.
-	PiWorkspaceName string `pulumi:"piWorkspaceName"`
-	// Workspace status, active, critical, failed, provisioning.
-	PiWorkspaceStatus string `pulumi:"piWorkspaceStatus"`
-	// Workspace type, off-premises or on-premises.
-	PiWorkspaceType string `pulumi:"piWorkspaceType"`
-}
-
-// GetPiWorkspacesWorkspaceInput is an input type that accepts GetPiWorkspacesWorkspaceArgs and GetPiWorkspacesWorkspaceOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspaceInput` via:
-//
-//	GetPiWorkspacesWorkspaceArgs{...}
-type GetPiWorkspacesWorkspaceInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspaceOutput() GetPiWorkspacesWorkspaceOutput
-	ToGetPiWorkspacesWorkspaceOutputWithContext(context.Context) GetPiWorkspacesWorkspaceOutput
-}
-
-type GetPiWorkspacesWorkspaceArgs struct {
-	// Workspace Capabilities.
-	PiWorkspaceCapabilities pulumi.BoolMapInput                                 `pulumi:"piWorkspaceCapabilities"`
-	PiWorkspaceDetails      GetPiWorkspacesWorkspacePiWorkspaceDetailArrayInput `pulumi:"piWorkspaceDetails"`
-	// Workspace ID.
-	PiWorkspaceId pulumi.StringInput `pulumi:"piWorkspaceId"`
-	// Workspace location.
-	PiWorkspaceLocation pulumi.StringMapInput `pulumi:"piWorkspaceLocation"`
-	// Workspace name.
-	PiWorkspaceName pulumi.StringInput `pulumi:"piWorkspaceName"`
-	// Workspace status, active, critical, failed, provisioning.
-	PiWorkspaceStatus pulumi.StringInput `pulumi:"piWorkspaceStatus"`
-	// Workspace type, off-premises or on-premises.
-	PiWorkspaceType pulumi.StringInput `pulumi:"piWorkspaceType"`
-}
-
-func (GetPiWorkspacesWorkspaceArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspace)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspaceArgs) ToGetPiWorkspacesWorkspaceOutput() GetPiWorkspacesWorkspaceOutput {
-	return i.ToGetPiWorkspacesWorkspaceOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspaceArgs) ToGetPiWorkspacesWorkspaceOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspaceOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspaceOutput)
-}
-
-// GetPiWorkspacesWorkspaceArrayInput is an input type that accepts GetPiWorkspacesWorkspaceArray and GetPiWorkspacesWorkspaceArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspaceArrayInput` via:
-//
-//	GetPiWorkspacesWorkspaceArray{ GetPiWorkspacesWorkspaceArgs{...} }
-type GetPiWorkspacesWorkspaceArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspaceArrayOutput() GetPiWorkspacesWorkspaceArrayOutput
-	ToGetPiWorkspacesWorkspaceArrayOutputWithContext(context.Context) GetPiWorkspacesWorkspaceArrayOutput
-}
-
-type GetPiWorkspacesWorkspaceArray []GetPiWorkspacesWorkspaceInput
-
-func (GetPiWorkspacesWorkspaceArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspace)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspaceArray) ToGetPiWorkspacesWorkspaceArrayOutput() GetPiWorkspacesWorkspaceArrayOutput {
-	return i.ToGetPiWorkspacesWorkspaceArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspaceArray) ToGetPiWorkspacesWorkspaceArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspaceArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspaceArrayOutput)
-}
-
-type GetPiWorkspacesWorkspaceOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspaceOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspace)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspaceOutput) ToGetPiWorkspacesWorkspaceOutput() GetPiWorkspacesWorkspaceOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspaceOutput) ToGetPiWorkspacesWorkspaceOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspaceOutput {
-	return o
-}
-
-// Workspace Capabilities.
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceCapabilities() pulumi.BoolMapOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) map[string]bool { return v.PiWorkspaceCapabilities }).(pulumi.BoolMapOutput)
-}
-
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceDetails() GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) []GetPiWorkspacesWorkspacePiWorkspaceDetail {
-		return v.PiWorkspaceDetails
-	}).(GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput)
-}
-
-// Workspace ID.
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) string { return v.PiWorkspaceId }).(pulumi.StringOutput)
-}
-
-// Workspace location.
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceLocation() pulumi.StringMapOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) map[string]string { return v.PiWorkspaceLocation }).(pulumi.StringMapOutput)
-}
-
-// Workspace name.
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) string { return v.PiWorkspaceName }).(pulumi.StringOutput)
-}
-
-// Workspace status, active, critical, failed, provisioning.
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceStatus() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) string { return v.PiWorkspaceStatus }).(pulumi.StringOutput)
-}
-
-// Workspace type, off-premises or on-premises.
-func (o GetPiWorkspacesWorkspaceOutput) PiWorkspaceType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspace) string { return v.PiWorkspaceType }).(pulumi.StringOutput)
-}
-
-type GetPiWorkspacesWorkspaceArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspaceArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspace)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspaceArrayOutput) ToGetPiWorkspacesWorkspaceArrayOutput() GetPiWorkspacesWorkspaceArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspaceArrayOutput) ToGetPiWorkspacesWorkspaceArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspaceArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspaceArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacesWorkspaceOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacesWorkspace {
-		return vs[0].([]GetPiWorkspacesWorkspace)[vs[1].(int)]
-	}).(GetPiWorkspacesWorkspaceOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetail struct {
-	// Workspace creation date.
-	CreationDate string `pulumi:"creationDate"`
-	// The Workspace crn.
-	Crn string `pulumi:"crn"`
-	// Network security groups configuration.
-	NetworkSecurityGroups []GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup `pulumi:"networkSecurityGroups"`
-	PowerEdgeRouters      []GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter      `pulumi:"powerEdgeRouters"`
-}
-
-// GetPiWorkspacesWorkspacePiWorkspaceDetailInput is an input type that accepts GetPiWorkspacesWorkspacePiWorkspaceDetailArgs and GetPiWorkspacesWorkspacePiWorkspaceDetailOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspacePiWorkspaceDetailInput` via:
-//
-//	GetPiWorkspacesWorkspacePiWorkspaceDetailArgs{...}
-type GetPiWorkspacesWorkspacePiWorkspaceDetailInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailOutput
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutputWithContext(context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailOutput
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailArgs struct {
-	// Workspace creation date.
-	CreationDate pulumi.StringInput `pulumi:"creationDate"`
-	// The Workspace crn.
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// Network security groups configuration.
-	NetworkSecurityGroups GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput `pulumi:"networkSecurityGroups"`
-	PowerEdgeRouters      GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput      `pulumi:"powerEdgeRouters"`
-}
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailArgs) ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailOutput {
-	return i.ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailArgs) ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspacePiWorkspaceDetailOutput)
-}
-
-// GetPiWorkspacesWorkspacePiWorkspaceDetailArrayInput is an input type that accepts GetPiWorkspacesWorkspacePiWorkspaceDetailArray and GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspacePiWorkspaceDetailArrayInput` via:
-//
-//	GetPiWorkspacesWorkspacePiWorkspaceDetailArray{ GetPiWorkspacesWorkspacePiWorkspaceDetailArgs{...} }
-type GetPiWorkspacesWorkspacePiWorkspaceDetailArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutputWithContext(context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailArray []GetPiWorkspacesWorkspacePiWorkspaceDetailInput
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailArray) ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput {
-	return i.ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailArray) ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailOutput {
-	return o
-}
-
-// Workspace creation date.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) CreationDate() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetail) string { return v.CreationDate }).(pulumi.StringOutput)
-}
-
-// The Workspace crn.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetail) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// Network security groups configuration.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) NetworkSecurityGroups() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetail) []GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup {
-		return v.NetworkSecurityGroups
-	}).(GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput)
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailOutput) PowerEdgeRouters() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetail) []GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter {
-		return v.PowerEdgeRouters
-	}).(GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspacePiWorkspaceDetail)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacesWorkspacePiWorkspaceDetailOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacesWorkspacePiWorkspaceDetail {
-		return vs[0].([]GetPiWorkspacesWorkspacePiWorkspaceDetail)[vs[1].(int)]
-	}).(GetPiWorkspacesWorkspacePiWorkspaceDetailOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup struct {
-	// The state of a Network Security Groups configuration.
-	State string `pulumi:"state"`
-}
-
-// GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupInput is an input type that accepts GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs and GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupInput` via:
-//
-//	GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs{...}
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs struct {
-	// The state of a Network Security Groups configuration.
-	State pulumi.StringInput `pulumi:"state"`
-}
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return i.ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput)
-}
-
-// GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput is an input type that accepts GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray and GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput` via:
-//
-//	GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray{ GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs{...} }
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray []GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupInput
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return i.ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return o
-}
-
-// The state of a Network Security Groups configuration.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup) string { return v.State }).(pulumi.StringOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup {
-		return vs[0].([]GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroup)[vs[1].(int)]
-	}).(GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter struct {
-	// The migration status of a Power Edge Router.
-	MigrationStatus string `pulumi:"migrationStatus"`
-	// The state of a Power Edge Router.
-	State string `pulumi:"state"`
-	// The Power Edge Router type.
-	Type string `pulumi:"type"`
-}
-
-// GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterInput is an input type that accepts GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs and GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterInput` via:
-//
-//	GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs{...}
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs struct {
-	// The migration status of a Power Edge Router.
-	MigrationStatus pulumi.StringInput `pulumi:"migrationStatus"`
-	// The state of a Power Edge Router.
-	State pulumi.StringInput `pulumi:"state"`
-	// The Power Edge Router type.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return i.ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput)
-}
-
-// GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput is an input type that accepts GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray and GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput values.
-// You can construct a concrete instance of `GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput` via:
-//
-//	GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray{ GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs{...} }
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput interface {
-	pulumi.Input
-
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput
-	ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray []GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterInput
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return i.ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(context.Background())
-}
-
-func (i GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return o
-}
-
-// The migration status of a Power Edge Router.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) MigrationStatus() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter) string { return v.MigrationStatus }).(pulumi.StringOutput)
-}
-
-// The state of a Power Edge Router.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter) string { return v.State }).(pulumi.StringOutput)
-}
-
-// The Power Edge Router type.
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter)(nil)).Elem()
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput() GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) ToGetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutputWithContext(ctx context.Context) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput {
-	return o
-}
-
-func (o GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput) Index(i pulumi.IntInput) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter {
-		return vs[0].([]GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouter)[vs[1].(int)]
-	}).(GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput)
-}
-
-type GetResourceGroupsResourceGroup struct {
-	// Account ID
-	AccountId string `pulumi:"accountId"`
-	// The date when the resource group was initially created.
-	CreatedAt string `pulumi:"createdAt"`
-	// The full CRN associated with the resource group
-	Crn string `pulumi:"crn"`
-	// The ID of the resource group
-	Id string `pulumi:"id"`
-	// Default Resource group
-	IsDefault bool `pulumi:"isDefault"`
-	// Resource group name
-	Name string `pulumi:"name"`
-	// The URL to access the payment methods details that associated with the resource group.
-	PaymentMethodsUrl string `pulumi:"paymentMethodsUrl"`
-	// An alpha-numeric value identifying the quota ID associated with the resource group.
-	QuotaId string `pulumi:"quotaId"`
-	// The URL to access the quota details that associated with the resource group.
-	QuotaUrl string `pulumi:"quotaUrl"`
-	// An array of the resources that linked to the resource group
-	ResourceLinkages []string `pulumi:"resourceLinkages"`
-	// State of the resource group
-	State string `pulumi:"state"`
-	// The URL to access the team details that associated with the resource group.
-	TeamsUrl string `pulumi:"teamsUrl"`
-	// The date when the resource group was last updated.
-	UpdatedAt string `pulumi:"updatedAt"`
-}
-
-// GetResourceGroupsResourceGroupInput is an input type that accepts GetResourceGroupsResourceGroupArgs and GetResourceGroupsResourceGroupOutput values.
-// You can construct a concrete instance of `GetResourceGroupsResourceGroupInput` via:
-//
-//	GetResourceGroupsResourceGroupArgs{...}
-type GetResourceGroupsResourceGroupInput interface {
-	pulumi.Input
-
-	ToGetResourceGroupsResourceGroupOutput() GetResourceGroupsResourceGroupOutput
-	ToGetResourceGroupsResourceGroupOutputWithContext(context.Context) GetResourceGroupsResourceGroupOutput
-}
-
-type GetResourceGroupsResourceGroupArgs struct {
-	// Account ID
-	AccountId pulumi.StringInput `pulumi:"accountId"`
-	// The date when the resource group was initially created.
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The full CRN associated with the resource group
-	Crn pulumi.StringInput `pulumi:"crn"`
-	// The ID of the resource group
-	Id pulumi.StringInput `pulumi:"id"`
-	// Default Resource group
-	IsDefault pulumi.BoolInput `pulumi:"isDefault"`
-	// Resource group name
-	Name pulumi.StringInput `pulumi:"name"`
-	// The URL to access the payment methods details that associated with the resource group.
-	PaymentMethodsUrl pulumi.StringInput `pulumi:"paymentMethodsUrl"`
-	// An alpha-numeric value identifying the quota ID associated with the resource group.
-	QuotaId pulumi.StringInput `pulumi:"quotaId"`
-	// The URL to access the quota details that associated with the resource group.
-	QuotaUrl pulumi.StringInput `pulumi:"quotaUrl"`
-	// An array of the resources that linked to the resource group
-	ResourceLinkages pulumi.StringArrayInput `pulumi:"resourceLinkages"`
-	// State of the resource group
-	State pulumi.StringInput `pulumi:"state"`
-	// The URL to access the team details that associated with the resource group.
-	TeamsUrl pulumi.StringInput `pulumi:"teamsUrl"`
-	// The date when the resource group was last updated.
-	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
-}
-
-func (GetResourceGroupsResourceGroupArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetResourceGroupsResourceGroup)(nil)).Elem()
-}
-
-func (i GetResourceGroupsResourceGroupArgs) ToGetResourceGroupsResourceGroupOutput() GetResourceGroupsResourceGroupOutput {
-	return i.ToGetResourceGroupsResourceGroupOutputWithContext(context.Background())
-}
-
-func (i GetResourceGroupsResourceGroupArgs) ToGetResourceGroupsResourceGroupOutputWithContext(ctx context.Context) GetResourceGroupsResourceGroupOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetResourceGroupsResourceGroupOutput)
-}
-
-// GetResourceGroupsResourceGroupArrayInput is an input type that accepts GetResourceGroupsResourceGroupArray and GetResourceGroupsResourceGroupArrayOutput values.
-// You can construct a concrete instance of `GetResourceGroupsResourceGroupArrayInput` via:
-//
-//	GetResourceGroupsResourceGroupArray{ GetResourceGroupsResourceGroupArgs{...} }
-type GetResourceGroupsResourceGroupArrayInput interface {
-	pulumi.Input
-
-	ToGetResourceGroupsResourceGroupArrayOutput() GetResourceGroupsResourceGroupArrayOutput
-	ToGetResourceGroupsResourceGroupArrayOutputWithContext(context.Context) GetResourceGroupsResourceGroupArrayOutput
-}
-
-type GetResourceGroupsResourceGroupArray []GetResourceGroupsResourceGroupInput
-
-func (GetResourceGroupsResourceGroupArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetResourceGroupsResourceGroup)(nil)).Elem()
-}
-
-func (i GetResourceGroupsResourceGroupArray) ToGetResourceGroupsResourceGroupArrayOutput() GetResourceGroupsResourceGroupArrayOutput {
-	return i.ToGetResourceGroupsResourceGroupArrayOutputWithContext(context.Background())
-}
-
-func (i GetResourceGroupsResourceGroupArray) ToGetResourceGroupsResourceGroupArrayOutputWithContext(ctx context.Context) GetResourceGroupsResourceGroupArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetResourceGroupsResourceGroupArrayOutput)
-}
-
-type GetResourceGroupsResourceGroupOutput struct{ *pulumi.OutputState }
-
-func (GetResourceGroupsResourceGroupOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetResourceGroupsResourceGroup)(nil)).Elem()
-}
-
-func (o GetResourceGroupsResourceGroupOutput) ToGetResourceGroupsResourceGroupOutput() GetResourceGroupsResourceGroupOutput {
-	return o
-}
-
-func (o GetResourceGroupsResourceGroupOutput) ToGetResourceGroupsResourceGroupOutputWithContext(ctx context.Context) GetResourceGroupsResourceGroupOutput {
-	return o
-}
-
-// Account ID
-func (o GetResourceGroupsResourceGroupOutput) AccountId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.AccountId }).(pulumi.StringOutput)
-}
-
-// The date when the resource group was initially created.
-func (o GetResourceGroupsResourceGroupOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The full CRN associated with the resource group
-func (o GetResourceGroupsResourceGroupOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-// The ID of the resource group
-func (o GetResourceGroupsResourceGroupOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Default Resource group
-func (o GetResourceGroupsResourceGroupOutput) IsDefault() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) bool { return v.IsDefault }).(pulumi.BoolOutput)
-}
-
-// Resource group name
-func (o GetResourceGroupsResourceGroupOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The URL to access the payment methods details that associated with the resource group.
-func (o GetResourceGroupsResourceGroupOutput) PaymentMethodsUrl() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.PaymentMethodsUrl }).(pulumi.StringOutput)
-}
-
-// An alpha-numeric value identifying the quota ID associated with the resource group.
-func (o GetResourceGroupsResourceGroupOutput) QuotaId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.QuotaId }).(pulumi.StringOutput)
-}
-
-// The URL to access the quota details that associated with the resource group.
-func (o GetResourceGroupsResourceGroupOutput) QuotaUrl() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.QuotaUrl }).(pulumi.StringOutput)
-}
-
-// An array of the resources that linked to the resource group
-func (o GetResourceGroupsResourceGroupOutput) ResourceLinkages() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) []string { return v.ResourceLinkages }).(pulumi.StringArrayOutput)
-}
-
-// State of the resource group
-func (o GetResourceGroupsResourceGroupOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.State }).(pulumi.StringOutput)
-}
-
-// The URL to access the team details that associated with the resource group.
-func (o GetResourceGroupsResourceGroupOutput) TeamsUrl() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.TeamsUrl }).(pulumi.StringOutput)
-}
-
-// The date when the resource group was last updated.
-func (o GetResourceGroupsResourceGroupOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceGroupsResourceGroup) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-type GetResourceGroupsResourceGroupArrayOutput struct{ *pulumi.OutputState }
-
-func (GetResourceGroupsResourceGroupArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetResourceGroupsResourceGroup)(nil)).Elem()
-}
-
-func (o GetResourceGroupsResourceGroupArrayOutput) ToGetResourceGroupsResourceGroupArrayOutput() GetResourceGroupsResourceGroupArrayOutput {
-	return o
-}
-
-func (o GetResourceGroupsResourceGroupArrayOutput) ToGetResourceGroupsResourceGroupArrayOutputWithContext(ctx context.Context) GetResourceGroupsResourceGroupArrayOutput {
-	return o
-}
-
-func (o GetResourceGroupsResourceGroupArrayOutput) Index(i pulumi.IntInput) GetResourceGroupsResourceGroupOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetResourceGroupsResourceGroup {
-		return vs[0].([]GetResourceGroupsResourceGroup)[vs[1].(int)]
-	}).(GetResourceGroupsResourceGroupOutput)
-}
-
-type GetResourceReclamationsReclamation struct {
-	// The account ID.
-	AccountId string `pulumi:"accountId"`
-	// The date/time when created (RFC3339).
-	CreatedAt string `pulumi:"createdAt"`
-	// The subject who created this reclamation.
-	CreatedBy string `pulumi:"createdBy"`
-	// Custom properties set on the reclamation.
-	CustomProperties map[string]string `pulumi:"customProperties"`
-	// The full CRN associated with this reclamation.
-	EntityCrn string `pulumi:"entityCrn"`
-	// The entity ID for this reclamation.
-	EntityId string `pulumi:"entityId"`
-	// The entity type ID for this reclamation.
-	EntityTypeId string `pulumi:"entityTypeId"`
-	// The ID associated with the reclamation.
-	Id string `pulumi:"id"`
-	// The policy ID for the reclamation.
-	PolicyId string `pulumi:"policyId"`
-	// The resource group ID.
-	ResourceGroupId string `pulumi:"resourceGroupId"`
-	// The resource instance ID associated with the reclamation.
-	ResourceInstanceId string `pulumi:"resourceInstanceId"`
-	// The state of this reclamation.
-	State string `pulumi:"state"`
-	// When the reclamation retention period ends (RFC3339).
-	TargetTime string `pulumi:"targetTime"`
-	// The date/time when last updated (RFC3339).
-	UpdatedAt string `pulumi:"updatedAt"`
-	// The subject who updated this reclamation.
-	UpdatedBy string `pulumi:"updatedBy"`
-}
-
-// GetResourceReclamationsReclamationInput is an input type that accepts GetResourceReclamationsReclamationArgs and GetResourceReclamationsReclamationOutput values.
-// You can construct a concrete instance of `GetResourceReclamationsReclamationInput` via:
-//
-//	GetResourceReclamationsReclamationArgs{...}
-type GetResourceReclamationsReclamationInput interface {
-	pulumi.Input
-
-	ToGetResourceReclamationsReclamationOutput() GetResourceReclamationsReclamationOutput
-	ToGetResourceReclamationsReclamationOutputWithContext(context.Context) GetResourceReclamationsReclamationOutput
-}
-
-type GetResourceReclamationsReclamationArgs struct {
-	// The account ID.
-	AccountId pulumi.StringInput `pulumi:"accountId"`
-	// The date/time when created (RFC3339).
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The subject who created this reclamation.
-	CreatedBy pulumi.StringInput `pulumi:"createdBy"`
-	// Custom properties set on the reclamation.
-	CustomProperties pulumi.StringMapInput `pulumi:"customProperties"`
-	// The full CRN associated with this reclamation.
-	EntityCrn pulumi.StringInput `pulumi:"entityCrn"`
-	// The entity ID for this reclamation.
-	EntityId pulumi.StringInput `pulumi:"entityId"`
-	// The entity type ID for this reclamation.
-	EntityTypeId pulumi.StringInput `pulumi:"entityTypeId"`
-	// The ID associated with the reclamation.
-	Id pulumi.StringInput `pulumi:"id"`
-	// The policy ID for the reclamation.
-	PolicyId pulumi.StringInput `pulumi:"policyId"`
-	// The resource group ID.
-	ResourceGroupId pulumi.StringInput `pulumi:"resourceGroupId"`
-	// The resource instance ID associated with the reclamation.
-	ResourceInstanceId pulumi.StringInput `pulumi:"resourceInstanceId"`
-	// The state of this reclamation.
-	State pulumi.StringInput `pulumi:"state"`
-	// When the reclamation retention period ends (RFC3339).
-	TargetTime pulumi.StringInput `pulumi:"targetTime"`
-	// The date/time when last updated (RFC3339).
-	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
-	// The subject who updated this reclamation.
-	UpdatedBy pulumi.StringInput `pulumi:"updatedBy"`
-}
-
-func (GetResourceReclamationsReclamationArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetResourceReclamationsReclamation)(nil)).Elem()
-}
-
-func (i GetResourceReclamationsReclamationArgs) ToGetResourceReclamationsReclamationOutput() GetResourceReclamationsReclamationOutput {
-	return i.ToGetResourceReclamationsReclamationOutputWithContext(context.Background())
-}
-
-func (i GetResourceReclamationsReclamationArgs) ToGetResourceReclamationsReclamationOutputWithContext(ctx context.Context) GetResourceReclamationsReclamationOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetResourceReclamationsReclamationOutput)
-}
-
-// GetResourceReclamationsReclamationArrayInput is an input type that accepts GetResourceReclamationsReclamationArray and GetResourceReclamationsReclamationArrayOutput values.
-// You can construct a concrete instance of `GetResourceReclamationsReclamationArrayInput` via:
-//
-//	GetResourceReclamationsReclamationArray{ GetResourceReclamationsReclamationArgs{...} }
-type GetResourceReclamationsReclamationArrayInput interface {
-	pulumi.Input
-
-	ToGetResourceReclamationsReclamationArrayOutput() GetResourceReclamationsReclamationArrayOutput
-	ToGetResourceReclamationsReclamationArrayOutputWithContext(context.Context) GetResourceReclamationsReclamationArrayOutput
-}
-
-type GetResourceReclamationsReclamationArray []GetResourceReclamationsReclamationInput
-
-func (GetResourceReclamationsReclamationArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetResourceReclamationsReclamation)(nil)).Elem()
-}
-
-func (i GetResourceReclamationsReclamationArray) ToGetResourceReclamationsReclamationArrayOutput() GetResourceReclamationsReclamationArrayOutput {
-	return i.ToGetResourceReclamationsReclamationArrayOutputWithContext(context.Background())
-}
-
-func (i GetResourceReclamationsReclamationArray) ToGetResourceReclamationsReclamationArrayOutputWithContext(ctx context.Context) GetResourceReclamationsReclamationArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetResourceReclamationsReclamationArrayOutput)
-}
-
-type GetResourceReclamationsReclamationOutput struct{ *pulumi.OutputState }
-
-func (GetResourceReclamationsReclamationOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetResourceReclamationsReclamation)(nil)).Elem()
-}
-
-func (o GetResourceReclamationsReclamationOutput) ToGetResourceReclamationsReclamationOutput() GetResourceReclamationsReclamationOutput {
-	return o
-}
-
-func (o GetResourceReclamationsReclamationOutput) ToGetResourceReclamationsReclamationOutputWithContext(ctx context.Context) GetResourceReclamationsReclamationOutput {
-	return o
-}
-
-// The account ID.
-func (o GetResourceReclamationsReclamationOutput) AccountId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.AccountId }).(pulumi.StringOutput)
-}
-
-// The date/time when created (RFC3339).
-func (o GetResourceReclamationsReclamationOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The subject who created this reclamation.
-func (o GetResourceReclamationsReclamationOutput) CreatedBy() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.CreatedBy }).(pulumi.StringOutput)
-}
-
-// Custom properties set on the reclamation.
-func (o GetResourceReclamationsReclamationOutput) CustomProperties() pulumi.StringMapOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) map[string]string { return v.CustomProperties }).(pulumi.StringMapOutput)
-}
-
-// The full CRN associated with this reclamation.
-func (o GetResourceReclamationsReclamationOutput) EntityCrn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.EntityCrn }).(pulumi.StringOutput)
-}
-
-// The entity ID for this reclamation.
-func (o GetResourceReclamationsReclamationOutput) EntityId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.EntityId }).(pulumi.StringOutput)
-}
-
-// The entity type ID for this reclamation.
-func (o GetResourceReclamationsReclamationOutput) EntityTypeId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.EntityTypeId }).(pulumi.StringOutput)
-}
-
-// The ID associated with the reclamation.
-func (o GetResourceReclamationsReclamationOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// The policy ID for the reclamation.
-func (o GetResourceReclamationsReclamationOutput) PolicyId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.PolicyId }).(pulumi.StringOutput)
-}
-
-// The resource group ID.
-func (o GetResourceReclamationsReclamationOutput) ResourceGroupId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.ResourceGroupId }).(pulumi.StringOutput)
-}
-
-// The resource instance ID associated with the reclamation.
-func (o GetResourceReclamationsReclamationOutput) ResourceInstanceId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.ResourceInstanceId }).(pulumi.StringOutput)
-}
-
-// The state of this reclamation.
-func (o GetResourceReclamationsReclamationOutput) State() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.State }).(pulumi.StringOutput)
-}
-
-// When the reclamation retention period ends (RFC3339).
-func (o GetResourceReclamationsReclamationOutput) TargetTime() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.TargetTime }).(pulumi.StringOutput)
-}
-
-// The date/time when last updated (RFC3339).
-func (o GetResourceReclamationsReclamationOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-// The subject who updated this reclamation.
-func (o GetResourceReclamationsReclamationOutput) UpdatedBy() pulumi.StringOutput {
-	return o.ApplyT(func(v GetResourceReclamationsReclamation) string { return v.UpdatedBy }).(pulumi.StringOutput)
-}
-
-type GetResourceReclamationsReclamationArrayOutput struct{ *pulumi.OutputState }
-
-func (GetResourceReclamationsReclamationArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetResourceReclamationsReclamation)(nil)).Elem()
-}
-
-func (o GetResourceReclamationsReclamationArrayOutput) ToGetResourceReclamationsReclamationArrayOutput() GetResourceReclamationsReclamationArrayOutput {
-	return o
-}
-
-func (o GetResourceReclamationsReclamationArrayOutput) ToGetResourceReclamationsReclamationArrayOutputWithContext(ctx context.Context) GetResourceReclamationsReclamationArrayOutput {
-	return o
-}
-
-func (o GetResourceReclamationsReclamationArrayOutput) Index(i pulumi.IntInput) GetResourceReclamationsReclamationOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetResourceReclamationsReclamation {
-		return vs[0].([]GetResourceReclamationsReclamation)[vs[1].(int)]
-	}).(GetResourceReclamationsReclamationOutput)
-}
-
-type GetTgConnectionPrefixFiltersPrefixFilter struct {
-	// Whether to permit or deny the prefix filter
-	Action string `pulumi:"action"`
-	// Identifier of prefix filter that handles ordering
-	Before string `pulumi:"before"`
-	// The date and time that this prefix filter was created
-	CreatedAt string `pulumi:"createdAt"`
-	// IP Prefix GE
-	Ge int    `pulumi:"ge"`
-	Id string `pulumi:"id"`
-	// IP Prefix LE
-	Le int `pulumi:"le"`
-	// IP Prefix
-	Prefix string `pulumi:"prefix"`
-	// The date and time that this prefix filter was last updated
-	UpdatedAt string `pulumi:"updatedAt"`
-}
-
-// GetTgConnectionPrefixFiltersPrefixFilterInput is an input type that accepts GetTgConnectionPrefixFiltersPrefixFilterArgs and GetTgConnectionPrefixFiltersPrefixFilterOutput values.
-// You can construct a concrete instance of `GetTgConnectionPrefixFiltersPrefixFilterInput` via:
-//
-//	GetTgConnectionPrefixFiltersPrefixFilterArgs{...}
-type GetTgConnectionPrefixFiltersPrefixFilterInput interface {
-	pulumi.Input
-
-	ToGetTgConnectionPrefixFiltersPrefixFilterOutput() GetTgConnectionPrefixFiltersPrefixFilterOutput
-	ToGetTgConnectionPrefixFiltersPrefixFilterOutputWithContext(context.Context) GetTgConnectionPrefixFiltersPrefixFilterOutput
-}
-
-type GetTgConnectionPrefixFiltersPrefixFilterArgs struct {
-	// Whether to permit or deny the prefix filter
-	Action pulumi.StringInput `pulumi:"action"`
-	// Identifier of prefix filter that handles ordering
-	Before pulumi.StringInput `pulumi:"before"`
-	// The date and time that this prefix filter was created
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// IP Prefix GE
-	Ge pulumi.IntInput    `pulumi:"ge"`
-	Id pulumi.StringInput `pulumi:"id"`
-	// IP Prefix LE
-	Le pulumi.IntInput `pulumi:"le"`
-	// IP Prefix
-	Prefix pulumi.StringInput `pulumi:"prefix"`
-	// The date and time that this prefix filter was last updated
-	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
-}
-
-func (GetTgConnectionPrefixFiltersPrefixFilterArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgConnectionPrefixFiltersPrefixFilter)(nil)).Elem()
-}
-
-func (i GetTgConnectionPrefixFiltersPrefixFilterArgs) ToGetTgConnectionPrefixFiltersPrefixFilterOutput() GetTgConnectionPrefixFiltersPrefixFilterOutput {
-	return i.ToGetTgConnectionPrefixFiltersPrefixFilterOutputWithContext(context.Background())
-}
-
-func (i GetTgConnectionPrefixFiltersPrefixFilterArgs) ToGetTgConnectionPrefixFiltersPrefixFilterOutputWithContext(ctx context.Context) GetTgConnectionPrefixFiltersPrefixFilterOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgConnectionPrefixFiltersPrefixFilterOutput)
-}
-
-// GetTgConnectionPrefixFiltersPrefixFilterArrayInput is an input type that accepts GetTgConnectionPrefixFiltersPrefixFilterArray and GetTgConnectionPrefixFiltersPrefixFilterArrayOutput values.
-// You can construct a concrete instance of `GetTgConnectionPrefixFiltersPrefixFilterArrayInput` via:
-//
-//	GetTgConnectionPrefixFiltersPrefixFilterArray{ GetTgConnectionPrefixFiltersPrefixFilterArgs{...} }
-type GetTgConnectionPrefixFiltersPrefixFilterArrayInput interface {
-	pulumi.Input
-
-	ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutput() GetTgConnectionPrefixFiltersPrefixFilterArrayOutput
-	ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutputWithContext(context.Context) GetTgConnectionPrefixFiltersPrefixFilterArrayOutput
-}
-
-type GetTgConnectionPrefixFiltersPrefixFilterArray []GetTgConnectionPrefixFiltersPrefixFilterInput
-
-func (GetTgConnectionPrefixFiltersPrefixFilterArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgConnectionPrefixFiltersPrefixFilter)(nil)).Elem()
-}
-
-func (i GetTgConnectionPrefixFiltersPrefixFilterArray) ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutput() GetTgConnectionPrefixFiltersPrefixFilterArrayOutput {
-	return i.ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgConnectionPrefixFiltersPrefixFilterArray) ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutputWithContext(ctx context.Context) GetTgConnectionPrefixFiltersPrefixFilterArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgConnectionPrefixFiltersPrefixFilterArrayOutput)
-}
-
-type GetTgConnectionPrefixFiltersPrefixFilterOutput struct{ *pulumi.OutputState }
-
-func (GetTgConnectionPrefixFiltersPrefixFilterOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgConnectionPrefixFiltersPrefixFilter)(nil)).Elem()
-}
-
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) ToGetTgConnectionPrefixFiltersPrefixFilterOutput() GetTgConnectionPrefixFiltersPrefixFilterOutput {
-	return o
-}
-
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) ToGetTgConnectionPrefixFiltersPrefixFilterOutputWithContext(ctx context.Context) GetTgConnectionPrefixFiltersPrefixFilterOutput {
-	return o
-}
-
-// Whether to permit or deny the prefix filter
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) Action() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) string { return v.Action }).(pulumi.StringOutput)
-}
-
-// Identifier of prefix filter that handles ordering
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) Before() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) string { return v.Before }).(pulumi.StringOutput)
-}
-
-// The date and time that this prefix filter was created
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// IP Prefix GE
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) Ge() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) int { return v.Ge }).(pulumi.IntOutput)
-}
-
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// IP Prefix LE
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) Le() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) int { return v.Le }).(pulumi.IntOutput)
-}
-
-// IP Prefix
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-// The date and time that this prefix filter was last updated
-func (o GetTgConnectionPrefixFiltersPrefixFilterOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgConnectionPrefixFiltersPrefixFilter) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-type GetTgConnectionPrefixFiltersPrefixFilterArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgConnectionPrefixFiltersPrefixFilterArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgConnectionPrefixFiltersPrefixFilter)(nil)).Elem()
-}
-
-func (o GetTgConnectionPrefixFiltersPrefixFilterArrayOutput) ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutput() GetTgConnectionPrefixFiltersPrefixFilterArrayOutput {
-	return o
-}
-
-func (o GetTgConnectionPrefixFiltersPrefixFilterArrayOutput) ToGetTgConnectionPrefixFiltersPrefixFilterArrayOutputWithContext(ctx context.Context) GetTgConnectionPrefixFiltersPrefixFilterArrayOutput {
-	return o
-}
-
-func (o GetTgConnectionPrefixFiltersPrefixFilterArrayOutput) Index(i pulumi.IntInput) GetTgConnectionPrefixFiltersPrefixFilterOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgConnectionPrefixFiltersPrefixFilter {
-		return vs[0].([]GetTgConnectionPrefixFiltersPrefixFilter)[vs[1].(int)]
-	}).(GetTgConnectionPrefixFiltersPrefixFilterOutput)
-}
-
-type GetTgGatewayConnection struct {
-	BaseConnectionId string `pulumi:"baseConnectionId"`
-	BaseNetworkType  string `pulumi:"baseNetworkType"`
-	Cidr             string `pulumi:"cidr"`
-	CreatedAt        string `pulumi:"createdAt"`
-	// Whether to permit or deny the prefix filter
-	DefaultPrefixFilter string `pulumi:"defaultPrefixFilter"`
-	Id                  string `pulumi:"id"`
-	LocalBgpAsn         int    `pulumi:"localBgpAsn"`
-	LocalGatewayIp      string `pulumi:"localGatewayIp"`
-	LocalTunnelIp       string `pulumi:"localTunnelIp"`
-	Mtu                 int    `pulumi:"mtu"`
-	Name                string `pulumi:"name"`
-	// The ID of the account which owns the network that is being connected. Generally only used if the network is in a different account than the gateway.
-	NetworkAccountId string `pulumi:"networkAccountId"`
-	NetworkId        string `pulumi:"networkId"`
-	NetworkType      string `pulumi:"networkType"`
-	RemoteBgpAsn     int    `pulumi:"remoteBgpAsn"`
-	RemoteGatewayIp  string `pulumi:"remoteGatewayIp"`
-	RemoteTunnelIp   string `pulumi:"remoteTunnelIp"`
-	Status           string `pulumi:"status"`
-	// List of GRE tunnels for a transit gateway redundant GRE tunnel connection. This field is required for 'redundant_gre' connections
-	Tunnels   []GetTgGatewayConnectionTunnel `pulumi:"tunnels"`
-	UpdatedAt string                         `pulumi:"updatedAt"`
-	Zone      string                         `pulumi:"zone"`
-}
-
-// GetTgGatewayConnectionInput is an input type that accepts GetTgGatewayConnectionArgs and GetTgGatewayConnectionOutput values.
-// You can construct a concrete instance of `GetTgGatewayConnectionInput` via:
-//
-//	GetTgGatewayConnectionArgs{...}
-type GetTgGatewayConnectionInput interface {
-	pulumi.Input
-
-	ToGetTgGatewayConnectionOutput() GetTgGatewayConnectionOutput
-	ToGetTgGatewayConnectionOutputWithContext(context.Context) GetTgGatewayConnectionOutput
-}
-
-type GetTgGatewayConnectionArgs struct {
-	BaseConnectionId pulumi.StringInput `pulumi:"baseConnectionId"`
-	BaseNetworkType  pulumi.StringInput `pulumi:"baseNetworkType"`
-	Cidr             pulumi.StringInput `pulumi:"cidr"`
-	CreatedAt        pulumi.StringInput `pulumi:"createdAt"`
-	// Whether to permit or deny the prefix filter
-	DefaultPrefixFilter pulumi.StringInput `pulumi:"defaultPrefixFilter"`
-	Id                  pulumi.StringInput `pulumi:"id"`
-	LocalBgpAsn         pulumi.IntInput    `pulumi:"localBgpAsn"`
-	LocalGatewayIp      pulumi.StringInput `pulumi:"localGatewayIp"`
-	LocalTunnelIp       pulumi.StringInput `pulumi:"localTunnelIp"`
-	Mtu                 pulumi.IntInput    `pulumi:"mtu"`
-	Name                pulumi.StringInput `pulumi:"name"`
-	// The ID of the account which owns the network that is being connected. Generally only used if the network is in a different account than the gateway.
-	NetworkAccountId pulumi.StringInput `pulumi:"networkAccountId"`
-	NetworkId        pulumi.StringInput `pulumi:"networkId"`
-	NetworkType      pulumi.StringInput `pulumi:"networkType"`
-	RemoteBgpAsn     pulumi.IntInput    `pulumi:"remoteBgpAsn"`
-	RemoteGatewayIp  pulumi.StringInput `pulumi:"remoteGatewayIp"`
-	RemoteTunnelIp   pulumi.StringInput `pulumi:"remoteTunnelIp"`
-	Status           pulumi.StringInput `pulumi:"status"`
-	// List of GRE tunnels for a transit gateway redundant GRE tunnel connection. This field is required for 'redundant_gre' connections
-	Tunnels   GetTgGatewayConnectionTunnelArrayInput `pulumi:"tunnels"`
-	UpdatedAt pulumi.StringInput                     `pulumi:"updatedAt"`
-	Zone      pulumi.StringInput                     `pulumi:"zone"`
-}
-
-func (GetTgGatewayConnectionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgGatewayConnection)(nil)).Elem()
-}
-
-func (i GetTgGatewayConnectionArgs) ToGetTgGatewayConnectionOutput() GetTgGatewayConnectionOutput {
-	return i.ToGetTgGatewayConnectionOutputWithContext(context.Background())
-}
-
-func (i GetTgGatewayConnectionArgs) ToGetTgGatewayConnectionOutputWithContext(ctx context.Context) GetTgGatewayConnectionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgGatewayConnectionOutput)
-}
-
-// GetTgGatewayConnectionArrayInput is an input type that accepts GetTgGatewayConnectionArray and GetTgGatewayConnectionArrayOutput values.
-// You can construct a concrete instance of `GetTgGatewayConnectionArrayInput` via:
-//
-//	GetTgGatewayConnectionArray{ GetTgGatewayConnectionArgs{...} }
-type GetTgGatewayConnectionArrayInput interface {
-	pulumi.Input
-
-	ToGetTgGatewayConnectionArrayOutput() GetTgGatewayConnectionArrayOutput
-	ToGetTgGatewayConnectionArrayOutputWithContext(context.Context) GetTgGatewayConnectionArrayOutput
-}
-
-type GetTgGatewayConnectionArray []GetTgGatewayConnectionInput
-
-func (GetTgGatewayConnectionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgGatewayConnection)(nil)).Elem()
-}
-
-func (i GetTgGatewayConnectionArray) ToGetTgGatewayConnectionArrayOutput() GetTgGatewayConnectionArrayOutput {
-	return i.ToGetTgGatewayConnectionArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgGatewayConnectionArray) ToGetTgGatewayConnectionArrayOutputWithContext(ctx context.Context) GetTgGatewayConnectionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgGatewayConnectionArrayOutput)
-}
-
-type GetTgGatewayConnectionOutput struct{ *pulumi.OutputState }
-
-func (GetTgGatewayConnectionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgGatewayConnection)(nil)).Elem()
-}
-
-func (o GetTgGatewayConnectionOutput) ToGetTgGatewayConnectionOutput() GetTgGatewayConnectionOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionOutput) ToGetTgGatewayConnectionOutputWithContext(ctx context.Context) GetTgGatewayConnectionOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionOutput) BaseConnectionId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.BaseConnectionId }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) BaseNetworkType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.BaseNetworkType }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) Cidr() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.Cidr }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// Whether to permit or deny the prefix filter
-func (o GetTgGatewayConnectionOutput) DefaultPrefixFilter() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.DefaultPrefixFilter }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.Id }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) LocalBgpAsn() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) int { return v.LocalBgpAsn }).(pulumi.IntOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) LocalGatewayIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.LocalGatewayIp }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) LocalTunnelIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.LocalTunnelIp }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) Mtu() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) int { return v.Mtu }).(pulumi.IntOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The ID of the account which owns the network that is being connected. Generally only used if the network is in a different account than the gateway.
-func (o GetTgGatewayConnectionOutput) NetworkAccountId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.NetworkAccountId }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) NetworkId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.NetworkId }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) NetworkType() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.NetworkType }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) RemoteBgpAsn() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) int { return v.RemoteBgpAsn }).(pulumi.IntOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) RemoteGatewayIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.RemoteGatewayIp }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) RemoteTunnelIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.RemoteTunnelIp }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// List of GRE tunnels for a transit gateway redundant GRE tunnel connection. This field is required for 'redundant_gre' connections
-func (o GetTgGatewayConnectionOutput) Tunnels() GetTgGatewayConnectionTunnelArrayOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) []GetTgGatewayConnectionTunnel { return v.Tunnels }).(GetTgGatewayConnectionTunnelArrayOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionOutput) Zone() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnection) string { return v.Zone }).(pulumi.StringOutput)
-}
-
-type GetTgGatewayConnectionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgGatewayConnectionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgGatewayConnection)(nil)).Elem()
-}
-
-func (o GetTgGatewayConnectionArrayOutput) ToGetTgGatewayConnectionArrayOutput() GetTgGatewayConnectionArrayOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionArrayOutput) ToGetTgGatewayConnectionArrayOutputWithContext(ctx context.Context) GetTgGatewayConnectionArrayOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionArrayOutput) Index(i pulumi.IntInput) GetTgGatewayConnectionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgGatewayConnection {
-		return vs[0].([]GetTgGatewayConnection)[vs[1].(int)]
-	}).(GetTgGatewayConnectionOutput)
-}
-
-type GetTgGatewayConnectionTunnel struct {
-	// The date and time that this connection was created
-	CreatedAt string `pulumi:"createdAt"`
-	// The local network BGP ASN.
-	LocalBgpAsn int `pulumi:"localBgpAsn"`
-	// The local gateway IP address.
-	LocalGatewayIp string `pulumi:"localGatewayIp"`
-	// The local tunnel IP address.
-	LocalTunnelIp string `pulumi:"localTunnelIp"`
-	Mtu           int    `pulumi:"mtu"`
-	// The user-defined name for this  rGRE tunnel.
-	Name string `pulumi:"name"`
-	// The remote network BGP ASN.
-	RemoteBgpAsn int `pulumi:"remoteBgpAsn"`
-	// The remote gateway IP address.
-	RemoteGatewayIp string `pulumi:"remoteGatewayIp"`
-	// The remote tunnel IP address.
-	RemoteTunnelIp string `pulumi:"remoteTunnelIp"`
-	// What is the current configuration state of this connection. Possible values: [attached,failed,pending,deleting,detaching,detached]
-	Status string `pulumi:"status"`
-	// The Transit Gateway Connection identifier
-	TunnelId string `pulumi:"tunnelId"`
-	// The date and time that this connection was last updated
-	UpdatedAt string `pulumi:"updatedAt"`
-	// Location of GRE tunnel.
-	Zone string `pulumi:"zone"`
-}
-
-// GetTgGatewayConnectionTunnelInput is an input type that accepts GetTgGatewayConnectionTunnelArgs and GetTgGatewayConnectionTunnelOutput values.
-// You can construct a concrete instance of `GetTgGatewayConnectionTunnelInput` via:
-//
-//	GetTgGatewayConnectionTunnelArgs{...}
-type GetTgGatewayConnectionTunnelInput interface {
-	pulumi.Input
-
-	ToGetTgGatewayConnectionTunnelOutput() GetTgGatewayConnectionTunnelOutput
-	ToGetTgGatewayConnectionTunnelOutputWithContext(context.Context) GetTgGatewayConnectionTunnelOutput
-}
-
-type GetTgGatewayConnectionTunnelArgs struct {
-	// The date and time that this connection was created
-	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
-	// The local network BGP ASN.
-	LocalBgpAsn pulumi.IntInput `pulumi:"localBgpAsn"`
-	// The local gateway IP address.
-	LocalGatewayIp pulumi.StringInput `pulumi:"localGatewayIp"`
-	// The local tunnel IP address.
-	LocalTunnelIp pulumi.StringInput `pulumi:"localTunnelIp"`
-	Mtu           pulumi.IntInput    `pulumi:"mtu"`
-	// The user-defined name for this  rGRE tunnel.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The remote network BGP ASN.
-	RemoteBgpAsn pulumi.IntInput `pulumi:"remoteBgpAsn"`
-	// The remote gateway IP address.
-	RemoteGatewayIp pulumi.StringInput `pulumi:"remoteGatewayIp"`
-	// The remote tunnel IP address.
-	RemoteTunnelIp pulumi.StringInput `pulumi:"remoteTunnelIp"`
-	// What is the current configuration state of this connection. Possible values: [attached,failed,pending,deleting,detaching,detached]
-	Status pulumi.StringInput `pulumi:"status"`
-	// The Transit Gateway Connection identifier
-	TunnelId pulumi.StringInput `pulumi:"tunnelId"`
-	// The date and time that this connection was last updated
-	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
-	// Location of GRE tunnel.
-	Zone pulumi.StringInput `pulumi:"zone"`
-}
-
-func (GetTgGatewayConnectionTunnelArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (i GetTgGatewayConnectionTunnelArgs) ToGetTgGatewayConnectionTunnelOutput() GetTgGatewayConnectionTunnelOutput {
-	return i.ToGetTgGatewayConnectionTunnelOutputWithContext(context.Background())
-}
-
-func (i GetTgGatewayConnectionTunnelArgs) ToGetTgGatewayConnectionTunnelOutputWithContext(ctx context.Context) GetTgGatewayConnectionTunnelOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgGatewayConnectionTunnelOutput)
-}
-
-// GetTgGatewayConnectionTunnelArrayInput is an input type that accepts GetTgGatewayConnectionTunnelArray and GetTgGatewayConnectionTunnelArrayOutput values.
-// You can construct a concrete instance of `GetTgGatewayConnectionTunnelArrayInput` via:
-//
-//	GetTgGatewayConnectionTunnelArray{ GetTgGatewayConnectionTunnelArgs{...} }
-type GetTgGatewayConnectionTunnelArrayInput interface {
-	pulumi.Input
-
-	ToGetTgGatewayConnectionTunnelArrayOutput() GetTgGatewayConnectionTunnelArrayOutput
-	ToGetTgGatewayConnectionTunnelArrayOutputWithContext(context.Context) GetTgGatewayConnectionTunnelArrayOutput
-}
-
-type GetTgGatewayConnectionTunnelArray []GetTgGatewayConnectionTunnelInput
-
-func (GetTgGatewayConnectionTunnelArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (i GetTgGatewayConnectionTunnelArray) ToGetTgGatewayConnectionTunnelArrayOutput() GetTgGatewayConnectionTunnelArrayOutput {
-	return i.ToGetTgGatewayConnectionTunnelArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgGatewayConnectionTunnelArray) ToGetTgGatewayConnectionTunnelArrayOutputWithContext(ctx context.Context) GetTgGatewayConnectionTunnelArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgGatewayConnectionTunnelArrayOutput)
-}
-
-type GetTgGatewayConnectionTunnelOutput struct{ *pulumi.OutputState }
-
-func (GetTgGatewayConnectionTunnelOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (o GetTgGatewayConnectionTunnelOutput) ToGetTgGatewayConnectionTunnelOutput() GetTgGatewayConnectionTunnelOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionTunnelOutput) ToGetTgGatewayConnectionTunnelOutputWithContext(ctx context.Context) GetTgGatewayConnectionTunnelOutput {
-	return o
-}
-
-// The date and time that this connection was created
-func (o GetTgGatewayConnectionTunnelOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-// The local network BGP ASN.
-func (o GetTgGatewayConnectionTunnelOutput) LocalBgpAsn() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) int { return v.LocalBgpAsn }).(pulumi.IntOutput)
-}
-
-// The local gateway IP address.
-func (o GetTgGatewayConnectionTunnelOutput) LocalGatewayIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.LocalGatewayIp }).(pulumi.StringOutput)
-}
-
-// The local tunnel IP address.
-func (o GetTgGatewayConnectionTunnelOutput) LocalTunnelIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.LocalTunnelIp }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewayConnectionTunnelOutput) Mtu() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) int { return v.Mtu }).(pulumi.IntOutput)
-}
-
-// The user-defined name for this  rGRE tunnel.
-func (o GetTgGatewayConnectionTunnelOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The remote network BGP ASN.
-func (o GetTgGatewayConnectionTunnelOutput) RemoteBgpAsn() pulumi.IntOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) int { return v.RemoteBgpAsn }).(pulumi.IntOutput)
-}
-
-// The remote gateway IP address.
-func (o GetTgGatewayConnectionTunnelOutput) RemoteGatewayIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.RemoteGatewayIp }).(pulumi.StringOutput)
-}
-
-// The remote tunnel IP address.
-func (o GetTgGatewayConnectionTunnelOutput) RemoteTunnelIp() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.RemoteTunnelIp }).(pulumi.StringOutput)
-}
-
-// What is the current configuration state of this connection. Possible values: [attached,failed,pending,deleting,detaching,detached]
-func (o GetTgGatewayConnectionTunnelOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.Status }).(pulumi.StringOutput)
-}
-
-// The Transit Gateway Connection identifier
-func (o GetTgGatewayConnectionTunnelOutput) TunnelId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.TunnelId }).(pulumi.StringOutput)
-}
-
-// The date and time that this connection was last updated
-func (o GetTgGatewayConnectionTunnelOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-// Location of GRE tunnel.
-func (o GetTgGatewayConnectionTunnelOutput) Zone() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewayConnectionTunnel) string { return v.Zone }).(pulumi.StringOutput)
-}
-
-type GetTgGatewayConnectionTunnelArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgGatewayConnectionTunnelArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgGatewayConnectionTunnel)(nil)).Elem()
-}
-
-func (o GetTgGatewayConnectionTunnelArrayOutput) ToGetTgGatewayConnectionTunnelArrayOutput() GetTgGatewayConnectionTunnelArrayOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionTunnelArrayOutput) ToGetTgGatewayConnectionTunnelArrayOutputWithContext(ctx context.Context) GetTgGatewayConnectionTunnelArrayOutput {
-	return o
-}
-
-func (o GetTgGatewayConnectionTunnelArrayOutput) Index(i pulumi.IntInput) GetTgGatewayConnectionTunnelOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgGatewayConnectionTunnel {
-		return vs[0].([]GetTgGatewayConnectionTunnel)[vs[1].(int)]
-	}).(GetTgGatewayConnectionTunnelOutput)
-}
-
-type GetTgGatewaysTransitGateway struct {
-	CreatedAt                   string `pulumi:"createdAt"`
-	Crn                         string `pulumi:"crn"`
-	Global                      bool   `pulumi:"global"`
-	GreEnhancedRoutePropagation bool   `pulumi:"greEnhancedRoutePropagation"`
-	Id                          string `pulumi:"id"`
-	Location                    string `pulumi:"location"`
-	Name                        string `pulumi:"name"`
-	ResourceGroup               string `pulumi:"resourceGroup"`
-	Status                      string `pulumi:"status"`
-	UpdatedAt                   string `pulumi:"updatedAt"`
-}
-
-// GetTgGatewaysTransitGatewayInput is an input type that accepts GetTgGatewaysTransitGatewayArgs and GetTgGatewaysTransitGatewayOutput values.
-// You can construct a concrete instance of `GetTgGatewaysTransitGatewayInput` via:
-//
-//	GetTgGatewaysTransitGatewayArgs{...}
-type GetTgGatewaysTransitGatewayInput interface {
-	pulumi.Input
-
-	ToGetTgGatewaysTransitGatewayOutput() GetTgGatewaysTransitGatewayOutput
-	ToGetTgGatewaysTransitGatewayOutputWithContext(context.Context) GetTgGatewaysTransitGatewayOutput
-}
-
-type GetTgGatewaysTransitGatewayArgs struct {
-	CreatedAt                   pulumi.StringInput `pulumi:"createdAt"`
-	Crn                         pulumi.StringInput `pulumi:"crn"`
-	Global                      pulumi.BoolInput   `pulumi:"global"`
-	GreEnhancedRoutePropagation pulumi.BoolInput   `pulumi:"greEnhancedRoutePropagation"`
-	Id                          pulumi.StringInput `pulumi:"id"`
-	Location                    pulumi.StringInput `pulumi:"location"`
-	Name                        pulumi.StringInput `pulumi:"name"`
-	ResourceGroup               pulumi.StringInput `pulumi:"resourceGroup"`
-	Status                      pulumi.StringInput `pulumi:"status"`
-	UpdatedAt                   pulumi.StringInput `pulumi:"updatedAt"`
-}
-
-func (GetTgGatewaysTransitGatewayArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgGatewaysTransitGateway)(nil)).Elem()
-}
-
-func (i GetTgGatewaysTransitGatewayArgs) ToGetTgGatewaysTransitGatewayOutput() GetTgGatewaysTransitGatewayOutput {
-	return i.ToGetTgGatewaysTransitGatewayOutputWithContext(context.Background())
-}
-
-func (i GetTgGatewaysTransitGatewayArgs) ToGetTgGatewaysTransitGatewayOutputWithContext(ctx context.Context) GetTgGatewaysTransitGatewayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgGatewaysTransitGatewayOutput)
-}
-
-// GetTgGatewaysTransitGatewayArrayInput is an input type that accepts GetTgGatewaysTransitGatewayArray and GetTgGatewaysTransitGatewayArrayOutput values.
-// You can construct a concrete instance of `GetTgGatewaysTransitGatewayArrayInput` via:
-//
-//	GetTgGatewaysTransitGatewayArray{ GetTgGatewaysTransitGatewayArgs{...} }
-type GetTgGatewaysTransitGatewayArrayInput interface {
-	pulumi.Input
-
-	ToGetTgGatewaysTransitGatewayArrayOutput() GetTgGatewaysTransitGatewayArrayOutput
-	ToGetTgGatewaysTransitGatewayArrayOutputWithContext(context.Context) GetTgGatewaysTransitGatewayArrayOutput
-}
-
-type GetTgGatewaysTransitGatewayArray []GetTgGatewaysTransitGatewayInput
-
-func (GetTgGatewaysTransitGatewayArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgGatewaysTransitGateway)(nil)).Elem()
-}
-
-func (i GetTgGatewaysTransitGatewayArray) ToGetTgGatewaysTransitGatewayArrayOutput() GetTgGatewaysTransitGatewayArrayOutput {
-	return i.ToGetTgGatewaysTransitGatewayArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgGatewaysTransitGatewayArray) ToGetTgGatewaysTransitGatewayArrayOutputWithContext(ctx context.Context) GetTgGatewaysTransitGatewayArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgGatewaysTransitGatewayArrayOutput)
-}
-
-type GetTgGatewaysTransitGatewayOutput struct{ *pulumi.OutputState }
-
-func (GetTgGatewaysTransitGatewayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgGatewaysTransitGateway)(nil)).Elem()
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) ToGetTgGatewaysTransitGatewayOutput() GetTgGatewaysTransitGatewayOutput {
-	return o
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) ToGetTgGatewaysTransitGatewayOutputWithContext(ctx context.Context) GetTgGatewaysTransitGatewayOutput {
-	return o
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) Crn() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.Crn }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) Global() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) bool { return v.Global }).(pulumi.BoolOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) GreEnhancedRoutePropagation() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) bool { return v.GreEnhancedRoutePropagation }).(pulumi.BoolOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.Id }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) Location() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.Location }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.Name }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) ResourceGroup() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.ResourceGroup }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.Status }).(pulumi.StringOutput)
-}
-
-func (o GetTgGatewaysTransitGatewayOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgGatewaysTransitGateway) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-type GetTgGatewaysTransitGatewayArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgGatewaysTransitGatewayArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgGatewaysTransitGateway)(nil)).Elem()
-}
-
-func (o GetTgGatewaysTransitGatewayArrayOutput) ToGetTgGatewaysTransitGatewayArrayOutput() GetTgGatewaysTransitGatewayArrayOutput {
-	return o
-}
-
-func (o GetTgGatewaysTransitGatewayArrayOutput) ToGetTgGatewaysTransitGatewayArrayOutputWithContext(ctx context.Context) GetTgGatewaysTransitGatewayArrayOutput {
-	return o
-}
-
-func (o GetTgGatewaysTransitGatewayArrayOutput) Index(i pulumi.IntInput) GetTgGatewaysTransitGatewayOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgGatewaysTransitGateway {
-		return vs[0].([]GetTgGatewaysTransitGateway)[vs[1].(int)]
-	}).(GetTgGatewaysTransitGatewayOutput)
-}
-
-type GetTgLocationLocalConnectionLocation struct {
-	// A descriptive display name for the location.
-	DisplayName string `pulumi:"displayName"`
-	// Name of the Location.
-	Name string `pulumi:"name"`
-	// The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
-	Type string `pulumi:"type"`
-}
-
-// GetTgLocationLocalConnectionLocationInput is an input type that accepts GetTgLocationLocalConnectionLocationArgs and GetTgLocationLocalConnectionLocationOutput values.
-// You can construct a concrete instance of `GetTgLocationLocalConnectionLocationInput` via:
-//
-//	GetTgLocationLocalConnectionLocationArgs{...}
-type GetTgLocationLocalConnectionLocationInput interface {
-	pulumi.Input
-
-	ToGetTgLocationLocalConnectionLocationOutput() GetTgLocationLocalConnectionLocationOutput
-	ToGetTgLocationLocalConnectionLocationOutputWithContext(context.Context) GetTgLocationLocalConnectionLocationOutput
-}
-
-type GetTgLocationLocalConnectionLocationArgs struct {
-	// A descriptive display name for the location.
-	DisplayName pulumi.StringInput `pulumi:"displayName"`
-	// Name of the Location.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetTgLocationLocalConnectionLocationArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgLocationLocalConnectionLocation)(nil)).Elem()
-}
-
-func (i GetTgLocationLocalConnectionLocationArgs) ToGetTgLocationLocalConnectionLocationOutput() GetTgLocationLocalConnectionLocationOutput {
-	return i.ToGetTgLocationLocalConnectionLocationOutputWithContext(context.Background())
-}
-
-func (i GetTgLocationLocalConnectionLocationArgs) ToGetTgLocationLocalConnectionLocationOutputWithContext(ctx context.Context) GetTgLocationLocalConnectionLocationOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgLocationLocalConnectionLocationOutput)
-}
-
-// GetTgLocationLocalConnectionLocationArrayInput is an input type that accepts GetTgLocationLocalConnectionLocationArray and GetTgLocationLocalConnectionLocationArrayOutput values.
-// You can construct a concrete instance of `GetTgLocationLocalConnectionLocationArrayInput` via:
-//
-//	GetTgLocationLocalConnectionLocationArray{ GetTgLocationLocalConnectionLocationArgs{...} }
-type GetTgLocationLocalConnectionLocationArrayInput interface {
-	pulumi.Input
-
-	ToGetTgLocationLocalConnectionLocationArrayOutput() GetTgLocationLocalConnectionLocationArrayOutput
-	ToGetTgLocationLocalConnectionLocationArrayOutputWithContext(context.Context) GetTgLocationLocalConnectionLocationArrayOutput
-}
-
-type GetTgLocationLocalConnectionLocationArray []GetTgLocationLocalConnectionLocationInput
-
-func (GetTgLocationLocalConnectionLocationArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgLocationLocalConnectionLocation)(nil)).Elem()
-}
-
-func (i GetTgLocationLocalConnectionLocationArray) ToGetTgLocationLocalConnectionLocationArrayOutput() GetTgLocationLocalConnectionLocationArrayOutput {
-	return i.ToGetTgLocationLocalConnectionLocationArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgLocationLocalConnectionLocationArray) ToGetTgLocationLocalConnectionLocationArrayOutputWithContext(ctx context.Context) GetTgLocationLocalConnectionLocationArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgLocationLocalConnectionLocationArrayOutput)
-}
-
-type GetTgLocationLocalConnectionLocationOutput struct{ *pulumi.OutputState }
-
-func (GetTgLocationLocalConnectionLocationOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgLocationLocalConnectionLocation)(nil)).Elem()
-}
-
-func (o GetTgLocationLocalConnectionLocationOutput) ToGetTgLocationLocalConnectionLocationOutput() GetTgLocationLocalConnectionLocationOutput {
-	return o
-}
-
-func (o GetTgLocationLocalConnectionLocationOutput) ToGetTgLocationLocalConnectionLocationOutputWithContext(ctx context.Context) GetTgLocationLocalConnectionLocationOutput {
-	return o
-}
-
-// A descriptive display name for the location.
-func (o GetTgLocationLocalConnectionLocationOutput) DisplayName() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgLocationLocalConnectionLocation) string { return v.DisplayName }).(pulumi.StringOutput)
-}
-
-// Name of the Location.
-func (o GetTgLocationLocalConnectionLocationOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgLocationLocalConnectionLocation) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
-func (o GetTgLocationLocalConnectionLocationOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgLocationLocalConnectionLocation) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetTgLocationLocalConnectionLocationArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgLocationLocalConnectionLocationArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgLocationLocalConnectionLocation)(nil)).Elem()
-}
-
-func (o GetTgLocationLocalConnectionLocationArrayOutput) ToGetTgLocationLocalConnectionLocationArrayOutput() GetTgLocationLocalConnectionLocationArrayOutput {
-	return o
-}
-
-func (o GetTgLocationLocalConnectionLocationArrayOutput) ToGetTgLocationLocalConnectionLocationArrayOutputWithContext(ctx context.Context) GetTgLocationLocalConnectionLocationArrayOutput {
-	return o
-}
-
-func (o GetTgLocationLocalConnectionLocationArrayOutput) Index(i pulumi.IntInput) GetTgLocationLocalConnectionLocationOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgLocationLocalConnectionLocation {
-		return vs[0].([]GetTgLocationLocalConnectionLocation)[vs[1].(int)]
-	}).(GetTgLocationLocalConnectionLocationOutput)
-}
-
-type GetTgLocationsLocation struct {
-	// The geographical location of this location, used for billing purposes.
-	BillingLocation string `pulumi:"billingLocation"`
-	// Name of the Location.
-	Name string `pulumi:"name"`
-	// The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
-	Type string `pulumi:"type"`
-}
-
-// GetTgLocationsLocationInput is an input type that accepts GetTgLocationsLocationArgs and GetTgLocationsLocationOutput values.
-// You can construct a concrete instance of `GetTgLocationsLocationInput` via:
-//
-//	GetTgLocationsLocationArgs{...}
-type GetTgLocationsLocationInput interface {
-	pulumi.Input
-
-	ToGetTgLocationsLocationOutput() GetTgLocationsLocationOutput
-	ToGetTgLocationsLocationOutputWithContext(context.Context) GetTgLocationsLocationOutput
-}
-
-type GetTgLocationsLocationArgs struct {
-	// The geographical location of this location, used for billing purposes.
-	BillingLocation pulumi.StringInput `pulumi:"billingLocation"`
-	// Name of the Location.
-	Name pulumi.StringInput `pulumi:"name"`
-	// The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
-	Type pulumi.StringInput `pulumi:"type"`
-}
-
-func (GetTgLocationsLocationArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgLocationsLocation)(nil)).Elem()
-}
-
-func (i GetTgLocationsLocationArgs) ToGetTgLocationsLocationOutput() GetTgLocationsLocationOutput {
-	return i.ToGetTgLocationsLocationOutputWithContext(context.Background())
-}
-
-func (i GetTgLocationsLocationArgs) ToGetTgLocationsLocationOutputWithContext(ctx context.Context) GetTgLocationsLocationOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgLocationsLocationOutput)
-}
-
-// GetTgLocationsLocationArrayInput is an input type that accepts GetTgLocationsLocationArray and GetTgLocationsLocationArrayOutput values.
-// You can construct a concrete instance of `GetTgLocationsLocationArrayInput` via:
-//
-//	GetTgLocationsLocationArray{ GetTgLocationsLocationArgs{...} }
-type GetTgLocationsLocationArrayInput interface {
-	pulumi.Input
-
-	ToGetTgLocationsLocationArrayOutput() GetTgLocationsLocationArrayOutput
-	ToGetTgLocationsLocationArrayOutputWithContext(context.Context) GetTgLocationsLocationArrayOutput
-}
-
-type GetTgLocationsLocationArray []GetTgLocationsLocationInput
-
-func (GetTgLocationsLocationArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgLocationsLocation)(nil)).Elem()
-}
-
-func (i GetTgLocationsLocationArray) ToGetTgLocationsLocationArrayOutput() GetTgLocationsLocationArrayOutput {
-	return i.ToGetTgLocationsLocationArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgLocationsLocationArray) ToGetTgLocationsLocationArrayOutputWithContext(ctx context.Context) GetTgLocationsLocationArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgLocationsLocationArrayOutput)
-}
-
-type GetTgLocationsLocationOutput struct{ *pulumi.OutputState }
-
-func (GetTgLocationsLocationOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgLocationsLocation)(nil)).Elem()
-}
-
-func (o GetTgLocationsLocationOutput) ToGetTgLocationsLocationOutput() GetTgLocationsLocationOutput {
-	return o
-}
-
-func (o GetTgLocationsLocationOutput) ToGetTgLocationsLocationOutputWithContext(ctx context.Context) GetTgLocationsLocationOutput {
-	return o
-}
-
-// The geographical location of this location, used for billing purposes.
-func (o GetTgLocationsLocationOutput) BillingLocation() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgLocationsLocation) string { return v.BillingLocation }).(pulumi.StringOutput)
-}
-
-// Name of the Location.
-func (o GetTgLocationsLocationOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgLocationsLocation) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
-func (o GetTgLocationsLocationOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgLocationsLocation) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetTgLocationsLocationArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgLocationsLocationArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgLocationsLocation)(nil)).Elem()
-}
-
-func (o GetTgLocationsLocationArrayOutput) ToGetTgLocationsLocationArrayOutput() GetTgLocationsLocationArrayOutput {
-	return o
-}
-
-func (o GetTgLocationsLocationArrayOutput) ToGetTgLocationsLocationArrayOutputWithContext(ctx context.Context) GetTgLocationsLocationArrayOutput {
-	return o
-}
-
-func (o GetTgLocationsLocationArrayOutput) Index(i pulumi.IntInput) GetTgLocationsLocationOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgLocationsLocation {
-		return vs[0].([]GetTgLocationsLocation)[vs[1].(int)]
-	}).(GetTgLocationsLocationOutput)
-}
-
-type GetTgRouteReportConnection struct {
-	// Collection of transit gateway connection's bgps
-	Bgps []GetTgRouteReportConnectionBgp `pulumi:"bgps"`
-	Id   string                          `pulumi:"id"`
-	Name string                          `pulumi:"name"`
-	// Collection of transit gateway connection's used routes
-	Routes []GetTgRouteReportConnectionRoute `pulumi:"routes"`
-	Type   string                            `pulumi:"type"`
-}
-
-// GetTgRouteReportConnectionInput is an input type that accepts GetTgRouteReportConnectionArgs and GetTgRouteReportConnectionOutput values.
-// You can construct a concrete instance of `GetTgRouteReportConnectionInput` via:
-//
-//	GetTgRouteReportConnectionArgs{...}
-type GetTgRouteReportConnectionInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportConnectionOutput() GetTgRouteReportConnectionOutput
-	ToGetTgRouteReportConnectionOutputWithContext(context.Context) GetTgRouteReportConnectionOutput
-}
-
-type GetTgRouteReportConnectionArgs struct {
-	// Collection of transit gateway connection's bgps
-	Bgps GetTgRouteReportConnectionBgpArrayInput `pulumi:"bgps"`
-	Id   pulumi.StringInput                      `pulumi:"id"`
-	Name pulumi.StringInput                      `pulumi:"name"`
-	// Collection of transit gateway connection's used routes
-	Routes GetTgRouteReportConnectionRouteArrayInput `pulumi:"routes"`
-	Type   pulumi.StringInput                        `pulumi:"type"`
-}
-
-func (GetTgRouteReportConnectionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportConnection)(nil)).Elem()
-}
-
-func (i GetTgRouteReportConnectionArgs) ToGetTgRouteReportConnectionOutput() GetTgRouteReportConnectionOutput {
-	return i.ToGetTgRouteReportConnectionOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportConnectionArgs) ToGetTgRouteReportConnectionOutputWithContext(ctx context.Context) GetTgRouteReportConnectionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportConnectionOutput)
-}
-
-// GetTgRouteReportConnectionArrayInput is an input type that accepts GetTgRouteReportConnectionArray and GetTgRouteReportConnectionArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportConnectionArrayInput` via:
-//
-//	GetTgRouteReportConnectionArray{ GetTgRouteReportConnectionArgs{...} }
-type GetTgRouteReportConnectionArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportConnectionArrayOutput() GetTgRouteReportConnectionArrayOutput
-	ToGetTgRouteReportConnectionArrayOutputWithContext(context.Context) GetTgRouteReportConnectionArrayOutput
-}
-
-type GetTgRouteReportConnectionArray []GetTgRouteReportConnectionInput
-
-func (GetTgRouteReportConnectionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportConnection)(nil)).Elem()
-}
-
-func (i GetTgRouteReportConnectionArray) ToGetTgRouteReportConnectionArrayOutput() GetTgRouteReportConnectionArrayOutput {
-	return i.ToGetTgRouteReportConnectionArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportConnectionArray) ToGetTgRouteReportConnectionArrayOutputWithContext(ctx context.Context) GetTgRouteReportConnectionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportConnectionArrayOutput)
-}
-
-type GetTgRouteReportConnectionOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportConnectionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportConnection)(nil)).Elem()
-}
-
-func (o GetTgRouteReportConnectionOutput) ToGetTgRouteReportConnectionOutput() GetTgRouteReportConnectionOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionOutput) ToGetTgRouteReportConnectionOutputWithContext(ctx context.Context) GetTgRouteReportConnectionOutput {
-	return o
-}
-
-// Collection of transit gateway connection's bgps
-func (o GetTgRouteReportConnectionOutput) Bgps() GetTgRouteReportConnectionBgpArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnection) []GetTgRouteReportConnectionBgp { return v.Bgps }).(GetTgRouteReportConnectionBgpArrayOutput)
-}
-
-func (o GetTgRouteReportConnectionOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnection) string { return v.Id }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportConnectionOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnection) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Collection of transit gateway connection's used routes
-func (o GetTgRouteReportConnectionOutput) Routes() GetTgRouteReportConnectionRouteArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnection) []GetTgRouteReportConnectionRoute { return v.Routes }).(GetTgRouteReportConnectionRouteArrayOutput)
-}
-
-func (o GetTgRouteReportConnectionOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnection) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportConnectionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportConnectionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportConnection)(nil)).Elem()
-}
-
-func (o GetTgRouteReportConnectionArrayOutput) ToGetTgRouteReportConnectionArrayOutput() GetTgRouteReportConnectionArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionArrayOutput) ToGetTgRouteReportConnectionArrayOutputWithContext(ctx context.Context) GetTgRouteReportConnectionArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportConnectionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportConnection {
-		return vs[0].([]GetTgRouteReportConnection)[vs[1].(int)]
-	}).(GetTgRouteReportConnectionOutput)
-}
-
-type GetTgRouteReportConnectionBgp struct {
-	AsPath          string `pulumi:"asPath"`
-	IsUsed          bool   `pulumi:"isUsed"`
-	LocalPreference string `pulumi:"localPreference"`
-	Prefix          string `pulumi:"prefix"`
-}
-
-// GetTgRouteReportConnectionBgpInput is an input type that accepts GetTgRouteReportConnectionBgpArgs and GetTgRouteReportConnectionBgpOutput values.
-// You can construct a concrete instance of `GetTgRouteReportConnectionBgpInput` via:
-//
-//	GetTgRouteReportConnectionBgpArgs{...}
-type GetTgRouteReportConnectionBgpInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportConnectionBgpOutput() GetTgRouteReportConnectionBgpOutput
-	ToGetTgRouteReportConnectionBgpOutputWithContext(context.Context) GetTgRouteReportConnectionBgpOutput
-}
-
-type GetTgRouteReportConnectionBgpArgs struct {
-	AsPath          pulumi.StringInput `pulumi:"asPath"`
-	IsUsed          pulumi.BoolInput   `pulumi:"isUsed"`
-	LocalPreference pulumi.StringInput `pulumi:"localPreference"`
-	Prefix          pulumi.StringInput `pulumi:"prefix"`
-}
-
-func (GetTgRouteReportConnectionBgpArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (i GetTgRouteReportConnectionBgpArgs) ToGetTgRouteReportConnectionBgpOutput() GetTgRouteReportConnectionBgpOutput {
-	return i.ToGetTgRouteReportConnectionBgpOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportConnectionBgpArgs) ToGetTgRouteReportConnectionBgpOutputWithContext(ctx context.Context) GetTgRouteReportConnectionBgpOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportConnectionBgpOutput)
-}
-
-// GetTgRouteReportConnectionBgpArrayInput is an input type that accepts GetTgRouteReportConnectionBgpArray and GetTgRouteReportConnectionBgpArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportConnectionBgpArrayInput` via:
-//
-//	GetTgRouteReportConnectionBgpArray{ GetTgRouteReportConnectionBgpArgs{...} }
-type GetTgRouteReportConnectionBgpArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportConnectionBgpArrayOutput() GetTgRouteReportConnectionBgpArrayOutput
-	ToGetTgRouteReportConnectionBgpArrayOutputWithContext(context.Context) GetTgRouteReportConnectionBgpArrayOutput
-}
-
-type GetTgRouteReportConnectionBgpArray []GetTgRouteReportConnectionBgpInput
-
-func (GetTgRouteReportConnectionBgpArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (i GetTgRouteReportConnectionBgpArray) ToGetTgRouteReportConnectionBgpArrayOutput() GetTgRouteReportConnectionBgpArrayOutput {
-	return i.ToGetTgRouteReportConnectionBgpArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportConnectionBgpArray) ToGetTgRouteReportConnectionBgpArrayOutputWithContext(ctx context.Context) GetTgRouteReportConnectionBgpArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportConnectionBgpArrayOutput)
-}
-
-type GetTgRouteReportConnectionBgpOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportConnectionBgpOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (o GetTgRouteReportConnectionBgpOutput) ToGetTgRouteReportConnectionBgpOutput() GetTgRouteReportConnectionBgpOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionBgpOutput) ToGetTgRouteReportConnectionBgpOutputWithContext(ctx context.Context) GetTgRouteReportConnectionBgpOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionBgpOutput) AsPath() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnectionBgp) string { return v.AsPath }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportConnectionBgpOutput) IsUsed() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnectionBgp) bool { return v.IsUsed }).(pulumi.BoolOutput)
-}
-
-func (o GetTgRouteReportConnectionBgpOutput) LocalPreference() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnectionBgp) string { return v.LocalPreference }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportConnectionBgpOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnectionBgp) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportConnectionBgpArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportConnectionBgpArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (o GetTgRouteReportConnectionBgpArrayOutput) ToGetTgRouteReportConnectionBgpArrayOutput() GetTgRouteReportConnectionBgpArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionBgpArrayOutput) ToGetTgRouteReportConnectionBgpArrayOutputWithContext(ctx context.Context) GetTgRouteReportConnectionBgpArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionBgpArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportConnectionBgpOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportConnectionBgp {
-		return vs[0].([]GetTgRouteReportConnectionBgp)[vs[1].(int)]
-	}).(GetTgRouteReportConnectionBgpOutput)
-}
-
-type GetTgRouteReportConnectionRoute struct {
-	Prefix string `pulumi:"prefix"`
-}
-
-// GetTgRouteReportConnectionRouteInput is an input type that accepts GetTgRouteReportConnectionRouteArgs and GetTgRouteReportConnectionRouteOutput values.
-// You can construct a concrete instance of `GetTgRouteReportConnectionRouteInput` via:
-//
-//	GetTgRouteReportConnectionRouteArgs{...}
-type GetTgRouteReportConnectionRouteInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportConnectionRouteOutput() GetTgRouteReportConnectionRouteOutput
-	ToGetTgRouteReportConnectionRouteOutputWithContext(context.Context) GetTgRouteReportConnectionRouteOutput
-}
-
-type GetTgRouteReportConnectionRouteArgs struct {
-	Prefix pulumi.StringInput `pulumi:"prefix"`
-}
-
-func (GetTgRouteReportConnectionRouteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportConnectionRouteArgs) ToGetTgRouteReportConnectionRouteOutput() GetTgRouteReportConnectionRouteOutput {
-	return i.ToGetTgRouteReportConnectionRouteOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportConnectionRouteArgs) ToGetTgRouteReportConnectionRouteOutputWithContext(ctx context.Context) GetTgRouteReportConnectionRouteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportConnectionRouteOutput)
-}
-
-// GetTgRouteReportConnectionRouteArrayInput is an input type that accepts GetTgRouteReportConnectionRouteArray and GetTgRouteReportConnectionRouteArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportConnectionRouteArrayInput` via:
-//
-//	GetTgRouteReportConnectionRouteArray{ GetTgRouteReportConnectionRouteArgs{...} }
-type GetTgRouteReportConnectionRouteArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportConnectionRouteArrayOutput() GetTgRouteReportConnectionRouteArrayOutput
-	ToGetTgRouteReportConnectionRouteArrayOutputWithContext(context.Context) GetTgRouteReportConnectionRouteArrayOutput
-}
-
-type GetTgRouteReportConnectionRouteArray []GetTgRouteReportConnectionRouteInput
-
-func (GetTgRouteReportConnectionRouteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportConnectionRouteArray) ToGetTgRouteReportConnectionRouteArrayOutput() GetTgRouteReportConnectionRouteArrayOutput {
-	return i.ToGetTgRouteReportConnectionRouteArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportConnectionRouteArray) ToGetTgRouteReportConnectionRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportConnectionRouteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportConnectionRouteArrayOutput)
-}
-
-type GetTgRouteReportConnectionRouteOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportConnectionRouteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportConnectionRouteOutput) ToGetTgRouteReportConnectionRouteOutput() GetTgRouteReportConnectionRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionRouteOutput) ToGetTgRouteReportConnectionRouteOutputWithContext(ctx context.Context) GetTgRouteReportConnectionRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionRouteOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportConnectionRoute) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportConnectionRouteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportConnectionRouteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportConnectionRouteArrayOutput) ToGetTgRouteReportConnectionRouteArrayOutput() GetTgRouteReportConnectionRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionRouteArrayOutput) ToGetTgRouteReportConnectionRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportConnectionRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportConnectionRouteArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportConnectionRouteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportConnectionRoute {
-		return vs[0].([]GetTgRouteReportConnectionRoute)[vs[1].(int)]
-	}).(GetTgRouteReportConnectionRouteOutput)
-}
-
-type GetTgRouteReportOverlappingRoute struct {
-	// Collection of transit gateway overlapping route's details
-	Routes []GetTgRouteReportOverlappingRouteRoute `pulumi:"routes"`
-}
-
-// GetTgRouteReportOverlappingRouteInput is an input type that accepts GetTgRouteReportOverlappingRouteArgs and GetTgRouteReportOverlappingRouteOutput values.
-// You can construct a concrete instance of `GetTgRouteReportOverlappingRouteInput` via:
-//
-//	GetTgRouteReportOverlappingRouteArgs{...}
-type GetTgRouteReportOverlappingRouteInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportOverlappingRouteOutput() GetTgRouteReportOverlappingRouteOutput
-	ToGetTgRouteReportOverlappingRouteOutputWithContext(context.Context) GetTgRouteReportOverlappingRouteOutput
-}
-
-type GetTgRouteReportOverlappingRouteArgs struct {
-	// Collection of transit gateway overlapping route's details
-	Routes GetTgRouteReportOverlappingRouteRouteArrayInput `pulumi:"routes"`
-}
-
-func (GetTgRouteReportOverlappingRouteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportOverlappingRouteArgs) ToGetTgRouteReportOverlappingRouteOutput() GetTgRouteReportOverlappingRouteOutput {
-	return i.ToGetTgRouteReportOverlappingRouteOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportOverlappingRouteArgs) ToGetTgRouteReportOverlappingRouteOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportOverlappingRouteOutput)
-}
-
-// GetTgRouteReportOverlappingRouteArrayInput is an input type that accepts GetTgRouteReportOverlappingRouteArray and GetTgRouteReportOverlappingRouteArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportOverlappingRouteArrayInput` via:
-//
-//	GetTgRouteReportOverlappingRouteArray{ GetTgRouteReportOverlappingRouteArgs{...} }
-type GetTgRouteReportOverlappingRouteArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportOverlappingRouteArrayOutput() GetTgRouteReportOverlappingRouteArrayOutput
-	ToGetTgRouteReportOverlappingRouteArrayOutputWithContext(context.Context) GetTgRouteReportOverlappingRouteArrayOutput
-}
-
-type GetTgRouteReportOverlappingRouteArray []GetTgRouteReportOverlappingRouteInput
-
-func (GetTgRouteReportOverlappingRouteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportOverlappingRouteArray) ToGetTgRouteReportOverlappingRouteArrayOutput() GetTgRouteReportOverlappingRouteArrayOutput {
-	return i.ToGetTgRouteReportOverlappingRouteArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportOverlappingRouteArray) ToGetTgRouteReportOverlappingRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportOverlappingRouteArrayOutput)
-}
-
-type GetTgRouteReportOverlappingRouteOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportOverlappingRouteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportOverlappingRouteOutput) ToGetTgRouteReportOverlappingRouteOutput() GetTgRouteReportOverlappingRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteOutput) ToGetTgRouteReportOverlappingRouteOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteOutput {
-	return o
-}
-
-// Collection of transit gateway overlapping route's details
-func (o GetTgRouteReportOverlappingRouteOutput) Routes() GetTgRouteReportOverlappingRouteRouteArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportOverlappingRoute) []GetTgRouteReportOverlappingRouteRoute { return v.Routes }).(GetTgRouteReportOverlappingRouteRouteArrayOutput)
-}
-
-type GetTgRouteReportOverlappingRouteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportOverlappingRouteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportOverlappingRouteArrayOutput) ToGetTgRouteReportOverlappingRouteArrayOutput() GetTgRouteReportOverlappingRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteArrayOutput) ToGetTgRouteReportOverlappingRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportOverlappingRouteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportOverlappingRoute {
-		return vs[0].([]GetTgRouteReportOverlappingRoute)[vs[1].(int)]
-	}).(GetTgRouteReportOverlappingRouteOutput)
-}
-
-type GetTgRouteReportOverlappingRouteRoute struct {
-	ConnectionId string `pulumi:"connectionId"`
-	Prefix       string `pulumi:"prefix"`
-}
-
-// GetTgRouteReportOverlappingRouteRouteInput is an input type that accepts GetTgRouteReportOverlappingRouteRouteArgs and GetTgRouteReportOverlappingRouteRouteOutput values.
-// You can construct a concrete instance of `GetTgRouteReportOverlappingRouteRouteInput` via:
-//
-//	GetTgRouteReportOverlappingRouteRouteArgs{...}
-type GetTgRouteReportOverlappingRouteRouteInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportOverlappingRouteRouteOutput() GetTgRouteReportOverlappingRouteRouteOutput
-	ToGetTgRouteReportOverlappingRouteRouteOutputWithContext(context.Context) GetTgRouteReportOverlappingRouteRouteOutput
-}
-
-type GetTgRouteReportOverlappingRouteRouteArgs struct {
-	ConnectionId pulumi.StringInput `pulumi:"connectionId"`
-	Prefix       pulumi.StringInput `pulumi:"prefix"`
-}
-
-func (GetTgRouteReportOverlappingRouteRouteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportOverlappingRouteRouteArgs) ToGetTgRouteReportOverlappingRouteRouteOutput() GetTgRouteReportOverlappingRouteRouteOutput {
-	return i.ToGetTgRouteReportOverlappingRouteRouteOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportOverlappingRouteRouteArgs) ToGetTgRouteReportOverlappingRouteRouteOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteRouteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportOverlappingRouteRouteOutput)
-}
-
-// GetTgRouteReportOverlappingRouteRouteArrayInput is an input type that accepts GetTgRouteReportOverlappingRouteRouteArray and GetTgRouteReportOverlappingRouteRouteArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportOverlappingRouteRouteArrayInput` via:
-//
-//	GetTgRouteReportOverlappingRouteRouteArray{ GetTgRouteReportOverlappingRouteRouteArgs{...} }
-type GetTgRouteReportOverlappingRouteRouteArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportOverlappingRouteRouteArrayOutput() GetTgRouteReportOverlappingRouteRouteArrayOutput
-	ToGetTgRouteReportOverlappingRouteRouteArrayOutputWithContext(context.Context) GetTgRouteReportOverlappingRouteRouteArrayOutput
-}
-
-type GetTgRouteReportOverlappingRouteRouteArray []GetTgRouteReportOverlappingRouteRouteInput
-
-func (GetTgRouteReportOverlappingRouteRouteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportOverlappingRouteRouteArray) ToGetTgRouteReportOverlappingRouteRouteArrayOutput() GetTgRouteReportOverlappingRouteRouteArrayOutput {
-	return i.ToGetTgRouteReportOverlappingRouteRouteArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportOverlappingRouteRouteArray) ToGetTgRouteReportOverlappingRouteRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteRouteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportOverlappingRouteRouteArrayOutput)
-}
-
-type GetTgRouteReportOverlappingRouteRouteOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportOverlappingRouteRouteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteOutput) ToGetTgRouteReportOverlappingRouteRouteOutput() GetTgRouteReportOverlappingRouteRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteOutput) ToGetTgRouteReportOverlappingRouteRouteOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteOutput) ConnectionId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportOverlappingRouteRoute) string { return v.ConnectionId }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportOverlappingRouteRoute) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportOverlappingRouteRouteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportOverlappingRouteRouteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteArrayOutput) ToGetTgRouteReportOverlappingRouteRouteArrayOutput() GetTgRouteReportOverlappingRouteRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteArrayOutput) ToGetTgRouteReportOverlappingRouteRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportOverlappingRouteRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportOverlappingRouteRouteArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportOverlappingRouteRouteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportOverlappingRouteRoute {
-		return vs[0].([]GetTgRouteReportOverlappingRouteRoute)[vs[1].(int)]
-	}).(GetTgRouteReportOverlappingRouteRouteOutput)
-}
-
-type GetTgRouteReportsRouteReport struct {
-	// Collection of transit gateway connections
-	Connections []GetTgRouteReportsRouteReportConnection `pulumi:"connections"`
-	CreatedAt   string                                   `pulumi:"createdAt"`
-	Id          string                                   `pulumi:"id"`
-	// Collection of transit gateway overlapping routes
-	OverlappingRoutes []GetTgRouteReportsRouteReportOverlappingRoute `pulumi:"overlappingRoutes"`
-	Status            string                                         `pulumi:"status"`
-	UpdatedAt         string                                         `pulumi:"updatedAt"`
-}
-
-// GetTgRouteReportsRouteReportInput is an input type that accepts GetTgRouteReportsRouteReportArgs and GetTgRouteReportsRouteReportOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportInput` via:
-//
-//	GetTgRouteReportsRouteReportArgs{...}
-type GetTgRouteReportsRouteReportInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportOutput() GetTgRouteReportsRouteReportOutput
-	ToGetTgRouteReportsRouteReportOutputWithContext(context.Context) GetTgRouteReportsRouteReportOutput
-}
-
-type GetTgRouteReportsRouteReportArgs struct {
-	// Collection of transit gateway connections
-	Connections GetTgRouteReportsRouteReportConnectionArrayInput `pulumi:"connections"`
-	CreatedAt   pulumi.StringInput                               `pulumi:"createdAt"`
-	Id          pulumi.StringInput                               `pulumi:"id"`
-	// Collection of transit gateway overlapping routes
-	OverlappingRoutes GetTgRouteReportsRouteReportOverlappingRouteArrayInput `pulumi:"overlappingRoutes"`
-	Status            pulumi.StringInput                                     `pulumi:"status"`
-	UpdatedAt         pulumi.StringInput                                     `pulumi:"updatedAt"`
-}
-
-func (GetTgRouteReportsRouteReportArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReport)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportArgs) ToGetTgRouteReportsRouteReportOutput() GetTgRouteReportsRouteReportOutput {
-	return i.ToGetTgRouteReportsRouteReportOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportArgs) ToGetTgRouteReportsRouteReportOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportOutput)
-}
-
-// GetTgRouteReportsRouteReportArrayInput is an input type that accepts GetTgRouteReportsRouteReportArray and GetTgRouteReportsRouteReportArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportArrayInput` via:
-//
-//	GetTgRouteReportsRouteReportArray{ GetTgRouteReportsRouteReportArgs{...} }
-type GetTgRouteReportsRouteReportArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportArrayOutput() GetTgRouteReportsRouteReportArrayOutput
-	ToGetTgRouteReportsRouteReportArrayOutputWithContext(context.Context) GetTgRouteReportsRouteReportArrayOutput
-}
-
-type GetTgRouteReportsRouteReportArray []GetTgRouteReportsRouteReportInput
-
-func (GetTgRouteReportsRouteReportArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReport)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportArray) ToGetTgRouteReportsRouteReportArrayOutput() GetTgRouteReportsRouteReportArrayOutput {
-	return i.ToGetTgRouteReportsRouteReportArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportArray) ToGetTgRouteReportsRouteReportArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReport)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportOutput) ToGetTgRouteReportsRouteReportOutput() GetTgRouteReportsRouteReportOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOutput) ToGetTgRouteReportsRouteReportOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOutput {
-	return o
-}
-
-// Collection of transit gateway connections
-func (o GetTgRouteReportsRouteReportOutput) Connections() GetTgRouteReportsRouteReportConnectionArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReport) []GetTgRouteReportsRouteReportConnection { return v.Connections }).(GetTgRouteReportsRouteReportConnectionArrayOutput)
-}
-
-func (o GetTgRouteReportsRouteReportOutput) CreatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReport) string { return v.CreatedAt }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportsRouteReportOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReport) string { return v.Id }).(pulumi.StringOutput)
-}
-
-// Collection of transit gateway overlapping routes
-func (o GetTgRouteReportsRouteReportOutput) OverlappingRoutes() GetTgRouteReportsRouteReportOverlappingRouteArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReport) []GetTgRouteReportsRouteReportOverlappingRoute {
-		return v.OverlappingRoutes
-	}).(GetTgRouteReportsRouteReportOverlappingRouteArrayOutput)
-}
-
-func (o GetTgRouteReportsRouteReportOutput) Status() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReport) string { return v.Status }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportsRouteReportOutput) UpdatedAt() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReport) string { return v.UpdatedAt }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportsRouteReportArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReport)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportArrayOutput) ToGetTgRouteReportsRouteReportArrayOutput() GetTgRouteReportsRouteReportArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportArrayOutput) ToGetTgRouteReportsRouteReportArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportsRouteReportOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportsRouteReport {
-		return vs[0].([]GetTgRouteReportsRouteReport)[vs[1].(int)]
-	}).(GetTgRouteReportsRouteReportOutput)
-}
-
-type GetTgRouteReportsRouteReportConnection struct {
-	// Collection of transit gateway connection's bgps
-	Bgps []GetTgRouteReportsRouteReportConnectionBgp `pulumi:"bgps"`
-	Id   string                                      `pulumi:"id"`
-	Name string                                      `pulumi:"name"`
-	// Collection of transit gateway connection's used routes
-	Routes []GetTgRouteReportsRouteReportConnectionRoute `pulumi:"routes"`
-	Type   string                                        `pulumi:"type"`
-}
-
-// GetTgRouteReportsRouteReportConnectionInput is an input type that accepts GetTgRouteReportsRouteReportConnectionArgs and GetTgRouteReportsRouteReportConnectionOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportConnectionInput` via:
-//
-//	GetTgRouteReportsRouteReportConnectionArgs{...}
-type GetTgRouteReportsRouteReportConnectionInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportConnectionOutput() GetTgRouteReportsRouteReportConnectionOutput
-	ToGetTgRouteReportsRouteReportConnectionOutputWithContext(context.Context) GetTgRouteReportsRouteReportConnectionOutput
-}
-
-type GetTgRouteReportsRouteReportConnectionArgs struct {
-	// Collection of transit gateway connection's bgps
-	Bgps GetTgRouteReportsRouteReportConnectionBgpArrayInput `pulumi:"bgps"`
-	Id   pulumi.StringInput                                  `pulumi:"id"`
-	Name pulumi.StringInput                                  `pulumi:"name"`
-	// Collection of transit gateway connection's used routes
-	Routes GetTgRouteReportsRouteReportConnectionRouteArrayInput `pulumi:"routes"`
-	Type   pulumi.StringInput                                    `pulumi:"type"`
-}
-
-func (GetTgRouteReportsRouteReportConnectionArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportConnection)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportConnectionArgs) ToGetTgRouteReportsRouteReportConnectionOutput() GetTgRouteReportsRouteReportConnectionOutput {
-	return i.ToGetTgRouteReportsRouteReportConnectionOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportConnectionArgs) ToGetTgRouteReportsRouteReportConnectionOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportConnectionOutput)
-}
-
-// GetTgRouteReportsRouteReportConnectionArrayInput is an input type that accepts GetTgRouteReportsRouteReportConnectionArray and GetTgRouteReportsRouteReportConnectionArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportConnectionArrayInput` via:
-//
-//	GetTgRouteReportsRouteReportConnectionArray{ GetTgRouteReportsRouteReportConnectionArgs{...} }
-type GetTgRouteReportsRouteReportConnectionArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportConnectionArrayOutput() GetTgRouteReportsRouteReportConnectionArrayOutput
-	ToGetTgRouteReportsRouteReportConnectionArrayOutputWithContext(context.Context) GetTgRouteReportsRouteReportConnectionArrayOutput
-}
-
-type GetTgRouteReportsRouteReportConnectionArray []GetTgRouteReportsRouteReportConnectionInput
-
-func (GetTgRouteReportsRouteReportConnectionArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportConnection)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportConnectionArray) ToGetTgRouteReportsRouteReportConnectionArrayOutput() GetTgRouteReportsRouteReportConnectionArrayOutput {
-	return i.ToGetTgRouteReportsRouteReportConnectionArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportConnectionArray) ToGetTgRouteReportsRouteReportConnectionArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportConnectionArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportConnectionOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportConnection)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportConnectionOutput) ToGetTgRouteReportsRouteReportConnectionOutput() GetTgRouteReportsRouteReportConnectionOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionOutput) ToGetTgRouteReportsRouteReportConnectionOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionOutput {
-	return o
-}
-
-// Collection of transit gateway connection's bgps
-func (o GetTgRouteReportsRouteReportConnectionOutput) Bgps() GetTgRouteReportsRouteReportConnectionBgpArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnection) []GetTgRouteReportsRouteReportConnectionBgp {
-		return v.Bgps
-	}).(GetTgRouteReportsRouteReportConnectionBgpArrayOutput)
-}
-
-func (o GetTgRouteReportsRouteReportConnectionOutput) Id() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnection) string { return v.Id }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportsRouteReportConnectionOutput) Name() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnection) string { return v.Name }).(pulumi.StringOutput)
-}
-
-// Collection of transit gateway connection's used routes
-func (o GetTgRouteReportsRouteReportConnectionOutput) Routes() GetTgRouteReportsRouteReportConnectionRouteArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnection) []GetTgRouteReportsRouteReportConnectionRoute {
-		return v.Routes
-	}).(GetTgRouteReportsRouteReportConnectionRouteArrayOutput)
-}
-
-func (o GetTgRouteReportsRouteReportConnectionOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnection) string { return v.Type }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportConnectionArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportConnection)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportConnectionArrayOutput) ToGetTgRouteReportsRouteReportConnectionArrayOutput() GetTgRouteReportsRouteReportConnectionArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionArrayOutput) ToGetTgRouteReportsRouteReportConnectionArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportsRouteReportConnectionOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportsRouteReportConnection {
-		return vs[0].([]GetTgRouteReportsRouteReportConnection)[vs[1].(int)]
-	}).(GetTgRouteReportsRouteReportConnectionOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionBgp struct {
-	AsPath          string `pulumi:"asPath"`
-	IsUsed          bool   `pulumi:"isUsed"`
-	LocalPreference string `pulumi:"localPreference"`
-	Prefix          string `pulumi:"prefix"`
-}
-
-// GetTgRouteReportsRouteReportConnectionBgpInput is an input type that accepts GetTgRouteReportsRouteReportConnectionBgpArgs and GetTgRouteReportsRouteReportConnectionBgpOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportConnectionBgpInput` via:
-//
-//	GetTgRouteReportsRouteReportConnectionBgpArgs{...}
-type GetTgRouteReportsRouteReportConnectionBgpInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportConnectionBgpOutput() GetTgRouteReportsRouteReportConnectionBgpOutput
-	ToGetTgRouteReportsRouteReportConnectionBgpOutputWithContext(context.Context) GetTgRouteReportsRouteReportConnectionBgpOutput
-}
-
-type GetTgRouteReportsRouteReportConnectionBgpArgs struct {
-	AsPath          pulumi.StringInput `pulumi:"asPath"`
-	IsUsed          pulumi.BoolInput   `pulumi:"isUsed"`
-	LocalPreference pulumi.StringInput `pulumi:"localPreference"`
-	Prefix          pulumi.StringInput `pulumi:"prefix"`
-}
-
-func (GetTgRouteReportsRouteReportConnectionBgpArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportConnectionBgpArgs) ToGetTgRouteReportsRouteReportConnectionBgpOutput() GetTgRouteReportsRouteReportConnectionBgpOutput {
-	return i.ToGetTgRouteReportsRouteReportConnectionBgpOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportConnectionBgpArgs) ToGetTgRouteReportsRouteReportConnectionBgpOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionBgpOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportConnectionBgpOutput)
-}
-
-// GetTgRouteReportsRouteReportConnectionBgpArrayInput is an input type that accepts GetTgRouteReportsRouteReportConnectionBgpArray and GetTgRouteReportsRouteReportConnectionBgpArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportConnectionBgpArrayInput` via:
-//
-//	GetTgRouteReportsRouteReportConnectionBgpArray{ GetTgRouteReportsRouteReportConnectionBgpArgs{...} }
-type GetTgRouteReportsRouteReportConnectionBgpArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportConnectionBgpArrayOutput() GetTgRouteReportsRouteReportConnectionBgpArrayOutput
-	ToGetTgRouteReportsRouteReportConnectionBgpArrayOutputWithContext(context.Context) GetTgRouteReportsRouteReportConnectionBgpArrayOutput
-}
-
-type GetTgRouteReportsRouteReportConnectionBgpArray []GetTgRouteReportsRouteReportConnectionBgpInput
-
-func (GetTgRouteReportsRouteReportConnectionBgpArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportConnectionBgpArray) ToGetTgRouteReportsRouteReportConnectionBgpArrayOutput() GetTgRouteReportsRouteReportConnectionBgpArrayOutput {
-	return i.ToGetTgRouteReportsRouteReportConnectionBgpArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportConnectionBgpArray) ToGetTgRouteReportsRouteReportConnectionBgpArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionBgpArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportConnectionBgpArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionBgpOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportConnectionBgpOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpOutput) ToGetTgRouteReportsRouteReportConnectionBgpOutput() GetTgRouteReportsRouteReportConnectionBgpOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpOutput) ToGetTgRouteReportsRouteReportConnectionBgpOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionBgpOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpOutput) AsPath() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnectionBgp) string { return v.AsPath }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpOutput) IsUsed() pulumi.BoolOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnectionBgp) bool { return v.IsUsed }).(pulumi.BoolOutput)
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpOutput) LocalPreference() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnectionBgp) string { return v.LocalPreference }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnectionBgp) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionBgpArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportConnectionBgpArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportConnectionBgp)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpArrayOutput) ToGetTgRouteReportsRouteReportConnectionBgpArrayOutput() GetTgRouteReportsRouteReportConnectionBgpArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpArrayOutput) ToGetTgRouteReportsRouteReportConnectionBgpArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionBgpArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionBgpArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportsRouteReportConnectionBgpOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportsRouteReportConnectionBgp {
-		return vs[0].([]GetTgRouteReportsRouteReportConnectionBgp)[vs[1].(int)]
-	}).(GetTgRouteReportsRouteReportConnectionBgpOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionRoute struct {
-	Prefix string `pulumi:"prefix"`
-}
-
-// GetTgRouteReportsRouteReportConnectionRouteInput is an input type that accepts GetTgRouteReportsRouteReportConnectionRouteArgs and GetTgRouteReportsRouteReportConnectionRouteOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportConnectionRouteInput` via:
-//
-//	GetTgRouteReportsRouteReportConnectionRouteArgs{...}
-type GetTgRouteReportsRouteReportConnectionRouteInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportConnectionRouteOutput() GetTgRouteReportsRouteReportConnectionRouteOutput
-	ToGetTgRouteReportsRouteReportConnectionRouteOutputWithContext(context.Context) GetTgRouteReportsRouteReportConnectionRouteOutput
-}
-
-type GetTgRouteReportsRouteReportConnectionRouteArgs struct {
-	Prefix pulumi.StringInput `pulumi:"prefix"`
-}
-
-func (GetTgRouteReportsRouteReportConnectionRouteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportConnectionRouteArgs) ToGetTgRouteReportsRouteReportConnectionRouteOutput() GetTgRouteReportsRouteReportConnectionRouteOutput {
-	return i.ToGetTgRouteReportsRouteReportConnectionRouteOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportConnectionRouteArgs) ToGetTgRouteReportsRouteReportConnectionRouteOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionRouteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportConnectionRouteOutput)
-}
-
-// GetTgRouteReportsRouteReportConnectionRouteArrayInput is an input type that accepts GetTgRouteReportsRouteReportConnectionRouteArray and GetTgRouteReportsRouteReportConnectionRouteArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportConnectionRouteArrayInput` via:
-//
-//	GetTgRouteReportsRouteReportConnectionRouteArray{ GetTgRouteReportsRouteReportConnectionRouteArgs{...} }
-type GetTgRouteReportsRouteReportConnectionRouteArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportConnectionRouteArrayOutput() GetTgRouteReportsRouteReportConnectionRouteArrayOutput
-	ToGetTgRouteReportsRouteReportConnectionRouteArrayOutputWithContext(context.Context) GetTgRouteReportsRouteReportConnectionRouteArrayOutput
-}
-
-type GetTgRouteReportsRouteReportConnectionRouteArray []GetTgRouteReportsRouteReportConnectionRouteInput
-
-func (GetTgRouteReportsRouteReportConnectionRouteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportConnectionRouteArray) ToGetTgRouteReportsRouteReportConnectionRouteArrayOutput() GetTgRouteReportsRouteReportConnectionRouteArrayOutput {
-	return i.ToGetTgRouteReportsRouteReportConnectionRouteArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportConnectionRouteArray) ToGetTgRouteReportsRouteReportConnectionRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionRouteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportConnectionRouteArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionRouteOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportConnectionRouteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportConnectionRouteOutput) ToGetTgRouteReportsRouteReportConnectionRouteOutput() GetTgRouteReportsRouteReportConnectionRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionRouteOutput) ToGetTgRouteReportsRouteReportConnectionRouteOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionRouteOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportConnectionRoute) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportsRouteReportConnectionRouteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportConnectionRouteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportConnectionRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportConnectionRouteArrayOutput) ToGetTgRouteReportsRouteReportConnectionRouteArrayOutput() GetTgRouteReportsRouteReportConnectionRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionRouteArrayOutput) ToGetTgRouteReportsRouteReportConnectionRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportConnectionRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportConnectionRouteArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportsRouteReportConnectionRouteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportsRouteReportConnectionRoute {
-		return vs[0].([]GetTgRouteReportsRouteReportConnectionRoute)[vs[1].(int)]
-	}).(GetTgRouteReportsRouteReportConnectionRouteOutput)
-}
-
-type GetTgRouteReportsRouteReportOverlappingRoute struct {
-	// Collection of transit gateway overlapping route's details
-	Routes []GetTgRouteReportsRouteReportOverlappingRouteRoute `pulumi:"routes"`
-}
-
-// GetTgRouteReportsRouteReportOverlappingRouteInput is an input type that accepts GetTgRouteReportsRouteReportOverlappingRouteArgs and GetTgRouteReportsRouteReportOverlappingRouteOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportOverlappingRouteInput` via:
-//
-//	GetTgRouteReportsRouteReportOverlappingRouteArgs{...}
-type GetTgRouteReportsRouteReportOverlappingRouteInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportOverlappingRouteOutput() GetTgRouteReportsRouteReportOverlappingRouteOutput
-	ToGetTgRouteReportsRouteReportOverlappingRouteOutputWithContext(context.Context) GetTgRouteReportsRouteReportOverlappingRouteOutput
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteArgs struct {
-	// Collection of transit gateway overlapping route's details
-	Routes GetTgRouteReportsRouteReportOverlappingRouteRouteArrayInput `pulumi:"routes"`
-}
-
-func (GetTgRouteReportsRouteReportOverlappingRouteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteArgs) ToGetTgRouteReportsRouteReportOverlappingRouteOutput() GetTgRouteReportsRouteReportOverlappingRouteOutput {
-	return i.ToGetTgRouteReportsRouteReportOverlappingRouteOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteArgs) ToGetTgRouteReportsRouteReportOverlappingRouteOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportOverlappingRouteOutput)
-}
-
-// GetTgRouteReportsRouteReportOverlappingRouteArrayInput is an input type that accepts GetTgRouteReportsRouteReportOverlappingRouteArray and GetTgRouteReportsRouteReportOverlappingRouteArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportOverlappingRouteArrayInput` via:
-//
-//	GetTgRouteReportsRouteReportOverlappingRouteArray{ GetTgRouteReportsRouteReportOverlappingRouteArgs{...} }
-type GetTgRouteReportsRouteReportOverlappingRouteArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutput() GetTgRouteReportsRouteReportOverlappingRouteArrayOutput
-	ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutputWithContext(context.Context) GetTgRouteReportsRouteReportOverlappingRouteArrayOutput
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteArray []GetTgRouteReportsRouteReportOverlappingRouteInput
-
-func (GetTgRouteReportsRouteReportOverlappingRouteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteArray) ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutput() GetTgRouteReportsRouteReportOverlappingRouteArrayOutput {
-	return i.ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteArray) ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportOverlappingRouteArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportOverlappingRouteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteOutput) ToGetTgRouteReportsRouteReportOverlappingRouteOutput() GetTgRouteReportsRouteReportOverlappingRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteOutput) ToGetTgRouteReportsRouteReportOverlappingRouteOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteOutput {
-	return o
-}
-
-// Collection of transit gateway overlapping route's details
-func (o GetTgRouteReportsRouteReportOverlappingRouteOutput) Routes() GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportOverlappingRoute) []GetTgRouteReportsRouteReportOverlappingRouteRoute {
-		return v.Routes
-	}).(GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportOverlappingRouteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportOverlappingRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteArrayOutput) ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutput() GetTgRouteReportsRouteReportOverlappingRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteArrayOutput) ToGetTgRouteReportsRouteReportOverlappingRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportsRouteReportOverlappingRouteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportsRouteReportOverlappingRoute {
-		return vs[0].([]GetTgRouteReportsRouteReportOverlappingRoute)[vs[1].(int)]
-	}).(GetTgRouteReportsRouteReportOverlappingRouteOutput)
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteRoute struct {
-	ConnectionId string `pulumi:"connectionId"`
-	Prefix       string `pulumi:"prefix"`
-}
-
-// GetTgRouteReportsRouteReportOverlappingRouteRouteInput is an input type that accepts GetTgRouteReportsRouteReportOverlappingRouteRouteArgs and GetTgRouteReportsRouteReportOverlappingRouteRouteOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportOverlappingRouteRouteInput` via:
-//
-//	GetTgRouteReportsRouteReportOverlappingRouteRouteArgs{...}
-type GetTgRouteReportsRouteReportOverlappingRouteRouteInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutput() GetTgRouteReportsRouteReportOverlappingRouteRouteOutput
-	ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutputWithContext(context.Context) GetTgRouteReportsRouteReportOverlappingRouteRouteOutput
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteRouteArgs struct {
-	ConnectionId pulumi.StringInput `pulumi:"connectionId"`
-	Prefix       pulumi.StringInput `pulumi:"prefix"`
-}
-
-func (GetTgRouteReportsRouteReportOverlappingRouteRouteArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteRouteArgs) ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutput() GetTgRouteReportsRouteReportOverlappingRouteRouteOutput {
-	return i.ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteRouteArgs) ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteRouteOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportOverlappingRouteRouteOutput)
-}
-
-// GetTgRouteReportsRouteReportOverlappingRouteRouteArrayInput is an input type that accepts GetTgRouteReportsRouteReportOverlappingRouteRouteArray and GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput values.
-// You can construct a concrete instance of `GetTgRouteReportsRouteReportOverlappingRouteRouteArrayInput` via:
-//
-//	GetTgRouteReportsRouteReportOverlappingRouteRouteArray{ GetTgRouteReportsRouteReportOverlappingRouteRouteArgs{...} }
-type GetTgRouteReportsRouteReportOverlappingRouteRouteArrayInput interface {
-	pulumi.Input
-
-	ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput() GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput
-	ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutputWithContext(context.Context) GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteRouteArray []GetTgRouteReportsRouteReportOverlappingRouteRouteInput
-
-func (GetTgRouteReportsRouteReportOverlappingRouteRouteArray) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteRouteArray) ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput() GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput {
-	return i.ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutputWithContext(context.Background())
-}
-
-func (i GetTgRouteReportsRouteReportOverlappingRouteRouteArray) ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput)
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteRouteOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportOverlappingRouteRouteOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteOutput) ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutput() GetTgRouteReportsRouteReportOverlappingRouteRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteOutput) ToGetTgRouteReportsRouteReportOverlappingRouteRouteOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteRouteOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteOutput) ConnectionId() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportOverlappingRouteRoute) string { return v.ConnectionId }).(pulumi.StringOutput)
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteOutput) Prefix() pulumi.StringOutput {
-	return o.ApplyT(func(v GetTgRouteReportsRouteReportOverlappingRouteRoute) string { return v.Prefix }).(pulumi.StringOutput)
-}
-
-type GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput struct{ *pulumi.OutputState }
-
-func (GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*[]GetTgRouteReportsRouteReportOverlappingRouteRoute)(nil)).Elem()
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput) ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput() GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput) ToGetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutputWithContext(ctx context.Context) GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput {
-	return o
-}
-
-func (o GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput) Index(i pulumi.IntInput) GetTgRouteReportsRouteReportOverlappingRouteRouteOutput {
-	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetTgRouteReportsRouteReportOverlappingRouteRoute {
-		return vs[0].([]GetTgRouteReportsRouteReportOverlappingRouteRoute)[vs[1].(int)]
-	}).(GetTgRouteReportsRouteReportOverlappingRouteRouteOutput)
-}
-
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeletedInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayInput)(nil)).Elem(), GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobInput)(nil)).Elem(), GetIsShareLatestJobArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobArrayInput)(nil)).Elem(), GetIsShareLatestJobArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobStatusReasonInput)(nil)).Elem(), GetIsShareLatestJobStatusReasonArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestJobStatusReasonArrayInput)(nil)).Elem(), GetIsShareLatestJobStatusReasonArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestSyncInput)(nil)).Elem(), GetIsShareLatestSyncArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareLatestSyncArrayInput)(nil)).Elem(), GetIsShareLatestSyncArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetTypeInput)(nil)).Elem(), GetIsShareMountTargetTypeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetTypeArrayInput)(nil)).Elem(), GetIsShareMountTargetTypeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetDeletedInput)(nil)).Elem(), GetIsShareMountTargetDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpArrayInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeletedInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetPrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetPrimaryIpDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetInput)(nil)).Elem(), GetIsShareMountTargetSubnetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetArrayInput)(nil)).Elem(), GetIsShareMountTargetSubnetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetDeletedInput)(nil)).Elem(), GetIsShareMountTargetSubnetDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetSubnetDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetSubnetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceArrayInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeletedInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetVirtualNetworkInterfaceDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcInput)(nil)).Elem(), GetIsShareMountTargetVpcArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcArrayInput)(nil)).Elem(), GetIsShareMountTargetVpcArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcDeletedInput)(nil)).Elem(), GetIsShareMountTargetVpcDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetVpcDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetVpcDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetPrimaryIpDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetSubnetDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetSubnetDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeletedInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareMountTargetsMountTargetVpcDeletedArrayInput)(nil)).Elem(), GetIsShareMountTargetsMountTargetVpcDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareInput)(nil)).Elem(), GetIsShareOriginShareArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareArrayInput)(nil)).Elem(), GetIsShareOriginShareArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareDeletedInput)(nil)).Elem(), GetIsShareOriginShareDeletedArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareDeletedArrayInput)(nil)).Elem(), GetIsShareOriginShareDeletedArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteInput)(nil)).Elem(), GetIsShareOriginShareRemoteArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteArrayInput)(nil)).Elem(), GetIsShareOriginShareRemoteArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteAccountInput)(nil)).Elem(), GetIsShareOriginShareRemoteAccountArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteAccountArrayInput)(nil)).Elem(), GetIsShareOriginShareRemoteAccountArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteRegionInput)(nil)).Elem(), GetIsShareOriginShareRemoteRegionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareOriginShareRemoteRegionArrayInput)(nil)).Elem(), GetIsShareOriginShareRemoteRegionArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocolInput)(nil)).Elem(), GetIsShareProfileAllowedAccessProtocolArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedAccessProtocolArrayInput)(nil)).Elem(), GetIsShareProfileAllowedAccessProtocolArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionModeInput)(nil)).Elem(), GetIsShareProfileAllowedTransitEncryptionModeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAllowedTransitEncryptionModeArrayInput)(nil)).Elem(), GetIsShareProfileAllowedTransitEncryptionModeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAvailabilityModeInput)(nil)).Elem(), GetIsShareProfileAvailabilityModeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileAvailabilityModeArrayInput)(nil)).Elem(), GetIsShareProfileAvailabilityModeArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileBandwidthInput)(nil)).Elem(), GetIsShareProfileBandwidthArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileBandwidthArrayInput)(nil)).Elem(), GetIsShareProfileBandwidthArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileCapacityInput)(nil)).Elem(), GetIsShareProfileCapacityArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileCapacityArrayInput)(nil)).Elem(), GetIsShareProfileCapacityArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetIsShareProfileIopInput)(nil)).Elem(), GetIsShareProfileIopArgs{})
@@ -65573,76 +65312,80 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupDetailsStatusDescriptionErrorArrayInput)(nil)).Elem(), GetPiVolumeGroupDetailsStatusDescriptionErrorArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipInput)(nil)).Elem(), GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipArrayInput)(nil)).Elem(), GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupStatusDescriptionErrorInput)(nil)).Elem(), GetPiVolumeGroupStatusDescriptionErrorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupStatusDescriptionErrorArrayInput)(nil)).Elem(), GetPiVolumeGroupStatusDescriptionErrorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroupInput)(nil)).Elem(), GetPiVolumeGroupsDetailsVolumeGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroupArrayInput)(nil)).Elem(), GetPiVolumeGroupsDetailsVolumeGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorInput)(nil)).Elem(), GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayInput)(nil)).Elem(), GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsVolumeGroupInput)(nil)).Elem(), GetPiVolumeGroupsVolumeGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsVolumeGroupArrayInput)(nil)).Elem(), GetPiVolumeGroupsVolumeGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorInput)(nil)).Elem(), GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayInput)(nil)).Elem(), GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeOnboardingResultsVolumeOnboardingFailureInput)(nil)).Elem(), GetPiVolumeOnboardingResultsVolumeOnboardingFailureArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayInput)(nil)).Elem(), GetPiVolumeOnboardingResultsVolumeOnboardingFailureArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeOnboardingsOnboardingInput)(nil)).Elem(), GetPiVolumeOnboardingsOnboardingArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeOnboardingsOnboardingArrayInput)(nil)).Elem(), GetPiVolumeOnboardingsOnboardingArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeSnapshotsVolumeSnapshotInput)(nil)).Elem(), GetPiVolumeSnapshotsVolumeSnapshotArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumeSnapshotsVolumeSnapshotArrayInput)(nil)).Elem(), GetPiVolumeSnapshotsVolumeSnapshotArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumesVolumeInput)(nil)).Elem(), GetPiVolumesVolumeArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiVolumesVolumeArrayInput)(nil)).Elem(), GetPiVolumesVolumeArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailInput)(nil)).Elem(), GetPiWorkspacePiWorkspaceDetailArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailArrayInput)(nil)).Elem(), GetPiWorkspacePiWorkspaceDetailArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupInput)(nil)).Elem(), GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput)(nil)).Elem(), GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterInput)(nil)).Elem(), GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput)(nil)).Elem(), GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspaceInput)(nil)).Elem(), GetPiWorkspacesWorkspaceArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspaceArrayInput)(nil)).Elem(), GetPiWorkspacesWorkspaceArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailInput)(nil)).Elem(), GetPiWorkspacesWorkspacePiWorkspaceDetailArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailArrayInput)(nil)).Elem(), GetPiWorkspacesWorkspacePiWorkspaceDetailArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupInput)(nil)).Elem(), GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayInput)(nil)).Elem(), GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterInput)(nil)).Elem(), GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayInput)(nil)).Elem(), GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetResourceGroupsResourceGroupInput)(nil)).Elem(), GetResourceGroupsResourceGroupArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetResourceGroupsResourceGroupArrayInput)(nil)).Elem(), GetResourceGroupsResourceGroupArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetResourceReclamationsReclamationInput)(nil)).Elem(), GetResourceReclamationsReclamationArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetResourceReclamationsReclamationArrayInput)(nil)).Elem(), GetResourceReclamationsReclamationArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgConnectionPrefixFiltersPrefixFilterInput)(nil)).Elem(), GetTgConnectionPrefixFiltersPrefixFilterArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgConnectionPrefixFiltersPrefixFilterArrayInput)(nil)).Elem(), GetTgConnectionPrefixFiltersPrefixFilterArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgGatewayConnectionInput)(nil)).Elem(), GetTgGatewayConnectionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgGatewayConnectionArrayInput)(nil)).Elem(), GetTgGatewayConnectionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgGatewayConnectionTunnelInput)(nil)).Elem(), GetTgGatewayConnectionTunnelArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgGatewayConnectionTunnelArrayInput)(nil)).Elem(), GetTgGatewayConnectionTunnelArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgGatewaysTransitGatewayInput)(nil)).Elem(), GetTgGatewaysTransitGatewayArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgGatewaysTransitGatewayArrayInput)(nil)).Elem(), GetTgGatewaysTransitGatewayArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgLocationLocalConnectionLocationInput)(nil)).Elem(), GetTgLocationLocalConnectionLocationArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgLocationLocalConnectionLocationArrayInput)(nil)).Elem(), GetTgLocationLocalConnectionLocationArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgLocationsLocationInput)(nil)).Elem(), GetTgLocationsLocationArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgLocationsLocationArrayInput)(nil)).Elem(), GetTgLocationsLocationArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportConnectionInput)(nil)).Elem(), GetTgRouteReportConnectionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportConnectionArrayInput)(nil)).Elem(), GetTgRouteReportConnectionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportConnectionBgpInput)(nil)).Elem(), GetTgRouteReportConnectionBgpArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportConnectionBgpArrayInput)(nil)).Elem(), GetTgRouteReportConnectionBgpArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportConnectionRouteInput)(nil)).Elem(), GetTgRouteReportConnectionRouteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportConnectionRouteArrayInput)(nil)).Elem(), GetTgRouteReportConnectionRouteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportOverlappingRouteInput)(nil)).Elem(), GetTgRouteReportOverlappingRouteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportOverlappingRouteArrayInput)(nil)).Elem(), GetTgRouteReportOverlappingRouteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportOverlappingRouteRouteInput)(nil)).Elem(), GetTgRouteReportOverlappingRouteRouteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportOverlappingRouteRouteArrayInput)(nil)).Elem(), GetTgRouteReportOverlappingRouteRouteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportInput)(nil)).Elem(), GetTgRouteReportsRouteReportArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportArrayInput)(nil)).Elem(), GetTgRouteReportsRouteReportArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionInput)(nil)).Elem(), GetTgRouteReportsRouteReportConnectionArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionArrayInput)(nil)).Elem(), GetTgRouteReportsRouteReportConnectionArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionBgpInput)(nil)).Elem(), GetTgRouteReportsRouteReportConnectionBgpArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionBgpArrayInput)(nil)).Elem(), GetTgRouteReportsRouteReportConnectionBgpArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionRouteInput)(nil)).Elem(), GetTgRouteReportsRouteReportConnectionRouteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportConnectionRouteArrayInput)(nil)).Elem(), GetTgRouteReportsRouteReportConnectionRouteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRouteInput)(nil)).Elem(), GetTgRouteReportsRouteReportOverlappingRouteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRouteArrayInput)(nil)).Elem(), GetTgRouteReportsRouteReportOverlappingRouteArray{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRouteRouteInput)(nil)).Elem(), GetTgRouteReportsRouteReportOverlappingRouteRouteArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*GetTgRouteReportsRouteReportOverlappingRouteRouteArrayInput)(nil)).Elem(), GetTgRouteReportsRouteReportOverlappingRouteRouteArray{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteAccountArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionOutput{})
+	pulumi.RegisterOutputType(GetIsShareAccessorBindingsAccessorBindingAccessorRemoteRegionArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareLatestJobOutput{})
+	pulumi.RegisterOutputType(GetIsShareLatestJobArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareLatestJobStatusReasonOutput{})
+	pulumi.RegisterOutputType(GetIsShareLatestJobStatusReasonArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareLatestSyncOutput{})
+	pulumi.RegisterOutputType(GetIsShareLatestSyncArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetTypeOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetTypeArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetPrimaryIpDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetSubnetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVirtualNetworkInterfaceDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVpcOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVpcArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVpcDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetVpcDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetPrimaryIpDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetSubnetDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVirtualNetworkInterfaceDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareMountTargetsMountTargetVpcDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareDeletedOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareDeletedArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteAccountOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteAccountArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteRegionOutput{})
+	pulumi.RegisterOutputType(GetIsShareOriginShareRemoteRegionArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileAllowedAccessProtocolOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileAllowedAccessProtocolArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileAllowedTransitEncryptionModeOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileAllowedTransitEncryptionModeArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileAvailabilityModeOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileAvailabilityModeArrayOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileBandwidthOutput{})
+	pulumi.RegisterOutputType(GetIsShareProfileBandwidthArrayOutput{})
 	pulumi.RegisterOutputType(GetIsShareProfileCapacityOutput{})
 	pulumi.RegisterOutputType(GetIsShareProfileCapacityArrayOutput{})
 	pulumi.RegisterOutputType(GetIsShareProfileIopOutput{})
@@ -66569,74 +66312,4 @@ func init() {
 	pulumi.RegisterOutputType(GetPiVolumeGroupDetailsStatusDescriptionErrorArrayOutput{})
 	pulumi.RegisterOutputType(GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipOutput{})
 	pulumi.RegisterOutputType(GetPiVolumeGroupRemoteCopyRelationshipsRemoteCopyRelationshipArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupStatusDescriptionErrorOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupStatusDescriptionErrorArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsDetailsVolumeGroupOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsDetailsVolumeGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsDetailsVolumeGroupStatusDescriptionErrorArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsVolumeGroupOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsVolumeGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeGroupsVolumeGroupStatusDescriptionErrorArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeOnboardingResultsVolumeOnboardingFailureOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeOnboardingResultsVolumeOnboardingFailureArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeOnboardingsOnboardingOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeOnboardingsOnboardingArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeSnapshotsVolumeSnapshotOutput{})
-	pulumi.RegisterOutputType(GetPiVolumeSnapshotsVolumeSnapshotArrayOutput{})
-	pulumi.RegisterOutputType(GetPiVolumesVolumeOutput{})
-	pulumi.RegisterOutputType(GetPiVolumesVolumeArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacePiWorkspaceDetailOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacePiWorkspaceDetailArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspaceOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspaceArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspacePiWorkspaceDetailOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspacePiWorkspaceDetailArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspacePiWorkspaceDetailNetworkSecurityGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterOutput{})
-	pulumi.RegisterOutputType(GetPiWorkspacesWorkspacePiWorkspaceDetailPowerEdgeRouterArrayOutput{})
-	pulumi.RegisterOutputType(GetResourceGroupsResourceGroupOutput{})
-	pulumi.RegisterOutputType(GetResourceGroupsResourceGroupArrayOutput{})
-	pulumi.RegisterOutputType(GetResourceReclamationsReclamationOutput{})
-	pulumi.RegisterOutputType(GetResourceReclamationsReclamationArrayOutput{})
-	pulumi.RegisterOutputType(GetTgConnectionPrefixFiltersPrefixFilterOutput{})
-	pulumi.RegisterOutputType(GetTgConnectionPrefixFiltersPrefixFilterArrayOutput{})
-	pulumi.RegisterOutputType(GetTgGatewayConnectionOutput{})
-	pulumi.RegisterOutputType(GetTgGatewayConnectionArrayOutput{})
-	pulumi.RegisterOutputType(GetTgGatewayConnectionTunnelOutput{})
-	pulumi.RegisterOutputType(GetTgGatewayConnectionTunnelArrayOutput{})
-	pulumi.RegisterOutputType(GetTgGatewaysTransitGatewayOutput{})
-	pulumi.RegisterOutputType(GetTgGatewaysTransitGatewayArrayOutput{})
-	pulumi.RegisterOutputType(GetTgLocationLocalConnectionLocationOutput{})
-	pulumi.RegisterOutputType(GetTgLocationLocalConnectionLocationArrayOutput{})
-	pulumi.RegisterOutputType(GetTgLocationsLocationOutput{})
-	pulumi.RegisterOutputType(GetTgLocationsLocationArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportConnectionOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportConnectionArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportConnectionBgpOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportConnectionBgpArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportConnectionRouteOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportConnectionRouteArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportOverlappingRouteOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportOverlappingRouteArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportOverlappingRouteRouteOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportOverlappingRouteRouteArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportConnectionOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportConnectionArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportConnectionBgpOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportConnectionBgpArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportConnectionRouteOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportConnectionRouteArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportOverlappingRouteOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportOverlappingRouteArrayOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportOverlappingRouteRouteOutput{})
-	pulumi.RegisterOutputType(GetTgRouteReportsRouteReportOverlappingRouteRouteArrayOutput{})
 }
