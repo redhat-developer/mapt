@@ -20,11 +20,11 @@ write_files:
   path: /opt/crc/pull-secret
   permissions: '0644'
 - path: /opt/crc/pass_kubeadmin
-  content: {{ .KubeAdminPassword }}
+  content: {{ printf "%q" .KubeAdminPassword }}
   owner: root:root
   permissions: '0644'
 - path: /opt/crc/pass_developer
-  content: {{ .DeveloperPassword }}
+  content: {{ printf "%q" .DeveloperPassword }}
   owner: root:root
   permissions: '0644'
 - content: |
