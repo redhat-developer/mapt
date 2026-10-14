@@ -64,6 +64,12 @@ Files written to the path defined by `--conn-details-output`:
 | `id_rsa` | Private key for the instance |
 | `kubeconfig` | Kubeconfig for the cluster (API server points to the floating IP via nip.io) |
 
+### Pulumi passphrase handling
+
+The IBM Cloud workflow uses `printf %q` to embed the passphrase safely in a shell command. For example, the passphrase `foo&bar` appears in that command as `foo\&bar`; after shell parsing, Pulumi receives the original `foo&bar`.
+
+JSON may show the same value as `foo\u0026bar`. This is not a different passphrase: `\u0026` is JSON's escape sequence for one `&`. If you copy a passphrase from JSON output, decode it first and use the decoded value, such as `foo&bar`. Do not copy `\u0026` as part of the passphrase. Pulumi uses the exact UTF-8 bytes of the passphrase and does not normalize Unicode, so `foo&bar` and `foo\u0026bar` are different passphrases and produce different encryption keys.
+
 ### Container
 
 ```bash
