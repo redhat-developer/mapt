@@ -17,4 +17,7 @@ type EnvironmentMetadata struct {
 	GatedActions []string `json:"gatedActions,omitempty" yaml:"gatedActions,omitempty"`
 	// OpenRequestNeeded indicates whether an open request is currently needed in order to open the environment.
 	OpenRequestNeeded bool `json:"openRequestNeeded,omitzero" yaml:"openRequestNeeded,omitempty"`
+	// The subject Pulumi signs into OIDC tokens minted by an fn::open::oidc provider declared in this environment. A provider this environment
+	// imports from elsewhere mints the subject of the environment that declares it.
+	OidcSubjectV2 string `json:"oidcSubjectV2,omitempty" yaml:"oidcSubjectV2,omitempty"`
 }

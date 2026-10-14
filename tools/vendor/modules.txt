@@ -170,7 +170,7 @@ github.com/charithe/durationcheck
 # github.com/charmbracelet/colorprofile v0.4.3
 ## explicit; go 1.25.0
 github.com/charmbracelet/colorprofile
-# github.com/charmbracelet/ultraviolet v0.0.0-20261001125412-878653296cfd
+# github.com/charmbracelet/ultraviolet v0.0.0-20261008173134-6b8d4baf91b4
 ## explicit; go 1.26.0
 github.com/charmbracelet/ultraviolet
 # github.com/charmbracelet/x/ansi v0.11.9
@@ -585,8 +585,8 @@ github.com/julz/importas
 # github.com/karamaru-alpha/copyloopvar v1.2.2
 ## explicit; go 1.24.0
 github.com/karamaru-alpha/copyloopvar
-# github.com/kisielk/errcheck v1.20.0
-## explicit; go 1.25.0
+# github.com/kisielk/errcheck v1.30.0
+## explicit; go 1.26.0
 github.com/kisielk/errcheck/errcheck
 # github.com/kkHAIKE/contextcheck v1.1.6
 ## explicit; go 1.23.0
@@ -718,8 +718,8 @@ github.com/pelletier/go-toml/v2
 github.com/pelletier/go-toml/v2/internal/parserbridge
 github.com/pelletier/go-toml/v2/internal/tracker
 github.com/pelletier/go-toml/v2/unstable
-# github.com/prometheus/client_golang v1.24.1
-## explicit; go 1.25.0
+# github.com/prometheus/client_golang v1.25.0
+## explicit; go 1.26.0
 github.com/prometheus/client_golang/prometheus
 github.com/prometheus/client_golang/prometheus/internal
 github.com/prometheus/client_golang/prometheus/testutil/promlint
@@ -859,8 +859,8 @@ github.com/ssgreg/nlreturn/v2/pkg/nlreturn
 # github.com/stbenjam/no-sprintf-host-port v0.3.1
 ## explicit; go 1.24.0
 github.com/stbenjam/no-sprintf-host-port/pkg/analyzer
-# github.com/stretchr/objx v0.5.3
-## explicit; go 1.20
+# github.com/stretchr/objx v0.7.0
+## explicit; go 1.25
 github.com/stretchr/objx
 # github.com/stretchr/testify v1.12.1
 ## explicit; go 1.17
@@ -878,11 +878,12 @@ github.com/tetafro/godot
 # github.com/timakin/bodyclose v0.0.0-20260923065923-98ded9ab4ef2
 ## explicit; go 1.22.0
 github.com/timakin/bodyclose/passes/bodyclose
-# github.com/timonwong/loggercheck v0.12.1
+# github.com/timonwong/loggercheck v0.13.0
 ## explicit; go 1.26.0
 github.com/timonwong/loggercheck
 github.com/timonwong/loggercheck/internal/checkers
 github.com/timonwong/loggercheck/internal/checkers/printf
+github.com/timonwong/loggercheck/internal/nilness
 github.com/timonwong/loggercheck/internal/rules
 github.com/timonwong/loggercheck/internal/sets
 github.com/timonwong/loggercheck/internal/stringutil
@@ -960,10 +961,10 @@ go.uber.org/zap/zapcore
 # go.yaml.in/yaml/v3 v3.0.5
 ## explicit; go 1.16
 go.yaml.in/yaml/v3
-# golang.org/x/exp/typeparams v0.0.0-20261005173118-76772065c9b0
+# golang.org/x/exp/typeparams v0.0.0-20261011100332-faecfb24eb49
 ## explicit; go 1.26.0
 golang.org/x/exp/typeparams
-# golang.org/x/mod v0.41.0
+# golang.org/x/mod v0.42.0
 ## explicit; go 1.26.0
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/modfile
@@ -1001,7 +1002,7 @@ golang.org/x/text/runes
 golang.org/x/text/transform
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# golang.org/x/tools v0.51.0
+# golang.org/x/tools v0.52.0
 ## explicit; go 1.26.0
 golang.org/x/tools/go/analysis
 golang.org/x/tools/go/analysis/passes/appends
@@ -1078,6 +1079,7 @@ golang.org/x/tools/internal/analysis/intconv
 golang.org/x/tools/internal/analysis/typeindex
 golang.org/x/tools/internal/astutil
 golang.org/x/tools/internal/astutil/free
+golang.org/x/tools/internal/cursorutil
 golang.org/x/tools/internal/event
 golang.org/x/tools/internal/event/core
 golang.org/x/tools/internal/event/keys
@@ -1345,9 +1347,9 @@ mvdan.cc/gofumpt/internal/govendor/go/doc/comment
 mvdan.cc/gofumpt/internal/govendor/go/format
 mvdan.cc/gofumpt/internal/govendor/go/printer
 mvdan.cc/gofumpt/internal/version
-# mvdan.cc/unparam v0.0.0-20260823230713-2fa3d841b0c8
+# mvdan.cc/unparam v0.0.0-20261011093844-7a2c2c0b7aa6
 ## explicit; go 1.26.0
 mvdan.cc/unparam/check
 # github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.2.1
-# github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.10
+# github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.1.0
 # github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.6

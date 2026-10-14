@@ -27,6 +27,9 @@ type OrganizationMetadata struct {
 	SubscriptionTrialEnd *int64 `json:"subscriptionTrialEnd,omitzero" yaml:"subscriptionTrialEnd,omitempty"`
 	// The time when the organization's active retrial expires, if it is on a retrial.
 	RetrialExpiration *time.Time `json:"retrialExpiration,omitempty" yaml:"retrialExpiration,omitempty"`
+	// The plan whose features the organization's active retrial grants, if it is on a retrial. The product field keeps reporting the plan the
+	// organization is subscribed to.
+	RetrialProduct *SaasOffer `json:"retrialProduct,omitempty" yaml:"retrialProduct,omitempty"`
 	// Whether the subscription will be canceled at the end of the current billing period.
 	SubscriptionCancelAtPeriodEnd *bool `json:"subscriptionCancelAtPeriodEnd,omitzero" yaml:"subscriptionCancelAtPeriodEnd,omitempty"`
 	// The time when the current subscription or license period ends. For SaaS subscriptions this is the Stripe billing period end. For
