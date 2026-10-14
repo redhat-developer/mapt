@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset@sha256:890b54e8d329f33f094ab17881bd37e20b80a54cc39141637310911d8dd9c575 as builder
+FROM registry.access.redhat.com/ubi9/go-toolset@sha256:6f246e8913d082df463b62a74c72f0d2b410583e1b2ac48add39cd7ede59ce62 as builder
 ARG TARGETARCH
 USER root
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -6,7 +6,7 @@ WORKDIR /workspace
 COPY . .
 
 # renovate: datasource=github-releases depName=pulumi/pulumi
-ENV PULUMI_VERSION 3.267.0
+ENV PULUMI_VERSION 3.268.0
 ENV PULUMI_BASE_URL="https://github.com/pulumi/pulumi/releases/download/v${PULUMI_VERSION}/pulumi-v${PULUMI_VERSION}"
 ENV PULUMI_URL="${PULUMI_BASE_URL}-linux-x64.tar.gz"
 
@@ -20,9 +20,9 @@ RUN unset VERSION \
 
 # Pulumi plugins — installed in build stage, copied into runtime
 # renovate: datasource=github-releases depName=pulumi/pulumi-aws
-ARG PULUMI_AWS_VERSION=v7.48.0
+ARG PULUMI_AWS_VERSION=v7.50.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-awsx
-ARG PULUMI_AWSX_VERSION=v3.10.0
+ARG PULUMI_AWSX_VERSION=v3.11.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-azure-native
 ARG PULUMI_AZURE_NATIVE_VERSION=v3.28.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-command
@@ -59,7 +59,7 @@ RUN mkdir -p ${PULUMI_HOME} \
     && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
 
 # Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
-FROM registry.access.redhat.com/hi/core-runtime@sha256:dbe63cc0af0d272c897f5e136173c9670f991deede43867f59876066dd6c4e5b
+FROM registry.access.redhat.com/hi/core-runtime@sha256:1abbb3f306dd1df28c46415def816056247cf850b861655097d46af971746f9b
 USER 0
 ARG TARGETARCH
 LABEL org.opencontainers.image.authors="Redhat Developer"

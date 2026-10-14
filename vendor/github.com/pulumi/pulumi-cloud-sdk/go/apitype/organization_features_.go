@@ -180,6 +180,8 @@ type OrganizationFeatures struct {
 	NeoAgentTaskRBACEnforcementEnabled bool `json:"neoAgentTaskRbacEnforcementEnabled,omitzero" yaml:"neoAgentTaskRbacEnforcementEnabled,omitempty"`
 	// Whether one-click Link express checkout is enabled for adding a payment method.
 	LinkExpressCheckoutEnabled bool `json:"linkExpressCheckoutEnabled,omitzero" yaml:"linkExpressCheckoutEnabled,omitempty"`
-	// Whether an environment can hold one open draft per author rather than one in total.
+	// Deprecated. Always true: an environment holds one open draft per author.
 	MultiChangeRequestsEnabled bool `json:"multiChangeRequestsEnabled,omitzero" yaml:"multiChangeRequestsEnabled,omitempty"`
+	// Whether the Pulumi Agents workspace navigation is enabled.
+	AgentsAsTeamMembersEnabled bool `json:"agentsAsTeamMembersEnabled,omitzero" yaml:"agentsAsTeamMembersEnabled,omitempty"`
 }

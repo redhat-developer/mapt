@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2024, 2025, 2026.
+ * (C) Copyright IBM Corp. 2020, 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ type VpcV1 struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-09-01`
-	// and `2026-09-28`.
+	// and `2026-10-06`.
 	Version *string
 }
 
@@ -68,7 +68,7 @@ type VpcV1Options struct {
 	Generation *int64
 
 	// The API version, in format `YYYY-MM-DD`. For the API behavior documented here, specify any date between `2026-09-01`
-	// and `2026-09-28`.
+	// and `2026-10-06`.
 	Version *string
 }
 
@@ -133,7 +133,7 @@ func NewVpcV1(options *VpcV1Options) (service *VpcV1, err error) {
 	}
 
 	if options.Version == nil {
-		options.Version = core.StringPtr("2026-09-24")
+		options.Version = core.StringPtr("2026-10-06")
 	}
 
 	service = &VpcV1{
@@ -35723,6 +35723,238 @@ func (vpc *VpcV1) AddVPNGatewayConnectionsPeerCIDRWithContext(ctx context.Contex
 	return
 }
 
+// ListVPNGatewayMembers : List members of a VPN gateway
+// This request lists members of a VPN gateway.
+func (vpc *VpcV1) ListVPNGatewayMembers(listVPNGatewayMembersOptions *ListVPNGatewayMembersOptions) (result *VPNGatewayMemberCollection, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.ListVPNGatewayMembersWithContext(context.Background(), listVPNGatewayMembersOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ListVPNGatewayMembersWithContext is an alternate form of the ListVPNGatewayMembers method which supports a Context parameter
+func (vpc *VpcV1) ListVPNGatewayMembersWithContext(ctx context.Context, listVPNGatewayMembersOptions *ListVPNGatewayMembersOptions) (result *VPNGatewayMemberCollection, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(listVPNGatewayMembersOptions, "listVPNGatewayMembersOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(listVPNGatewayMembersOptions, "listVPNGatewayMembersOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_gateway_id": *listVPNGatewayMembersOptions.VPNGatewayID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/members`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ListVPNGatewayMembers")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range listVPNGatewayMembersOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "list_vpn_gateway_members", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNGatewayMemberCollection)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// GetVPNGatewayMember : Retrieve a VPN gateway member
+// This request retrieves a single VPN gateway member specified by the identifier in the URL.
+func (vpc *VpcV1) GetVPNGatewayMember(getVPNGatewayMemberOptions *GetVPNGatewayMemberOptions) (result *VPNGatewayMember, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.GetVPNGatewayMemberWithContext(context.Background(), getVPNGatewayMemberOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// GetVPNGatewayMemberWithContext is an alternate form of the GetVPNGatewayMember method which supports a Context parameter
+func (vpc *VpcV1) GetVPNGatewayMemberWithContext(ctx context.Context, getVPNGatewayMemberOptions *GetVPNGatewayMemberOptions) (result *VPNGatewayMember, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getVPNGatewayMemberOptions, "getVPNGatewayMemberOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(getVPNGatewayMemberOptions, "getVPNGatewayMemberOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_gateway_id": *getVPNGatewayMemberOptions.VPNGatewayID,
+		"id":             *getVPNGatewayMemberOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.GET)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/members/{id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "GetVPNGatewayMember")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range getVPNGatewayMemberOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "get_vpn_gateway_member", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNGatewayMember)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
+// ReplaceVPNGatewayMember : Replace a VPN gateway member
+// This request sets the subnet for a VPN gateway member by moving it to a new subnet.
+//
+// The existing reserved IP for `private_ip` will be unbound and a new reserved IP will be allocated from the provided
+// subnet.
+func (vpc *VpcV1) ReplaceVPNGatewayMember(replaceVPNGatewayMemberOptions *ReplaceVPNGatewayMemberOptions) (result *VPNGatewayMember, response *core.DetailedResponse, err error) {
+	result, response, err = vpc.ReplaceVPNGatewayMemberWithContext(context.Background(), replaceVPNGatewayMemberOptions)
+	err = core.RepurposeSDKProblem(err, "")
+	return
+}
+
+// ReplaceVPNGatewayMemberWithContext is an alternate form of the ReplaceVPNGatewayMember method which supports a Context parameter
+func (vpc *VpcV1) ReplaceVPNGatewayMemberWithContext(ctx context.Context, replaceVPNGatewayMemberOptions *ReplaceVPNGatewayMemberOptions) (result *VPNGatewayMember, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(replaceVPNGatewayMemberOptions, "replaceVPNGatewayMemberOptions cannot be nil")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "unexpected-nil-param", common.GetComponentInfo())
+		return
+	}
+	err = core.ValidateStruct(replaceVPNGatewayMemberOptions, "replaceVPNGatewayMemberOptions")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "struct-validation-error", common.GetComponentInfo())
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"vpn_gateway_id": *replaceVPNGatewayMemberOptions.VPNGatewayID,
+		"id":             *replaceVPNGatewayMemberOptions.ID,
+	}
+
+	builder := core.NewRequestBuilder(core.PUT)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = vpc.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(vpc.Service.Options.URL, `/vpn_gateways/{vpn_gateway_id}/members/{id}`, pathParamsMap)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "url-resolve-error", common.GetComponentInfo())
+		return
+	}
+
+	sdkHeaders := common.GetSdkHeaders("vpc", "V1", "ReplaceVPNGatewayMember")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	for headerName, headerValue := range replaceVPNGatewayMemberOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	builder.AddQuery("version", fmt.Sprint(*vpc.Version))
+	builder.AddQuery("generation", fmt.Sprint(*vpc.Generation))
+
+	body := make(map[string]interface{})
+	if replaceVPNGatewayMemberOptions.PrivateIP != nil {
+		body["private_ip"] = replaceVPNGatewayMemberOptions.PrivateIP
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "set-json-body-error", common.GetComponentInfo())
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		err = core.SDKErrorf(err, "", "build-error", common.GetComponentInfo())
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = vpc.Service.Request(request, &rawResponse)
+	if err != nil {
+		core.EnrichHTTPProblem(err, "replace_vpn_gateway_member", getServiceComponentInfo())
+		err = core.SDKErrorf(err, "", "http-request-err", common.GetComponentInfo())
+		return
+	}
+	if rawResponse != nil {
+		err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalVPNGatewayMember)
+		if err != nil {
+			err = core.SDKErrorf(err, "", "unmarshal-resp-error", common.GetComponentInfo())
+			return
+		}
+		response.Result = result
+	}
+
+	return
+}
+
 // ListVPNGatewayServiceConnections : List VPN gateway service connections
 // This request lists service connections on a VPN gateway. The VPN gateway service connections will be sorted by
 // ascending `created_at` property values. A VPN gateway service connection connects services such as transit gateway to
@@ -37027,7 +37259,7 @@ func (vpc *VpcV1) UpdateVPNServerRouteWithContext(ctx context.Context, updateVPN
 	return
 }
 func getServiceComponentInfo() *core.ProblemComponent {
-	return core.NewProblemComponent(DefaultServiceName, "2026-09-24")
+	return core.NewProblemComponent(DefaultServiceName, "2026-10-06")
 }
 
 // AccountIdentity : Identifies an account by a unique property.
@@ -63292,6 +63524,44 @@ func (options *GetVPNGatewayConnectionOptions) SetHeaders(param map[string]strin
 	return options
 }
 
+// GetVPNGatewayMemberOptions : The GetVPNGatewayMember options.
+type GetVPNGatewayMemberOptions struct {
+	// The VPN gateway identifier.
+	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+
+	// The VPN gateway member identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewGetVPNGatewayMemberOptions : Instantiate GetVPNGatewayMemberOptions
+func (*VpcV1) NewGetVPNGatewayMemberOptions(vpnGatewayID string, id string) *GetVPNGatewayMemberOptions {
+	return &GetVPNGatewayMemberOptions{
+		VPNGatewayID: core.StringPtr(vpnGatewayID),
+		ID:           core.StringPtr(id),
+	}
+}
+
+// SetVPNGatewayID : Allow user to set VPNGatewayID
+func (_options *GetVPNGatewayMemberOptions) SetVPNGatewayID(vpnGatewayID string) *GetVPNGatewayMemberOptions {
+	_options.VPNGatewayID = core.StringPtr(vpnGatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *GetVPNGatewayMemberOptions) SetID(id string) *GetVPNGatewayMemberOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetVPNGatewayMemberOptions) SetHeaders(param map[string]string) *GetVPNGatewayMemberOptions {
+	options.Headers = param
+	return options
+}
+
 // GetVPNGatewayOptions : The GetVPNGateway options.
 type GetVPNGatewayOptions struct {
 	// The VPN gateway identifier.
@@ -82496,6 +82766,34 @@ func (options *ListVPNGatewayConnectionsPeerCIDRsOptions) SetHeaders(param map[s
 	return options
 }
 
+// ListVPNGatewayMembersOptions : The ListVPNGatewayMembers options.
+type ListVPNGatewayMembersOptions struct {
+	// The VPN gateway identifier.
+	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewListVPNGatewayMembersOptions : Instantiate ListVPNGatewayMembersOptions
+func (*VpcV1) NewListVPNGatewayMembersOptions(vpnGatewayID string) *ListVPNGatewayMembersOptions {
+	return &ListVPNGatewayMembersOptions{
+		VPNGatewayID: core.StringPtr(vpnGatewayID),
+	}
+}
+
+// SetVPNGatewayID : Allow user to set VPNGatewayID
+func (_options *ListVPNGatewayMembersOptions) SetVPNGatewayID(vpnGatewayID string) *ListVPNGatewayMembersOptions {
+	_options.VPNGatewayID = core.StringPtr(vpnGatewayID)
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ListVPNGatewayMembersOptions) SetHeaders(param map[string]string) *ListVPNGatewayMembersOptions {
+	options.Headers = param
+	return options
+}
+
 // ListVPNGatewayServiceConnectionsOptions : The ListVPNGatewayServiceConnections options.
 type ListVPNGatewayServiceConnectionsOptions struct {
 	// The VPN gateway identifier.
@@ -85188,13 +85486,13 @@ func UnmarshalLoadBalancerListenerPolicyTarget(m map[string]json.RawMessage, res
 
 // LoadBalancerListenerPolicyTargetPatch : - If `action` is `forward_to_listener`, specify a `LoadBalancerListenerIdentity` for a
 //
-//	listener in this load balancer.
-//   - If `action` is `forward_to_pool`, specify a `LoadBalancerPoolIdentity` for a pool in
-//     this load balancer.
-//   - If `action` is `https_redirect`, specify a
-//     `LoadBalancerListenerPolicyHTTPSRedirectPatch` for a listener in this load balancer
-//     with a `protocol` of `https`.
-//   - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
+//		listener in this load balancer.
+//	  - If `action` is `forward_to_pool`, specify a `LoadBalancerPoolIdentity` for a pool in
+//	    this load balancer.
+//	  - If `action` is `https_redirect`, specify a
+//	    `LoadBalancerListenerPolicyHTTPSRedirectPatch` for a listener in this load balancer
+//	    with a `protocol` of `https`.
+//	  - If `action` is `redirect`, specify a `LoadBalancerListenerPolicyRedirectURLPatch`.
 //
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPatchLoadBalancerPoolIdentity
@@ -85313,14 +85611,14 @@ func (loadBalancerListenerPolicyTargetPatch *LoadBalancerListenerPolicyTargetPat
 
 // LoadBalancerListenerPolicyTargetPrototype : - If `action` is `forward_to_listener`, specify a `LoadBalancerListenerIdentity` in this
 //
-//	load balancer to forward to.
-//   - If `action` is `forward_to_pool`, use `LoadBalancerPoolIdentity` to specify a pool in
-//     this load balancer to forward to.
-//   - If `action` is `https_redirect`, use
-//     `LoadBalancerListenerPolicyHTTPSRedirectPrototype` to specify a listener on this
-//     load balancer to redirect to.
-//   - If `action` is `redirect`, use `LoadBalancerListenerPolicyRedirectURLPrototype`to
-//     specify a URL to redirect to.
+//		load balancer to forward to.
+//	  - If `action` is `forward_to_pool`, use `LoadBalancerPoolIdentity` to specify a pool in
+//	    this load balancer to forward to.
+//	  - If `action` is `https_redirect`, use
+//	    `LoadBalancerListenerPolicyHTTPSRedirectPrototype` to specify a listener on this
+//	    load balancer to redirect to.
+//	  - If `action` is `redirect`, use `LoadBalancerListenerPolicyRedirectURLPrototype`to
+//	    specify a URL to redirect to.
 //
 // Models which "extend" this model:
 // - LoadBalancerListenerPolicyTargetPrototypeLoadBalancerPoolIdentity
@@ -98088,6 +98386,57 @@ func (options *ReplaceSubnetRoutingTableOptions) SetHeaders(param map[string]str
 	return options
 }
 
+// ReplaceVPNGatewayMemberOptions : The ReplaceVPNGatewayMember options.
+type ReplaceVPNGatewayMemberOptions struct {
+	// The VPN gateway identifier.
+	VPNGatewayID *string `json:"vpn_gateway_id" validate:"required,ne="`
+
+	// The VPN gateway member identifier.
+	ID *string `json:"id" validate:"required,ne="`
+
+	// The identity of the subnet to which the VPN Gateway member will be relocated.
+	//
+	// A reserved IP will be allocated from the specified `subnet` and assigned to the VPN
+	// gateway member.
+	PrivateIP VPNGatewayMemberPrivateIPPrototypeIntf `json:"private_ip" validate:"required"`
+
+	// Allows users to set headers on API requests.
+	Headers map[string]string
+}
+
+// NewReplaceVPNGatewayMemberOptions : Instantiate ReplaceVPNGatewayMemberOptions
+func (*VpcV1) NewReplaceVPNGatewayMemberOptions(vpnGatewayID string, id string, privateIP VPNGatewayMemberPrivateIPPrototypeIntf) *ReplaceVPNGatewayMemberOptions {
+	return &ReplaceVPNGatewayMemberOptions{
+		VPNGatewayID: core.StringPtr(vpnGatewayID),
+		ID:           core.StringPtr(id),
+		PrivateIP:    privateIP,
+	}
+}
+
+// SetVPNGatewayID : Allow user to set VPNGatewayID
+func (_options *ReplaceVPNGatewayMemberOptions) SetVPNGatewayID(vpnGatewayID string) *ReplaceVPNGatewayMemberOptions {
+	_options.VPNGatewayID = core.StringPtr(vpnGatewayID)
+	return _options
+}
+
+// SetID : Allow user to set ID
+func (_options *ReplaceVPNGatewayMemberOptions) SetID(id string) *ReplaceVPNGatewayMemberOptions {
+	_options.ID = core.StringPtr(id)
+	return _options
+}
+
+// SetPrivateIP : Allow user to set PrivateIP
+func (_options *ReplaceVPNGatewayMemberOptions) SetPrivateIP(privateIP VPNGatewayMemberPrivateIPPrototypeIntf) *ReplaceVPNGatewayMemberOptions {
+	_options.PrivateIP = privateIP
+	return _options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *ReplaceVPNGatewayMemberOptions) SetHeaders(param map[string]string) *ReplaceVPNGatewayMemberOptions {
+	options.Headers = param
+	return options
+}
+
 // Reservation : Reservation struct
 type Reservation struct {
 	// The affinity policy to use for this reservation:
@@ -99625,6 +99974,83 @@ func UnmarshalReservedIPReference(m map[string]json.RawMessage, result interface
 	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ReservedIPReferenceVPNGatewayMemberContext : ReservedIPReferenceVPNGatewayMemberContext struct
+type ReservedIPReferenceVPNGatewayMemberContext struct {
+	// The IP address.
+	//
+	// If the address has not yet been selected, the value will be `0.0.0.0`.
+	//
+	// This property may [expand](https://cloud.ibm.com/apidocs/vpc#property-value-expansion) to support IPv6 addresses in
+	// the future.
+	Address *string `json:"address" validate:"required"`
+
+	// If present, this property indicates the referenced resource has been deleted, and provides
+	// some supplementary information.
+	Deleted *Deleted `json:"deleted,omitempty"`
+
+	// The URL for this reserved IP.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this reserved IP.
+	ID *string `json:"id" validate:"required"`
+
+	// The name for this reserved IP. The name is unique across all reserved IPs in a subnet.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	Subnet *SubnetReference `json:"subnet" validate:"required"`
+}
+
+// Constants associated with the ReservedIPReferenceVPNGatewayMemberContext.ResourceType property.
+// The resource type.
+const (
+	ReservedIPReferenceVPNGatewayMemberContextResourceTypeSubnetReservedIPConst = "subnet_reserved_ip"
+)
+
+// UnmarshalReservedIPReferenceVPNGatewayMemberContext unmarshals an instance of ReservedIPReferenceVPNGatewayMemberContext from the specified map of raw messages.
+func UnmarshalReservedIPReferenceVPNGatewayMemberContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ReservedIPReferenceVPNGatewayMemberContext)
+	err = core.UnmarshalPrimitive(m, "address", &obj.Address)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "address-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "deleted", &obj.Deleted, UnmarshalDeleted)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "deleted-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -116046,8 +116472,8 @@ func UnmarshalVPCRemote(m map[string]json.RawMessage, result interface{}) (err e
 
 // VPNGateway : VPNGateway struct
 // Models which "extend" this model:
-// - VPNGatewayPolicyMode
-// - VPNGatewayRouteMode
+// - VPNGatewayRegionalAvailabilityMode
+// - VPNGatewayZonalAvailabilityMode
 type VPNGateway struct {
 	// The connections for this VPN gateway.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
@@ -116094,13 +116520,15 @@ type VPNGateway struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	Subnet *SubnetReference `json:"subnet" validate:"required"`
+	Subnet *SubnetReference `json:"subnet,omitempty"`
 
 	// The VPC this VPN gateway resides in.
 	VPC *VPCReference `json:"vpc" validate:"required"`
 
-	// The mode for this VPN gateway.
-	Mode *string `json:"mode,omitempty"`
+	// The availability mode of the VPN gateway:
+	// - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+	//   provides zone-level redundancy.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
 
 	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
 	// advertise routes with these CIDRs as route destinations.
@@ -116108,6 +116536,9 @@ type VPNGateway struct {
 
 	// The local autonomous system number (ASN) for this VPN gateway and its connections.
 	LocalAsn *int64 `json:"local_asn,omitempty"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
 }
 
 // Constants associated with the VPNGateway.HealthState property.
@@ -116143,10 +116574,18 @@ const (
 	VPNGatewayResourceTypeVPNGatewayConst = "vpn_gateway"
 )
 
+// Constants associated with the VPNGateway.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+//     provides zone-level redundancy.
+const (
+	VPNGatewayAvailabilityModeRegionalConst = "regional"
+)
+
 // Constants associated with the VPNGateway.Mode property.
 // The mode for this VPN gateway.
 const (
-	VPNGatewayModePolicyConst = "policy"
+	VPNGatewayModeRouteConst = "route"
 )
 
 func (*VPNGateway) isaVPNGateway() bool {
@@ -116235,9 +116674,9 @@ func UnmarshalVPNGateway(m map[string]json.RawMessage, result interface{}) (err 
 		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
@@ -116248,6 +116687,11 @@ func UnmarshalVPNGateway(m map[string]json.RawMessage, result interface{}) (err 
 	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -116404,8 +116848,13 @@ type VPNGatewayConnection struct {
 	StatusReasons []VPNGatewayConnectionStatusReason `json:"status_reasons" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address.
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
 	DistributeTraffic *bool `json:"distribute_traffic,omitempty"`
 
 	Local *VPNGatewayConnectionStaticRouteModeLocal `json:"local,omitempty"`
@@ -117293,8 +117742,15 @@ type VPNGatewayConnectionPatch struct {
 	DeadPeerDetection *VPNGatewayConnectionDpdPatch `json:"dead_peer_detection,omitempty"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address. Before enabling it on VPN connections to on-prem private networks, review
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
+	//
+	// Before enabling it on VPN connections to on-prem private networks, review
 	// [distributing traffic
 	// restrictions](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-limitations#distributing-traffic-restrictions).
 	//
@@ -117768,8 +118224,15 @@ type VPNGatewayConnectionPrototype struct {
 	Psk *string `json:"psk" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address. Before enabling it on VPN connections to on-prem private networks, review
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
+	//
+	// Before enabling it on VPN connections to on-prem private networks, review
 	// [distributing traffic
 	// restrictions](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-limitations#distributing-traffic-restrictions).
 	DistributeTraffic *bool `json:"distribute_traffic,omitempty"`
@@ -118481,6 +118944,12 @@ type VPNGatewayMember struct {
 	//    health state of `inapplicable`. A `pending` resource may also have this state.
 	HealthState *string `json:"health_state" validate:"required"`
 
+	// The URL for this VPN gateway member.
+	Href *string `json:"href,omitempty"`
+
+	// The unique identifier for this VPN gateway member.
+	ID *string `json:"id,omitempty"`
+
 	// The reasons for the current `lifecycle_state` (if any).
 	LifecycleReasons []VPNGatewayMemberLifecycleReason `json:"lifecycle_reasons" validate:"required"`
 
@@ -118490,7 +118959,7 @@ type VPNGatewayMember struct {
 	// The reserved IP address assigned to the VPN gateway member.
 	//
 	// This property will be present only when the VPN gateway status is `available`.
-	PrivateIP *ReservedIPReference `json:"private_ip" validate:"required"`
+	PrivateIP *ReservedIPReferenceVPNGatewayMemberContext `json:"private_ip" validate:"required"`
 
 	// The public IP address assigned to the VPN gateway member.
 	PublicIP *IP `json:"public_ip" validate:"required"`
@@ -118552,6 +119021,16 @@ func UnmarshalVPNGatewayMember(m map[string]json.RawMessage, result interface{})
 		err = core.SDKErrorf(err, "", "health_state-error", common.GetComponentInfo())
 		return
 	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
 	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalVPNGatewayMemberLifecycleReason)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "lifecycle_reasons-error", common.GetComponentInfo())
@@ -118562,7 +119041,7 @@ func UnmarshalVPNGatewayMember(m map[string]json.RawMessage, result interface{})
 		err = core.SDKErrorf(err, "", "lifecycle_state-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "private_ip", &obj.PrivateIP, UnmarshalReservedIPReference)
+	err = core.UnmarshalModel(m, "private_ip", &obj.PrivateIP, UnmarshalReservedIPReferenceVPNGatewayMemberContext)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "private_ip-error", common.GetComponentInfo())
 		return
@@ -118575,6 +119054,57 @@ func UnmarshalVPNGatewayMember(m map[string]json.RawMessage, result interface{})
 	err = core.UnmarshalPrimitive(m, "role", &obj.Role)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "role-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayMemberCollection : VPNGatewayMemberCollection struct
+type VPNGatewayMemberCollection struct {
+	// A link to the first page of resources.
+	First *PageLink `json:"first" validate:"required"`
+
+	// The maximum number of resources that can be returned by the request.
+	Limit *int64 `json:"limit" validate:"required"`
+
+	// The members for the VPN gateway.
+	Members []VPNGatewayMember `json:"members" validate:"required"`
+
+	// A link to the next page of resources. This property is present for all pages
+	// except the last page.
+	Next *PageLink `json:"next,omitempty"`
+
+	// The total number of resources across all pages.
+	TotalCount *int64 `json:"total_count" validate:"required"`
+}
+
+// UnmarshalVPNGatewayMemberCollection unmarshals an instance of VPNGatewayMemberCollection from the specified map of raw messages.
+func UnmarshalVPNGatewayMemberCollection(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayMemberCollection)
+	err = core.UnmarshalModel(m, "first", &obj.First, UnmarshalPageLink)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "first-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "limit", &obj.Limit)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "limit-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMember)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "next", &obj.Next, UnmarshalPageLink)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "next-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "total_count", &obj.TotalCount)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "total_count-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -118687,8 +119217,73 @@ func UnmarshalVPNGatewayMemberLifecycleReason(m map[string]json.RawMessage, resu
 	return
 }
 
+// VPNGatewayMemberPrivateIPPrototype : VPNGatewayMemberPrivateIPPrototype struct
+// Models which "extend" this model:
+// - VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext
+type VPNGatewayMemberPrivateIPPrototype struct {
+	// Identifies a subnet by a unique property.
+	Subnet SubnetIdentityIntf `json:"subnet,omitempty"`
+}
+
+func (*VPNGatewayMemberPrivateIPPrototype) isaVPNGatewayMemberPrivateIPPrototype() bool {
+	return true
+}
+
+type VPNGatewayMemberPrivateIPPrototypeIntf interface {
+	isaVPNGatewayMemberPrivateIPPrototype() bool
+}
+
+// UnmarshalVPNGatewayMemberPrivateIPPrototype unmarshals an instance of VPNGatewayMemberPrivateIPPrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayMemberPrivateIPPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayMemberPrivateIPPrototype)
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayMemberPrototype : VPNGatewayMemberPrototype struct
+type VPNGatewayMemberPrototype struct {
+	// The identity of the subnet the VPN Gateway member will reside in.
+	//
+	// A reserved IP will be allocated from the specified `subnet` and assigned to the VPN
+	// gateway member.
+	PrivateIP VPNGatewayMemberPrivateIPPrototypeIntf `json:"private_ip" validate:"required"`
+}
+
+// NewVPNGatewayMemberPrototype : Instantiate VPNGatewayMemberPrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayMemberPrototype(privateIP VPNGatewayMemberPrivateIPPrototypeIntf) (_model *VPNGatewayMemberPrototype, err error) {
+	_model = &VPNGatewayMemberPrototype{
+		PrivateIP: privateIP,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+// UnmarshalVPNGatewayMemberPrototype unmarshals an instance of VPNGatewayMemberPrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayMemberPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayMemberPrototype)
+	err = core.UnmarshalModel(m, "private_ip", &obj.PrivateIP, UnmarshalVPNGatewayMemberPrivateIPPrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "private_ip-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // VPNGatewayPatch : VPNGatewayPatch struct
 type VPNGatewayPatch struct {
+	// The VPN gateway availability mode. Supported by route mode VPN gateways. Cannot be updated to `zonal`.
+	// - `regional`: The VPN gateway will allow members in multiple zones in the region.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
 	// The local autonomous system number (ASN) for this VPN gateway and its connections. The ASN values in the
 	// [restricted ASN list](
 	// https://cloud.ibm.com/docs/vpc?topic=vpc-planning-considerations-vpn#dynamic-route-based-considerations) are
@@ -118699,9 +119294,21 @@ type VPNGatewayPatch struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// Constants associated with the VPNGatewayPatch.AvailabilityMode property.
+// The VPN gateway availability mode. Supported by route mode VPN gateways. Cannot be updated to `zonal`.
+// - `regional`: The VPN gateway will allow members in multiple zones in the region.
+const (
+	VPNGatewayPatchAvailabilityModeRegionalConst = "regional"
+)
+
 // UnmarshalVPNGatewayPatch unmarshals an instance of VPNGatewayPatch from the specified map of raw messages.
 func UnmarshalVPNGatewayPatch(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(VPNGatewayPatch)
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
@@ -118719,6 +119326,9 @@ func UnmarshalVPNGatewayPatch(m map[string]json.RawMessage, result interface{}) 
 // AsPatch returns a generic map representation of the VPNGatewayPatch
 func (vpnGatewayPatch *VPNGatewayPatch) AsPatch() (_patch map[string]interface{}, err error) {
 	_patch = map[string]interface{}{}
+	if !core.IsNil(vpnGatewayPatch.AvailabilityMode) {
+		_patch["availability_mode"] = vpnGatewayPatch.AvailabilityMode
+	}
 	if !core.IsNil(vpnGatewayPatch.LocalAsn) {
 		_patch["local_asn"] = vpnGatewayPatch.LocalAsn
 	}
@@ -118731,9 +119341,17 @@ func (vpnGatewayPatch *VPNGatewayPatch) AsPatch() (_patch map[string]interface{}
 
 // VPNGatewayPrototype : VPNGatewayPrototype struct
 // Models which "extend" this model:
-// - VPNGatewayPrototypeVPNGatewayRouteModePrototype
-// - VPNGatewayPrototypeVPNGatewayPolicyModePrototype
+// - VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember
+// - VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet
+// - VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember
 type VPNGatewayPrototype struct {
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	// - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+	//   provides zone-level redundancy.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
 	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
 	// will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
@@ -118742,8 +119360,8 @@ type VPNGatewayPrototype struct {
 	// group](https://cloud.ibm.com/apidocs/resource-manager#introduction) will be used.
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
-	// Identifies a subnet by a unique property.
-	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
+	// The members to use for the VPN gateway.
+	Members []VPNGatewayMemberPrototype `json:"members,omitempty"`
 
 	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
 	// advertise routes with these CIDRs as route destinations.
@@ -118757,7 +119375,21 @@ type VPNGatewayPrototype struct {
 
 	// The mode for this VPN gateway.
 	Mode *string `json:"mode,omitempty"`
+
+	// Identifies a subnet by a unique property.
+	Subnet SubnetIdentityIntf `json:"subnet,omitempty"`
 }
+
+// Constants associated with the VPNGatewayPrototype.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+//   - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+//     provides zone-level redundancy.
+const (
+	VPNGatewayPrototypeAvailabilityModeRegionalConst = "regional"
+	VPNGatewayPrototypeAvailabilityModeZonalConst    = "zonal"
+)
 
 // Constants associated with the VPNGatewayPrototype.Mode property.
 // The mode for this VPN gateway.
@@ -118776,6 +119408,11 @@ type VPNGatewayPrototypeIntf interface {
 // UnmarshalVPNGatewayPrototype unmarshals an instance of VPNGatewayPrototype from the specified map of raw messages.
 func UnmarshalVPNGatewayPrototype(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(VPNGatewayPrototype)
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
@@ -118786,9 +119423,9 @@ func UnmarshalVPNGatewayPrototype(m map[string]json.RawMessage, result interface
 		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMemberPrototype)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
@@ -118804,6 +119441,11 @@ func UnmarshalVPNGatewayPrototype(m map[string]json.RawMessage, result interface
 	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -160008,8 +160650,15 @@ type VPNGatewayConnectionPrototypeVPNGatewayConnectionDynamicRouteModePrototype 
 	Psk *string `json:"psk" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address. Before enabling it on VPN connections to on-prem private networks, review
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
+	//
+	// Before enabling it on VPN connections to on-prem private networks, review
 	// [distributing traffic
 	// restrictions](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-limitations#distributing-traffic-restrictions).
 	DistributeTraffic *bool `json:"distribute_traffic,omitempty"`
@@ -160276,8 +160925,15 @@ type VPNGatewayConnectionPrototypeVPNGatewayConnectionStaticRouteModePrototype s
 	Psk *string `json:"psk" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address. Before enabling it on VPN connections to on-prem private networks, review
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
+	//
+	// Before enabling it on VPN connections to on-prem private networks, review
 	// [distributing traffic
 	// restrictions](https://cloud.ibm.com/docs/vpc?topic=vpc-vpn-limitations#distributing-traffic-restrictions).
 	DistributeTraffic *bool `json:"distribute_traffic,omitempty"`
@@ -160453,8 +161109,13 @@ type VPNGatewayConnectionRouteMode struct {
 	StatusReasons []VPNGatewayConnectionStatusReason `json:"status_reasons" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address.
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
 	DistributeTraffic *bool `json:"distribute_traffic,omitempty"`
 
 	Local *VPNGatewayConnectionStaticRouteModeLocal `json:"local,omitempty"`
@@ -160750,219 +161411,17 @@ func UnmarshalVPNGatewayConnectionStaticRouteModePeerVPNGatewayConnectionPeerByF
 	return
 }
 
-// VPNGatewayPolicyMode : VPNGatewayPolicyMode struct
-// This model "extends" VPNGateway
-type VPNGatewayPolicyMode struct {
-	// The connections for this VPN gateway.
-	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
-
-	// The date and time that this VPN gateway was created.
-	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
-
-	// The CRN for this VPN gateway.
-	CRN *string `json:"crn" validate:"required"`
-
-	// The reasons for the current `health_state` (if any).
-	HealthReasons []VPNGatewayHealthReason `json:"health_reasons" validate:"required"`
-
-	// The health of this resource:
-	// - `ok`: No abnormal behavior detected
-	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
-	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
-	// - `inapplicable`: The health state does not apply because of the current lifecycle
-	//    state. A resource with a lifecycle state of `failed` or `deleting` will have a
-	//    health state of `inapplicable`. A `pending` resource may also have this state.
-	HealthState *string `json:"health_state" validate:"required"`
-
-	// The URL for this VPN gateway.
-	Href *string `json:"href" validate:"required"`
-
-	// The unique identifier for this VPN gateway.
-	ID *string `json:"id" validate:"required"`
-
-	// The reasons for the current `lifecycle_state` (if any).
-	LifecycleReasons []VPNGatewayLifecycleReason `json:"lifecycle_reasons" validate:"required"`
-
-	// The lifecycle state of the VPN gateway.
-	LifecycleState *string `json:"lifecycle_state" validate:"required"`
-
-	// The members for the VPN gateway.
-	Members []VPNGatewayMember `json:"members" validate:"required"`
-
-	// The name for this VPN gateway. The name is unique across all VPN gateways in the VPC.
-	Name *string `json:"name" validate:"required"`
-
-	// The resource group for this VPN gateway.
-	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
-
-	// The resource type.
-	ResourceType *string `json:"resource_type" validate:"required"`
-
-	Subnet *SubnetReference `json:"subnet" validate:"required"`
-
-	// The VPC this VPN gateway resides in.
-	VPC *VPCReference `json:"vpc" validate:"required"`
-
-	// The mode for this VPN gateway.
-	Mode *string `json:"mode" validate:"required"`
-}
-
-// Constants associated with the VPNGatewayPolicyMode.HealthState property.
-// The health of this resource:
-//   - `ok`: No abnormal behavior detected
-//   - `degraded`: Experiencing compromised performance, capacity, or connectivity
-//   - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
-//   - `inapplicable`: The health state does not apply because of the current lifecycle
-//     state. A resource with a lifecycle state of `failed` or `deleting` will have a
-//     health state of `inapplicable`. A `pending` resource may also have this state.
-const (
-	VPNGatewayPolicyModeHealthStateDegradedConst     = "degraded"
-	VPNGatewayPolicyModeHealthStateFaultedConst      = "faulted"
-	VPNGatewayPolicyModeHealthStateInapplicableConst = "inapplicable"
-	VPNGatewayPolicyModeHealthStateOkConst           = "ok"
-)
-
-// Constants associated with the VPNGatewayPolicyMode.LifecycleState property.
-// The lifecycle state of the VPN gateway.
-const (
-	VPNGatewayPolicyModeLifecycleStateDeletingConst  = "deleting"
-	VPNGatewayPolicyModeLifecycleStateFailedConst    = "failed"
-	VPNGatewayPolicyModeLifecycleStatePendingConst   = "pending"
-	VPNGatewayPolicyModeLifecycleStateStableConst    = "stable"
-	VPNGatewayPolicyModeLifecycleStateSuspendedConst = "suspended"
-	VPNGatewayPolicyModeLifecycleStateUpdatingConst  = "updating"
-	VPNGatewayPolicyModeLifecycleStateWaitingConst   = "waiting"
-)
-
-// Constants associated with the VPNGatewayPolicyMode.ResourceType property.
-// The resource type.
-const (
-	VPNGatewayPolicyModeResourceTypeVPNGatewayConst = "vpn_gateway"
-)
-
-// Constants associated with the VPNGatewayPolicyMode.Mode property.
-// The mode for this VPN gateway.
-const (
-	VPNGatewayPolicyModeModePolicyConst = "policy"
-)
-
-func (*VPNGatewayPolicyMode) isaVPNGateway() bool {
-	return true
-}
-
-// UnmarshalVPNGatewayPolicyMode unmarshals an instance of VPNGatewayPolicyMode from the specified map of raw messages.
-func UnmarshalVPNGatewayPolicyMode(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VPNGatewayPolicyMode)
-	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalVPNGatewayConnectionReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "health_reasons", &obj.HealthReasons, UnmarshalVPNGatewayHealthReason)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "health_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "health_state", &obj.HealthState)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "health_state-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalVPNGatewayLifecycleReason)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "lifecycle_reasons-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "lifecycle_state-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMember)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
-	if err != nil {
-		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// VPNGatewayPrototypeVPNGatewayPolicyModePrototype : VPNGatewayPrototypeVPNGatewayPolicyModePrototype struct
-// This model "extends" VPNGatewayPrototype
-type VPNGatewayPrototypeVPNGatewayPolicyModePrototype struct {
-	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
-	// will be a hyphenated list of randomly-selected words.
-	Name *string `json:"name,omitempty"`
-
-	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
-
+// VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext : VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext struct
+// This model "extends" VPNGatewayMemberPrivateIPPrototype
+type VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext struct {
+	// Identifies a subnet by a unique property.
 	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
-
-	// The mode for this VPN gateway.
-	Mode *string `json:"mode" validate:"required"`
 }
 
-// Constants associated with the VPNGatewayPrototypeVPNGatewayPolicyModePrototype.Mode property.
-// The mode for this VPN gateway.
-const (
-	VPNGatewayPrototypeVPNGatewayPolicyModePrototypeModePolicyConst = "policy"
-)
-
-// NewVPNGatewayPrototypeVPNGatewayPolicyModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayPolicyModePrototype (Generic Model Constructor)
-func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayPolicyModePrototype(subnet SubnetIdentityIntf, mode string) (_model *VPNGatewayPrototypeVPNGatewayPolicyModePrototype, err error) {
-	_model = &VPNGatewayPrototypeVPNGatewayPolicyModePrototype{
+// NewVPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext : Instantiate VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext(subnet SubnetIdentityIntf) (_model *VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext, err error) {
+	_model = &VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext{
 		Subnet: subnet,
-		Mode:   core.StringPtr(mode),
 	}
 	err = core.ValidateStruct(_model, "required parameters")
 	if err != nil {
@@ -160971,13 +161430,85 @@ func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayPolicyModePrototype(subnet SubnetI
 	return
 }
 
-func (*VPNGatewayPrototypeVPNGatewayPolicyModePrototype) isaVPNGatewayPrototype() bool {
+func (*VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext) isaVPNGatewayMemberPrivateIPPrototype() bool {
 	return true
 }
 
-// UnmarshalVPNGatewayPrototypeVPNGatewayPolicyModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayPolicyModePrototype from the specified map of raw messages.
-func UnmarshalVPNGatewayPrototypeVPNGatewayPolicyModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VPNGatewayPrototypeVPNGatewayPolicyModePrototype)
+// UnmarshalVPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext unmarshals an instance of VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext from the specified map of raw messages.
+func UnmarshalVPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayMemberPrivateIPPrototypeReservedIPPrototypeVPNGatewayContext)
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember : VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember struct
+// Models which "extend" this model:
+// - VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype
+// This model "extends" VPNGatewayPrototype
+type VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+	//   provides zone-level redundancy.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
+	// The members to use for the VPN gateway.
+	Members []VPNGatewayMemberPrototype `json:"members" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections. The ASN values in the
+	// [restricted ASN list](
+	// https://cloud.ibm.com/docs/vpc?topic=vpc-planning-considerations-vpn#dynamic-route-based-considerations) are
+	// reserved and unavailable.
+	LocalAsn *int64 `json:"local_asn,omitempty"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+//     provides zone-level redundancy.
+const (
+	VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberAvailabilityModeRegionalConst = "regional"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberModeRouteConst = "route"
+)
+
+func (*VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember) isaVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember() bool {
+	return true
+}
+
+type VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberIntf interface {
+	VPNGatewayPrototypeIntf
+	isaVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember() bool
+}
+
+func (*VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember unmarshals an instance of VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
@@ -160988,9 +161519,24 @@ func UnmarshalVPNGatewayPrototypeVPNGatewayPolicyModePrototype(m map[string]json
 		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
 		return
 	}
-	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
 	if err != nil {
-		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMemberPrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
@@ -161002,15 +161548,127 @@ func UnmarshalVPNGatewayPrototypeVPNGatewayPolicyModePrototype(m map[string]json
 	return
 }
 
-// VPNGatewayPrototypeVPNGatewayRouteModePrototype : VPNGatewayPrototypeVPNGatewayRouteModePrototype struct
+// VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember : VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember struct
+// Models which "extend" this model:
+// - VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype
+// - VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype
 // This model "extends" VPNGatewayPrototype
-type VPNGatewayPrototypeVPNGatewayRouteModePrototype struct {
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember struct {
 	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
 	// will be a hyphenated list of randomly-selected words.
 	Name *string `json:"name,omitempty"`
 
 	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
 
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
+	// The members to use for the VPN gateway. All members must reside in the same subnet.
+	Members []VPNGatewayMemberPrototype `json:"members" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections. The ASN values in the
+	// [restricted ASN list](
+	// https://cloud.ibm.com/docs/vpc?topic=vpc-planning-considerations-vpn#dynamic-route-based-considerations) are
+	// reserved and unavailable.
+	LocalAsn *int64 `json:"local_asn,omitempty"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberModeRouteConst = "route"
+)
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember) isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember() bool {
+	return true
+}
+
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberIntf interface {
+	VPNGatewayPrototypeIntf
+	isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember() bool
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember unmarshals an instance of VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMemberPrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet : VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet struct
+// Models which "extend" this model:
+// - VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype
+// - VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype
+// This model "extends" VPNGatewayPrototype
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
+	// Identifies a subnet by a unique property.
 	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
 
 	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
@@ -161027,31 +161685,36 @@ type VPNGatewayPrototypeVPNGatewayRouteModePrototype struct {
 	Mode *string `json:"mode,omitempty"`
 }
 
-// Constants associated with the VPNGatewayPrototypeVPNGatewayRouteModePrototype.Mode property.
-// The mode for this VPN gateway.
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
 const (
-	VPNGatewayPrototypeVPNGatewayRouteModePrototypeModeRouteConst = "route"
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetAvailabilityModeZonalConst = "zonal"
 )
 
-// NewVPNGatewayPrototypeVPNGatewayRouteModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayRouteModePrototype (Generic Model Constructor)
-func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayRouteModePrototype(subnet SubnetIdentityIntf) (_model *VPNGatewayPrototypeVPNGatewayRouteModePrototype, err error) {
-	_model = &VPNGatewayPrototypeVPNGatewayRouteModePrototype{
-		Subnet: subnet,
-	}
-	err = core.ValidateStruct(_model, "required parameters")
-	if err != nil {
-		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
-	}
-	return
-}
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetModeRouteConst = "route"
+)
 
-func (*VPNGatewayPrototypeVPNGatewayRouteModePrototype) isaVPNGatewayPrototype() bool {
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet) isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet() bool {
 	return true
 }
 
-// UnmarshalVPNGatewayPrototypeVPNGatewayRouteModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayRouteModePrototype from the specified map of raw messages.
-func UnmarshalVPNGatewayPrototypeVPNGatewayRouteModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VPNGatewayPrototypeVPNGatewayRouteModePrototype)
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetIntf interface {
+	VPNGatewayPrototypeIntf
+	isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet() bool
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet unmarshals an instance of VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet)
 	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
@@ -161060,6 +161723,11 @@ func UnmarshalVPNGatewayPrototypeVPNGatewayRouteModePrototype(m map[string]json.
 	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
@@ -161086,9 +161754,11 @@ func UnmarshalVPNGatewayPrototypeVPNGatewayRouteModePrototype(m map[string]json.
 	return
 }
 
-// VPNGatewayRouteMode : VPNGatewayRouteMode struct
+// VPNGatewayRegionalAvailabilityMode : VPNGatewayRegionalAvailabilityMode struct
+// Models which "extend" this model:
+// - VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode
 // This model "extends" VPNGateway
-type VPNGatewayRouteMode struct {
+type VPNGatewayRegionalAvailabilityMode struct {
 	// The connections for this VPN gateway.
 	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
 
@@ -161134,23 +161804,28 @@ type VPNGatewayRouteMode struct {
 	// The resource type.
 	ResourceType *string `json:"resource_type" validate:"required"`
 
-	Subnet *SubnetReference `json:"subnet" validate:"required"`
+	Subnet *SubnetReference `json:"subnet,omitempty"`
 
 	// The VPC this VPN gateway resides in.
 	VPC *VPCReference `json:"vpc" validate:"required"`
 
+	// The availability mode of the VPN gateway:
+	// - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+	//   provides zone-level redundancy.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
 	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
 	// advertise routes with these CIDRs as route destinations.
-	AdvertisedCIDRs []string `json:"advertised_cidrs" validate:"required"`
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
 
 	// The local autonomous system number (ASN) for this VPN gateway and its connections.
-	LocalAsn *int64 `json:"local_asn" validate:"required"`
+	LocalAsn *int64 `json:"local_asn,omitempty"`
 
 	// The mode for this VPN gateway.
-	Mode *string `json:"mode" validate:"required"`
+	Mode *string `json:"mode,omitempty"`
 }
 
-// Constants associated with the VPNGatewayRouteMode.HealthState property.
+// Constants associated with the VPNGatewayRegionalAvailabilityMode.HealthState property.
 // The health of this resource:
 //   - `ok`: No abnormal behavior detected
 //   - `degraded`: Experiencing compromised performance, capacity, or connectivity
@@ -161159,43 +161834,60 @@ type VPNGatewayRouteMode struct {
 //     state. A resource with a lifecycle state of `failed` or `deleting` will have a
 //     health state of `inapplicable`. A `pending` resource may also have this state.
 const (
-	VPNGatewayRouteModeHealthStateDegradedConst     = "degraded"
-	VPNGatewayRouteModeHealthStateFaultedConst      = "faulted"
-	VPNGatewayRouteModeHealthStateInapplicableConst = "inapplicable"
-	VPNGatewayRouteModeHealthStateOkConst           = "ok"
+	VPNGatewayRegionalAvailabilityModeHealthStateDegradedConst     = "degraded"
+	VPNGatewayRegionalAvailabilityModeHealthStateFaultedConst      = "faulted"
+	VPNGatewayRegionalAvailabilityModeHealthStateInapplicableConst = "inapplicable"
+	VPNGatewayRegionalAvailabilityModeHealthStateOkConst           = "ok"
 )
 
-// Constants associated with the VPNGatewayRouteMode.LifecycleState property.
+// Constants associated with the VPNGatewayRegionalAvailabilityMode.LifecycleState property.
 // The lifecycle state of the VPN gateway.
 const (
-	VPNGatewayRouteModeLifecycleStateDeletingConst  = "deleting"
-	VPNGatewayRouteModeLifecycleStateFailedConst    = "failed"
-	VPNGatewayRouteModeLifecycleStatePendingConst   = "pending"
-	VPNGatewayRouteModeLifecycleStateStableConst    = "stable"
-	VPNGatewayRouteModeLifecycleStateSuspendedConst = "suspended"
-	VPNGatewayRouteModeLifecycleStateUpdatingConst  = "updating"
-	VPNGatewayRouteModeLifecycleStateWaitingConst   = "waiting"
+	VPNGatewayRegionalAvailabilityModeLifecycleStateDeletingConst  = "deleting"
+	VPNGatewayRegionalAvailabilityModeLifecycleStateFailedConst    = "failed"
+	VPNGatewayRegionalAvailabilityModeLifecycleStatePendingConst   = "pending"
+	VPNGatewayRegionalAvailabilityModeLifecycleStateStableConst    = "stable"
+	VPNGatewayRegionalAvailabilityModeLifecycleStateSuspendedConst = "suspended"
+	VPNGatewayRegionalAvailabilityModeLifecycleStateUpdatingConst  = "updating"
+	VPNGatewayRegionalAvailabilityModeLifecycleStateWaitingConst   = "waiting"
 )
 
-// Constants associated with the VPNGatewayRouteMode.ResourceType property.
+// Constants associated with the VPNGatewayRegionalAvailabilityMode.ResourceType property.
 // The resource type.
 const (
-	VPNGatewayRouteModeResourceTypeVPNGatewayConst = "vpn_gateway"
+	VPNGatewayRegionalAvailabilityModeResourceTypeVPNGatewayConst = "vpn_gateway"
 )
 
-// Constants associated with the VPNGatewayRouteMode.Mode property.
+// Constants associated with the VPNGatewayRegionalAvailabilityMode.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+//     provides zone-level redundancy.
+const (
+	VPNGatewayRegionalAvailabilityModeAvailabilityModeRegionalConst = "regional"
+)
+
+// Constants associated with the VPNGatewayRegionalAvailabilityMode.Mode property.
 // The mode for this VPN gateway.
 const (
-	VPNGatewayRouteModeModeRouteConst = "route"
+	VPNGatewayRegionalAvailabilityModeModeRouteConst = "route"
 )
 
-func (*VPNGatewayRouteMode) isaVPNGateway() bool {
+func (*VPNGatewayRegionalAvailabilityMode) isaVPNGatewayRegionalAvailabilityMode() bool {
 	return true
 }
 
-// UnmarshalVPNGatewayRouteMode unmarshals an instance of VPNGatewayRouteMode from the specified map of raw messages.
-func UnmarshalVPNGatewayRouteMode(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(VPNGatewayRouteMode)
+type VPNGatewayRegionalAvailabilityModeIntf interface {
+	VPNGatewayIntf
+	isaVPNGatewayRegionalAvailabilityMode() bool
+}
+
+func (*VPNGatewayRegionalAvailabilityMode) isaVPNGateway() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayRegionalAvailabilityMode unmarshals an instance of VPNGatewayRegionalAvailabilityMode from the specified map of raw messages.
+func UnmarshalVPNGatewayRegionalAvailabilityMode(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayRegionalAvailabilityMode)
 	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalVPNGatewayConnectionReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
@@ -161269,6 +161961,11 @@ func UnmarshalVPNGatewayRouteMode(m map[string]json.RawMessage, result interface
 	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
@@ -161329,6 +162026,240 @@ func UnmarshalVPNGatewayServiceConnectionCreatorTransitGatewayReference(m map[st
 	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayZonalAvailabilityMode : VPNGatewayZonalAvailabilityMode struct
+// Models which "extend" this model:
+// - VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode
+// - VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode
+// This model "extends" VPNGateway
+type VPNGatewayZonalAvailabilityMode struct {
+	// The connections for this VPN gateway.
+	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
+
+	// The date and time that this VPN gateway was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this VPN gateway.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The reasons for the current `health_state` (if any).
+	HealthReasons []VPNGatewayHealthReason `json:"health_reasons" validate:"required"`
+
+	// The health of this resource:
+	// - `ok`: No abnormal behavior detected
+	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
+	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+	// - `inapplicable`: The health state does not apply because of the current lifecycle
+	//    state. A resource with a lifecycle state of `failed` or `deleting` will have a
+	//    health state of `inapplicable`. A `pending` resource may also have this state.
+	HealthState *string `json:"health_state" validate:"required"`
+
+	// The URL for this VPN gateway.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN gateway.
+	ID *string `json:"id" validate:"required"`
+
+	// The reasons for the current `lifecycle_state` (if any).
+	LifecycleReasons []VPNGatewayLifecycleReason `json:"lifecycle_reasons" validate:"required"`
+
+	// The lifecycle state of the VPN gateway.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The members for the VPN gateway.
+	Members []VPNGatewayMember `json:"members" validate:"required"`
+
+	// The name for this VPN gateway. The name is unique across all VPN gateways in the VPC.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource group for this VPN gateway.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The VPC this VPN gateway resides in.
+	VPC *VPCReference `json:"vpc" validate:"required"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
+	Subnet *SubnetReference `json:"subnet" validate:"required"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn *int64 `json:"local_asn,omitempty"`
+}
+
+// Constants associated with the VPNGatewayZonalAvailabilityMode.HealthState property.
+// The health of this resource:
+//   - `ok`: No abnormal behavior detected
+//   - `degraded`: Experiencing compromised performance, capacity, or connectivity
+//   - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+//   - `inapplicable`: The health state does not apply because of the current lifecycle
+//     state. A resource with a lifecycle state of `failed` or `deleting` will have a
+//     health state of `inapplicable`. A `pending` resource may also have this state.
+const (
+	VPNGatewayZonalAvailabilityModeHealthStateDegradedConst     = "degraded"
+	VPNGatewayZonalAvailabilityModeHealthStateFaultedConst      = "faulted"
+	VPNGatewayZonalAvailabilityModeHealthStateInapplicableConst = "inapplicable"
+	VPNGatewayZonalAvailabilityModeHealthStateOkConst           = "ok"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityMode.LifecycleState property.
+// The lifecycle state of the VPN gateway.
+const (
+	VPNGatewayZonalAvailabilityModeLifecycleStateDeletingConst  = "deleting"
+	VPNGatewayZonalAvailabilityModeLifecycleStateFailedConst    = "failed"
+	VPNGatewayZonalAvailabilityModeLifecycleStatePendingConst   = "pending"
+	VPNGatewayZonalAvailabilityModeLifecycleStateStableConst    = "stable"
+	VPNGatewayZonalAvailabilityModeLifecycleStateSuspendedConst = "suspended"
+	VPNGatewayZonalAvailabilityModeLifecycleStateUpdatingConst  = "updating"
+	VPNGatewayZonalAvailabilityModeLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityMode.ResourceType property.
+// The resource type.
+const (
+	VPNGatewayZonalAvailabilityModeResourceTypeVPNGatewayConst = "vpn_gateway"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityMode.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayZonalAvailabilityModeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityMode.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayZonalAvailabilityModeModePolicyConst = "policy"
+)
+
+func (*VPNGatewayZonalAvailabilityMode) isaVPNGatewayZonalAvailabilityMode() bool {
+	return true
+}
+
+type VPNGatewayZonalAvailabilityModeIntf interface {
+	VPNGatewayIntf
+	isaVPNGatewayZonalAvailabilityMode() bool
+}
+
+func (*VPNGatewayZonalAvailabilityMode) isaVPNGateway() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayZonalAvailabilityMode unmarshals an instance of VPNGatewayZonalAvailabilityMode from the specified map of raw messages.
+func UnmarshalVPNGatewayZonalAvailabilityMode(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayZonalAvailabilityMode)
+	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalVPNGatewayConnectionReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "health_reasons", &obj.HealthReasons, UnmarshalVPNGatewayHealthReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "health_state", &obj.HealthState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalVPNGatewayLifecycleReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMember)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
@@ -174989,8 +175920,13 @@ type VPNGatewayConnectionRouteModeVPNGatewayConnectionDynamicRouteMode struct {
 	StatusReasons []VPNGatewayConnectionStatusReason `json:"status_reasons" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address.
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
 	DistributeTraffic *bool `json:"distribute_traffic" validate:"required"`
 
 	Local *VPNGatewayConnectionDynamicRouteModeLocal `json:"local" validate:"required"`
@@ -175232,8 +176168,13 @@ type VPNGatewayConnectionRouteModeVPNGatewayConnectionStaticRouteMode struct {
 	StatusReasons []VPNGatewayConnectionStatusReason `json:"status_reasons" validate:"required"`
 
 	// Indicates whether the traffic is distributed between the `up` tunnels of the VPN gateway connection when the VPC
-	// route's next hop is a VPN connection. If `false`, the traffic is only routed through the `up` tunnel with the lower
-	// `public_ip` address.
+	// route's next hop is a VPN connection.
+	//
+	// For a `zonal` VPN gateway, if `false`, the traffic is only routed through the `up` tunnel with the lower `public_ip`
+	// address.
+	//
+	// For a `regional` VPN gateway, if `true`, traffic is distributed across both VPN members (ECMP mode). If `false`,
+	// only the first member of the VPN gateway handles all the traffic (deterministic mode).
 	DistributeTraffic *bool `json:"distribute_traffic" validate:"required"`
 
 	Local *VPNGatewayConnectionStaticRouteModeLocal `json:"local" validate:"required"`
@@ -175407,6 +176348,1163 @@ func UnmarshalVPNGatewayConnectionRouteModeVPNGatewayConnectionStaticRouteMode(m
 	err = core.UnmarshalModel(m, "tunnels", &obj.Tunnels, UnmarshalVPNGatewayConnectionStaticRouteModeTunnel)
 	if err != nil {
 		err = core.SDKErrorf(err, "", "tunnels-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype : VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype struct
+// This model "extends" VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember
+type VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+	//   provides zone-level redundancy.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
+	// The members to use for the VPN gateway.
+	Members []VPNGatewayMemberPrototype `json:"members" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections. The ASN values in the
+	// [restricted ASN list](
+	// https://cloud.ibm.com/docs/vpc?topic=vpc-planning-considerations-vpn#dynamic-route-based-considerations) are
+	// reserved and unavailable.
+	LocalAsn *int64 `json:"local_asn,omitempty"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+//     provides zone-level redundancy.
+const (
+	VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototypeAvailabilityModeRegionalConst = "regional"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototypeModeRouteConst = "route"
+)
+
+// NewVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype(availabilityMode string, members []VPNGatewayMemberPrototype) (_model *VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype{
+		AvailabilityMode: core.StringPtr(availabilityMode),
+		Members:          members,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype) isaVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMember() bool {
+	return true
+}
+
+func (*VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRegionalAvailabilityModeByMemberVPNGatewayRouteModePrototype)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMemberPrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype : VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype struct
+// This model "extends" VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
+	// The members to use for the VPN gateway. All members must reside in the same subnet.
+	Members []VPNGatewayMemberPrototype `json:"members" validate:"required"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode" validate:"required"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototypeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototypeModePolicyConst = "policy"
+)
+
+// NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype(members []VPNGatewayMemberPrototype, mode string) (_model *VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype{
+		Members: members,
+		Mode:    core.StringPtr(mode),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype) isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember() bool {
+	return true
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayPolicyModePrototype)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMemberPrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype : VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype struct
+// This model "extends" VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
+	// The members to use for the VPN gateway. All members must reside in the same subnet.
+	Members []VPNGatewayMemberPrototype `json:"members" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections. The ASN values in the
+	// [restricted ASN list](
+	// https://cloud.ibm.com/docs/vpc?topic=vpc-planning-considerations-vpn#dynamic-route-based-considerations) are
+	// reserved and unavailable.
+	LocalAsn *int64 `json:"local_asn,omitempty"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototypeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototypeModeRouteConst = "route"
+)
+
+// NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype(members []VPNGatewayMemberPrototype) (_model *VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype{
+		Members: members,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype) isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMember() bool {
+	return true
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeByMemberVPNGatewayZonalAvailabilityModeByMemberVPNGatewayRouteModePrototype)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMemberPrototype)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype : VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype struct
+// This model "extends" VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
+	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode" validate:"required"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototypeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototypeModePolicyConst = "policy"
+)
+
+// NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype(subnet SubnetIdentityIntf, mode string) (_model *VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype{
+		Subnet: subnet,
+		Mode:   core.StringPtr(mode),
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype) isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet() bool {
+	return true
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayPolicyModePrototype)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype : VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype struct
+// This model "extends" VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet
+type VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype struct {
+	// The name for this VPN gateway. The name must not be used by another VPN gateway in the VPC. If unspecified, the name
+	// will be a hyphenated list of randomly-selected words.
+	Name *string `json:"name,omitempty"`
+
+	ResourceGroup ResourceGroupIdentityIntf `json:"resource_group,omitempty"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode,omitempty"`
+
+	Subnet SubnetIdentityIntf `json:"subnet" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs,omitempty"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections. The ASN values in the
+	// [restricted ASN list](
+	// https://cloud.ibm.com/docs/vpc?topic=vpc-planning-considerations-vpn#dynamic-route-based-considerations) are
+	// reserved and unavailable.
+	LocalAsn *int64 `json:"local_asn,omitempty"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode,omitempty"`
+}
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototypeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototypeModeRouteConst = "route"
+)
+
+// NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype : Instantiate VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype (Generic Model Constructor)
+func (*VpcV1) NewVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype(subnet SubnetIdentityIntf) (_model *VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype, err error) {
+	_model = &VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype{
+		Subnet: subnet,
+	}
+	err = core.ValidateStruct(_model, "required parameters")
+	if err != nil {
+		err = core.SDKErrorf(err, "", "model-missing-required", common.GetComponentInfo())
+	}
+	return
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype) isaVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnet() bool {
+	return true
+}
+
+func (*VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype) isaVPNGatewayPrototype() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype unmarshals an instance of VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype from the specified map of raw messages.
+func UnmarshalVPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayPrototypeVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayZonalAvailabilityModeBySubnetVPNGatewayRouteModePrototype)
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetIdentity)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode : VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode struct
+// This model "extends" VPNGatewayRegionalAvailabilityMode
+type VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode struct {
+	// The connections for this VPN gateway.
+	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
+
+	// The date and time that this VPN gateway was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this VPN gateway.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The reasons for the current `health_state` (if any).
+	HealthReasons []VPNGatewayHealthReason `json:"health_reasons" validate:"required"`
+
+	// The health of this resource:
+	// - `ok`: No abnormal behavior detected
+	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
+	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+	// - `inapplicable`: The health state does not apply because of the current lifecycle
+	//    state. A resource with a lifecycle state of `failed` or `deleting` will have a
+	//    health state of `inapplicable`. A `pending` resource may also have this state.
+	HealthState *string `json:"health_state" validate:"required"`
+
+	// The URL for this VPN gateway.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN gateway.
+	ID *string `json:"id" validate:"required"`
+
+	// The reasons for the current `lifecycle_state` (if any).
+	LifecycleReasons []VPNGatewayLifecycleReason `json:"lifecycle_reasons" validate:"required"`
+
+	// The lifecycle state of the VPN gateway.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The members for the VPN gateway.
+	Members []VPNGatewayMember `json:"members" validate:"required"`
+
+	// The name for this VPN gateway. The name is unique across all VPN gateways in the VPC.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource group for this VPN gateway.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	Subnet *SubnetReference `json:"subnet,omitempty"`
+
+	// The VPC this VPN gateway resides in.
+	VPC *VPCReference `json:"vpc" validate:"required"`
+
+	// The availability mode of the VPN gateway:
+	// - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+	//   provides zone-level redundancy.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs" validate:"required"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn *int64 `json:"local_asn" validate:"required"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode" validate:"required"`
+}
+
+// Constants associated with the VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode.HealthState property.
+// The health of this resource:
+//   - `ok`: No abnormal behavior detected
+//   - `degraded`: Experiencing compromised performance, capacity, or connectivity
+//   - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+//   - `inapplicable`: The health state does not apply because of the current lifecycle
+//     state. A resource with a lifecycle state of `failed` or `deleting` will have a
+//     health state of `inapplicable`. A `pending` resource may also have this state.
+const (
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeHealthStateDegradedConst     = "degraded"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeHealthStateFaultedConst      = "faulted"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeHealthStateInapplicableConst = "inapplicable"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeHealthStateOkConst           = "ok"
+)
+
+// Constants associated with the VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode.LifecycleState property.
+// The lifecycle state of the VPN gateway.
+const (
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStateDeletingConst  = "deleting"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStateFailedConst    = "failed"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStatePendingConst   = "pending"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStateStableConst    = "stable"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStateSuspendedConst = "suspended"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStateUpdatingConst  = "updating"
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode.ResourceType property.
+// The resource type.
+const (
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeResourceTypeVPNGatewayConst = "vpn_gateway"
+)
+
+// Constants associated with the VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `regional`: The VPN gateway is deployed across multiple zones in the region. This mode
+//     provides zone-level redundancy.
+const (
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeAvailabilityModeRegionalConst = "regional"
+)
+
+// Constants associated with the VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayRegionalAvailabilityModeVPNGatewayRouteModeModeRouteConst = "route"
+)
+
+func (*VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode) isaVPNGatewayRegionalAvailabilityMode() bool {
+	return true
+}
+
+func (*VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode) isaVPNGateway() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode unmarshals an instance of VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode from the specified map of raw messages.
+func UnmarshalVPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayRegionalAvailabilityModeVPNGatewayRouteMode)
+	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalVPNGatewayConnectionReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "health_reasons", &obj.HealthReasons, UnmarshalVPNGatewayHealthReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "health_state", &obj.HealthState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalVPNGatewayLifecycleReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMember)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode : VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode struct
+// This model "extends" VPNGatewayZonalAvailabilityMode
+type VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode struct {
+	// The connections for this VPN gateway.
+	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
+
+	// The date and time that this VPN gateway was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this VPN gateway.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The reasons for the current `health_state` (if any).
+	HealthReasons []VPNGatewayHealthReason `json:"health_reasons" validate:"required"`
+
+	// The health of this resource:
+	// - `ok`: No abnormal behavior detected
+	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
+	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+	// - `inapplicable`: The health state does not apply because of the current lifecycle
+	//    state. A resource with a lifecycle state of `failed` or `deleting` will have a
+	//    health state of `inapplicable`. A `pending` resource may also have this state.
+	HealthState *string `json:"health_state" validate:"required"`
+
+	// The URL for this VPN gateway.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN gateway.
+	ID *string `json:"id" validate:"required"`
+
+	// The reasons for the current `lifecycle_state` (if any).
+	LifecycleReasons []VPNGatewayLifecycleReason `json:"lifecycle_reasons" validate:"required"`
+
+	// The lifecycle state of the VPN gateway.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The members for the VPN gateway.
+	Members []VPNGatewayMember `json:"members" validate:"required"`
+
+	// The name for this VPN gateway. The name is unique across all VPN gateways in the VPC.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource group for this VPN gateway.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The VPC this VPN gateway resides in.
+	VPC *VPCReference `json:"vpc" validate:"required"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
+	Subnet *SubnetReference `json:"subnet" validate:"required"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode" validate:"required"`
+}
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode.HealthState property.
+// The health of this resource:
+//   - `ok`: No abnormal behavior detected
+//   - `degraded`: Experiencing compromised performance, capacity, or connectivity
+//   - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+//   - `inapplicable`: The health state does not apply because of the current lifecycle
+//     state. A resource with a lifecycle state of `failed` or `deleting` will have a
+//     health state of `inapplicable`. A `pending` resource may also have this state.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeHealthStateDegradedConst     = "degraded"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeHealthStateFaultedConst      = "faulted"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeHealthStateInapplicableConst = "inapplicable"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeHealthStateOkConst           = "ok"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode.LifecycleState property.
+// The lifecycle state of the VPN gateway.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStateDeletingConst  = "deleting"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStateFailedConst    = "failed"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStatePendingConst   = "pending"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStateStableConst    = "stable"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStateSuspendedConst = "suspended"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStateUpdatingConst  = "updating"
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode.ResourceType property.
+// The resource type.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeResourceTypeVPNGatewayConst = "vpn_gateway"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayPolicyModeModePolicyConst = "policy"
+)
+
+func (*VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode) isaVPNGatewayZonalAvailabilityMode() bool {
+	return true
+}
+
+func (*VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode) isaVPNGateway() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode unmarshals an instance of VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode from the specified map of raw messages.
+func UnmarshalVPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayZonalAvailabilityModeVPNGatewayPolicyMode)
+	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalVPNGatewayConnectionReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "health_reasons", &obj.HealthReasons, UnmarshalVPNGatewayHealthReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "health_state", &obj.HealthState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalVPNGatewayLifecycleReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMember)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode : VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode struct
+// This model "extends" VPNGatewayZonalAvailabilityMode
+type VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode struct {
+	// The connections for this VPN gateway.
+	Connections []VPNGatewayConnectionReference `json:"connections" validate:"required"`
+
+	// The date and time that this VPN gateway was created.
+	CreatedAt *strfmt.DateTime `json:"created_at" validate:"required"`
+
+	// The CRN for this VPN gateway.
+	CRN *string `json:"crn" validate:"required"`
+
+	// The reasons for the current `health_state` (if any).
+	HealthReasons []VPNGatewayHealthReason `json:"health_reasons" validate:"required"`
+
+	// The health of this resource:
+	// - `ok`: No abnormal behavior detected
+	// - `degraded`: Experiencing compromised performance, capacity, or connectivity
+	// - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+	// - `inapplicable`: The health state does not apply because of the current lifecycle
+	//    state. A resource with a lifecycle state of `failed` or `deleting` will have a
+	//    health state of `inapplicable`. A `pending` resource may also have this state.
+	HealthState *string `json:"health_state" validate:"required"`
+
+	// The URL for this VPN gateway.
+	Href *string `json:"href" validate:"required"`
+
+	// The unique identifier for this VPN gateway.
+	ID *string `json:"id" validate:"required"`
+
+	// The reasons for the current `lifecycle_state` (if any).
+	LifecycleReasons []VPNGatewayLifecycleReason `json:"lifecycle_reasons" validate:"required"`
+
+	// The lifecycle state of the VPN gateway.
+	LifecycleState *string `json:"lifecycle_state" validate:"required"`
+
+	// The members for the VPN gateway.
+	Members []VPNGatewayMember `json:"members" validate:"required"`
+
+	// The name for this VPN gateway. The name is unique across all VPN gateways in the VPC.
+	Name *string `json:"name" validate:"required"`
+
+	// The resource group for this VPN gateway.
+	ResourceGroup *ResourceGroupReference `json:"resource_group" validate:"required"`
+
+	// The resource type.
+	ResourceType *string `json:"resource_type" validate:"required"`
+
+	// The VPC this VPN gateway resides in.
+	VPC *VPCReference `json:"vpc" validate:"required"`
+
+	// The availability mode of the VPN gateway:
+	// - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+	//   limited to that zone.
+	AvailabilityMode *string `json:"availability_mode" validate:"required"`
+
+	Subnet *SubnetReference `json:"subnet" validate:"required"`
+
+	// The static CIDRs advertised through any enabled routing protocol (for example, BGP). The routing protocol will
+	// advertise routes with these CIDRs as route destinations.
+	AdvertisedCIDRs []string `json:"advertised_cidrs" validate:"required"`
+
+	// The local autonomous system number (ASN) for this VPN gateway and its connections.
+	LocalAsn *int64 `json:"local_asn" validate:"required"`
+
+	// The mode for this VPN gateway.
+	Mode *string `json:"mode" validate:"required"`
+}
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode.HealthState property.
+// The health of this resource:
+//   - `ok`: No abnormal behavior detected
+//   - `degraded`: Experiencing compromised performance, capacity, or connectivity
+//   - `faulted`: Completely unreachable, inoperative, or otherwise entirely incapacitated
+//   - `inapplicable`: The health state does not apply because of the current lifecycle
+//     state. A resource with a lifecycle state of `failed` or `deleting` will have a
+//     health state of `inapplicable`. A `pending` resource may also have this state.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeHealthStateDegradedConst     = "degraded"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeHealthStateFaultedConst      = "faulted"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeHealthStateInapplicableConst = "inapplicable"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeHealthStateOkConst           = "ok"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode.LifecycleState property.
+// The lifecycle state of the VPN gateway.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStateDeletingConst  = "deleting"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStateFailedConst    = "failed"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStatePendingConst   = "pending"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStateStableConst    = "stable"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStateSuspendedConst = "suspended"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStateUpdatingConst  = "updating"
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeLifecycleStateWaitingConst   = "waiting"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode.ResourceType property.
+// The resource type.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeResourceTypeVPNGatewayConst = "vpn_gateway"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode.AvailabilityMode property.
+// The availability mode of the VPN gateway:
+//   - `zonal`: The VPN gateway is deployed in a single zone in the region. Availability is
+//     limited to that zone.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeAvailabilityModeZonalConst = "zonal"
+)
+
+// Constants associated with the VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode.Mode property.
+// The mode for this VPN gateway.
+const (
+	VPNGatewayZonalAvailabilityModeVPNGatewayRouteModeModeRouteConst = "route"
+)
+
+func (*VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode) isaVPNGatewayZonalAvailabilityMode() bool {
+	return true
+}
+
+func (*VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode) isaVPNGateway() bool {
+	return true
+}
+
+// UnmarshalVPNGatewayZonalAvailabilityModeVPNGatewayRouteMode unmarshals an instance of VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode from the specified map of raw messages.
+func UnmarshalVPNGatewayZonalAvailabilityModeVPNGatewayRouteMode(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(VPNGatewayZonalAvailabilityModeVPNGatewayRouteMode)
+	err = core.UnmarshalModel(m, "connections", &obj.Connections, UnmarshalVPNGatewayConnectionReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "connections-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "created_at", &obj.CreatedAt)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "created_at-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "crn", &obj.CRN)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "crn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "health_reasons", &obj.HealthReasons, UnmarshalVPNGatewayHealthReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "health_state", &obj.HealthState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "health_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "href", &obj.Href)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "href-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "id", &obj.ID)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "id-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "lifecycle_reasons", &obj.LifecycleReasons, UnmarshalVPNGatewayLifecycleReason)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_reasons-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "lifecycle_state", &obj.LifecycleState)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "lifecycle_state-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "members", &obj.Members, UnmarshalVPNGatewayMember)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "members-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "name-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "resource_group", &obj.ResourceGroup, UnmarshalResourceGroupReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_group-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "resource_type", &obj.ResourceType)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "resource_type-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "vpc", &obj.VPC, UnmarshalVPCReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "vpc-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "availability_mode", &obj.AvailabilityMode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "availability_mode-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalModel(m, "subnet", &obj.Subnet, UnmarshalSubnetReference)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "subnet-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "advertised_cidrs", &obj.AdvertisedCIDRs)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "advertised_cidrs-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "local_asn", &obj.LocalAsn)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "local_asn-error", common.GetComponentInfo())
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "mode", &obj.Mode)
+	if err != nil {
+		err = core.SDKErrorf(err, "", "mode-error", common.GetComponentInfo())
 		return
 	}
 	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))

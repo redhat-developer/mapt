@@ -101,6 +101,17 @@ const (
 	RbacPermissionAgentPoolUpdate                    RbacPermission = "agent_pool:update"
 	RbacPermissionAgentPoolDelete                    RbacPermission = "agent_pool:delete"
 	RbacPermissionAgentTaskCreate                    RbacPermission = "agent_task:create"
+	RbacPermissionAgentTaskRead                      RbacPermission = "agent_task:read"
+	RbacPermissionAgentTaskContribute                RbacPermission = "agent_task:contribute"
+	RbacPermissionAgentTaskApprove                   RbacPermission = "agent_task:approve"
+	RbacPermissionAgentTaskManage                    RbacPermission = "agent_task:manage"
+	RbacPermissionAgentAutomationsRead               RbacPermission = "agent_automations:read"
+	RbacPermissionAgentAutomationsCreate             RbacPermission = "agent_automations:create"
+	RbacPermissionAgentAutomationsUpdate             RbacPermission = "agent_automations:update"
+	RbacPermissionAgentAutomationsDelete             RbacPermission = "agent_automations:delete"
+	RbacPermissionAgentDefinitionsCreate             RbacPermission = "agent_definitions:create"
+	RbacPermissionAgentDefinitionsUpdate             RbacPermission = "agent_definitions:update"
+	RbacPermissionAgentDefinitionsDelete             RbacPermission = "agent_definitions:delete"
 	RbacPermissionOrganizationWebhookRead            RbacPermission = "organization_webhook:read"
 	RbacPermissionOrganizationWebhookCreate          RbacPermission = "organization_webhook:create"
 	RbacPermissionOrganizationWebhookUpdate          RbacPermission = "organization_webhook:update"
@@ -298,6 +309,17 @@ func (v RbacPermission) AllValues() []RbacPermission {
 		RbacPermissionAgentPoolUpdate,
 		RbacPermissionAgentPoolDelete,
 		RbacPermissionAgentTaskCreate,
+		RbacPermissionAgentTaskRead,
+		RbacPermissionAgentTaskContribute,
+		RbacPermissionAgentTaskApprove,
+		RbacPermissionAgentTaskManage,
+		RbacPermissionAgentAutomationsRead,
+		RbacPermissionAgentAutomationsCreate,
+		RbacPermissionAgentAutomationsUpdate,
+		RbacPermissionAgentAutomationsDelete,
+		RbacPermissionAgentDefinitionsCreate,
+		RbacPermissionAgentDefinitionsUpdate,
+		RbacPermissionAgentDefinitionsDelete,
 		RbacPermissionOrganizationWebhookRead,
 		RbacPermissionOrganizationWebhookCreate,
 		RbacPermissionOrganizationWebhookUpdate,
@@ -580,6 +602,28 @@ func (v RbacPermission) IsValid() bool {
 	case RbacPermissionAgentPoolDelete:
 		return true
 	case RbacPermissionAgentTaskCreate:
+		return true
+	case RbacPermissionAgentTaskRead:
+		return true
+	case RbacPermissionAgentTaskContribute:
+		return true
+	case RbacPermissionAgentTaskApprove:
+		return true
+	case RbacPermissionAgentTaskManage:
+		return true
+	case RbacPermissionAgentAutomationsRead:
+		return true
+	case RbacPermissionAgentAutomationsCreate:
+		return true
+	case RbacPermissionAgentAutomationsUpdate:
+		return true
+	case RbacPermissionAgentAutomationsDelete:
+		return true
+	case RbacPermissionAgentDefinitionsCreate:
+		return true
+	case RbacPermissionAgentDefinitionsUpdate:
+		return true
+	case RbacPermissionAgentDefinitionsDelete:
 		return true
 	case RbacPermissionOrganizationWebhookRead:
 		return true
@@ -974,6 +1018,28 @@ func (v RbacPermission) openapiName() string {
 		return "AgentPoolDelete"
 	case RbacPermissionAgentTaskCreate:
 		return "AgentTaskCreate"
+	case RbacPermissionAgentTaskRead:
+		return "AgentTaskRead"
+	case RbacPermissionAgentTaskContribute:
+		return "AgentTaskContribute"
+	case RbacPermissionAgentTaskApprove:
+		return "AgentTaskApprove"
+	case RbacPermissionAgentTaskManage:
+		return "AgentTaskManage"
+	case RbacPermissionAgentAutomationsRead:
+		return "AgentAutomationsRead"
+	case RbacPermissionAgentAutomationsCreate:
+		return "AgentAutomationsCreate"
+	case RbacPermissionAgentAutomationsUpdate:
+		return "AgentAutomationsUpdate"
+	case RbacPermissionAgentAutomationsDelete:
+		return "AgentAutomationsDelete"
+	case RbacPermissionAgentDefinitionsCreate:
+		return "AgentDefinitionsCreate"
+	case RbacPermissionAgentDefinitionsUpdate:
+		return "AgentDefinitionsUpdate"
+	case RbacPermissionAgentDefinitionsDelete:
+		return "AgentDefinitionsDelete"
 	case RbacPermissionOrganizationWebhookRead:
 		return "OrganizationWebhookRead"
 	case RbacPermissionOrganizationWebhookCreate:

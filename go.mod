@@ -4,7 +4,7 @@ go 1.27.0
 
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.2.1
-	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.0.10
+	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.1.0
 	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.6
 )
 
@@ -17,9 +17,9 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armsubscriptions v1.3.0
 	github.com/Azure/azure-sdk-for-go/sdk/storage/azblob v1.8.2
 	github.com/IBM-Cloud/power-go-client v1.17.0
-	github.com/IBM/go-sdk-core/v5 v5.24.0
+	github.com/IBM/go-sdk-core/v5 v5.25.0
 	github.com/IBM/platform-services-go-sdk v0.103.4
-	github.com/IBM/vpc-go-sdk v0.92.0
+	github.com/IBM/vpc-go-sdk v0.93.0
 	github.com/aws/amazon-ec2-instance-selector/v3 v3.1.3
 	github.com/aws/aws-sdk-go-v2 v1.47.3
 	github.com/aws/aws-sdk-go-v2/config v1.33.9
@@ -33,8 +33,8 @@ require (
 	github.com/go-playground/validator/v10 v10.30.5
 	github.com/mapt-oss/pulumi-ibmcloud/sdk v0.0.16
 	github.com/pulumi/pulumi-aws-native/sdk v1.82.0
-	github.com/pulumi/pulumi-aws/sdk/v7 v7.48.0
-	github.com/pulumi/pulumi-awsx/sdk/v3 v3.10.0
+	github.com/pulumi/pulumi-aws/sdk/v7 v7.50.0
+	github.com/pulumi/pulumi-awsx/sdk/v3 v3.11.0
 	github.com/pulumi/pulumi-azure-native-sdk/authorization/v3 v3.28.0
 	github.com/pulumi/pulumi-azure-native-sdk/compute/v3 v3.28.0
 	github.com/pulumi/pulumi-azure-native-sdk/containerservice/v3 v3.28.0
@@ -48,13 +48,13 @@ require (
 	github.com/pulumi/pulumi-kubernetes/sdk/v4 v4.34.2
 	github.com/pulumi/pulumi-random/sdk/v4 v4.21.2
 	github.com/pulumi/pulumi-tls/sdk/v5 v5.6.1
-	github.com/pulumi/pulumi/sdk/v3 v3.267.0
+	github.com/pulumi/pulumi/sdk/v3 v3.268.0
 	github.com/sirupsen/logrus v1.10.2
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/spf13/viper v1.21.0
-	golang.org/x/exp v0.0.0-20261005173118-76772065c9b0
-	golang.org/x/mod v0.41.0
+	golang.org/x/exp v0.0.0-20261011100332-faecfb24eb49
+	golang.org/x/mod v0.42.0
 	k8s.io/apimachinery v0.37.1
 	k8s.io/client-go v0.37.1
 )
@@ -118,7 +118,6 @@ require (
 	github.com/evertras/bubble-table v0.17.1 // indirect
 	github.com/fsnotify/fsnotify v1.10.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.6 // indirect
-	// github.com/evertras/bubble-table v0.22.3 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.15 // indirect
 	github.com/go-git/gcfg/v2 v2.0.2 // indirect
 	github.com/go-git/go-billy/v6 v6.0.0-beta.1 // indirect
@@ -205,7 +204,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
 	github.com/pulumi/pulumi-azure-native-sdk/v3 v3.28.0 // indirect
-	github.com/pulumi/pulumi-cloud-sdk/go v1.20261005.0 // indirect
+	github.com/pulumi/pulumi-cloud-sdk/go v1.20261012.0 // indirect
 	github.com/pulumi/pulumi-docker-build/sdk/go/dockerbuild v0.0.22 // indirect
 	github.com/pulumi/pulumi-docker/sdk/v4 v4.5.8 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
@@ -244,17 +243,17 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
-	golang.org/x/crypto v0.57.0 // indirect
-	golang.org/x/net v0.59.0 // indirect
+	golang.org/x/crypto v0.58.0 // indirect
+	golang.org/x/net v0.61.0 // indirect
 	golang.org/x/oauth2 v0.37.0 // indirect
-	golang.org/x/sync v0.23.0 // indirect
-	golang.org/x/sys v0.48.0 // indirect
-	golang.org/x/term v0.46.0 // indirect
-	golang.org/x/text v0.42.0 // indirect
+	golang.org/x/sync v0.24.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/term v0.47.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 	golang.org/x/time v0.16.0 // indirect
-	golang.org/x/tools v0.51.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20261005182115-fad411399dd8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20261005182115-fad411399dd8 // indirect
+	golang.org/x/tools v0.52.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20261012220534-4341edf3f941 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20261012220534-4341edf3f941 // indirect
 	google.golang.org/grpc v1.84.0 // indirect
 	google.golang.org/protobuf v1.36.12 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
