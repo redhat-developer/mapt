@@ -53,6 +53,7 @@ func ibmGaudiCreate() *cobra.Command {
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmgaudi.GaudiArgs{
+					VpcID:          viper.GetString(params.VpcID),
 					SubnetID:       viper.GetString(params.SubnetID),
 					OtelAppCode:    viper.GetString(params.OtelAppCode),
 					OtelAuthToken:  viper.GetString(params.OtelAuthToken),
@@ -65,6 +66,7 @@ func ibmGaudiCreate() *cobra.Command {
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
+	flagSet.StringP(params.VpcID, "", "", params.VpcIDDesc)
 	flagSet.StringP(params.SubnetID, "", "", params.SubnetIDDesc)
 	flagSet.StringP(params.OtelAppCode, "", "", params.OtelAppCodeDesc)
 	flagSet.StringP(params.OtelAuthToken, "", "", params.OtelAuthTokenDesc)

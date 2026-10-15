@@ -52,6 +52,7 @@ type sncRequest struct {
 	profile                 string
 	diskSize                int
 	zone                    *string
+	vpcID                   *string
 	profiles                []string
 	operatorChannels        map[string]string
 	catalogSources          map[string]string
@@ -122,6 +123,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 		}
 	}
 
+	var vpcID *string
+	if args.VpcID != "" {
+		vpcID = &args.VpcID
+	}
 	r := &sncRequest{
 		mCtx:                    mCtx,
 		prefix:                  &prefix,
@@ -133,6 +138,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 		diskSize:                diskSize,
 		spot:                    spot,
 		zone:                    zone,
+		vpcID:                   vpcID,
 		profiles:                args.Profiles,
 		operatorChannels:        args.OperatorChannels,
 		catalogSources:          args.CatalogSources,
@@ -187,6 +193,7 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 		Zone:        &zone,
 		RG:          rg,
 		Tags:        userTags,
+		VpcID:       r.vpcID,
 	})
 	if err != nil {
 		return err
@@ -236,7 +243,7 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 			VersionCrn: pulumi.StringPtr(*r.offeringCRN),
 		},
 		Profile: pulumi.String(r.profile),
-		Vpc:     n.VPC.ID(),
+		Vpc:     n.VPCID,
 		Zone:    pulumi.String(zone),
 		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
 			Size: pulumi.Int(r.diskSize),
