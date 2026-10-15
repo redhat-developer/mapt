@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/aws"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/azure"
+	"github.com/redhat-developer/mapt/cmd/mapt/cmd/gcp"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/ibmcloud"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -63,6 +64,7 @@ func init() {
 	rootCmd.AddCommand(
 		aws.GetCmd(),
 		azure.GetCmd(),
+		gcp.GetCmd(),
 		ibmcloud.GetCmd())
 }
 
