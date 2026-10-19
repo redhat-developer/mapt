@@ -42,6 +42,10 @@ type windowsRequest struct {
 }
 
 func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) error {
+	if args.ComputeRequest == nil {
+		return fmt.Errorf("compute request is required")
+	}
+
 	mCtx, err := mc.Init(mCtxArgs, gcp.Provider())
 	if err != nil {
 		return err
@@ -174,8 +178,7 @@ func manageResults(mCtx *mc.Context, stackResult auto.UpResult, prefix string) e
 }
 
 func windowsStartupScript(username string, password *random.RandomPassword) pulumi.StringOutput {
-	return pulumi.Sprintf(`<powershell>
-$user = "%s"
+	return pulumi.Sprintf(`$user = "%s"
 $pass = ConvertTo-SecureString -String "%s" -AsPlainText -Force
 if (-not (Get-LocalUser -Name $user -ErrorAction SilentlyContinue)) {
     New-LocalUser -Name $user -Password $pass -FullName $user -Description "MAPT user"
@@ -184,5 +187,5 @@ if (-not (Get-LocalUser -Name $user -ErrorAction SilentlyContinue)) {
 }
 Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -Name fDenyTSConnections -Value 0
 Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-</powershell>`, username, password.Result)
+`, username, password.Result)
 }

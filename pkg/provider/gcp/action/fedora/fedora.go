@@ -38,6 +38,10 @@ type fedoraRequest struct {
 }
 
 func Create(mCtxArgs *mc.ContextArgs, args *FedoraArgs) error {
+	if args.ComputeRequest == nil {
+		return fmt.Errorf("compute request is required")
+	}
+
 	mCtx, err := mc.Init(mCtxArgs, gcp.Provider())
 	if err != nil {
 		return err

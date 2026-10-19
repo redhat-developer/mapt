@@ -373,6 +373,7 @@ func (s *SpotSelector) filterByPreemption(ctx context.Context, candidates []spot
 	}
 	var mu sync.Mutex
 	preemptionRates := make(map[historyKey]float64)
+	prices := make(map[historyKey]float64)
 	var wg sync.WaitGroup
 
 	seen := make(map[historyKey]bool)
@@ -416,18 +417,19 @@ func (s *SpotSelector) filterByPreemption(ctx context.Context, candidates []spot
 			if len(resp.PriceHistory) > 0 {
 				latest := resp.PriceHistory[len(resp.PriceHistory)-1]
 				if latest.ListPrice != nil {
-					price := moneyToFloat(latest.ListPrice)
-					for i := range candidates {
-						if candidates[i].region == region && candidates[i].machineType == machineType {
-							candidates[i].price = price
-						}
-					}
+					prices[historyKey{region, machineType}] = moneyToFloat(latest.ListPrice)
 				}
 			}
 		}(c.region, c.machineType)
 	}
 
 	wg.Wait()
+
+	for i := range candidates {
+		if p, ok := prices[historyKey{candidates[i].region, candidates[i].machineType}]; ok {
+			candidates[i].price = p
+		}
+	}
 
 	var filtered []spotCandidate
 	for _, c := range candidates {
@@ -442,11 +444,6 @@ func (s *SpotSelector) filterByPreemption(ctx context.Context, candidates []spot
 			}
 		}
 		filtered = append(filtered, c)
-	}
-
-	if len(filtered) == 0 && len(candidates) > 0 {
-		logging.Debugf("spot: all candidates filtered by preemption rate, returning originals")
-		return candidates, nil
 	}
 
 	return filtered, nil
@@ -529,10 +526,11 @@ func (s *SpotSelector) enrichWithPricing(ctx context.Context, candidates []spotC
 func (s *SpotSelector) rankCandidates(candidates []spotCandidate) {
 	for i := range candidates {
 		c := &candidates[i]
-		priceScore := 1.0
-		if c.price > 0 {
-			priceScore = 1.0 / c.price
+		price := c.price
+		if price <= 0 {
+			price = 0.10
 		}
+		priceScore := 1.0 / price
 
 		hubWeight := 1.0
 		region := extractRegion(c.zone)
