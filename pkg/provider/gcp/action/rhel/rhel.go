@@ -148,7 +148,7 @@ func (r *rhelRequest) deploy(ctx *pulumi.Context) error {
 		DiskSize:    &effectiveDiskSize,
 		Spot:        r.spot,
 		Username:    userDefault,
-		Tags:        []string{fmt.Sprintf("%s-ssh", gcpRHELID)},
+		Tags:        []string{fmt.Sprintf("%s-fw", gcpRHELID)},
 	}
 	c, err := cr.NewCompute(ctx)
 	if err != nil {
