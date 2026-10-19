@@ -135,8 +135,8 @@ github.com/bombsimon/wsl/v5
 # github.com/breml/bidichk v0.3.4
 ## explicit; go 1.26.0
 github.com/breml/bidichk/pkg/bidichk
-# github.com/breml/errchkjson v0.4.1
-## explicit; go 1.23.0
+# github.com/breml/errchkjson v0.4.2
+## explicit; go 1.26.0
 github.com/breml/errchkjson
 # github.com/butuzov/ireturn v0.4.1
 ## explicit; go 1.25.0
