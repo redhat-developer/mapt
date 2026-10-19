@@ -36,7 +36,7 @@ import (
 //			if err != nil {
 //				return err
 //			}
-//			// Public key loaded from a terraform-generated private key, using the PEM (RFC 1421) format
+//			// Public key loaded from a pulumi-generated private key, using the PEM (RFC 1421) format
 //			_ = tls.GetPublicKeyOutput(ctx, tls.GetPublicKeyOutputArgs{
 //				PrivateKeyPem: ed25519_example.PrivateKeyPem,
 //			}, nil)
