@@ -12,7 +12,7 @@ import (
 const (
 	rhelImageProject    = "rhel-cloud"
 	windowsImageProject = "windows-cloud"
-	fedoraImageProject  = "fedora-cloud-ll"
+	fedoraImageProject  = "fedora-cloud"
 )
 
 func GetRHELImageURI(ctx context.Context, version string) (string, error) {
@@ -55,7 +55,7 @@ func GetFedoraImageURI(ctx context.Context, version string) (string, error) {
 		return "", fmt.Errorf("error creating GCP compute service: %v", err)
 	}
 
-	family := fmt.Sprintf("fedora-cloud-%s", version)
+	family := fmt.Sprintf("fedora-cloud-%s-x86-64", version)
 
 	image, err := svc.Images.GetFromFamily(fedoraImageProject, family).Context(ctx).Do()
 	if err != nil {
