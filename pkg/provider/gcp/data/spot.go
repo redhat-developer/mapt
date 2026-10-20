@@ -313,8 +313,8 @@ func (s *SpotSelector) queryCapacity(ctx context.Context, regions []string, mach
 						}
 						candidates = append(candidates, spotCandidate{
 							region:        region,
-							zone:          shard.Zone,
-							machineType:   shard.MachineType,
+							zone:          resourceName(shard.Zone),
+							machineType:   resourceName(shard.MachineType),
 							obtainability: rec.Scores.Obtainability,
 						})
 					}
@@ -360,7 +360,7 @@ func (s *SpotSelector) filterByPreemption(ctx context.Context, candidates []spot
 		return candidates, err
 	}
 
-	svc, err := computeBeta.NewService(ctx, option.WithScopes(computeBeta.ComputeReadonlyScope))
+	svc, err := computeBeta.NewService(ctx, option.WithScopes(computeBeta.ComputeScope))
 	if err != nil {
 		return candidates, err
 	}
@@ -466,7 +466,7 @@ func (s *SpotSelector) enrichWithPricing(ctx context.Context, candidates []spotC
 		return candidates, err
 	}
 
-	svc, err := computeBeta.NewService(ctx, option.WithScopes(computeBeta.ComputeReadonlyScope))
+	svc, err := computeBeta.NewService(ctx, option.WithScopes(computeBeta.ComputeScope))
 	if err != nil {
 		return candidates, err
 	}
@@ -593,6 +593,13 @@ func batchMachineTypes(machineTypes []string, batchSize int) [][]string {
 
 func moneyToFloat(m *computeBeta.Money) float64 {
 	return float64(m.Units) + float64(m.Nanos)/1e9
+}
+
+func resourceName(urlOrName string) string {
+	if i := strings.LastIndex(urlOrName, "/"); i >= 0 {
+		return urlOrName[i+1:]
+	}
+	return urlOrName
 }
 
 func extractRegion(zone string) string {

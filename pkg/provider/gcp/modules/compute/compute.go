@@ -88,6 +88,8 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 
 	if r.Spot {
 		instanceArgs.Scheduling = &gcpCompute.InstanceSchedulingArgs{
+			Preemptible:               pulumi.Bool(true),
+			AutomaticRestart:          pulumi.Bool(false),
 			ProvisioningModel:         pulumi.String("SPOT"),
 			InstanceTerminationAction: pulumi.String("STOP"),
 		}

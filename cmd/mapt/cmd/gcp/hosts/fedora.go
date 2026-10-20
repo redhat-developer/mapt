@@ -13,7 +13,7 @@ const (
 	cmdFedora     = "fedora"
 	cmdFedoraDesc = "manage fedora on gcp"
 
-	fedoraVersionDefault = "41"
+	fedoraVersionDefault = "43"
 )
 
 func GetFedoraCmd() *cobra.Command {
