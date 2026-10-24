@@ -1508,15 +1508,133 @@ func (ctx *Context) readPackageResource(
 			logging.V(9).Infof("ReadResource(%s, %s): success: %s %s ...", t, name, resp.Urn, id)
 		}
 		if resp != nil {
-			urn, resID = resp.Urn, string(idToRead)
+			urn = resp.Urn
 			state = resp.Properties
-			// A skipped read reports Unknown=true; resolve outputs as unknown so dependents
-			// propagate unknowns instead of seeing empty values as real.
-			keepUnknowns = resp.Result == pulumirpc.Result_SUCCESS && resp.Unknown
+			// A skipped read reports Unknown=true and a failed read reports a non-success result;
+			// resolve outputs as unknown in both cases so dependents propagate unknowns instead of
+			// seeing empty values as real.
+			if resp.Result != pulumirpc.Result_SUCCESS {
+				state = nil
+			}
+			keepUnknowns = resp.Result != pulumirpc.Result_SUCCESS || resp.Unknown
+			// Prefer the id returned by the provider's Read, which may differ from the id
+			// supplied on the request. An empty response id during preview means "unknown"
+			// (resolve() will mark the output as computed); during update it indicates an
+			// older engine that did not populate the field, so fall back to the request id.
+			switch {
+			case resp.Id != "":
+				resID = resp.Id
+			case ctx.DryRun():
+				resID = ""
+			default:
+				resID = string(idToRead)
+			}
 		}
 	}()
 
 	return nil
+}
+
+// ExistsResource checks whether a resource with the given type and ID exists, using the specified package
+// reference, which may be empty. It returns a BoolOutput that resolves to true if the resource exists, false
+// otherwise.
+func (ctx *Context) ExistsResource(
+	t string, id IDInput, props Input, packageRef string, opts ...ResourceOption,
+) BoolOutput {
+	output := ctx.newOutput(reflect.TypeFor[BoolOutput]())
+
+	go func() {
+		options := merge(opts...)
+		if options.Parent == nil {
+			options.Parent = ctx.state.stack
+		}
+
+		// Merge providers.
+		providers, err := ctx.mergeProviders(t, options.Parent, options.Provider, options.Providers)
+		if err != nil {
+			internal.RejectOutput(output, err)
+			return
+		}
+
+		// Get the provider for the resource.
+		provider := ctx.getProvider(t, packageRef, options.Provider, providers)
+
+		// Resolve the provider reference.
+		var providerRef string
+		if provider != nil {
+			pr, err := ctx.resolveProviderReference(provider)
+			if err != nil {
+				internal.RejectOutput(output, err)
+				return
+			}
+			providerRef = pr
+		}
+
+		// Resolve the parent URN.
+		var parentURN string
+		if options.Parent != nil {
+			urn, _, _, err := options.Parent.URN().awaitURN(context.TODO())
+			if err != nil {
+				internal.RejectOutput(output, err)
+				return
+			}
+			parentURN = string(urn)
+		}
+
+		// Await the ID.
+		idToCheck, known, _, err := id.ToIDOutput().awaitID(context.TODO())
+		if err != nil {
+			internal.RejectOutput(output, err)
+			return
+		}
+		if !known {
+			internal.ResolveOutput(output, false, false /* known */, false /* secret */, nil)
+			return
+		}
+
+		// Serialize properties if provided.
+		var rpcProps *structpb.Struct
+		if props != nil {
+			resolvedProps, _, _, err := marshalInputs(props)
+			if err != nil {
+				internal.RejectOutput(output, err)
+				return
+			}
+			rpcProps, err = plugin.MarshalProperties(
+				resolvedProps,
+				plugin.MarshalOptions{
+					KeepUnknowns:  true,
+					KeepSecrets:   true,
+					KeepResources: ctx.state.keepResources,
+				})
+			if err != nil {
+				internal.RejectOutput(output, err)
+				return
+			}
+		}
+
+		logging.V(9).Infof("ExistsResource(%s): RPC call being made", t)
+		resp, err := ctx.state.monitor.ExistsResource(ctx.ctx, &pulumirpc.ExistsResourceRequest{
+			Type:              t,
+			Id:                string(idToCheck),
+			Parent:            parentURN,
+			Properties:        rpcProps,
+			Provider:          providerRef,
+			Version:           options.Version,
+			PluginDownloadURL: options.PluginDownloadURL,
+			PackageRef:        packageRef,
+		})
+		if err != nil {
+			logging.V(9).Infof("ExistsResource(%s): error: %v", t, err)
+			internal.RejectOutput(output, err)
+			return
+		}
+
+		logging.V(9).Infof("ExistsResource(%s): success: exists=%v unknown=%v", t, resp.Exists, resp.Unknown)
+		internal.ResolveOutput(output, resp.Exists, !resp.Unknown, false /* secret */, nil)
+	}()
+
+	return output.(BoolOutput)
 }
 
 func (ctx *Context) getResource(urn string) (*pulumirpc.RegisterResourceResponse, error) {
@@ -1966,6 +2084,7 @@ func (ctx *Context) registerResource(
 				Transforms:                 transforms,
 				StateMigrations:            stateMigrations,
 				SupportsResultReporting:    true,
+				SupportsPartialValues:      true,
 				PackageRef:                 packageRef,
 				Hooks:                      hooks,
 				EnvVarMappings:             inputs.envVarMappings,
@@ -1983,19 +2102,16 @@ func (ctx *Context) registerResource(
 			for key, propertyDependencies := range resp.GetPropertyDependencies() {
 				var resources []Resource
 				for _, urn := range propertyDependencies.GetUrns() {
-					resources = append(resources, &ResourceState{
-						urn: URNInput(URN(urn)).ToURNOutput(),
-					})
+					resources = append(resources, ctx.newDependencyResource(URN(urn)))
 				}
 				deps[key] = resources
 			}
-			// If the engine reported that the resource failed or was skipped, synthesize an
-			// error so downstream outputs fault. This allows Output.Recover to intercept the
-			// failure.
-			if err == nil && resp.Result != pulumirpc.Result_SUCCESS {
-				err = fmt.Errorf("resource %s [%s] failed to register", name, t)
-			}
-			if custom && resp.Result == pulumirpc.Result_SUCCESS && resp.Unknown {
+			// If the engine reported that the resource failed, resolve all of its outputs as
+			// unknown so the rest of the program can continue.
+			if resp.Result != pulumirpc.Result_SUCCESS {
+				state = nil
+				keepUnknowns = true
+			} else if custom && resp.Unknown {
 				keepUnknowns = true
 			}
 		}
@@ -2458,7 +2574,9 @@ func (state *resourceState) resolve(ctx *Context, err error, inputs *resourceInp
 		}
 
 		known := true
-		if v.IsNull() || v.IsComputed() || v.IsOutput() {
+		if v.ContainsUnknowns() {
+			known = false
+		} else if v.IsNull() || v.IsOutput() {
 			known = !keepUnknowns
 		}
 

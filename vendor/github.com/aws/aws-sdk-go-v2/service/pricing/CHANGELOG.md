@@ -1,3 +1,13 @@
+# v1.51.0 (2026-10-22)
+
+* **Feature**: Enable schema-based (de)serialization for this service.
+* **Bug Fix**: Update smithy-go to v1.28.6
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.50.0 (2026-10-20)
+
+* **Feature**: Enable schema-based (de)serialization for this service.
+
 # v1.49.4 (2026-10-09.2)
 
 * **Dependency Update**: Update to smithy-go v1.28.5.

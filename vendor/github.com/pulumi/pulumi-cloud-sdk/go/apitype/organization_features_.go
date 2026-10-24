@@ -43,6 +43,8 @@ type OrganizationFeatures struct {
 	LegacyDeploymentsOrgToken bool `json:"legacyDeploymentsOrgToken" yaml:"legacyDeploymentsOrgToken"`
 	// Whether GitHub Enterprise integration is enabled.
 	GitHubEnterpriseIntegrationEnabled bool `json:"gitHubEnterpriseIntegrationEnabled" yaml:"gitHubEnterpriseIntegrationEnabled"`
+	// Whether GitHub Enterprise Cloud with data residency (ghe.com) integration is enabled.
+	GitHubEnterpriseCloudDataResidencyEnabled bool `json:"gitHubEnterpriseCloudDataResidencyEnabled" yaml:"gitHubEnterpriseCloudDataResidencyEnabled"`
 	// Deprecated. Per-user (individual) GitHub Enterprise authentication is now a per-installation setting; no longer populated.
 	GitHubEnterpriseIndividualAuthEnabled bool `json:"gitHubEnterpriseIndividualAuthEnabled,omitzero" yaml:"gitHubEnterpriseIndividualAuthEnabled,omitempty"`
 	// Whether agent pool registration is enabled for self-hosted deployments.
@@ -175,8 +177,7 @@ type OrganizationFeatures struct {
 	AccessTokenExpiryPolicyEnabled bool `json:"accessTokenExpiryPolicyEnabled,omitzero" yaml:"accessTokenExpiryPolicyEnabled,omitempty"`
 	// Whether Neo BYOK (bring-your-own-key) model provider configuration is enabled.
 	NeoByokEnabled bool `json:"neoByokEnabled" yaml:"neoByokEnabled"`
-	// Whether the create-and-manage-Neo-tasks permission is enforced on Neo task creation for the organization (rollout flag). While unset the
-	// permission is evaluated in shadow mode only and denials do not block.
+	// Deprecated. Always true.
 	NeoAgentTaskRBACEnforcementEnabled bool `json:"neoAgentTaskRbacEnforcementEnabled,omitzero" yaml:"neoAgentTaskRbacEnforcementEnabled,omitempty"`
 	// Whether one-click Link express checkout is enabled for adding a payment method.
 	LinkExpressCheckoutEnabled bool `json:"linkExpressCheckoutEnabled,omitzero" yaml:"linkExpressCheckoutEnabled,omitempty"`
@@ -184,4 +185,11 @@ type OrganizationFeatures struct {
 	MultiChangeRequestsEnabled bool `json:"multiChangeRequestsEnabled,omitzero" yaml:"multiChangeRequestsEnabled,omitempty"`
 	// Whether the Pulumi Agents workspace navigation is enabled.
 	AgentsAsTeamMembersEnabled bool `json:"agentsAsTeamMembersEnabled,omitzero" yaml:"agentsAsTeamMembersEnabled,omitempty"`
+	// Whether individual users can be assigned permission sets on stacks, environments and Insights accounts.
+	EntityUserAssignmentsEnabled bool `json:"entityUserAssignmentsEnabled" yaml:"entityUserAssignmentsEnabled"`
+	// Whether policy exceptions are enabled.
+	PolicyExceptionsEnabled bool `json:"policyExceptionsEnabled" yaml:"policyExceptionsEnabled"`
+	// Whether the organization uses the static default roles: members get their access from a stored default role (Reader, Builder, Maintainer
+	// or a custom role) instead of the computed Member role. Derived from the organization's data, not from its plan.
+	StaticDefaultRolesEnabled bool `json:"staticDefaultRolesEnabled" yaml:"staticDefaultRolesEnabled"`
 }

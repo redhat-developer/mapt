@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// A console event in an agent task conversation, either a user input or an agent response.
+// A console event in an agent task conversation: a user input, a trigger input, or an agent response.
 type AgentConsoleEvent interface {
 	json.Marshaler
 	GetInstancesFromTypeHierarchy() []AgentConsoleEvent
@@ -79,6 +79,7 @@ type agentConsoleEventImpl struct {
 func (m *agentConsoleEventImpl) GetInstancesFromTypeHierarchy() []AgentConsoleEvent {
 	return []AgentConsoleEvent{
 		&agentConsoleEventAgentResponseImpl{},
+		&agentConsoleEventTriggerUserInputImpl{},
 		&agentConsoleEventUserInputImpl{},
 	}
 }
@@ -130,6 +131,13 @@ func UnmarshalJSONAgentConsoleEvent(bytes []byte, res *AgentConsoleEvent) error 
 		}
 		*res = &subValue
 		return nil
+	case "triggerUserInput":
+		var subValue agentConsoleEventTriggerUserInputImpl
+		if err = json.Unmarshal(bytes, &subValue); err != nil {
+			return err
+		}
+		*res = &subValue
+		return nil
 	case "userInput":
 		var subValue agentConsoleEventUserInputImpl
 		if err = json.Unmarshal(bytes, &subValue); err != nil {
@@ -159,6 +167,13 @@ func UnmarshalYamlAgentConsoleEvent(node yaml.Node, res *AgentConsoleEvent) erro
 	switch v.InternalDiscriminator {
 	case "agentResponse":
 		var subValue agentConsoleEventAgentResponseImpl
+		if err = node.Decode(&subValue); err != nil {
+			return err
+		}
+		*res = &subValue
+		return nil
+	case "triggerUserInput":
+		var subValue agentConsoleEventTriggerUserInputImpl
 		if err = node.Decode(&subValue); err != nil {
 			return err
 		}

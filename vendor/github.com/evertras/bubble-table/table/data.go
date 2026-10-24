@@ -2,10 +2,22 @@ package table
 
 import "time"
 
+func asTime(data any) (time.Time, bool) {
+	switch val := data.(type) {
+	case time.Time:
+		return val, true
+
+	case StyledCell:
+		return asTime(val.Data)
+	}
+
+	return time.Time{}, false
+}
+
 // This is just a bunch of data type checks, so... no linting here
 //
 //nolint:cyclop
-func asInt(data interface{}) (int64, bool) {
+func asInt(data any) (int64, bool) {
 	switch val := data.(type) {
 	case int:
 		return int64(val), true
@@ -23,6 +35,7 @@ func asInt(data interface{}) (int64, bool) {
 		return val, true
 
 	case uint:
+		// #nosec: G115
 		return int64(val), true
 
 	case uint8:
@@ -35,6 +48,7 @@ func asInt(data interface{}) (int64, bool) {
 		return int64(val), true
 
 	case uint64:
+		// #nosec: G115
 		return int64(val), true
 
 	case time.Duration:
@@ -47,7 +61,7 @@ func asInt(data interface{}) (int64, bool) {
 	return 0, false
 }
 
-func asNumber(data interface{}) (float64, bool) {
+func asNumber(data any) (float64, bool) {
 	switch val := data.(type) {
 	case float32:
 		return float64(val), true
