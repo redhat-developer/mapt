@@ -12,13 +12,16 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// A console event in an agent task conversation, either a user input or an agent response.
+// A console event in an agent task conversation: a user input, a trigger input, or an agent response.
 type AgentConsoleEventUserInput interface {
 	AgentConsoleEvent
 	isAgentConsoleEventUserInput()
 	// The prompt from the user to the Agent.
 	EventBody() AgentUserEvent
 	SetEventBody(v AgentUserEvent) error
+	// The user who submitted this input. Absent for system-generated inputs and older events.
+	Actor() *UserInfo
+	SetActor(v *UserInfo) error
 }
 
 func AgentConsoleEventUserInputChecker[T any]() {
@@ -57,6 +60,7 @@ func AgentConsoleEventUserInputAsDiscriminator[T AgentConsoleEventUserInput]() s
 type AgentConsoleEventUserInputBuilder struct {
 	AgentConsoleEventBuilder
 	EventBody AgentUserEvent
+	Actor     *UserInfo
 }
 
 func (b AgentConsoleEventUserInputBuilder) Build() AgentConsoleEventUserInput {
@@ -66,12 +70,14 @@ func (b AgentConsoleEventUserInputBuilder) Build() AgentConsoleEventUserInput {
 			fieldIsSynthetic: b.IsSynthetic,
 		},
 		fieldEventBody: b.EventBody,
+		fieldActor:     b.Actor,
 	}
 }
 
 type agentConsoleEventUserInputImpl struct {
 	agentConsoleEventImpl
 	fieldEventBody AgentUserEvent
+	fieldActor     *UserInfo
 }
 
 func (m *agentConsoleEventUserInputImpl) GetInstancesFromTypeHierarchy() []AgentConsoleEvent {
@@ -97,12 +103,22 @@ func (m *agentConsoleEventUserInputImpl) SetEventBody(v AgentUserEvent) error {
 	return nil
 }
 
+func (m *agentConsoleEventUserInputImpl) Actor() *UserInfo {
+	return m.fieldActor
+}
+
+func (m *agentConsoleEventUserInputImpl) SetActor(v *UserInfo) error {
+	m.fieldActor = v
+	return nil
+}
+
 func (m *agentConsoleEventUserInputImpl) MarshalJSON() ([]byte, error) {
 	type marshaller struct {
 		InternalDiscriminator string         `json:"type,omitempty"`
 		FieldID               string         `json:"id"`
 		FieldIsSynthetic      bool           `json:"isSynthetic"`
 		FieldEventBody        AgentUserEvent `json:"eventBody"`
+		FieldActor            *UserInfo      `json:"actor,omitempty"`
 	}
 
 	var v marshaller
@@ -110,6 +126,7 @@ func (m *agentConsoleEventUserInputImpl) MarshalJSON() ([]byte, error) {
 	v.FieldID = m.fieldID
 	v.FieldIsSynthetic = m.fieldIsSynthetic
 	v.FieldEventBody = m.fieldEventBody
+	v.FieldActor = m.fieldActor
 	return json.Marshal(v)
 }
 
@@ -118,6 +135,7 @@ func (m *agentConsoleEventUserInputImpl) UnmarshalJSON(bytes []byte) error {
 		FieldID          string          `json:"id"`
 		FieldIsSynthetic bool            `json:"isSynthetic"`
 		FieldEventBody   json.RawMessage `json:"eventBody"`
+		FieldActor       *UserInfo       `json:"actor,omitempty"`
 	}
 
 	var v decoder
@@ -132,6 +150,7 @@ func (m *agentConsoleEventUserInputImpl) UnmarshalJSON(bytes []byte) error {
 			return err
 		}
 	}
+	m.fieldActor = v.FieldActor
 	return nil
 }
 
@@ -141,6 +160,7 @@ func (m agentConsoleEventUserInputImpl) MarshalYAML() (any, error) {
 		FieldID               string         `yaml:"id,omitempty"`
 		FieldIsSynthetic      bool           `yaml:"isSynthetic,omitempty"`
 		FieldEventBody        AgentUserEvent `yaml:"eventBody,omitempty"`
+		FieldActor            *UserInfo      `yaml:"actor,omitempty"`
 	}
 
 	var v marshaller
@@ -148,6 +168,7 @@ func (m agentConsoleEventUserInputImpl) MarshalYAML() (any, error) {
 	v.FieldID = m.fieldID
 	v.FieldIsSynthetic = m.fieldIsSynthetic
 	v.FieldEventBody = m.fieldEventBody
+	v.FieldActor = m.fieldActor
 	return &v, nil
 }
 
@@ -156,6 +177,7 @@ func (m *agentConsoleEventUserInputImpl) UnmarshalYAML(value *yaml.Node) error {
 		FieldID          string    `yaml:"id,omitempty"`
 		FieldIsSynthetic bool      `yaml:"isSynthetic,omitempty"`
 		FieldEventBody   yaml.Node `yaml:"eventBody,omitempty"`
+		FieldActor       *UserInfo `yaml:"actor,omitempty"`
 	}
 
 	var v decoder
@@ -170,5 +192,6 @@ func (m *agentConsoleEventUserInputImpl) UnmarshalYAML(value *yaml.Node) error {
 			return err
 		}
 	}
+	m.fieldActor = v.FieldActor
 	return nil
 }

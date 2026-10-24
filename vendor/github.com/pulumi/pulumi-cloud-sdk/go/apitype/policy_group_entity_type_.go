@@ -6,7 +6,8 @@ package apitype
 
 import "fmt"
 
-// PolicyGroupEntityType represents the type of entities a policy group applies to
+// A legacy label for a policy group, `stacks` or `accounts`. It picks the default mode on create and does not restrict which entities the
+// group holds.
 type PolicyGroupEntityType string
 
 const (

@@ -913,6 +913,12 @@ func (n *RegexNode) eliminateEndingBacktracking() {
 			fallthrough
 		case NtLoop:
 			if node.N == 1 {
+				// ECMAScript RepeatMatcher rejects an optional empty iteration.
+				// Its body must retain backtracking so a consuming alternative
+				// can still succeed, even when nothing follows the loop.
+				if node.Options&ECMAScript != 0 && node.M == 0 && node.Children[0].ComputeMinLength() == 0 {
+					break
+				}
 				// If the loop has a max iteration count of 1 (e.g. it's an optional node),
 				// there's no possibility for conflict between multiple iterations, so
 				// we can process it.
@@ -964,6 +970,15 @@ func (n *RegexNode) FindLastExpressionInLoopForAutoAtomic() *RegexNode {
 	return nil
 }
 
+// containsLineBreak reports whether the set holds a character that $ can match
+// before in Multiline mode (see IsLineBreak).
+func (c *CharSet) containsLineBreak(options RegexOptions) bool {
+	if options&ECMAScript == 0 {
+		return c.CharIn('\n')
+	}
+	return c.CharIn('\n') || c.CharIn('\r') || c.CharIn('\u2028') || c.CharIn('\u2029')
+}
+
 // Determines whether a node can be switched to an atomic loop.
 //
 // The node following is subsequent, used to determine whether it overlaps.
@@ -992,6 +1007,12 @@ func (n *RegexNode) canBeMadeAtomic(subsequent *RegexNode, iterateNullableSubseq
 		// If the current node's options don't match the subsequent node, then we cannot make it atomic.
 		// This applies to RightToLeft for lookbehinds, as well as patterns that enable/disable global flags in the middle of the pattern.
 		if n.Options != subsequent.Options {
+			return false
+		}
+
+		// The Multi and end anchor checks below assume left-to-right matching.
+		if n.Options&RightToLeft != 0 &&
+			(subsequent.T == NtMulti || subsequent.T == NtEnd || subsequent.T == NtEndZ || subsequent.T == NtEol) {
 			return false
 		}
 
@@ -1025,7 +1046,7 @@ func (n *RegexNode) canBeMadeAtomic(subsequent *RegexNode, iterateNullableSubseq
 				(subsequent.T == NtMulti && n.Ch != subsequent.Str[0]) ||
 				(subsequent.T == NtEnd) ||
 				(subsequent.T == NtEndZ && n.Ch != '\n') ||
-				(subsequent.T == NtEol && n.Ch != '\n') {
+				(subsequent.T == NtEol && !IsLineBreak(n.Options, n.Ch)) {
 				return true
 			}
 
@@ -1064,12 +1085,12 @@ func (n *RegexNode) canBeMadeAtomic(subsequent *RegexNode, iterateNullableSubseq
 				(subsequent.T == NtMulti && !n.Set.CharIn(subsequent.Str[0])) ||
 				(subsequent.T == NtEnd) ||
 				(subsequent.T == NtEndZ && !n.Set.CharIn('\n')) ||
-				(subsequent.T == NtEol && !n.Set.CharIn('\n')) {
+				(subsequent.T == NtEol && !n.Set.containsLineBreak(n.Options)) {
 				return true
 			}
 
 			if (subsequent.IsOneloopFamily() && subsequent.M == 0 && !n.Set.CharIn(subsequent.Ch)) ||
-				(subsequent.IsSetloopFamily() && subsequent.M == 0 && subsequent.Set.MayOverlap(n.Set)) ||
+				(subsequent.IsSetloopFamily() && subsequent.M == 0 && !subsequent.Set.MayOverlap(n.Set)) ||
 				(subsequent.T == NtBoundary && n.M > 0 && (n.Set.Equals(WordClass()) || n.Set.Equals(DigitClass()))) ||
 				(subsequent.T == NtNonboundary && n.M > 0 && (n.Set.Equals(NotWordClass()) || n.Set.Equals(NotDigitClass()))) ||
 				(subsequent.T == NtECMABoundary && n.M > 0 && (n.Set.Equals(ECMAWordClass()) || n.Set.Equals(ECMADigitClass()))) ||
@@ -1634,7 +1655,9 @@ func (n *RegexNode) reduceConcatenationWithAdjacentLoops() {
 					next++
 					continue
 				}
-			} else if (currentNode.T == NtOneloop || currentNode.T == NtOnelazy) && nextNode.T == NtMulti && currentNode.Ch == nextNode.Str[0] {
+			} else if (currentNode.T == NtOneloop || currentNode.T == NtOnelazy) && nextNode.T == NtMulti &&
+				nextNode.Options&RightToLeft == 0 && // RTL multi nodes don't have their text reversed
+				currentNode.Ch == nextNode.Str[0] {
 				// Coalescing a loop with a subsequent string
 				// Determine how many of the multi's characters can be combined.
 				// We already checked for the first, so we know it's at least one.
