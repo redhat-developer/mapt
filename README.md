@@ -197,6 +197,14 @@ mapt --help
 
 ---
 
+## Telemetry
+
+mapt collects anonymous usage statistics to understand adoption: the command path, mapt version, operating system, architecture, and a random installation ID. The data is used only for aggregate statistics and nothing else. mapt does not send command arguments, logs, personal identifiers, or cloud details. A one-time notice is printed on the first run.
+
+Telemetry is enabled by default. To opt out, pass `--no-telemetry` or set `MAPT_TELEMETRY=0` or `DO_NOT_TRACK=1` — set the variable in your shell profile to make it permanent, or set `"enabled": false` in `~/.mapt/telemetry.json` to opt out via config file. Deleting that file resets your installation ID.
+
+---
+
 ## State management
 
 mapt uses [Pulumi](https://www.pulumi.com/) under the hood. Stack state is stored at `--backed-url`:
