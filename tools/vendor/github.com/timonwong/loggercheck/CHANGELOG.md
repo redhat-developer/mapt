@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.1](https://github.com/timonwong/loggercheck/compare/v0.13.0...v0.13.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* process configuration only once ([#129](https://github.com/timonwong/loggercheck/issues/129)) ([bd58826](https://github.com/timonwong/loggercheck/commit/bd5882689a7d6a689d8aaea51c178fd3ca08fa6f))
+
+
+### Dependencies
+
+* bump golang.org/x/tools from 0.51.0 to 0.52.0 ([#128](https://github.com/timonwong/loggercheck/issues/128)) ([14532b4](https://github.com/timonwong/loggercheck/commit/14532b4e53ab793b39109c967f13d99122369837))
+
 ## [0.13.0](https://github.com/timonwong/loggercheck/compare/v0.12.1...v0.13.0) (2026-10-06)
 
 
