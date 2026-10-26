@@ -42,11 +42,15 @@ type loggercheck struct {
 	requireStringKey bool           // flag -requirestringkey
 	noPrintfLike     bool           // flag -noprintflike
 
-	rules       []string        // used for external integration, for example golangci-lint
-	rulesetList []rules.Ruleset // populate at runtime
+	rules []string // used for external integration, for example golangci-lint
 
-	rulesetIndicesByImportMu sync.Mutex
-	rulesetIndicesByImport   map[string][]int // ruleset index, populate at runtime
+	// The analyzer runs once per package, possibly concurrently, but the
+	// configuration only needs to be processed once. After configOnce the
+	// fields below are read-only.
+	configOnce             sync.Once
+	configErr              error
+	rulesetList            []rules.Ruleset  // populate at runtime
+	rulesetIndicesByImport map[string][]int // ruleset index, populate at runtime
 }
 
 func newLoggerCheck(opts ...Option) *loggercheck {
@@ -89,10 +93,7 @@ func (l *loggercheck) getCheckerForFunc(fn *types.Func) (checker checkers.Checke
 	}
 
 	pkgPath := vendorLessPath(pkg.Path())
-
-	l.rulesetIndicesByImportMu.Lock()
 	indices := l.rulesetIndicesByImport[pkgPath]
-	l.rulesetIndicesByImportMu.Unlock()
 
 	for _, idx := range indices {
 		rs := &l.rulesetList[idx]
@@ -175,15 +176,22 @@ func (l *loggercheck) processConfig() error {
 		indices[rs.PackageImport] = append(indices[rs.PackageImport], i)
 	}
 
-	l.rulesetIndicesByImportMu.Lock()
 	l.rulesetIndicesByImport = indices
-	l.rulesetIndicesByImportMu.Unlock()
 
 	return nil
 }
 
+// loadConfig processes the configuration on the first call and returns the
+// same result on every later call.
+func (l *loggercheck) loadConfig() error {
+	l.configOnce.Do(func() {
+		l.configErr = l.processConfig()
+	})
+	return l.configErr
+}
+
 func (l *loggercheck) run(pass *analysis.Pass) (interface{}, error) {
-	err := l.processConfig()
+	err := l.loadConfig()
 	if err != nil {
 		return nil, err
 	}
