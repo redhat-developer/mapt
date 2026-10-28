@@ -17,6 +17,7 @@ type UserDataValues struct {
 	Unsecure       bool
 	Concurrent     int
 	LogToJournald  bool
+	PowerVSRegion  string
 	Ephemeral      bool
 	RunnerImageRepo        string
 	RunnerImageRepoVersion string
