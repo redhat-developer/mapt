@@ -58,4 +58,7 @@ type PolicyIssue struct {
 	PolicyGroupName *string `json:"policyGroupName,omitempty" yaml:"policyGroupName,omitempty"`
 	// The type of the policy group this issue belongs to.
 	PolicyGroupType *PolicyGroupMode `json:"policyGroupType,omitempty" yaml:"policyGroupType,omitempty"`
+	// The names of the policy exceptions the CLI reported as allowing the issue in its latest run: organization exception IDs, such as EXC-12,
+	// or keys from a local policy config.
+	PolicyExceptionNames []string `json:"policyExceptionNames,omitempty" yaml:"policyExceptionNames,omitempty"`
 }

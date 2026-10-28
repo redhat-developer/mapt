@@ -26,4 +26,8 @@ type AppStack struct {
 	Config *AppStackConfig `json:"config,omitempty" yaml:"config,omitempty"`
 	// The version number
 	Version int `json:"version" yaml:"version"`
+	// The ESC environment this stack manages, which holds the stack's configuration, as <project>/<name>. Read-only; omitted when the stack
+	// does not manage an environment. The name stays set after the environment is deleted. Returned to anyone who can read the stack, whether
+	// or not they can read the environment.
+	ManagedEnvironment *string `json:"managedEnvironment,omitempty" yaml:"managedEnvironment,omitempty"`
 }

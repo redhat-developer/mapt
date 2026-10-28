@@ -48,8 +48,8 @@ import (
 //				return err
 //			}
 //			_, err = ec2.NewVpnConnection(ctx, "example", &ec2.VpnConnectionArgs{
-//				CustomerGatewayId: exampleCustomerGateway.ID().ToIDOutput().ToStringOutput(),
-//				TransitGatewayId:  example.ID().ToIDOutput().ToStringOutput(),
+//				CustomerGatewayId: exampleCustomerGateway.ID(),
+//				TransitGatewayId:  example.ID(),
 //				Type:              exampleCustomerGateway.Type,
 //			})
 //			if err != nil {
@@ -82,7 +82,7 @@ import (
 //				return err
 //			}
 //			vpnGateway, err := ec2.NewVpnGateway(ctx, "vpn_gateway", &ec2.VpnGatewayArgs{
-//				VpcId: vpc.ID().ToIDOutput().ToStringOutput(),
+//				VpcId: vpc.ID(),
 //			})
 //			if err != nil {
 //				return err
@@ -96,8 +96,8 @@ import (
 //				return err
 //			}
 //			_, err = ec2.NewVpnConnection(ctx, "main", &ec2.VpnConnectionArgs{
-//				VpnGatewayId:      vpnGateway.ID().ToIDOutput().ToStringOutput(),
-//				CustomerGatewayId: customerGateway.ID().ToIDOutput().ToStringOutput(),
+//				VpnGatewayId:      vpnGateway.ID(),
+//				CustomerGatewayId: customerGateway.ID(),
 //				Type:              pulumi.String("ipsec.1"),
 //				StaticRoutesOnly:  pulumi.Bool(true),
 //			})
@@ -155,8 +155,8 @@ import (
 //				return err
 //			}
 //			_, err = directconnect.NewGatewayAssociation(ctx, "example", &directconnect.GatewayAssociationArgs{
-//				DxGatewayId:         exampleGateway.ID().ToIDOutput().ToStringOutput(),
-//				AssociatedGatewayId: exampleTransitGateway.ID().ToIDOutput().ToStringOutput(),
+//				DxGatewayId:         exampleGateway.ID(),
+//				AssociatedGatewayId: exampleTransitGateway.ID(),
 //				AllowedPrefixes: pulumi.StringArray{
 //					pulumi.String("10.0.0.0/8"),
 //				},
@@ -165,13 +165,13 @@ import (
 //				return err
 //			}
 //			example := ec2transitgateway.GetDirectConnectGatewayAttachmentOutput(ctx, ec2transitgateway.GetDirectConnectGatewayAttachmentOutputArgs{
-//				TransitGatewayId: exampleTransitGateway.ID().ToIDOutput().ToStringOutput(),
-//				DxGatewayId:      exampleGateway.ID().ToIDOutput().ToStringOutput(),
+//				TransitGatewayId: exampleTransitGateway.ID(),
+//				DxGatewayId:      exampleGateway.ID(),
 //			}, nil)
 //			_, err = ec2.NewVpnConnection(ctx, "example", &ec2.VpnConnectionArgs{
-//				CustomerGatewayId:                   exampleCustomerGateway.ID().ToIDOutput().ToStringOutput(),
+//				CustomerGatewayId:                   exampleCustomerGateway.ID(),
 //				OutsideIpAddressType:                pulumi.String("PrivateIpv4"),
-//				TransitGatewayId:                    exampleTransitGateway.ID().ToIDOutput().ToStringOutput(),
+//				TransitGatewayId:                    exampleTransitGateway.ID(),
 //				TransportTransitGatewayAttachmentId: example.Id(),
 //				Type:                                pulumi.String("ipsec.1"),
 //				Tags: pulumi.StringMap{
@@ -241,9 +241,9 @@ type VpnConnection struct {
 	TransportTransitGatewayAttachmentId pulumi.StringPtrOutput `pulumi:"transportTransitGatewayAttachmentId"`
 	// Public IP address of the first VPN tunnel.
 	Tunnel1Address pulumi.StringOutput `pulumi:"tunnel1Address"`
-	// Bgp asn number of the first VPN tunnel.
+	// BGP ASN number of the first VPN tunnel.
 	Tunnel1BgpAsn pulumi.StringOutput `pulumi:"tunnel1BgpAsn"`
-	// Bgp holdtime of the first VPN tunnel.
+	// BGP holdtime of the first VPN tunnel.
 	Tunnel1BgpHoldtime pulumi.IntOutput `pulumi:"tunnel1BgpHoldtime"`
 	// RFC 6890 link-local address of the first VPN tunnel (Customer Gateway Side).
 	Tunnel1CgwInsideAddress pulumi.StringOutput `pulumi:"tunnel1CgwInsideAddress"`
@@ -291,9 +291,9 @@ type VpnConnection struct {
 	Tunnel1VgwInsideAddress pulumi.StringOutput `pulumi:"tunnel1VgwInsideAddress"`
 	// Public IP address of the second VPN tunnel.
 	Tunnel2Address pulumi.StringOutput `pulumi:"tunnel2Address"`
-	// Bgp asn number of the second VPN tunnel.
+	// BGP ASN number of the second VPN tunnel.
 	Tunnel2BgpAsn pulumi.StringOutput `pulumi:"tunnel2BgpAsn"`
-	// Bgp holdtime of the second VPN tunnel.
+	// BGP holdtime of the second VPN tunnel.
 	Tunnel2BgpHoldtime pulumi.IntOutput `pulumi:"tunnel2BgpHoldtime"`
 	// RFC 6890 link-local address of the second VPN tunnel (Customer Gateway Side).
 	Tunnel2CgwInsideAddress pulumi.StringOutput `pulumi:"tunnel2CgwInsideAddress"`
@@ -445,9 +445,9 @@ type vpnConnectionState struct {
 	TransportTransitGatewayAttachmentId *string `pulumi:"transportTransitGatewayAttachmentId"`
 	// Public IP address of the first VPN tunnel.
 	Tunnel1Address *string `pulumi:"tunnel1Address"`
-	// Bgp asn number of the first VPN tunnel.
+	// BGP ASN number of the first VPN tunnel.
 	Tunnel1BgpAsn *string `pulumi:"tunnel1BgpAsn"`
-	// Bgp holdtime of the first VPN tunnel.
+	// BGP holdtime of the first VPN tunnel.
 	Tunnel1BgpHoldtime *int `pulumi:"tunnel1BgpHoldtime"`
 	// RFC 6890 link-local address of the first VPN tunnel (Customer Gateway Side).
 	Tunnel1CgwInsideAddress *string `pulumi:"tunnel1CgwInsideAddress"`
@@ -495,9 +495,9 @@ type vpnConnectionState struct {
 	Tunnel1VgwInsideAddress *string `pulumi:"tunnel1VgwInsideAddress"`
 	// Public IP address of the second VPN tunnel.
 	Tunnel2Address *string `pulumi:"tunnel2Address"`
-	// Bgp asn number of the second VPN tunnel.
+	// BGP ASN number of the second VPN tunnel.
 	Tunnel2BgpAsn *string `pulumi:"tunnel2BgpAsn"`
-	// Bgp holdtime of the second VPN tunnel.
+	// BGP holdtime of the second VPN tunnel.
 	Tunnel2BgpHoldtime *int `pulumi:"tunnel2BgpHoldtime"`
 	// RFC 6890 link-local address of the second VPN tunnel (Customer Gateway Side).
 	Tunnel2CgwInsideAddress *string `pulumi:"tunnel2CgwInsideAddress"`
@@ -602,9 +602,9 @@ type VpnConnectionState struct {
 	TransportTransitGatewayAttachmentId pulumi.StringPtrInput
 	// Public IP address of the first VPN tunnel.
 	Tunnel1Address pulumi.StringPtrInput
-	// Bgp asn number of the first VPN tunnel.
+	// BGP ASN number of the first VPN tunnel.
 	Tunnel1BgpAsn pulumi.StringPtrInput
-	// Bgp holdtime of the first VPN tunnel.
+	// BGP holdtime of the first VPN tunnel.
 	Tunnel1BgpHoldtime pulumi.IntPtrInput
 	// RFC 6890 link-local address of the first VPN tunnel (Customer Gateway Side).
 	Tunnel1CgwInsideAddress pulumi.StringPtrInput
@@ -652,9 +652,9 @@ type VpnConnectionState struct {
 	Tunnel1VgwInsideAddress pulumi.StringPtrInput
 	// Public IP address of the second VPN tunnel.
 	Tunnel2Address pulumi.StringPtrInput
-	// Bgp asn number of the second VPN tunnel.
+	// BGP ASN number of the second VPN tunnel.
 	Tunnel2BgpAsn pulumi.StringPtrInput
-	// Bgp holdtime of the second VPN tunnel.
+	// BGP holdtime of the second VPN tunnel.
 	Tunnel2BgpHoldtime pulumi.IntPtrInput
 	// RFC 6890 link-local address of the second VPN tunnel (Customer Gateway Side).
 	Tunnel2CgwInsideAddress pulumi.StringPtrInput
@@ -1154,12 +1154,12 @@ func (o VpnConnectionOutput) Tunnel1Address() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.Tunnel1Address }).(pulumi.StringOutput)
 }
 
-// Bgp asn number of the first VPN tunnel.
+// BGP ASN number of the first VPN tunnel.
 func (o VpnConnectionOutput) Tunnel1BgpAsn() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.Tunnel1BgpAsn }).(pulumi.StringOutput)
 }
 
-// Bgp holdtime of the first VPN tunnel.
+// BGP holdtime of the first VPN tunnel.
 func (o VpnConnectionOutput) Tunnel1BgpHoldtime() pulumi.IntOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.IntOutput { return v.Tunnel1BgpHoldtime }).(pulumi.IntOutput)
 }
@@ -1279,12 +1279,12 @@ func (o VpnConnectionOutput) Tunnel2Address() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.Tunnel2Address }).(pulumi.StringOutput)
 }
 
-// Bgp asn number of the second VPN tunnel.
+// BGP ASN number of the second VPN tunnel.
 func (o VpnConnectionOutput) Tunnel2BgpAsn() pulumi.StringOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.StringOutput { return v.Tunnel2BgpAsn }).(pulumi.StringOutput)
 }
 
-// Bgp holdtime of the second VPN tunnel.
+// BGP holdtime of the second VPN tunnel.
 func (o VpnConnectionOutput) Tunnel2BgpHoldtime() pulumi.IntOutput {
 	return o.ApplyT(func(v *VpnConnection) pulumi.IntOutput { return v.Tunnel2BgpHoldtime }).(pulumi.IntOutput)
 }

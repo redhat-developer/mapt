@@ -4,22 +4,114 @@
 
 package apitype
 
+import (
+	"encoding/json"
+
+	"gopkg.in/yaml.v3"
+)
+
 // PolicyGroup details the name, applicable entities and the applied PolicyPacks.
 type PolicyGroup struct {
 	// The name of the policy group.
 	Name string `json:"name" yaml:"name"`
 	// True if this is either the default stacks or default accounts policy group for the organization.
 	IsOrgDefault bool `json:"isOrgDefault" yaml:"isOrgDefault"`
-	// The type of entities this policy group applies to (stacks or accounts).
+	// Deprecated: a legacy label set when the policy group was created. It does not restrict which entities the group holds; `mode` does.
 	EntityType PolicyGroupEntityType `json:"entityType" yaml:"entityType"`
 	// The enforcement mode for the policy group (audit or preventative).
 	Mode PolicyGroupMode `json:"mode" yaml:"mode"`
-	// List of stacks that are members of this policy group.
+	// The stacks added to this policy group individually, with `addStack`.
 	Stacks []AppPulumiStackReference `json:"stacks" yaml:"stacks"`
 	// List of policy packs that are applied to this policy group.
 	AppliedPolicyPacks []AppPolicyPackMetadata `json:"appliedPolicyPacks" yaml:"appliedPolicyPacks"`
-	// List of Insights account names that are members of this policy group.
+	// The Insights accounts added to this policy group individually, with `addInsightsAccount`.
 	Accounts []string `json:"accounts" yaml:"accounts"`
 	// Agent pool ID for audit policy evaluation. Defaults to Pulumi hosted pool if not specified.
 	AgentPoolID *string `json:"agentPoolId,omitempty" yaml:"agentPoolId,omitempty"`
+	// Preview: the stack match rule, a boolean expression over stack tags. Stacks whose tags satisfy it are members of the group alongside the
+	// stacks added individually. Absent when the group has no rule.
+	StackMatchRule PermissionBooleanExpression `json:"stackMatchRule,omitempty" yaml:"stackMatchRule,omitempty"`
+	// Preview: the account match rule, a boolean expression over Insights account tags. Accounts whose tags satisfy it are members of the
+	// group alongside the accounts added individually. Absent when the group has no rule.
+	AccountMatchRule PermissionBooleanExpression `json:"accountMatchRule,omitempty" yaml:"accountMatchRule,omitempty"`
+}
+
+func (m *PolicyGroup) UnmarshalJSON(bytes []byte) error {
+	type decoder struct {
+		FieldName               string                    `json:"name"`
+		FieldIsOrgDefault       bool                      `json:"isOrgDefault"`
+		FieldEntityType         PolicyGroupEntityType     `json:"entityType"`
+		FieldMode               PolicyGroupMode           `json:"mode"`
+		FieldStacks             []AppPulumiStackReference `json:"stacks"`
+		FieldAppliedPolicyPacks []AppPolicyPackMetadata   `json:"appliedPolicyPacks"`
+		FieldAccounts           []string                  `json:"accounts"`
+		FieldAgentPoolID        *string                   `json:"agentPoolId,omitempty"`
+		FieldStackMatchRule     json.RawMessage           `json:"stackMatchRule,omitempty"`
+		FieldAccountMatchRule   json.RawMessage           `json:"accountMatchRule,omitempty"`
+	}
+
+	var v decoder
+	var err error
+	if err = json.Unmarshal(bytes, &v); err != nil {
+		return err
+	}
+	m.Name = v.FieldName
+	m.IsOrgDefault = v.FieldIsOrgDefault
+	m.EntityType = v.FieldEntityType
+	m.Mode = v.FieldMode
+	m.Stacks = v.FieldStacks
+	m.AppliedPolicyPacks = v.FieldAppliedPolicyPacks
+	m.Accounts = v.FieldAccounts
+	m.AgentPoolID = v.FieldAgentPoolID
+	if v.FieldStackMatchRule != nil {
+		if err = UnmarshalJSONPermissionBooleanExpression(v.FieldStackMatchRule, &m.StackMatchRule); err != nil {
+			return err
+		}
+	}
+	if v.FieldAccountMatchRule != nil {
+		if err = UnmarshalJSONPermissionBooleanExpression(v.FieldAccountMatchRule, &m.AccountMatchRule); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (m *PolicyGroup) UnmarshalYAML(value *yaml.Node) error {
+	type decoder struct {
+		FieldName               string                    `yaml:"name,omitempty"`
+		FieldIsOrgDefault       bool                      `yaml:"isOrgDefault,omitempty"`
+		FieldEntityType         PolicyGroupEntityType     `yaml:"entityType,omitempty"`
+		FieldMode               PolicyGroupMode           `yaml:"mode,omitempty"`
+		FieldStacks             []AppPulumiStackReference `yaml:"stacks,omitempty"`
+		FieldAppliedPolicyPacks []AppPolicyPackMetadata   `yaml:"appliedPolicyPacks,omitempty"`
+		FieldAccounts           []string                  `yaml:"accounts,omitempty"`
+		FieldAgentPoolID        *string                   `yaml:"agentPoolId,omitempty"`
+		FieldStackMatchRule     yaml.Node                 `yaml:"stackMatchRule,omitempty"`
+		FieldAccountMatchRule   yaml.Node                 `yaml:"accountMatchRule,omitempty"`
+	}
+
+	var v decoder
+	var err error
+	if err = value.Decode(&v); err != nil {
+		return err
+	}
+	m.Name = v.FieldName
+	m.IsOrgDefault = v.FieldIsOrgDefault
+	m.EntityType = v.FieldEntityType
+	m.Mode = v.FieldMode
+	m.Stacks = v.FieldStacks
+	m.AppliedPolicyPacks = v.FieldAppliedPolicyPacks
+	m.Accounts = v.FieldAccounts
+	m.AgentPoolID = v.FieldAgentPoolID
+	if !v.FieldStackMatchRule.IsZero() {
+		if err = UnmarshalYamlPermissionBooleanExpression(v.FieldStackMatchRule, &m.StackMatchRule); err != nil {
+			return err
+		}
+	}
+	if !v.FieldAccountMatchRule.IsZero() {
+		if err = UnmarshalYamlPermissionBooleanExpression(v.FieldAccountMatchRule, &m.AccountMatchRule); err != nil {
+			return err
+		}
+	}
+	return nil
 }

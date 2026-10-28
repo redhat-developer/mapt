@@ -111,14 +111,14 @@ import (
 //				return err
 //			}
 //			testVpcIpamPoolCidr, err := ec2.NewVpcIpamPoolCidr(ctx, "test", &ec2.VpcIpamPoolCidrArgs{
-//				IpamPoolId: testVpcIpamPool.ID().ToIDOutput().ToStringOutput(),
+//				IpamPoolId: testVpcIpamPool.ID(),
 //				Cidr:       pulumi.String("172.20.0.0/16"),
 //			})
 //			if err != nil {
 //				return err
 //			}
 //			_, err = ec2.NewVpc(ctx, "test", &ec2.VpcArgs{
-//				Ipv4IpamPoolId:    testVpcIpamPool.ID().ToIDOutput().ToStringOutput(),
+//				Ipv4IpamPoolId:    testVpcIpamPool.ID(),
 //				Ipv4NetmaskLength: pulumi.Int(28),
 //			}, pulumi.DependsOn([]pulumi.Resource{
 //				testVpcIpamPoolCidr,
@@ -165,7 +165,7 @@ type Vpc struct {
 	DefaultRouteTableId pulumi.StringOutput `pulumi:"defaultRouteTableId"`
 	// ID of the security group created by default on VPC creation.
 	DefaultSecurityGroupId pulumi.StringOutput `pulumi:"defaultSecurityGroupId"`
-	// DHCP options id of the desired VPC.
+	// DHCP options ID of the desired VPC.
 	DhcpOptionsId pulumi.StringOutput `pulumi:"dhcpOptionsId"`
 	// Whether to enable DNS hostnames in the VPC. Defaults to `false`.
 	EnableDnsHostnames pulumi.BoolOutput `pulumi:"enableDnsHostnames"`
@@ -243,7 +243,7 @@ type vpcState struct {
 	DefaultRouteTableId *string `pulumi:"defaultRouteTableId"`
 	// ID of the security group created by default on VPC creation.
 	DefaultSecurityGroupId *string `pulumi:"defaultSecurityGroupId"`
-	// DHCP options id of the desired VPC.
+	// DHCP options ID of the desired VPC.
 	DhcpOptionsId *string `pulumi:"dhcpOptionsId"`
 	// Whether to enable DNS hostnames in the VPC. Defaults to `false`.
 	EnableDnsHostnames *bool `pulumi:"enableDnsHostnames"`
@@ -292,7 +292,7 @@ type VpcState struct {
 	DefaultRouteTableId pulumi.StringPtrInput
 	// ID of the security group created by default on VPC creation.
 	DefaultSecurityGroupId pulumi.StringPtrInput
-	// DHCP options id of the desired VPC.
+	// DHCP options ID of the desired VPC.
 	DhcpOptionsId pulumi.StringPtrInput
 	// Whether to enable DNS hostnames in the VPC. Defaults to `false`.
 	EnableDnsHostnames pulumi.BoolPtrInput
@@ -512,7 +512,7 @@ func (o VpcOutput) DefaultSecurityGroupId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Vpc) pulumi.StringOutput { return v.DefaultSecurityGroupId }).(pulumi.StringOutput)
 }
 
-// DHCP options id of the desired VPC.
+// DHCP options ID of the desired VPC.
 func (o VpcOutput) DhcpOptionsId() pulumi.StringOutput {
 	return o.ApplyT(func(v *Vpc) pulumi.StringOutput { return v.DhcpOptionsId }).(pulumi.StringOutput)
 }

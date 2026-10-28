@@ -8,4 +8,9 @@ package apitype
 type AppCompleteUpdateRequest struct {
 	// The current status
 	Status AppUpdateStatus `json:"status" yaml:"status"`
+	// The stack outputs the update produced, keyed by output name, in the same representation exported stack state uses. A preview leaves no
+	// stack state behind, so it reports its outputs here; other update kinds record theirs in the stack's state and leave this absent.
+	Outputs map[string]any `json:"outputs,omitempty" yaml:"outputs,omitempty"`
+	// The secrets provider that encrypted the secret values in 'outputs'.
+	SecretsProviders *AppSecretsProvidersV1 `json:"secretsProviders,omitempty" yaml:"secretsProviders,omitempty"`
 }

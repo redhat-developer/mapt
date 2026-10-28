@@ -45,6 +45,33 @@ import (
 //
 // To retrieve a specific release from a repository based on its ID:
 //
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-github/sdk/v6/go/github"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := github.GetRelease(ctx, &github.LookupReleaseArgs{
+//				Repository: "example-repository",
+//				Owner:      "example-owner",
+//				RetrieveBy: "id",
+//				Id:         12345,
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
 // Finally, to retrieve a release based on its tag:
 //
 // ```go
@@ -143,12 +170,8 @@ type LookupReleaseResult struct {
 }
 
 func LookupReleaseOutput(ctx *pulumi.Context, args LookupReleaseOutputArgs, opts ...pulumi.InvokeOption) LookupReleaseResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupReleaseResultOutput, error) {
-			args := v.(LookupReleaseArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("github:index/getRelease:getRelease", args, LookupReleaseResultOutput{}, options).(LookupReleaseResultOutput), nil
-		}).(LookupReleaseResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("github:index/getRelease:getRelease", args, LookupReleaseResultOutput{}, options).(LookupReleaseResultOutput)
 }
 
 // A collection of arguments for invoking getRelease.

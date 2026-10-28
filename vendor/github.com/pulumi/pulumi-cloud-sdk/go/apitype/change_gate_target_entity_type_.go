@@ -10,18 +10,22 @@ import "fmt"
 type ChangeGateTargetEntityType string
 
 const (
-	ChangeGateTargetEntityTypeEnvironment ChangeGateTargetEntityType = "environment"
+	ChangeGateTargetEntityTypeEnvironment      ChangeGateTargetEntityType = "environment"
+	ChangeGateTargetEntityTypePolicyExceptions ChangeGateTargetEntityType = "policy_exceptions"
 )
 
 func (v ChangeGateTargetEntityType) AllValues() []ChangeGateTargetEntityType {
 	return []ChangeGateTargetEntityType{
 		ChangeGateTargetEntityTypeEnvironment,
+		ChangeGateTargetEntityTypePolicyExceptions,
 	}
 }
 
 func (v ChangeGateTargetEntityType) IsValid() bool {
 	switch v {
 	case ChangeGateTargetEntityTypeEnvironment:
+		return true
+	case ChangeGateTargetEntityTypePolicyExceptions:
 		return true
 	}
 
@@ -32,6 +36,8 @@ func (v ChangeGateTargetEntityType) openapiName() string {
 	switch v {
 	case ChangeGateTargetEntityTypeEnvironment:
 		return "Environment"
+	case ChangeGateTargetEntityTypePolicyExceptions:
+		return "PolicyExceptions"
 	}
 
 	return ""

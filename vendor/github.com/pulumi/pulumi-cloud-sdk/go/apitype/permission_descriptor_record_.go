@@ -29,22 +29,26 @@ type PermissionDescriptorRecord struct {
 	Version int32 `json:"version" yaml:"version"`
 	// Whether this role is the organization default.
 	IsOrgDefault bool `json:"isOrgDefault" yaml:"isOrgDefault"`
+	// Whether this role is the organization's Member (legacy) role, a copy of what members could do before the organization moved to built-in
+	// roles.
+	IsCompatibilityRole bool `json:"isCompatibilityRole,omitzero" yaml:"isCompatibilityRole,omitempty"`
 }
 
 func (m *PermissionDescriptorRecord) UnmarshalJSON(bytes []byte) error {
 	type decoder struct {
-		FieldName              string                        `json:"name,omitempty"`
-		FieldDescription       string                        `json:"description,omitempty"`
-		FieldResourceType      string                        `json:"resourceType,omitempty"`
-		FieldUxPurpose         PermissionDescriptorUXPurpose `json:"uxPurpose,omitempty"`
-		FieldDetails           json.RawMessage               `json:"details,omitempty"`
-		FieldCreated           time.Time                     `json:"created"`
-		FieldModified          time.Time                     `json:"modified"`
-		FieldID                string                        `json:"id"`
-		FieldOrgID             string                        `json:"orgId"`
-		FieldDefaultIdentifier string                        `json:"defaultIdentifier,omitempty"`
-		FieldVersion           int32                         `json:"version"`
-		FieldIsOrgDefault      bool                          `json:"isOrgDefault"`
+		FieldName                string                        `json:"name,omitempty"`
+		FieldDescription         string                        `json:"description,omitempty"`
+		FieldResourceType        string                        `json:"resourceType,omitempty"`
+		FieldUxPurpose           PermissionDescriptorUXPurpose `json:"uxPurpose,omitempty"`
+		FieldDetails             json.RawMessage               `json:"details,omitempty"`
+		FieldCreated             time.Time                     `json:"created"`
+		FieldModified            time.Time                     `json:"modified"`
+		FieldID                  string                        `json:"id"`
+		FieldOrgID               string                        `json:"orgId"`
+		FieldDefaultIdentifier   string                        `json:"defaultIdentifier,omitempty"`
+		FieldVersion             int32                         `json:"version"`
+		FieldIsOrgDefault        bool                          `json:"isOrgDefault"`
+		FieldIsCompatibilityRole bool                          `json:"isCompatibilityRole,omitzero"`
 	}
 
 	var v decoder
@@ -68,23 +72,25 @@ func (m *PermissionDescriptorRecord) UnmarshalJSON(bytes []byte) error {
 	m.DefaultIdentifier = v.FieldDefaultIdentifier
 	m.Version = v.FieldVersion
 	m.IsOrgDefault = v.FieldIsOrgDefault
+	m.IsCompatibilityRole = v.FieldIsCompatibilityRole
 	return nil
 }
 
 func (m *PermissionDescriptorRecord) UnmarshalYAML(value *yaml.Node) error {
 	type decoder struct {
-		FieldName              string                        `yaml:"name,omitempty"`
-		FieldDescription       string                        `yaml:"description,omitempty"`
-		FieldResourceType      string                        `yaml:"resourceType,omitempty"`
-		FieldUxPurpose         PermissionDescriptorUXPurpose `yaml:"uxPurpose,omitempty"`
-		FieldDetails           yaml.Node                     `yaml:"details,omitempty"`
-		FieldCreated           time.Time                     `yaml:"created,omitempty"`
-		FieldModified          time.Time                     `yaml:"modified,omitempty"`
-		FieldID                string                        `yaml:"id,omitempty"`
-		FieldOrgID             string                        `yaml:"orgId,omitempty"`
-		FieldDefaultIdentifier string                        `yaml:"defaultIdentifier,omitempty"`
-		FieldVersion           int32                         `yaml:"version,omitempty"`
-		FieldIsOrgDefault      bool                          `yaml:"isOrgDefault,omitempty"`
+		FieldName                string                        `yaml:"name,omitempty"`
+		FieldDescription         string                        `yaml:"description,omitempty"`
+		FieldResourceType        string                        `yaml:"resourceType,omitempty"`
+		FieldUxPurpose           PermissionDescriptorUXPurpose `yaml:"uxPurpose,omitempty"`
+		FieldDetails             yaml.Node                     `yaml:"details,omitempty"`
+		FieldCreated             time.Time                     `yaml:"created,omitempty"`
+		FieldModified            time.Time                     `yaml:"modified,omitempty"`
+		FieldID                  string                        `yaml:"id,omitempty"`
+		FieldOrgID               string                        `yaml:"orgId,omitempty"`
+		FieldDefaultIdentifier   string                        `yaml:"defaultIdentifier,omitempty"`
+		FieldVersion             int32                         `yaml:"version,omitempty"`
+		FieldIsOrgDefault        bool                          `yaml:"isOrgDefault,omitempty"`
+		FieldIsCompatibilityRole bool                          `yaml:"isCompatibilityRole,omitempty"`
 	}
 
 	var v decoder
@@ -108,5 +114,6 @@ func (m *PermissionDescriptorRecord) UnmarshalYAML(value *yaml.Node) error {
 	m.DefaultIdentifier = v.FieldDefaultIdentifier
 	m.Version = v.FieldVersion
 	m.IsOrgDefault = v.FieldIsOrgDefault
+	m.IsCompatibilityRole = v.FieldIsCompatibilityRole
 	return nil
 }

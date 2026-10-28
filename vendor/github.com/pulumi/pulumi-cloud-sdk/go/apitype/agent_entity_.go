@@ -65,6 +65,7 @@ type agentEntityImpl struct {
 
 func (m *agentEntityImpl) GetInstancesFromTypeHierarchy() []AgentEntity {
 	return []AgentEntity{
+		&agentEntityPolicyFindingImpl{},
 		&agentEntityPolicyIssueImpl{},
 		&agentEntityPRImpl{},
 		&agentEntityRepositoryImpl{},
@@ -94,6 +95,13 @@ func UnmarshalJSONAgentEntity(bytes []byte, res *AgentEntity) error {
 		return err
 	}
 	switch v.InternalDiscriminator {
+	case "policy_finding":
+		var subValue agentEntityPolicyFindingImpl
+		if err = json.Unmarshal(bytes, &subValue); err != nil {
+			return err
+		}
+		*res = &subValue
+		return nil
 	case "policy_issue":
 		var subValue agentEntityPolicyIssueImpl
 		if err = json.Unmarshal(bytes, &subValue); err != nil {
@@ -142,6 +150,13 @@ func UnmarshalYamlAgentEntity(node yaml.Node, res *AgentEntity) error {
 		return err
 	}
 	switch v.InternalDiscriminator {
+	case "policy_finding":
+		var subValue agentEntityPolicyFindingImpl
+		if err = node.Decode(&subValue); err != nil {
+			return err
+		}
+		*res = &subValue
+		return nil
 	case "policy_issue":
 		var subValue agentEntityPolicyIssueImpl
 		if err = node.Decode(&subValue); err != nil {

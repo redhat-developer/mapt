@@ -9,13 +9,14 @@ package apitype
 type AppPolicyGroupSummary struct {
 	// The unique name of the policy group.
 	Name string `json:"name" yaml:"name"`
-	// Whether this is the organization's default policy group, applied to all stacks not in another group.
+	// Whether this is one of the organization's default policy groups. The default stacks group applies to every stack not in another group;
+	// the default accounts group applies to every Insights account not in another group.
 	IsOrgDefault bool `json:"isOrgDefault" yaml:"isOrgDefault"`
 	// Number of stacks assigned to this policy group.
 	NumStacks int `json:"numStacks" yaml:"numStacks"`
 	// Number of cloud accounts assigned to this policy group.
 	NumAccounts int `json:"numAccounts,omitzero" yaml:"numAccounts,omitempty"`
-	// The type of entity this policy group targets (e.g. stacks, accounts).
+	// Deprecated: a legacy label set when the policy group was created. It does not restrict which entities the group holds; `mode` does.
 	EntityType AppEntityType `json:"entityType" yaml:"entityType"`
 	// The enforcement mode of the policy group.
 	Mode PolicyGroupMode `json:"mode" yaml:"mode"`

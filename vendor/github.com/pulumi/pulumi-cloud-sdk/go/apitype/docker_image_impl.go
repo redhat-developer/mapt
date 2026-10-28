@@ -2,7 +2,12 @@
 
 package apitype
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"slices"
+	"strings"
+)
 
 type dockerImageJSON struct {
 	Reference   string                  `json:"reference" yaml:"reference"`
@@ -23,9 +28,18 @@ func (d *DockerImage) MarshalJSON() ([]byte, error) {
 }
 
 func (d *DockerImage) UnmarshalJSON(bytes []byte) error {
-	var image dockerImageJSON
-	if err := json.Unmarshal(bytes, &image); err == nil {
-		d.Reference, d.IsDefault, d.Credentials = image.Reference, image.IsDefault, image.Credentials
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(bytes, &raw); err == nil {
+		if err := rejectUnknownDockerImageKeys("DockerImage", raw, "reference", "isDefault", "credentials"); err != nil {
+			return err
+		}
+		var image dockerImageJSON
+		if err := json.Unmarshal(bytes, &image); err != nil {
+			return err
+		}
+		d.Reference = image.Reference
+		d.IsDefault = image.IsDefault
+		d.Credentials = image.Credentials
 		return nil
 	}
 
@@ -33,6 +47,18 @@ func (d *DockerImage) UnmarshalJSON(bytes []byte) error {
 	if err := json.Unmarshal(bytes, &reference); err != nil {
 		return err
 	}
-	d.Reference, d.IsDefault, d.Credentials = reference, false, nil
+	d.Reference = reference
+	d.IsDefault = false
+	d.Credentials = nil
+	return nil
+}
+
+func rejectUnknownDockerImageKeys(typeName string, raw map[string]json.RawMessage, known ...string) error {
+	for name := range raw {
+		if !slices.ContainsFunc(known, func(key string) bool { return strings.EqualFold(name, key) }) {
+			return fmt.Errorf("invalid %s: unknown key %q (expected one of '%s')",
+				typeName, name, strings.Join(known, "', '"))
+		}
+	}
 	return nil
 }

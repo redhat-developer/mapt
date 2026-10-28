@@ -127,7 +127,7 @@ type Index struct {
 	// If true, push the index to the target registry.
 	//
 	// Defaults to `true`.
-	Push pulumi.BoolPtrOutput `pulumi:"push"`
+	Push pulumi.BoolOutput `pulumi:"push"`
 	// The pushed tag with digest.
 	//
 	// Identical to the tag if the index was not pushed.
@@ -273,8 +273,8 @@ func (o IndexOutput) ToOutput(ctx context.Context) pulumix.Output[*Index] {
 // If true, push the index to the target registry.
 //
 // Defaults to `true`.
-func (o IndexOutput) Push() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *Index) pulumi.BoolPtrOutput { return v.Push }).(pulumi.BoolPtrOutput)
+func (o IndexOutput) Push() pulumi.BoolOutput {
+	return o.ApplyT(func(v *Index) pulumi.BoolOutput { return v.Push }).(pulumi.BoolOutput)
 }
 
 // The pushed tag with digest.
