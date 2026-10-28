@@ -232,6 +232,9 @@ func (r *pwRequest) deploy(ctx *pulumi.Context) error {
 		localArgs := *glRunnerArgs
 		localGHScript := ghRunnerScript
 		localArgs.LogToJournald = hasOtel
+		// PowerVS region drives the Power-specific podman networking in the
+		// GitLab runner setup script (regional DNS, nested subnet, network mode).
+		localArgs.PowerVSRegion = r.mCtx.TargetHostingPlace()
 		piUserDataInput = authToken.ApplyT(func(token string) (*string, error) {
 			localArgs.AuthToken = token
 			glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(&localArgs, defaultUser)

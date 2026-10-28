@@ -5,6 +5,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/redhat-developer/mapt/pkg/integrations"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
 )
 
@@ -89,6 +91,49 @@ func TestPiUserData_withOtelAndRunner(t *testing.T) {
 	}
 	if !strings.Contains(cfg, "StandardOutput=append:/var/log/gitlab-runner") {
 		t.Error("expected systemd drop-in to redirect runner stdout to log file")
+	}
+}
+
+// TestPiUserData_withPowerRunnerRegion mirrors the deploy() path for a PowerVS
+// GitLab runner: it renders the real Linux setup script with PowerVSRegion set
+// (as deploy() does via GetIntegrationSnippetAsCloudInitWritableFile), wraps it
+// into cloud-init user-data through piUserData, and asserts the Power-specific
+// podman networking settings survive the whole chain (indent + base64 +
+// cloud-config).
+func TestPiUserData_withPowerRunnerRegion(t *testing.T) {
+	platform := gitlab.Linux
+	arch := gitlab.Ppc64le
+	args := &gitlab.GitLabRunnerArgs{
+		URL:           "https://gitlab.example.com",
+		Name:          "test-runner",
+		AuthToken:     "tok",
+		Platform:      &platform,
+		Arch:          &arch,
+		PowerVSRegion: "us-south",
+	}
+	gitlab.Init(args)
+	glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(args, "root")
+	if err != nil {
+		t.Fatalf("rendering gitlab snippet: %v", err)
+	}
+	out, err := piUserData("10.0.0.1", nil, *glSnippet, "")
+	if err != nil {
+		t.Fatalf("piUserData returned error: %v", err)
+	}
+	decoded, err := base64.StdEncoding.DecodeString(out)
+	if err != nil {
+		t.Fatalf("output is not valid base64: %v", err)
+	}
+	cfg := string(decoded)
+	for _, want := range []string{
+		"install-glrunner.sh",
+		"10.130.98.132",                    // us-south resolver
+		`default_subnet = "172.20.0.0/24"`, // non-conflicting nested subnet
+		`--docker-network-mode "podman"`,   // shared host network
+	} {
+		if !strings.Contains(cfg, want) {
+			t.Errorf("Power user-data missing %q", want)
+		}
 	}
 }
 

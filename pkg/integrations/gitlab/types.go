@@ -29,4 +29,10 @@ type GitLabRunnerArgs struct {
 	Unsecure      bool // When false (default) a dedicated gitlab-runner system user is created; when true the runner service runs as User
 	Concurrent    int  // Maximum number of concurrent jobs (written to config.toml; 0 means leave at default of 1)
 	LogToJournald bool // When true, sets Podman log_driver=journald so CI job output is captured by systemd journal for OTel correlation
+	// PowerVSRegion is set only by the IBM Power (PowerVS) provider from the
+	// deployment region (e.g. us-south). It enables the Power-specific podman
+	// networking configuration in the Linux setup script (regional DNS
+	// resolvers, non-conflicting nested subnet, shared host network). An empty
+	// value — every other target — preserves the existing behavior.
+	PowerVSRegion string
 }
