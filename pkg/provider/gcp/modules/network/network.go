@@ -15,10 +15,11 @@ const (
 )
 
 type NetworkArgs struct {
-	Prefix string
-	ID     string
-	Region string
-	Zone   string
+	Prefix       string
+	ID           string
+	Region       string
+	Zone         string
+	IngressPorts []string
 }
 
 type NetworkResult struct {
@@ -53,7 +54,15 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 	}
 	nr.Subnet = sn
 
-	// Firewall — allow SSH ingress
+	// Firewall — allow ingress on configured ports (default: SSH)
+	ports := args.IngressPorts
+	if len(ports) == 0 {
+		ports = []string{"22"}
+	}
+	var pulumiPorts pulumi.StringArray
+	for _, p := range ports {
+		pulumiPorts = append(pulumiPorts, pulumi.String(p))
+	}
 	fwName := resourcesUtil.GetResourceName(args.Prefix, args.ID, "fw")
 	fw, err := compute.NewFirewall(ctx, fwName, &compute.FirewallArgs{
 		Network:   n.SelfLink,
@@ -61,14 +70,14 @@ func Create(ctx *pulumi.Context, mCtx *mc.Context, args *NetworkArgs) (*NetworkR
 		Allows: compute.FirewallAllowArray{
 			&compute.FirewallAllowArgs{
 				Protocol: pulumi.String("tcp"),
-				Ports:    pulumi.StringArray{pulumi.String("22")},
+				Ports:    pulumiPorts,
 			},
 		},
 		SourceRanges: pulumi.StringArray{
 			pulumi.String(infra.NETWORKING_CIDR_ANY_IPV4),
 		},
 		TargetTags: pulumi.StringArray{
-			pulumi.String(fmt.Sprintf("%s-ssh", args.ID)),
+			pulumi.String(fmt.Sprintf("%s-fw", args.ID)),
 		},
 	})
 	if err != nil {
