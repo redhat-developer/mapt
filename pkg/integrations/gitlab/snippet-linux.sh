@@ -20,7 +20,22 @@ sudo systemctl enable --now podman.socket
 # (127.0.0.53 / systemd-resolved) that is unreachable from inside a container,
 # causing DNS resolution failures like "Could not resolve host: github.com".
 _dns_servers=""
+{{- if .PowerVSRegion}}
+# IBM Power (PowerVS) runners: use the region's known DNS resolvers instead
+# of relying on runtime detection. Unlisted regions fall through to the host
+# detection below.
+case "{{ .PowerVSRegion }}" in
+  us-south) _dns_servers="10.130.98.132 10.130.98.5 10.130.98.69" ;;
+  us-east)  _dns_servers="10.130.64.4 10.130.64.70 10.130.64.134" ;;
+  eu-de)    _dns_servers="10.130.128.5 10.130.128.69 10.130.128.133" ;;
+  eu-gb)    _dns_servers="10.130.129.4 10.130.129.68 10.130.129.132" ;;
+  *) ;;
+esac
+# Region resolvers take precedence; only run host detection when unset.
+if [ -z "$_dns_servers" ] && command -v resolvectl &>/dev/null; then
+{{- else}}
 if command -v resolvectl &>/dev/null; then
+{{- end}}
     _dns_servers=$(resolvectl dns 2>/dev/null \
         | awk '{for(i=2;i<=NF;i++) print $i}' \
         | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' \
@@ -47,6 +62,25 @@ fi
 if [ -z "$_dns_servers" ]; then
     _dns_servers="8.8.8.8 8.8.4.4"
 fi
+{{- if .PowerVSRegion}}
+# Power runners: glibc reads at most three nameservers from resolv.conf, so
+# the public fallback must sit within the first three entries. Keep the two
+# leading resolvers from the region table (or from host detection on
+# unlisted regions) and append 8.8.8.8, so a transient loss of the internal
+# resolvers (VPN/TGW hiccup) does not break DNS completely.
+_pow_apply_dns_fallback() {
+    _power_dns=""
+    _power_count=0
+    for _ip in $_dns_servers; do
+        if [ "$_ip" = "8.8.8.8" ]; then continue; fi
+        if [ "$_power_count" -ge 2 ]; then break; fi
+        _power_dns="${_power_dns:+${_power_dns} }${_ip}"
+        _power_count=$((_power_count + 1))
+    done
+    _dns_servers="${_power_dns:+${_power_dns} }8.8.8.8"
+}
+_pow_apply_dns_fallback
+{{- end}}
 # Build --docker-dns flags for runner registration so every job container gets
 # working DNS servers even when Podman's Docker socket API does not honour
 # containers.conf dns_servers (which affects executor-container resolution).
@@ -63,7 +97,7 @@ if [ -n "$_dns_servers" ]; then
     done
     sudo mkdir -p /etc/containers
     if [ ! -f /etc/containers/containers.conf ]; then
-        printf '[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:5", "single-request"]\n' \
+        printf '[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]\n' \
             "$_toml_list" | sudo tee /etc/containers/containers.conf > /dev/null
     elif grep -q '^\[containers\]' /etc/containers/containers.conf; then
         # Scope the dns_servers check to the [containers] section only
@@ -82,14 +116,14 @@ if [ -n "$_dns_servers" ]; then
         fi
         # Add or update dns_options within [containers]
         if grep -q '^dns_options' /etc/containers/containers.conf; then
-            sudo sed -i 's|^dns_options.*|dns_options = ["timeout:2", "attempts:5", "single-request"]|' \
+            sudo sed -i 's|^dns_options.*|dns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]|' \
                 /etc/containers/containers.conf
         else
-            sudo sed -i '/^\[containers\]/a dns_options = ["timeout:2", "attempts:5", "single-request"]' \
+            sudo sed -i '/^\[containers\]/a dns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]' \
                 /etc/containers/containers.conf
         fi
     else
-        printf '\n[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:5", "single-request"]\n' \
+        printf '\n[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]\n' \
             "$_toml_list" | sudo tee -a /etc/containers/containers.conf > /dev/null
     fi
     # Ensure the file is world-readable so rootless Podman can also load it
@@ -154,8 +188,63 @@ sudo chmod 644 /etc/containers/containers.conf
 # eliminating the duplicate-route conflict that breaks DNS in nested containers
 # on Netavark-based hosts (RHEL 9 / ppc64le).
 sudo cp /etc/containers/containers.conf /etc/containers/executor-containers.conf
+{{- if .PowerVSRegion}}
+# Power runners: use 172.20.0.0/24 for the nested podman bridge, outside the
+# host's default podman bridge range, the PowerVS subnet space, and the routed
+# 10.0.0.0/8 internal range. Configure it only when no host route or address
+# overlaps that range, and fail when the host network state cannot be
+# inspected.
+_pow_check_subnet_overlap() {
+    _pow_subnet="172.20.0.0/24"
+    _pow_ip="${_pow_subnet%/*}"
+    _pow_len="${_pow_subnet#*/}"
+    IFS=. read -r _p1 _p2 _p3 _p4 <<< "$_pow_ip"
+    _pow_start=$(( (_p1 << 24) | (_p2 << 16) | (_p3 << 8) | _p4 ))
+    _pow_end=$(( _pow_start + (1 << (32 - _pow_len)) - 1 ))
+    if ! _routes=$(ip -4 route show 2>&1); then
+        echo "ERROR: cannot inspect host routes for ${_pow_subnet} overlap: ${_routes}" >&2
+        return 1
+    fi
+    if ! _addrs=$(ip -4 addr show 2>&1); then
+        echo "ERROR: cannot inspect host addresses for ${_pow_subnet} overlap: ${_addrs}" >&2
+        return 1
+    fi
+    # Candidate networks: route destinations (an optional route-type prefix
+    # such as blackhole/unreachable is skipped, default routes excluded,
+    # bare addresses are /32) and interface addresses (inet <ip>/<len>).
+    _pow_entries="$(
+        printf '%s\n' "$_routes" | awk '{
+            dst = $1
+            if ($1 ~ /^(unicast|blackhole|unreachable|prohibit|local|broadcast|throw|multicast|anycast|nat|xresolve)$/) dst = $2
+            if (dst != "default" && dst != "0.0.0.0/0" && dst ~ /^[0-9]+\./) print dst
+        }'
+        printf '%s\n' "$_addrs" | awk '$1 == "inet" {print $2}'
+    )"
+    _pow_overlap=0
+    while IFS= read -r _entry; do
+        [ -n "$_entry" ] || continue
+        case "$_entry" in
+            */*) _c_ip="${_entry%/*}"; _c_len="${_entry#*/}" ;;
+            *) _c_ip="$_entry"; _c_len=32 ;;
+        esac
+        IFS=. read -r _c1 _c2 _c3 _c4 <<< "$_c_ip"
+        _c_mask=$(( (0xFFFFFFFF << (32 - _c_len)) & 0xFFFFFFFF ))
+        _c_start=$(( ((_c1 << 24) | (_c2 << 16) | (_c3 << 8) | _c4) & _c_mask ))
+        _c_end=$(( _c_start + (1 << (32 - _c_len)) - 1 ))
+        if [ "$_c_start" -le "$_pow_end" ] && [ "$_c_end" -ge "$_pow_start" ]; then
+            echo "ERROR: ${_entry} overlaps ${_pow_subnet}" >&2
+            _pow_overlap=1
+        fi
+    done < <(printf '%s\n' "$_pow_entries")
+    [ "$_pow_overlap" -eq 0 ]
+}
+_pow_check_subnet_overlap || exit 1
+printf '\n[network]\ndefault_subnet = "172.20.0.0/24"\n' \
+    | sudo tee -a /etc/containers/executor-containers.conf > /dev/null
+{{- else}}
 printf '\n[network]\ndefault_subnet = "192.168.100.0/24"\n' \
     | sudo tee -a /etc/containers/executor-containers.conf > /dev/null
+{{- end}}
 sudo chmod 644 /etc/containers/executor-containers.conf
 
 # Enable IP forwarding so Netavark can NAT containers through the host's
@@ -189,6 +278,9 @@ sudo gitlab-runner register \
   --docker-image "fedora:latest" \
   --docker-host "unix:///run/podman/podman.sock" \
   --docker-privileged \
+{{- if .PowerVSRegion}}
+  --docker-network-mode "podman" \
+{{- end}}
   "${_docker_dns_args[@]}" \
   --docker-volumes "/etc/containers/executor-containers.conf:/etc/containers/containers.conf:ro"
 

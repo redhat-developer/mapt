@@ -135,6 +135,47 @@ podman run -d --name ibm-power \
             --otel-auth-token <uuid-token>
 ```
 
+## GitLab runner podman networking
+
+When a GitLab runner is provisioned on the PowerVS instance (`--glrunner-*` flags), cloud-init configures podman networking for nested-container CI jobs — jobs that run `podman` inside the job container. These settings apply to IBM Power targets only; every other target keeps the generic setup.
+
+- **DNS**: the first two of the region's IBM Cloud resolvers (selected from `IC_REGION`) followed by `8.8.8.8` — glibc reads at most three nameservers from `/etc/resolv.conf`, so the public fallback must stay within the first three entries. `attempts` is reduced from 5 to 3. Regions without a resolver table fall back to runtime host detection, capped the same way. The list is passed to the runner at registration (`--docker-dns`), so job containers resolve through it directly.
+- **Nested subnet**: `executor-containers.conf` uses `default_subnet = 172.20.0.0/24` for bridges created by nested podman, avoiding conflicts with the host's default podman network, the PowerVS subnet, and the routed `10.0.0.0/8` internal range. Setup aborts if any host route or address overlaps that range (CIDR-aware comparison) or if the host network state cannot be inspected.
+- **Shared job network**: the runner registers with `--docker-network-mode podman`, so all job containers share the host's default podman network instead of the runner creating per-job bridges. With a shared network the runner never removes the network or other jobs' containers during cleanup, which is safe with `concurrent > 1`.
+
+Regional resolver table (from the live-runner investigation in [issue #894](https://github.com/redhat-developer/mapt/issues/894)):
+
+| `IC_REGION` | Resolvers |
+|---|---|
+| `us-south` | 10.130.98.132, 10.130.98.5, 10.130.98.69 |
+| `us-east` | 10.130.64.4, 10.130.64.70, 10.130.64.134 |
+| `eu-de` | 10.130.128.5, 10.130.128.69, 10.130.128.133 |
+| `eu-gb` | 10.130.129.4, 10.130.129.68, 10.130.129.132 |
+
+### Validating the networking on a runner
+
+After provisioning a runner (or on an existing one), verify:
+
+```bash
+# Networks are as configured: host default network and nested subnet
+sudo podman network inspect podman | grep -i subnet
+grep default_subnet /etc/containers/executor-containers.conf
+
+# DNS works in both container layers: host container, then nested container
+podman run --rm fedora:latest getent hosts gitlab.com
+podman run --rm --privileged \
+    -v /etc/containers/executor-containers.conf:/etc/containers/containers.conf:ro \
+    fedora:latest podman run --rm fedora:latest getent hosts gitlab.com
+
+# MTU: host interface vs podman bridge — a mismatch black-holes large packets
+cat /sys/class/net/$(ip route show default | awk '/default/ {print $5; exit}')/mtu
+cat /sys/class/net/podman0/mtu
+
+# Image pulls (large transfers) and repeated pairs of concurrent CI jobs
+# (concurrent = 2) must both succeed, including nested podman workloads
+sudo podman pull registry.access.redhat.com/ubi9:latest
+```
+
 ## Using IBM Cloud Object Storage as S3 backend
 
 To store Pulumi state in IBM COS instead of a local file, create [HMAC credentials](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-uhc-hmac-credentials-main) for your COS instance and pass an `s3://` backed URL:
