@@ -40338,6 +40338,76 @@ func (m *awsEc2query_serializeOpGetImageBlockPublicAccessState) HandleSerialize(
 	return next.HandleSerialize(ctx, in)
 }
 
+type awsEc2query_serializeOpGetImageFindings struct {
+}
+
+func (*awsEc2query_serializeOpGetImageFindings) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetImageFindings) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetImageFindingsInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetImageFindings")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetImageFindingsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
 type awsEc2query_serializeOpGetInstanceMetadataDefaults struct {
 }
 
@@ -43046,6 +43116,76 @@ func (m *awsEc2query_serializeOpGetSubnetCidrReservations) HandleSerialize(ctx c
 	body.Key("Version").String("2016-11-15")
 
 	if err := awsEc2query_serializeOpDocumentGetSubnetCidrReservationsInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpGetTransitGatewayAttachmentNatConfiguration struct {
+}
+
+func (*awsEc2query_serializeOpGetTransitGatewayAttachmentNatConfiguration) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpGetTransitGatewayAttachmentNatConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*GetTransitGatewayAttachmentNatConfigurationInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("GetTransitGatewayAttachmentNatConfiguration")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentGetTransitGatewayAttachmentNatConfigurationInput(input, bodyEncoder.Value); err != nil {
 		return out, metadata, &smithy.SerializationError{Err: err}
 	}
 
@@ -48716,6 +48856,76 @@ func (m *awsEc2query_serializeOpModifyTransitGateway) HandleSerialize(ctx contex
 	body.Key("Version").String("2016-11-15")
 
 	if err := awsEc2query_serializeOpDocumentModifyTransitGatewayInput(input, bodyEncoder.Value); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	err = bodyEncoder.Encode()
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request, err = request.SetStream(bytes.NewReader(bodyWriter.Bytes())); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+
+	if request.Request, err = httpBindingEncoder.Encode(request.Request); err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	in.Request = request
+
+	endTimer()
+	span.End()
+	return next.HandleSerialize(ctx, in)
+}
+
+type awsEc2query_serializeOpModifyTransitGatewayAttachmentNatConfiguration struct {
+}
+
+func (*awsEc2query_serializeOpModifyTransitGatewayAttachmentNatConfiguration) ID() string {
+	return "OperationSerializer"
+}
+
+func (m *awsEc2query_serializeOpModifyTransitGatewayAttachmentNatConfiguration) HandleSerialize(ctx context.Context, in middleware.SerializeInput, next middleware.SerializeHandler) (
+	out middleware.SerializeOutput, metadata middleware.Metadata, err error,
+) {
+	_, span := tracing.StartSpan(ctx, "OperationSerializer")
+	endTimer := startMetricTimer(ctx, "client.call.serialization_duration")
+	defer endTimer()
+	defer span.End()
+	request, ok := in.Request.(*smithyhttp.Request)
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown transport type %T", in.Request)}
+	}
+
+	input, ok := in.Parameters.(*ModifyTransitGatewayAttachmentNatConfigurationInput)
+	_ = input
+	if !ok {
+		return out, metadata, &smithy.SerializationError{Err: fmt.Errorf("unknown input parameters type %T", in.Parameters)}
+	}
+
+	operationPath := "/"
+	if len(request.Request.URL.Path) == 0 {
+		request.Request.URL.Path = operationPath
+	} else {
+		request.Request.URL.Path = path.Join(request.Request.URL.Path, operationPath)
+		if request.Request.URL.Path != "/" && operationPath[len(operationPath)-1] == '/' {
+			request.Request.URL.Path += "/"
+		}
+	}
+	request.Request.Method = "POST"
+	httpBindingEncoder, err := httpbinding.NewEncoder(request.URL.Path, request.URL.RawQuery, request.Header)
+	if err != nil {
+		return out, metadata, &smithy.SerializationError{Err: err}
+	}
+	httpBindingEncoder.SetHeader("Content-Type").String("application/x-www-form-urlencoded")
+
+	bodyWriter := bytes.NewBuffer(nil)
+	bodyEncoder := query.NewEncoder(bodyWriter)
+	body := bodyEncoder.Object()
+	body.Key("Action").String("ModifyTransitGatewayAttachmentNatConfiguration")
+	body.Key("Version").String("2016-11-15")
+
+	if err := awsEc2query_serializeOpDocumentModifyTransitGatewayAttachmentNatConfigurationInput(input, bodyEncoder.Value); err != nil {
 		return out, metadata, &smithy.SerializationError{Err: err}
 	}
 
@@ -59943,6 +60153,13 @@ func awsEc2query_serializeDocumentImageCriterionRequest(v *types.ImageCriterionR
 		}
 	}
 
+	if v.ScanResultCondition != nil {
+		objectKey := object.Key("ScanResultCondition")
+		if err := awsEc2query_serializeDocumentScanResultConditionRequest(v.ScanResultCondition, objectKey); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -66009,6 +66226,48 @@ func awsEc2query_serializeDocumentS3Storage(v *types.S3Storage, value query.Valu
 	return nil
 }
 
+func awsEc2query_serializeDocumentScanResultConditionRequest(v *types.ScanResultConditionRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.MaxDaysSinceCriticalFixAvailable != nil {
+		objectKey := object.Key("MaxDaysSinceCriticalFixAvailable")
+		objectKey.Integer(*v.MaxDaysSinceCriticalFixAvailable)
+	}
+
+	if v.MaxDaysSinceHighFixAvailable != nil {
+		objectKey := object.Key("MaxDaysSinceHighFixAvailable")
+		objectKey.Integer(*v.MaxDaysSinceHighFixAvailable)
+	}
+
+	if v.MaxDaysSinceInformationalFixAvailable != nil {
+		objectKey := object.Key("MaxDaysSinceInformationalFixAvailable")
+		objectKey.Integer(*v.MaxDaysSinceInformationalFixAvailable)
+	}
+
+	if v.MaxDaysSinceLastFindingScan != nil {
+		objectKey := object.Key("MaxDaysSinceLastFindingScan")
+		objectKey.Integer(*v.MaxDaysSinceLastFindingScan)
+	}
+
+	if v.MaxDaysSinceLowFixAvailable != nil {
+		objectKey := object.Key("MaxDaysSinceLowFixAvailable")
+		objectKey.Integer(*v.MaxDaysSinceLowFixAvailable)
+	}
+
+	if v.MaxDaysSinceMediumFixAvailable != nil {
+		objectKey := object.Key("MaxDaysSinceMediumFixAvailable")
+		objectKey.Integer(*v.MaxDaysSinceMediumFixAvailable)
+	}
+
+	if len(v.MaximumSeverityLabel) > 0 {
+		objectKey := object.Key("MaximumSeverityLabel")
+		objectKey.String(string(v.MaximumSeverityLabel))
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeDocumentScheduledInstanceIdRequestSet(v []string, value query.Value) error {
 	if len(v) == 0 {
 		return nil
@@ -67937,6 +68196,43 @@ func awsEc2query_serializeDocumentTransitGatewayMulticastDomainIdStringList(v []
 	for i := range v {
 		av := array.Value()
 		av.String(v[i])
+	}
+	return nil
+}
+
+func awsEc2query_serializeDocumentTransitGatewayNatRuleRequest(v *types.TransitGatewayNatRuleRequest, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.MatchSourceCidr != nil {
+		objectKey := object.Key("MatchSourceCidr")
+		objectKey.String(*v.MatchSourceCidr)
+	}
+
+	if v.NatCidr != nil {
+		objectKey := object.Key("NatCidr")
+		objectKey.String(*v.NatCidr)
+	}
+
+	if v.RuleNumber != nil {
+		objectKey := object.Key("RuleNumber")
+		objectKey.Integer(*v.RuleNumber)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeDocumentTransitGatewayNatRuleRequestList(v []types.TransitGatewayNatRuleRequest, value query.Value) error {
+	if len(v) == 0 {
+		return nil
+	}
+	array := value.Array("Item")
+
+	for i := range v {
+		av := array.Value()
+		if err := awsEc2query_serializeDocumentTransitGatewayNatRuleRequest(&v[i], av); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -87139,6 +87435,33 @@ func awsEc2query_serializeOpDocumentGetImageBlockPublicAccessStateInput(v *GetIm
 	return nil
 }
 
+func awsEc2query_serializeOpDocumentGetImageFindingsInput(v *GetImageFindingsInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.ImageId != nil {
+		objectKey := object.Key("ImageId")
+		objectKey.String(*v.ImageId)
+	}
+
+	if v.MaxResults != nil {
+		objectKey := object.Key("MaxResults")
+		objectKey.Integer(*v.MaxResults)
+	}
+
+	if v.NextToken != nil {
+		objectKey := object.Key("NextToken")
+		objectKey.String(*v.NextToken)
+	}
+
+	return nil
+}
+
 func awsEc2query_serializeOpDocumentGetInstanceMetadataDefaultsInput(v *GetInstanceMetadataDefaultsInput, value query.Value) error {
 	object := value.Object()
 	_ = object
@@ -88376,6 +88699,23 @@ func awsEc2query_serializeOpDocumentGetSubnetCidrReservationsInput(v *GetSubnetC
 	if v.SubnetId != nil {
 		objectKey := object.Key("SubnetId")
 		objectKey.String(*v.SubnetId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentGetTransitGatewayAttachmentNatConfigurationInput(v *GetTransitGatewayAttachmentNatConfigurationInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.TransitGatewayAttachmentId != nil {
+		objectKey := object.Key("TransitGatewayAttachmentId")
+		objectKey.String(*v.TransitGatewayAttachmentId)
 	}
 
 	return nil
@@ -91543,6 +91883,45 @@ func awsEc2query_serializeOpDocumentModifyTrafficMirrorSessionInput(v *ModifyTra
 	if v.VirtualNetworkId != nil {
 		objectKey := object.Key("VirtualNetworkId")
 		objectKey.Integer(*v.VirtualNetworkId)
+	}
+
+	return nil
+}
+
+func awsEc2query_serializeOpDocumentModifyTransitGatewayAttachmentNatConfigurationInput(v *ModifyTransitGatewayAttachmentNatConfigurationInput, value query.Value) error {
+	object := value.Object()
+	_ = object
+
+	if v.DryRun != nil {
+		objectKey := object.Key("DryRun")
+		objectKey.Boolean(*v.DryRun)
+	}
+
+	if v.NatGatewayRules != nil {
+		objectKey := object.FlatKey("NatGatewayRule")
+		if err := awsEc2query_serializeDocumentTransitGatewayNatRuleRequestList(v.NatGatewayRules, objectKey); err != nil {
+			return err
+		}
+	}
+
+	if len(v.NatGatewaySupport) > 0 {
+		objectKey := object.Key("NatGatewaySupport")
+		objectKey.String(string(v.NatGatewaySupport))
+	}
+
+	if len(v.NatSystemRouteSupport) > 0 {
+		objectKey := object.Key("NatSystemRouteSupport")
+		objectKey.String(string(v.NatSystemRouteSupport))
+	}
+
+	if v.ResetNatGatewayRules != nil {
+		objectKey := object.Key("ResetNatGatewayRules")
+		objectKey.Boolean(*v.ResetNatGatewayRules)
+	}
+
+	if v.TransitGatewayAttachmentId != nil {
+		objectKey := object.Key("TransitGatewayAttachmentId")
+		objectKey.String(*v.TransitGatewayAttachmentId)
 	}
 
 	return nil

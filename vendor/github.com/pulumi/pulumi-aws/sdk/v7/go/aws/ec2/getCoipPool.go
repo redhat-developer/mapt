@@ -13,13 +13,41 @@ import (
 
 // Provides details about a specific EC2 Customer-Owned IP Pool.
 //
-// This data source can prove useful when a module accepts a coip pool id as
+// This data source can prove useful when a module accepts a CoIP pool ID as
 // an input variable and needs to, for example, determine the CIDR block of that
-// COIP Pool.
+// CoIP Pool.
 //
 // ## Example Usage
 //
-// The following example returns a specific coip pool ID
+// # The following example returns a specific CoIP pool ID
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			cfg := config.New(ctx, "")
+//			var coipPoolId interface{}
+//			cfg.RequireObject("coipPoolId", &coipPoolId)
+//			_, err := ec2.GetCoipPool(ctx, &ec2.GetCoipPoolArgs{
+//				Id: coipPoolId,
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
 func GetCoipPool(ctx *pulumi.Context, args *GetCoipPoolArgs, opts ...pulumi.InvokeOption) (*GetCoipPoolResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv GetCoipPoolResult
@@ -33,14 +61,14 @@ func GetCoipPool(ctx *pulumi.Context, args *GetCoipPoolArgs, opts ...pulumi.Invo
 // A collection of arguments for invoking getCoipPool.
 type GetCoipPoolArgs struct {
 	Filters []GetCoipPoolFilter `pulumi:"filters"`
-	// Local Gateway Route Table Id assigned to desired COIP Pool
+	// Local Gateway Route Table ID assigned to desired CoIP Pool
 	LocalGatewayRouteTableId *string `pulumi:"localGatewayRouteTableId"`
-	// ID of the specific COIP Pool to retrieve.
+	// ID of the specific CoIP Pool to retrieve.
 	PoolId *string `pulumi:"poolId"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region *string `pulumi:"region"`
 	// Mapping of tags, each pair of which must exactly match
-	// a pair on the desired COIP Pool.
+	// a pair on the desired CoIP Pool.
 	//
 	// More complex filters can be expressed using one or more `filter` sub-blocks,
 	// which take the following arguments:
@@ -49,7 +77,7 @@ type GetCoipPoolArgs struct {
 
 // A collection of values returned by getCoipPool.
 type GetCoipPoolResult struct {
-	// ARN of the COIP pool
+	// ARN of the CoIP pool
 	Arn     string              `pulumi:"arn"`
 	Filters []GetCoipPoolFilter `pulumi:"filters"`
 	// The provider-assigned unique ID for this managed resource.
@@ -70,14 +98,14 @@ func GetCoipPoolOutput(ctx *pulumi.Context, args GetCoipPoolOutputArgs, opts ...
 // A collection of arguments for invoking getCoipPool.
 type GetCoipPoolOutputArgs struct {
 	Filters GetCoipPoolFilterArrayInput `pulumi:"filters"`
-	// Local Gateway Route Table Id assigned to desired COIP Pool
+	// Local Gateway Route Table ID assigned to desired CoIP Pool
 	LocalGatewayRouteTableId pulumi.StringPtrInput `pulumi:"localGatewayRouteTableId"`
-	// ID of the specific COIP Pool to retrieve.
+	// ID of the specific CoIP Pool to retrieve.
 	PoolId pulumi.StringPtrInput `pulumi:"poolId"`
 	// Region where this resource will be [managed](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints). Defaults to the Region set in the provider configuration.
 	Region pulumi.StringPtrInput `pulumi:"region"`
 	// Mapping of tags, each pair of which must exactly match
-	// a pair on the desired COIP Pool.
+	// a pair on the desired CoIP Pool.
 	//
 	// More complex filters can be expressed using one or more `filter` sub-blocks,
 	// which take the following arguments:
@@ -103,7 +131,7 @@ func (o GetCoipPoolResultOutput) ToGetCoipPoolResultOutputWithContext(ctx contex
 	return o
 }
 
-// ARN of the COIP pool
+// ARN of the CoIP pool
 func (o GetCoipPoolResultOutput) Arn() pulumi.StringOutput {
 	return o.ApplyT(func(v GetCoipPoolResult) string { return v.Arn }).(pulumi.StringOutput)
 }

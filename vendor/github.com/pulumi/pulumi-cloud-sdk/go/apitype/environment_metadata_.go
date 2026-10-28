@@ -20,4 +20,7 @@ type EnvironmentMetadata struct {
 	// The subject Pulumi signs into OIDC tokens minted by an fn::open::oidc provider declared in this environment. A provider this environment
 	// imports from elsewhere mints the subject of the environment that declares it.
 	OidcSubjectV2 string `json:"oidcSubjectV2,omitempty" yaml:"oidcSubjectV2,omitempty"`
+	// The stack that manages this environment, as <project>/<stack>. Omitted when no stack manages the environment. Returned to anyone who can
+	// read the environment, whether or not they can read the stack.
+	ManagedByStack *string `json:"managedByStack,omitempty" yaml:"managedByStack,omitempty"`
 }

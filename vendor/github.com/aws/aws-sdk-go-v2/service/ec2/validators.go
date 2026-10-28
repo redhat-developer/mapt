@@ -7130,6 +7130,26 @@ func (m *validateOpGetImageAncestry) HandleInitialize(ctx context.Context, in mi
 	return next.HandleInitialize(ctx, in)
 }
 
+type validateOpGetImageFindings struct {
+}
+
+func (*validateOpGetImageFindings) ID() string {
+	return "OperationInputValidation"
+}
+
+func (m *validateOpGetImageFindings) HandleInitialize(ctx context.Context, in middleware.InitializeInput, next middleware.InitializeHandler) (
+	out middleware.InitializeOutput, metadata middleware.Metadata, err error,
+) {
+	input, ok := in.Parameters.(*GetImageFindingsInput)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
+	}
+	if err := validateOpGetImageFindingsInput(input); err != nil {
+		return out, metadata, err
+	}
+	return next.HandleInitialize(ctx, in)
+}
+
 type validateOpGetInstanceTpmEkPub struct {
 }
 
@@ -7825,6 +7845,26 @@ func (m *validateOpGetSubnetCidrReservations) HandleInitialize(ctx context.Conte
 		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
 	}
 	if err := validateOpGetSubnetCidrReservationsInput(input); err != nil {
+		return out, metadata, err
+	}
+	return next.HandleInitialize(ctx, in)
+}
+
+type validateOpGetTransitGatewayAttachmentNatConfiguration struct {
+}
+
+func (*validateOpGetTransitGatewayAttachmentNatConfiguration) ID() string {
+	return "OperationInputValidation"
+}
+
+func (m *validateOpGetTransitGatewayAttachmentNatConfiguration) HandleInitialize(ctx context.Context, in middleware.InitializeInput, next middleware.InitializeHandler) (
+	out middleware.InitializeOutput, metadata middleware.Metadata, err error,
+) {
+	input, ok := in.Parameters.(*GetTransitGatewayAttachmentNatConfigurationInput)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
+	}
+	if err := validateOpGetTransitGatewayAttachmentNatConfigurationInput(input); err != nil {
 		return out, metadata, err
 	}
 	return next.HandleInitialize(ctx, in)
@@ -9245,6 +9285,26 @@ func (m *validateOpModifyTrafficMirrorSession) HandleInitialize(ctx context.Cont
 		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
 	}
 	if err := validateOpModifyTrafficMirrorSessionInput(input); err != nil {
+		return out, metadata, err
+	}
+	return next.HandleInitialize(ctx, in)
+}
+
+type validateOpModifyTransitGatewayAttachmentNatConfiguration struct {
+}
+
+func (*validateOpModifyTransitGatewayAttachmentNatConfiguration) ID() string {
+	return "OperationInputValidation"
+}
+
+func (m *validateOpModifyTransitGatewayAttachmentNatConfiguration) HandleInitialize(ctx context.Context, in middleware.InitializeInput, next middleware.InitializeHandler) (
+	out middleware.InitializeOutput, metadata middleware.Metadata, err error,
+) {
+	input, ok := in.Parameters.(*ModifyTransitGatewayAttachmentNatConfigurationInput)
+	if !ok {
+		return out, metadata, fmt.Errorf("unknown input parameters type %T", in.Parameters)
+	}
+	if err := validateOpModifyTransitGatewayAttachmentNatConfigurationInput(input); err != nil {
 		return out, metadata, err
 	}
 	return next.HandleInitialize(ctx, in)
@@ -12754,6 +12814,10 @@ func addOpGetImageAncestryValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpGetImageAncestry{}, middleware.After)
 }
 
+func addOpGetImageFindingsValidationMiddleware(stack *middleware.Stack) error {
+	return stack.Initialize.Add(&validateOpGetImageFindings{}, middleware.After)
+}
+
 func addOpGetInstanceTpmEkPubValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpGetInstanceTpmEkPub{}, middleware.After)
 }
@@ -12892,6 +12956,10 @@ func addOpGetSpotPlacementScoresValidationMiddleware(stack *middleware.Stack) er
 
 func addOpGetSubnetCidrReservationsValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpGetSubnetCidrReservations{}, middleware.After)
+}
+
+func addOpGetTransitGatewayAttachmentNatConfigurationValidationMiddleware(stack *middleware.Stack) error {
+	return stack.Initialize.Add(&validateOpGetTransitGatewayAttachmentNatConfiguration{}, middleware.After)
 }
 
 func addOpGetTransitGatewayAttachmentPropagationsValidationMiddleware(stack *middleware.Stack) error {
@@ -13176,6 +13244,10 @@ func addOpModifyTrafficMirrorFilterRuleValidationMiddleware(stack *middleware.St
 
 func addOpModifyTrafficMirrorSessionValidationMiddleware(stack *middleware.Stack) error {
 	return stack.Initialize.Add(&validateOpModifyTrafficMirrorSession{}, middleware.After)
+}
+
+func addOpModifyTransitGatewayAttachmentNatConfigurationValidationMiddleware(stack *middleware.Stack) error {
+	return stack.Initialize.Add(&validateOpModifyTransitGatewayAttachmentNatConfiguration{}, middleware.After)
 }
 
 func addOpModifyTransitGatewayValidationMiddleware(stack *middleware.Stack) error {
@@ -20617,6 +20689,21 @@ func validateOpGetImageAncestryInput(v *GetImageAncestryInput) error {
 	}
 }
 
+func validateOpGetImageFindingsInput(v *GetImageFindingsInput) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "GetImageFindingsInput"}
+	if v.ImageId == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("ImageId"))
+	}
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
 func validateOpGetInstanceTpmEkPubInput(v *GetInstanceTpmEkPubInput) error {
 	if v == nil {
 		return nil
@@ -21178,6 +21265,21 @@ func validateOpGetSubnetCidrReservationsInput(v *GetSubnetCidrReservationsInput)
 	invalidParams := smithy.InvalidParamsError{Context: "GetSubnetCidrReservationsInput"}
 	if v.SubnetId == nil {
 		invalidParams.Add(smithy.NewErrParamRequired("SubnetId"))
+	}
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
+func validateOpGetTransitGatewayAttachmentNatConfigurationInput(v *GetTransitGatewayAttachmentNatConfigurationInput) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "GetTransitGatewayAttachmentNatConfigurationInput"}
+	if v.TransitGatewayAttachmentId == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("TransitGatewayAttachmentId"))
 	}
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -22367,6 +22469,21 @@ func validateOpModifyTrafficMirrorSessionInput(v *ModifyTrafficMirrorSessionInpu
 	invalidParams := smithy.InvalidParamsError{Context: "ModifyTrafficMirrorSessionInput"}
 	if v.TrafficMirrorSessionId == nil {
 		invalidParams.Add(smithy.NewErrParamRequired("TrafficMirrorSessionId"))
+	}
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	} else {
+		return nil
+	}
+}
+
+func validateOpModifyTransitGatewayAttachmentNatConfigurationInput(v *ModifyTransitGatewayAttachmentNatConfigurationInput) error {
+	if v == nil {
+		return nil
+	}
+	invalidParams := smithy.InvalidParamsError{Context: "ModifyTransitGatewayAttachmentNatConfigurationInput"}
+	if v.TransitGatewayAttachmentId == nil {
+		invalidParams.Add(smithy.NewErrParamRequired("TransitGatewayAttachmentId"))
 	}
 	if invalidParams.Len() > 0 {
 		return invalidParams

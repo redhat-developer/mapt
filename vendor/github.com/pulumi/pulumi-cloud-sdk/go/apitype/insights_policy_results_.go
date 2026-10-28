@@ -8,6 +8,8 @@ package apitype
 type InsightsPolicyResults struct {
 	// Whether the policy evaluation succeeded without violations
 	Succeeded bool `json:"succeeded" yaml:"succeeded"`
-	// The list of policy violations found, if any
+	// The list of policy results found, if any. Takes precedence over 'violations' when both are set.
+	Results []InsightsPolicyViolation `json:"results,omitempty" yaml:"results,omitempty"`
+	// Superseded by 'results'; still accepted from older clients. The list of policy violations found, if any.
 	Violations []InsightsPolicyViolation `json:"violations,omitempty" yaml:"violations,omitempty"`
 }

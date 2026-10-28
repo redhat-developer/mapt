@@ -16,7 +16,7 @@ import (
 // instances to be requested on the Spot market.
 //
 // > **NOTE [AWS strongly discourages](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-best-practices.html#which-spot-request-method-to-use) the use of the legacy APIs called by this resource.
-// We recommend using the EC2 Fleet or Auto Scaling Group resources instead.
+// We recommend using the EC2 Fleet or Auto Scaling group resources instead.
 //
 // ## Example Usage
 //
@@ -106,7 +106,7 @@ import (
 //				LaunchTemplateConfigs: ec2.SpotFleetRequestLaunchTemplateConfigArray{
 //					&ec2.SpotFleetRequestLaunchTemplateConfigArgs{
 //						LaunchTemplateSpecification: &ec2.SpotFleetRequestLaunchTemplateConfigLaunchTemplateSpecificationArgs{
-//							Id:      foo.ID().ToIDOutput().ToStringOutput(),
+//							Id:      foo.ID(),
 //							Version: foo.LatestVersion,
 //						},
 //					},
@@ -173,7 +173,7 @@ import (
 //
 // ```
 //
-// > In this example, we use a `dynamic` block to define zero or more `launchSpecification` blocks, producing one for each element in the list of subnet ids.
+// > In this example, we use a `dynamic` block to define zero or more `launchSpecification` blocks, producing one for each element in the list of subnet IDs.
 //
 // ### Using multiple launch configurations
 //
@@ -193,7 +193,7 @@ import (
 //				Filters: []ec2.GetSubnetsFilter{
 //					{
 //						Name: "vpc-id",
-//						Values: pulumi.StringArray{
+//						Values: []string{
 //							vpcId,
 //						},
 //					},
@@ -215,7 +215,7 @@ import (
 //				LaunchTemplateConfigs: ec2.SpotFleetRequestLaunchTemplateConfigArray{
 //					&ec2.SpotFleetRequestLaunchTemplateConfigArgs{
 //						LaunchTemplateSpecification: &ec2.SpotFleetRequestLaunchTemplateConfigLaunchTemplateSpecificationArgs{
-//							Id:      foo.ID().ToIDOutput().ToStringOutput(),
+//							Id:      foo.ID(),
 //							Version: foo.LatestVersion,
 //						},
 //						Overrides: ec2.SpotFleetRequestLaunchTemplateConfigOverrideArray{

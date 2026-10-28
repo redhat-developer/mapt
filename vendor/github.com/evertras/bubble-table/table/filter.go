@@ -5,6 +5,26 @@ import (
 	"strings"
 )
 
+// FilterFuncInput is the input to a FilterFunc. It's a struct so we can add more things later
+// without breaking compatibility.
+type FilterFuncInput struct {
+	// Columns is a list of the columns of the table
+	Columns []Column
+
+	// Row is the row that's being considered for filtering
+	Row Row
+
+	// GlobalMetadata is an arbitrary set of metadata from the table set by WithGlobalMetadata
+	GlobalMetadata map[string]any
+
+	// Filter is the filter string input to consider
+	Filter string
+}
+
+// FilterFunc takes a FilterFuncInput and returns true if the row should be visible,
+// or false if the row should be hidden.
+type FilterFunc func(FilterFuncInput) bool
+
 func (m Model) getFilteredRows(rows []Row) []Row {
 	filterInputValue := m.filterTextInput.Value()
 	if !m.filtered || filterInputValue == "" {
@@ -14,7 +34,20 @@ func (m Model) getFilteredRows(rows []Row) []Row {
 	filteredRows := make([]Row, 0)
 
 	for _, row := range rows {
-		if isRowMatched(m.columns, row, filterInputValue) {
+		var availableFilterFunc FilterFunc
+
+		if m.filterFunc != nil {
+			availableFilterFunc = m.filterFunc
+		} else {
+			availableFilterFunc = filterFuncContains
+		}
+
+		if availableFilterFunc(FilterFuncInput{
+			Columns:        m.columns,
+			Row:            row,
+			Filter:         filterInputValue,
+			GlobalMetadata: m.metadata,
+		}) {
 			filteredRows = append(filteredRows, row)
 		}
 	}
@@ -22,23 +55,25 @@ func (m Model) getFilteredRows(rows []Row) []Row {
 	return filteredRows
 }
 
-func isRowMatched(columns []Column, row Row, filter string) bool {
-	if filter == "" {
+// filterFuncContains returns a filterFunc that performs case-insensitive
+// "contains" matching over all filterable columns in a row.
+func filterFuncContains(input FilterFuncInput) bool {
+	if input.Filter == "" {
 		return true
 	}
 
 	checkedAny := false
 
-	filterLower := strings.ToLower(filter)
+	filterLower := strings.ToLower(input.Filter)
 
-	for _, column := range columns {
+	for _, column := range input.Columns {
 		if !column.filterable {
 			continue
 		}
 
 		checkedAny = true
 
-		data, ok := row.Data[column.key]
+		data, ok := input.Row.Data[column.key]
 
 		if !ok {
 			continue
@@ -68,4 +103,80 @@ func isRowMatched(columns []Column, row Row, filter string) bool {
 	}
 
 	return !checkedAny
+}
+
+// filterFuncFuzzy returns a filterFunc that performs case-insensitive fuzzy
+// matching (subsequence) over the concatenation of all filterable column values.
+// it supports multiple filter tokens separated by space which must all match.
+// also, if a filter token starts with the quote character (') it has to match literally.
+func filterFuncFuzzy(input FilterFuncInput) bool {
+	filter := strings.TrimSpace(input.Filter)
+	if filter == "" {
+		return true
+	}
+
+	haystack := buildFuzzyHaystack(input)
+	if haystack == "" {
+		return false
+	}
+
+	for _, token := range strings.Fields(strings.ToLower(filter)) {
+		if !fuzzyTokenMatches(haystack, token) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func buildFuzzyHaystack(input FilterFuncInput) string {
+	var builder strings.Builder
+
+	for _, col := range input.Columns {
+		if !col.filterable {
+			continue
+		}
+
+		value, ok := input.Row.Data[col.key]
+		if !ok {
+			continue
+		}
+
+		if sc, ok := value.(StyledCell); ok {
+			value = sc.Data
+		}
+
+		fmt.Fprint(&builder, value) // uses Stringer if implemented
+		builder.WriteByte(' ')
+	}
+
+	return strings.ToLower(builder.String())
+}
+
+func fuzzyTokenMatches(haystack, token string) bool {
+	if token[0] == '\'' && len(token) > 1 {
+		return strings.Contains(haystack, token[1:])
+	}
+
+	return fuzzySubsequenceMatch(haystack, token)
+}
+
+// fuzzySubsequenceMatch returns true if all runes in needle appear in order
+// within haystack (not necessarily contiguously). Case must be normalized by caller.
+func fuzzySubsequenceMatch(haystack, needle string) bool {
+	if needle == "" {
+		return true
+	}
+	haystackIndex, needleIndex := 0, 0
+	haystackRunes := []rune(haystack)
+	needleRunes := []rune(needle)
+
+	for haystackIndex < len(haystackRunes) && needleIndex < len(needleRunes) {
+		if haystackRunes[haystackIndex] == needleRunes[needleIndex] {
+			needleIndex++
+		}
+		haystackIndex++
+	}
+
+	return needleIndex == len(needleRunes)
 }

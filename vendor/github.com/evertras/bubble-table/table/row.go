@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/charmbracelet/lipgloss"
-	"github.com/muesli/reflow/wordwrap"
+	"charm.land/lipgloss/v2"
+	"github.com/charmbracelet/x/ansi"
 )
 
-// RowData is a map of string column keys to interface{} data.  Data with a key
+// RowData is a map of string column keys to arbitrary data.  Data with a key
 // that matches a column key will be displayed.  Data with a key that does not
 // match a column key will not be displayed, but will remain attached to the Row.
 // This can be useful for attaching hidden metadata for future reference when
 // retrieving rows.
-type RowData map[string]interface{}
+type RowData map[string]any
 
 // Row represents a row in the table with some data keyed to the table columns>
 // Can have a style applied to it such as color/bold.  Create using NewRow().
@@ -32,7 +32,7 @@ var lastRowID uint32 = 1
 // NewRow creates a new row and copies the given row data.
 func NewRow(data RowData) Row {
 	row := Row{
-		Data: make(map[string]interface{}),
+		Data: make(map[string]any),
 		id:   lastRowID,
 	}
 
@@ -48,32 +48,57 @@ func NewRow(data RowData) Row {
 
 // WithStyle uses the given style for the text in the row.
 func (r Row) WithStyle(style lipgloss.Style) Row {
-	r.Style = style.Copy()
+	r.Style = style
 
 	return r
 }
 
-//nolint:nestif,cyclop // This has many ifs, but they're short
+// rowLineCount returns the number of terminal lines the row occupies when rendered.
+// For non-multiline tables this is always 1.
+func (m *Model) rowLineCount(row Row) int {
+	if !m.multiline {
+		return 1
+	}
+
+	maxLines := 1
+
+	for _, column := range m.columns {
+		cellStr := m.renderRowColumnData(row, column, row.Style, lipgloss.NewStyle())
+		maxLines = max(maxLines, lipgloss.Height(cellStr))
+	}
+
+	return maxLines
+}
+
+//nolint:cyclop,funlen // Breaking this up will be more complicated than it's worth for now
 func (m Model) renderRowColumnData(row Row, column Column, rowStyle lipgloss.Style, borderStyle lipgloss.Style) string {
-	cellStyle := rowStyle.Copy().Inherit(column.style).Inherit(m.baseStyle)
+	cellStyle := rowStyle.Inherit(column.style).Inherit(m.baseStyle)
+
+	// lipgloss Inherit() explicitly skips padding/margin, so apply column
+	// padding directly to ensure it takes effect.
+	colPadTop, colPadRight, colPadBottom, colPadLeft := column.style.GetPadding()
+	if colPadTop != 0 || colPadRight != 0 || colPadBottom != 0 || colPadLeft != 0 {
+		cellStyle = cellStyle.Padding(colPadTop, colPadRight, colPadBottom, colPadLeft)
+	}
 
 	var str string
 
-	if column.key == columnKeySelect {
+	switch column.key {
+	case columnKeySelect:
 		if row.selected {
 			str = m.selectedText
 		} else {
 			str = m.unselectedText
 		}
-	} else if column.key == columnKeyOverflowRight {
+	case columnKeyOverflowRight:
 		cellStyle = cellStyle.Align(lipgloss.Right)
 		str = ">"
-	} else if column.key == columnKeyOverflowLeft {
+	case columnKeyOverflowLeft:
 		str = "<"
-	} else {
+	default:
 		fmtString := "%v"
 
-		var data interface{}
+		var data any
 
 		if entry, exists := row.Data[column.key]; exists {
 			data = entry
@@ -90,30 +115,52 @@ func (m Model) renderRowColumnData(row Row, column Column, rowStyle lipgloss.Sty
 		switch entry := data.(type) {
 		case StyledCell:
 			str = fmt.Sprintf(fmtString, entry.Data)
-			cellStyle = entry.Style.Copy().Inherit(cellStyle)
+
+			if entry.StyleFunc != nil {
+				cellStyle = entry.StyleFunc(StyledCellFuncInput{
+					Column:         column,
+					Data:           entry.Data,
+					Row:            row,
+					GlobalMetadata: m.metadata,
+				}).Inherit(cellStyle)
+			} else {
+				cellStyle = entry.Style.Inherit(cellStyle)
+			}
 		default:
 			str = fmt.Sprintf(fmtString, entry)
 		}
 	}
 
+	// Reduce the available text width by any horizontal column padding so that
+	// content is truncated/wrapped to the inner content area, not the full cell.
+	contentWidth := max(column.width-colPadLeft-colPadRight, 0)
+
 	if m.multiline {
-		str = wordwrap.String(str, column.width)
+		str = ansi.Wordwrap(str, contentWidth, "")
+		// a bug in Wordwrap means when hyphens are used as a breakpoint, the wrap is done AFTER the hyphen
+		// resulting in a line that exceeds the column width
+		// Hardwrap as a seconds step avoids this
+		str = ansi.Hardwrap(str, contentWidth, false)
 		cellStyle = cellStyle.Align(lipgloss.Top)
 	} else {
-		str = limitStr(str, column.width)
+		str = limitStr(str, contentWidth)
 	}
 
-	cellStyle = cellStyle.Inherit(borderStyle)
+	// In lipgloss v2, Width() sets the *total* outer width (including borders).
+	// Use the border size accessors so that any Width already set on borderStyle
+	// (e.g. from genOverflowStyle) does not pollute the overhead calculation.
+	borderOverhead := borderStyle.GetBorderLeftSize() + borderStyle.GetBorderRightSize()
+	cellStyle = cellStyle.Inherit(borderStyle).Width(column.width + borderOverhead)
 	cellStr := cellStyle.Render(str)
 
 	return cellStr
 }
 
-func (m Model) renderRow(rowIndex int, last bool) string {
+func (m Model) renderRow(rowIndex int, last bool, separatorBelow bool) string {
 	row := m.GetVisibleRows()[rowIndex]
 	highlighted := rowIndex == m.rowCursorIndex
 
-	rowStyle := row.Style.Copy()
+	rowStyle := row.Style
 
 	if m.rowStyleFunc != nil {
 		styleResult := m.rowStyleFunc(RowStyleFuncInput{
@@ -127,21 +174,23 @@ func (m Model) renderRow(rowIndex int, last bool) string {
 		rowStyle = rowStyle.Inherit(m.highlightStyle)
 	}
 
-	return m.renderRowData(row, rowStyle, last)
+	return m.renderRowData(row, rowStyle, last, separatorBelow)
 }
 
 func (m Model) renderBlankRow(last bool) string {
-	return m.renderRowData(NewRow(nil), lipgloss.NewStyle(), last)
+	return m.renderRowData(NewRow(nil), lipgloss.NewStyle(), last, false)
 }
 
 // This is long and could use some refactoring in the future, but not quite sure
 // how to pick it apart yet.
 //
-//nolint:funlen, cyclop, gocognit
-func (m Model) renderRowData(row Row, rowStyle lipgloss.Style, last bool) string {
+//nolint:funlen, cyclop
+func (m Model) renderRowData(row Row, rowStyle lipgloss.Style, last bool, separatorBelow bool) string {
 	numColumns := len(m.columns)
 
 	columnStrings := []string{}
+	// Track content-only column widths for building the bottom border line.
+	renderedColWidths := []int{}
 	totalRenderedWidth := 0
 
 	stylesInner, stylesLast := m.styleRows()
@@ -154,31 +203,32 @@ func (m Model) renderRowData(row Row, rowStyle lipgloss.Style, last bool) string
 		}
 	}
 
+	// We always use the "inner" styles for cell borders; the bottom border line
+	// is rendered as a plain string below when last==true.
+	rowStyles := stylesInner
+	_ = stylesLast // kept for potential future use
+
 	for columnIndex, column := range m.columns {
 		var borderStyle lipgloss.Style
-		var rowStyles borderStyleRow
 
-		if !last {
-			rowStyles = stylesInner
-		} else {
-			rowStyles = stylesLast
-		}
-		rowStyle = rowStyle.Copy().Height(maxCellHeight)
+		rowStyle = rowStyle.Height(maxCellHeight)
 
 		if m.horizontalScrollOffsetCol > 0 && columnIndex == m.horizontalScrollFreezeColumnsCount {
 			var borderStyle lipgloss.Style
 
 			if columnIndex == 0 {
-				borderStyle = rowStyles.left.Copy()
+				borderStyle = rowStyles.left
 			} else {
-				borderStyle = rowStyles.inner.Copy()
+				borderStyle = rowStyles.inner
 			}
 
-			rendered := m.renderRowColumnData(row, genOverflowColumnLeft(1), rowStyle, borderStyle)
+			overflowCol := genOverflowColumnLeft(1)
+			rendered := m.renderRowColumnData(row, overflowCol, rowStyle, borderStyle)
 
 			totalRenderedWidth += lipgloss.Width(rendered)
 
 			columnStrings = append(columnStrings, rendered)
+			renderedColWidths = append(renderedColWidths, overflowCol.width)
 		}
 
 		if columnIndex >= m.horizontalScrollFreezeColumnsCount &&
@@ -219,6 +269,7 @@ func (m Model) renderRowData(row Row, rowStyle lipgloss.Style, last bool) string
 				overflowStr := m.renderRowColumnData(row, overflowColumn, rowStyle, overflowStyle)
 
 				columnStrings = append(columnStrings, overflowStr)
+				renderedColWidths = append(renderedColWidths, overflowColumn.width)
 
 				break
 			}
@@ -227,9 +278,37 @@ func (m Model) renderRowData(row Row, rowStyle lipgloss.Style, last bool) string
 		}
 
 		columnStrings = append(columnStrings, cellStr)
+		renderedColWidths = append(renderedColWidths, column.width)
 	}
 
-	return lipgloss.JoinHorizontal(lipgloss.Bottom, columnStrings...)
+	rowLine := lipgloss.JoinHorizontal(lipgloss.Bottom, columnStrings...)
+
+	return m.assembleRowOutput(rowLine, renderedColWidths, last, separatorBelow)
+}
+
+func (m Model) assembleRowOutput(rowLine string, renderedColWidths []int, last, separatorBelow bool) string {
+	if last {
+		if m.outerBorder {
+			bottomLine := m.border.buildBottomBorderLine(renderedColWidths, m.hasFooter())
+
+			return rowLine + "\n" + bottomLine
+		}
+
+		return rowLine
+	}
+
+	if separatorBelow {
+		var sepLine string
+		if m.outerBorder {
+			sepLine = m.border.buildSeparatorLine(renderedColWidths)
+		} else {
+			sepLine = m.border.buildInnerSeparatorLine(renderedColWidths)
+		}
+
+		return rowLine + "\n" + sepLine
+	}
+
+	return rowLine
 }
 
 // Selected returns a copy of the row that's set to be selected or deselected.

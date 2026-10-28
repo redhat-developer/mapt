@@ -12,4 +12,11 @@ type StackOutputsResponse struct {
 	Outputs map[string]any `json:"outputs,omitempty" yaml:"outputs,omitempty"`
 	// The secrets provider for the secret values in 'outputs'. Absent when the stack has no state.
 	SecretsProviders *AppSecretsProvidersV1 `json:"secretsProviders,omitempty" yaml:"secretsProviders,omitempty"`
+	// True when the values in 'outputs' are not known: the coherence window reads the stack from a preview that failed before it reported
+	// them. The names and which of them are secret are those of the stack's state; the values are placeholders to be treated as unknown.
+	Unknown bool `json:"unknown,omitzero" yaml:"unknown,omitempty"`
+	// Whether the outputs are known yet: 'completed' when they are in this response, and 'pending' when a coherence window subgroup may still
+	// run an update of this stack that the reading update must observe. A pending response carries no outputs; repeat the request until it
+	// completes. Absent responses are completed.
+	State string `json:"state,omitempty" yaml:"state,omitempty"`
 }
