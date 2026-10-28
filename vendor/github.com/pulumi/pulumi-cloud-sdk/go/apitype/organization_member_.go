@@ -33,4 +33,7 @@ type OrganizationMember struct {
 	// place in the organization but has no access until an administrator restores them.
 	// Suspended members are only included in responses when explicitly requested.
 	Suspended bool `json:"suspended,omitzero" yaml:"suspended,omitempty"`
+	// FollowsDefaultRole is true when the member has no role of their own and gets the
+	// organization's default role. A member assigned the default role directly is false.
+	FollowsDefaultRole bool `json:"followsDefaultRole,omitzero" yaml:"followsDefaultRole,omitempty"`
 }

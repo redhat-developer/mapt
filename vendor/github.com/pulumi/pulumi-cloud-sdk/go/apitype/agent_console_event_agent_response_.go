@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// A console event in an agent task conversation, either a user input or an agent response.
+// A console event in an agent task conversation: a user input, a trigger input, or an agent response.
 type AgentConsoleEventAgentResponse interface {
 	AgentConsoleEvent
 	isAgentConsoleEventAgentResponse()

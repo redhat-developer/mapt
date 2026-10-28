@@ -27,6 +27,9 @@ type OrganizationMetadata struct {
 	SubscriptionTrialEnd *int64 `json:"subscriptionTrialEnd,omitzero" yaml:"subscriptionTrialEnd,omitempty"`
 	// The time when the organization's active retrial expires, if it is on a retrial.
 	RetrialExpiration *time.Time `json:"retrialExpiration,omitempty" yaml:"retrialExpiration,omitempty"`
+	// The day the organization's active retrial was announced to end, if one was. It is no later than retrialExpiration and is the date to
+	// show the organization; only its calendar day in UTC is meaningful.
+	RetrialAnnouncedEndDate *time.Time `json:"retrialAnnouncedEndDate,omitempty" yaml:"retrialAnnouncedEndDate,omitempty"`
 	// The plan whose features the organization's active retrial grants, if it is on a retrial. The product field keeps reporting the plan the
 	// organization is subscribed to.
 	RetrialProduct *SaasOffer `json:"retrialProduct,omitempty" yaml:"retrialProduct,omitempty"`
@@ -114,6 +117,9 @@ type OrganizationMetadata struct {
 	// DefaultDeploymentRoleID is the ID of the default role used for deployments when no specific role is configured in the stack's deployment
 	// settings. If unset, deployments run using the triggering user's own permissions.
 	DefaultDeploymentRoleID *string `json:"defaultDeploymentRoleId,omitempty" yaml:"defaultDeploymentRoleId,omitempty"`
+	// How strictly the organization limits the permissions of the work it runs on its behalf, such as deployments. Absent when the setting is
+	// not available to the organization and the organization is permissive.
+	PermissionMode *OrganizationPermissionMode `json:"permissionMode,omitempty" yaml:"permissionMode,omitempty"`
 	// The time when the subscription entered past-due status, if applicable. Present only when the subscription is past due and the auto-lock
 	// grace period is active.
 	PastDueSince *time.Time `json:"pastDueSince,omitempty" yaml:"pastDueSince,omitempty"`

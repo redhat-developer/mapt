@@ -571,7 +571,7 @@ type Image struct {
 	//
 	// Defaults to `true` as a safeguard against broken images merging as part
 	// of CI pipelines.
-	BuildOnPreview pulumi.BoolPtrOutput `pulumi:"buildOnPreview"`
+	BuildOnPreview pulumi.BoolOutput `pulumi:"buildOnPreview"`
 	// Builder configuration.
 	Builder BuilderConfigPtrOutput `pulumi:"builder"`
 	// Cache export configuration.
@@ -655,7 +655,7 @@ type Image struct {
 	// For custom networks, configure your builder with `--driver-opt network=...`.
 	//
 	// Equivalent to Docker's `--network` flag.
-	Network NetworkModePtrOutput `pulumi:"network"`
+	Network NetworkModeOutput `pulumi:"network"`
 	// Do not import cache manifests when building the image.
 	//
 	// Equivalent to Docker's `--no-cache` flag.
@@ -1170,8 +1170,8 @@ func (o ImageOutput) BuildArgs() pulumi.StringMapOutput {
 //
 // Defaults to `true` as a safeguard against broken images merging as part
 // of CI pipelines.
-func (o ImageOutput) BuildOnPreview() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *Image) pulumi.BoolPtrOutput { return v.BuildOnPreview }).(pulumi.BoolPtrOutput)
+func (o ImageOutput) BuildOnPreview() pulumi.BoolOutput {
+	return o.ApplyT(func(v *Image) pulumi.BoolOutput { return v.BuildOnPreview }).(pulumi.BoolOutput)
 }
 
 // Builder configuration.
@@ -1293,8 +1293,8 @@ func (o ImageOutput) Load() pulumi.BoolPtrOutput {
 // For custom networks, configure your builder with `--driver-opt network=...`.
 //
 // Equivalent to Docker's `--network` flag.
-func (o ImageOutput) Network() NetworkModePtrOutput {
-	return o.ApplyT(func(v *Image) NetworkModePtrOutput { return v.Network }).(NetworkModePtrOutput)
+func (o ImageOutput) Network() NetworkModeOutput {
+	return o.ApplyT(func(v *Image) NetworkModeOutput { return v.Network }).(NetworkModeOutput)
 }
 
 // Do not import cache manifests when building the image.

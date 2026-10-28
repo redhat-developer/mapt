@@ -6,6 +6,8 @@ package apitype
 
 // StackMetadata returns metadata about a stack.
 type StackMetadata struct {
+	// The stack's ID.
+	ID string `json:"id" yaml:"id"`
 	// The organization that owns the stack.
 	OrgName string `json:"orgName" yaml:"orgName"`
 	// The project that contains the stack.

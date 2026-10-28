@@ -640,6 +640,8 @@ type ProviderEndpoint struct {
 	// Use this to override the default service endpoint URL
 	Bedrockagentcore *string `pulumi:"bedrockagentcore"`
 	// Use this to override the default service endpoint URL
+	Bedrockdataautomation *string `pulumi:"bedrockdataautomation"`
+	// Use this to override the default service endpoint URL
 	Bedrockruntime *string `pulumi:"bedrockruntime"`
 	// Use this to override the default service endpoint URL
 	Billing *string `pulumi:"billing"`
@@ -1038,6 +1040,8 @@ type ProviderEndpoint struct {
 	// Use this to override the default service endpoint URL
 	Pricing *string `pulumi:"pricing"`
 	// Use this to override the default service endpoint URL
+	Pricingplanmanager *string `pulumi:"pricingplanmanager"`
+	// Use this to override the default service endpoint URL
 	Prometheus *string `pulumi:"prometheus"`
 	// Use this to override the default service endpoint URL
 	Prometheusservice *string `pulumi:"prometheusservice"`
@@ -1123,6 +1127,8 @@ type ProviderEndpoint struct {
 	Secretsmanager *string `pulumi:"secretsmanager"`
 	// Use this to override the default service endpoint URL
 	Securityhub *string `pulumi:"securityhub"`
+	// Use this to override the default service endpoint URL
+	Securityir *string `pulumi:"securityir"`
 	// Use this to override the default service endpoint URL
 	Securitylake *string `pulumi:"securitylake"`
 	// Use this to override the default service endpoint URL
@@ -1303,6 +1309,8 @@ type ProviderEndpointArgs struct {
 	Bedrockagent pulumi.StringPtrInput `pulumi:"bedrockagent"`
 	// Use this to override the default service endpoint URL
 	Bedrockagentcore pulumi.StringPtrInput `pulumi:"bedrockagentcore"`
+	// Use this to override the default service endpoint URL
+	Bedrockdataautomation pulumi.StringPtrInput `pulumi:"bedrockdataautomation"`
 	// Use this to override the default service endpoint URL
 	Bedrockruntime pulumi.StringPtrInput `pulumi:"bedrockruntime"`
 	// Use this to override the default service endpoint URL
@@ -1702,6 +1710,8 @@ type ProviderEndpointArgs struct {
 	// Use this to override the default service endpoint URL
 	Pricing pulumi.StringPtrInput `pulumi:"pricing"`
 	// Use this to override the default service endpoint URL
+	Pricingplanmanager pulumi.StringPtrInput `pulumi:"pricingplanmanager"`
+	// Use this to override the default service endpoint URL
 	Prometheus pulumi.StringPtrInput `pulumi:"prometheus"`
 	// Use this to override the default service endpoint URL
 	Prometheusservice pulumi.StringPtrInput `pulumi:"prometheusservice"`
@@ -1787,6 +1797,8 @@ type ProviderEndpointArgs struct {
 	Secretsmanager pulumi.StringPtrInput `pulumi:"secretsmanager"`
 	// Use this to override the default service endpoint URL
 	Securityhub pulumi.StringPtrInput `pulumi:"securityhub"`
+	// Use this to override the default service endpoint URL
+	Securityir pulumi.StringPtrInput `pulumi:"securityir"`
 	// Use this to override the default service endpoint URL
 	Securitylake pulumi.StringPtrInput `pulumi:"securitylake"`
 	// Use this to override the default service endpoint URL
@@ -2118,6 +2130,11 @@ func (o ProviderEndpointOutput) Bedrockagent() pulumi.StringPtrOutput {
 // Use this to override the default service endpoint URL
 func (o ProviderEndpointOutput) Bedrockagentcore() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Bedrockagentcore }).(pulumi.StringPtrOutput)
+}
+
+// Use this to override the default service endpoint URL
+func (o ProviderEndpointOutput) Bedrockdataautomation() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Bedrockdataautomation }).(pulumi.StringPtrOutput)
 }
 
 // Use this to override the default service endpoint URL
@@ -3116,6 +3133,11 @@ func (o ProviderEndpointOutput) Pricing() pulumi.StringPtrOutput {
 }
 
 // Use this to override the default service endpoint URL
+func (o ProviderEndpointOutput) Pricingplanmanager() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Pricingplanmanager }).(pulumi.StringPtrOutput)
+}
+
+// Use this to override the default service endpoint URL
 func (o ProviderEndpointOutput) Prometheus() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Prometheus }).(pulumi.StringPtrOutput)
 }
@@ -3328,6 +3350,11 @@ func (o ProviderEndpointOutput) Secretsmanager() pulumi.StringPtrOutput {
 // Use this to override the default service endpoint URL
 func (o ProviderEndpointOutput) Securityhub() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Securityhub }).(pulumi.StringPtrOutput)
+}
+
+// Use this to override the default service endpoint URL
+func (o ProviderEndpointOutput) Securityir() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ProviderEndpoint) *string { return v.Securityir }).(pulumi.StringPtrOutput)
 }
 
 // Use this to override the default service endpoint URL

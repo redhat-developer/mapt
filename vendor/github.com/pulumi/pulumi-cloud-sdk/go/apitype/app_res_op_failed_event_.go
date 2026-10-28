@@ -13,4 +13,8 @@ type AppResOpFailedEvent struct {
 	Status int `json:"status" yaml:"status"`
 	// The steps
 	Steps int `json:"steps" yaml:"steps"`
+	// Awaited is true if the failure occurred because the provider could not wait for the
+	// operation to complete. Consumers can use this to distinguish a failed wait from a genuine
+	// resource failure.
+	Awaited bool `json:"awaited,omitzero" yaml:"awaited,omitempty"`
 }

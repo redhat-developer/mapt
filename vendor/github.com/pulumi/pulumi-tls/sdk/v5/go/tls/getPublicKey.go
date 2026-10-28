@@ -48,7 +48,7 @@ import (
 //				return err
 //			}
 //			_, err = tls.GetPublicKey(ctx, &tls.GetPublicKeyArgs{
-//				PrivateKeyOpenssh: pulumi.StringRef(invokeFile.Result),
+//				PrivateKeyOpenssh: pulumi.StringRef(*string(invokeFile.Result)),
 //			}, nil)
 //			if err != nil {
 //				return err

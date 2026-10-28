@@ -25,4 +25,7 @@ type AppPolicyEvent struct {
 	// Severity is one of "low", "medium", "high", or "critical".
 	// An empty string is omitted and represents an unspecified severity.
 	Severity string `json:"severity,omitempty" yaml:"severity,omitempty"`
+	// Exceptions lists the policy exceptions that matched this violation, lowest ID first. An excepted violation
+	// doesn't fail the operation, whatever its enforcement level.
+	Exceptions []AppPolicyEventException `json:"exceptions,omitempty" yaml:"exceptions,omitempty"`
 }

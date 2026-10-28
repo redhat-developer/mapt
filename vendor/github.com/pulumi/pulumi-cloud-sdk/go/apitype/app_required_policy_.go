@@ -26,4 +26,6 @@ type AppRequiredPolicy struct {
 	Config map[string]*json.RawMessage `json:"config,omitempty" yaml:"config,omitempty"`
 	// References to ESC environments whose resolved values the CLI should inject into the policy pack process.
 	Environments []string `json:"environments,omitempty" yaml:"environments,omitempty"`
+	// The active policy exceptions for this Policy Pack, keyed by exception ID. Each value describes one policy exception.
+	Exceptions map[string]json.RawMessage `json:"exceptions,omitempty" yaml:"exceptions,omitempty"`
 }

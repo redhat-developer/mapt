@@ -10,17 +10,19 @@ import "fmt"
 type PermissionDescriptorUXPurpose string
 
 const (
-	PermissionDescriptorUXPurposeRole          PermissionDescriptorUXPurpose = "role"
-	PermissionDescriptorUXPurposeRolePrivate   PermissionDescriptorUXPurpose = "role_private"
-	PermissionDescriptorUXPurposeRoleTemporary PermissionDescriptorUXPurpose = "role_temporary"
-	PermissionDescriptorUXPurposePolicy        PermissionDescriptorUXPurpose = "policy"
-	PermissionDescriptorUXPurposeSet           PermissionDescriptorUXPurpose = "set"
+	PermissionDescriptorUXPurposeRole            PermissionDescriptorUXPurpose = "role"
+	PermissionDescriptorUXPurposeRolePrivate     PermissionDescriptorUXPurpose = "role_private"
+	PermissionDescriptorUXPurposeRoleUserPrivate PermissionDescriptorUXPurpose = "role_user_private"
+	PermissionDescriptorUXPurposeRoleTemporary   PermissionDescriptorUXPurpose = "role_temporary"
+	PermissionDescriptorUXPurposePolicy          PermissionDescriptorUXPurpose = "policy"
+	PermissionDescriptorUXPurposeSet             PermissionDescriptorUXPurpose = "set"
 )
 
 func (v PermissionDescriptorUXPurpose) AllValues() []PermissionDescriptorUXPurpose {
 	return []PermissionDescriptorUXPurpose{
 		PermissionDescriptorUXPurposeRole,
 		PermissionDescriptorUXPurposeRolePrivate,
+		PermissionDescriptorUXPurposeRoleUserPrivate,
 		PermissionDescriptorUXPurposeRoleTemporary,
 		PermissionDescriptorUXPurposePolicy,
 		PermissionDescriptorUXPurposeSet,
@@ -32,6 +34,8 @@ func (v PermissionDescriptorUXPurpose) IsValid() bool {
 	case PermissionDescriptorUXPurposeRole:
 		return true
 	case PermissionDescriptorUXPurposeRolePrivate:
+		return true
+	case PermissionDescriptorUXPurposeRoleUserPrivate:
 		return true
 	case PermissionDescriptorUXPurposeRoleTemporary:
 		return true
@@ -50,6 +54,8 @@ func (v PermissionDescriptorUXPurpose) openapiName() string {
 		return "Role"
 	case PermissionDescriptorUXPurposeRolePrivate:
 		return "RolePrivate"
+	case PermissionDescriptorUXPurposeRoleUserPrivate:
+		return "RoleUserPrivate"
 	case PermissionDescriptorUXPurposeRoleTemporary:
 		return "RoleTemporary"
 	case PermissionDescriptorUXPurposePolicy:

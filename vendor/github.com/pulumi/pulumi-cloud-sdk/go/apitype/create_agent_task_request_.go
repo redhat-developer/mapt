@@ -27,10 +27,10 @@ type CreateAgentTaskRequest struct {
 	// is rejected with a 403. Omitted/null means no assumed role: the task uses the creating user's full permissions. Orthogonal to
 	// permissionMode, which controls the read-only behavior posture independently.
 	Role *string `json:"role,omitempty" yaml:"role,omitempty"`
-	// Optional Custom Agent definition id to run this task as. When set, the task's role, permission mode, and enabled integrations are taken
-	// from the named agent definition instead of from this request, and the task is attributed to that agent. The agent's instructions and
-	// approval mode are not copied at creation: they are read from the definition on every turn, so editing the agent applies to the next turn
-	// of every run. A preview capability, gated per organization.
+	// Optional Custom Agent definition id to run this task as. When set, the task's role and enabled integrations are taken from the named
+	// agent definition instead of from this request, and the task is attributed to that agent. The agent's instructions and approval mode are
+	// not copied at creation: they are read from the definition on every turn, so editing the agent applies to the next turn of every run. A
+	// preview capability, gated per organization.
 	AgentDefinitionID *string `json:"agentDefinitionId,omitempty" yaml:"agentDefinitionId,omitempty"`
 	// Where tools should be executed. Defaults to 'cloud' if omitted.
 	ToolExecutionMode ToolExecutionMode `json:"toolExecutionMode,omitempty" yaml:"toolExecutionMode,omitempty"`
@@ -38,7 +38,7 @@ type CreateAgentTaskRequest struct {
 	// explicit opt-out (no integration credentials for this task); populated list → whitelist of specific integrations by ID. Modeled as an
 	// object array rather than a bare string array so multi-instance support (instance_name, scope, etc.) can be added later without a wire
 	// break.
-	EnabledIntegrations []AgentTaskIntegrationRef `json:"enabledIntegrations,omitempty" yaml:"enabledIntegrations,omitempty"`
+	EnabledIntegrations []AgentTaskIntegrationRef `json:"enabledIntegrations,omitzero" yaml:"enabledIntegrations,omitempty"`
 	// The origin that triggered this task. Defaults to 'api' if omitted.
 	Source AgentTaskSource `json:"source,omitempty" yaml:"source,omitempty"`
 	// Optional filter for CLI integrations to enable for this task. Semantics: omitted/null → enable all CLI integrations connected for the
@@ -57,7 +57,7 @@ func (m *CreateAgentTaskRequest) UnmarshalJSON(bytes []byte) error {
 		FieldRole                *string                   `json:"role,omitempty"`
 		FieldAgentDefinitionID   *string                   `json:"agentDefinitionId,omitempty"`
 		FieldToolExecutionMode   ToolExecutionMode         `json:"toolExecutionMode,omitempty"`
-		FieldEnabledIntegrations []AgentTaskIntegrationRef `json:"enabledIntegrations,omitempty"`
+		FieldEnabledIntegrations []AgentTaskIntegrationRef `json:"enabledIntegrations,omitzero"`
 		FieldSource              AgentTaskSource           `json:"source,omitempty"`
 		FieldCliIntegrations     []CLIIntegrationRef       `json:"cliIntegrations,omitempty"`
 	}

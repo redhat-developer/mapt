@@ -144,6 +144,9 @@ const (
 	RbacPermissionInsightsPolicyPackDelete           RbacPermission = "policy_pack:delete"
 	RbacPermissionInsightsPolicyResultsRead          RbacPermission = "policy_results:read"
 	RbacPermissionInsightsPolicyResultsUpdate        RbacPermission = "policy_results:update"
+	RbacPermissionPolicyExceptionsRead               RbacPermission = "policy_exceptions:read"
+	RbacPermissionPolicyExceptionsCreate             RbacPermission = "policy_exceptions:create"
+	RbacPermissionPolicyExceptionsDelete             RbacPermission = "policy_exceptions:delete"
 	RbacPermissionEnvironmentCreate                  RbacPermission = "environment:create"
 	RbacPermissionEnvironmentList                    RbacPermission = "environment:list"
 	RbacPermissionEnvironmentRead                    RbacPermission = "environment:read"
@@ -352,6 +355,9 @@ func (v RbacPermission) AllValues() []RbacPermission {
 		RbacPermissionInsightsPolicyPackDelete,
 		RbacPermissionInsightsPolicyResultsRead,
 		RbacPermissionInsightsPolicyResultsUpdate,
+		RbacPermissionPolicyExceptionsRead,
+		RbacPermissionPolicyExceptionsCreate,
+		RbacPermissionPolicyExceptionsDelete,
 		RbacPermissionEnvironmentCreate,
 		RbacPermissionEnvironmentList,
 		RbacPermissionEnvironmentRead,
@@ -688,6 +694,12 @@ func (v RbacPermission) IsValid() bool {
 	case RbacPermissionInsightsPolicyResultsRead:
 		return true
 	case RbacPermissionInsightsPolicyResultsUpdate:
+		return true
+	case RbacPermissionPolicyExceptionsRead:
+		return true
+	case RbacPermissionPolicyExceptionsCreate:
+		return true
+	case RbacPermissionPolicyExceptionsDelete:
 		return true
 	case RbacPermissionEnvironmentCreate:
 		return true
@@ -1104,6 +1116,12 @@ func (v RbacPermission) openapiName() string {
 		return "InsightsPolicyResultsRead"
 	case RbacPermissionInsightsPolicyResultsUpdate:
 		return "InsightsPolicyResultsUpdate"
+	case RbacPermissionPolicyExceptionsRead:
+		return "PolicyExceptionsRead"
+	case RbacPermissionPolicyExceptionsCreate:
+		return "PolicyExceptionsCreate"
+	case RbacPermissionPolicyExceptionsDelete:
+		return "PolicyExceptionsDelete"
 	case RbacPermissionEnvironmentCreate:
 		return "EnvironmentCreate"
 	case RbacPermissionEnvironmentList:

@@ -10,6 +10,10 @@ type UpdateAzureDevOpsAppIntegrationRequest struct {
 	OrganizationName string `json:"organizationName,omitempty" yaml:"organizationName,omitempty"`
 	// The ID of the Azure DevOps project to integrate
 	ProjectID string `json:"projectId,omitempty" yaml:"projectId,omitempty"`
+	// Client ID of an Entra app registration the organization manages. When set, Pulumi uses this app instead of creating one, so the caller
+	// needs no Entra permissions. The app's federated credential must carry the claims returned by GetAzureDevOpsFederatedCredentialClaims for
+	// the same project.
+	AppClientID string `json:"appClientId,omitempty" yaml:"appClientId,omitempty"`
 	// Whether PR comments are disabled for this integration
 	DisablePRComments bool `json:"disablePRComments,omitzero" yaml:"disablePRComments,omitempty"`
 	// Whether Neo AI summaries are disabled for this integration
