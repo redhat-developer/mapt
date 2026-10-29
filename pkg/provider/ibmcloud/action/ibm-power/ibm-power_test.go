@@ -2,6 +2,9 @@ package ibmpower
 
 import (
 	"encoding/base64"
+	"os"
+	"os/exec"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -89,6 +92,60 @@ func TestPiUserData_withOtelAndRunner(t *testing.T) {
 	}
 	if !strings.Contains(cfg, "StandardOutput=append:/var/log/gitlab-runner") {
 		t.Error("expected systemd drop-in to redirect runner stdout to log file")
+	}
+}
+
+// TestPiUserDataMountDataHomeSyntax extracts the mount-data-home.sh helper
+// from the rendered user-data and syntax-checks it with bash -n. The helper
+// runs via mount-data-home.service on first boot; a bash syntax error in it
+// silently disables the data-volume mount (the loop structure was broken in
+// 465926fc5 and never parsed — found while validating #894).
+func TestPiUserDataMountDataHomeSyntax(t *testing.T) {
+	if _, err := exec.LookPath("bash"); err != nil {
+		t.Skip("bash not available")
+	}
+	out, err := piUserData("10.0.0.1", nil, "", "")
+	if err != nil {
+		t.Fatalf("piUserData returned error: %v", err)
+	}
+	decoded, err := base64.StdEncoding.DecodeString(out)
+	if err != nil {
+		t.Fatalf("output is not valid base64: %v", err)
+	}
+	// The helper is the write_files content block for
+	// /usr/local/bin/mount-data-home.sh: six-space indented lines between its
+	// "content: |" and the next write_files entry.
+	var script []string
+	inHelper := false
+	inContent := false
+	for _, line := range strings.Split(string(decoded), "\n") {
+		switch {
+		case strings.Contains(line, "path: /usr/local/bin/mount-data-home.sh"):
+			inHelper = true
+		case inHelper && !inContent:
+			if strings.Contains(line, "content: |") {
+				inContent = true
+			}
+		case inContent && strings.HasPrefix(line, "  - path:"):
+			// next write_files entry ends the helper
+		case inContent && strings.HasPrefix(line, "      "):
+			script = append(script, strings.TrimPrefix(line, "      "))
+		case inContent && strings.TrimSpace(line) == "":
+			script = append(script, "")
+		}
+		if inContent && strings.HasPrefix(line, "  - path:") {
+			break
+		}
+	}
+	if len(script) == 0 {
+		t.Fatal("could not extract mount-data-home.sh from rendered user-data")
+	}
+	path := filepath.Join(t.TempDir(), "mount-data-home.sh")
+	if err := os.WriteFile(path, []byte(strings.Join(script, "\n")+"\n"), 0o600); err != nil {
+		t.Fatalf("write helper: %v", err)
+	}
+	if out, err := exec.Command("bash", "-n", path).CombinedOutput(); err != nil {
+		t.Errorf("bash -n failed for mount-data-home.sh: %v\n%s", err, out)
 	}
 }
 

@@ -15,12 +15,8 @@ write_files:
         ATTEMPTS=0
         MAX_ATTEMPTS=90
         while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
-        _attempts=0
-        while true; do
           DATA_DEV=$(lsblk -rnpo NAME,TYPE | awk '$2=="mpath"{mpath[$1]=1} $2=="part"{p=$1; sub(/p?[0-9]+$/,"",p); has_part[p]=1} END{for(d in mpath) if(!has_part[d]&&d!~/control/) print d}' | head -1)
           [ -n "$DATA_DEV" ] && break
-          _attempts=$((_attempts + 1))
-          [ "$_attempts" -ge 60 ] && break
           udevadm trigger --subsystem-match=block 2>/dev/null || true
           udevadm settle 2>/dev/null || true
           multipathd reconfigure 2>/dev/null || true
