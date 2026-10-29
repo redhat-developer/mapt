@@ -53,4 +53,78 @@ runcmd:
   - cmdKubeconfig="kind get kubeconfig --name kind-mapt > kubeconfig"
   - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig kubeconfig get node >/dev/null 2>&1"
   - until eval $cmdCheckCluster; do sleep 5; eval $cmdKubeconfig; done
+    # Verify control-plane stability before exporting the kubeconfig.
+    # The basic API check above only confirms the API server accepts a
+    # single request. Control-plane pods may still restart during the
+    # next 30-60 seconds due to initial resource contention. Downstream
+    # consumers that run post-actions immediately (e.g. control-plane
+    # hardening) can trigger cascading failures during this window.
+    # This block waits for all four control-plane components to reach
+    # Running+Ready, the kubelet lease to exist, and the default
+    # ServiceAccount to be created (SA controller health check).
+  - |
+    #!/bin/bash
+    set -e
+    export KUBECONFIG=/root/kubeconfig
+    MAX_WAIT=300
+    START=$SECONDS
+    echo "Waiting for control-plane pods to reach Ready state..."
+    while true; do
+      ELAPSED=$((SECONDS - START))
+      if [ "$ELAPSED" -gt "$MAX_WAIT" ]; then
+        echo "ERROR: control-plane readiness timeout after ${MAX_WAIT}s"
+        exit 1
+      fi
+      ALL_READY=true
+      for COMPONENT in kube-apiserver kube-controller-manager kube-scheduler etcd; do
+        LABEL="component=${COMPONENT}"
+        PHASE=$(kubectl get pods -n kube-system -l "${LABEL}" \
+          -o jsonpath='{.items[0].status.phase}' 2>/dev/null || echo "Unknown")
+        READY=$(kubectl get pods -n kube-system -l "${LABEL}" \
+          -o jsonpath='{.items[0].status.containerStatuses[0].ready}' 2>/dev/null || echo "false")
+        if [ "$PHASE" != "Running" ] || [ "$READY" != "true" ]; then
+          ALL_READY=false
+          break
+        fi
+      done
+      if [ "$ALL_READY" = "true" ]; then
+        echo "All control-plane pods are Ready ($((SECONDS - START))s)"
+        break
+      fi
+      sleep 2
+    done
+    echo "Waiting for kubelet lease..."
+    while true; do
+      ELAPSED=$((SECONDS - START))
+      if [ "$ELAPSED" -gt "$MAX_WAIT" ]; then
+        echo "ERROR: kubelet lease timeout after ${MAX_WAIT}s"
+        exit 1
+      fi
+      if kubectl get lease -n kube-node-lease -o name 2>/dev/null | grep -q lease; then
+        echo "Kubelet lease exists ($((SECONDS - START))s)"
+        break
+      fi
+      sleep 2
+    done
+    echo "Waiting for default ServiceAccount..."
+    while true; do
+      ELAPSED=$((SECONDS - START))
+      if [ "$ELAPSED" -gt "$MAX_WAIT" ]; then
+        echo "ERROR: ServiceAccount controller timeout after ${MAX_WAIT}s"
+        exit 1
+      fi
+      if kubectl get serviceaccount default -n default 2>/dev/null | grep -q default; then
+        echo "Default ServiceAccount exists ($((SECONDS - START))s)"
+        break
+      fi
+      sleep 2
+    done
+    echo "Verifying API server consistency..."
+    for i in 1 2 3; do
+      if ! kubectl get namespaces --request-timeout=5s >/dev/null 2>&1; then
+        echo "ERROR: API server consistency check failed on attempt $i"
+        exit 1
+      fi
+    done
+    echo "Control-plane fully stable ($((SECONDS - START))s)"
   - kind get kubeconfig --name kind-mapt > /home/{{ .Username }}/kubeconfig
