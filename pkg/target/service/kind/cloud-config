@@ -44,11 +44,29 @@ write_files:
   # owner: {{ .Username }}
   path: /root/kind-config.yaml
   permissions: '0644'
-runcmd:  
-  - dnf install -y podman kubectl
+runcmd:
+    # Wait for NTP to synchronize before network-dependent operations.
+    # This prevents curl HTTPS requests from failing if the system clock
+    # is not synchronized (clock offset > 1 minute causes TLS cert rejection).
+  - chronyc waitsync 30 0.1 0 0 || true
+    # Retry dnf install to handle transient mirror timeouts or lock contention.
+  - |
+    #!/bin/bash
+    set -e
+    for i in 1 2 3; do
+      if dnf install -y podman kubectl; then break; fi
+      if [ "$i" -lt 3 ]; then echo "dnf install failed, retrying in 10s..."; sleep 10; fi
+    done
   - sysctl fs.inotify.max_user_watches=524288
   - sysctl fs.inotify.max_user_instances=512
-  - curl -Lo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}
+    # Retry curl to download kind binary; handles GitHub CDN transient failures.
+  - |
+    #!/bin/bash
+    set -e
+    for i in 1 2 3; do
+      if curl -fSLo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}; then break; fi
+      if [ "$i" -lt 3 ]; then echo "kind download failed, retrying in 5s..."; sleep 5; fi
+    done
   - chmod +x /usr/local/bin/kind
   - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
   - podman update --pids-limit 4096 kind-mapt-control-plane

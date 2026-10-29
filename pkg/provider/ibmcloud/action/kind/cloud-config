@@ -41,12 +41,44 @@ write_files:
   path: /root/kind-config.yaml
   permissions: '0644'
 runcmd:
-  - apt-get update -y
-  - apt-get install -y podman
-  - bash -c "curl -sSLo /usr/local/bin/kubectl https://dl.k8s.io/release/$(curl -sSL https://dl.k8s.io/release/stable.txt)/bin/linux/{{ .Arch }}/kubectl && chmod +x /usr/local/bin/kubectl"
+    # Wait for NTP to synchronize before network-dependent operations.
+    # This prevents curl HTTPS requests from failing if the system clock
+    # is not synchronized (clock offset > 1 minute causes TLS cert rejection).
+  - chronyc waitsync 30 0.1 0 0 || true
+    # Retry apt-get update to handle transient mirror timeouts.
+  - |
+    #!/bin/bash
+    set -e
+    for i in 1 2 3; do
+      if apt-get update -y; then break; fi
+      if [ "$i" -lt 3 ]; then echo "apt-get update failed, retrying in 10s..."; sleep 10; fi
+    done
+    # Retry apt-get install to handle transient lock contention.
+  - |
+    #!/bin/bash
+    set -e
+    for i in 1 2 3; do
+      if apt-get install -y podman; then break; fi
+      if [ "$i" -lt 3 ]; then echo "apt-get install failed, retrying in 10s..."; sleep 10; fi
+    done
+    # Retry kubectl download to handle transient mirror timeouts.
+  - |
+    #!/bin/bash
+    set -e
+    for i in 1 2 3; do
+      if bash -c "curl -sSLo /usr/local/bin/kubectl https://dl.k8s.io/release/$(curl -sSL https://dl.k8s.io/release/stable.txt)/bin/linux/{{ .Arch }}/kubectl && chmod +x /usr/local/bin/kubectl"; then break; fi
+      if [ "$i" -lt 3 ]; then echo "kubectl download failed, retrying in 5s..."; sleep 5; fi
+    done
   - sysctl fs.inotify.max_user_watches=524288
   - sysctl fs.inotify.max_user_instances=512
-  - curl -Lo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}
+    # Retry curl to download kind binary; handles CDN transient failures.
+  - |
+    #!/bin/bash
+    set -e
+    for i in 1 2 3; do
+      if curl -Lo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}; then break; fi
+      if [ "$i" -lt 3 ]; then echo "kind download failed, retrying in 5s..."; sleep 5; fi
+    done
   - chmod +x /usr/local/bin/kind
   - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
   - podman update --pids-limit 4096 kind-mapt-control-plane
