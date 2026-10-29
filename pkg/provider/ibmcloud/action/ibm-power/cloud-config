@@ -15,12 +15,8 @@ write_files:
         ATTEMPTS=0
         MAX_ATTEMPTS=90
         while [ $ATTEMPTS -lt $MAX_ATTEMPTS ]; do
-        _attempts=0
-        while true; do
           DATA_DEV=$(lsblk -rnpo NAME,TYPE | awk '$2=="mpath"{mpath[$1]=1} $2=="part"{p=$1; sub(/p?[0-9]+$/,"",p); has_part[p]=1} END{for(d in mpath) if(!has_part[d]&&d!~/control/) print d}' | head -1)
           [ -n "$DATA_DEV" ] && break
-          _attempts=$((_attempts + 1))
-          [ "$_attempts" -ge 60 ] && break
           udevadm trigger --subsystem-match=block 2>/dev/null || true
           udevadm settle 2>/dev/null || true
           multipathd reconfigure 2>/dev/null || true
@@ -32,14 +28,85 @@ write_files:
         else
           udevadm settle 2>/dev/null || true
           sleep 10
-          mkfs.xfs -f -K "$DATA_DEV"
-          UUID=$(blkid -s UUID -o value "$DATA_DEV")
-          mkdir -p /mnt/home-tmp
-          cp -a /home/. /mnt/home-tmp/
+          # A device that is already mounted elsewhere belongs to an existing
+          # storage layout. Mounting it again at /home would hide the root
+          # filesystem's /home and add a second fstab entry, so leave the
+          # host as it is. The directory is still created because cloud-init
+          # runs restorecon on it after this service.
+          DATA_MNT=$(lsblk -dnro MOUNTPOINT "$DATA_DEV" 2>/dev/null || true)
+          if [ -n "$DATA_MNT" ]; then
+            echo "WARNING: ${DATA_DEV} is already mounted at ${DATA_MNT}, leaving storage layout unchanged" >&2
+            mkdir -p /home/containers/storage
+            exit 0
+          fi
+          # Adopt an existing filesystem instead of reformatting it. The data
+          # volume is blank on a fresh instance, but on a host whose storage
+          # layout has drifted the mpath device can already hold live data
+          # (for example podman storage) while /home is not a mountpoint.
+          # Reformatting there would destroy that data, so only create a
+          # filesystem when none is present.
+          # Probe the device directly (-p bypasses the blkid cache, and reports
+          # colliding signatures as exit 8 instead of hiding them). Exit 0 with
+          # no TYPE means a signature other than a filesystem, such as a
+          # partition table. Exit 2 means nothing was detected, but blkid also
+          # returns it when the device cannot be read, so confirm the device is
+          # readable before treating it as blank. Anything else leaves the
+          # contents unknown, so stop rather than risk the device.
+          BLKID_RC=0
+          FS_TYPE=$(blkid -p -s TYPE -o value "$DATA_DEV" 2>/dev/null) || BLKID_RC=$?
+          if [ "$BLKID_RC" -eq 0 ] && [ -z "$FS_TYPE" ]; then
+            echo "ERROR: ${DATA_DEV} carries a non-filesystem signature, not formatting" >&2
+            exit 1
+          fi
+          if [ "$BLKID_RC" -eq 2 ] && ! dd if="$DATA_DEV" of=/dev/null bs=4096 count=1 2>/dev/null; then
+            echo "ERROR: ${DATA_DEV} is not readable, not formatting" >&2
+            exit 1
+          fi
+          if [ "$BLKID_RC" -ne 0 ] && [ "$BLKID_RC" -ne 2 ]; then
+            echo "ERROR: blkid failed on ${DATA_DEV} (exit ${BLKID_RC}), not formatting" >&2
+            exit 1
+          fi
+          FRESH_FS=0
+          if [ -z "$FS_TYPE" ]; then
+            mkfs.xfs -f -K "$DATA_DEV"
+            FS_TYPE=xfs
+            FRESH_FS=1
+          else
+            echo "Adopting existing ${FS_TYPE} filesystem on ${DATA_DEV}" >&2
+          fi
+          UUID=$(blkid -p -s UUID -o value "$DATA_DEV" 2>/dev/null || true)
+          # An fstab entry for this filesystem at another path is an existing
+          # layout as well. Mounting at /home would not survive a reboot (fstab
+          # would mount it at that path again), and rewriting the entry would
+          # move live data, so leave the host as it is.
+          FSTAB_TARGET=""
+          if [ -n "$UUID" ]; then
+            FSTAB_TARGET=$(awk -v u="UUID=${UUID}" '$1 == u {print $2; exit}' /etc/fstab 2>/dev/null || true)
+          fi
+          if [ -n "$FSTAB_TARGET" ] && [ "$FSTAB_TARGET" != /home ]; then
+            echo "WARNING: fstab mounts UUID=${UUID} at ${FSTAB_TARGET}, leaving storage layout unchanged" >&2
+            mkdir -p /home/containers/storage
+            exit 0
+          fi
+          # Migrate the root filesystem's /home only onto a volume this script
+          # just created. On an adopted volume the same copy would overwrite
+          # paths that already hold live data.
+          if [ "$FRESH_FS" -eq 1 ]; then
+            mkdir -p /mnt/home-tmp
+            cp -a /home/. /mnt/home-tmp/
+          fi
           mount "$DATA_DEV" /home
-          cp -a /mnt/home-tmp/. /home/
-          rm -rf /mnt/home-tmp
-          echo "UUID=$UUID /home xfs defaults 0 2" >> /etc/fstab
+          if [ "$FRESH_FS" -eq 1 ]; then
+            cp -a /mnt/home-tmp/. /home/
+            rm -rf /mnt/home-tmp
+          fi
+          if [ -z "$UUID" ]; then
+            echo "WARNING: no UUID for ${DATA_DEV}, skipping fstab entry" >&2
+          elif [ "$FSTAB_TARGET" = /home ]; then
+            echo "fstab already mounts UUID=${UUID} at /home, not adding another entry" >&2
+          else
+            echo "UUID=$UUID /home $FS_TYPE defaults 0 2" >> /etc/fstab
+          fi
         fi
         mkdir -p /home/containers/storage
       fi
