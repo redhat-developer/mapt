@@ -53,26 +53,30 @@ runcmd:
   - |
     #!/bin/bash
     set -e
+    ok=0
     for i in 1 2 3; do
-      if dnf install -y podman kubectl; then break; fi
+      if dnf install -y podman kubectl; then ok=1; break; fi
       if [ "$i" -lt 3 ]; then echo "dnf install failed, retrying in 10s..."; sleep 10; fi
     done
+    [ "$ok" = 1 ] || { echo "ERROR: dnf install failed after 3 attempts"; exit 1; }
   - sysctl fs.inotify.max_user_watches=524288
   - sysctl fs.inotify.max_user_instances=512
     # Retry curl to download kind binary; handles GitHub CDN transient failures.
   - |
     #!/bin/bash
     set -e
+    ok=0
     for i in 1 2 3; do
-      if curl -fSLo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}; then break; fi
+      if curl -fSLo /usr/local/bin/kind https://github.com/kubernetes-sigs/kind/releases/download/{{ .KindVersion }}/kind-linux-{{ .Arch }}; then ok=1; break; fi
       if [ "$i" -lt 3 ]; then echo "kind download failed, retrying in 5s..."; sleep 5; fi
     done
+    [ "$ok" = 1 ] || { echo "ERROR: kind download failed after 3 attempts"; exit 1; }
   - chmod +x /usr/local/bin/kind
   - kind create cluster --name kind-mapt --config /root/kind-config.yaml --image {{ .KindImage }}
   - podman update --pids-limit 4096 kind-mapt-control-plane
     # Validate cluster before export the final Kubeconfig
-  - cmdKubeconfig="kind get kubeconfig --name kind-mapt > kubeconfig"
-  - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig kubeconfig get node >/dev/null 2>&1"
+  - cmdKubeconfig="kind get kubeconfig --name kind-mapt > /root/kubeconfig"
+  - cmdCheckCluster="kubectl --request-timeout=3s --insecure-skip-tls-verify --kubeconfig /root/kubeconfig get node >/dev/null 2>&1"
   - until eval $cmdCheckCluster; do eval $cmdKubeconfig; done
     # Verify control-plane stability before exporting the kubeconfig.
     # The basic API check above only confirms the API server accepts a
