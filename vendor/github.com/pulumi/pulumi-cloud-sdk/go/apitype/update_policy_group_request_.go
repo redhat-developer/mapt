@@ -5,6 +5,10 @@
 package apitype
 
 import (
+	"encoding/json"
+
+	"gopkg.in/yaml.v3"
+
 	"github.com/pulumi/pulumi-cloud-sdk/go/apitype/jsonvalue"
 )
 
@@ -12,10 +16,107 @@ import (
 type UpdatePolicyGroupRequest struct {
 	AppUpdatePolicyGroupRequest
 
-	// An Insights account to add to the policy group.
-	AddInsightsAccount *InsightsAccount `json:"addInsightsAccount,omitempty" yaml:"addInsightsAccount,omitempty"`
-	// An Insights account to remove from the policy group.
-	RemoveInsightsAccount *InsightsAccount `json:"removeInsightsAccount,omitempty" yaml:"removeInsightsAccount,omitempty"`
 	// Agent pool ID for audit policy evaluation. Set to empty string to clear, omit to leave unchanged.
 	AgentPoolID jsonvalue.Value[string] `json:"agentPoolId,omitempty" yaml:"agentPoolId,omitempty"`
+	// Preview: a stack match rule, a boolean expression over stack tags, that replaces the policy group's current rule. Omit to leave the rule
+	// unchanged. Setting a rule requires the tag-based policy groups feature and is refused on the organization's default policy groups.
+	StackMatchRule PermissionBooleanExpression `json:"stackMatchRule,omitempty" yaml:"stackMatchRule,omitempty"`
+	// Preview: set to true to remove the policy group's stack match rule. Cannot be combined with `stackMatchRule` in the same request.
+	// Removing the rule is always allowed.
+	RemoveStackMatchRule bool `json:"removeStackMatchRule,omitzero" yaml:"removeStackMatchRule,omitempty"`
+	// Preview: an account match rule, a boolean expression over Insights account tags, that replaces the policy group's current rule. Omit to
+	// leave the rule unchanged. Setting a rule requires the tag-based policy groups feature and is refused on the organization's default
+	// policy groups and on preventative groups.
+	AccountMatchRule PermissionBooleanExpression `json:"accountMatchRule,omitempty" yaml:"accountMatchRule,omitempty"`
+	// Preview: set to true to remove the policy group's account match rule. Cannot be combined with `accountMatchRule` in the same request.
+	// Removing the rule is always allowed.
+	RemoveAccountMatchRule bool `json:"removeAccountMatchRule,omitzero" yaml:"removeAccountMatchRule,omitempty"`
+}
+
+func (m *UpdatePolicyGroupRequest) UnmarshalJSON(bytes []byte) error {
+	type decoder struct {
+		FieldNewName                *string                      `json:"newName,omitempty"`
+		FieldAddStack               *AppPulumiStackReference     `json:"addStack,omitempty"`
+		FieldRemoveStack            *AppPulumiStackReference     `json:"removeStack,omitempty"`
+		FieldAddPolicyPack          *AppPolicyPackMetadata       `json:"addPolicyPack,omitempty"`
+		FieldRemovePolicyPack       *AppPolicyPackMetadata       `json:"removePolicyPack,omitempty"`
+		FieldAddInsightsAccount     *AppInsightsAccountReference `json:"addInsightsAccount,omitempty"`
+		FieldRemoveInsightsAccount  *AppInsightsAccountReference `json:"removeInsightsAccount,omitempty"`
+		FieldAgentPoolID            jsonvalue.Value[string]      `json:"agentPoolId,omitempty"`
+		FieldStackMatchRule         json.RawMessage              `json:"stackMatchRule,omitempty"`
+		FieldRemoveStackMatchRule   bool                         `json:"removeStackMatchRule,omitzero"`
+		FieldAccountMatchRule       json.RawMessage              `json:"accountMatchRule,omitempty"`
+		FieldRemoveAccountMatchRule bool                         `json:"removeAccountMatchRule,omitzero"`
+	}
+
+	var v decoder
+	var err error
+	if err = json.Unmarshal(bytes, &v); err != nil {
+		return err
+	}
+	m.NewName = v.FieldNewName
+	m.AddStack = v.FieldAddStack
+	m.RemoveStack = v.FieldRemoveStack
+	m.AddPolicyPack = v.FieldAddPolicyPack
+	m.RemovePolicyPack = v.FieldRemovePolicyPack
+	m.AddInsightsAccount = v.FieldAddInsightsAccount
+	m.RemoveInsightsAccount = v.FieldRemoveInsightsAccount
+	m.AgentPoolID = v.FieldAgentPoolID
+	if v.FieldStackMatchRule != nil {
+		if err = UnmarshalJSONPermissionBooleanExpression(v.FieldStackMatchRule, &m.StackMatchRule); err != nil {
+			return err
+		}
+	}
+	m.RemoveStackMatchRule = v.FieldRemoveStackMatchRule
+	if v.FieldAccountMatchRule != nil {
+		if err = UnmarshalJSONPermissionBooleanExpression(v.FieldAccountMatchRule, &m.AccountMatchRule); err != nil {
+			return err
+		}
+	}
+	m.RemoveAccountMatchRule = v.FieldRemoveAccountMatchRule
+	return nil
+}
+
+func (m *UpdatePolicyGroupRequest) UnmarshalYAML(value *yaml.Node) error {
+	type decoder struct {
+		FieldNewName                *string                      `yaml:"newName,omitempty"`
+		FieldAddStack               *AppPulumiStackReference     `yaml:"addStack,omitempty"`
+		FieldRemoveStack            *AppPulumiStackReference     `yaml:"removeStack,omitempty"`
+		FieldAddPolicyPack          *AppPolicyPackMetadata       `yaml:"addPolicyPack,omitempty"`
+		FieldRemovePolicyPack       *AppPolicyPackMetadata       `yaml:"removePolicyPack,omitempty"`
+		FieldAddInsightsAccount     *AppInsightsAccountReference `yaml:"addInsightsAccount,omitempty"`
+		FieldRemoveInsightsAccount  *AppInsightsAccountReference `yaml:"removeInsightsAccount,omitempty"`
+		FieldAgentPoolID            jsonvalue.Value[string]      `yaml:"agentPoolId,omitempty"`
+		FieldStackMatchRule         yaml.Node                    `yaml:"stackMatchRule,omitempty"`
+		FieldRemoveStackMatchRule   bool                         `yaml:"removeStackMatchRule,omitempty"`
+		FieldAccountMatchRule       yaml.Node                    `yaml:"accountMatchRule,omitempty"`
+		FieldRemoveAccountMatchRule bool                         `yaml:"removeAccountMatchRule,omitempty"`
+	}
+
+	var v decoder
+	var err error
+	if err = value.Decode(&v); err != nil {
+		return err
+	}
+	m.NewName = v.FieldNewName
+	m.AddStack = v.FieldAddStack
+	m.RemoveStack = v.FieldRemoveStack
+	m.AddPolicyPack = v.FieldAddPolicyPack
+	m.RemovePolicyPack = v.FieldRemovePolicyPack
+	m.AddInsightsAccount = v.FieldAddInsightsAccount
+	m.RemoveInsightsAccount = v.FieldRemoveInsightsAccount
+	m.AgentPoolID = v.FieldAgentPoolID
+	if !v.FieldStackMatchRule.IsZero() {
+		if err = UnmarshalYamlPermissionBooleanExpression(v.FieldStackMatchRule, &m.StackMatchRule); err != nil {
+			return err
+		}
+	}
+	m.RemoveStackMatchRule = v.FieldRemoveStackMatchRule
+	if !v.FieldAccountMatchRule.IsZero() {
+		if err = UnmarshalYamlPermissionBooleanExpression(v.FieldAccountMatchRule, &m.AccountMatchRule); err != nil {
+			return err
+		}
+	}
+	m.RemoveAccountMatchRule = v.FieldRemoveAccountMatchRule
+	return nil
 }

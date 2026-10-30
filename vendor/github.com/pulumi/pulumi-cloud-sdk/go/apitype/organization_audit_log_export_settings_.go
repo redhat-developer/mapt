@@ -9,8 +9,10 @@ type OrganizationAuditLogExportSettings struct {
 	// Whether audit log export is currently active. May be paused automatically if the configured destination repeatedly fails to
 	// authenticate.
 	Enabled bool `json:"enabled" yaml:"enabled"`
-	// The S3 configuration for exporting audit logs.
-	S3Configuration *AuditLogsExportS3Config `json:"s3Config" yaml:"s3Config"`
+	// The S3 configuration for exporting audit logs. Set when audit logs export to Amazon S3.
+	S3Configuration *AuditLogsExportS3Config `json:"s3Config,omitempty" yaml:"s3Config,omitempty"`
+	// The S3-compatible configuration for exporting audit logs. Set when audit logs export to an S3-compatible service.
+	S3CompatibleConfiguration *AuditLogsExportS3CompatibleConfig `json:"s3CompatibleConfig,omitempty" yaml:"s3CompatibleConfig,omitempty"`
 	// The result of the last audit log export attempt.
 	LastResult *AuditLogExportResult `json:"lastResult" yaml:"lastResult"`
 }

@@ -1,7 +1,7 @@
 package table
 
 import (
-	"github.com/charmbracelet/lipgloss"
+	"charm.land/lipgloss/v2"
 )
 
 // Column is a column in the table.
@@ -16,7 +16,31 @@ type Column struct {
 	style      lipgloss.Style
 
 	fmtString string
+
+	sortType SortType
+	sortFunc func(a, b any) bool
 }
+
+// SortType controls the comparison strategy used when a column is sorted.
+// It is distinct from SortDirection, which only controls ascending vs.
+// descending order.
+type SortType int
+
+const (
+	// SortTypeAuto is the default: values are compared as numbers if
+	// possible, then as times, then falling back to a plain string
+	// comparison.
+	SortTypeAuto SortType = iota
+
+	// SortTypeNatural orders strings the way a human reads them, comparing
+	// embedded runs of digits numerically rather than character-by-character
+	// (e.g. "item2" sorts before "item10").
+	SortTypeNatural
+
+	// SortTypeCustom is reported once a column has a comparator attached via
+	// WithSortFunc. It is never set directly.
+	SortTypeCustom
+)
 
 // NewColumn creates a new fixed-width column with the given information.
 func NewColumn(key, title string, width int) Column {
@@ -47,7 +71,7 @@ func NewFlexColumn(key, title string, flexFactor int) Column {
 
 // WithStyle applies a style to the column as a whole.
 func (c Column) WithStyle(style lipgloss.Style) Column {
-	c.style = style.Copy().Width(c.width)
+	c.style = style.Width(c.width)
 
 	return c
 }
@@ -64,11 +88,34 @@ func (c Column) WithFiltered(filterable bool) Column {
 // If not set, the default is "%v" for all data types.  Intended mainly for
 // numeric formatting.
 //
-// Since data is of the interface{} type, make sure that all data in the column
+// Since data is of the any type, make sure that all data in the column
 // is of the expected type or the format may fail.  For example, hardcoding '3'
 // instead of '3.0' and using '%.2f' will fail because '3' is an integer.
 func (c Column) WithFormatString(fmtString string) Column {
 	c.fmtString = fmtString
+
+	return c
+}
+
+// WithSortType sets the comparison strategy used when this column is sorted.
+// Defaults to SortTypeAuto. Passing SortTypeCustom directly has no effect;
+// it's only ever reported by SortType once WithSortFunc has been used.
+func (c Column) WithSortType(sortType SortType) Column {
+	if sortType == SortTypeCustom {
+		return c
+	}
+
+	c.sortType = sortType
+
+	return c
+}
+
+// WithSortFunc attaches a custom comparator used when this column is sorted,
+// overriding SortType. The function should report whether a sorts before b
+// in ascending order; the table handles reversing the result for descending
+// sorts. Values are unwrapped from StyledCell before being passed in.
+func (c Column) WithSortFunc(sortFunc func(a, b any) bool) Column {
+	c.sortFunc = sortFunc
 
 	return c
 }
@@ -115,4 +162,21 @@ func (c Column) Style() lipgloss.Style {
 // FmtString returns the format string of the column.
 func (c Column) FmtString() string {
 	return c.fmtString
+}
+
+// SortType returns the comparison strategy used when this column is sorted.
+// Reports SortTypeCustom whenever a comparator has been attached via
+// WithSortFunc, regardless of what was passed to WithSortType.
+func (c Column) SortType() SortType {
+	if c.sortFunc != nil {
+		return SortTypeCustom
+	}
+
+	return c.sortType
+}
+
+// SortFunc returns the custom comparator attached via WithSortFunc, or nil
+// if none was attached.
+func (c Column) SortFunc() func(a, b any) bool {
+	return c.sortFunc
 }
