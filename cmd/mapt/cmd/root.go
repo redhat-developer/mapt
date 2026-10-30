@@ -8,6 +8,7 @@ import (
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/gcp"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/ibmcloud"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/telemetry"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -16,6 +17,7 @@ import (
 	"path/filepath"
 	"strings"
 	"syscall"
+	"time"
 )
 
 const (
@@ -27,8 +29,12 @@ const (
 )
 
 var (
-	baseDir = filepath.Join(os.Getenv("HOME"), ".mapt")
-	logFile = "mapt.log"
+	baseDir           = filepath.Join(os.Getenv("HOME"), ".mapt")
+	logFile           = "mapt.log"
+	noTelemetryFlag   bool
+	telemetryClient   = telemetry.New(filepath.Join(baseDir, "telemetry.json"))
+	telemetryDecision telemetry.Decision
+	telemetryDone     <-chan struct{}
 )
 
 var rootCmd = &cobra.Command{
@@ -48,7 +54,23 @@ var rootCmd = &cobra.Command{
 
 func runPrerun(cmd *cobra.Command) error {
 	logging.InitLogrus(baseDir, logFile)
+	decision, err := telemetryClient.Resolve(telemetry.ReadOverrides(noTelemetryFlag), cmd.CommandPath(), telemetryCounted(cmd))
+	if err != nil {
+		logging.Debugf("telemetry decision unavailable: %v", err)
+		telemetryDecision = telemetry.Decision{}
+		return nil
+	}
+	telemetryDecision = decision
 	return nil
+}
+
+// telemetryCounted reports whether running this command counts as usage.
+// attachMiddleware only wraps leaf commands that have a RunE, and generated or
+// telemetry-management commands are excluded, so the consent prompt must match
+// exactly that set: prompting for a command that is never counted would ask
+// for consent and give nothing in return.
+func telemetryCounted(cmd *cobra.Command) bool {
+	return !cmd.HasSubCommands() && cmd.RunE != nil && !isExcludedTelemetryCommand(cmd.CommandPath())
 }
 
 func runRoot() {
@@ -60,6 +82,7 @@ func init() {
 	flagSet := pflag.NewFlagSet(commandName, pflag.ExitOnError)
 	params.AddDebugFlags(flagSet)
 	rootCmd.PersistentFlags().AddFlagSet(flagSet)
+	rootCmd.PersistentFlags().BoolVar(&noTelemetryFlag, "no-telemetry", false, "Disable anonymous usage statistics for this run")
 	// Subcommands
 	rootCmd.AddCommand(
 		aws.GetCmd(),
@@ -97,10 +120,30 @@ func attachMiddleware(names []string, cmd *cobra.Command) {
 func executeWithLogging(fullCmd string, input func(cmd *cobra.Command, args []string) error) func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		logging.Debugf("running '%s'", fullCmd)
-		return input(cmd, args)
+		err := input(cmd, args)
+		if telemetryDecision.Enabled && !isExcludedTelemetryCommand(fullCmd) {
+			telemetryDone = telemetryClient.Emit(telemetry.Event{
+				InstallID: telemetryDecision.InstallID,
+				Version:   telemetry.Version(),
+				Command:   fullCmd,
+			})
+		}
+		return err
 	}
 }
 
 func runPostrun() {
+	telemetryClient.Wait(telemetryDone, 2*time.Second)
+	telemetryDone = nil
 	logging.CloseLogging()
+}
+
+func isExcludedTelemetryCommand(commandPath string) bool {
+	for _, part := range strings.Fields(commandPath) {
+		switch part {
+		case "help", "completion", "version":
+			return true
+		}
+	}
+	return false
 }

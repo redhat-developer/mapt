@@ -29,7 +29,8 @@ VERSION_VARIABLES := -X $(MODULEPATH)/pkg/manager/context.OCI=$(IMG) \
 	-X $(MODULEPATH)/pkg/integrations/cirrus.version=$(CIRRUS_CLI) \
 	-X $(MODULEPATH)/pkg/integrations/github.runnerVersion=$(GITHUB_RUNNER) \
 	-X $(MODULEPATH)/pkg/integrations/gitlab.version=$(GITLAB_RUNNER) \
-	-X $(MODULEPATH)/pkg/integrations/otelcol.version=$(OTELCOL_VERSION)
+	-X $(MODULEPATH)/pkg/integrations/otelcol.version=$(OTELCOL_VERSION) \
+	-X $(MODULEPATH)/pkg/telemetry.version=$(VERSION)
 LDFLAGS := $(VERSION_VARIABLES) ${GO_EXTRA_LDFLAGS}
 GCFLAGS := all=-N -l
 GOOS := $(shell go env GOOS)
