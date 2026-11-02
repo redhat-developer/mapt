@@ -30,6 +30,8 @@ func GetCmd() *cobra.Command {
 	c.PersistentFlags().AddFlagSet(flagSet)
 
 	c.AddCommand(
-		hosts.GetRHELCmd())
+		hosts.GetRHELCmd(),
+		hosts.GetFedoraCmd(),
+		hosts.GetWindowsCmd())
 	return c
 }

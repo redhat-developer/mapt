@@ -18,20 +18,21 @@ const (
 )
 
 type ComputeRequest struct {
-	Prefix        string
-	ID            string
-	Zone          string
-	Network       *gcpCompute.Network
-	Subnet        *gcpCompute.Subnetwork
-	PublicIP      *gcpCompute.Address
-	MachineType   string
-	ImageURI      string
-	KeyPair       *tls.PrivateKey
-	DiskSize      *int
-	Spot          bool
-	StartupScript string
-	Username      string
-	Tags          []string
+	Prefix               string
+	ID                   string
+	Zone                 string
+	Network              *gcpCompute.Network
+	Subnet               *gcpCompute.Subnetwork
+	PublicIP             *gcpCompute.Address
+	MachineType          string
+	ImageURI             string
+	KeyPair              *tls.PrivateKey
+	DiskSize             *int
+	Spot                 bool
+	StartupScript        string
+	WindowsStartupScript pulumi.StringOutput
+	Username             string
+	Tags                 []string
 }
 
 type Compute struct {
@@ -47,7 +48,13 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 		diskSize = *r.DiskSize
 	}
 
-	sshKeys := pulumi.Sprintf("%s:%s", r.Username, r.KeyPair.PublicKeyOpenssh)
+	metadata := pulumi.StringMap{}
+	if r.KeyPair != nil {
+		metadata["ssh-keys"] = pulumi.Sprintf("%s:%s", r.Username, r.KeyPair.PublicKeyOpenssh)
+	}
+	if r.WindowsStartupScript != (pulumi.StringOutput{}) {
+		metadata["windows-startup-script-ps1"] = r.WindowsStartupScript
+	}
 
 	instanceArgs := &gcpCompute.InstanceArgs{
 		MachineType: pulumi.String(r.MachineType),
@@ -71,10 +78,8 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 				},
 			},
 		},
-		Metadata: pulumi.StringMap{
-			"ssh-keys": sshKeys,
-		},
-		Tags: pulumi.ToStringArray(r.Tags),
+		Metadata: metadata,
+		Tags:     pulumi.ToStringArray(r.Tags),
 	}
 
 	if len(r.StartupScript) > 0 {
@@ -83,6 +88,8 @@ func (r *ComputeRequest) NewCompute(ctx *pulumi.Context) (*Compute, error) {
 
 	if r.Spot {
 		instanceArgs.Scheduling = &gcpCompute.InstanceSchedulingArgs{
+			Preemptible:               pulumi.Bool(true),
+			AutomaticRestart:          pulumi.Bool(false),
 			ProvisioningModel:         pulumi.String("SPOT"),
 			InstanceTerminationAction: pulumi.String("STOP"),
 		}

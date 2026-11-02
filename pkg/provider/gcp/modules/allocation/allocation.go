@@ -25,9 +25,30 @@ type AllocationResult struct {
 
 func Allocation(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, error) {
 	if args.Spot != nil && args.Spot.Spot {
-		return nil, fmt.Errorf("GCP spot allocation not yet implemented (Phase 2)")
+		return allocationSpot(mCtx, args)
 	}
 	return allocationOnDemand(mCtx, args)
+}
+
+func allocationSpot(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, error) {
+	selector := data.NewSpotSelector()
+	sr, err := selector.Select(mCtx, &spotTypes.SpotRequestArgs{
+		ComputeRequest: args.ComputeRequest,
+		SpotParams:     args.Spot,
+	})
+	if err != nil {
+		return nil, fmt.Errorf("GCP spot allocation failed: %w", err)
+	}
+
+	logging.Debugf("spot allocation: zone=%s, types=%v, price=%.4f",
+		sr.AvailabilityZone, sr.ComputeType, sr.Price)
+
+	return &AllocationResult{
+		Region:       sr.HostingPlace,
+		Zone:         sr.AvailabilityZone,
+		MachineTypes: sr.ComputeType,
+		SpotPrice:    &sr.Price,
+	}, nil
 }
 
 func allocationOnDemand(mCtx *mc.Context, args *AllocationArgs) (*AllocationResult, error) {

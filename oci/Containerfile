@@ -37,6 +37,8 @@ ARG PULUMI_AWS_NATIVE_VERSION=v1.82.0
 ARG PULUMI_GITHUB_VERSION=v6.15.0
 # renovate: datasource=github-releases depName=pulumi/pulumi-gitlab
 ARG PULUMI_GITLAB_VERSION=v10.3.1
+# renovate: datasource=github-releases depName=pulumi/pulumi-gcp
+ARG PULUMI_GCP_VERSION=v8.41.1
 # renovate: datasource=github-releases depName=mapt-oss/pulumi-ibmcloud
 ARG PULUMI_IBMCLOUD_VERSION=v0.0.16
 ENV IBMCLOUD_PLUGIN_URL https://github.com/mapt-oss/pulumi-ibmcloud/releases/download/${PULUMI_IBMCLOUD_VERSION}/pulumi-resource-ibmcloud-${PULUMI_IBMCLOUD_VERSION}-linux-${TARGETARCH}.tar.gz
@@ -56,7 +58,8 @@ RUN mkdir -p ${PULUMI_HOME} \
     && pulumi plugin install resource awsx ${PULUMI_AWSX_VERSION} \
     && pulumi plugin install resource aws-native ${PULUMI_AWS_NATIVE_VERSION} \
     && pulumi plugin install resource github ${PULUMI_GITHUB_VERSION} \
-    && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION}
+    && pulumi plugin install resource gitlab ${PULUMI_GITLAB_VERSION} \
+    && pulumi plugin install resource gcp ${PULUMI_GCP_VERSION}
 
 # Stage 2: Red Hat Hardened minimal runtime (glibc + coreutils, no toolchain)
 FROM registry.access.redhat.com/hi/core-runtime@sha256:1abbb3f306dd1df28c46415def816056247cf850b861655097d46af971746f9b
