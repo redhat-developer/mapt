@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pulumi/pulumi-command/sdk/go/command/remote"
-	gcpCompute "github.com/pulumi/pulumi-gcp/sdk/v8/go/gcp/compute"
+	gcpCompute "github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/compute"
 	"github.com/pulumi/pulumi-tls/sdk/v5/go/tls"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/redhat-developer/mapt/pkg/provider/util/command"
