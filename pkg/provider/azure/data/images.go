@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v9"
 )
 
 type ImageRequest struct {

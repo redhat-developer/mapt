@@ -3,7 +3,7 @@ package data
 import (
 	"testing"
 
-	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v7"
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v9"
 )
 
 func ptr[T any](v T) *T { return &v }

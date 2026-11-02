@@ -3,7 +3,7 @@ package network
 import (
 	"fmt"
 
-	"github.com/pulumi/pulumi-gcp/sdk/v8/go/gcp/compute"
+	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/compute"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	infra "github.com/redhat-developer/mapt/pkg/provider"
