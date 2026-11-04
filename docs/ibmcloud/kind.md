@@ -4,6 +4,10 @@ This action provisions an Ubuntu 24.04 x86_64 VM on IBM Cloud VPC and runs a sin
 
 The Kind cluster is configured so that the API server certificate includes the public floating IP as a SAN, enabling direct `kubectl` access via the exported kubeconfig.
 
+## Networking
+
+By default a new VPC, subnet, and public gateway are created. When `--vpc-id` is provided, mapt reuses the existing VPC and only provisions a new subnet inside it — useful when the account is near the VPC quota limit.
+
 ## Environment variables
 
 | Variable | Required | Description |
@@ -31,6 +35,7 @@ Flags:
       --arch string                          architecture for the machine (default "x86_64")
       --tags stringToString                  tags to add on each resource (--tags name1=value1,name2=value2) (default [])
       --version string                       Kubernetes version for the Kind cluster (default "v1.34")
+      --vpc-id string                        ID of an existing VPC to reuse instead of creating one (optional)
 
 Global Flags:
       --backed-url string     backed for stack state. (local) file:///path/subpath (s3) s3://existing-bucket. See more https://www.pulumi.com/docs/iac/concepts/state-and-backends/#using-a-self-managed-backend
@@ -84,6 +89,19 @@ podman run -d --name ibmcloud-kind \
             --backed-url file:///workspace \
             --conn-details-output /workspace \
             --version v1.34
+
+# Reusing an existing VPC (new subnet created inside it)
+podman run -d --name ibmcloud-kind \
+        -v ${PWD}:/workspace:z \
+        -e IBMCLOUD_API_KEY=XXX \
+        -e IC_REGION=us-south \
+        -e IC_ZONE=us-south-2 \
+        quay.io/redhat-developer/mapt:v0.8.0 ibmcloud kind create \
+            --project-name ibmcloud-kind \
+            --backed-url file:///workspace \
+            --conn-details-output /workspace \
+            --version v1.34 \
+            --vpc-id <vpc-id>
 ```
 
 ### Extra port mappings

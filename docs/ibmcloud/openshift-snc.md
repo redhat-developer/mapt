@@ -4,6 +4,10 @@ This action provisions a single-node OpenShift cluster on IBM Cloud VPC, using b
 
 The catalog image is automatically discovered by querying the IBM Cloud Catalog Management API. When `--version` is omitted, the latest available version is selected by semver.
 
+## Networking
+
+By default a new VPC, subnet, and public gateway are created. When `--vpc-id` is provided, mapt reuses the existing VPC and only provisions a new subnet inside it — useful when the account is near the VPC quota limit.
+
 ## Prerequisite
 
 A catalog image must be generated from the [SNC](https://github.com/crc-org/snc) bundle and published to an IBM Cloud private catalog. This can be done with [`cloud-importer`](https://github.com/devtools-qe-incubator/cloud-importer):
@@ -39,6 +43,18 @@ mapt ibmcloud openshift-snc create \
     --conn-details-output /tmp/snc \
     --version 4.22.14 \
     --pull-secret-file /path/to/pull-secret
+```
+
+Reusing an existing VPC:
+
+```bash
+mapt ibmcloud openshift-snc create \
+    --project-name my-snc \
+    --backed-url file:///workspace \
+    --conn-details-output /tmp/snc \
+    --version 4.22.14 \
+    --pull-secret-file /path/to/pull-secret \
+    --vpc-id <vpc-id>
 ```
 
 With spot instances:

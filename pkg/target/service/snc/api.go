@@ -53,6 +53,9 @@ type SNCArgs struct {
 	Profiles                []string
 	OperatorChannels        map[string]string
 	CatalogSources          map[string]string
+	// VpcID, when non-empty, reuses an existing IBM Cloud VPC instead of
+	// creating a new one. A new subnet is still provisioned inside it.
+	VpcID string
 }
 
 type SNCResults struct {

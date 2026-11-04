@@ -32,6 +32,7 @@ type kindRequest struct {
 	prefix            *string
 	version           *string
 	zone              *string
+	vpcID             *string
 	profile           string
 	diskSize          int
 	spot              bool
@@ -83,6 +84,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *utilKind.KindArgs) (*utilKind.KindRe
 		prefix:            &prefix,
 		version:           &args.Version,
 		zone:              zone,
+		vpcID:             args.VpcID,
 		profile:           profile,
 		diskSize:          diskSize,
 		spot:              spot,
@@ -134,6 +136,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		Zone:        &zone,
 		RG:          rg,
 		Tags:        userTags,
+		VpcID:       r.vpcID,
 	})
 	if err != nil {
 		return err
@@ -170,7 +173,7 @@ func (r *kindRequest) deploy(ctx *pulumi.Context) error {
 		Name:    pulumi.String(r.mCtx.ProjectName()),
 		Image:   pulumi.String(*imageID),
 		Profile: pulumi.String(r.profile),
-		Vpc:     n.VPC.ID(),
+		Vpc:     n.VPCID,
 		Zone:    pulumi.String(zone),
 		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
 			Size: pulumi.Int(r.diskSize),
