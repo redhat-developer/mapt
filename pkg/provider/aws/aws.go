@@ -117,9 +117,19 @@ type DestroyStackRequest struct {
 }
 
 func DestroyStack(mCtx *mc.Context, s DestroyStackRequest) error {
+	target, err := PrepareDestroyStack(mCtx, s)
+	if err != nil {
+		return err
+	}
+	return manager.DestroyStack(mCtx, target)
+}
+
+// PrepareDestroyStack preserves the AWS destroy setup for callers that execute
+// multiple phases against one selected stack.
+func PrepareDestroyStack(mCtx *mc.Context, s DestroyStackRequest) (manager.Stack, error) {
 	logging.Debug("Running destroy operation")
 	if len(s.Stackname) == 0 {
-		return fmt.Errorf("stackname is required")
+		return manager.Stack{}, fmt.Errorf("stackname is required")
 	}
 	if mCtx.IsForceDestroy() {
 		// Currently only support this for remote backed urls to allow serverless
@@ -127,28 +137,26 @@ func DestroyStack(mCtx *mc.Context, s DestroyStackRequest) error {
 		if err != nil {
 			// Do not exit
 			logging.Error(err)
-		}
-		// TODO add lock key
-		lockPathKey := fmt.Sprintf("%s/%s", *key, pulumiLocksPath)
-		err = s3.Delete(mCtx.Context(), bucket, &lockPathKey)
-		if err != nil {
-			// Do not exit
-			logging.Error(err)
+		} else {
+			// TODO add lock key
+			lockPathKey := fmt.Sprintf("%s/%s", *key, pulumiLocksPath)
+			if err := s3.Delete(mCtx.Context(), bucket, &lockPathKey); err != nil {
+				// Do not exit
+				logging.Error(err)
+			}
 		}
 	}
-	return manager.DestroyStack(
-		mCtx,
-		manager.Stack{
-			StackName:   mCtx.StackNameByProject(s.Stackname),
-			ProjectName: mCtx.ProjectName(),
-			BackedURL: util.If(len(s.BackedURL) > 0,
-				s.BackedURL,
-				mCtx.BackedURL()),
-			ProviderCredentials: GetClouProviderCredentials(
-				map[string]string{
-					awsConstants.CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
-						s.Region,
-						os.Getenv("AWS_DEFAULT_REGION"))})})
+	return manager.Stack{
+		StackName:   mCtx.StackNameByProject(s.Stackname),
+		ProjectName: mCtx.ProjectName(),
+		BackedURL: util.If(len(s.BackedURL) > 0,
+			s.BackedURL,
+			mCtx.BackedURL()),
+		ProviderCredentials: GetClouProviderCredentials(
+			map[string]string{
+				awsConstants.CONFIG_AWS_REGION: util.If(len(s.Region) > 0,
+					s.Region,
+					os.Getenv("AWS_DEFAULT_REGION"))})}, nil
 }
 
 // https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
