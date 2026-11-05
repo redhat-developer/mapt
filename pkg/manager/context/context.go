@@ -3,6 +3,7 @@ package context
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"maps"
 
@@ -88,6 +89,9 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 		logging.Warn("no context provided to ContextArgs; falling back to context.Background()")
 		ctx = context.Background()
 	}
+	if err := checkResultsOutput(ca.ResultsOutput); err != nil {
+		return nil, err
+	}
 
 	c := &Context{
 		ctx:           ctx,
@@ -124,6 +128,20 @@ func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 	}
 	logging.Debugf("context initialized for %s", c.runID)
 	return c, nil
+}
+
+// checkResultsOutput fails early if results cannot be written to folder, so a
+// run stops before it creates cloud resources it could not report on.
+func checkResultsOutput(folder string) error {
+	if len(folder) == 0 {
+		return nil
+	}
+	probe, err := os.CreateTemp(folder, ".mapt-write-check-*")
+	if err != nil {
+		return fmt.Errorf("results output folder %q is not writable: %w", folder, err)
+	}
+	_ = probe.Close()
+	return os.Remove(probe.Name())
 }
 
 func (c *Context) Context() context.Context { return c.ctx }
