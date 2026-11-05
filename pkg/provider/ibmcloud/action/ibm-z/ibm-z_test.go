@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
+	"gopkg.in/yaml.v3"
 )
 
 // decodeIzOutput extracts the base64-encoded cloud-config from the MIME
@@ -106,6 +107,17 @@ func TestIzUserData_withOtelAndRunner(t *testing.T) {
 	}
 }
 
+func runcmd(t *testing.T, cfg string) []string {
+	t.Helper()
+	var parsed struct {
+		Runcmd []string `yaml:"runcmd"`
+	}
+	if err := yaml.Unmarshal([]byte(cfg), &parsed); err != nil {
+		t.Fatalf("cloud-config is not valid YAML: %v", err)
+	}
+	return parsed.Runcmd
+}
+
 // sshd rejects key logins once the login user's password ages out, so aging
 // must be off before any step that can fail.
 func TestIzUserData_disablesPasswordAging(t *testing.T) {
@@ -119,13 +131,9 @@ func TestIzUserData_disablesPasswordAging(t *testing.T) {
 				t.Fatalf("izUserData returned error: %v", err)
 			}
 			cfg := decodeIzOutput(t, out)
-			chage := "- chage -M -1 -I -1 -E -1 " + defaultUser + "\n"
-			at := strings.Index(cfg, chage)
-			if at == -1 {
-				t.Fatalf("expected %q in cloud-config:\n%s", chage, cfg)
-			}
-			if at > strings.Index(cfg, "- apt-get update -y") {
-				t.Error("expected password aging to be disabled before package installs")
+			want := "chage -M -1 -I -1 -E -1 " + defaultUser
+			if cmds := runcmd(t, cfg); len(cmds) == 0 || cmds[0] != want {
+				t.Fatalf("expected %q as the first runcmd step, got %q", want, cmds)
 			}
 		})
 	}

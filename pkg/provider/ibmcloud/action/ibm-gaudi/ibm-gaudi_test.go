@@ -2,10 +2,12 @@ package ibmgaudi
 
 import (
 	"encoding/base64"
+	"slices"
 	"strings"
 	"testing"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
+	"gopkg.in/yaml.v3"
 )
 
 // decodeGaudiOutput extracts the base64-encoded cloud-config from the MIME
@@ -47,17 +49,18 @@ func TestGaudiUserData_disablesPasswordAging(t *testing.T) {
 				t.Fatalf("gaudiUserData returned error: %v", err)
 			}
 			cfg := decodeGaudiOutput(t, out)
-			chage := "- chage -M -1 -I -1 -E -1 " + defaultUser + "\n"
-			at := strings.Index(cfg, chage)
-			if at == -1 {
-				t.Fatalf("expected %q in cloud-config:\n%s", chage, cfg)
+			var parsed struct {
+				Runcmd []string `yaml:"runcmd"`
 			}
-			otelCmd := strings.Index(cfg, "- bash /opt/install-otelcol.sh")
-			if (args != nil) != (otelCmd != -1) {
-				t.Errorf("otel install step does not match otel config:\n%s", cfg)
+			if err := yaml.Unmarshal([]byte(cfg), &parsed); err != nil {
+				t.Fatalf("cloud-config is not valid YAML: %v", err)
 			}
-			if otelCmd != -1 && at > otelCmd {
-				t.Error("expected password aging to be disabled before the otel install")
+			want := []string{"chage -M -1 -I -1 -E -1 " + defaultUser}
+			if args != nil {
+				want = append(want, "bash /opt/install-otelcol.sh")
+			}
+			if !slices.Equal(parsed.Runcmd, want) {
+				t.Fatalf("expected runcmd %q, got %q", want, parsed.Runcmd)
 			}
 		})
 	}

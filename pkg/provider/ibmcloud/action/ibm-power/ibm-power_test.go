@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
+	"gopkg.in/yaml.v3"
 )
 
 func TestPiUserData_noRunner(t *testing.T) {
@@ -41,13 +42,15 @@ func TestPiUserData_disablesPasswordAging(t *testing.T) {
 		t.Fatalf("output is not valid base64: %v", err)
 	}
 	cfg := string(decoded)
-	chage := "- chage -M -1 -I -1 -E -1 " + defaultUser + "\n"
-	at := strings.Index(cfg, chage)
-	if at == -1 {
-		t.Fatalf("expected %q in cloud-config:\n%s", chage, cfg)
+	var parsed struct {
+		Runcmd []string `yaml:"runcmd"`
 	}
-	if at > strings.Index(cfg, "- systemctl enable mount-data-home.service") {
-		t.Error("expected password aging to be disabled before the first provisioning step")
+	if err := yaml.Unmarshal([]byte(cfg), &parsed); err != nil {
+		t.Fatalf("cloud-config is not valid YAML: %v", err)
+	}
+	want := "chage -M -1 -I -1 -E -1 " + defaultUser
+	if len(parsed.Runcmd) == 0 || parsed.Runcmd[0] != want {
+		t.Fatalf("expected %q as the first runcmd step, got %q", want, parsed.Runcmd)
 	}
 }
 
