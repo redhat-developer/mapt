@@ -105,3 +105,28 @@ func TestIzUserData_withOtelAndRunner(t *testing.T) {
 		t.Error("expected systemd drop-in to redirect runner stdout to log file")
 	}
 }
+
+// sshd rejects key logins once the login user's password ages out, so aging
+// must be off before any step that can fail.
+func TestIzUserData_disablesPasswordAging(t *testing.T) {
+	for name, runner := range map[string]string{
+		"no runner":   "",
+		"with runner": "      #!/bin/bash\n      echo hello",
+	} {
+		t.Run(name, func(t *testing.T) {
+			out, err := izUserData(nil, runner, "")
+			if err != nil {
+				t.Fatalf("izUserData returned error: %v", err)
+			}
+			cfg := decodeIzOutput(t, out)
+			chage := "- chage -M -1 -I -1 -E -1 " + defaultUser + "\n"
+			at := strings.Index(cfg, chage)
+			if at == -1 {
+				t.Fatalf("expected %q in cloud-config:\n%s", chage, cfg)
+			}
+			if at > strings.Index(cfg, "- apt-get update -y") {
+				t.Error("expected password aging to be disabled before package installs")
+			}
+		})
+	}
+}
