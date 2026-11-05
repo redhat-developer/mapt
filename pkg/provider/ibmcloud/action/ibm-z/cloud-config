@@ -45,6 +45,9 @@ write_files:
 {{- end}}
 {{- end}}
 runcmd:
+  # sshd rejects even a key login once the unused password ages out, so turn
+  # aging off for the login user.
+  - chage -M -1 -I -1 -E -1 ubuntu
   - apt-get update -y
   - apt-get install -y git podman
 {{- if .OtelColScript}}

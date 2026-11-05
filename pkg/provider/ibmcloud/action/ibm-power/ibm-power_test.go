@@ -34,6 +34,28 @@ func TestPiUserData_noRunner(t *testing.T) {
 	}
 }
 
+// sshd rejects key logins once the login user's password ages out, so aging
+// must be off before any step that can fail.
+func TestPiUserData_disablesPasswordAging(t *testing.T) {
+	out, err := piUserData("10.0.0.1", nil, "", "")
+	if err != nil {
+		t.Fatalf("piUserData returned error: %v", err)
+	}
+	decoded, err := base64.StdEncoding.DecodeString(out)
+	if err != nil {
+		t.Fatalf("output is not valid base64: %v", err)
+	}
+	cfg := string(decoded)
+	chage := "- chage -M -1 -I -1 -E -1 " + defaultUser + "\n"
+	at := strings.Index(cfg, chage)
+	if at == -1 {
+		t.Fatalf("expected %q in cloud-config:\n%s", chage, cfg)
+	}
+	if at > strings.Index(cfg, "- systemctl enable mount-data-home.service") {
+		t.Error("expected password aging to be disabled before the first provisioning step")
+	}
+}
+
 func TestPiUserData_withRunner(t *testing.T) {
 	script := "      #!/bin/bash\n      echo hello"
 	out, err := piUserData("10.0.0.1", nil, script, "")
