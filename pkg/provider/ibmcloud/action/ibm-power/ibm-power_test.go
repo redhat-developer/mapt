@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/otelcol"
+	"gopkg.in/yaml.v3"
 )
 
 func TestPiUserData_noRunner(t *testing.T) {
@@ -26,6 +27,30 @@ func TestPiUserData_noRunner(t *testing.T) {
 	}
 	if !strings.Contains(cfg, "mount-data-home") {
 		t.Error("expected mount-data-home service in write_files regardless of runner/otel config")
+	}
+}
+
+// sshd rejects key logins once the login user's password ages out, so aging
+// must be off before any step that can fail.
+func TestPiUserData_disablesPasswordAging(t *testing.T) {
+	out, err := piUserData("10.0.0.1", nil, "", "")
+	if err != nil {
+		t.Fatalf("piUserData returned error: %v", err)
+	}
+	decoded, err := base64.StdEncoding.DecodeString(out)
+	if err != nil {
+		t.Fatalf("output is not valid base64: %v", err)
+	}
+	cfg := string(decoded)
+	var parsed struct {
+		Runcmd []string `yaml:"runcmd"`
+	}
+	if err := yaml.Unmarshal([]byte(cfg), &parsed); err != nil {
+		t.Fatalf("cloud-config is not valid YAML: %v", err)
+	}
+	want := "chage -M -1 -I -1 -E -1 " + defaultUser
+	if len(parsed.Runcmd) == 0 || parsed.Runcmd[0] != want {
+		t.Fatalf("expected %q as the first runcmd step, got %q", want, parsed.Runcmd)
 	}
 }
 
