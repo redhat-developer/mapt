@@ -16,4 +16,6 @@ type AppCreateStackRequest struct {
 	State *AppUntypedDeployment `json:"state,omitempty" yaml:"state,omitempty"`
 	// The configuration for the new stack.
 	Config *AppStackConfig `json:"config,omitempty" yaml:"config,omitempty"`
+	// Whether the service should create an ESC environment that the stack manages.
+	CreateManagedEnvironment bool `json:"createManagedEnvironment,omitzero" yaml:"createManagedEnvironment,omitempty"`
 }

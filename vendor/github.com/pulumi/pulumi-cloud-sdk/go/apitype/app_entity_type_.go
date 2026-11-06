@@ -6,14 +6,15 @@ package apitype
 
 import "fmt"
 
-// EntityType indicates the type of entity a policy group applies to
+// A legacy label for a policy group, `stacks` or `accounts`. It picks the default mode on create and does not restrict which entities the
+// group holds.
 type AppEntityType string
 
 const (
-	// Stacks indicates the policy group applies to stacks
+	// Legacy label: stacks.
 	AppEntityTypeStacks AppEntityType = "stacks"
 
-	// Accounts indicates the policy group applies to accounts
+	// Legacy label: accounts.
 	AppEntityTypeAccounts AppEntityType = "accounts"
 )
 

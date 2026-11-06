@@ -45,6 +45,33 @@ import (
 //
 // To retrieve a specific release asset from a repository, and download the file into a `file` attribute on the data source:
 //
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi-github/sdk/v6/go/github"
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := github.GetReleaseAsset(ctx, &github.LookupReleaseAssetArgs{
+//				Repository:   "example-repository",
+//				Owner:        "example-owner",
+//				AssetId:      12345,
+//				DownloadFile: true,
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
 // To retrieve the first release asset associated with the latest release in a repository:
 //
 // ```go
@@ -135,12 +162,8 @@ type LookupReleaseAssetResult struct {
 }
 
 func LookupReleaseAssetOutput(ctx *pulumi.Context, args LookupReleaseAssetOutputArgs, opts ...pulumi.InvokeOption) LookupReleaseAssetResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupReleaseAssetResultOutput, error) {
-			args := v.(LookupReleaseAssetArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("github:index/getReleaseAsset:getReleaseAsset", args, LookupReleaseAssetResultOutput{}, options).(LookupReleaseAssetResultOutput), nil
-		}).(LookupReleaseAssetResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("github:index/getReleaseAsset:getReleaseAsset", args, LookupReleaseAssetResultOutput{}, options).(LookupReleaseAssetResultOutput)
 }
 
 // A collection of arguments for invoking getReleaseAsset.

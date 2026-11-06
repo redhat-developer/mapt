@@ -13,6 +13,9 @@ const (
 	DefaultIdentifierMember               DefaultIdentifier = "member"
 	DefaultIdentifierAdmin                DefaultIdentifier = "admin"
 	DefaultIdentifierBillingManager       DefaultIdentifier = "billing-manager"
+	DefaultIdentifierReader               DefaultIdentifier = "reader"
+	DefaultIdentifierBuilder              DefaultIdentifier = "builder"
+	DefaultIdentifierMaintainer           DefaultIdentifier = "maintainer"
 	DefaultIdentifierStackRead            DefaultIdentifier = "stack-read"
 	DefaultIdentifierStackWrite           DefaultIdentifier = "stack-write"
 	DefaultIdentifierStackAdmin           DefaultIdentifier = "stack-admin"
@@ -30,6 +33,9 @@ func (v DefaultIdentifier) AllValues() []DefaultIdentifier {
 		DefaultIdentifierMember,
 		DefaultIdentifierAdmin,
 		DefaultIdentifierBillingManager,
+		DefaultIdentifierReader,
+		DefaultIdentifierBuilder,
+		DefaultIdentifierMaintainer,
 		DefaultIdentifierStackRead,
 		DefaultIdentifierStackWrite,
 		DefaultIdentifierStackAdmin,
@@ -50,6 +56,12 @@ func (v DefaultIdentifier) IsValid() bool {
 	case DefaultIdentifierAdmin:
 		return true
 	case DefaultIdentifierBillingManager:
+		return true
+	case DefaultIdentifierReader:
+		return true
+	case DefaultIdentifierBuilder:
+		return true
+	case DefaultIdentifierMaintainer:
 		return true
 	case DefaultIdentifierStackRead:
 		return true
@@ -84,6 +96,12 @@ func (v DefaultIdentifier) openapiName() string {
 		return "Admin"
 	case DefaultIdentifierBillingManager:
 		return "BillingManager"
+	case DefaultIdentifierReader:
+		return "Reader"
+	case DefaultIdentifierBuilder:
+		return "Builder"
+	case DefaultIdentifierMaintainer:
+		return "Maintainer"
 	case DefaultIdentifierStackRead:
 		return "StackRead"
 	case DefaultIdentifierStackWrite:

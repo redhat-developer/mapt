@@ -11,17 +11,33 @@ import (
 type dockerImageRequestJSON DockerImageRequest
 
 func (d *DockerImageRequest) UnmarshalJSON(bytes []byte) error {
-	var image dockerImageRequestJSON
-	if err := json.Unmarshal(bytes, &image); err == nil {
-		d.Reference, d.Credentials = image.Reference, image.Credentials
-		return err
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(bytes, &raw); err == nil {
+		err := rejectUnknownDockerImageKeys(
+			"DockerImageRequest",
+			raw,
+			"reference",
+			"isDefault",
+			"credentials",
+		)
+		if err != nil {
+			return err
+		}
+		var image dockerImageRequestJSON
+		if err := json.Unmarshal(bytes, &image); err != nil {
+			return err
+		}
+		d.Reference = image.Reference
+		d.Credentials = image.Credentials
+		return nil
 	}
 
 	var reference jv.Value[string]
 	if err := json.Unmarshal(bytes, &reference); err != nil {
 		return err
 	}
-	d.Reference, d.Credentials = reference, jv.Null[DockerImageCredentialsRequest]()
+	d.Reference = reference
+	d.Credentials = jv.Null[DockerImageCredentialsRequest]()
 	return nil
 }
 

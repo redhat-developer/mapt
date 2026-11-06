@@ -8,4 +8,6 @@ package apitype
 type AppCreateStackResponse struct {
 	// Messages is a list of messages that should be displayed to the user.
 	Messages []AppMessage `json:"messages,omitempty" yaml:"messages,omitempty"`
+	// The ESC environment created for the stack, as <project>/<name>. Omitted when none was created.
+	ManagedEnvironment string `json:"managedEnvironment,omitempty" yaml:"managedEnvironment,omitempty"`
 }

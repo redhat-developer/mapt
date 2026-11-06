@@ -55,4 +55,7 @@ type UpdateOrganizationRequest struct {
 	// system-managed tokens (deployment runners, agent pools, stack tokens) are not subject to this policy. Leave the field unset to make no
 	// change to the existing policy value.
 	SetMaxAccessTokenExpiryDays *int `json:"setMaxAccessTokenExpiryDays,omitzero" yaml:"setMaxAccessTokenExpiryDays,omitempty"`
+	// How strictly the organization limits the permissions of the work it runs on its behalf, such as deployments. Leave the field unset to
+	// make no change. Only organization admins can change it, and only when the setting is available to the organization.
+	SetPermissionMode *OrganizationPermissionMode `json:"setPermissionMode,omitempty" yaml:"setPermissionMode,omitempty"`
 }

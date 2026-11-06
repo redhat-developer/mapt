@@ -11,4 +11,6 @@ type UpdateOrganizationAuditLogExportSettingsRequest struct {
 	NewEnabled *bool `json:"newEnabled" yaml:"newEnabled"`
 	// The new S3 configuration for audit log export.
 	NewS3Configuration *AuditLogsExportS3Config `json:"newS3Configuration" yaml:"newS3Configuration"`
+	// The new S3-compatible configuration for audit log export. Mutually exclusive with newS3Configuration.
+	NewS3CompatibleConfiguration *AuditLogsExportS3CompatibleConfig `json:"newS3CompatibleConfiguration,omitempty" yaml:"newS3CompatibleConfiguration,omitempty"`
 }

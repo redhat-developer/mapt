@@ -75,7 +75,10 @@ type Provider interface {
 	DefaultHostingPlace() (*string, error)
 }
 
-func InitNoState() *Context { return &Context{} }
+// InitNoState returns a Context for callers that do not manage state, such as
+// price lookups. It carries context.Background() so the cloud SDKs never
+// receive a nil context.Context.
+func InitNoState() *Context { return &Context{ctx: context.Background()} }
 
 func Init(ca *ContextArgs, provider Provider) (*Context, error) {
 	// Default to context.Background() if no context is provided

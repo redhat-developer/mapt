@@ -28,7 +28,7 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			// Declare the data source
+//			// Declare the function
 //			s3, err := ec2.LookupVpcEndpoint(ctx, &ec2.LookupVpcEndpointArgs{
 //				VpcId:       pulumi.StringRef(foo.Id),
 //				ServiceName: pulumi.StringRef("com.amazonaws.us-west-2.s3"),
@@ -74,7 +74,7 @@ type LookupVpcEndpointArgs struct {
 	State *string `pulumi:"state"`
 	// Map of tags, each pair of which must exactly match a pair on the specific VPC Endpoint to retrieve.
 	Tags map[string]string `pulumi:"tags"`
-	// VPC Endpoint type. Valid values are `Interface`, `Gateway`, `GatewayLoadBalancer`, `Resource`, and `ServiceNetwork`.
+	// VPC Endpoint type. Valid values are `Interface`, `Gateway`, `GatewayLoadBalancer`, `Resource`, `ServiceNetwork`, and `Tunnel`.
 	VpcEndpointType *string `pulumi:"vpcEndpointType"`
 	// ID of the VPC in which the specific VPC Endpoint is used.
 	VpcId *string `pulumi:"vpcId"`
@@ -142,7 +142,7 @@ type LookupVpcEndpointOutputArgs struct {
 	State pulumi.StringPtrInput `pulumi:"state"`
 	// Map of tags, each pair of which must exactly match a pair on the specific VPC Endpoint to retrieve.
 	Tags pulumi.StringMapInput `pulumi:"tags"`
-	// VPC Endpoint type. Valid values are `Interface`, `Gateway`, `GatewayLoadBalancer`, `Resource`, and `ServiceNetwork`.
+	// VPC Endpoint type. Valid values are `Interface`, `Gateway`, `GatewayLoadBalancer`, `Resource`, `ServiceNetwork`, and `Tunnel`.
 	VpcEndpointType pulumi.StringPtrInput `pulumi:"vpcEndpointType"`
 	// ID of the VPC in which the specific VPC Endpoint is used.
 	VpcId pulumi.StringPtrInput `pulumi:"vpcId"`

@@ -82,7 +82,7 @@ import (
 //				return err
 //			}
 //			_, err := tls.GetCertificate(ctx, &tls.GetCertificateArgs{
-//				Content: pulumi.StringRef(invokeFile.Result),
+//				Content: pulumi.StringRef(*string(invokeFile.Result)),
 //			}, nil)
 //			if err != nil {
 //				return err
