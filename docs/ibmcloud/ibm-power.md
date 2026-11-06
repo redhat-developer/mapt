@@ -139,26 +139,18 @@ podman run -d --name ibm-power \
 
 When a GitLab runner is provisioned on the PowerVS instance (`--glrunner-*` flags), cloud-init configures podman networking for nested-container CI jobs — jobs that run `podman` inside the job container. These settings apply to IBM Power targets only; every other target keeps the generic setup.
 
-- **DNS**: the first two of the region's IBM Cloud resolvers (selected from `IC_REGION`) followed by `8.8.8.8` — glibc reads at most three nameservers from `/etc/resolv.conf`, so the public fallback must stay within the first three entries. `attempts` is reduced from 5 to 3. Regions without a resolver table fall back to runtime host detection, capped the same way. The list is passed to the runner at registration (`--docker-dns`), so job containers resolve through it directly.
+- **DNS**: the resolvers configured on the target PowerVS subnet are used, with the first two followed by `8.8.8.8` — glibc reads at most three nameservers from `/etc/resolv.conf`, so the public fallback must stay within the first three entries. Nothing is hardcoded per region: the list is read from the subnet at deploy time, so it follows the workspace's own configuration and works for any user or region. `attempts` is reduced from 5 to 3. A subnet that reports no resolvers falls back to runtime host detection, capped the same way. The list is passed to the runner at registration (`--docker-dns`), so job containers resolve through it directly.
+- **MTU**: job containers run on a dedicated `mapt-jobs` podman network created at install time with the subnet MTU (`podman network create --opt mtu=...`). The runner's `network_mtu` key is not applied in network mode, so without this a 1500-byte bridge on a smaller-MTU underlay black-holes large transfers while DNS and small requests still work. When the subnet reports no MTU, the default-route interface MTU is used. Setup inspects the applied MTU and recreates the network when it differs. The implicit default `podman` network is not used: podman synthesises it on a fresh store, so it appears to exist before configuration, and it cannot be removed or recreated to change its MTU.
 - **Nested subnet**: `executor-containers.conf` uses `default_subnet = 172.20.0.0/24` for bridges created by nested podman, avoiding conflicts with the host's default podman network, the PowerVS subnet, and the routed `10.0.0.0/8` internal range. Setup aborts if any host route or address overlaps that range (CIDR-aware comparison) or if the host network state cannot be inspected. An abort stops the runner install, so the instance comes up without a registered runner; check the cloud-init log if a runner does not appear. Only the main routing table is checked, so routes in policy-routing tables are not considered.
-- **Shared job network**: the runner registers with `--docker-network-mode podman`, pinning job containers to the host's default podman network. GitLab Runner only creates per-job networks when the `FF_NETWORK_PER_BUILD` feature flag is enabled, and an explicit network mode takes precedence over it, so jobs stay on the shared network even if that flag is turned on later. This matches the configuration validated on the live runner in [issue #894](https://github.com/redhat-developer/mapt/issues/894).
-
-Regional resolver table (from the live-runner investigation in [issue #894](https://github.com/redhat-developer/mapt/issues/894)):
-
-| `IC_REGION` | Resolvers |
-|---|---|
-| `us-south` | 10.130.98.132, 10.130.98.5, 10.130.98.69 |
-| `us-east` | 10.130.64.4, 10.130.64.70, 10.130.64.134 |
-| `eu-de` | 10.130.128.5, 10.130.128.69, 10.130.128.133 |
-| `eu-gb` | 10.130.129.4, 10.130.129.68, 10.130.129.132 |
+- **Shared job network**: the runner registers with `--docker-network-mode mapt-jobs`, pinning job containers to the dedicated network created above. GitLab Runner only creates per-job networks when the `FF_NETWORK_PER_BUILD` feature flag is enabled, and an explicit network mode takes precedence over it, so jobs stay on the shared network even if that flag is turned on later. The nested subnet and network-mode approach match the live-runner investigation in [issue #894](https://github.com/redhat-developer/mapt/issues/894); the dedicated network name and the MTU handling still need live validation. Because every job now draws its address from one pool, the netavark lease leak tracked in [#909](https://github.com/redhat-developer/mapt/issues/909) reaches the network's address ceiling sooner than it did with per-job networks.
 
 ### Validating the networking on a runner
 
 After provisioning a runner (or on an existing one), verify:
 
 ```bash
-# Networks are as configured: host default network and nested subnet
-sudo podman network inspect podman | grep -i subnet
+# Networks are as configured: job network (subnet and MTU) and nested subnet
+sudo podman network inspect mapt-jobs | grep -iE 'subnet|mtu'
 grep default_subnet /etc/containers/executor-containers.conf
 
 # DNS works in both container layers: host container, then nested container

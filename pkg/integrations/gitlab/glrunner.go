@@ -52,6 +52,8 @@ func (args *GitLabRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		Concurrent:    args.Concurrent,
 		LogToJournald: args.LogToJournald,
 		PowerVSRegion: args.PowerVSRegion,
+		PowerVSDNS:    args.PowerVSDNS,
+		PowerVSMTU:    args.PowerVSMTU,
 	}
 }
 
