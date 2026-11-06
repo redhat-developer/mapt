@@ -19,8 +19,18 @@ sudo systemctl enable --now podman.socket
 # Without this, inner build containers inherit a loopback stub address
 # (127.0.0.53 / systemd-resolved) that is unreachable from inside a container,
 # causing DNS resolution failures like "Could not resolve host: github.com".
+{{- if .PowerVSRegion}}
+# IBM Power (PowerVS) runners: use the DNS resolvers configured on the target
+# subnet, passed in by the provider. They are site configuration and are not
+# hardcoded here, so this works for any workspace and region. When the subnet
+# reports none, fall through to the host detection below.
+_dns_servers="{{ range $i, $ip := .PowerVSDNS }}{{ if $i }} {{ end }}{{ $ip }}{{ end }}"
+# Subnet resolvers take precedence; only run host detection when unset.
+if [ -z "$_dns_servers" ] && command -v resolvectl &>/dev/null; then
+{{- else}}
 _dns_servers=""
 if command -v resolvectl &>/dev/null; then
+{{- end}}
     _dns_servers=$(resolvectl dns 2>/dev/null \
         | awk '{for(i=2;i<=NF;i++) print $i}' \
         | grep -E '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$' \
@@ -47,6 +57,25 @@ fi
 if [ -z "$_dns_servers" ]; then
     _dns_servers="8.8.8.8 8.8.4.4"
 fi
+{{- if .PowerVSRegion}}
+# Power runners: glibc reads at most three nameservers from resolv.conf, so
+# the public fallback must sit within the first three entries. Keep the two
+# leading resolvers from the region table (or from host detection on
+# unlisted regions) and append 8.8.8.8, so a transient loss of the internal
+# resolvers (VPN/TGW hiccup) does not break DNS completely.
+_pow_apply_dns_fallback() {
+    _power_dns=""
+    _power_count=0
+    for _ip in $_dns_servers; do
+        if [ "$_ip" = "8.8.8.8" ]; then continue; fi
+        if [ "$_power_count" -ge 2 ]; then break; fi
+        _power_dns="${_power_dns:+${_power_dns} }${_ip}"
+        _power_count=$((_power_count + 1))
+    done
+    _dns_servers="${_power_dns:+${_power_dns} }8.8.8.8"
+}
+_pow_apply_dns_fallback
+{{- end}}
 # Build --docker-dns flags for runner registration so every job container gets
 # working DNS servers even when Podman's Docker socket API does not honour
 # containers.conf dns_servers (which affects executor-container resolution).
@@ -63,7 +92,7 @@ if [ -n "$_dns_servers" ]; then
     done
     sudo mkdir -p /etc/containers
     if [ ! -f /etc/containers/containers.conf ]; then
-        printf '[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:5", "single-request"]\n' \
+        printf '[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]\n' \
             "$_toml_list" | sudo tee /etc/containers/containers.conf > /dev/null
     elif grep -q '^\[containers\]' /etc/containers/containers.conf; then
         # Scope the dns_servers check to the [containers] section only
@@ -82,14 +111,14 @@ if [ -n "$_dns_servers" ]; then
         fi
         # Add or update dns_options within [containers]
         if grep -q '^dns_options' /etc/containers/containers.conf; then
-            sudo sed -i 's|^dns_options.*|dns_options = ["timeout:2", "attempts:5", "single-request"]|' \
+            sudo sed -i 's|^dns_options.*|dns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]|' \
                 /etc/containers/containers.conf
         else
-            sudo sed -i '/^\[containers\]/a dns_options = ["timeout:2", "attempts:5", "single-request"]' \
+            sudo sed -i '/^\[containers\]/a dns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]' \
                 /etc/containers/containers.conf
         fi
     else
-        printf '\n[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:5", "single-request"]\n' \
+        printf '\n[containers]\ndns_servers = [%s]\ndns_options = ["timeout:2", "attempts:{{if .PowerVSRegion}}3{{else}}5{{end}}", "single-request"]\n' \
             "$_toml_list" | sudo tee -a /etc/containers/containers.conf > /dev/null
     fi
     # Ensure the file is world-readable so rootless Podman can also load it
@@ -154,8 +183,100 @@ sudo chmod 644 /etc/containers/containers.conf
 # eliminating the duplicate-route conflict that breaks DNS in nested containers
 # on Netavark-based hosts (RHEL 9 / ppc64le).
 sudo cp /etc/containers/containers.conf /etc/containers/executor-containers.conf
+{{- if .PowerVSRegion}}
+# Power runners: use 172.20.0.0/24 for the nested podman bridge, outside the
+# host's default podman bridge range, the PowerVS subnet space, and the routed
+# 10.0.0.0/8 internal range. Configure it only when no host route or address
+# overlaps that range, and fail when the host network state cannot be
+# inspected.
+_pow_check_subnet_overlap() {
+    _pow_subnet="172.20.0.0/24"
+    _pow_ip="${_pow_subnet%/*}"
+    _pow_len="${_pow_subnet#*/}"
+    IFS=. read -r _p1 _p2 _p3 _p4 <<< "$_pow_ip"
+    _pow_start=$(( (_p1 << 24) | (_p2 << 16) | (_p3 << 8) | _p4 ))
+    _pow_end=$(( _pow_start + (1 << (32 - _pow_len)) - 1 ))
+    if ! _routes=$(ip -4 route show 2>&1); then
+        echo "ERROR: cannot inspect host routes for ${_pow_subnet} overlap: ${_routes}" >&2
+        return 1
+    fi
+    if ! _addrs=$(ip -4 addr show 2>&1); then
+        echo "ERROR: cannot inspect host addresses for ${_pow_subnet} overlap: ${_addrs}" >&2
+        return 1
+    fi
+    # Candidate networks: route destinations (an optional route-type prefix
+    # such as blackhole/unreachable is skipped, default routes excluded,
+    # bare addresses are /32) and interface addresses (inet <ip>/<len>).
+    _pow_entries="$(
+        printf '%s\n' "$_routes" | awk '{
+            dst = $1
+            if ($1 ~ /^(unicast|blackhole|unreachable|prohibit|local|broadcast|throw|multicast|anycast|nat|xresolve)$/) dst = $2
+            if (dst != "default" && dst != "0.0.0.0/0" && dst ~ /^[0-9]+\./) print dst
+        }'
+        printf '%s\n' "$_addrs" | awk '$1 == "inet" {print $2}'
+    )"
+    _pow_overlap=0
+    while IFS= read -r _entry; do
+        [ -n "$_entry" ] || continue
+        case "$_entry" in
+            */*) _c_ip="${_entry%/*}"; _c_len="${_entry#*/}" ;;
+            *) _c_ip="$_entry"; _c_len=32 ;;
+        esac
+        IFS=. read -r _c1 _c2 _c3 _c4 <<< "$_c_ip"
+        _c_mask=$(( (0xFFFFFFFF << (32 - _c_len)) & 0xFFFFFFFF ))
+        _c_start=$(( ((_c1 << 24) | (_c2 << 16) | (_c3 << 8) | _c4) & _c_mask ))
+        _c_end=$(( _c_start + (1 << (32 - _c_len)) - 1 ))
+        if [ "$_c_start" -le "$_pow_end" ] && [ "$_c_end" -ge "$_pow_start" ]; then
+            echo "ERROR: ${_entry} overlaps ${_pow_subnet}" >&2
+            _pow_overlap=1
+        fi
+    done < <(printf '%s\n' "$_pow_entries")
+    [ "$_pow_overlap" -eq 0 ]
+}
+_pow_check_subnet_overlap || exit 1
+# Merge the nested bridge subnet into the executor copy in place. Appending a
+# second [network] table would be a TOML parse error and podman would refuse to
+# start containers, which is reachable when the image's containers.conf already
+# carries an active [network] table.
+_pow_set_executor_subnet() {
+    _pow_conf=/etc/containers/executor-containers.conf
+    _pow_subnet="172.20.0.0/24"
+    # Headers and keys may be indented. The key match requires "=" after the
+    # name so default_subnet_pools is left alone.
+    if grep -q '^[[:space:]]*\[network\]' "$_pow_conf"; then
+        if awk '/^[[:space:]]*\[network\]/{f=1;next} /^[[:space:]]*\[/{f=0}
+            f && /^[[:space:]]*default_subnet[[:space:]]*=/{found=1} END{exit !found}' \
+            "$_pow_conf"; then
+            awk -v s="$_pow_subnet" '/^[[:space:]]*\[network\]/{insec=1}
+                /^[[:space:]]*\[/ && !/^[[:space:]]*\[network\]/{insec=0}
+                insec && /^[[:space:]]*default_subnet[[:space:]]*=/{
+                    match($0, /^[[:space:]]*/)
+                    $0 = substr($0, 1, RLENGTH) "default_subnet = \"" s "\""
+                } 1' \
+                "$_pow_conf" \
+                | sudo tee "$_pow_conf.tmp" > /dev/null \
+                && sudo mv "$_pow_conf.tmp" "$_pow_conf"
+        else
+            awk -v s="$_pow_subnet" '/^[[:space:]]*\[network\]/ && !done {
+                    print
+                    print "default_subnet = \"" s "\""
+                    done=1
+                    next
+                }
+                { print }' "$_pow_conf" \
+                | sudo tee "$_pow_conf.tmp" > /dev/null \
+                && sudo mv "$_pow_conf.tmp" "$_pow_conf"
+        fi
+    else
+        printf '\n[network]\ndefault_subnet = "%s"\n' "$_pow_subnet" \
+            | sudo tee -a "$_pow_conf" > /dev/null
+    fi
+}
+_pow_set_executor_subnet
+{{- else}}
 printf '\n[network]\ndefault_subnet = "192.168.100.0/24"\n' \
     | sudo tee -a /etc/containers/executor-containers.conf > /dev/null
+{{- end}}
 sudo chmod 644 /etc/containers/executor-containers.conf
 
 # Enable IP forwarding so Netavark can NAT containers through the host's
@@ -178,6 +299,48 @@ sudo iptables -t nat -A POSTROUTING \
 sudo firewall-cmd --permanent --add-masquerade 2>/dev/null || true
 sudo firewall-cmd --reload 2>/dev/null || true
 
+{{- if .PowerVSRegion}}
+# The runner registers with --docker-network-mode, which needs a network in
+# podman's store. Use a dedicated name rather than the implicit "podman"
+# network: podman synthesises that default on a fresh store, so
+# `podman network exists podman` succeeds even with no configuration, and the
+# default cannot be removed or recreated to change its MTU.
+#
+# Create the network with the subnet MTU. The runner's network_mtu key is not
+# applied in network mode, so a bridge left at the 1500-byte default
+# black-holes large transfers on a smaller-MTU underlay while DNS and small
+# requests still work.
+PODMAN_NET_NAME="mapt-jobs"
+PODMAN_NET_MTU="{{ .PowerVSMTU }}"
+if [ -z "$PODMAN_NET_MTU" ] || [ "$PODMAN_NET_MTU" = "0" ]; then
+    PODMAN_ROUTE_IFACE=$(ip route show default | awk '/default/ {print $5; exit}')
+    PODMAN_NET_MTU=$(cat /sys/class/net/"${PODMAN_ROUTE_IFACE}"/mtu 2>/dev/null || true)
+fi
+if [ -z "$PODMAN_NET_MTU" ]; then
+    echo "ERROR: cannot determine the Podman network MTU" >&2
+    exit 1
+fi
+_pow_ensure_network() {
+    _net="$1"
+    _mtu="$2"
+    if sudo podman network exists "$_net"; then
+        _current=$(sudo podman network inspect "$_net" \
+            --format '{{"{{"}}index .Options "mtu"{{"}}"}}' 2>/dev/null || true)
+        case "$_current" in "<no value>") _current="" ;; esac
+        if [ "$_current" = "$_mtu" ]; then
+            return 0
+        fi
+        sudo podman network rm -f "$_net" >/dev/null 2>&1 || true
+    fi
+    if [ -n "$_mtu" ]; then
+        sudo podman network create --opt mtu="$_mtu" "$_net"
+    else
+        sudo podman network create "$_net"
+    fi
+}
+_pow_ensure_network "$PODMAN_NET_NAME" "$PODMAN_NET_MTU"
+{{- end}}
+
 # Register runner using docker executor backed by Podman
 # --docker-privileged is required for Podman: containers need CAP_SYS_ADMIN to mount /proc
 sudo gitlab-runner register \
@@ -189,6 +352,9 @@ sudo gitlab-runner register \
   --docker-image "fedora:latest" \
   --docker-host "unix:///run/podman/podman.sock" \
   --docker-privileged \
+{{- if .PowerVSRegion}}
+  --docker-network-mode "$PODMAN_NET_NAME" \
+{{- end}}
   "${_docker_dns_args[@]}" \
   --docker-volumes "/etc/containers/executor-containers.conf:/etc/containers/containers.conf:ro"
 
