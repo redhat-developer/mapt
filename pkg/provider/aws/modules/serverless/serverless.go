@@ -36,7 +36,12 @@ func OneTimeDelayedTask(ctx *pulumi.Context, mCtx *mc.Context,
 	if err != nil {
 		return err
 	}
-	r := &serverlessRequest{
+	return newOneTimeRequest(mCtx, region, prefix, componentID, cmd, se).deploy(ctx)
+}
+
+func newOneTimeRequest(mCtx *mc.Context, region, prefix, componentID, cmd, se string) *serverlessRequest {
+	return &serverlessRequest{
+		mCtx:               mCtx,
 		region:             region,
 		command:            cmd,
 		scheduleType:       OneTime,
@@ -44,8 +49,6 @@ func OneTimeDelayedTask(ctx *pulumi.Context, mCtx *mc.Context,
 		prefix:             prefix,
 		componentID:        componentID,
 	}
-
-	return r.deploy(ctx)
 }
 
 func checkBackedURLForServerless(mCtx *mc.Context) error {
