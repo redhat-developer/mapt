@@ -39,14 +39,20 @@ func newRunnerArgs(region string, arch Arch) *GitLabRunnerArgs {
 	}
 }
 
-// regionResolvers is the IBM Cloud per-region DNS resolver table from
-// https://github.com/redhat-developer/mapt/issues/894 (the issue's "lon"
-// rows are the IBM eu-gb region).
-var regionResolvers = map[string][]string{
-	"us-south": {"10.130.98.132", "10.130.98.5", "10.130.98.69"},
-	"us-east":  {"10.130.64.4", "10.130.64.70", "10.130.64.134"},
-	"eu-de":    {"10.130.128.5", "10.130.128.69", "10.130.128.133"},
-	"eu-gb":    {"10.130.129.4", "10.130.129.68", "10.130.129.132"},
+// testResolvers are synthetic subnet resolvers. The Power script must use the
+// resolvers configured on the target PowerVS subnet, passed in by the
+// ibm-power provider, not a table committed to the repository: a committed
+// table would publish one organisation's private resolvers and be wrong for
+// every other PowerVS user.
+var testResolvers = []string{"10.0.0.53", "10.0.0.54", "10.0.0.55"}
+
+// newPowerArgs builds PowerVS runner args with the subnet-derived networking
+// settings that the provider passes in.
+func newPowerArgs(region string, dns []string, mtu int) *GitLabRunnerArgs {
+	args := newRunnerArgs(region, Ppc64le)
+	args.PowerVSDNS = dns
+	args.PowerVSMTU = mtu
+	return args
 }
 
 // assertPowerNetworking checks the Power-only networking settings from
@@ -56,13 +62,14 @@ var regionResolvers = map[string][]string{
 func assertPowerNetworking(t *testing.T, snippet string) {
 	t.Helper()
 	for _, want := range []string{
-		`_pow_subnet="172.20.0.0/24"`,    // non-conflicting nested subnet
-		`--docker-network-mode "podman"`, // share the host's default podman network
-		"attempts:3",                     // fewer DNS retries
-		"_pow_apply_dns_fallback",        // public fallback kept within glibc's 3-nameserver limit
-		"_pow_check_subnet_overlap",      // CIDR-aware host overlap guard
-		"_pow_set_executor_subnet",       // merge [network] rather than appending a second table
-		"podman network create podman",   // network the runner registers against must exist
+		`_pow_subnet="172.20.0.0/24"`,              // non-conflicting nested subnet
+		`--docker-network-mode "$PODMAN_NET_NAME"`, // dedicated job network
+		"attempts:3",                       // fewer DNS retries
+		"_pow_apply_dns_fallback",          // public fallback kept within glibc's 3-nameserver limit
+		"_pow_check_subnet_overlap",        // CIDR-aware host overlap guard
+		"_pow_set_executor_subnet",         // merge [network] rather than appending a second table
+		`PODMAN_NET_NAME="mapt-jobs"`,      // network owned by mapt, not the implicit default
+		"podman network create --opt mtu=", // job network carries the subnet MTU
 	} {
 		if !strings.Contains(snippet, want) {
 			t.Errorf("Power snippet missing %q", want)
@@ -84,7 +91,7 @@ func TestPowerExecutorSubnetMergesInPlace(t *testing.T) {
 	if _, err := exec.LookPath("bash"); err != nil {
 		t.Skip("bash not available")
 	}
-	snippet := renderSnippet(t, newRunnerArgs("us-south", Ppc64le))
+	snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, 1450))
 	fn := shellFunction(t, snippet, "_pow_set_executor_subnet")
 	// The function targets the real path and uses sudo; run the same logic
 	// against a temporary file with sudo stripped.
@@ -198,18 +205,18 @@ func shellFunction(t *testing.T, snippet, name string) string {
 	return ""
 }
 
-// extractCaseBlock returns the region-selection case block for the region.
-func extractCaseBlock(t *testing.T, snippet, region string) string {
+// dnsAssignmentLine returns the rendered _dns_servers assignment. The
+// resolvers are subnet configuration passed in by the provider, so the tests
+// read them from the rendering instead of hardcoding a region table.
+func dnsAssignmentLine(t *testing.T, snippet string) string {
 	t.Helper()
-	start := strings.Index(snippet, "case \""+region+"\" in")
-	if start < 0 {
-		t.Fatalf("region case block for %q not found in snippet", region)
+	for _, line := range strings.Split(snippet, "\n") {
+		if strings.HasPrefix(line, `_dns_servers="`) {
+			return line
+		}
 	}
-	end := strings.Index(snippet[start:], "\nesac\n")
-	if end < 0 {
-		t.Fatalf("end of region case block for %q not found", region)
-	}
-	return snippet[start:start+end] + "\nesac"
+	t.Fatal("rendered snippet has no _dns_servers assignment")
+	return ""
 }
 
 // extractBashFunction returns the definition of the named function from the
@@ -227,45 +234,43 @@ func extractBashFunction(t *testing.T, snippet, name string) string {
 	return snippet[start : start+end+len("\n}")]
 }
 
-// runDNSSelection executes the region-selection case block from the rendered
-// snippet and returns the resulting _dns_servers value.
-func runDNSSelection(t *testing.T, region, snippet string) string {
+// runDNSAssignment executes the assignment from the rendered snippet and
+// returns the resulting resolver list.
+func runDNSAssignment(t *testing.T, snippet string) string {
 	t.Helper()
 	if _, err := exec.LookPath("bash"); err != nil {
 		t.Skip("bash not available")
 	}
-	script := "set -e\n_dns_servers=\"\"\n" + extractCaseBlock(t, snippet, region) + "\nprintf '%s' \"$_dns_servers\"\n"
+	script := "set -e\n_dns_servers=\"\"\n" + dnsAssignmentLine(t, snippet) + "\nprintf '%s' \"$_dns_servers\"\n"
 	out, err := exec.Command("bash", "-c", script).Output()
 	if err != nil {
-		t.Fatalf("executing DNS selection for %q: %v", region, err)
+		t.Fatalf("executing DNS assignment: %v", err)
 	}
 	return string(out)
 }
 
-func TestSnippetLinuxPowerRegionalDNS(t *testing.T) {
-	for region, resolvers := range regionResolvers {
-		t.Run(region, func(t *testing.T) {
-			snippet := renderSnippet(t, newRunnerArgs(region, Ppc64le))
-			want := strings.Join(resolvers, " ")
-			if got := runDNSSelection(t, region, snippet); got != want {
-				t.Errorf("region %s selected resolvers %q; expected %q", region, got, want)
-			}
-			for _, ip := range resolvers {
-				if !strings.Contains(snippet, ip) {
-					t.Errorf("snippet for %s missing resolver %s", region, ip)
-				}
-			}
-			assertPowerNetworking(t, snippet)
-		})
+// TestSnippetLinuxPowerUsesSubnetResolvers checks that the Power script uses
+// the resolvers configured on the target subnet and commits none of them.
+func TestSnippetLinuxPowerUsesSubnetResolvers(t *testing.T) {
+	snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, 1450))
+	want := strings.Join(testResolvers, " ")
+	if got := runDNSAssignment(t, snippet); got != want {
+		t.Errorf("Power resolvers = %q; want the subnet resolvers %q", got, want)
 	}
+	// A per-region table in the repository would have made runDNSAssignment
+	// return its entry instead of the synthetic list above.
+	if strings.Contains(snippet, `case "us-south" in`) {
+		t.Error("snippet must not select resolvers from a per-region table")
+	}
+	assertPowerNetworking(t, snippet)
 }
 
-func TestSnippetLinuxPowerUnlistedRegionFallsBackToDetection(t *testing.T) {
-	snippet := renderSnippet(t, newRunnerArgs("not-a-region", Ppc64le))
-	// Execute the actual region-selection block: an unlisted region must leave
-	// _dns_servers empty so the host detection cascade runs.
-	if got := runDNSSelection(t, "not-a-region", snippet); got != "" {
-		t.Errorf("unlisted region selected resolvers %q; expected none (host detection fallback)", got)
+func TestSnippetLinuxPowerNoSubnetDNSFallsBackToDetection(t *testing.T) {
+	snippet := renderSnippet(t, newPowerArgs("us-south", nil, 0))
+	// A subnet that reports no resolvers must leave _dns_servers empty so the
+	// host detection cascade runs.
+	if got := runDNSAssignment(t, snippet); got != "" {
+		t.Errorf("empty subnet DNS left %q; want empty so host detection runs", got)
 	}
 	// The host detection cascade must remain in the script.
 	for _, want := range []string{
@@ -286,20 +291,197 @@ func TestSnippetLinuxPowerDNSFinalOrder(t *testing.T) {
 	if _, err := exec.LookPath("bash"); err != nil {
 		t.Skip("bash not available")
 	}
-	for region, resolvers := range regionResolvers {
-		t.Run(region, func(t *testing.T) {
-			snippet := renderSnippet(t, newRunnerArgs(region, Ppc64le))
-			script := "set -e\n_dns_servers=\"\"\n" +
-				extractCaseBlock(t, snippet, region) + "\n" +
-				extractBashFunction(t, snippet, "_pow_apply_dns_fallback") + "\n" +
-				"_pow_apply_dns_fallback\nprintf '%s' \"$_dns_servers\"\n"
-			out, err := exec.Command("bash", "-c", script).Output()
-			if err != nil {
-				t.Fatalf("executing DNS selection and fallback for %q: %v", region, err)
+	snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, 1450))
+	script := "set -e\n_dns_servers=\"\"\n" +
+		dnsAssignmentLine(t, snippet) + "\n" +
+		extractBashFunction(t, snippet, "_pow_apply_dns_fallback") + "\n" +
+		"_pow_apply_dns_fallback\nprintf '%s' \"$_dns_servers\"\n"
+	out, err := exec.Command("bash", "-c", script).Output()
+	if err != nil {
+		t.Fatalf("executing DNS selection and fallback: %v", err)
+	}
+	want := strings.Join(testResolvers[:2], " ") + " 8.8.8.8"
+	if got := string(out); got != want {
+		t.Errorf("final DNS order = %q; want %q (the public fallback must be within the first three entries)", got, want)
+	}
+}
+
+// TestSnippetLinuxPowerNetworkMTU checks that the job network is created with
+// the subnet MTU. With network mode the runner's network_mtu key has no effect,
+// so a 1500-byte bridge on a smaller-MTU underlay black-holes large transfers
+// while small requests still work.
+//
+// This uses a dedicated network rather than the implicit default: podman
+// synthesises a "podman" network on a fresh store, so `podman network exists
+// podman` succeeds even when no configuration exists, and that default cannot
+// be removed or recreated to change its MTU.
+func TestSnippetLinuxPowerNetworkMTU(t *testing.T) {
+	if _, err := exec.LookPath("bash"); err != nil {
+		t.Skip("bash not available")
+	}
+	snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, 1450))
+	// The podman format expression must survive the Go template literally.
+	if !strings.Contains(snippet, `--format '{{index .Options "mtu"}}'`) {
+		t.Fatal("rendered script must inspect podman's applied MTU option")
+	}
+	if !strings.Contains(snippet, `PODMAN_NET_MTU="1450"`) {
+		t.Fatal("subnet MTU must be rendered into the script")
+	}
+	if !strings.Contains(snippet, "/sys/class/net/") {
+		t.Fatal("missing runtime MTU fallback for a subnet that reports none")
+	}
+
+	fn := strings.ReplaceAll(extractBashFunction(t, snippet, "_pow_ensure_network"), "sudo ", "")
+	dir := t.TempDir()
+	calls := filepath.Join(dir, "calls")
+	stub := filepath.Join(dir, "podman")
+	stubScript := `#!/bin/sh
+echo "$@" >> "$PODMAN_CALLS"
+case "$1 $2" in
+  "network exists") exit "$STUB_EXISTS" ;;
+  "network inspect") printf '%s' "$STUB_MTU"; exit 0 ;;
+esac
+exit 0
+`
+	if err := os.WriteFile(stub, []byte(stubScript), 0o755); err != nil {
+		t.Fatalf("write podman stub: %v", err)
+	}
+
+	cases := []struct {
+		name       string
+		exists     string
+		current    string
+		desired    string
+		wantCreate bool
+		wantRemove bool
+		wantMTU    string
+	}{
+		{"matching mtu is left alone", "0", "1450", "1450", false, false, ""},
+		{"missing mtu is replaced", "0", "", "1450", true, true, "1450"},
+		{"different mtu is replaced", "0", "1500", "1450", true, true, "1450"},
+		{"missing network is created", "1", "", "1450", true, false, "1450"},
+		{"missing network without mtu", "1", "", "", true, false, ""},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := os.WriteFile(calls, nil, 0o644); err != nil {
+				t.Fatalf("reset calls: %v", err)
 			}
-			want := strings.Join(resolvers[:2], " ") + " 8.8.8.8"
-			if got := string(out); got != want {
-				t.Errorf("final DNS order = %q; want %q (the public fallback must be within the first three entries)", got, want)
+			script := fn + "\n_pow_ensure_network mapt-jobs \"" + tc.desired + "\"\n"
+			cmd := exec.Command("bash", "-c", script)
+			cmd.Env = append(os.Environ(),
+				"PATH="+dir+":"+os.Getenv("PATH"),
+				"PODMAN_CALLS="+calls,
+				"STUB_EXISTS="+tc.exists,
+				"STUB_MTU="+tc.current,
+			)
+			if out, err := cmd.CombinedOutput(); err != nil {
+				t.Fatalf("running network setup: %v\n%s", err, out)
+			}
+			gotBytes, err := os.ReadFile(calls)
+			if err != nil {
+				t.Fatalf("read calls: %v", err)
+			}
+			got := string(gotBytes)
+			if created := strings.Contains(got, "network create"); created != tc.wantCreate {
+				t.Errorf("create called = %v; want %v (calls: %q)", created, tc.wantCreate, got)
+			}
+			if removed := strings.Contains(got, "network rm"); removed != tc.wantRemove {
+				t.Errorf("remove called = %v; want %v (calls: %q)", removed, tc.wantRemove, got)
+			}
+			if tc.wantMTU != "" && !strings.Contains(got, "--opt mtu="+tc.wantMTU) {
+				t.Errorf("create must carry --opt mtu=%s (calls: %q)", tc.wantMTU, got)
+			}
+			if tc.wantMTU == "" && strings.Contains(got, "--opt mtu=") {
+				t.Errorf("create must not carry an MTU option (calls: %q)", got)
+			}
+		})
+	}
+}
+
+func TestSnippetLinuxPowerNetworkMTUDetection(t *testing.T) {
+	if _, err := exec.LookPath("bash"); err != nil {
+		t.Skip("bash not available")
+	}
+	cases := []struct {
+		name       string
+		mtu        int
+		route      string
+		routeRC    string
+		readRC     string
+		exists     string
+		wantFailed bool
+	}{
+		{"subnet mtu needs no fallback", 1450, "", "1", "1", "1", false},
+		{"default interface supplies mtu", 0, "default via 10.0.0.1 dev env3", "0", "0", "1", false},
+		{"missing default route fails", 0, "", "0", "1", "1", true},
+		{"failed route lookup fails", 0, "", "1", "1", "1", true},
+		{"unreadable interface mtu fails", 0, "default via 10.0.0.1 dev env3", "0", "1", "1", true},
+		{"unknown mtu cannot reuse network", 0, "", "0", "1", "0", true},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, tc.mtu))
+			start := strings.Index(snippet, `PODMAN_NET_NAME="mapt-jobs"`)
+			call := `_pow_ensure_network "$PODMAN_NET_NAME" "$PODMAN_NET_MTU"`
+			end := strings.Index(snippet, call)
+			if start < 0 || end < start {
+				t.Fatal("rendered network setup block not found")
+			}
+			calls := filepath.Join(t.TempDir(), "podman-calls")
+			if err := os.WriteFile(calls, nil, 0o600); err != nil {
+				t.Fatalf("initialize calls: %v", err)
+			}
+			// Run the real detection and network setup; only external commands
+			// are replaced so no host network or sysfs files are modified.
+			script := `set -e
+ip() { printf '%s\n' "$TEST_ROUTE"; return "$TEST_ROUTE_RC"; }
+cat() {
+    [ "$1" = /sys/class/net/env3/mtu ] || return 1
+    [ "$TEST_READ_RC" = 0 ] || return 1
+    printf '1450\n'
+}
+sudo() {
+    [ "$1" = podman ] || return 99
+    shift
+    printf '%s\n' "$*" >> "$PODMAN_CALLS"
+    case "$1 $2" in
+        'network exists') return "$TEST_EXISTS" ;;
+        'network inspect'|'network create'|'network rm') return 0 ;;
+    esac
+}
+` + snippet[start:end+len(call)] + "\nprintf 'setup continued\\n'\n"
+			cmd := exec.Command("bash", "-c", script)
+			cmd.Env = append(os.Environ(),
+				"TEST_ROUTE="+tc.route,
+				"TEST_ROUTE_RC="+tc.routeRC,
+				"TEST_READ_RC="+tc.readRC,
+				"TEST_EXISTS="+tc.exists,
+				"PODMAN_CALLS="+calls,
+			)
+			out, runErr := cmd.CombinedOutput()
+			got, err := os.ReadFile(calls)
+			if err != nil {
+				t.Fatalf("read calls: %v", err)
+			}
+			if tc.wantFailed {
+				if runErr == nil {
+					t.Errorf("setup succeeded without an MTU: %s", out)
+				}
+				if len(got) != 0 || strings.Contains(string(out), "setup continued") {
+					t.Errorf("setup must stop before Podman and later steps; calls=%q output=%s", got, out)
+				}
+				if !strings.Contains(string(out), "cannot determine the Podman network MTU") {
+					t.Errorf("missing MTU diagnostic: %s", out)
+				}
+			} else {
+				if runErr != nil {
+					t.Fatalf("valid MTU rejected: %v\n%s", runErr, out)
+				}
+				want := "network exists mapt-jobs\nnetwork create --opt mtu=1450 mapt-jobs\n"
+				if string(got) != want || !strings.Contains(string(out), "setup continued") {
+					t.Errorf("setup did not apply the MTU and continue; calls=%q output=%s", got, out)
+				}
 			}
 		})
 	}
@@ -311,7 +493,7 @@ func TestSnippetLinuxPowerDNSFallbackInvariants(t *testing.T) {
 	if _, err := exec.LookPath("bash"); err != nil {
 		t.Skip("bash not available")
 	}
-	snippet := renderSnippet(t, newRunnerArgs("us-south", Ppc64le))
+	snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, 1450))
 	fn := extractBashFunction(t, snippet, "_pow_apply_dns_fallback")
 	cases := []struct{ name, in, want string }{
 		{"long list keeps two plus fallback", "1.1.1.1 2.2.2.2 3.3.3.3 4.4.4.4", "1.1.1.1 2.2.2.2 8.8.8.8"},
@@ -340,7 +522,7 @@ func TestSnippetLinuxPowerSubnetOverlapGuard(t *testing.T) {
 	if _, err := exec.LookPath("bash"); err != nil {
 		t.Skip("bash not available")
 	}
-	snippet := renderSnippet(t, newRunnerArgs("us-south", Ppc64le))
+	snippet := renderSnippet(t, newPowerArgs("us-south", testResolvers, 1450))
 	fn := extractBashFunction(t, snippet, "_pow_check_subnet_overlap")
 
 	cases := []struct {
@@ -468,8 +650,9 @@ func TestSnippetLinuxNonPowerUnchanged(t *testing.T) {
 			for _, notWant := range []string{
 				`--docker-network-mode`,
 				`default_subnet = "172.20.0.0/24"`,
-				"10.130.98.132",
 				"attempts:3",
+				"PODMAN_NET_MTU",
+				"--opt mtu=",
 			} {
 				if strings.Contains(snippet, notWant) {
 					t.Errorf("non-Power snippet must not contain %q", notWant)
@@ -481,9 +664,10 @@ func TestSnippetLinuxNonPowerUnchanged(t *testing.T) {
 
 var updateGolden = flag.Bool("update-golden", false, "update golden files for rendered snippet tests")
 
-// TestSnippetLinuxNonPowerGolden pins the non-Power rendering byte-for-byte:
-// the PowerVSRegion plumbing must not change the script emitted for any other
-// target (AWS x86_64, IBM Z s390x, macOS hosts).
+// TestSnippetLinuxNonPowerGolden pins the non-Power Linux rendering
+// byte-for-byte: the PowerVSRegion plumbing must not change the script emitted
+// for a non-Power target (the s390x render is covered by
+// TestSnippetLinuxNonPowerUnchanged).
 func TestSnippetLinuxNonPowerGolden(t *testing.T) {
 	// downloadURL() bakes the runner version into the script; pin it so the
 	// golden does not depend on ldflags (make test injects a different
@@ -519,14 +703,14 @@ func TestSnippetLinuxNonPowerGolden(t *testing.T) {
 // gitlab-runner register at runtime, so its actual content is validated on a
 // live runner (final validation for mapt#894), not in unit tests.
 func TestSnippetLinuxConfigTomlSettings(t *testing.T) {
-	args := newRunnerArgs("us-south", Ppc64le)
+	args := newPowerArgs("us-south", testResolvers, 1450)
 	args.Concurrent = 2
 	snippet := renderSnippet(t, args)
 	for _, want := range []string{
 		`--executor "docker"`,
 		`--docker-host "unix:///run/podman/podman.sock"`,
 		`--docker-privileged`,
-		`--docker-network-mode "podman"`,
+		`--docker-network-mode "$PODMAN_NET_NAME"`,
 		`--docker-volumes "/etc/containers/executor-containers.conf:/etc/containers/containers.conf:ro"`,
 		`sed -i "s/^concurrent = .*/concurrent = 2/" /etc/gitlab-runner/config.toml`,
 		`output_limit = 65536`,
@@ -545,15 +729,21 @@ func TestSnippetLinuxBashSyntax(t *testing.T) {
 	if _, err := exec.LookPath("bash"); err != nil {
 		t.Skip("bash not available")
 	}
-	for _, region := range []string{"", "us-south", "eu-gb", "not-a-region"} {
-		snippet := renderSnippet(t, newRunnerArgs(region, Ppc64le))
+	cases := map[string]*GitLabRunnerArgs{
+		"non-power":       newRunnerArgs("", Ppc64le),
+		"power":           newPowerArgs("us-south", testResolvers, 1450),
+		"power-no-subnet": newPowerArgs("eu-gb", nil, 0),
+		"power-unlisted":  newPowerArgs("not-a-region", testResolvers, 0),
+	}
+	for name, args := range cases {
+		snippet := renderSnippet(t, args)
 		path := filepath.Join(t.TempDir(), "snippet.sh")
 		if err := os.WriteFile(path, []byte(snippet), 0o600); err != nil {
 			t.Fatalf("write snippet: %v", err)
 		}
 		cmd := exec.Command("bash", "-n", path)
 		if out, err := cmd.CombinedOutput(); err != nil {
-			t.Errorf("bash -n failed for region %q: %v\n%s", region, err, out)
+			t.Errorf("bash -n failed for %s: %v\n%s", name, err, out)
 		}
 	}
 }

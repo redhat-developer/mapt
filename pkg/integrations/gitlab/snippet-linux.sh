@@ -19,21 +19,16 @@ sudo systemctl enable --now podman.socket
 # Without this, inner build containers inherit a loopback stub address
 # (127.0.0.53 / systemd-resolved) that is unreachable from inside a container,
 # causing DNS resolution failures like "Could not resolve host: github.com".
-_dns_servers=""
 {{- if .PowerVSRegion}}
-# IBM Power (PowerVS) runners: use the region's known DNS resolvers instead
-# of relying on runtime detection. Unlisted regions fall through to the host
-# detection below.
-case "{{ .PowerVSRegion }}" in
-  us-south) _dns_servers="10.130.98.132 10.130.98.5 10.130.98.69" ;;
-  us-east)  _dns_servers="10.130.64.4 10.130.64.70 10.130.64.134" ;;
-  eu-de)    _dns_servers="10.130.128.5 10.130.128.69 10.130.128.133" ;;
-  eu-gb)    _dns_servers="10.130.129.4 10.130.129.68 10.130.129.132" ;;
-  *) ;;
-esac
-# Region resolvers take precedence; only run host detection when unset.
+# IBM Power (PowerVS) runners: use the DNS resolvers configured on the target
+# subnet, passed in by the provider. They are site configuration and are not
+# hardcoded here, so this works for any workspace and region. When the subnet
+# reports none, fall through to the host detection below.
+_dns_servers="{{ range $i, $ip := .PowerVSDNS }}{{ if $i }} {{ end }}{{ $ip }}{{ end }}"
+# Subnet resolvers take precedence; only run host detection when unset.
 if [ -z "$_dns_servers" ] && command -v resolvectl &>/dev/null; then
 {{- else}}
+_dns_servers=""
 if command -v resolvectl &>/dev/null; then
 {{- end}}
     _dns_servers=$(resolvectl dns 2>/dev/null \
@@ -305,11 +300,45 @@ sudo firewall-cmd --permanent --add-masquerade 2>/dev/null || true
 sudo firewall-cmd --reload 2>/dev/null || true
 
 {{- if .PowerVSRegion}}
-# The runner below is registered with --docker-network-mode podman, which needs
-# a network named "podman". Kept as a guard: a freshly provisioned Power runner
-# was seen failing its first job with "network podman not found" during the
-# #894 investigation.
-sudo podman network exists podman || sudo podman network create podman
+# The runner registers with --docker-network-mode, which needs a network in
+# podman's store. Use a dedicated name rather than the implicit "podman"
+# network: podman synthesises that default on a fresh store, so
+# `podman network exists podman` succeeds even with no configuration, and the
+# default cannot be removed or recreated to change its MTU.
+#
+# Create the network with the subnet MTU. The runner's network_mtu key is not
+# applied in network mode, so a bridge left at the 1500-byte default
+# black-holes large transfers on a smaller-MTU underlay while DNS and small
+# requests still work.
+PODMAN_NET_NAME="mapt-jobs"
+PODMAN_NET_MTU="{{ .PowerVSMTU }}"
+if [ -z "$PODMAN_NET_MTU" ] || [ "$PODMAN_NET_MTU" = "0" ]; then
+    PODMAN_ROUTE_IFACE=$(ip route show default | awk '/default/ {print $5; exit}')
+    PODMAN_NET_MTU=$(cat /sys/class/net/"${PODMAN_ROUTE_IFACE}"/mtu 2>/dev/null || true)
+fi
+if [ -z "$PODMAN_NET_MTU" ]; then
+    echo "ERROR: cannot determine the Podman network MTU" >&2
+    exit 1
+fi
+_pow_ensure_network() {
+    _net="$1"
+    _mtu="$2"
+    if sudo podman network exists "$_net"; then
+        _current=$(sudo podman network inspect "$_net" \
+            --format '{{"{{"}}index .Options "mtu"{{"}}"}}' 2>/dev/null || true)
+        case "$_current" in "<no value>") _current="" ;; esac
+        if [ "$_current" = "$_mtu" ]; then
+            return 0
+        fi
+        sudo podman network rm -f "$_net" >/dev/null 2>&1 || true
+    fi
+    if [ -n "$_mtu" ]; then
+        sudo podman network create --opt mtu="$_mtu" "$_net"
+    else
+        sudo podman network create "$_net"
+    fi
+}
+_pow_ensure_network "$PODMAN_NET_NAME" "$PODMAN_NET_MTU"
 {{- end}}
 
 # Register runner using docker executor backed by Podman
@@ -324,7 +353,7 @@ sudo gitlab-runner register \
   --docker-host "unix:///run/podman/podman.sock" \
   --docker-privileged \
 {{- if .PowerVSRegion}}
-  --docker-network-mode "podman" \
+  --docker-network-mode "$PODMAN_NET_NAME" \
 {{- end}}
   "${_docker_dns_args[@]}" \
   --docker-volumes "/etc/containers/executor-containers.conf:/etc/containers/containers.conf:ro"

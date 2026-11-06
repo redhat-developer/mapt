@@ -18,6 +18,8 @@ type UserDataValues struct {
 	Concurrent     int
 	LogToJournald  bool
 	PowerVSRegion  string
+	PowerVSDNS     []string
+	PowerVSMTU     int
 	Ephemeral      bool
 	RunnerImageRepo        string
 	RunnerImageRepoVersion string

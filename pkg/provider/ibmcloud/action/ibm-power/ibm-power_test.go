@@ -113,6 +113,8 @@ func TestPiUserData_withPowerRunnerRegion(t *testing.T) {
 		Platform:      &platform,
 		Arch:          &arch,
 		PowerVSRegion: "us-south",
+		PowerVSDNS:    []string{"10.0.0.53", "10.0.0.54"},
+		PowerVSMTU:    1450,
 	}
 	gitlab.Init(args)
 	glSnippet, err := integrations.GetIntegrationSnippetAsCloudInitWritableFile(args, "root")
@@ -130,10 +132,12 @@ func TestPiUserData_withPowerRunnerRegion(t *testing.T) {
 	cfg := string(decoded)
 	for _, want := range []string{
 		"install-glrunner.sh",
-		"10.130.98.132",                  // us-south resolver
-		`_pow_subnet="172.20.0.0/24"`,    // non-conflicting nested subnet
-		`--docker-network-mode "podman"`, // shared host network
-		"podman network create podman",   // network must exist before first job
+		"10.0.0.53",                   // subnet resolver reaches the user-data
+		`_pow_subnet="172.20.0.0/24"`, // non-conflicting nested subnet
+		`--docker-network-mode "$PODMAN_NET_NAME"`,
+		`PODMAN_NET_MTU="1450"`,       // subnet MTU carried into the setup script
+		`--opt mtu="$_mtu"`,           // job network created with the MTU
+		`PODMAN_NET_NAME="mapt-jobs"`, // dedicated job network
 	} {
 		if !strings.Contains(cfg, want) {
 			t.Errorf("Power user-data missing %q", want)
