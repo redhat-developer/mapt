@@ -1,9 +1,12 @@
 package data
 
 import (
+	"context"
+	"sync"
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v9"
+	cr "github.com/redhat-developer/mapt/pkg/provider/api/compute-request"
 )
 
 func ptr[T any](v T) *T { return &v }
@@ -179,5 +182,90 @@ func TestBaseFeaturesSupported_LSeriesWithNvmeIsRejected(t *testing.T) {
 	}
 	if vm.baseFeaturesSupported() {
 		t.Error("expected false: L-series VM with NVMe storage must not pass baseFeaturesSupported")
+	}
+}
+
+// nested virt family tests
+
+func capableVM(name, family string) *virtualMachine {
+	return &virtualMachine{
+		Name:                         name,
+		Family:                       family,
+		VCPUs:                        8,
+		Memory:                       64,
+		Arch:                         cr.Amd64.String(),
+		MaxResourceVolumeMB:          81920,
+		AcceleratedNetworkingEnabled: true,
+		PremiumIO:                    true,
+		EncryptionAtHostSupported:    true,
+		HyperVGenerations:            []string{"V1", "V2"},
+	}
+}
+
+func selected(args *cr.ComputeRequestArgs, vm *virtualMachine) bool {
+	ch := make(chan string, 1)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	filterCPUsAndMemory(args)(context.Background(), vm, wg, ch)
+	return len(ch) == 1
+}
+
+func TestNestedVirtSupported_Families(t *testing.T) {
+	for family, want := range map[string]bool{
+		"standardLSv3Family":  true,
+		"standardLASv3Family": true,
+		"standardMSFamily":    true,
+		"standardLSv2Family":  false,
+		"standardLasv4Family": false,
+		"standardMSv2Family":  false,
+		"standardNCFamily":    false,
+	} {
+		vm := &virtualMachine{Family: family}
+		if got := vm.nestedVirtSupported(); got != want {
+			t.Errorf("%s: got %v, want %v", family, got, want)
+		}
+	}
+}
+
+func TestFilter_NestedVirtAllowsLocalStorageOnNewFamilies(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
+	for name, family := range map[string]string{
+		"Standard_L8s_v3":  "standardLSv3Family",
+		"Standard_L8as_v3": "standardLASv3Family",
+		"Standard_M8ms":    "standardMSFamily",
+	} {
+		if !selected(args, capableVM(name, family)) {
+			t.Errorf("%s should be selected for a nested virt request", name)
+		}
+	}
+}
+
+func TestFilter_LocalStorageStaysRejectedOutsideNewFamilies(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
+	if selected(args, capableVM("Standard_D8ds_v5", "standardDDSv5Family")) {
+		t.Error("a D size with a temp disk should stay rejected")
+	}
+}
+
+func TestFilter_NewFamiliesNeedANestedVirtRequest(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64}
+	if selected(args, capableVM("Standard_L8s_v3", "standardLSv3Family")) {
+		t.Error("an L size should stay rejected without a nested virt request")
+	}
+}
+
+func TestFilter_NewFamiliesKeepTheCoreFeatureChecks(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
+	vm := capableVM("Standard_L8s_v3", "standardLSv3Family")
+	vm.EncryptionAtHostSupported = false
+	if selected(args, vm) {
+		t.Error("a size without encryption at host should stay rejected")
+	}
+}
+
+func TestFilter_ConstrainedSizesAreSkipped(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
+	if selected(args, capableVM("Standard_M8-2ms", "standardMSFamily")) {
+		t.Error("a constrained vCPU size should be skipped")
 	}
 }
