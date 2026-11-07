@@ -22,8 +22,12 @@ const (
 	dSeriesPattern   = `^[Ss]tandardD.*v[3-6]Family$`
 	eSeriesPattern   = `^[Ss]tandardE.*v[3-6]Family$`
 	fSeriesPattern   = `^[Ss]tandardF.*v\dFamily$`
-	//
-	lowerCpuPattern = `^[Ss]tandard.*-.*_v\d$`
+	// Lsv3, Lasv3 and M also support nested virtualization, but every size
+	// in them has local storage
+	lSeriesPattern = `(?i)^standardLA?Sv3Family$`
+	mSeriesPattern = `(?i)^standardMSFamily$`
+	// constrained vCPU sizes, such as Standard_E8-2s_v5 or Standard_M8-2ms
+	lowerCpuPattern = `^[Ss]tandard.*-.*(_v\d)?$`
 )
 
 type ComputeSelector struct{}
@@ -240,10 +244,19 @@ func (vm *virtualMachine) nestedVirtSupported() bool {
 
 	if (dSeries.Match([]byte(vm.Family)) ||
 		eSeries.Match([]byte(vm.Family)) ||
-		fSeries.Match([]byte(vm.Family))) && !isExcludedFamily(vm.Family) {
+		fSeries.Match([]byte(vm.Family)) ||
+		vm.nestedVirtWithLocalStorage()) && !isExcludedFamily(vm.Family) {
 		return true
 	}
 	return false
+}
+
+// nestedVirtWithLocalStorage reports whether the VM is in a family that supports
+// nested virtualization and always has local storage, so a nested virt request
+// has to allow that storage to use it.
+func (vm *virtualMachine) nestedVirtWithLocalStorage() bool {
+	return regexp.MustCompile(lSeriesPattern).MatchString(vm.Family) ||
+		regexp.MustCompile(mSeriesPattern).MatchString(vm.Family)
 }
 
 func isExcludedFamily(family string) bool {
@@ -264,9 +277,13 @@ func (vm *virtualMachine) noLocalStorageAttached() bool {
 	return vm.MaxResourceVolumeMB == 0 && vm.NvmeDiskSizeInMiB == 0
 }
 
-func (vm *virtualMachine) baseFeaturesSupported() bool {
+func (vm *virtualMachine) coreFeaturesSupported() bool {
 	return vm.AcceleratedNetworkingEnabled && vm.PremiumIO && vm.EncryptionAtHostSupported &&
-		vm.noLocalStorageAttached() && vm.hypervGen2Supported()
+		vm.hypervGen2Supported()
+}
+
+func (vm *virtualMachine) baseFeaturesSupported() bool {
+	return vm.coreFeaturesSupported() && vm.noLocalStorageAttached()
 }
 
 func resourceSKUToVirtualMachine(res *armcompute.ResourceSKU) *virtualMachine {
@@ -377,9 +394,8 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 			// GPU VMs (ND/NC-series) have large temp disks, so skip the
 			// local-storage check that would otherwise reject them.
 			featuresOK := false
-			if args.GPUs > 0 {
-				featuresOK = vm.AcceleratedNetworkingEnabled && vm.PremiumIO &&
-					vm.EncryptionAtHostSupported && vm.hypervGen2Supported()
+			if args.GPUs > 0 || (args.NestedVirt && vm.nestedVirtWithLocalStorage()) {
+				featuresOK = vm.coreFeaturesSupported()
 			} else {
 				featuresOK = vm.baseFeaturesSupported()
 			}
