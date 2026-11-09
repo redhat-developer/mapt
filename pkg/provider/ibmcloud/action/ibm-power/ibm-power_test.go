@@ -675,3 +675,83 @@ podman() { printf '%s\n' "$*" >> "$RESET_CALLS"; }
 		})
 	}
 }
+
+func TestPiUserData_includesIPAMReclaimer(t *testing.T) {
+	out, err := piUserData("10.0.0.1", nil, "      #!/bin/bash\n      echo hello", "")
+	if err != nil {
+		t.Fatalf("piUserData returned error: %v", err)
+	}
+	decoded, err := base64.StdEncoding.DecodeString(out)
+	if err != nil {
+		t.Fatalf("output is not valid base64: %v", err)
+	}
+	var config struct {
+		WriteFiles []struct {
+			Path    string `yaml:"path"`
+			Content string `yaml:"content"`
+		} `yaml:"write_files"`
+		RunCmd []string `yaml:"runcmd"`
+	}
+	if err := yaml.Unmarshal(decoded, &config); err != nil {
+		t.Fatalf("rendered cloud-config is not valid YAML: %v", err)
+	}
+	contents := make(map[string]string)
+	for _, wf := range config.WriteFiles {
+		contents[wf.Path] = wf.Content
+	}
+	if got := strings.TrimSpace(contents["/usr/local/sbin/reclaim-ipam.sh"]); got != strings.TrimSpace(string(reclaimIPAMScript)) {
+		t.Error("reclaim-ipam.sh content in cloud-config does not match the embedded script")
+	}
+	if !strings.Contains(contents["/etc/systemd/system/reclaim-ipam.service"], "ExecStart=/usr/local/sbin/reclaim-ipam.sh") {
+		t.Error("expected ExecStart in reclaim-ipam.service")
+	}
+	if !strings.Contains(contents["/etc/systemd/system/reclaim-ipam.timer"], "OnUnitActiveSec=10min") {
+		t.Error("expected OnUnitActiveSec=10min in reclaim-ipam.timer")
+	}
+	runCmd := strings.Join(config.RunCmd, "\n")
+	for _, want := range []string{
+		"systemctl daemon-reload",
+		"systemctl enable --now reclaim-ipam.timer",
+	} {
+		if !strings.Contains(runCmd, want) {
+			t.Errorf("expected %q in runcmd", want)
+		}
+	}
+}
+
+func TestPiUserData_noReclaimerWithoutRunner(t *testing.T) {
+	out, err := piUserData("10.0.0.1", nil, "", "")
+	if err != nil {
+		t.Fatalf("piUserData returned error: %v", err)
+	}
+	decoded, err := base64.StdEncoding.DecodeString(out)
+	if err != nil {
+		t.Fatalf("output is not valid base64: %v", err)
+	}
+	var config struct {
+		WriteFiles []struct {
+			Path string `yaml:"path"`
+		} `yaml:"write_files"`
+		RunCmd []string `yaml:"runcmd"`
+	}
+	if err := yaml.Unmarshal(decoded, &config); err != nil {
+		t.Fatalf("rendered cloud-config is not valid YAML: %v", err)
+	}
+	for _, wf := range config.WriteFiles {
+		if strings.Contains(wf.Path, "reclaim-ipam") {
+			t.Errorf("reclaimer must not be deployed without a runner, found %s", wf.Path)
+		}
+	}
+	if strings.Contains(strings.Join(config.RunCmd, "\n"), "reclaim-ipam") {
+		t.Error("reclaimer must not be enabled without a runner")
+	}
+	foundHome := false
+	for _, wf := range config.WriteFiles {
+		if strings.Contains(wf.Path, "mount-data-home") {
+			foundHome = true
+		}
+	}
+	if !foundHome {
+		t.Error("expected mount-data-home to stay unconditional")
+	}
+}

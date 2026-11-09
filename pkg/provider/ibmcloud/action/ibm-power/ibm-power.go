@@ -22,6 +22,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/provider/ibmcloud/modules/network"
 	"github.com/redhat-developer/mapt/pkg/provider/util/output"
 	"github.com/redhat-developer/mapt/pkg/util"
+	cloudinit "github.com/redhat-developer/mapt/pkg/util/cloud-init"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
@@ -30,11 +31,15 @@ import (
 //go:embed cloud-config
 var CloudConfig []byte
 
+//go:embed reclaim-ipam.sh
+var reclaimIPAMScript []byte
+
 type userDataValues struct {
 	Gateway                string
 	OtelColScript          string
 	GitLabRunnerScript     string
 	GHActionsRunnerScript  string
+	ReclaimIPAMScript      string
 	COSAccessKeyID         string
 	COSSecretAccessKey     string
 	COSEndpoint            string
@@ -516,12 +521,18 @@ func piUserData(gateway string, otelArgs *otelcol.OtelcolArgs, glRunnerScript, g
 		}
 		otelScript = *s
 	}
+	reclaimScript := string(reclaimIPAMScript)
+	reclaimSnippet, err := cloudinit.IndentWriteFile(&reclaimScript)
+	if err != nil {
+		return "", err
+	}
 	script, err := file.Template(
 		userDataValues{
 			Gateway:               gateway,
 			OtelColScript:         otelScript,
 			GitLabRunnerScript:    glRunnerScript,
 			GHActionsRunnerScript: ghRunnerScript,
+			ReclaimIPAMScript:     *reclaimSnippet,
 			COSAccessKeyID:        os.Getenv("IBMCLOUD_COS_ACCESS_KEY_ID"),
 			COSSecretAccessKey:    os.Getenv("IBMCLOUD_COS_SECRET_ACCESS_KEY"),
 			COSEndpoint:           os.Getenv("IBMCLOUD_COS_ENDPOINT"),

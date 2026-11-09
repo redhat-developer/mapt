@@ -166,6 +166,38 @@ write_files:
 
       [Install]
       WantedBy=multi-user.target
+{{- if or .GitLabRunnerScript .GHActionsRunnerScript}}
+  - path: /usr/local/sbin/reclaim-ipam.sh
+    permissions: '0755'
+    owner: root:root
+    content: |
+{{.ReclaimIPAMScript}}
+  - path: /etc/systemd/system/reclaim-ipam.service
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Reclaim leaked netavark IP leases for the podman runner
+      After=gitlab-runner.service
+
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/sbin/reclaim-ipam.sh
+      Nice=10
+      TimeoutStartSec=120
+  - path: /etc/systemd/system/reclaim-ipam.timer
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Periodic idle-safe netavark IP-lease reclamation
+
+      [Timer]
+      OnBootSec=5min
+      OnUnitActiveSec=10min
+      RandomizedDelaySec=90
+
+      [Install]
+      WantedBy=timers.target
+{{- end}}
 {{- if .OtelColScript}}
   - path: /opt/install-otelcol.sh
     permissions: '0700'
@@ -231,6 +263,10 @@ runcmd:
     else
       echo "WARNING: skipping podman system reset; no fresh container store was bound" >&2
     fi
+{{- if or .GitLabRunnerScript .GHActionsRunnerScript}}
+  - systemctl daemon-reload
+  - systemctl enable --now reclaim-ipam.timer
+{{- end}}
 {{- if .OtelColScript}}
   - bash /opt/install-otelcol.sh
 {{- end}}
