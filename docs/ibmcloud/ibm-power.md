@@ -196,6 +196,96 @@ An HTTPS endpoint URL is also supported as `--backed-url`, with the bucket name 
 
 The COS endpoint and `PULUMI_BACKEND_URL` are constructed automatically from the region and bucket name.
 
+## IPAM lease reclamation
+
+The reported failure on RHEL 9.6 with podman 5.4.0 and netavark 1.14.1 is IPAM pool
+exhaustion: jobs fail with `IPAM error: failed to find free IP in range`, and the rootful
+runroot store `/run/containers/networks/ipam.db` grows across jobs instead of shrinking.
+The cause is unverified. Address strings survive successful deallocation because boltdb
+keeps freed pages, so neither a growing file nor a stable string count proves a lease
+leak, and this timer has not been shown to resolve
+[#909](https://github.com/redhat-developer/mapt/issues/909). Treat it as a mitigation for
+the exhaustion symptom, not a fix for a proven allocator defect.
+
+Instances created with a GitLab or GitHub runner also get
+`/usr/local/sbin/reclaim-ipam.sh`, `reclaim-ipam.service` and `reclaim-ipam.timer`. The
+timer runs five minutes after boot and every 10 minutes, and clears the db only when:
+
+- the db holds at least 85% of the addresses in the smallest podman pool, honouring a
+  configured lease range, so 215 on a `/24` and 55703 on a `/16`, and
+- `podman ps` shows no container in any state other than `exited`, and
+- `podman events --stream=false` reports no container created in the last two minutes,
+  twice, five seconds apart.
+
+The delete happens while holding podman's rootful networking lock,
+`/run/lock/netavark.lock`. podman takes that fcntl lock before it opens the database, so
+an allocator either commits its lease before the reclaimer gets the lock, in which case
+the fingerprint comparison aborts the run, or waits and opens the recreated file
+afterwards. The reclaimer compares a fingerprint of the db before the idle checks and
+again while holding the lock.
+
+The number it compares is a pressure heuristic, not a live lease count. It counts distinct
+IPv4-looking strings in the file, and boltdb keeps freed pages, so released addresses
+still appear. It can therefore reclaim earlier than needed, but it cannot hide a full
+pool.
+
+If podman errors, a journald event read fails, the db cannot be read or fingerprinted, the
+pool cannot be determined, or the lock cannot be taken within ten seconds, the timer does
+nothing. Above the threshold it writes one line to the journal per run under the
+`reclaim-ipam` tag; below it, it stays quiet.
+
+Limits worth knowing:
+
+- It only sees the rootful store at `/run/containers/networks/ipam.db`. Rootful podman
+  stores on the same host share that database but are queried separately, so a container
+  belonging to another store and older than the event window is invisible. Deployment
+  assumes a single rootful store: the template checks that a runner is configured, not
+  how many stores the host has.
+- It needs `python3` for the fcntl lock and the fingerprint. RHEL 9 has it because dnf
+  depends on it.
+- Allocators that cooperate with podman's networking lock cannot run inside the critical
+  section, so they cannot lose a lease to this delete. The lock serializes new
+  allocations only: every lease that already exists when the run starts is what the
+  delete removes, including one held by a container in another rootful store that
+  `podman ps` cannot see. A process that opens the database outside that lock is not
+  covered, and is not a supported configuration.
+
+Check the timer and the history:
+
+```bash
+sudo systemctl status reclaim-ipam.timer
+sudo journalctl -t reclaim-ipam --no-pager -n 20
+```
+
+Count the address strings in the db (a pressure indicator, not a lease count):
+
+```bash
+sudo bash -c '
+db=/run/containers/networks/ipam.db
+[ -r "$db" ] || { echo "cannot read $db" >&2; exit 1; }
+leases=$(grep -aoE "([0-9]{1,3}\.){3}[0-9]{1,3}" "$db")
+rc=$?
+[ "$rc" -eq 0 ] || [ "$rc" -eq 1 ] || { echo "grep failed with status $rc" >&2; exit 1; }
+printf "%s" "$leases" | sort -u | wc -l
+'
+```
+
+Exit status 1 from `grep` means the readable db holds no addresses, so the command prints
+`0`; any other failure aborts without printing a count.
+
+This is a temporary mitigation. Once a RHEL 9.6 errata ships the netavark fix, delete the
+block from the `ibm-power` cloud-config, then remove `reclaim-ipam.sh`, its `//go:embed`
+declaration and the `ReclaimIPAMScript` field with its use in `piUserData` in
+`ibm-power.go`, and the test references. Finally, on existing instances:
+
+```bash
+sudo systemctl disable --now reclaim-ipam.timer
+sudo systemctl stop reclaim-ipam.service
+```
+
+Disabling stops future activations and stopping ends a running oneshot. Confirm that
+leases are released on `podman rm` before trusting the errata.
+
 ## Destroy
 
 ```bash
