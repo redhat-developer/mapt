@@ -6,6 +6,11 @@ package apitype
 
 // OperationContextOIDCConfiguration contains configuration for automatically fetching temporary credentials from cloud
 // providers using the OIDC token issued by the service.
+// Pulumi ESC is the recommended way to supply cloud credentials to Pulumi Deployments. Deployments OIDC predates Pulumi ESC and still
+// works, but for most users ESC is the better choice. Deployments OIDC is still a good fit when a customer-managed runner can't reach
+// Pulumi Cloud over the network to use ESC, or when pre-run commands need credentials: an ESC environment applies only to the Pulumi
+// operation itself unless the command is wrapped in `pulumi env run`. See
+// https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextOIDCConfiguration struct {
 	// AWS contains AWS-specific configuration.
 	AWS *OperationContextAWSOIDCConfiguration `json:"aws,omitempty" yaml:"aws,omitempty"`

@@ -72,12 +72,8 @@ type LookupNetworkSecurityPerimeterAccessRuleResult struct {
 }
 
 func LookupNetworkSecurityPerimeterAccessRuleOutput(ctx *pulumi.Context, args LookupNetworkSecurityPerimeterAccessRuleOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkSecurityPerimeterAccessRuleResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkSecurityPerimeterAccessRuleResultOutput, error) {
-			args := v.(LookupNetworkSecurityPerimeterAccessRuleArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkSecurityPerimeterAccessRule", args, LookupNetworkSecurityPerimeterAccessRuleResultOutput{}, options).(LookupNetworkSecurityPerimeterAccessRuleResultOutput), nil
-		}).(LookupNetworkSecurityPerimeterAccessRuleResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkSecurityPerimeterAccessRule", args, LookupNetworkSecurityPerimeterAccessRuleResultOutput{}, options).(LookupNetworkSecurityPerimeterAccessRuleResultOutput)
 }
 
 type LookupNetworkSecurityPerimeterAccessRuleOutputArgs struct {

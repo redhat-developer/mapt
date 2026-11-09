@@ -60,12 +60,8 @@ type LookupNetworkGroupResult struct {
 }
 
 func LookupNetworkGroupOutput(ctx *pulumi.Context, args LookupNetworkGroupOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkGroupResultOutput, error) {
-			args := v.(LookupNetworkGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkGroup", args, LookupNetworkGroupResultOutput{}, options).(LookupNetworkGroupResultOutput), nil
-		}).(LookupNetworkGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkGroup", args, LookupNetworkGroupResultOutput{}, options).(LookupNetworkGroupResultOutput)
 }
 
 type LookupNetworkGroupOutputArgs struct {

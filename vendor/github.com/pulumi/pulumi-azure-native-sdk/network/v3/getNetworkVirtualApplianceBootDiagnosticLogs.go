@@ -45,12 +45,8 @@ type GetNetworkVirtualApplianceBootDiagnosticLogsResult struct {
 }
 
 func GetNetworkVirtualApplianceBootDiagnosticLogsOutput(ctx *pulumi.Context, args GetNetworkVirtualApplianceBootDiagnosticLogsOutputArgs, opts ...pulumi.InvokeOption) GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput, error) {
-			args := v.(GetNetworkVirtualApplianceBootDiagnosticLogsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkVirtualApplianceBootDiagnosticLogs", args, GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput{}, options).(GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput), nil
-		}).(GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkVirtualApplianceBootDiagnosticLogs", args, GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput{}, options).(GetNetworkVirtualApplianceBootDiagnosticLogsResultOutput)
 }
 
 type GetNetworkVirtualApplianceBootDiagnosticLogsOutputArgs struct {

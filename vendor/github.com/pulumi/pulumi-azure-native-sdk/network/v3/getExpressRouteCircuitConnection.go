@@ -66,12 +66,8 @@ type LookupExpressRouteCircuitConnectionResult struct {
 }
 
 func LookupExpressRouteCircuitConnectionOutput(ctx *pulumi.Context, args LookupExpressRouteCircuitConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteCircuitConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupExpressRouteCircuitConnectionResultOutput, error) {
-			args := v.(LookupExpressRouteCircuitConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitConnection", args, LookupExpressRouteCircuitConnectionResultOutput{}, options).(LookupExpressRouteCircuitConnectionResultOutput), nil
-		}).(LookupExpressRouteCircuitConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitConnection", args, LookupExpressRouteCircuitConnectionResultOutput{}, options).(LookupExpressRouteCircuitConnectionResultOutput)
 }
 
 type LookupExpressRouteCircuitConnectionOutputArgs struct {

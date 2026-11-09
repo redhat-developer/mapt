@@ -50,12 +50,8 @@ type LookupTableServicePropertiesResult struct {
 }
 
 func LookupTableServicePropertiesOutput(ctx *pulumi.Context, args LookupTableServicePropertiesOutputArgs, opts ...pulumi.InvokeOption) LookupTableServicePropertiesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTableServicePropertiesResultOutput, error) {
-			args := v.(LookupTableServicePropertiesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getTableServiceProperties", args, LookupTableServicePropertiesResultOutput{}, options).(LookupTableServicePropertiesResultOutput), nil
-		}).(LookupTableServicePropertiesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getTableServiceProperties", args, LookupTableServicePropertiesResultOutput{}, options).(LookupTableServicePropertiesResultOutput)
 }
 
 type LookupTableServicePropertiesOutputArgs struct {

@@ -50,12 +50,8 @@ type LookupDeploymentStacksWhatIfResultsAtSubscriptionResult struct {
 }
 
 func LookupDeploymentStacksWhatIfResultsAtSubscriptionOutput(ctx *pulumi.Context, args LookupDeploymentStacksWhatIfResultsAtSubscriptionOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput, error) {
-			args := v.(LookupDeploymentStacksWhatIfResultsAtSubscriptionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentStacksWhatIfResultsAtSubscription", args, LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput{}, options).(LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput), nil
-		}).(LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentStacksWhatIfResultsAtSubscription", args, LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput{}, options).(LookupDeploymentStacksWhatIfResultsAtSubscriptionResultOutput)
 }
 
 type LookupDeploymentStacksWhatIfResultsAtSubscriptionOutputArgs struct {

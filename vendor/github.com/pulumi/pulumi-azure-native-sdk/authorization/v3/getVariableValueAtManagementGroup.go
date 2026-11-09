@@ -52,12 +52,8 @@ type LookupVariableValueAtManagementGroupResult struct {
 }
 
 func LookupVariableValueAtManagementGroupOutput(ctx *pulumi.Context, args LookupVariableValueAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupVariableValueAtManagementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVariableValueAtManagementGroupResultOutput, error) {
-			args := v.(LookupVariableValueAtManagementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getVariableValueAtManagementGroup", args, LookupVariableValueAtManagementGroupResultOutput{}, options).(LookupVariableValueAtManagementGroupResultOutput), nil
-		}).(LookupVariableValueAtManagementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getVariableValueAtManagementGroup", args, LookupVariableValueAtManagementGroupResultOutput{}, options).(LookupVariableValueAtManagementGroupResultOutput)
 }
 
 type LookupVariableValueAtManagementGroupOutputArgs struct {

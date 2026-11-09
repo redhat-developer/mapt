@@ -6,6 +6,9 @@ package apitype
 
 // AddOrganizationMemberRequest is the request type for adding a new member to an organization.
 type AddOrganizationMemberRequest struct {
-	// The built-in role assigned to the new member. Must be `member`, `admin`, or `billingManager`.
+	// The built-in role assigned to the new member. Must be `member`, `admin`, `billing-manager`, `reader`, `builder` or `maintainer`. In an
+	// organization with a default role, `member` puts the new member on the default role, and the member follows it when an admin changes it.
+	// `reader`, `builder` and `maintainer` assign the Reader, Builder or Maintainer role to the new member explicitly, so the member keeps it
+	// when the default role changes; they are available only in organizations with a default role.
 	Role OrganizationRole `json:"role" yaml:"role"`
 }

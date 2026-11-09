@@ -64,12 +64,8 @@ type LookupNetworkManagerResult struct {
 }
 
 func LookupNetworkManagerOutput(ctx *pulumi.Context, args LookupNetworkManagerOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkManagerResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkManagerResultOutput, error) {
-			args := v.(LookupNetworkManagerArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkManager", args, LookupNetworkManagerResultOutput{}, options).(LookupNetworkManagerResultOutput), nil
-		}).(LookupNetworkManagerResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkManager", args, LookupNetworkManagerResultOutput{}, options).(LookupNetworkManagerResultOutput)
 }
 
 type LookupNetworkManagerOutputArgs struct {

@@ -66,12 +66,8 @@ type LookupInterfaceEndpointResult struct {
 }
 
 func LookupInterfaceEndpointOutput(ctx *pulumi.Context, args LookupInterfaceEndpointOutputArgs, opts ...pulumi.InvokeOption) LookupInterfaceEndpointResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupInterfaceEndpointResultOutput, error) {
-			args := v.(LookupInterfaceEndpointArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getInterfaceEndpoint", args, LookupInterfaceEndpointResultOutput{}, options).(LookupInterfaceEndpointResultOutput), nil
-		}).(LookupInterfaceEndpointResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getInterfaceEndpoint", args, LookupInterfaceEndpointResultOutput{}, options).(LookupInterfaceEndpointResultOutput)
 }
 
 type LookupInterfaceEndpointOutputArgs struct {

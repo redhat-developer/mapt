@@ -60,12 +60,8 @@ type LookupEncryptionScopeResult struct {
 }
 
 func LookupEncryptionScopeOutput(ctx *pulumi.Context, args LookupEncryptionScopeOutputArgs, opts ...pulumi.InvokeOption) LookupEncryptionScopeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupEncryptionScopeResultOutput, error) {
-			args := v.(LookupEncryptionScopeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getEncryptionScope", args, LookupEncryptionScopeResultOutput{}, options).(LookupEncryptionScopeResultOutput), nil
-		}).(LookupEncryptionScopeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getEncryptionScope", args, LookupEncryptionScopeResultOutput{}, options).(LookupEncryptionScopeResultOutput)
 }
 
 type LookupEncryptionScopeOutputArgs struct {

@@ -9,6 +9,8 @@ package apitype
 // See
 // https://learn.microsoft.com/en-us/azure/active-directory/develop/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp
 // for details on how to create an appropriately-configured identity.
+// Pulumi ESC is the recommended way to supply cloud credentials to Pulumi Deployments. See
+// https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextAzureOIDCConfiguration struct {
 	// ClientID is the client ID of the federated workload identity.
 	ClientID string `json:"clientId,omitempty" yaml:"clientId,omitempty"`

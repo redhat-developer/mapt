@@ -52,12 +52,8 @@ type LookupCommitResult struct {
 }
 
 func LookupCommitOutput(ctx *pulumi.Context, args LookupCommitOutputArgs, opts ...pulumi.InvokeOption) LookupCommitResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupCommitResultOutput, error) {
-			args := v.(LookupCommitArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getCommit", args, LookupCommitResultOutput{}, options).(LookupCommitResultOutput), nil
-		}).(LookupCommitResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getCommit", args, LookupCommitResultOutput{}, options).(LookupCommitResultOutput)
 }
 
 type LookupCommitOutputArgs struct {

@@ -54,12 +54,8 @@ type GetVirtualNetworkGatewayVpnclientIpsecParametersResult struct {
 }
 
 func GetVirtualNetworkGatewayVpnclientIpsecParametersOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayVpnclientIpsecParametersOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayVpnclientIpsecParametersArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnclientIpsecParameters", args, GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput{}, options).(GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput), nil
-		}).(GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnclientIpsecParameters", args, GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput{}, options).(GetVirtualNetworkGatewayVpnclientIpsecParametersResultOutput)
 }
 
 type GetVirtualNetworkGatewayVpnclientIpsecParametersOutputArgs struct {

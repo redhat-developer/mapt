@@ -40,12 +40,8 @@ type ListFleetCredentialsResult struct {
 }
 
 func ListFleetCredentialsOutput(ctx *pulumi.Context, args ListFleetCredentialsOutputArgs, opts ...pulumi.InvokeOption) ListFleetCredentialsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListFleetCredentialsResultOutput, error) {
-			args := v.(ListFleetCredentialsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:listFleetCredentials", args, ListFleetCredentialsResultOutput{}, options).(ListFleetCredentialsResultOutput), nil
-		}).(ListFleetCredentialsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:listFleetCredentials", args, ListFleetCredentialsResultOutput{}, options).(ListFleetCredentialsResultOutput)
 }
 
 type ListFleetCredentialsOutputArgs struct {

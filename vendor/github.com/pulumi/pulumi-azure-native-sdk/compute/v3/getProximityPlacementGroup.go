@@ -68,12 +68,8 @@ type LookupProximityPlacementGroupResult struct {
 }
 
 func LookupProximityPlacementGroupOutput(ctx *pulumi.Context, args LookupProximityPlacementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupProximityPlacementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupProximityPlacementGroupResultOutput, error) {
-			args := v.(LookupProximityPlacementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getProximityPlacementGroup", args, LookupProximityPlacementGroupResultOutput{}, options).(LookupProximityPlacementGroupResultOutput), nil
-		}).(LookupProximityPlacementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getProximityPlacementGroup", args, LookupProximityPlacementGroupResultOutput{}, options).(LookupProximityPlacementGroupResultOutput)
 }
 
 type LookupProximityPlacementGroupOutputArgs struct {

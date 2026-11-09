@@ -88,12 +88,8 @@ type LookupFirewallPolicyResult struct {
 }
 
 func LookupFirewallPolicyOutput(ctx *pulumi.Context, args LookupFirewallPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupFirewallPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupFirewallPolicyResultOutput, error) {
-			args := v.(LookupFirewallPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getFirewallPolicy", args, LookupFirewallPolicyResultOutput{}, options).(LookupFirewallPolicyResultOutput), nil
-		}).(LookupFirewallPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getFirewallPolicy", args, LookupFirewallPolicyResultOutput{}, options).(LookupFirewallPolicyResultOutput)
 }
 
 type LookupFirewallPolicyOutputArgs struct {

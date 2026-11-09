@@ -8,7 +8,11 @@ import (
 	"github.com/pulumi/pulumi-cloud-sdk/go/apitype/jsonvalue"
 )
 
-// Request body for updating the OIDC configuration of an operation context.
+// Request body for updating the Deployments OIDC configuration of an operation context. Pulumi ESC is the recommended way to supply cloud
+// credentials to Pulumi Deployments. Deployments OIDC predates Pulumi ESC and still works, but for most users ESC is the better choice.
+// Deployments OIDC is still a good fit when a customer-managed runner can't reach Pulumi Cloud over the network to use ESC, or when pre-run
+// commands need credentials: an ESC environment applies only to the Pulumi operation itself unless the command is wrapped in `pulumi env
+// run`. See https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextOIDCConfigurationRequest struct {
 	// AWS-specific OIDC configuration.
 	AWS jsonvalue.Value[OperationContextAWSOIDCConfigurationRequest] `json:"aws,omitempty" yaml:"aws,omitempty"`

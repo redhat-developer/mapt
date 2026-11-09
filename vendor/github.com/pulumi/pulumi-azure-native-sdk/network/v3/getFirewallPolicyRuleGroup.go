@@ -56,12 +56,8 @@ type LookupFirewallPolicyRuleGroupResult struct {
 }
 
 func LookupFirewallPolicyRuleGroupOutput(ctx *pulumi.Context, args LookupFirewallPolicyRuleGroupOutputArgs, opts ...pulumi.InvokeOption) LookupFirewallPolicyRuleGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupFirewallPolicyRuleGroupResultOutput, error) {
-			args := v.(LookupFirewallPolicyRuleGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getFirewallPolicyRuleGroup", args, LookupFirewallPolicyRuleGroupResultOutput{}, options).(LookupFirewallPolicyRuleGroupResultOutput), nil
-		}).(LookupFirewallPolicyRuleGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getFirewallPolicyRuleGroup", args, LookupFirewallPolicyRuleGroupResultOutput{}, options).(LookupFirewallPolicyRuleGroupResultOutput)
 }
 
 type LookupFirewallPolicyRuleGroupOutputArgs struct {

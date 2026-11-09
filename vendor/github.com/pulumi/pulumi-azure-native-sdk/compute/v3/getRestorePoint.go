@@ -66,12 +66,8 @@ type LookupRestorePointResult struct {
 }
 
 func LookupRestorePointOutput(ctx *pulumi.Context, args LookupRestorePointOutputArgs, opts ...pulumi.InvokeOption) LookupRestorePointResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupRestorePointResultOutput, error) {
-			args := v.(LookupRestorePointArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getRestorePoint", args, LookupRestorePointResultOutput{}, options).(LookupRestorePointResultOutput), nil
-		}).(LookupRestorePointResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getRestorePoint", args, LookupRestorePointResultOutput{}, options).(LookupRestorePointResultOutput)
 }
 
 type LookupRestorePointOutputArgs struct {

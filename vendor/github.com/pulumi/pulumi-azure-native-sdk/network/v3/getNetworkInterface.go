@@ -112,12 +112,8 @@ func (val *LookupNetworkInterfaceResult) Defaults() *LookupNetworkInterfaceResul
 	return &tmp
 }
 func LookupNetworkInterfaceOutput(ctx *pulumi.Context, args LookupNetworkInterfaceOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkInterfaceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkInterfaceResultOutput, error) {
-			args := v.(LookupNetworkInterfaceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkInterface", args, LookupNetworkInterfaceResultOutput{}, options).(LookupNetworkInterfaceResultOutput), nil
-		}).(LookupNetworkInterfaceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkInterface", args, LookupNetworkInterfaceResultOutput{}, options).(LookupNetworkInterfaceResultOutput)
 }
 
 type LookupNetworkInterfaceOutputArgs struct {

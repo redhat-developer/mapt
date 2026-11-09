@@ -54,12 +54,8 @@ type GetVirtualNetworkGatewayResiliencyInformationResult struct {
 }
 
 func GetVirtualNetworkGatewayResiliencyInformationOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayResiliencyInformationOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayResiliencyInformationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayResiliencyInformationResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayResiliencyInformationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayResiliencyInformation", args, GetVirtualNetworkGatewayResiliencyInformationResultOutput{}, options).(GetVirtualNetworkGatewayResiliencyInformationResultOutput), nil
-		}).(GetVirtualNetworkGatewayResiliencyInformationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayResiliencyInformation", args, GetVirtualNetworkGatewayResiliencyInformationResultOutput{}, options).(GetVirtualNetworkGatewayResiliencyInformationResultOutput)
 }
 
 type GetVirtualNetworkGatewayResiliencyInformationOutputArgs struct {

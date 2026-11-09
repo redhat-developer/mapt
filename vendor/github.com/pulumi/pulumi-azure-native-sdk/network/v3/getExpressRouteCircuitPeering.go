@@ -90,12 +90,8 @@ type LookupExpressRouteCircuitPeeringResult struct {
 }
 
 func LookupExpressRouteCircuitPeeringOutput(ctx *pulumi.Context, args LookupExpressRouteCircuitPeeringOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteCircuitPeeringResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupExpressRouteCircuitPeeringResultOutput, error) {
-			args := v.(LookupExpressRouteCircuitPeeringArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitPeering", args, LookupExpressRouteCircuitPeeringResultOutput{}, options).(LookupExpressRouteCircuitPeeringResultOutput), nil
-		}).(LookupExpressRouteCircuitPeeringResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitPeering", args, LookupExpressRouteCircuitPeeringResultOutput{}, options).(LookupExpressRouteCircuitPeeringResultOutput)
 }
 
 type LookupExpressRouteCircuitPeeringOutputArgs struct {

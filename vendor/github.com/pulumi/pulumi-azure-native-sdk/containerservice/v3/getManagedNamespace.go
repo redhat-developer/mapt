@@ -68,12 +68,8 @@ func (val *LookupManagedNamespaceResult) Defaults() *LookupManagedNamespaceResul
 	return &tmp
 }
 func LookupManagedNamespaceOutput(ctx *pulumi.Context, args LookupManagedNamespaceOutputArgs, opts ...pulumi.InvokeOption) LookupManagedNamespaceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupManagedNamespaceResultOutput, error) {
-			args := v.(LookupManagedNamespaceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getManagedNamespace", args, LookupManagedNamespaceResultOutput{}, options).(LookupManagedNamespaceResultOutput), nil
-		}).(LookupManagedNamespaceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getManagedNamespace", args, LookupManagedNamespaceResultOutput{}, options).(LookupManagedNamespaceResultOutput)
 }
 
 type LookupManagedNamespaceOutputArgs struct {

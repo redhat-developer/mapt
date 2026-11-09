@@ -80,12 +80,8 @@ func (val *LookupIpAllocationResult) Defaults() *LookupIpAllocationResult {
 	return &tmp
 }
 func LookupIpAllocationOutput(ctx *pulumi.Context, args LookupIpAllocationOutputArgs, opts ...pulumi.InvokeOption) LookupIpAllocationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIpAllocationResultOutput, error) {
-			args := v.(LookupIpAllocationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getIpAllocation", args, LookupIpAllocationResultOutput{}, options).(LookupIpAllocationResultOutput), nil
-		}).(LookupIpAllocationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getIpAllocation", args, LookupIpAllocationResultOutput{}, options).(LookupIpAllocationResultOutput)
 }
 
 type LookupIpAllocationOutputArgs struct {

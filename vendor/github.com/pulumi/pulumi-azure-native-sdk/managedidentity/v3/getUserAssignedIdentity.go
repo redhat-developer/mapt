@@ -58,12 +58,8 @@ type LookupUserAssignedIdentityResult struct {
 }
 
 func LookupUserAssignedIdentityOutput(ctx *pulumi.Context, args LookupUserAssignedIdentityOutputArgs, opts ...pulumi.InvokeOption) LookupUserAssignedIdentityResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupUserAssignedIdentityResultOutput, error) {
-			args := v.(LookupUserAssignedIdentityArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:managedidentity:getUserAssignedIdentity", args, LookupUserAssignedIdentityResultOutput{}, options).(LookupUserAssignedIdentityResultOutput), nil
-		}).(LookupUserAssignedIdentityResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:managedidentity:getUserAssignedIdentity", args, LookupUserAssignedIdentityResultOutput{}, options).(LookupUserAssignedIdentityResultOutput)
 }
 
 type LookupUserAssignedIdentityOutputArgs struct {

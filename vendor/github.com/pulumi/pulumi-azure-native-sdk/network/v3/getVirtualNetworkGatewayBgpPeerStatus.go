@@ -42,12 +42,8 @@ type GetVirtualNetworkGatewayBgpPeerStatusResult struct {
 }
 
 func GetVirtualNetworkGatewayBgpPeerStatusOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayBgpPeerStatusOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayBgpPeerStatusResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayBgpPeerStatusResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayBgpPeerStatusArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayBgpPeerStatus", args, GetVirtualNetworkGatewayBgpPeerStatusResultOutput{}, options).(GetVirtualNetworkGatewayBgpPeerStatusResultOutput), nil
-		}).(GetVirtualNetworkGatewayBgpPeerStatusResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayBgpPeerStatus", args, GetVirtualNetworkGatewayBgpPeerStatusResultOutput{}, options).(GetVirtualNetworkGatewayBgpPeerStatusResultOutput)
 }
 
 type GetVirtualNetworkGatewayBgpPeerStatusOutputArgs struct {

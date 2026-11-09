@@ -27,6 +27,9 @@ const (
 
 	// GitHub Enterprise Server version control system
 	VCSProviderGitHubEnterprise VCSProvider = "github_enterprise"
+
+	// Cursor Origin version control system
+	VCSProviderOrigin VCSProvider = "origin"
 )
 
 func (v VCSProvider) AllValues() []VCSProvider {
@@ -37,6 +40,7 @@ func (v VCSProvider) AllValues() []VCSProvider {
 		VCSProviderAzureDevOps,
 		VCSProviderCustom,
 		VCSProviderGitHubEnterprise,
+		VCSProviderOrigin,
 	}
 }
 
@@ -53,6 +57,8 @@ func (v VCSProvider) IsValid() bool {
 	case VCSProviderCustom:
 		return true
 	case VCSProviderGitHubEnterprise:
+		return true
+	case VCSProviderOrigin:
 		return true
 	}
 
@@ -73,6 +79,8 @@ func (v VCSProvider) openapiName() string {
 		return "Custom"
 	case VCSProviderGitHubEnterprise:
 		return "GitHubEnterprise"
+	case VCSProviderOrigin:
+		return "Origin"
 	}
 
 	return ""

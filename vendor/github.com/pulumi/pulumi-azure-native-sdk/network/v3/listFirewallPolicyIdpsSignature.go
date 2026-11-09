@@ -52,12 +52,8 @@ type ListFirewallPolicyIdpsSignatureResult struct {
 }
 
 func ListFirewallPolicyIdpsSignatureOutput(ctx *pulumi.Context, args ListFirewallPolicyIdpsSignatureOutputArgs, opts ...pulumi.InvokeOption) ListFirewallPolicyIdpsSignatureResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListFirewallPolicyIdpsSignatureResultOutput, error) {
-			args := v.(ListFirewallPolicyIdpsSignatureArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listFirewallPolicyIdpsSignature", args, ListFirewallPolicyIdpsSignatureResultOutput{}, options).(ListFirewallPolicyIdpsSignatureResultOutput), nil
-		}).(ListFirewallPolicyIdpsSignatureResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listFirewallPolicyIdpsSignature", args, ListFirewallPolicyIdpsSignatureResultOutput{}, options).(ListFirewallPolicyIdpsSignatureResultOutput)
 }
 
 type ListFirewallPolicyIdpsSignatureOutputArgs struct {

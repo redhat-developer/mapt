@@ -92,12 +92,8 @@ func (val *LookupPacketCaptureResult) Defaults() *LookupPacketCaptureResult {
 	return &tmp
 }
 func LookupPacketCaptureOutput(ctx *pulumi.Context, args LookupPacketCaptureOutputArgs, opts ...pulumi.InvokeOption) LookupPacketCaptureResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPacketCaptureResultOutput, error) {
-			args := v.(LookupPacketCaptureArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getPacketCapture", args, LookupPacketCaptureResultOutput{}, options).(LookupPacketCaptureResultOutput), nil
-		}).(LookupPacketCaptureResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getPacketCapture", args, LookupPacketCaptureResultOutput{}, options).(LookupPacketCaptureResultOutput)
 }
 
 type LookupPacketCaptureOutputArgs struct {

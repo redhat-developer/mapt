@@ -6,7 +6,10 @@ package apitype
 
 // UpdateOrganizationMemberRequest is the request type for updating an organization member.
 type UpdateOrganizationMemberRequest struct {
-	// The built-in role to assign to the member. Must be `member`, `admin`, or `billing-manager`. Ignored if `fgaRoleId` is also set.
+	// The built-in role to assign to the member. Must be `member`, `admin`, `billing-manager`, `reader`, `builder` or `maintainer`. In an
+	// organization with a default role, `member` puts the member on the default role, and the member follows it when an admin changes it.
+	// `reader`, `builder` and `maintainer` assign the Reader, Builder or Maintainer role to the member explicitly, so the member keeps it when
+	// the default role changes; they are available only in organizations with a default role. Ignored if `fgaRoleId` is also set.
 	Role OrganizationRole `json:"role,omitempty" yaml:"role,omitempty"`
 	// The ID of a custom role to assign to the member. If both `role` and `fgaRoleId` are provided, `fgaRoleId` takes precedence.
 	FGARoleID *string `json:"fgaRoleId,omitempty" yaml:"fgaRoleId,omitempty"`

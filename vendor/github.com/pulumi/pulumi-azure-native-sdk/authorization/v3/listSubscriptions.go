@@ -36,12 +36,8 @@ type ListSubscriptionsResult struct {
 }
 
 func ListSubscriptionsOutput(ctx *pulumi.Context, args ListSubscriptionsOutputArgs, opts ...pulumi.InvokeOption) ListSubscriptionsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListSubscriptionsResultOutput, error) {
-			args := v.(ListSubscriptionsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:listSubscriptions", args, ListSubscriptionsResultOutput{}, options).(ListSubscriptionsResultOutput), nil
-		}).(ListSubscriptionsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:listSubscriptions", args, ListSubscriptionsResultOutput{}, options).(ListSubscriptionsResultOutput)
 }
 
 type ListSubscriptionsOutputArgs struct {

@@ -52,12 +52,8 @@ type GetExpressRouteGatewayResiliencyInformationResult struct {
 }
 
 func GetExpressRouteGatewayResiliencyInformationOutput(ctx *pulumi.Context, args GetExpressRouteGatewayResiliencyInformationOutputArgs, opts ...pulumi.InvokeOption) GetExpressRouteGatewayResiliencyInformationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetExpressRouteGatewayResiliencyInformationResultOutput, error) {
-			args := v.(GetExpressRouteGatewayResiliencyInformationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getExpressRouteGatewayResiliencyInformation", args, GetExpressRouteGatewayResiliencyInformationResultOutput{}, options).(GetExpressRouteGatewayResiliencyInformationResultOutput), nil
-		}).(GetExpressRouteGatewayResiliencyInformationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getExpressRouteGatewayResiliencyInformation", args, GetExpressRouteGatewayResiliencyInformationResultOutput{}, options).(GetExpressRouteGatewayResiliencyInformationResultOutput)
 }
 
 type GetExpressRouteGatewayResiliencyInformationOutputArgs struct {

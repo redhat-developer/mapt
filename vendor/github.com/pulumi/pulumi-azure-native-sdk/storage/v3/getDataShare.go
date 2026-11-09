@@ -56,12 +56,8 @@ type LookupDataShareResult struct {
 }
 
 func LookupDataShareOutput(ctx *pulumi.Context, args LookupDataShareOutputArgs, opts ...pulumi.InvokeOption) LookupDataShareResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDataShareResultOutput, error) {
-			args := v.(LookupDataShareArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getDataShare", args, LookupDataShareResultOutput{}, options).(LookupDataShareResultOutput), nil
-		}).(LookupDataShareResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getDataShare", args, LookupDataShareResultOutput{}, options).(LookupDataShareResultOutput)
 }
 
 type LookupDataShareOutputArgs struct {

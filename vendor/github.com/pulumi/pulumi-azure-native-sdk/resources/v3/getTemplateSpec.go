@@ -62,12 +62,8 @@ type LookupTemplateSpecResult struct {
 }
 
 func LookupTemplateSpecOutput(ctx *pulumi.Context, args LookupTemplateSpecOutputArgs, opts ...pulumi.InvokeOption) LookupTemplateSpecResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTemplateSpecResultOutput, error) {
-			args := v.(LookupTemplateSpecArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getTemplateSpec", args, LookupTemplateSpecResultOutput{}, options).(LookupTemplateSpecResultOutput), nil
-		}).(LookupTemplateSpecResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getTemplateSpec", args, LookupTemplateSpecResultOutput{}, options).(LookupTemplateSpecResultOutput)
 }
 
 type LookupTemplateSpecOutputArgs struct {

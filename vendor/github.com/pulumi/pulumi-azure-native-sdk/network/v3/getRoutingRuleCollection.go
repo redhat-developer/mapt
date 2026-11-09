@@ -64,12 +64,8 @@ type LookupRoutingRuleCollectionResult struct {
 }
 
 func LookupRoutingRuleCollectionOutput(ctx *pulumi.Context, args LookupRoutingRuleCollectionOutputArgs, opts ...pulumi.InvokeOption) LookupRoutingRuleCollectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupRoutingRuleCollectionResultOutput, error) {
-			args := v.(LookupRoutingRuleCollectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getRoutingRuleCollection", args, LookupRoutingRuleCollectionResultOutput{}, options).(LookupRoutingRuleCollectionResultOutput), nil
-		}).(LookupRoutingRuleCollectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getRoutingRuleCollection", args, LookupRoutingRuleCollectionResultOutput{}, options).(LookupRoutingRuleCollectionResultOutput)
 }
 
 type LookupRoutingRuleCollectionOutputArgs struct {

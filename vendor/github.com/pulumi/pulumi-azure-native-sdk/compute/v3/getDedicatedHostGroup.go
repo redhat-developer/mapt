@@ -66,12 +66,8 @@ type LookupDedicatedHostGroupResult struct {
 }
 
 func LookupDedicatedHostGroupOutput(ctx *pulumi.Context, args LookupDedicatedHostGroupOutputArgs, opts ...pulumi.InvokeOption) LookupDedicatedHostGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDedicatedHostGroupResultOutput, error) {
-			args := v.(LookupDedicatedHostGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getDedicatedHostGroup", args, LookupDedicatedHostGroupResultOutput{}, options).(LookupDedicatedHostGroupResultOutput), nil
-		}).(LookupDedicatedHostGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getDedicatedHostGroup", args, LookupDedicatedHostGroupResultOutput{}, options).(LookupDedicatedHostGroupResultOutput)
 }
 
 type LookupDedicatedHostGroupOutputArgs struct {

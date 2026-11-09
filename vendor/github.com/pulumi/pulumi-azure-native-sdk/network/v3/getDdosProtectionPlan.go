@@ -60,12 +60,8 @@ type LookupDdosProtectionPlanResult struct {
 }
 
 func LookupDdosProtectionPlanOutput(ctx *pulumi.Context, args LookupDdosProtectionPlanOutputArgs, opts ...pulumi.InvokeOption) LookupDdosProtectionPlanResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDdosProtectionPlanResultOutput, error) {
-			args := v.(LookupDdosProtectionPlanArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getDdosProtectionPlan", args, LookupDdosProtectionPlanResultOutput{}, options).(LookupDdosProtectionPlanResultOutput), nil
-		}).(LookupDdosProtectionPlanResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getDdosProtectionPlan", args, LookupDdosProtectionPlanResultOutput{}, options).(LookupDdosProtectionPlanResultOutput)
 }
 
 type LookupDdosProtectionPlanOutputArgs struct {

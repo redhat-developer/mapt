@@ -60,12 +60,8 @@ type LookupSecurityPartnerProviderResult struct {
 }
 
 func LookupSecurityPartnerProviderOutput(ctx *pulumi.Context, args LookupSecurityPartnerProviderOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityPartnerProviderResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupSecurityPartnerProviderResultOutput, error) {
-			args := v.(LookupSecurityPartnerProviderArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getSecurityPartnerProvider", args, LookupSecurityPartnerProviderResultOutput{}, options).(LookupSecurityPartnerProviderResultOutput), nil
-		}).(LookupSecurityPartnerProviderResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getSecurityPartnerProvider", args, LookupSecurityPartnerProviderResultOutput{}, options).(LookupSecurityPartnerProviderResultOutput)
 }
 
 type LookupSecurityPartnerProviderOutputArgs struct {

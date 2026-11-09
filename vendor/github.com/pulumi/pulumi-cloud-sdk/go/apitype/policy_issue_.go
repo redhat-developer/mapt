@@ -61,4 +61,21 @@ type PolicyIssue struct {
 	// The names of the policy exceptions the CLI reported as allowing the issue in its latest run: organization exception IDs, such as EXC-12,
 	// or keys from a local policy config.
 	PolicyExceptionNames []string `json:"policyExceptionNames,omitempty" yaml:"policyExceptionNames,omitempty"`
+	// When the finding was first seen. Not set for findings that do not yet have a stable identity.
+	FirstSeenAt *time.Time `json:"firstSeenAt,omitempty" yaml:"firstSeenAt,omitempty"`
+	// The policy pack version tag that first produced the finding. Not set for findings that do not yet have a stable identity.
+	FirstSeenPackTag *string `json:"firstSeenPackTag,omitempty" yaml:"firstSeenPackTag,omitempty"`
+	// When an evaluation last reported the finding. Not set for findings that do not yet have a stable identity.
+	LastSeenAt *time.Time `json:"lastSeenAt,omitempty" yaml:"lastSeenAt,omitempty"`
+	// When the finding was resolved. Not set while it is open, or when it does not yet have a stable identity.
+	ResolvedAt *time.Time `json:"resolvedAt,omitempty" yaml:"resolvedAt,omitempty"`
+	// How many times the finding came back after being resolved. Not set for findings that do not yet have a stable identity.
+	ReopenCount *int `json:"reopenCount,omitzero" yaml:"reopenCount,omitempty"`
+	// The kinds of evaluation that have reported the finding. Not set for findings that do not yet have a stable identity.
+	KindsSeen []PolicyIssueKind `json:"kindsSeen,omitempty" yaml:"kindsSeen,omitempty"`
+	// The messages the latest evaluation reported for the finding, up to 100 messages or 32 KB. Not set for findings that do not yet have a
+	// stable identity.
+	Messages []string `json:"messages,omitempty" yaml:"messages,omitempty"`
+	// Whether the latest evaluation reported a policy exception for the finding. Not set for findings that do not yet have a stable identity.
+	Exempt *bool `json:"exempt,omitzero" yaml:"exempt,omitempty"`
 }

@@ -50,12 +50,8 @@ type LookupP2sVpnServerConfigurationResult struct {
 }
 
 func LookupP2sVpnServerConfigurationOutput(ctx *pulumi.Context, args LookupP2sVpnServerConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupP2sVpnServerConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupP2sVpnServerConfigurationResultOutput, error) {
-			args := v.(LookupP2sVpnServerConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getP2sVpnServerConfiguration", args, LookupP2sVpnServerConfigurationResultOutput{}, options).(LookupP2sVpnServerConfigurationResultOutput), nil
-		}).(LookupP2sVpnServerConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getP2sVpnServerConfiguration", args, LookupP2sVpnServerConfigurationResultOutput{}, options).(LookupP2sVpnServerConfigurationResultOutput)
 }
 
 type LookupP2sVpnServerConfigurationOutputArgs struct {

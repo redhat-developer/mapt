@@ -74,12 +74,8 @@ type LookupScopeAccessReviewHistoryDefinitionByIdResult struct {
 }
 
 func LookupScopeAccessReviewHistoryDefinitionByIdOutput(ctx *pulumi.Context, args LookupScopeAccessReviewHistoryDefinitionByIdOutputArgs, opts ...pulumi.InvokeOption) LookupScopeAccessReviewHistoryDefinitionByIdResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupScopeAccessReviewHistoryDefinitionByIdResultOutput, error) {
-			args := v.(LookupScopeAccessReviewHistoryDefinitionByIdArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getScopeAccessReviewHistoryDefinitionById", args, LookupScopeAccessReviewHistoryDefinitionByIdResultOutput{}, options).(LookupScopeAccessReviewHistoryDefinitionByIdResultOutput), nil
-		}).(LookupScopeAccessReviewHistoryDefinitionByIdResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getScopeAccessReviewHistoryDefinitionById", args, LookupScopeAccessReviewHistoryDefinitionByIdResultOutput{}, options).(LookupScopeAccessReviewHistoryDefinitionByIdResultOutput)
 }
 
 type LookupScopeAccessReviewHistoryDefinitionByIdOutputArgs struct {

@@ -58,12 +58,8 @@ type LookupManagedClusterSnapshotResult struct {
 }
 
 func LookupManagedClusterSnapshotOutput(ctx *pulumi.Context, args LookupManagedClusterSnapshotOutputArgs, opts ...pulumi.InvokeOption) LookupManagedClusterSnapshotResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupManagedClusterSnapshotResultOutput, error) {
-			args := v.(LookupManagedClusterSnapshotArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getManagedClusterSnapshot", args, LookupManagedClusterSnapshotResultOutput{}, options).(LookupManagedClusterSnapshotResultOutput), nil
-		}).(LookupManagedClusterSnapshotResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getManagedClusterSnapshot", args, LookupManagedClusterSnapshotResultOutput{}, options).(LookupManagedClusterSnapshotResultOutput)
 }
 
 type LookupManagedClusterSnapshotOutputArgs struct {

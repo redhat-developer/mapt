@@ -50,12 +50,8 @@ type ListVpnLinkConnectionDefaultSharedKeyResult struct {
 }
 
 func ListVpnLinkConnectionDefaultSharedKeyOutput(ctx *pulumi.Context, args ListVpnLinkConnectionDefaultSharedKeyOutputArgs, opts ...pulumi.InvokeOption) ListVpnLinkConnectionDefaultSharedKeyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListVpnLinkConnectionDefaultSharedKeyResultOutput, error) {
-			args := v.(ListVpnLinkConnectionDefaultSharedKeyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listVpnLinkConnectionDefaultSharedKey", args, ListVpnLinkConnectionDefaultSharedKeyResultOutput{}, options).(ListVpnLinkConnectionDefaultSharedKeyResultOutput), nil
-		}).(ListVpnLinkConnectionDefaultSharedKeyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listVpnLinkConnectionDefaultSharedKey", args, ListVpnLinkConnectionDefaultSharedKeyResultOutput{}, options).(ListVpnLinkConnectionDefaultSharedKeyResultOutput)
 }
 
 type ListVpnLinkConnectionDefaultSharedKeyOutputArgs struct {

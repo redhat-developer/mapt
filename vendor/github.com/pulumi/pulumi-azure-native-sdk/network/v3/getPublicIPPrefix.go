@@ -80,12 +80,8 @@ type LookupPublicIPPrefixResult struct {
 }
 
 func LookupPublicIPPrefixOutput(ctx *pulumi.Context, args LookupPublicIPPrefixOutputArgs, opts ...pulumi.InvokeOption) LookupPublicIPPrefixResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPublicIPPrefixResultOutput, error) {
-			args := v.(LookupPublicIPPrefixArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getPublicIPPrefix", args, LookupPublicIPPrefixResultOutput{}, options).(LookupPublicIPPrefixResultOutput), nil
-		}).(LookupPublicIPPrefixResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getPublicIPPrefix", args, LookupPublicIPPrefixResultOutput{}, options).(LookupPublicIPPrefixResultOutput)
 }
 
 type LookupPublicIPPrefixOutputArgs struct {

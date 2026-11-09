@@ -84,12 +84,8 @@ type LookupDeploymentStackAtSubscriptionResult struct {
 }
 
 func LookupDeploymentStackAtSubscriptionOutput(ctx *pulumi.Context, args LookupDeploymentStackAtSubscriptionOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStackAtSubscriptionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentStackAtSubscriptionResultOutput, error) {
-			args := v.(LookupDeploymentStackAtSubscriptionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentStackAtSubscription", args, LookupDeploymentStackAtSubscriptionResultOutput{}, options).(LookupDeploymentStackAtSubscriptionResultOutput), nil
-		}).(LookupDeploymentStackAtSubscriptionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentStackAtSubscription", args, LookupDeploymentStackAtSubscriptionResultOutput{}, options).(LookupDeploymentStackAtSubscriptionResultOutput)
 }
 
 type LookupDeploymentStackAtSubscriptionOutputArgs struct {

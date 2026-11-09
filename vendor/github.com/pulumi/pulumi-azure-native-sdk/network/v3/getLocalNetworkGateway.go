@@ -64,12 +64,8 @@ type LookupLocalNetworkGatewayResult struct {
 }
 
 func LookupLocalNetworkGatewayOutput(ctx *pulumi.Context, args LookupLocalNetworkGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupLocalNetworkGatewayResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupLocalNetworkGatewayResultOutput, error) {
-			args := v.(LookupLocalNetworkGatewayArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getLocalNetworkGateway", args, LookupLocalNetworkGatewayResultOutput{}, options).(LookupLocalNetworkGatewayResultOutput), nil
-		}).(LookupLocalNetworkGatewayResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getLocalNetworkGateway", args, LookupLocalNetworkGatewayResultOutput{}, options).(LookupLocalNetworkGatewayResultOutput)
 }
 
 type LookupLocalNetworkGatewayOutputArgs struct {

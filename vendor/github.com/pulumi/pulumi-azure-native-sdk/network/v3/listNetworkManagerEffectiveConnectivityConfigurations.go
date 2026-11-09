@@ -46,12 +46,8 @@ type ListNetworkManagerEffectiveConnectivityConfigurationsResult struct {
 }
 
 func ListNetworkManagerEffectiveConnectivityConfigurationsOutput(ctx *pulumi.Context, args ListNetworkManagerEffectiveConnectivityConfigurationsOutputArgs, opts ...pulumi.InvokeOption) ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput, error) {
-			args := v.(ListNetworkManagerEffectiveConnectivityConfigurationsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listNetworkManagerEffectiveConnectivityConfigurations", args, ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput{}, options).(ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput), nil
-		}).(ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listNetworkManagerEffectiveConnectivityConfigurations", args, ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput{}, options).(ListNetworkManagerEffectiveConnectivityConfigurationsResultOutput)
 }
 
 type ListNetworkManagerEffectiveConnectivityConfigurationsOutputArgs struct {

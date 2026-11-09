@@ -54,12 +54,8 @@ type LookupNetworkWatcherResult struct {
 }
 
 func LookupNetworkWatcherOutput(ctx *pulumi.Context, args LookupNetworkWatcherOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkWatcherResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkWatcherResultOutput, error) {
-			args := v.(LookupNetworkWatcherArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkWatcher", args, LookupNetworkWatcherResultOutput{}, options).(LookupNetworkWatcherResultOutput), nil
-		}).(LookupNetworkWatcherResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkWatcher", args, LookupNetworkWatcherResultOutput{}, options).(LookupNetworkWatcherResultOutput)
 }
 
 type LookupNetworkWatcherOutputArgs struct {

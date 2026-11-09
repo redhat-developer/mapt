@@ -8,7 +8,8 @@ import (
 	"github.com/pulumi/pulumi-cloud-sdk/go/apitype/jsonvalue"
 )
 
-// Request body for updating the Azure OIDC configuration of an operation context.
+// Request body for updating the Azure OIDC configuration of an operation context. Pulumi ESC is the recommended way to supply cloud
+// credentials to Pulumi Deployments. See https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextAzureOIDCConfigurationRequest struct {
 	// The client ID of the federated workload identity.
 	ClientID jsonvalue.Value[string] `json:"clientId,omitempty" yaml:"clientId,omitempty"`

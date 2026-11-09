@@ -72,12 +72,8 @@ func (val *LookupVirtualHubIpConfigurationResult) Defaults() *LookupVirtualHubIp
 	return &tmp
 }
 func LookupVirtualHubIpConfigurationOutput(ctx *pulumi.Context, args LookupVirtualHubIpConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubIpConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualHubIpConfigurationResultOutput, error) {
-			args := v.(LookupVirtualHubIpConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualHubIpConfiguration", args, LookupVirtualHubIpConfigurationResultOutput{}, options).(LookupVirtualHubIpConfigurationResultOutput), nil
-		}).(LookupVirtualHubIpConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualHubIpConfiguration", args, LookupVirtualHubIpConfigurationResultOutput{}, options).(LookupVirtualHubIpConfigurationResultOutput)
 }
 
 type LookupVirtualHubIpConfigurationOutputArgs struct {

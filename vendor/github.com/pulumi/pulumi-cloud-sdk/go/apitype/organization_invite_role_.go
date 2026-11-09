@@ -21,6 +21,15 @@ const (
 
 	// Billing administrator.
 	OrganizationInviteRoleBillingManager OrganizationInviteRole = "billing-manager"
+
+	// Reader role. Available only in organizations with a default role.
+	OrganizationInviteRoleReader OrganizationInviteRole = "reader"
+
+	// Builder role. Available only in organizations with a default role.
+	OrganizationInviteRoleBuilder OrganizationInviteRole = "builder"
+
+	// Maintainer role. Available only in organizations with a default role.
+	OrganizationInviteRoleMaintainer OrganizationInviteRole = "maintainer"
 )
 
 func (v OrganizationInviteRole) AllValues() []OrganizationInviteRole {
@@ -28,6 +37,9 @@ func (v OrganizationInviteRole) AllValues() []OrganizationInviteRole {
 		OrganizationInviteRoleMember,
 		OrganizationInviteRoleAdmin,
 		OrganizationInviteRoleBillingManager,
+		OrganizationInviteRoleReader,
+		OrganizationInviteRoleBuilder,
+		OrganizationInviteRoleMaintainer,
 	}
 }
 
@@ -38,6 +50,12 @@ func (v OrganizationInviteRole) IsValid() bool {
 	case OrganizationInviteRoleAdmin:
 		return true
 	case OrganizationInviteRoleBillingManager:
+		return true
+	case OrganizationInviteRoleReader:
+		return true
+	case OrganizationInviteRoleBuilder:
+		return true
+	case OrganizationInviteRoleMaintainer:
 		return true
 	}
 
@@ -52,6 +70,12 @@ func (v OrganizationInviteRole) openapiName() string {
 		return "Admin"
 	case OrganizationInviteRoleBillingManager:
 		return "BillingManager"
+	case OrganizationInviteRoleReader:
+		return "Reader"
+	case OrganizationInviteRoleBuilder:
+		return "Builder"
+	case OrganizationInviteRoleMaintainer:
+		return "Maintainer"
 	}
 
 	return ""

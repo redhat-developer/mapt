@@ -52,12 +52,8 @@ type LookupManagementLockByScopeResult struct {
 }
 
 func LookupManagementLockByScopeOutput(ctx *pulumi.Context, args LookupManagementLockByScopeOutputArgs, opts ...pulumi.InvokeOption) LookupManagementLockByScopeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupManagementLockByScopeResultOutput, error) {
-			args := v.(LookupManagementLockByScopeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getManagementLockByScope", args, LookupManagementLockByScopeResultOutput{}, options).(LookupManagementLockByScopeResultOutput), nil
-		}).(LookupManagementLockByScopeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getManagementLockByScope", args, LookupManagementLockByScopeResultOutput{}, options).(LookupManagementLockByScopeResultOutput)
 }
 
 type LookupManagementLockByScopeOutputArgs struct {

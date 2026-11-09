@@ -56,12 +56,8 @@ type LookupVerifierWorkspaceResult struct {
 }
 
 func LookupVerifierWorkspaceOutput(ctx *pulumi.Context, args LookupVerifierWorkspaceOutputArgs, opts ...pulumi.InvokeOption) LookupVerifierWorkspaceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVerifierWorkspaceResultOutput, error) {
-			args := v.(LookupVerifierWorkspaceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVerifierWorkspace", args, LookupVerifierWorkspaceResultOutput{}, options).(LookupVerifierWorkspaceResultOutput), nil
-		}).(LookupVerifierWorkspaceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVerifierWorkspace", args, LookupVerifierWorkspaceResultOutput{}, options).(LookupVerifierWorkspaceResultOutput)
 }
 
 type LookupVerifierWorkspaceOutputArgs struct {

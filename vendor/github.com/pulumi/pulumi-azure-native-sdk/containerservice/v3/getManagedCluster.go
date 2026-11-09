@@ -170,12 +170,8 @@ func (val *LookupManagedClusterResult) Defaults() *LookupManagedClusterResult {
 	return &tmp
 }
 func LookupManagedClusterOutput(ctx *pulumi.Context, args LookupManagedClusterOutputArgs, opts ...pulumi.InvokeOption) LookupManagedClusterResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupManagedClusterResultOutput, error) {
-			args := v.(LookupManagedClusterArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getManagedCluster", args, LookupManagedClusterResultOutput{}, options).(LookupManagedClusterResultOutput), nil
-		}).(LookupManagedClusterResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getManagedCluster", args, LookupManagedClusterResultOutput{}, options).(LookupManagedClusterResultOutput)
 }
 
 type LookupManagedClusterOutputArgs struct {

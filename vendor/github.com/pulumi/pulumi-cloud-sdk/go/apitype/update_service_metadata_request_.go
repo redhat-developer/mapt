@@ -6,7 +6,7 @@ package apitype
 
 // Request for updating a services metadata.
 type UpdateServiceMetadataRequest struct {
-	// the name of the service
+	// The new name of the service. Between 1 and 80 characters.
 	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
 	// an optional description of the service
 	Description *string `json:"description,omitempty" yaml:"description,omitempty"`

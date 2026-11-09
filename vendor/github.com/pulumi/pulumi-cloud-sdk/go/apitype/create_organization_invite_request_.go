@@ -8,8 +8,9 @@ package apitype
 type CreateOrganizationInviteRequest struct {
 	// The email address. Required for email-based invites, omitted when creating shareable invite links.
 	Email string `json:"email,omitempty" yaml:"email,omitempty"`
-	// Built-in role to assign to the invited member. When 'roleId' is also supplied it takes precedence and this field is ignored; prefer
-	// 'roleId' for new integrations.
+	// Built-in role to assign to the invited member. When 'roleId' is also supplied it takes precedence and this field is ignored. Use
+	// 'member', 'admin' or 'billing-manager', or 'reader', 'builder' or 'maintainer' in an organization with a default role. 'member' puts the
+	// invited member on the default role, while 'reader', 'builder' and 'maintainer' assign that role explicitly.
 	Role OrganizationInviteRole `json:"role" yaml:"role"`
 	// UUID of a role (built-in or custom) to assign to the invited member. Takes precedence over 'role' when both are supplied.
 	RoleID string `json:"roleId,omitempty" yaml:"roleId,omitempty"`

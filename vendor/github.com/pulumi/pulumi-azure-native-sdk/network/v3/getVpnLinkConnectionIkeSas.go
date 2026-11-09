@@ -42,12 +42,8 @@ type GetVpnLinkConnectionIkeSasResult struct {
 }
 
 func GetVpnLinkConnectionIkeSasOutput(ctx *pulumi.Context, args GetVpnLinkConnectionIkeSasOutputArgs, opts ...pulumi.InvokeOption) GetVpnLinkConnectionIkeSasResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVpnLinkConnectionIkeSasResultOutput, error) {
-			args := v.(GetVpnLinkConnectionIkeSasArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVpnLinkConnectionIkeSas", args, GetVpnLinkConnectionIkeSasResultOutput{}, options).(GetVpnLinkConnectionIkeSasResultOutput), nil
-		}).(GetVpnLinkConnectionIkeSasResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVpnLinkConnectionIkeSas", args, GetVpnLinkConnectionIkeSasResultOutput{}, options).(GetVpnLinkConnectionIkeSasResultOutput)
 }
 
 type GetVpnLinkConnectionIkeSasOutputArgs struct {

@@ -332,7 +332,7 @@ type BucketObjectv2 struct {
 	BucketKeyEnabled pulumi.BoolOutput `pulumi:"bucketKeyEnabled"`
 	// Caching behavior along the request/reply chain Read [w3c cacheControl](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9) for further details.
 	CacheControl pulumi.StringPtrOutput `pulumi:"cacheControl"`
-	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`.
+	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`. Validation also accepts `MD5`, `XXHASH64`, `XXHASH3`, and `XXHASH128`, but the AWS SDK for Go does not currently calculate these checksums for uploads.
 	ChecksumAlgorithm pulumi.StringPtrOutput `pulumi:"checksumAlgorithm"`
 	// Base64-encoded, 32-bit CRC32 checksum of the object.
 	ChecksumCrc32 pulumi.StringOutput `pulumi:"checksumCrc32"`
@@ -451,7 +451,7 @@ type bucketObjectv2State struct {
 	BucketKeyEnabled *bool `pulumi:"bucketKeyEnabled"`
 	// Caching behavior along the request/reply chain Read [w3c cacheControl](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9) for further details.
 	CacheControl *string `pulumi:"cacheControl"`
-	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`.
+	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`. Validation also accepts `MD5`, `XXHASH64`, `XXHASH3`, and `XXHASH128`, but the AWS SDK for Go does not currently calculate these checksums for uploads.
 	ChecksumAlgorithm *string `pulumi:"checksumAlgorithm"`
 	// Base64-encoded, 32-bit CRC32 checksum of the object.
 	ChecksumCrc32 *string `pulumi:"checksumCrc32"`
@@ -532,7 +532,7 @@ type BucketObjectv2State struct {
 	BucketKeyEnabled pulumi.BoolPtrInput
 	// Caching behavior along the request/reply chain Read [w3c cacheControl](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9) for further details.
 	CacheControl pulumi.StringPtrInput
-	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`.
+	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`. Validation also accepts `MD5`, `XXHASH64`, `XXHASH3`, and `XXHASH128`, but the AWS SDK for Go does not currently calculate these checksums for uploads.
 	ChecksumAlgorithm pulumi.StringPtrInput
 	// Base64-encoded, 32-bit CRC32 checksum of the object.
 	ChecksumCrc32 pulumi.StringPtrInput
@@ -606,6 +606,12 @@ func (BucketObjectv2State) ElementType() reflect.Type {
 	return reflect.TypeOf((*bucketObjectv2State)(nil)).Elem()
 }
 
+// BucketObjectv2Exists checks whether an existing BucketObjectv2 resource with the given ID exists.
+func BucketObjectv2Exists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *BucketObjectv2State, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("aws:s3/bucketObjectv2:BucketObjectv2", id, state, "", opts...)
+}
+
 type bucketObjectv2Args struct {
 	// [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl) to apply. Valid values are `private`, `public-read`, `public-read-write`, `aws-exec-read`, `authenticated-read`, `bucket-owner-read`, and `bucket-owner-full-control`.
 	Acl *string `pulumi:"acl"`
@@ -615,7 +621,7 @@ type bucketObjectv2Args struct {
 	BucketKeyEnabled *bool `pulumi:"bucketKeyEnabled"`
 	// Caching behavior along the request/reply chain Read [w3c cacheControl](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9) for further details.
 	CacheControl *string `pulumi:"cacheControl"`
-	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`.
+	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`. Validation also accepts `MD5`, `XXHASH64`, `XXHASH3`, and `XXHASH128`, but the AWS SDK for Go does not currently calculate these checksums for uploads.
 	ChecksumAlgorithm *string `pulumi:"checksumAlgorithm"`
 	// Literal string value to use as the object content, which will be uploaded as UTF-8-encoded text.
 	Content *string `pulumi:"content"`
@@ -681,7 +687,7 @@ type BucketObjectv2Args struct {
 	BucketKeyEnabled pulumi.BoolPtrInput
 	// Caching behavior along the request/reply chain Read [w3c cacheControl](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9) for further details.
 	CacheControl pulumi.StringPtrInput
-	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`.
+	// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`. Validation also accepts `MD5`, `XXHASH64`, `XXHASH3`, and `XXHASH128`, but the AWS SDK for Go does not currently calculate these checksums for uploads.
 	ChecksumAlgorithm pulumi.StringPtrInput
 	// Literal string value to use as the object content, which will be uploaded as UTF-8-encoded text.
 	Content pulumi.StringPtrInput
@@ -849,7 +855,7 @@ func (o BucketObjectv2Output) CacheControl() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BucketObjectv2) pulumi.StringPtrOutput { return v.CacheControl }).(pulumi.StringPtrOutput)
 }
 
-// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`.
+// Algorithm used to create the checksum for the object. If a value is specified and the object is encrypted with KMS, you must have permission to use the `kms:Decrypt` action. Valid values: `CRC32`, `CRC32C`, `CRC64NVME`, `SHA1`, `SHA256`, `SHA512`. Validation also accepts `MD5`, `XXHASH64`, `XXHASH3`, and `XXHASH128`, but the AWS SDK for Go does not currently calculate these checksums for uploads.
 func (o BucketObjectv2Output) ChecksumAlgorithm() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BucketObjectv2) pulumi.StringPtrOutput { return v.ChecksumAlgorithm }).(pulumi.StringPtrOutput)
 }

@@ -72,12 +72,8 @@ type LookupVpnSiteResult struct {
 }
 
 func LookupVpnSiteOutput(ctx *pulumi.Context, args LookupVpnSiteOutputArgs, opts ...pulumi.InvokeOption) LookupVpnSiteResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVpnSiteResultOutput, error) {
-			args := v.(LookupVpnSiteArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVpnSite", args, LookupVpnSiteResultOutput{}, options).(LookupVpnSiteResultOutput), nil
-		}).(LookupVpnSiteResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVpnSite", args, LookupVpnSiteResultOutput{}, options).(LookupVpnSiteResultOutput)
 }
 
 type LookupVpnSiteOutputArgs struct {

@@ -58,12 +58,8 @@ type LookupScopeConnectionResult struct {
 }
 
 func LookupScopeConnectionOutput(ctx *pulumi.Context, args LookupScopeConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupScopeConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupScopeConnectionResultOutput, error) {
-			args := v.(LookupScopeConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getScopeConnection", args, LookupScopeConnectionResultOutput{}, options).(LookupScopeConnectionResultOutput), nil
-		}).(LookupScopeConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getScopeConnection", args, LookupScopeConnectionResultOutput{}, options).(LookupScopeConnectionResultOutput)
 }
 
 type LookupScopeConnectionOutputArgs struct {

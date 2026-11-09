@@ -78,12 +78,8 @@ type LookupPimRoleEligibilityScheduleResult struct {
 }
 
 func LookupPimRoleEligibilityScheduleOutput(ctx *pulumi.Context, args LookupPimRoleEligibilityScheduleOutputArgs, opts ...pulumi.InvokeOption) LookupPimRoleEligibilityScheduleResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPimRoleEligibilityScheduleResultOutput, error) {
-			args := v.(LookupPimRoleEligibilityScheduleArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getPimRoleEligibilitySchedule", args, LookupPimRoleEligibilityScheduleResultOutput{}, options).(LookupPimRoleEligibilityScheduleResultOutput), nil
-		}).(LookupPimRoleEligibilityScheduleResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getPimRoleEligibilitySchedule", args, LookupPimRoleEligibilityScheduleResultOutput{}, options).(LookupPimRoleEligibilityScheduleResultOutput)
 }
 
 type LookupPimRoleEligibilityScheduleOutputArgs struct {

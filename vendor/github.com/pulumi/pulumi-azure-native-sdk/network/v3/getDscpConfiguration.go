@@ -74,12 +74,8 @@ type LookupDscpConfigurationResult struct {
 }
 
 func LookupDscpConfigurationOutput(ctx *pulumi.Context, args LookupDscpConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupDscpConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDscpConfigurationResultOutput, error) {
-			args := v.(LookupDscpConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getDscpConfiguration", args, LookupDscpConfigurationResultOutput{}, options).(LookupDscpConfigurationResultOutput), nil
-		}).(LookupDscpConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getDscpConfiguration", args, LookupDscpConfigurationResultOutput{}, options).(LookupDscpConfigurationResultOutput)
 }
 
 type LookupDscpConfigurationOutputArgs struct {

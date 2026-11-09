@@ -94,12 +94,8 @@ type LookupAccessReviewScheduleDefinitionByIdResult struct {
 }
 
 func LookupAccessReviewScheduleDefinitionByIdOutput(ctx *pulumi.Context, args LookupAccessReviewScheduleDefinitionByIdOutputArgs, opts ...pulumi.InvokeOption) LookupAccessReviewScheduleDefinitionByIdResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupAccessReviewScheduleDefinitionByIdResultOutput, error) {
-			args := v.(LookupAccessReviewScheduleDefinitionByIdArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getAccessReviewScheduleDefinitionById", args, LookupAccessReviewScheduleDefinitionByIdResultOutput{}, options).(LookupAccessReviewScheduleDefinitionByIdResultOutput), nil
-		}).(LookupAccessReviewScheduleDefinitionByIdResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getAccessReviewScheduleDefinitionById", args, LookupAccessReviewScheduleDefinitionByIdResultOutput{}, options).(LookupAccessReviewScheduleDefinitionByIdResultOutput)
 }
 
 type LookupAccessReviewScheduleDefinitionByIdOutputArgs struct {

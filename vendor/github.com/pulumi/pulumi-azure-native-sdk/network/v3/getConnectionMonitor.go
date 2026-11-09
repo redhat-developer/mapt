@@ -96,12 +96,8 @@ func (val *LookupConnectionMonitorResult) Defaults() *LookupConnectionMonitorRes
 	return &tmp
 }
 func LookupConnectionMonitorOutput(ctx *pulumi.Context, args LookupConnectionMonitorOutputArgs, opts ...pulumi.InvokeOption) LookupConnectionMonitorResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupConnectionMonitorResultOutput, error) {
-			args := v.(LookupConnectionMonitorArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getConnectionMonitor", args, LookupConnectionMonitorResultOutput{}, options).(LookupConnectionMonitorResultOutput), nil
-		}).(LookupConnectionMonitorResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getConnectionMonitor", args, LookupConnectionMonitorResultOutput{}, options).(LookupConnectionMonitorResultOutput)
 }
 
 type LookupConnectionMonitorOutputArgs struct {

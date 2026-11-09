@@ -72,12 +72,8 @@ type LookupGalleryInVMAccessControlProfileVersionResult struct {
 }
 
 func LookupGalleryInVMAccessControlProfileVersionOutput(ctx *pulumi.Context, args LookupGalleryInVMAccessControlProfileVersionOutputArgs, opts ...pulumi.InvokeOption) LookupGalleryInVMAccessControlProfileVersionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupGalleryInVMAccessControlProfileVersionResultOutput, error) {
-			args := v.(LookupGalleryInVMAccessControlProfileVersionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getGalleryInVMAccessControlProfileVersion", args, LookupGalleryInVMAccessControlProfileVersionResultOutput{}, options).(LookupGalleryInVMAccessControlProfileVersionResultOutput), nil
-		}).(LookupGalleryInVMAccessControlProfileVersionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getGalleryInVMAccessControlProfileVersion", args, LookupGalleryInVMAccessControlProfileVersionResultOutput{}, options).(LookupGalleryInVMAccessControlProfileVersionResultOutput)
 }
 
 type LookupGalleryInVMAccessControlProfileVersionOutputArgs struct {

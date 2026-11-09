@@ -98,12 +98,8 @@ type LookupVirtualHubResult struct {
 }
 
 func LookupVirtualHubOutput(ctx *pulumi.Context, args LookupVirtualHubOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualHubResultOutput, error) {
-			args := v.(LookupVirtualHubArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualHub", args, LookupVirtualHubResultOutput{}, options).(LookupVirtualHubResultOutput), nil
-		}).(LookupVirtualHubResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualHub", args, LookupVirtualHubResultOutput{}, options).(LookupVirtualHubResultOutput)
 }
 
 type LookupVirtualHubOutputArgs struct {

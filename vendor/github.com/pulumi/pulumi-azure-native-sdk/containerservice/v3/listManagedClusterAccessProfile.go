@@ -52,12 +52,8 @@ type ListManagedClusterAccessProfileResult struct {
 }
 
 func ListManagedClusterAccessProfileOutput(ctx *pulumi.Context, args ListManagedClusterAccessProfileOutputArgs, opts ...pulumi.InvokeOption) ListManagedClusterAccessProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListManagedClusterAccessProfileResultOutput, error) {
-			args := v.(ListManagedClusterAccessProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:listManagedClusterAccessProfile", args, ListManagedClusterAccessProfileResultOutput{}, options).(ListManagedClusterAccessProfileResultOutput), nil
-		}).(ListManagedClusterAccessProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:listManagedClusterAccessProfile", args, ListManagedClusterAccessProfileResultOutput{}, options).(ListManagedClusterAccessProfileResultOutput)
 }
 
 type ListManagedClusterAccessProfileOutputArgs struct {

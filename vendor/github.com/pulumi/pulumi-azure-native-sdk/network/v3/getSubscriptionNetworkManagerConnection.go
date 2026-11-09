@@ -52,12 +52,8 @@ type LookupSubscriptionNetworkManagerConnectionResult struct {
 }
 
 func LookupSubscriptionNetworkManagerConnectionOutput(ctx *pulumi.Context, args LookupSubscriptionNetworkManagerConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupSubscriptionNetworkManagerConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupSubscriptionNetworkManagerConnectionResultOutput, error) {
-			args := v.(LookupSubscriptionNetworkManagerConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getSubscriptionNetworkManagerConnection", args, LookupSubscriptionNetworkManagerConnectionResultOutput{}, options).(LookupSubscriptionNetworkManagerConnectionResultOutput), nil
-		}).(LookupSubscriptionNetworkManagerConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getSubscriptionNetworkManagerConnection", args, LookupSubscriptionNetworkManagerConnectionResultOutput{}, options).(LookupSubscriptionNetworkManagerConnectionResultOutput)
 }
 
 type LookupSubscriptionNetworkManagerConnectionOutputArgs struct {

@@ -46,12 +46,8 @@ type LookupTagAtScopeResult struct {
 }
 
 func LookupTagAtScopeOutput(ctx *pulumi.Context, args LookupTagAtScopeOutputArgs, opts ...pulumi.InvokeOption) LookupTagAtScopeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTagAtScopeResultOutput, error) {
-			args := v.(LookupTagAtScopeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getTagAtScope", args, LookupTagAtScopeResultOutput{}, options).(LookupTagAtScopeResultOutput), nil
-		}).(LookupTagAtScopeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getTagAtScope", args, LookupTagAtScopeResultOutput{}, options).(LookupTagAtScopeResultOutput)
 }
 
 type LookupTagAtScopeOutputArgs struct {

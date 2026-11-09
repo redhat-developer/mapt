@@ -62,12 +62,8 @@ type LookupNetworkProfileResult struct {
 }
 
 func LookupNetworkProfileOutput(ctx *pulumi.Context, args LookupNetworkProfileOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkProfileResultOutput, error) {
-			args := v.(LookupNetworkProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkProfile", args, LookupNetworkProfileResultOutput{}, options).(LookupNetworkProfileResultOutput), nil
-		}).(LookupNetworkProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkProfile", args, LookupNetworkProfileResultOutput{}, options).(LookupNetworkProfileResultOutput)
 }
 
 type LookupNetworkProfileOutputArgs struct {
