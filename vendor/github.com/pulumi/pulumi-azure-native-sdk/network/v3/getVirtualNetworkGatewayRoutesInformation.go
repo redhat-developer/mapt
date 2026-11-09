@@ -50,12 +50,8 @@ type GetVirtualNetworkGatewayRoutesInformationResult struct {
 }
 
 func GetVirtualNetworkGatewayRoutesInformationOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayRoutesInformationOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayRoutesInformationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayRoutesInformationResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayRoutesInformationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayRoutesInformation", args, GetVirtualNetworkGatewayRoutesInformationResultOutput{}, options).(GetVirtualNetworkGatewayRoutesInformationResultOutput), nil
-		}).(GetVirtualNetworkGatewayRoutesInformationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayRoutesInformation", args, GetVirtualNetworkGatewayRoutesInformationResultOutput{}, options).(GetVirtualNetworkGatewayRoutesInformationResultOutput)
 }
 
 type GetVirtualNetworkGatewayRoutesInformationOutputArgs struct {

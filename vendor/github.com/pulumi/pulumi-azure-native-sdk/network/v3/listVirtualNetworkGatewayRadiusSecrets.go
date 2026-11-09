@@ -42,12 +42,8 @@ type ListVirtualNetworkGatewayRadiusSecretsResult struct {
 }
 
 func ListVirtualNetworkGatewayRadiusSecretsOutput(ctx *pulumi.Context, args ListVirtualNetworkGatewayRadiusSecretsOutputArgs, opts ...pulumi.InvokeOption) ListVirtualNetworkGatewayRadiusSecretsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListVirtualNetworkGatewayRadiusSecretsResultOutput, error) {
-			args := v.(ListVirtualNetworkGatewayRadiusSecretsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listVirtualNetworkGatewayRadiusSecrets", args, ListVirtualNetworkGatewayRadiusSecretsResultOutput{}, options).(ListVirtualNetworkGatewayRadiusSecretsResultOutput), nil
-		}).(ListVirtualNetworkGatewayRadiusSecretsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listVirtualNetworkGatewayRadiusSecrets", args, ListVirtualNetworkGatewayRadiusSecretsResultOutput{}, options).(ListVirtualNetworkGatewayRadiusSecretsResultOutput)
 }
 
 type ListVirtualNetworkGatewayRadiusSecretsOutputArgs struct {

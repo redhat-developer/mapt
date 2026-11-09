@@ -78,12 +78,8 @@ type LookupPrivateLinkServiceResult struct {
 }
 
 func LookupPrivateLinkServiceOutput(ctx *pulumi.Context, args LookupPrivateLinkServiceOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateLinkServiceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPrivateLinkServiceResultOutput, error) {
-			args := v.(LookupPrivateLinkServiceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getPrivateLinkService", args, LookupPrivateLinkServiceResultOutput{}, options).(LookupPrivateLinkServiceResultOutput), nil
-		}).(LookupPrivateLinkServiceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getPrivateLinkService", args, LookupPrivateLinkServiceResultOutput{}, options).(LookupPrivateLinkServiceResultOutput)
 }
 
 type LookupPrivateLinkServiceOutputArgs struct {

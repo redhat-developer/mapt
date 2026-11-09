@@ -8,6 +8,8 @@ package apitype
 // credentials in the form of a service account connected to a workload identity pool.
 // See https://cloud.google.com/iam/docs/configuring-workload-identity-federation for details on how to create an
 // appropriately-configured workload identity pool and service account.
+// Pulumi ESC is the recommended way to supply cloud credentials to Pulumi Deployments. See
+// https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextGCPOIDCConfiguration struct {
 	// ProjectID is the numerical ID of the GCP project.
 	ProjectID string `json:"projectId" yaml:"projectId"`

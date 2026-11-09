@@ -126,6 +126,7 @@ func (m *deploymentSettingsVCSImpl) GetInstancesFromTypeHierarchy() []Deployment
 		&deploymentSettingsVCSCustomImpl{},
 		&deploymentSettingsVCSGitHubImpl{},
 		&deploymentSettingsVCSGitLabImpl{},
+		&deploymentSettingsVCSOriginImpl{},
 	}
 }
 
@@ -281,6 +282,13 @@ func UnmarshalJSONDeploymentSettingsVCS(bytes []byte, res *DeploymentSettingsVCS
 		}
 		*res = &subValue
 		return nil
+	case "origin":
+		var subValue deploymentSettingsVCSOriginImpl
+		if err = json.Unmarshal(bytes, &subValue); err != nil {
+			return err
+		}
+		*res = &subValue
+		return nil
 	default:
 		return fmt.Errorf("type '%s' not recognized", v.InternalDiscriminator)
 	}
@@ -331,6 +339,13 @@ func UnmarshalYamlDeploymentSettingsVCS(node yaml.Node, res *DeploymentSettingsV
 		return nil
 	case "gitlab":
 		var subValue deploymentSettingsVCSGitLabImpl
+		if err = node.Decode(&subValue); err != nil {
+			return err
+		}
+		*res = &subValue
+		return nil
+	case "origin":
+		var subValue deploymentSettingsVCSOriginImpl
 		if err = node.Decode(&subValue); err != nil {
 			return err
 		}

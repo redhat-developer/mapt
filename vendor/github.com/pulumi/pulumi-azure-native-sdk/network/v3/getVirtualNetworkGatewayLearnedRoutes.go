@@ -40,12 +40,8 @@ type GetVirtualNetworkGatewayLearnedRoutesResult struct {
 }
 
 func GetVirtualNetworkGatewayLearnedRoutesOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayLearnedRoutesOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayLearnedRoutesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayLearnedRoutesResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayLearnedRoutesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayLearnedRoutes", args, GetVirtualNetworkGatewayLearnedRoutesResultOutput{}, options).(GetVirtualNetworkGatewayLearnedRoutesResultOutput), nil
-		}).(GetVirtualNetworkGatewayLearnedRoutesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayLearnedRoutes", args, GetVirtualNetworkGatewayLearnedRoutesResultOutput{}, options).(GetVirtualNetworkGatewayLearnedRoutesResultOutput)
 }
 
 type GetVirtualNetworkGatewayLearnedRoutesOutputArgs struct {

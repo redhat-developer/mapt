@@ -50,12 +50,8 @@ type LookupStorageTaskAssignmentResult struct {
 }
 
 func LookupStorageTaskAssignmentOutput(ctx *pulumi.Context, args LookupStorageTaskAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupStorageTaskAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupStorageTaskAssignmentResultOutput, error) {
-			args := v.(LookupStorageTaskAssignmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getStorageTaskAssignment", args, LookupStorageTaskAssignmentResultOutput{}, options).(LookupStorageTaskAssignmentResultOutput), nil
-		}).(LookupStorageTaskAssignmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getStorageTaskAssignment", args, LookupStorageTaskAssignmentResultOutput{}, options).(LookupStorageTaskAssignmentResultOutput)
 }
 
 type LookupStorageTaskAssignmentOutputArgs struct {

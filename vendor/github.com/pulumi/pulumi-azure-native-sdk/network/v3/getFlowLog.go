@@ -86,12 +86,8 @@ func (val *LookupFlowLogResult) Defaults() *LookupFlowLogResult {
 	return &tmp
 }
 func LookupFlowLogOutput(ctx *pulumi.Context, args LookupFlowLogOutputArgs, opts ...pulumi.InvokeOption) LookupFlowLogResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupFlowLogResultOutput, error) {
-			args := v.(LookupFlowLogArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getFlowLog", args, LookupFlowLogResultOutput{}, options).(LookupFlowLogResultOutput), nil
-		}).(LookupFlowLogResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getFlowLog", args, LookupFlowLogResultOutput{}, options).(LookupFlowLogResultOutput)
 }
 
 type LookupFlowLogOutputArgs struct {

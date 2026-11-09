@@ -52,12 +52,8 @@ type LookupJWTAuthenticatorResult struct {
 }
 
 func LookupJWTAuthenticatorOutput(ctx *pulumi.Context, args LookupJWTAuthenticatorOutputArgs, opts ...pulumi.InvokeOption) LookupJWTAuthenticatorResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupJWTAuthenticatorResultOutput, error) {
-			args := v.(LookupJWTAuthenticatorArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getJWTAuthenticator", args, LookupJWTAuthenticatorResultOutput{}, options).(LookupJWTAuthenticatorResultOutput), nil
-		}).(LookupJWTAuthenticatorResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getJWTAuthenticator", args, LookupJWTAuthenticatorResultOutput{}, options).(LookupJWTAuthenticatorResultOutput)
 }
 
 type LookupJWTAuthenticatorOutputArgs struct {

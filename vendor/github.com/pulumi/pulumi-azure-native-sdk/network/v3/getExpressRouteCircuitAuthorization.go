@@ -58,12 +58,8 @@ type LookupExpressRouteCircuitAuthorizationResult struct {
 }
 
 func LookupExpressRouteCircuitAuthorizationOutput(ctx *pulumi.Context, args LookupExpressRouteCircuitAuthorizationOutputArgs, opts ...pulumi.InvokeOption) LookupExpressRouteCircuitAuthorizationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupExpressRouteCircuitAuthorizationResultOutput, error) {
-			args := v.(LookupExpressRouteCircuitAuthorizationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitAuthorization", args, LookupExpressRouteCircuitAuthorizationResultOutput{}, options).(LookupExpressRouteCircuitAuthorizationResultOutput), nil
-		}).(LookupExpressRouteCircuitAuthorizationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getExpressRouteCircuitAuthorization", args, LookupExpressRouteCircuitAuthorizationResultOutput{}, options).(LookupExpressRouteCircuitAuthorizationResultOutput)
 }
 
 type LookupExpressRouteCircuitAuthorizationOutputArgs struct {

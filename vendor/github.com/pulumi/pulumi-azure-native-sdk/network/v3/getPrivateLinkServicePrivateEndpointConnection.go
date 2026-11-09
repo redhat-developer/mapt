@@ -72,12 +72,8 @@ func (val *LookupPrivateLinkServicePrivateEndpointConnectionResult) Defaults() *
 	return &tmp
 }
 func LookupPrivateLinkServicePrivateEndpointConnectionOutput(ctx *pulumi.Context, args LookupPrivateLinkServicePrivateEndpointConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateLinkServicePrivateEndpointConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPrivateLinkServicePrivateEndpointConnectionResultOutput, error) {
-			args := v.(LookupPrivateLinkServicePrivateEndpointConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getPrivateLinkServicePrivateEndpointConnection", args, LookupPrivateLinkServicePrivateEndpointConnectionResultOutput{}, options).(LookupPrivateLinkServicePrivateEndpointConnectionResultOutput), nil
-		}).(LookupPrivateLinkServicePrivateEndpointConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getPrivateLinkServicePrivateEndpointConnection", args, LookupPrivateLinkServicePrivateEndpointConnectionResultOutput{}, options).(LookupPrivateLinkServicePrivateEndpointConnectionResultOutput)
 }
 
 type LookupPrivateLinkServicePrivateEndpointConnectionOutputArgs struct {

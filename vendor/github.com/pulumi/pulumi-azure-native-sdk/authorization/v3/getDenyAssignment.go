@@ -76,12 +76,8 @@ type LookupDenyAssignmentResult struct {
 }
 
 func LookupDenyAssignmentOutput(ctx *pulumi.Context, args LookupDenyAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupDenyAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDenyAssignmentResultOutput, error) {
-			args := v.(LookupDenyAssignmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getDenyAssignment", args, LookupDenyAssignmentResultOutput{}, options).(LookupDenyAssignmentResultOutput), nil
-		}).(LookupDenyAssignmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getDenyAssignment", args, LookupDenyAssignmentResultOutput{}, options).(LookupDenyAssignmentResultOutput)
 }
 
 type LookupDenyAssignmentOutputArgs struct {

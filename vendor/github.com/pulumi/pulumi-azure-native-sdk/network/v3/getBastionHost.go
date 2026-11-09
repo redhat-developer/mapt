@@ -125,12 +125,8 @@ func (val *LookupBastionHostResult) Defaults() *LookupBastionHostResult {
 	return &tmp
 }
 func LookupBastionHostOutput(ctx *pulumi.Context, args LookupBastionHostOutputArgs, opts ...pulumi.InvokeOption) LookupBastionHostResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupBastionHostResultOutput, error) {
-			args := v.(LookupBastionHostArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getBastionHost", args, LookupBastionHostResultOutput{}, options).(LookupBastionHostResultOutput), nil
-		}).(LookupBastionHostResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getBastionHost", args, LookupBastionHostResultOutput{}, options).(LookupBastionHostResultOutput)
 }
 
 type LookupBastionHostOutputArgs struct {

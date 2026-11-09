@@ -50,12 +50,8 @@ type LookupVariableValueResult struct {
 }
 
 func LookupVariableValueOutput(ctx *pulumi.Context, args LookupVariableValueOutputArgs, opts ...pulumi.InvokeOption) LookupVariableValueResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVariableValueResultOutput, error) {
-			args := v.(LookupVariableValueArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getVariableValue", args, LookupVariableValueResultOutput{}, options).(LookupVariableValueResultOutput), nil
-		}).(LookupVariableValueResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getVariableValue", args, LookupVariableValueResultOutput{}, options).(LookupVariableValueResultOutput)
 }
 
 type LookupVariableValueOutputArgs struct {

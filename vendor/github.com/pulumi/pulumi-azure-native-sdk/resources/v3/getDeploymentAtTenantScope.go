@@ -50,12 +50,8 @@ type LookupDeploymentAtTenantScopeResult struct {
 }
 
 func LookupDeploymentAtTenantScopeOutput(ctx *pulumi.Context, args LookupDeploymentAtTenantScopeOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentAtTenantScopeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentAtTenantScopeResultOutput, error) {
-			args := v.(LookupDeploymentAtTenantScopeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentAtTenantScope", args, LookupDeploymentAtTenantScopeResultOutput{}, options).(LookupDeploymentAtTenantScopeResultOutput), nil
-		}).(LookupDeploymentAtTenantScopeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentAtTenantScope", args, LookupDeploymentAtTenantScopeResultOutput{}, options).(LookupDeploymentAtTenantScopeResultOutput)
 }
 
 type LookupDeploymentAtTenantScopeOutputArgs struct {

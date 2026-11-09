@@ -94,12 +94,8 @@ type LookupScopeAccessReviewScheduleDefinitionByIdResult struct {
 }
 
 func LookupScopeAccessReviewScheduleDefinitionByIdOutput(ctx *pulumi.Context, args LookupScopeAccessReviewScheduleDefinitionByIdOutputArgs, opts ...pulumi.InvokeOption) LookupScopeAccessReviewScheduleDefinitionByIdResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupScopeAccessReviewScheduleDefinitionByIdResultOutput, error) {
-			args := v.(LookupScopeAccessReviewScheduleDefinitionByIdArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getScopeAccessReviewScheduleDefinitionById", args, LookupScopeAccessReviewScheduleDefinitionByIdResultOutput{}, options).(LookupScopeAccessReviewScheduleDefinitionByIdResultOutput), nil
-		}).(LookupScopeAccessReviewScheduleDefinitionByIdResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getScopeAccessReviewScheduleDefinitionById", args, LookupScopeAccessReviewScheduleDefinitionByIdResultOutput{}, options).(LookupScopeAccessReviewScheduleDefinitionByIdResultOutput)
 }
 
 type LookupScopeAccessReviewScheduleDefinitionByIdOutputArgs struct {

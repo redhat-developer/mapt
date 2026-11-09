@@ -42,12 +42,8 @@ type ListVpnServerConfigurationRadiusSecretsResult struct {
 }
 
 func ListVpnServerConfigurationRadiusSecretsOutput(ctx *pulumi.Context, args ListVpnServerConfigurationRadiusSecretsOutputArgs, opts ...pulumi.InvokeOption) ListVpnServerConfigurationRadiusSecretsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListVpnServerConfigurationRadiusSecretsResultOutput, error) {
-			args := v.(ListVpnServerConfigurationRadiusSecretsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listVpnServerConfigurationRadiusSecrets", args, ListVpnServerConfigurationRadiusSecretsResultOutput{}, options).(ListVpnServerConfigurationRadiusSecretsResultOutput), nil
-		}).(ListVpnServerConfigurationRadiusSecretsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listVpnServerConfigurationRadiusSecrets", args, ListVpnServerConfigurationRadiusSecretsResultOutput{}, options).(ListVpnServerConfigurationRadiusSecretsResultOutput)
 }
 
 type ListVpnServerConfigurationRadiusSecretsOutputArgs struct {

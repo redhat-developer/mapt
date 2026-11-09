@@ -60,12 +60,8 @@ type LookupDiskAccessResult struct {
 }
 
 func LookupDiskAccessOutput(ctx *pulumi.Context, args LookupDiskAccessOutputArgs, opts ...pulumi.InvokeOption) LookupDiskAccessResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDiskAccessResultOutput, error) {
-			args := v.(LookupDiskAccessArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getDiskAccess", args, LookupDiskAccessResultOutput{}, options).(LookupDiskAccessResultOutput), nil
-		}).(LookupDiskAccessResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getDiskAccess", args, LookupDiskAccessResultOutput{}, options).(LookupDiskAccessResultOutput)
 }
 
 type LookupDiskAccessOutputArgs struct {

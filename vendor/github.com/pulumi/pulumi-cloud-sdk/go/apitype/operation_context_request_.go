@@ -10,7 +10,10 @@ import (
 
 // Request body for updating an operation context.
 type OperationContextRequest struct {
-	// The OIDC configuration for the operation.
+	// The Deployments OIDC configuration for obtaining temporary cloud credentials during the operation. Pulumi ESC is the recommended way to
+	// supply cloud credentials to Pulumi Deployments. Deployments OIDC still fits when a customer-managed runner can't reach Pulumi Cloud to
+	// use ESC, or when pre-run commands need credentials and aren't wrapped in `pulumi env run`. See
+	// https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 	OIDC jsonvalue.Value[OperationContextOIDCConfigurationRequest] `json:"oidc,omitempty" yaml:"oidc,omitempty"`
 	// Optional list of commands to run before Pulumi is invoked.
 	PreRunCommands jsonvalue.Value[[]string] `json:"preRunCommands,omitempty" yaml:"preRunCommands,omitempty"`

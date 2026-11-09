@@ -65,12 +65,8 @@ type LookupAutoUpgradeProfileResult struct {
 }
 
 func LookupAutoUpgradeProfileOutput(ctx *pulumi.Context, args LookupAutoUpgradeProfileOutputArgs, opts ...pulumi.InvokeOption) LookupAutoUpgradeProfileResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupAutoUpgradeProfileResultOutput, error) {
-			args := v.(LookupAutoUpgradeProfileArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getAutoUpgradeProfile", args, LookupAutoUpgradeProfileResultOutput{}, options).(LookupAutoUpgradeProfileResultOutput), nil
-		}).(LookupAutoUpgradeProfileResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getAutoUpgradeProfile", args, LookupAutoUpgradeProfileResultOutput{}, options).(LookupAutoUpgradeProfileResultOutput)
 }
 
 type LookupAutoUpgradeProfileOutputArgs struct {

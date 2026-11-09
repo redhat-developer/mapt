@@ -11,7 +11,7 @@ type CreateServiceRequest struct {
 	OwnerType string `json:"ownerType" yaml:"ownerType"`
 	// the service owner name
 	OwnerName string `json:"ownerName" yaml:"ownerName"`
-	// the name of the service
+	// The name of the service. Between 1 and 80 characters.
 	Name string `json:"name" yaml:"name"`
 	// an optional description of the service
 	Description string `json:"description" yaml:"description"`

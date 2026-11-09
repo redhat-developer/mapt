@@ -54,12 +54,8 @@ type LookupReachabilityAnalysisIntentResult struct {
 }
 
 func LookupReachabilityAnalysisIntentOutput(ctx *pulumi.Context, args LookupReachabilityAnalysisIntentOutputArgs, opts ...pulumi.InvokeOption) LookupReachabilityAnalysisIntentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupReachabilityAnalysisIntentResultOutput, error) {
-			args := v.(LookupReachabilityAnalysisIntentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getReachabilityAnalysisIntent", args, LookupReachabilityAnalysisIntentResultOutput{}, options).(LookupReachabilityAnalysisIntentResultOutput), nil
-		}).(LookupReachabilityAnalysisIntentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getReachabilityAnalysisIntent", args, LookupReachabilityAnalysisIntentResultOutput{}, options).(LookupReachabilityAnalysisIntentResultOutput)
 }
 
 type LookupReachabilityAnalysisIntentOutputArgs struct {

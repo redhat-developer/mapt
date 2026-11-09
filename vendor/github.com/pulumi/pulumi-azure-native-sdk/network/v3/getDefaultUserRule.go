@@ -75,12 +75,8 @@ type LookupDefaultUserRuleResult struct {
 }
 
 func LookupDefaultUserRuleOutput(ctx *pulumi.Context, args LookupDefaultUserRuleOutputArgs, opts ...pulumi.InvokeOption) LookupDefaultUserRuleResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDefaultUserRuleResultOutput, error) {
-			args := v.(LookupDefaultUserRuleArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getDefaultUserRule", args, LookupDefaultUserRuleResultOutput{}, options).(LookupDefaultUserRuleResultOutput), nil
-		}).(LookupDefaultUserRuleResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getDefaultUserRule", args, LookupDefaultUserRuleResultOutput{}, options).(LookupDefaultUserRuleResultOutput)
 }
 
 type LookupDefaultUserRuleOutputArgs struct {

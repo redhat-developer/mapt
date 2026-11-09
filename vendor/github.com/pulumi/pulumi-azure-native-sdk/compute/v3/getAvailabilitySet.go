@@ -68,12 +68,8 @@ type LookupAvailabilitySetResult struct {
 }
 
 func LookupAvailabilitySetOutput(ctx *pulumi.Context, args LookupAvailabilitySetOutputArgs, opts ...pulumi.InvokeOption) LookupAvailabilitySetResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupAvailabilitySetResultOutput, error) {
-			args := v.(LookupAvailabilitySetArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getAvailabilitySet", args, LookupAvailabilitySetResultOutput{}, options).(LookupAvailabilitySetResultOutput), nil
-		}).(LookupAvailabilitySetResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getAvailabilitySet", args, LookupAvailabilitySetResultOutput{}, options).(LookupAvailabilitySetResultOutput)
 }
 
 type LookupAvailabilitySetOutputArgs struct {

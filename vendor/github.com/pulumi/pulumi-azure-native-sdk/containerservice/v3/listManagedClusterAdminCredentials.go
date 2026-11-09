@@ -42,12 +42,8 @@ type ListManagedClusterAdminCredentialsResult struct {
 }
 
 func ListManagedClusterAdminCredentialsOutput(ctx *pulumi.Context, args ListManagedClusterAdminCredentialsOutputArgs, opts ...pulumi.InvokeOption) ListManagedClusterAdminCredentialsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListManagedClusterAdminCredentialsResultOutput, error) {
-			args := v.(ListManagedClusterAdminCredentialsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:listManagedClusterAdminCredentials", args, ListManagedClusterAdminCredentialsResultOutput{}, options).(ListManagedClusterAdminCredentialsResultOutput), nil
-		}).(ListManagedClusterAdminCredentialsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:listManagedClusterAdminCredentials", args, ListManagedClusterAdminCredentialsResultOutput{}, options).(ListManagedClusterAdminCredentialsResultOutput)
 }
 
 type ListManagedClusterAdminCredentialsOutputArgs struct {

@@ -78,12 +78,8 @@ func (val *LookupPolicyDefinitionVersionAtManagementGroupResult) Defaults() *Loo
 	return &tmp
 }
 func LookupPolicyDefinitionVersionAtManagementGroupOutput(ctx *pulumi.Context, args LookupPolicyDefinitionVersionAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyDefinitionVersionAtManagementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPolicyDefinitionVersionAtManagementGroupResultOutput, error) {
-			args := v.(LookupPolicyDefinitionVersionAtManagementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getPolicyDefinitionVersionAtManagementGroup", args, LookupPolicyDefinitionVersionAtManagementGroupResultOutput{}, options).(LookupPolicyDefinitionVersionAtManagementGroupResultOutput), nil
-		}).(LookupPolicyDefinitionVersionAtManagementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getPolicyDefinitionVersionAtManagementGroup", args, LookupPolicyDefinitionVersionAtManagementGroupResultOutput{}, options).(LookupPolicyDefinitionVersionAtManagementGroupResultOutput)
 }
 
 type LookupPolicyDefinitionVersionAtManagementGroupOutputArgs struct {

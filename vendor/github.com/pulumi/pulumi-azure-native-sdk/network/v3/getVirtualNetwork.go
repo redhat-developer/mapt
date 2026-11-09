@@ -102,12 +102,8 @@ func (val *LookupVirtualNetworkResult) Defaults() *LookupVirtualNetworkResult {
 	return &tmp
 }
 func LookupVirtualNetworkOutput(ctx *pulumi.Context, args LookupVirtualNetworkOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkResultOutput, error) {
-			args := v.(LookupVirtualNetworkArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetwork", args, LookupVirtualNetworkResultOutput{}, options).(LookupVirtualNetworkResultOutput), nil
-		}).(LookupVirtualNetworkResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetwork", args, LookupVirtualNetworkResultOutput{}, options).(LookupVirtualNetworkResultOutput)
 }
 
 type LookupVirtualNetworkOutputArgs struct {

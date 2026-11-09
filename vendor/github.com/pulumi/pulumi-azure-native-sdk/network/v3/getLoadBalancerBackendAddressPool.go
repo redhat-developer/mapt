@@ -74,12 +74,8 @@ type LookupLoadBalancerBackendAddressPoolResult struct {
 }
 
 func LookupLoadBalancerBackendAddressPoolOutput(ctx *pulumi.Context, args LookupLoadBalancerBackendAddressPoolOutputArgs, opts ...pulumi.InvokeOption) LookupLoadBalancerBackendAddressPoolResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupLoadBalancerBackendAddressPoolResultOutput, error) {
-			args := v.(LookupLoadBalancerBackendAddressPoolArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getLoadBalancerBackendAddressPool", args, LookupLoadBalancerBackendAddressPoolResultOutput{}, options).(LookupLoadBalancerBackendAddressPoolResultOutput), nil
-		}).(LookupLoadBalancerBackendAddressPoolResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getLoadBalancerBackendAddressPool", args, LookupLoadBalancerBackendAddressPoolResultOutput{}, options).(LookupLoadBalancerBackendAddressPoolResultOutput)
 }
 
 type LookupLoadBalancerBackendAddressPoolOutputArgs struct {

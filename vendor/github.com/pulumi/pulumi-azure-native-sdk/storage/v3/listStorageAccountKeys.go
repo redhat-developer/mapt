@@ -42,12 +42,8 @@ type ListStorageAccountKeysResult struct {
 }
 
 func ListStorageAccountKeysOutput(ctx *pulumi.Context, args ListStorageAccountKeysOutputArgs, opts ...pulumi.InvokeOption) ListStorageAccountKeysResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListStorageAccountKeysResultOutput, error) {
-			args := v.(ListStorageAccountKeysArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:listStorageAccountKeys", args, ListStorageAccountKeysResultOutput{}, options).(ListStorageAccountKeysResultOutput), nil
-		}).(ListStorageAccountKeysResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:listStorageAccountKeys", args, ListStorageAccountKeysResultOutput{}, options).(ListStorageAccountKeysResultOutput)
 }
 
 type ListStorageAccountKeysOutputArgs struct {

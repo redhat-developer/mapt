@@ -50,12 +50,8 @@ type LookupConnectionPolicyResult struct {
 }
 
 func LookupConnectionPolicyOutput(ctx *pulumi.Context, args LookupConnectionPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupConnectionPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupConnectionPolicyResultOutput, error) {
-			args := v.(LookupConnectionPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getConnectionPolicy", args, LookupConnectionPolicyResultOutput{}, options).(LookupConnectionPolicyResultOutput), nil
-		}).(LookupConnectionPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getConnectionPolicy", args, LookupConnectionPolicyResultOutput{}, options).(LookupConnectionPolicyResultOutput)
 }
 
 type LookupConnectionPolicyOutputArgs struct {

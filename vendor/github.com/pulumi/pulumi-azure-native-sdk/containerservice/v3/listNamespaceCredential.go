@@ -40,12 +40,8 @@ type ListNamespaceCredentialResult struct {
 }
 
 func ListNamespaceCredentialOutput(ctx *pulumi.Context, args ListNamespaceCredentialOutputArgs, opts ...pulumi.InvokeOption) ListNamespaceCredentialResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListNamespaceCredentialResultOutput, error) {
-			args := v.(ListNamespaceCredentialArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:listNamespaceCredential", args, ListNamespaceCredentialResultOutput{}, options).(ListNamespaceCredentialResultOutput), nil
-		}).(ListNamespaceCredentialResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:listNamespaceCredential", args, ListNamespaceCredentialResultOutput{}, options).(ListNamespaceCredentialResultOutput)
 }
 
 type ListNamespaceCredentialOutputArgs struct {

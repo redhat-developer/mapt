@@ -38,12 +38,8 @@ type GetVirtualNetworkGatewayVpnProfilePackageUrlResult struct {
 }
 
 func GetVirtualNetworkGatewayVpnProfilePackageUrlOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayVpnProfilePackageUrlOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayVpnProfilePackageUrlArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnProfilePackageUrl", args, GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput{}, options).(GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput), nil
-		}).(GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnProfilePackageUrl", args, GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput{}, options).(GetVirtualNetworkGatewayVpnProfilePackageUrlResultOutput)
 }
 
 type GetVirtualNetworkGatewayVpnProfilePackageUrlOutputArgs struct {

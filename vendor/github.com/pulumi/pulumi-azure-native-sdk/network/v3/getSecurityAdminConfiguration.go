@@ -62,12 +62,8 @@ type LookupSecurityAdminConfigurationResult struct {
 }
 
 func LookupSecurityAdminConfigurationOutput(ctx *pulumi.Context, args LookupSecurityAdminConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityAdminConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupSecurityAdminConfigurationResultOutput, error) {
-			args := v.(LookupSecurityAdminConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getSecurityAdminConfiguration", args, LookupSecurityAdminConfigurationResultOutput{}, options).(LookupSecurityAdminConfigurationResultOutput), nil
-		}).(LookupSecurityAdminConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getSecurityAdminConfiguration", args, LookupSecurityAdminConfigurationResultOutput{}, options).(LookupSecurityAdminConfigurationResultOutput)
 }
 
 type LookupSecurityAdminConfigurationOutputArgs struct {

@@ -52,12 +52,8 @@ type LookupPrivateDnsZoneGroupResult struct {
 }
 
 func LookupPrivateDnsZoneGroupOutput(ctx *pulumi.Context, args LookupPrivateDnsZoneGroupOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateDnsZoneGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPrivateDnsZoneGroupResultOutput, error) {
-			args := v.(LookupPrivateDnsZoneGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getPrivateDnsZoneGroup", args, LookupPrivateDnsZoneGroupResultOutput{}, options).(LookupPrivateDnsZoneGroupResultOutput), nil
-		}).(LookupPrivateDnsZoneGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getPrivateDnsZoneGroup", args, LookupPrivateDnsZoneGroupResultOutput{}, options).(LookupPrivateDnsZoneGroupResultOutput)
 }
 
 type LookupPrivateDnsZoneGroupOutputArgs struct {

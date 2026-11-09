@@ -80,12 +80,8 @@ func (val *LookupWebApplicationFirewallPolicyResult) Defaults() *LookupWebApplic
 	return &tmp
 }
 func LookupWebApplicationFirewallPolicyOutput(ctx *pulumi.Context, args LookupWebApplicationFirewallPolicyOutputArgs, opts ...pulumi.InvokeOption) LookupWebApplicationFirewallPolicyResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupWebApplicationFirewallPolicyResultOutput, error) {
-			args := v.(LookupWebApplicationFirewallPolicyArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getWebApplicationFirewallPolicy", args, LookupWebApplicationFirewallPolicyResultOutput{}, options).(LookupWebApplicationFirewallPolicyResultOutput), nil
-		}).(LookupWebApplicationFirewallPolicyResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getWebApplicationFirewallPolicy", args, LookupWebApplicationFirewallPolicyResultOutput{}, options).(LookupWebApplicationFirewallPolicyResultOutput)
 }
 
 type LookupWebApplicationFirewallPolicyOutputArgs struct {

@@ -42,12 +42,8 @@ type ListEffectiveConnectivityConfigurationResult struct {
 }
 
 func ListEffectiveConnectivityConfigurationOutput(ctx *pulumi.Context, args ListEffectiveConnectivityConfigurationOutputArgs, opts ...pulumi.InvokeOption) ListEffectiveConnectivityConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListEffectiveConnectivityConfigurationResultOutput, error) {
-			args := v.(ListEffectiveConnectivityConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listEffectiveConnectivityConfiguration", args, ListEffectiveConnectivityConfigurationResultOutput{}, options).(ListEffectiveConnectivityConfigurationResultOutput), nil
-		}).(ListEffectiveConnectivityConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listEffectiveConnectivityConfiguration", args, ListEffectiveConnectivityConfigurationResultOutput{}, options).(ListEffectiveConnectivityConfigurationResultOutput)
 }
 
 type ListEffectiveConnectivityConfigurationOutputArgs struct {

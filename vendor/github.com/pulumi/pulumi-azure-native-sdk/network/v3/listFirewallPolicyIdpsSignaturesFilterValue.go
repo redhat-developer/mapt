@@ -42,12 +42,8 @@ type ListFirewallPolicyIdpsSignaturesFilterValueResult struct {
 }
 
 func ListFirewallPolicyIdpsSignaturesFilterValueOutput(ctx *pulumi.Context, args ListFirewallPolicyIdpsSignaturesFilterValueOutputArgs, opts ...pulumi.InvokeOption) ListFirewallPolicyIdpsSignaturesFilterValueResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListFirewallPolicyIdpsSignaturesFilterValueResultOutput, error) {
-			args := v.(ListFirewallPolicyIdpsSignaturesFilterValueArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listFirewallPolicyIdpsSignaturesFilterValue", args, ListFirewallPolicyIdpsSignaturesFilterValueResultOutput{}, options).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput), nil
-		}).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listFirewallPolicyIdpsSignaturesFilterValue", args, ListFirewallPolicyIdpsSignaturesFilterValueResultOutput{}, options).(ListFirewallPolicyIdpsSignaturesFilterValueResultOutput)
 }
 
 type ListFirewallPolicyIdpsSignaturesFilterValueOutputArgs struct {

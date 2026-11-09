@@ -86,12 +86,8 @@ type LookupVirtualMachineScaleSetVMRunCommandResult struct {
 }
 
 func LookupVirtualMachineScaleSetVMRunCommandOutput(ctx *pulumi.Context, args LookupVirtualMachineScaleSetVMRunCommandOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualMachineScaleSetVMRunCommandResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualMachineScaleSetVMRunCommandResultOutput, error) {
-			args := v.(LookupVirtualMachineScaleSetVMRunCommandArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getVirtualMachineScaleSetVMRunCommand", args, LookupVirtualMachineScaleSetVMRunCommandResultOutput{}, options).(LookupVirtualMachineScaleSetVMRunCommandResultOutput), nil
-		}).(LookupVirtualMachineScaleSetVMRunCommandResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getVirtualMachineScaleSetVMRunCommand", args, LookupVirtualMachineScaleSetVMRunCommandResultOutput{}, options).(LookupVirtualMachineScaleSetVMRunCommandResultOutput)
 }
 
 type LookupVirtualMachineScaleSetVMRunCommandOutputArgs struct {

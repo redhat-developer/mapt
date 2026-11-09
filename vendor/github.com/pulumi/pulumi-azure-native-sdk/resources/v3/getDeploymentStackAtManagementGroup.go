@@ -86,12 +86,8 @@ type LookupDeploymentStackAtManagementGroupResult struct {
 }
 
 func LookupDeploymentStackAtManagementGroupOutput(ctx *pulumi.Context, args LookupDeploymentStackAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStackAtManagementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentStackAtManagementGroupResultOutput, error) {
-			args := v.(LookupDeploymentStackAtManagementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentStackAtManagementGroup", args, LookupDeploymentStackAtManagementGroupResultOutput{}, options).(LookupDeploymentStackAtManagementGroupResultOutput), nil
-		}).(LookupDeploymentStackAtManagementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentStackAtManagementGroup", args, LookupDeploymentStackAtManagementGroupResultOutput{}, options).(LookupDeploymentStackAtManagementGroupResultOutput)
 }
 
 type LookupDeploymentStackAtManagementGroupOutputArgs struct {

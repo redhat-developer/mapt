@@ -58,12 +58,8 @@ type LookupSecurityUserConfigurationResult struct {
 }
 
 func LookupSecurityUserConfigurationOutput(ctx *pulumi.Context, args LookupSecurityUserConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityUserConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupSecurityUserConfigurationResultOutput, error) {
-			args := v.(LookupSecurityUserConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getSecurityUserConfiguration", args, LookupSecurityUserConfigurationResultOutput{}, options).(LookupSecurityUserConfigurationResultOutput), nil
-		}).(LookupSecurityUserConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getSecurityUserConfiguration", args, LookupSecurityUserConfigurationResultOutput{}, options).(LookupSecurityUserConfigurationResultOutput)
 }
 
 type LookupSecurityUserConfigurationOutputArgs struct {

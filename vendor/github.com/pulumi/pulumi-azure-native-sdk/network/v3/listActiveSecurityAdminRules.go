@@ -48,12 +48,8 @@ type ListActiveSecurityAdminRulesResult struct {
 }
 
 func ListActiveSecurityAdminRulesOutput(ctx *pulumi.Context, args ListActiveSecurityAdminRulesOutputArgs, opts ...pulumi.InvokeOption) ListActiveSecurityAdminRulesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListActiveSecurityAdminRulesResultOutput, error) {
-			args := v.(ListActiveSecurityAdminRulesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listActiveSecurityAdminRules", args, ListActiveSecurityAdminRulesResultOutput{}, options).(ListActiveSecurityAdminRulesResultOutput), nil
-		}).(ListActiveSecurityAdminRulesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listActiveSecurityAdminRules", args, ListActiveSecurityAdminRulesResultOutput{}, options).(ListActiveSecurityAdminRulesResultOutput)
 }
 
 type ListActiveSecurityAdminRulesOutputArgs struct {

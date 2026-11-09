@@ -52,12 +52,8 @@ type LookupDeploymentAtScopeResult struct {
 }
 
 func LookupDeploymentAtScopeOutput(ctx *pulumi.Context, args LookupDeploymentAtScopeOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentAtScopeResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentAtScopeResultOutput, error) {
-			args := v.(LookupDeploymentAtScopeArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentAtScope", args, LookupDeploymentAtScopeResultOutput{}, options).(LookupDeploymentAtScopeResultOutput), nil
-		}).(LookupDeploymentAtScopeResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentAtScope", args, LookupDeploymentAtScopeResultOutput{}, options).(LookupDeploymentAtScopeResultOutput)
 }
 
 type LookupDeploymentAtScopeOutputArgs struct {

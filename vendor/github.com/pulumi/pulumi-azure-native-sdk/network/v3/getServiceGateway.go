@@ -84,12 +84,8 @@ func (val *LookupServiceGatewayResult) Defaults() *LookupServiceGatewayResult {
 	return &tmp
 }
 func LookupServiceGatewayOutput(ctx *pulumi.Context, args LookupServiceGatewayOutputArgs, opts ...pulumi.InvokeOption) LookupServiceGatewayResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupServiceGatewayResultOutput, error) {
-			args := v.(LookupServiceGatewayArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getServiceGateway", args, LookupServiceGatewayResultOutput{}, options).(LookupServiceGatewayResultOutput), nil
-		}).(LookupServiceGatewayResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getServiceGateway", args, LookupServiceGatewayResultOutput{}, options).(LookupServiceGatewayResultOutput)
 }
 
 type LookupServiceGatewayOutputArgs struct {

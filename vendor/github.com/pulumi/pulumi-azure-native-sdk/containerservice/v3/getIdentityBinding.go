@@ -54,12 +54,8 @@ type LookupIdentityBindingResult struct {
 }
 
 func LookupIdentityBindingOutput(ctx *pulumi.Context, args LookupIdentityBindingOutputArgs, opts ...pulumi.InvokeOption) LookupIdentityBindingResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIdentityBindingResultOutput, error) {
-			args := v.(LookupIdentityBindingArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getIdentityBinding", args, LookupIdentityBindingResultOutput{}, options).(LookupIdentityBindingResultOutput), nil
-		}).(LookupIdentityBindingResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getIdentityBinding", args, LookupIdentityBindingResultOutput{}, options).(LookupIdentityBindingResultOutput)
 }
 
 type LookupIdentityBindingOutputArgs struct {

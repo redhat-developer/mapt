@@ -8,12 +8,12 @@ import (
 	"github.com/muesli/reflow/wordwrap"
 )
 
-// RowData is a map of string column keys to interface{} data.  Data with a key
+// RowData is a map of string column keys to arbitrary data.  Data with a key
 // that matches a column key will be displayed.  Data with a key that does not
 // match a column key will not be displayed, but will remain attached to the Row.
 // This can be useful for attaching hidden metadata for future reference when
 // retrieving rows.
-type RowData map[string]interface{}
+type RowData map[string]any
 
 // Row represents a row in the table with some data keyed to the table columns>
 // Can have a style applied to it such as color/bold.  Create using NewRow().
@@ -32,7 +32,7 @@ var lastRowID uint32 = 1
 // NewRow creates a new row and copies the given row data.
 func NewRow(data RowData) Row {
 	row := Row{
-		Data: make(map[string]interface{}),
+		Data: make(map[string]any),
 		id:   lastRowID,
 	}
 
@@ -53,27 +53,28 @@ func (r Row) WithStyle(style lipgloss.Style) Row {
 	return r
 }
 
-//nolint:nestif,cyclop // This has many ifs, but they're short
+//nolint:cyclop,funlen // Breaking this up will be more complicated than it's worth for now
 func (m Model) renderRowColumnData(row Row, column Column, rowStyle lipgloss.Style, borderStyle lipgloss.Style) string {
 	cellStyle := rowStyle.Copy().Inherit(column.style).Inherit(m.baseStyle)
 
 	var str string
 
-	if column.key == columnKeySelect {
+	switch column.key {
+	case columnKeySelect:
 		if row.selected {
 			str = m.selectedText
 		} else {
 			str = m.unselectedText
 		}
-	} else if column.key == columnKeyOverflowRight {
+	case columnKeyOverflowRight:
 		cellStyle = cellStyle.Align(lipgloss.Right)
 		str = ">"
-	} else if column.key == columnKeyOverflowLeft {
+	case columnKeyOverflowLeft:
 		str = "<"
-	} else {
+	default:
 		fmtString := "%v"
 
-		var data interface{}
+		var data any
 
 		if entry, exists := row.Data[column.key]; exists {
 			data = entry
@@ -90,7 +91,17 @@ func (m Model) renderRowColumnData(row Row, column Column, rowStyle lipgloss.Sty
 		switch entry := data.(type) {
 		case StyledCell:
 			str = fmt.Sprintf(fmtString, entry.Data)
-			cellStyle = entry.Style.Copy().Inherit(cellStyle)
+
+			if entry.StyleFunc != nil {
+				cellStyle = entry.StyleFunc(StyledCellFuncInput{
+					Column:         column,
+					Data:           entry.Data,
+					Row:            row,
+					GlobalMetadata: m.metadata,
+				}).Copy().Inherit(cellStyle)
+			} else {
+				cellStyle = entry.Style.Copy().Inherit(cellStyle)
+			}
 		default:
 			str = fmt.Sprintf(fmtString, entry)
 		}
@@ -137,7 +148,7 @@ func (m Model) renderBlankRow(last bool) string {
 // This is long and could use some refactoring in the future, but not quite sure
 // how to pick it apart yet.
 //
-//nolint:funlen, cyclop, gocognit
+//nolint:funlen, cyclop
 func (m Model) renderRowData(row Row, rowStyle lipgloss.Style, last bool) string {
 	numColumns := len(m.columns)
 

@@ -62,12 +62,8 @@ type LookupIpGroupResult struct {
 }
 
 func LookupIpGroupOutput(ctx *pulumi.Context, args LookupIpGroupOutputArgs, opts ...pulumi.InvokeOption) LookupIpGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupIpGroupResultOutput, error) {
-			args := v.(LookupIpGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getIpGroup", args, LookupIpGroupResultOutput{}, options).(LookupIpGroupResultOutput), nil
-		}).(LookupIpGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getIpGroup", args, LookupIpGroupResultOutput{}, options).(LookupIpGroupResultOutput)
 }
 
 type LookupIpGroupOutputArgs struct {

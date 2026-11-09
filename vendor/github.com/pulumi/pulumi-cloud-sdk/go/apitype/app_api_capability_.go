@@ -45,6 +45,9 @@ const (
 
 	// Indicates that the service supports /api/stacks/{org}/{project}/{stack}/outputs.
 	AppAPICapabilityStackOutputs AppAPICapability = "stack-outputs"
+
+	// Indicates that the service supports stack update coherence windows.
+	AppAPICapabilityCoherenceWindows AppAPICapability = "coherence-windows"
 )
 
 func (v AppAPICapability) AllValues() []AppAPICapability {
@@ -60,6 +63,7 @@ func (v AppAPICapability) AllValues() []AppAPICapability {
 		AppAPICapabilityNeoCLIMode,
 		AppAPICapabilityBeginUpdate,
 		AppAPICapabilityStackOutputs,
+		AppAPICapabilityCoherenceWindows,
 	}
 }
 
@@ -86,6 +90,8 @@ func (v AppAPICapability) IsValid() bool {
 	case AppAPICapabilityBeginUpdate:
 		return true
 	case AppAPICapabilityStackOutputs:
+		return true
+	case AppAPICapabilityCoherenceWindows:
 		return true
 	}
 
@@ -116,6 +122,8 @@ func (v AppAPICapability) openapiName() string {
 		return "BeginUpdate"
 	case AppAPICapabilityStackOutputs:
 		return "StackOutputs"
+	case AppAPICapabilityCoherenceWindows:
+		return "CoherenceWindows"
 	}
 
 	return ""

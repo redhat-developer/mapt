@@ -66,12 +66,8 @@ type GetP2sVpnGatewayP2sVpnConnectionHealthResult struct {
 }
 
 func GetP2sVpnGatewayP2sVpnConnectionHealthOutput(ctx *pulumi.Context, args GetP2sVpnGatewayP2sVpnConnectionHealthOutputArgs, opts ...pulumi.InvokeOption) GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput, error) {
-			args := v.(GetP2sVpnGatewayP2sVpnConnectionHealthArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getP2sVpnGatewayP2sVpnConnectionHealth", args, GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput{}, options).(GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput), nil
-		}).(GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getP2sVpnGatewayP2sVpnConnectionHealth", args, GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput{}, options).(GetP2sVpnGatewayP2sVpnConnectionHealthResultOutput)
 }
 
 type GetP2sVpnGatewayP2sVpnConnectionHealthOutputArgs struct {

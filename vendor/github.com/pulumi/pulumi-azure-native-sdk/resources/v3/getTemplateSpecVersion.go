@@ -64,12 +64,8 @@ type LookupTemplateSpecVersionResult struct {
 }
 
 func LookupTemplateSpecVersionOutput(ctx *pulumi.Context, args LookupTemplateSpecVersionOutputArgs, opts ...pulumi.InvokeOption) LookupTemplateSpecVersionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupTemplateSpecVersionResultOutput, error) {
-			args := v.(LookupTemplateSpecVersionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getTemplateSpecVersion", args, LookupTemplateSpecVersionResultOutput{}, options).(LookupTemplateSpecVersionResultOutput), nil
-		}).(LookupTemplateSpecVersionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getTemplateSpecVersion", args, LookupTemplateSpecVersionResultOutput{}, options).(LookupTemplateSpecVersionResultOutput)
 }
 
 type LookupTemplateSpecVersionOutputArgs struct {

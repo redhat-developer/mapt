@@ -50,12 +50,8 @@ type LookupQueueServicePropertiesResult struct {
 }
 
 func LookupQueueServicePropertiesOutput(ctx *pulumi.Context, args LookupQueueServicePropertiesOutputArgs, opts ...pulumi.InvokeOption) LookupQueueServicePropertiesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupQueueServicePropertiesResultOutput, error) {
-			args := v.(LookupQueueServicePropertiesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getQueueServiceProperties", args, LookupQueueServicePropertiesResultOutput{}, options).(LookupQueueServicePropertiesResultOutput), nil
-		}).(LookupQueueServicePropertiesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getQueueServiceProperties", args, LookupQueueServicePropertiesResultOutput{}, options).(LookupQueueServicePropertiesResultOutput)
 }
 
 type LookupQueueServicePropertiesOutputArgs struct {

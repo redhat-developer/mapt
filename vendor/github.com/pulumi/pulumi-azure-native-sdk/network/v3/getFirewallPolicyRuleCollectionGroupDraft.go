@@ -54,12 +54,8 @@ type LookupFirewallPolicyRuleCollectionGroupDraftResult struct {
 }
 
 func LookupFirewallPolicyRuleCollectionGroupDraftOutput(ctx *pulumi.Context, args LookupFirewallPolicyRuleCollectionGroupDraftOutputArgs, opts ...pulumi.InvokeOption) LookupFirewallPolicyRuleCollectionGroupDraftResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupFirewallPolicyRuleCollectionGroupDraftResultOutput, error) {
-			args := v.(LookupFirewallPolicyRuleCollectionGroupDraftArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getFirewallPolicyRuleCollectionGroupDraft", args, LookupFirewallPolicyRuleCollectionGroupDraftResultOutput{}, options).(LookupFirewallPolicyRuleCollectionGroupDraftResultOutput), nil
-		}).(LookupFirewallPolicyRuleCollectionGroupDraftResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getFirewallPolicyRuleCollectionGroupDraft", args, LookupFirewallPolicyRuleCollectionGroupDraftResultOutput{}, options).(LookupFirewallPolicyRuleCollectionGroupDraftResultOutput)
 }
 
 type LookupFirewallPolicyRuleCollectionGroupDraftOutputArgs struct {

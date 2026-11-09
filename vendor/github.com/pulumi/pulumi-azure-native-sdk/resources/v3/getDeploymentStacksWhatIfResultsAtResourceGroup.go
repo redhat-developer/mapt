@@ -52,12 +52,8 @@ type LookupDeploymentStacksWhatIfResultsAtResourceGroupResult struct {
 }
 
 func LookupDeploymentStacksWhatIfResultsAtResourceGroupOutput(ctx *pulumi.Context, args LookupDeploymentStacksWhatIfResultsAtResourceGroupOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput, error) {
-			args := v.(LookupDeploymentStacksWhatIfResultsAtResourceGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentStacksWhatIfResultsAtResourceGroup", args, LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput{}, options).(LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput), nil
-		}).(LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentStacksWhatIfResultsAtResourceGroup", args, LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput{}, options).(LookupDeploymentStacksWhatIfResultsAtResourceGroupResultOutput)
 }
 
 type LookupDeploymentStacksWhatIfResultsAtResourceGroupOutputArgs struct {

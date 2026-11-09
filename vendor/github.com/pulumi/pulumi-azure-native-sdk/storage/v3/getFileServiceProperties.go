@@ -56,12 +56,8 @@ type LookupFileServicePropertiesResult struct {
 }
 
 func LookupFileServicePropertiesOutput(ctx *pulumi.Context, args LookupFileServicePropertiesOutputArgs, opts ...pulumi.InvokeOption) LookupFileServicePropertiesResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupFileServicePropertiesResultOutput, error) {
-			args := v.(LookupFileServicePropertiesArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getFileServiceProperties", args, LookupFileServicePropertiesResultOutput{}, options).(LookupFileServicePropertiesResultOutput), nil
-		}).(LookupFileServicePropertiesResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getFileServiceProperties", args, LookupFileServicePropertiesResultOutput{}, options).(LookupFileServicePropertiesResultOutput)
 }
 
 type LookupFileServicePropertiesOutputArgs struct {

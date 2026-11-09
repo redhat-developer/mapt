@@ -45,12 +45,8 @@ type LookupPrivateLinkAssociationResult struct {
 }
 
 func LookupPrivateLinkAssociationOutput(ctx *pulumi.Context, args LookupPrivateLinkAssociationOutputArgs, opts ...pulumi.InvokeOption) LookupPrivateLinkAssociationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPrivateLinkAssociationResultOutput, error) {
-			args := v.(LookupPrivateLinkAssociationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getPrivateLinkAssociation", args, LookupPrivateLinkAssociationResultOutput{}, options).(LookupPrivateLinkAssociationResultOutput), nil
-		}).(LookupPrivateLinkAssociationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getPrivateLinkAssociation", args, LookupPrivateLinkAssociationResultOutput{}, options).(LookupPrivateLinkAssociationResultOutput)
 }
 
 type LookupPrivateLinkAssociationOutputArgs struct {

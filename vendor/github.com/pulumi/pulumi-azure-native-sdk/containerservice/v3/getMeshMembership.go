@@ -56,12 +56,8 @@ type LookupMeshMembershipResult struct {
 }
 
 func LookupMeshMembershipOutput(ctx *pulumi.Context, args LookupMeshMembershipOutputArgs, opts ...pulumi.InvokeOption) LookupMeshMembershipResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupMeshMembershipResultOutput, error) {
-			args := v.(LookupMeshMembershipArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getMeshMembership", args, LookupMeshMembershipResultOutput{}, options).(LookupMeshMembershipResultOutput), nil
-		}).(LookupMeshMembershipResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getMeshMembership", args, LookupMeshMembershipResultOutput{}, options).(LookupMeshMembershipResultOutput)
 }
 
 type LookupMeshMembershipOutputArgs struct {

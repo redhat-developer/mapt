@@ -46,12 +46,8 @@ type ListListEffectiveVirtualNetworkByNetworkGroupResult struct {
 }
 
 func ListListEffectiveVirtualNetworkByNetworkGroupOutput(ctx *pulumi.Context, args ListListEffectiveVirtualNetworkByNetworkGroupOutputArgs, opts ...pulumi.InvokeOption) ListListEffectiveVirtualNetworkByNetworkGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (ListListEffectiveVirtualNetworkByNetworkGroupResultOutput, error) {
-			args := v.(ListListEffectiveVirtualNetworkByNetworkGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:listListEffectiveVirtualNetworkByNetworkGroup", args, ListListEffectiveVirtualNetworkByNetworkGroupResultOutput{}, options).(ListListEffectiveVirtualNetworkByNetworkGroupResultOutput), nil
-		}).(ListListEffectiveVirtualNetworkByNetworkGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:listListEffectiveVirtualNetworkByNetworkGroup", args, ListListEffectiveVirtualNetworkByNetworkGroupResultOutput{}, options).(ListListEffectiveVirtualNetworkByNetworkGroupResultOutput)
 }
 
 type ListListEffectiveVirtualNetworkByNetworkGroupOutputArgs struct {

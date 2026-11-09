@@ -58,12 +58,8 @@ type LookupFleetManagedNamespaceResult struct {
 }
 
 func LookupFleetManagedNamespaceOutput(ctx *pulumi.Context, args LookupFleetManagedNamespaceOutputArgs, opts ...pulumi.InvokeOption) LookupFleetManagedNamespaceResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupFleetManagedNamespaceResultOutput, error) {
-			args := v.(LookupFleetManagedNamespaceArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getFleetManagedNamespace", args, LookupFleetManagedNamespaceResultOutput{}, options).(LookupFleetManagedNamespaceResultOutput), nil
-		}).(LookupFleetManagedNamespaceResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getFleetManagedNamespace", args, LookupFleetManagedNamespaceResultOutput{}, options).(LookupFleetManagedNamespaceResultOutput)
 }
 
 type LookupFleetManagedNamespaceOutputArgs struct {

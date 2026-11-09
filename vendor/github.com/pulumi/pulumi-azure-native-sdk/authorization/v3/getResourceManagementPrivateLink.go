@@ -46,12 +46,8 @@ type LookupResourceManagementPrivateLinkResult struct {
 }
 
 func LookupResourceManagementPrivateLinkOutput(ctx *pulumi.Context, args LookupResourceManagementPrivateLinkOutputArgs, opts ...pulumi.InvokeOption) LookupResourceManagementPrivateLinkResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupResourceManagementPrivateLinkResultOutput, error) {
-			args := v.(LookupResourceManagementPrivateLinkArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getResourceManagementPrivateLink", args, LookupResourceManagementPrivateLinkResultOutput{}, options).(LookupResourceManagementPrivateLinkResultOutput), nil
-		}).(LookupResourceManagementPrivateLinkResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getResourceManagementPrivateLink", args, LookupResourceManagementPrivateLinkResultOutput{}, options).(LookupResourceManagementPrivateLinkResultOutput)
 }
 
 type LookupResourceManagementPrivateLinkOutputArgs struct {

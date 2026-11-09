@@ -60,12 +60,8 @@ type LookupUserRuleCollectionResult struct {
 }
 
 func LookupUserRuleCollectionOutput(ctx *pulumi.Context, args LookupUserRuleCollectionOutputArgs, opts ...pulumi.InvokeOption) LookupUserRuleCollectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupUserRuleCollectionResultOutput, error) {
-			args := v.(LookupUserRuleCollectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getUserRuleCollection", args, LookupUserRuleCollectionResultOutput{}, options).(LookupUserRuleCollectionResultOutput), nil
-		}).(LookupUserRuleCollectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getUserRuleCollection", args, LookupUserRuleCollectionResultOutput{}, options).(LookupUserRuleCollectionResultOutput)
 }
 
 type LookupUserRuleCollectionOutputArgs struct {

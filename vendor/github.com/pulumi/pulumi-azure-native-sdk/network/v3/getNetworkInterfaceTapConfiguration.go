@@ -64,12 +64,8 @@ func (val *LookupNetworkInterfaceTapConfigurationResult) Defaults() *LookupNetwo
 	return &tmp
 }
 func LookupNetworkInterfaceTapConfigurationOutput(ctx *pulumi.Context, args LookupNetworkInterfaceTapConfigurationOutputArgs, opts ...pulumi.InvokeOption) LookupNetworkInterfaceTapConfigurationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupNetworkInterfaceTapConfigurationResultOutput, error) {
-			args := v.(LookupNetworkInterfaceTapConfigurationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getNetworkInterfaceTapConfiguration", args, LookupNetworkInterfaceTapConfigurationResultOutput{}, options).(LookupNetworkInterfaceTapConfigurationResultOutput), nil
-		}).(LookupNetworkInterfaceTapConfigurationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getNetworkInterfaceTapConfiguration", args, LookupNetworkInterfaceTapConfigurationResultOutput{}, options).(LookupNetworkInterfaceTapConfigurationResultOutput)
 }
 
 type LookupNetworkInterfaceTapConfigurationOutputArgs struct {

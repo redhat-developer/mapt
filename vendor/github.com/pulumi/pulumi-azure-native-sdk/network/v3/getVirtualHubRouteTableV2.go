@@ -54,12 +54,8 @@ type LookupVirtualHubRouteTableV2Result struct {
 }
 
 func LookupVirtualHubRouteTableV2Output(ctx *pulumi.Context, args LookupVirtualHubRouteTableV2OutputArgs, opts ...pulumi.InvokeOption) LookupVirtualHubRouteTableV2ResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualHubRouteTableV2ResultOutput, error) {
-			args := v.(LookupVirtualHubRouteTableV2Args)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualHubRouteTableV2", args, LookupVirtualHubRouteTableV2ResultOutput{}, options).(LookupVirtualHubRouteTableV2ResultOutput), nil
-		}).(LookupVirtualHubRouteTableV2ResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualHubRouteTableV2", args, LookupVirtualHubRouteTableV2ResultOutput{}, options).(LookupVirtualHubRouteTableV2ResultOutput)
 }
 
 type LookupVirtualHubRouteTableV2OutputArgs struct {

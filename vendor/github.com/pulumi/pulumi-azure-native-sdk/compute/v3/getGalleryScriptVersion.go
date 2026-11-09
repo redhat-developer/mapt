@@ -58,12 +58,8 @@ type LookupGalleryScriptVersionResult struct {
 }
 
 func LookupGalleryScriptVersionOutput(ctx *pulumi.Context, args LookupGalleryScriptVersionOutputArgs, opts ...pulumi.InvokeOption) LookupGalleryScriptVersionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupGalleryScriptVersionResultOutput, error) {
-			args := v.(LookupGalleryScriptVersionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getGalleryScriptVersion", args, LookupGalleryScriptVersionResultOutput{}, options).(LookupGalleryScriptVersionResultOutput), nil
-		}).(LookupGalleryScriptVersionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getGalleryScriptVersion", args, LookupGalleryScriptVersionResultOutput{}, options).(LookupGalleryScriptVersionResultOutput)
 }
 
 type LookupGalleryScriptVersionOutputArgs struct {

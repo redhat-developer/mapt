@@ -56,12 +56,8 @@ type GetLogAnalyticExportRequestRateByIntervalResult struct {
 }
 
 func GetLogAnalyticExportRequestRateByIntervalOutput(ctx *pulumi.Context, args GetLogAnalyticExportRequestRateByIntervalOutputArgs, opts ...pulumi.InvokeOption) GetLogAnalyticExportRequestRateByIntervalResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetLogAnalyticExportRequestRateByIntervalResultOutput, error) {
-			args := v.(GetLogAnalyticExportRequestRateByIntervalArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:compute:getLogAnalyticExportRequestRateByInterval", args, GetLogAnalyticExportRequestRateByIntervalResultOutput{}, options).(GetLogAnalyticExportRequestRateByIntervalResultOutput), nil
-		}).(GetLogAnalyticExportRequestRateByIntervalResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:compute:getLogAnalyticExportRequestRateByInterval", args, GetLogAnalyticExportRequestRateByIntervalResultOutput{}, options).(GetLogAnalyticExportRequestRateByIntervalResultOutput)
 }
 
 type GetLogAnalyticExportRequestRateByIntervalOutputArgs struct {

@@ -8,6 +8,8 @@ package apitype
 // credentials in the form of an assume-role session.
 // See https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_oidc.html for details on creating an
 // appropriately-configured IAM role.
+// Pulumi ESC is the recommended way to supply cloud credentials to Pulumi Deployments. See
+// https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextAWSOIDCConfiguration struct {
 	// Duration is the duration of the assume-role session.
 	Duration string `json:"duration,omitempty" yaml:"duration,omitempty"`

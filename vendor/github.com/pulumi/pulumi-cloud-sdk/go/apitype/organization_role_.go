@@ -32,6 +32,21 @@ const (
 
 	// OrganizationRoleBillingManager is the role for billing admins.
 	OrganizationRoleBillingManager OrganizationRole = "billing-manager"
+
+	// OrganizationRoleReader is the name of the Reader role. It is accepted as input
+	// when adding or updating a member in an organization with a default role, and is never
+	// returned as a member's role.
+	OrganizationRoleReader OrganizationRole = "reader"
+
+	// OrganizationRoleBuilder is the name of the Builder role. It is accepted as input
+	// when adding or updating a member in an organization with a default role, and is never
+	// returned as a member's role.
+	OrganizationRoleBuilder OrganizationRole = "builder"
+
+	// OrganizationRoleMaintainer is the name of the Maintainer role. It is accepted as input
+	// when adding or updating a member in an organization with a default role, and is never
+	// returned as a member's role.
+	OrganizationRoleMaintainer OrganizationRole = "maintainer"
 )
 
 func (v OrganizationRole) AllValues() []OrganizationRole {
@@ -42,6 +57,9 @@ func (v OrganizationRole) AllValues() []OrganizationRole {
 		OrganizationRolePotentialMember,
 		OrganizationRoleStackCollaborator,
 		OrganizationRoleBillingManager,
+		OrganizationRoleReader,
+		OrganizationRoleBuilder,
+		OrganizationRoleMaintainer,
 	}
 }
 
@@ -58,6 +76,12 @@ func (v OrganizationRole) IsValid() bool {
 	case OrganizationRoleStackCollaborator:
 		return true
 	case OrganizationRoleBillingManager:
+		return true
+	case OrganizationRoleReader:
+		return true
+	case OrganizationRoleBuilder:
+		return true
+	case OrganizationRoleMaintainer:
 		return true
 	}
 
@@ -78,6 +102,12 @@ func (v OrganizationRole) openapiName() string {
 		return "StackCollaborator"
 	case OrganizationRoleBillingManager:
 		return "BillingManager"
+	case OrganizationRoleReader:
+		return "Reader"
+	case OrganizationRoleBuilder:
+		return "Builder"
+	case OrganizationRoleMaintainer:
+		return "Maintainer"
 	}
 
 	return ""

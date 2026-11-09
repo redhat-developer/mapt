@@ -8,7 +8,8 @@ import (
 	"github.com/pulumi/pulumi-cloud-sdk/go/apitype/jsonvalue"
 )
 
-// Request body for updating the AWS OIDC configuration of an operation context.
+// Request body for updating the AWS OIDC configuration of an operation context. Pulumi ESC is the recommended way to supply cloud
+// credentials to Pulumi Deployments. See https://www.pulumi.com/docs/deployments/guides/cloud-credentials/.
 type OperationContextAWSOIDCConfigurationRequest struct {
 	// Duration of the assume-role session.
 	Duration jsonvalue.Value[string] `json:"duration,omitempty" yaml:"duration,omitempty"`

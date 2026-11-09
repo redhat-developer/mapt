@@ -82,12 +82,8 @@ type LookupSecurityRuleResult struct {
 }
 
 func LookupSecurityRuleOutput(ctx *pulumi.Context, args LookupSecurityRuleOutputArgs, opts ...pulumi.InvokeOption) LookupSecurityRuleResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupSecurityRuleResultOutput, error) {
-			args := v.(LookupSecurityRuleArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getSecurityRule", args, LookupSecurityRuleResultOutput{}, options).(LookupSecurityRuleResultOutput), nil
-		}).(LookupSecurityRuleResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getSecurityRule", args, LookupSecurityRuleResultOutput{}, options).(LookupSecurityRuleResultOutput)
 }
 
 type LookupSecurityRuleOutputArgs struct {

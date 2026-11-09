@@ -60,12 +60,8 @@ type LookupInterconnectGroupResult struct {
 }
 
 func LookupInterconnectGroupOutput(ctx *pulumi.Context, args LookupInterconnectGroupOutputArgs, opts ...pulumi.InvokeOption) LookupInterconnectGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupInterconnectGroupResultOutput, error) {
-			args := v.(LookupInterconnectGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getInterconnectGroup", args, LookupInterconnectGroupResultOutput{}, options).(LookupInterconnectGroupResultOutput), nil
-		}).(LookupInterconnectGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getInterconnectGroup", args, LookupInterconnectGroupResultOutput{}, options).(LookupInterconnectGroupResultOutput)
 }
 
 type LookupInterconnectGroupOutputArgs struct {

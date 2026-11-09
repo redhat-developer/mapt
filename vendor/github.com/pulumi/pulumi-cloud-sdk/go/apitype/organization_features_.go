@@ -211,4 +211,9 @@ type OrganizationFeatures struct {
 	PolicyPostureReportEnabled bool `json:"policyPostureReportEnabled,omitzero" yaml:"policyPostureReportEnabled,omitempty"`
 	// Whether Delivery is available to the organization.
 	DeliveryEnabled bool `json:"deliveryEnabled,omitzero" yaml:"deliveryEnabled,omitempty"`
+	// Whether the Cursor Origin VCS integration is available to the organization.
+	CursorOriginVCSEnabled bool `json:"cursorOriginVCSEnabled,omitzero" yaml:"cursorOriginVCSEnabled,omitempty"`
+	// Whether the organization can buy the Enterprise plan self-serve at its monthly price. When false, Enterprise is available self-serve
+	// only as a trial and is bought through sales.
+	EnterpriseSelfServeEnabled bool `json:"enterpriseSelfServeEnabled,omitzero" yaml:"enterpriseSelfServeEnabled,omitempty"`
 }

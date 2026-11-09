@@ -74,12 +74,8 @@ type LookupLocalUserResult struct {
 }
 
 func LookupLocalUserOutput(ctx *pulumi.Context, args LookupLocalUserOutputArgs, opts ...pulumi.InvokeOption) LookupLocalUserResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupLocalUserResultOutput, error) {
-			args := v.(LookupLocalUserArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:storage:getLocalUser", args, LookupLocalUserResultOutput{}, options).(LookupLocalUserResultOutput), nil
-		}).(LookupLocalUserResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:storage:getLocalUser", args, LookupLocalUserResultOutput{}, options).(LookupLocalUserResultOutput)
 }
 
 type LookupLocalUserOutputArgs struct {

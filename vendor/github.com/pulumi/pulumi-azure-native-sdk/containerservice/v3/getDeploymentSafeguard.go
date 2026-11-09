@@ -56,12 +56,8 @@ type LookupDeploymentSafeguardResult struct {
 }
 
 func LookupDeploymentSafeguardOutput(ctx *pulumi.Context, args LookupDeploymentSafeguardOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentSafeguardResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentSafeguardResultOutput, error) {
-			args := v.(LookupDeploymentSafeguardArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:containerservice:getDeploymentSafeguard", args, LookupDeploymentSafeguardResultOutput{}, options).(LookupDeploymentSafeguardResultOutput), nil
-		}).(LookupDeploymentSafeguardResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:containerservice:getDeploymentSafeguard", args, LookupDeploymentSafeguardResultOutput{}, options).(LookupDeploymentSafeguardResultOutput)
 }
 
 type LookupDeploymentSafeguardOutputArgs struct {

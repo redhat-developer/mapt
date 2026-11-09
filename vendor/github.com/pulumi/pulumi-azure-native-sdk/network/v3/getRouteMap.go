@@ -58,12 +58,8 @@ type LookupRouteMapResult struct {
 }
 
 func LookupRouteMapOutput(ctx *pulumi.Context, args LookupRouteMapOutputArgs, opts ...pulumi.InvokeOption) LookupRouteMapResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupRouteMapResultOutput, error) {
-			args := v.(LookupRouteMapArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getRouteMap", args, LookupRouteMapResultOutput{}, options).(LookupRouteMapResultOutput), nil
-		}).(LookupRouteMapResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getRouteMap", args, LookupRouteMapResultOutput{}, options).(LookupRouteMapResultOutput)
 }
 
 type LookupRouteMapOutputArgs struct {

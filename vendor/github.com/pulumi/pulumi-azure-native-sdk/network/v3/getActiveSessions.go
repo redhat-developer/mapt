@@ -42,12 +42,8 @@ type GetActiveSessionsResult struct {
 }
 
 func GetActiveSessionsOutput(ctx *pulumi.Context, args GetActiveSessionsOutputArgs, opts ...pulumi.InvokeOption) GetActiveSessionsResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetActiveSessionsResultOutput, error) {
-			args := v.(GetActiveSessionsArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getActiveSessions", args, GetActiveSessionsResultOutput{}, options).(GetActiveSessionsResultOutput), nil
-		}).(GetActiveSessionsResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getActiveSessions", args, GetActiveSessionsResultOutput{}, options).(GetActiveSessionsResultOutput)
 }
 
 type GetActiveSessionsOutputArgs struct {

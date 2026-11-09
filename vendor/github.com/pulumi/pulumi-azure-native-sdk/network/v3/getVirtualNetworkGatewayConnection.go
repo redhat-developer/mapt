@@ -106,12 +106,8 @@ type LookupVirtualNetworkGatewayConnectionResult struct {
 }
 
 func LookupVirtualNetworkGatewayConnectionOutput(ctx *pulumi.Context, args LookupVirtualNetworkGatewayConnectionOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkGatewayConnectionResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkGatewayConnectionResultOutput, error) {
-			args := v.(LookupVirtualNetworkGatewayConnectionArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayConnection", args, LookupVirtualNetworkGatewayConnectionResultOutput{}, options).(LookupVirtualNetworkGatewayConnectionResultOutput), nil
-		}).(LookupVirtualNetworkGatewayConnectionResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayConnection", args, LookupVirtualNetworkGatewayConnectionResultOutput{}, options).(LookupVirtualNetworkGatewayConnectionResultOutput)
 }
 
 type LookupVirtualNetworkGatewayConnectionOutputArgs struct {

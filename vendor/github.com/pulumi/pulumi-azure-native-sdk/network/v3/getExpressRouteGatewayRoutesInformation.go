@@ -48,12 +48,8 @@ type GetExpressRouteGatewayRoutesInformationResult struct {
 }
 
 func GetExpressRouteGatewayRoutesInformationOutput(ctx *pulumi.Context, args GetExpressRouteGatewayRoutesInformationOutputArgs, opts ...pulumi.InvokeOption) GetExpressRouteGatewayRoutesInformationResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetExpressRouteGatewayRoutesInformationResultOutput, error) {
-			args := v.(GetExpressRouteGatewayRoutesInformationArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getExpressRouteGatewayRoutesInformation", args, GetExpressRouteGatewayRoutesInformationResultOutput{}, options).(GetExpressRouteGatewayRoutesInformationResultOutput), nil
-		}).(GetExpressRouteGatewayRoutesInformationResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getExpressRouteGatewayRoutesInformation", args, GetExpressRouteGatewayRoutesInformationResultOutput{}, options).(GetExpressRouteGatewayRoutesInformationResultOutput)
 }
 
 type GetExpressRouteGatewayRoutesInformationOutputArgs struct {

@@ -8,6 +8,6 @@ package apitype
 type CreateTeamAccessTokenRequest struct {
 	BaseCreateAccessTokenRequest
 
-	// The name
+	// The display name of the token. Must be between 1 and 40 characters.
 	Name string `json:"name" yaml:"name"`
 }

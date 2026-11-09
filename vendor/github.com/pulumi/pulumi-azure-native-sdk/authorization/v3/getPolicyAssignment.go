@@ -98,12 +98,8 @@ func (val *LookupPolicyAssignmentResult) Defaults() *LookupPolicyAssignmentResul
 	return &tmp
 }
 func LookupPolicyAssignmentOutput(ctx *pulumi.Context, args LookupPolicyAssignmentOutputArgs, opts ...pulumi.InvokeOption) LookupPolicyAssignmentResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupPolicyAssignmentResultOutput, error) {
-			args := v.(LookupPolicyAssignmentArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:authorization:getPolicyAssignment", args, LookupPolicyAssignmentResultOutput{}, options).(LookupPolicyAssignmentResultOutput), nil
-		}).(LookupPolicyAssignmentResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:authorization:getPolicyAssignment", args, LookupPolicyAssignmentResultOutput{}, options).(LookupPolicyAssignmentResultOutput)
 }
 
 type LookupPolicyAssignmentOutputArgs struct {

@@ -40,12 +40,8 @@ type GetVirtualNetworkGatewayVpnclientConnectionHealthResult struct {
 }
 
 func GetVirtualNetworkGatewayVpnclientConnectionHealthOutput(ctx *pulumi.Context, args GetVirtualNetworkGatewayVpnclientConnectionHealthOutputArgs, opts ...pulumi.InvokeOption) GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput, error) {
-			args := v.(GetVirtualNetworkGatewayVpnclientConnectionHealthArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnclientConnectionHealth", args, GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput{}, options).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput), nil
-		}).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkGatewayVpnclientConnectionHealth", args, GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput{}, options).(GetVirtualNetworkGatewayVpnclientConnectionHealthResultOutput)
 }
 
 type GetVirtualNetworkGatewayVpnclientConnectionHealthOutputArgs struct {

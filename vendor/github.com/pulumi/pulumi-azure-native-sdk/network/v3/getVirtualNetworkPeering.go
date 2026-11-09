@@ -90,12 +90,8 @@ type LookupVirtualNetworkPeeringResult struct {
 }
 
 func LookupVirtualNetworkPeeringOutput(ctx *pulumi.Context, args LookupVirtualNetworkPeeringOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualNetworkPeeringResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualNetworkPeeringResultOutput, error) {
-			args := v.(LookupVirtualNetworkPeeringArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualNetworkPeering", args, LookupVirtualNetworkPeeringResultOutput{}, options).(LookupVirtualNetworkPeeringResultOutput), nil
-		}).(LookupVirtualNetworkPeeringResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualNetworkPeering", args, LookupVirtualNetworkPeeringResultOutput{}, options).(LookupVirtualNetworkPeeringResultOutput)
 }
 
 type LookupVirtualNetworkPeeringOutputArgs struct {

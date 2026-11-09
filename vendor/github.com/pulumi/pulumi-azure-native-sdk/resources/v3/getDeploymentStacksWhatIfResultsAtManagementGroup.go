@@ -52,12 +52,8 @@ type LookupDeploymentStacksWhatIfResultsAtManagementGroupResult struct {
 }
 
 func LookupDeploymentStacksWhatIfResultsAtManagementGroupOutput(ctx *pulumi.Context, args LookupDeploymentStacksWhatIfResultsAtManagementGroupOutputArgs, opts ...pulumi.InvokeOption) LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput, error) {
-			args := v.(LookupDeploymentStacksWhatIfResultsAtManagementGroupArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:resources:getDeploymentStacksWhatIfResultsAtManagementGroup", args, LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput{}, options).(LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput), nil
-		}).(LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:resources:getDeploymentStacksWhatIfResultsAtManagementGroup", args, LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput{}, options).(LookupDeploymentStacksWhatIfResultsAtManagementGroupResultOutput)
 }
 
 type LookupDeploymentStacksWhatIfResultsAtManagementGroupOutputArgs struct {

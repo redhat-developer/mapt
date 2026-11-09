@@ -56,12 +56,8 @@ type LookupVirtualApplianceSiteResult struct {
 }
 
 func LookupVirtualApplianceSiteOutput(ctx *pulumi.Context, args LookupVirtualApplianceSiteOutputArgs, opts ...pulumi.InvokeOption) LookupVirtualApplianceSiteResultOutput {
-	return pulumi.ToOutputWithContext(ctx.Context(), args).
-		ApplyT(func(v interface{}) (LookupVirtualApplianceSiteResultOutput, error) {
-			args := v.(LookupVirtualApplianceSiteArgs)
-			options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
-			return ctx.InvokeOutput("azure-native:network:getVirtualApplianceSite", args, LookupVirtualApplianceSiteResultOutput{}, options).(LookupVirtualApplianceSiteResultOutput), nil
-		}).(LookupVirtualApplianceSiteResultOutput)
+	options := pulumi.InvokeOutputOptions{InvokeOptions: utilities.PkgInvokeDefaultOpts(opts)}
+	return ctx.InvokeOutput("azure-native:network:getVirtualApplianceSite", args, LookupVirtualApplianceSiteResultOutput{}, options).(LookupVirtualApplianceSiteResultOutput)
 }
 
 type LookupVirtualApplianceSiteOutputArgs struct {
