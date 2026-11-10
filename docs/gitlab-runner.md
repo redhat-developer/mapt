@@ -61,6 +61,8 @@ After obtaining the token and the project/group ID, you can deploy a runner usin
 
 **Optional flags:**
 * `--glrunner-tags` - Comma-separated tags (e.g., `aws,mapt,fedora`)
+* `--glrunner-http-proxy` - Proxy URL for the jobs when the host network needs an egress proxy (e.g., `http://proxy.example.com:3128`). It is written to the runner's `environment` as `HTTP_PROXY`, `HTTPS_PROXY`, `http_proxy` and `https_proxy`
+* `--glrunner-no-proxy` - Comma-separated host names, domains or IP addresses the jobs reach directly, written as `NO_PROXY` and `no_proxy`. Requires `--glrunner-http-proxy`. CIDR ranges such as `10.0.0.0/8` are rejected, because some clients (curl on RHEL 9, for example) ignore them without an error
 
 To deploy a Fedora runner on AWS as a project runner:
 
