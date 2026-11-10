@@ -64,8 +64,7 @@ type Context struct {
 	forceDestroy  bool
 	keepState     bool
 	// spotPriceIncreaseRate int
-	tags                  map[string]string
-	tagsAsPulumiStringMap pulumi.StringMap
+	tags map[string]string
 	// if non-spot we will use this when creating
 	// as we may need to change it during state file check / createe
 	targetHostingPlace string
@@ -162,12 +161,9 @@ func (c *Context) ResourceTagsWithCustom(customTags map[string]string) pulumi.St
 	if customTags != nil {
 		maps.Copy(lTags, customTags)
 	}
-	if c.tagsAsPulumiStringMap == nil {
-		c.tagsAsPulumiStringMap = utilMaps.Convert(lTags,
-			func(name string) string { return name },
-			func(value string) pulumi.StringInput { return pulumi.String(value) })
-	}
-	return c.tagsAsPulumiStringMap
+	return utilMaps.Convert(lTags,
+		func(name string) string { return name },
+		func(value string) pulumi.StringInput { return pulumi.String(value) })
 }
 
 func (c *Context) StackNameByProject(stackName string) string {
