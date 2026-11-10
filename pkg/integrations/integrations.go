@@ -23,6 +23,9 @@ type UserDataValues struct {
 	Ephemeral      bool
 	RunnerImageRepo        string
 	RunnerImageRepoVersion string
+	// RunnerEnv holds KEY=VALUE pairs for the runner's job environment, already quoted
+	// for the script they are rendered into.
+	RunnerEnv []string
 }
 
 type IntegrationConfig interface {
