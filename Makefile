@@ -9,9 +9,9 @@ TKN_IMG ?= quay.io/redhat-developer/mapt:v${VERSION}-tkn
 # renovate: datasource=github-releases depName=cirruslabs/cirrus-cli
 CIRRUS_CLI ?= v1.0.0
 # renovate: datasource=github-releases depName=actions/runner
-GITHUB_RUNNER ?= 2.338.1
+GITHUB_RUNNER ?= 2.338.2
 # renovate: datasource=gitlab-releases depName=gitlab-org/gitlab-runner
-GITLAB_RUNNER ?= 19.5.2
+GITLAB_RUNNER ?= 19.5.3
 # renovate: datasource=github-releases depName=open-telemetry/opentelemetry-collector-releases
 OTELCOL_VERSION ?= 0.151.0
 
