@@ -43,4 +43,7 @@ type GitLabRunnerArgs struct {
 	// setup script applies it to the shared podman network, because the
 	// runner's network_mtu key has no effect in network_mode "podman".
 	PowerVSMTU int
+	// Env holds KEY=VALUE pairs for the runner's job environment, such as the proxy
+	// variables from ProxyEnv. They are written to the environment list of [[runners]].
+	Env []string
 }

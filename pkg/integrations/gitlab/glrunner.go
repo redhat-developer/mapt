@@ -54,7 +54,21 @@ func (args *GitLabRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		PowerVSRegion: args.PowerVSRegion,
 		PowerVSDNS:    args.PowerVSDNS,
 		PowerVSMTU:    args.PowerVSMTU,
+		RunnerEnv:     quotedEnv(args),
 	}
+}
+
+// quotedEnv quotes each KEY=VALUE pair for the platform's setup script.
+func quotedEnv(args *GitLabRunnerArgs) []string {
+	quote := shellQuote
+	if args.Platform != nil && *args.Platform == Windows {
+		quote = powershellQuote
+	}
+	quoted := make([]string, 0, len(args.Env))
+	for _, kv := range args.Env {
+		quoted = append(quoted, quote(kv))
+	}
+	return quoted
 }
 
 func (args *GitLabRunnerArgs) GetSetupScriptTemplate() string {

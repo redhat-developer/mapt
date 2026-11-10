@@ -356,6 +356,9 @@ sudo gitlab-runner register \
   --docker-network-mode "$PODMAN_NET_NAME" \
 {{- end}}
   "${_docker_dns_args[@]}" \
+{{- range .RunnerEnv }}
+  --env {{ . }} \
+{{- end }}
   --docker-volumes "/etc/containers/executor-containers.conf:/etc/containers/containers.conf:ro"
 
 {{- if not .Unsecure}}
