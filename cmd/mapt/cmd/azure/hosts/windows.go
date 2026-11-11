@@ -3,6 +3,8 @@ package hosts
 import (
 	azureParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureWindows "github.com/redhat-developer/mapt/pkg/provider/azure/action/windows"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -60,8 +62,8 @@ func getCreateWindowsDesktop() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
-					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.Windows, &github.Amd64),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Windows, &gitlab.Amd64),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&azureWindows.WindowsArgs{
