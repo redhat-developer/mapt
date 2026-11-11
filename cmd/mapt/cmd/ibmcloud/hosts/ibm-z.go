@@ -52,8 +52,8 @@ func ibmZCreate() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					GHRunnerArgs:  params.GithubRunnerArgs(&github.S390x),
-					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.S390x),
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.Linux, &github.S390x),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Linux, &gitlab.S390x),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmz.ZArgs{

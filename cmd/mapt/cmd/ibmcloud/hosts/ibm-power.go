@@ -52,8 +52,8 @@ func ibmPowerCreate() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					GHRunnerArgs:  params.GithubRunnerArgs(&github.Ppc64le),
-					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Ppc64le),
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.Linux, &github.Ppc64le),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Linux, &gitlab.Ppc64le),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&ibmpower.PWArgs{

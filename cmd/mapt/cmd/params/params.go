@@ -321,7 +321,8 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.Bool(ghActionsRunnerEphemeral, false, GHActionsRunnerEphemeralDesc)
 }
 
-func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
+// GithubRunnerArgs builds the GitHub Actions runner args for a target platform and arch.
+func GithubRunnerArgs(platform *github.Platform, arch *github.Arch) *github.GithubRunnerArgs {
 	token := viper.GetString(ghActionsRunnerToken)
 	repoURL := viper.GetString(ghActionsRunnerRepo)
 	org := viper.GetString(ghActionsRunnerOrg)
@@ -360,7 +361,7 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 			RepoURL:        repoURL,
 			Org:            org,
 			Labels:         viper.GetStringSlice(ghActionsRunnerLabels),
-			Platform:       &github.Linux,
+			Platform:       platform,
 			Arch:           arch,
 			AppID:          appID,
 			InstallationID: installationID,
@@ -390,7 +391,7 @@ func GithubRunnerArgs(arch *github.Arch) *github.GithubRunnerArgs {
 		RepoURL:   repoURL,
 		Org:       org,
 		Labels:    viper.GetStringSlice(ghActionsRunnerLabels),
-		Platform:  &github.Linux,
+		Platform:  platform,
 		Arch:      arch,
 		Ephemeral: ephemeral,
 	}
@@ -440,7 +441,8 @@ func AddGitLabRunnerFlags(fs *pflag.FlagSet) {
 }
 
 
-func GitLabRunnerArgs(arch *gitlab.Arch) *gitlab.GitLabRunnerArgs {
+// GitLabRunnerArgs builds the GitLab runner args for a target platform and arch.
+func GitLabRunnerArgs(platform *gitlab.Platform, arch *gitlab.Arch) *gitlab.GitLabRunnerArgs {
 	if viper.IsSet(glRunnerToken) {
 		if viper.IsSet(glRunnerProjectID) && viper.IsSet(glRunnerGroupID) {
 			logging.Error("--glrunner-project-id and --glrunner-group-id are mutually exclusive; ignoring GitLab runner configuration")
@@ -452,7 +454,7 @@ func GitLabRunnerArgs(arch *gitlab.Arch) *gitlab.GitLabRunnerArgs {
 			GroupID:     viper.GetString(glRunnerGroupID),
 			URL:         viper.GetString(glRunnerURL),
 			Tags:        viper.GetStringSlice(glRunnerTags),
-			Platform:    &gitlab.Linux,
+			Platform:    platform,
 			Arch:        arch,
 			Unsecure:    viper.GetBool(glRunnerUnsecure),
 			Concurrent:  viper.GetInt(GlRunnerConcurrent),
@@ -489,6 +491,16 @@ func linuxArchAsGitLabArch(arch string) *gitlab.Arch {
 	return &gitlab.Arm64
 }
 
+// MACArchAsGithubArch maps a mac arch (x86, m1, m2, ...) to the GitHub runner arch.
+func MACArchAsGithubArch(arch string) *github.Arch {
+	switch arch {
+	case "x86":
+		return &github.Amd64
+	}
+	return &github.Arm64
+}
+
+// MACArchAsGitLabArch maps a mac arch (x86, m1, m2, ...) to the GitLab runner arch.
 func MACArchAsGitLabArch(arch string) *gitlab.Arch {
 	switch arch {
 	case "x86":

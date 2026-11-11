@@ -3,6 +3,8 @@ package services
 import (
 	awsParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/aws/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	macpool "github.com/redhat-developer/mapt/pkg/provider/aws/action/mac-pool"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
@@ -172,8 +174,8 @@ func request() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
-					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.Darwin, params.MACArchAsGithubArch(viper.GetString(awsParams.MACArch))),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Darwin, params.MACArchAsGitLabArch(viper.GetString(awsParams.MACArch))),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&macpool.RequestMachineArgs{

@@ -3,6 +3,8 @@ package hosts
 import (
 	azureParams "github.com/redhat-developer/mapt/cmd/mapt/cmd/azure/params"
 	"github.com/redhat-developer/mapt/cmd/mapt/cmd/params"
+	"github.com/redhat-developer/mapt/pkg/integrations/github"
+	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
 	maptContext "github.com/redhat-developer/mapt/pkg/manager/context"
 	azureRHEL "github.com/redhat-developer/mapt/pkg/provider/azure/action/rhel"
 
@@ -47,8 +49,8 @@ func getCreateRHEL() *cobra.Command {
 					ResultsOutput: viper.GetString(params.ConnectionDetailsOutput),
 					Debug:         viper.IsSet(params.Debug),
 					DebugLevel:    viper.GetUint(params.DebugLevel),
-					GHRunnerArgs:  params.GithubRunnerArgs(params.LinuxGithubArch()),
-					GLRunnerArgs:  params.GitLabRunnerArgs(params.LinuxGitLabArch()),
+					GHRunnerArgs:  params.GithubRunnerArgs(&github.Linux, params.LinuxGithubArch()),
+					GLRunnerArgs:  params.GitLabRunnerArgs(&gitlab.Linux, params.LinuxGitLabArch()),
 					Tags:          viper.GetStringMapString(params.Tags),
 				},
 				&azureRHEL.RhelArgs{
