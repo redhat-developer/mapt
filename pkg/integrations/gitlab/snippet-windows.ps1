@@ -8,6 +8,9 @@ C:\GitLab-Runner\gitlab-runner.exe register `
   --url "{{ .RepoURL }}" `
   --token "{{ .Token }}" `
   --name "{{ .Name }}" `
+{{- range .RunnerEnv }}
+  --env {{ . }} `
+{{- end }}
   --executor "shell"
 
 # Install and start as Windows service

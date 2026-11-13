@@ -105,6 +105,11 @@ const (
 	glRunnerUnsecure string = "glrunner-unsecure"
 	glRunnerUnsecureDesc string = "when set, the runner service runs as the default OS user instead of a dedicated system account; by default a locked-down gitlab-runner system user is created"
 
+	glRunnerHTTPProxy     string = "glrunner-http-proxy"
+	glRunnerHTTPProxyDesc string = "HTTP proxy URL for the runner's jobs (e.g., http://proxy.example.com:3128). Sets HTTP_PROXY and HTTPS_PROXY in upper and lower case"
+	glRunnerNoProxy       string = "glrunner-no-proxy"
+	glRunnerNoProxyDesc   string = "Comma-separated host names, domains or IP addresses the runner's jobs reach without the proxy. CIDR ranges are rejected"
+
 	GlRunnerConcurrent             string = "glrunner-concurrent"
 	GlRunnerConcurrentDesc         string = "maximum number of jobs the runner executes concurrently"
 	GlRunnerConcurrentPowerDefault int    = 2
@@ -438,6 +443,8 @@ func AddGitLabRunnerFlags(fs *pflag.FlagSet) {
 	fs.StringP(glRunnerURL, "", glRunnerURLDefault, glRunnerURLDesc)
 	fs.StringSlice(glRunnerTags, nil, glRunnerTagsDesc)
 	fs.Bool(glRunnerUnsecure, false, glRunnerUnsecureDesc)
+	fs.StringP(glRunnerHTTPProxy, "", "", glRunnerHTTPProxyDesc)
+	fs.StringP(glRunnerNoProxy, "", "", glRunnerNoProxyDesc)
 }
 
 
@@ -447,6 +454,10 @@ func GitLabRunnerArgs(platform *gitlab.Platform, arch *gitlab.Arch) *gitlab.GitL
 		if viper.IsSet(glRunnerProjectID) && viper.IsSet(glRunnerGroupID) {
 			logging.Error("--glrunner-project-id and --glrunner-group-id are mutually exclusive; ignoring GitLab runner configuration")
 			return nil
+		}
+		env, err := gitlab.ProxyEnv(viper.GetString(glRunnerHTTPProxy), viper.GetString(glRunnerNoProxy))
+		if err != nil {
+			logging.Fatalf("invalid GitLab runner proxy settings: %v", err)
 		}
 		return &gitlab.GitLabRunnerArgs{
 			GitLabToken: viper.GetString(glRunnerToken),
@@ -458,6 +469,7 @@ func GitLabRunnerArgs(platform *gitlab.Platform, arch *gitlab.Arch) *gitlab.GitL
 			Arch:        arch,
 			Unsecure:    viper.GetBool(glRunnerUnsecure),
 			Concurrent:  viper.GetInt(GlRunnerConcurrent),
+			Env:         env,
 		}
 	}
 	return nil
