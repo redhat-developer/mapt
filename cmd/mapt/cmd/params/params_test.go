@@ -1,6 +1,8 @@
 package params
 
 import (
+	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 
@@ -107,4 +109,61 @@ func TestGitLabRunnerArgsProxyWithoutToken(t *testing.T) {
 	if args := GitLabRunnerArgs(&linux, &gitlab.Amd64); args != nil {
 		t.Errorf("GitLabRunnerArgs() = %+v; want nil without a token", args)
 	}
+}
+
+func writeJITConfig(t *testing.T, content string) string {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "jit.txt")
+	if err := os.WriteFile(path, []byte(content), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	return path
+}
+
+func TestGithubRunnerArgsFromJITConfig(t *testing.T) {
+	t.Cleanup(viper.Reset)
+	t.Setenv("GITHUB_TOKEN", "")
+	viper.Set(ghActionsRunnerJITConfigFile, writeJITConfig(t, "  jit-config-value\n"))
+
+	args := GithubRunnerArgs(&github.Linux, &github.Amd64)
+	if args == nil {
+		t.Fatal("GithubRunnerArgs returned nil")
+	}
+	if args.JITConfig != "jit-config-value" {
+		t.Errorf("JITConfig = %q; want the trimmed file content", args.JITConfig)
+	}
+	if args.Token != "" {
+		t.Errorf("Token = %q; a just-in-time runner needs none", args.Token)
+	}
+}
+
+func TestReadJITConfigRejects(t *testing.T) {
+	cases := []struct {
+		name    string
+		set     func()
+		content string
+	}{
+		{"token", func() { viper.Set(ghActionsRunnerToken, "t") }, "jit"},
+		{"app id", func() { viper.Set(ghActionsAppID, "1") }, "jit"},
+		{"app installation id", func() { viper.Set(ghActionsAppInstallationID, "2") }, "jit"},
+		{"app private key", func() { viper.Set(ghActionsAppPrivateKey, "key.pem") }, "jit"},
+		{"labels", func() { viper.Set(ghActionsRunnerLabels, []string{"gpu"}) }, "jit"},
+		{"ephemeral", func() { viper.Set(ghActionsRunnerEphemeral, true) }, "jit"},
+		{"empty file", func() {}, " \n"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			t.Cleanup(viper.Reset)
+			tc.set()
+			if _, err := readJITConfig(writeJITConfig(t, tc.content)); err == nil {
+				t.Error("readJITConfig succeeded; want an error")
+			}
+		})
+	}
+	t.Run("missing file", func(t *testing.T) {
+		t.Cleanup(viper.Reset)
+		if _, err := readJITConfig(filepath.Join(t.TempDir(), "missing")); err == nil {
+			t.Error("readJITConfig succeeded; want an error")
+		}
+	})
 }
