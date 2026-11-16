@@ -2,4 +2,8 @@ New-Item -Path C:\actions-runner -Type Directory ; cd C:\actions-runner
 Invoke-WebRequest -Uri {{ .CliURL }} -OutFile actions-runner-win.zip
 Add-Type -AssemblyName System.IO.Compression.FileSystem ;
 [System.IO.Compression.ZipFile]::ExtractToDirectory("$PWD\actions-runner-win.zip", "$PWD")
+{{ if .JITConfig -}}
+Start-Process -FilePath "$PWD\run.cmd" -ArgumentList "--jitconfig {{ .JITConfig }}" -WorkingDirectory "$PWD" -WindowStyle Hidden
+{{- else -}}
 ./config.cmd --token $ghToken --url {{ .RepoURL }} --name {{ .Name }} --unattended --runasservice --replace --labels {{ .Labels }}{{ if .Ephemeral }} --ephemeral{{ end }}
+{{- end }}

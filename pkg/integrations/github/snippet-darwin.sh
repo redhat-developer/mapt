@@ -1,6 +1,9 @@
 mkdir ~/actions-runner && cd ~/actions-runner
 curl -o actions-runner-osx.tar.gz -L {{ .CliURL }}
 tar xzf ./actions-runner-osx.tar.gz
+{{ if .JITConfig -}}
+nohup ./run.sh --jitconfig {{ .JITConfig }} > /tmp/actions.runner.github.out.log 2> /tmp/actions.runner.github.err.log &
+{{- else -}}
 ./config.sh --token {{ .Token }} --url {{ .RepoURL }} --name {{ .Name }} --unattended --replace --labels {{ .Labels }}{{ if .Ephemeral }} --ephemeral{{ end }}
 ./svc.sh install
 plistName=$(basename $(./svc.sh status | grep "plist$"))
@@ -12,3 +15,4 @@ plutil -replace StandardOutPath -string /tmp/actions.runner.github.out.log /Libr
 plutil -replace StandardErrorPath -string /tmp/actions.runner.github.err.log /Library/LaunchDaemons/"${plistName}"
 
 launchctl load /Library/LaunchDaemons/"${plistName}"
+{{- end }}
