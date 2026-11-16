@@ -67,3 +67,45 @@ func TestSnippetMatchesPlatform(t *testing.T) {
 		})
 	}
 }
+
+// TestJITConfigSnippets checks that with a just-in-time config every platform
+// starts the runner from it and neither registers with a token nor installs a
+// service.
+func TestJITConfigSnippets(t *testing.T) {
+	cases := []struct {
+		name     string
+		platform Platform
+		arch     Arch
+		want     string
+	}{
+		{"linux x64", Linux, Amd64, "nohup ./run.sh --jitconfig jit-config-value"},
+		{"linux ppc64le", Linux, Ppc64le, `nohup ./run.sh --jitconfig "jit-config-value"`},
+		{"linux s390x", Linux, S390x, `nohup ./run.sh --jitconfig "jit-config-value"`},
+		{"windows x64", Windows, Amd64, `-ArgumentList "--jitconfig jit-config-value"`},
+		{"macOS arm64", Darwin, Arm64, "nohup ./run.sh --jitconfig jit-config-value"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			platform, arch := tc.platform, tc.arch
+			args := &GithubRunnerArgs{
+				JITConfig: "jit-config-value",
+				Name:      "test-runner",
+				Platform:  &platform,
+				Arch:      &arch,
+			}
+			Init(args)
+			snippet, err := integrations.GetIntegrationSnippet(args, "testuser")
+			if err != nil {
+				t.Fatalf("failed to render snippet: %v", err)
+			}
+			if !strings.Contains(*snippet, tc.want) {
+				t.Errorf("snippet missing %q:\n%s", tc.want, *snippet)
+			}
+			for _, notWant := range []string{"./config.sh", "./config.cmd", "--token", "svc.sh", "plutil", "--runasservice"} {
+				if strings.Contains(*snippet, notWant) {
+					t.Errorf("snippet must not contain %q:\n%s", notWant, *snippet)
+				}
+			}
+		})
+	}
+}
