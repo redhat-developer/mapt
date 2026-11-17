@@ -88,7 +88,7 @@ mapt azure windows create --spot \
 
 A registration token can register any number of runners for an hour, and it ends up in the instance's user data. A [just-in-time (JIT) config](https://docs.github.com/en/rest/actions/self-hosted-runners#create-configuration-for-a-just-in-time-runner-for-a-repository) registers exactly one ephemeral runner, with the name, labels and runner group set by whoever generated it, and is useless once that runner has taken its job.
 
-Generate the config, save its `encoded_jit_config` to a file and pass it with `--ghactions-runner-jitconfig-file`. The runner is started from it (`run.sh --jitconfig`, `run.cmd` on Windows), takes one job, and GitHub then removes it. It cannot be combined with `--ghactions-runner-token`, the `--ghactions-app-*` options, `--ghactions-runner-labels` or `--ghactions-runner-ephemeral`.
+Generate the config, save its `encoded_jit_config` to a file and pass it with `--ghactions-runner-jitconfig-file`. The runner is started from it (`run.sh --jitconfig`, `run.cmd` on Windows), takes one job, and GitHub then removes it. On Windows and macOS, whose setup ends with a reboot, it is started from a startup scheduled task or a LaunchDaemon, so it comes back after the reboot. It cannot be combined with `--ghactions-runner-token`, the `--ghactions-app-*` options, `--ghactions-runner-labels` or `--ghactions-runner-ephemeral`.
 
 ```bash
 curl -L -X POST \
