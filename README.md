@@ -17,7 +17,7 @@ Spot pricing. Airgap topologies. CI/CD native. Built for operators.
 
 ## What is mapt?
 
-`mapt` is a command-line tool for provisioning and destroying cloud environments across **AWS**, **Azure**, and **IBM Cloud**. It wraps multi-cloud infrastructure into a single, consistent interface — optimized for cost, speed, and CI/CD integration.
+`mapt` is a command-line tool for provisioning and destroying cloud environments across **AWS**, **Azure**, **GCP**, and **IBM Cloud**. It wraps multi-cloud infrastructure into a single, consistent interface — optimized for cost, speed, and CI/CD integration.
 
 ```
 mapt <provider> <target> <create|destroy> [flags]
@@ -52,33 +52,33 @@ Connection details land at `${PWD}/host`, `${PWD}/username`, and `${PWD}/id_rsa`
 
 ### Instances
 
-| Target | AWS | Azure | IBM Cloud |
-|--------|:---:|:-----:|:---------:|
-| **macOS** (x86, M1, M2) | [docs](docs/aws/mac.md) | — | — |
-| **Windows Server** | [docs](docs/aws/windows.md) | — | — |
-| **Windows Desktop** | — | [docs](docs/azure/windows.md) | — |
-| **RHEL** | [docs](docs/aws/rhel.md) | [docs](docs/azure/rhel.md) | — |
-| **RHEL AI** | [docs](docs/aws/rhelai.md) | [docs](docs/azure/rhelai.md) | — |
-| **Fedora** | [docs](docs/aws/fedora.md) | [docs](docs/azure/fedora.md) | — |
-| **Ubuntu** | — | [docs](docs/azure/ubuntu.md) | — |
-| **IBM Z** (s390x) | — | — | [docs](docs/ibmcloud/ibm-z.md) |
-| **IBM Power** (ppc64le) | — | — | [docs](docs/ibmcloud/ibm-power.md) |
+| Target | AWS | Azure | GCP | IBM Cloud |
+|--------|:---:|:-----:|:---:|:---------:|
+| **macOS** (x86, M1, M2) | [docs](docs/aws/mac.md) | — | — | — |
+| **Windows Server** | [docs](docs/aws/windows.md) | — | [docs](docs/gcp/windows.md) | — |
+| **Windows Desktop** | — | [docs](docs/azure/windows.md) | — | — |
+| **RHEL** | [docs](docs/aws/rhel.md) | [docs](docs/azure/rhel.md) | [docs](docs/gcp/rhel.md) | — |
+| **RHEL AI** | [docs](docs/aws/rhelai.md) | [docs](docs/azure/rhelai.md) | — | — |
+| **Fedora** | [docs](docs/aws/fedora.md) | [docs](docs/azure/fedora.md) | [docs](docs/gcp/fedora.md) | — |
+| **Ubuntu** | — | [docs](docs/azure/ubuntu.md) | — | — |
+| **IBM Z** (s390x) | — | — | — | [docs](docs/ibmcloud/ibm-z.md) |
+| **IBM Power** (ppc64le) | — | — | — | [docs](docs/ibmcloud/ibm-power.md) |
 
 ### Services
 
-| Service | AWS | Azure | IBM Cloud | Description |
-|---------|:---:|:-----:|:---------:|-------------|
-| **Kind** | [docs](docs/aws/kind.md) | [docs](docs/azure/kind.md) | [docs](docs/ibmcloud/kind.md) | Lightweight Kubernetes via Kind |
-| **EKS** | [docs](docs/aws/eks.md) | — | — | Managed Kubernetes with spot node groups |
-| **AKS** | — | [docs](docs/azure/aks.md) | — | Managed Kubernetes |
-| **OpenShift SNC** | [docs](docs/aws/openshift-snc.md) | — | [docs](docs/ibmcloud/openshift-snc.md) | Single-node OpenShift for testing |
-| **Mac-Pool** | [docs](docs/aws/mac-pool.md) | — | — | Shared Mac host pool — amortize the 24h minimum |
+| Service | AWS | Azure | GCP | IBM Cloud | Description |
+|---------|:---:|:-----:|:---:|:---------:|-------------|
+| **Kind** | [docs](docs/aws/kind.md) | [docs](docs/azure/kind.md) | — | [docs](docs/ibmcloud/kind.md) | Lightweight Kubernetes via Kind |
+| **EKS** | [docs](docs/aws/eks.md) | — | — | — | Managed Kubernetes with spot node groups |
+| **AKS** | — | [docs](docs/azure/aks.md) | — | — | Managed Kubernetes |
+| **OpenShift SNC** | [docs](docs/aws/openshift-snc.md) | — | — | [docs](docs/ibmcloud/openshift-snc.md) | Single-node OpenShift for testing |
+| **Mac-Pool** | [docs](docs/aws/mac-pool.md) | — | — | — | Shared Mac host pool — amortize the 24h minimum |
 
 ### Architectures
 
 | Architecture | Providers |
 |---|---|
-| x86_64 | AWS, Azure, IBM Cloud |
+| x86_64 | AWS, Azure, GCP, IBM Cloud |
 | arm64 | AWS, Azure |
 | s390x | IBM Cloud |
 | ppc64le | IBM Cloud |
@@ -89,7 +89,7 @@ Connection details land at `${PWD}/host`, `${PWD}/username`, and `${PWD}/id_rsa`
 
 ### Spot-optimized provisioning
 
-mapt scans placement scores and pricing across all regions to find the best **cost vs. availability** balance — no manual region hunting. If a region doesn't have the instance you need, mapt falls back automatically.
+mapt scans placement scores and pricing across all regions to find the best **cost vs. availability** balance — no manual region hunting. If a region doesn't have the instance you need, mapt falls back automatically. On GCP, spot selection uses the beta Capacity Advice API for obtainability, preemption rate, and pricing scoring.
 
 ```bash
 mapt aws rhel create --spot \
@@ -219,6 +219,6 @@ The `--project-name` flag namespaces stacks, so you can run multiple environment
 
 <div align="center">
 
-**[AWS docs](docs/aws.md)** · **[Azure docs](docs/azure)** · **[IBM Cloud docs](docs/ibmcloud)** · **[Changelog](CHANGELOG.md)**
+**[AWS docs](docs/aws.md)** · **[Azure docs](docs/azure)** · **[GCP docs](docs/gcp.md)** · **[IBM Cloud docs](docs/ibmcloud)** · **[Changelog](CHANGELOG.md)**
 
 </div>
