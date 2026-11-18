@@ -48,12 +48,19 @@ func TestProxyEnvErrors(t *testing.T) {
 	cases := map[string]struct {
 		httpProxy, noProxy, wantErr string
 	}{
-		"CIDR in no-proxy":       {"http://proxy:3128", "localhost,192.168.0.0/16", "192.168.0.0/16\" is a CIDR range"},
-		"IPv6 CIDR in no-proxy":  {"http://proxy:3128", "fd00::/8", "is a CIDR range"},
-		"invalid no-proxy entry": {"http://proxy:3128", "bad host", "is not a host name"},
-		"no-proxy without proxy": {"", "localhost", "needs --glrunner-http-proxy"},
-		"proxy without scheme":   {"proxy.example.com:3128", "", "--glrunner-http-proxy"},
-		"proxy with bad scheme":  {"ftp://proxy.example.com", "", "must use http or https"},
+		"CIDR in no-proxy":        {"http://proxy:3128", "localhost,192.168.0.0/16", "192.168.0.0/16\" is a CIDR range"},
+		"IPv6 CIDR in no-proxy":   {"http://proxy:3128", "fd00::/8", "is a CIDR range"},
+		"invalid no-proxy entry":  {"http://proxy:3128", "bad host", "is not a host name"},
+		"no-proxy without proxy":  {"", "localhost", "needs --glrunner-http-proxy"},
+		"proxy without scheme":    {"proxy.example.com:3128", "", "--glrunner-http-proxy"},
+		"proxy with bad scheme":   {"ftp://proxy.example.com", "", "must use http or https"},
+		"proxy without host":      {"http://:3128", "", "must be a URL"},
+		"unescaped # in password": {"http://user:p#ss@proxy:3128", "", "percent-encode"},
+		// "user:12" parses as host and port, so the error comes from the fragment check.
+		"unescaped # after digits": {"http://user:12#x@proxy:3128", "", "percent-encode"},
+		"unescaped ? in password":  {"http://user:p?ss@proxy:3128", "", "percent-encode"},
+		"proxy with path":          {"http://proxy:3128/path/", "", "must not have a path"},
+		"only separators":          {"http://proxy:3128", " , ,", "has no entries"},
 	}
 	for name, tc := range cases {
 		t.Run(name, func(t *testing.T) {
@@ -62,6 +69,42 @@ func TestProxyEnvErrors(t *testing.T) {
 				t.Errorf("ProxyEnv(%q, %q) error = %v; want it to contain %q", tc.httpProxy, tc.noProxy, err, tc.wantErr)
 			}
 		})
+	}
+}
+
+func TestProxyEnvErrorsHideThePassword(t *testing.T) {
+	for _, proxy := range []string{
+		"ftp://user:s3cret@proxy:3128",
+		"http://user:s3cret@proxy:3128/path",
+		"http://user:s3cret#@proxy:3128",
+	} {
+		_, err := ProxyEnv(proxy, "")
+		if err == nil || strings.Contains(err.Error(), "s3cret") {
+			t.Errorf("ProxyEnv(%q) error = %v; want an error without the password", proxy, err)
+		}
+	}
+}
+
+func TestProxyEnvAccepts(t *testing.T) {
+	for _, proxy := range []string{
+		"http://proxy.example.com:3128/",
+		"http://user:p%23ss@proxy.example.com:3128",
+		"https://[fd00::1]:3128",
+	} {
+		if _, err := ProxyEnv(proxy, ""); err != nil {
+			t.Errorf("ProxyEnv(%q): %v", proxy, err)
+		}
+	}
+}
+
+func TestNoProxyEntries(t *testing.T) {
+	env, err := ProxyEnv("http://proxy:3128", "example.com.,_svc.internal,.corp.example.com.,localhost,LOCALHOST,example.com.")
+	if err != nil {
+		t.Fatalf("ProxyEnv: %v", err)
+	}
+	want := "NO_PROXY=example.com.,_svc.internal,.corp.example.com.,localhost"
+	if env[4] != want {
+		t.Errorf("NO_PROXY = %q, want %q", env[4], want)
 	}
 }
 

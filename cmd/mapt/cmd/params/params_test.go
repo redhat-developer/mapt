@@ -1,6 +1,7 @@
 package params
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/spf13/viper"
@@ -58,5 +59,52 @@ func TestGitLabRunnerArgsKeepsPlatform(t *testing.T) {
 		if *args.Platform != platform {
 			t.Errorf("GitLabRunnerArgs(%q).Platform = %q", platform, *args.Platform)
 		}
+	}
+}
+
+func TestGitLabRunnerArgsProxyEnv(t *testing.T) {
+	t.Cleanup(viper.Reset)
+	viper.Set(glRunnerToken, "glpat-test")
+	viper.Set(glRunnerProjectID, "123")
+	viper.Set(glRunnerHTTPProxy, "http://proxy.example.com:3128")
+	viper.Set(glRunnerNoProxy, "localhost,.example.com")
+
+	linux := gitlab.Linux
+	args := GitLabRunnerArgs(&linux, &gitlab.Amd64)
+	if args == nil {
+		t.Fatal("GitLabRunnerArgs returned nil")
+	}
+	want := []string{
+		"HTTP_PROXY=http://proxy.example.com:3128",
+		"http_proxy=http://proxy.example.com:3128",
+		"HTTPS_PROXY=http://proxy.example.com:3128",
+		"https_proxy=http://proxy.example.com:3128",
+		"NO_PROXY=localhost,.example.com",
+		"no_proxy=localhost,.example.com",
+	}
+	if !reflect.DeepEqual(args.Env, want) {
+		t.Errorf("Env =\n%q\nwant\n%q", args.Env, want)
+	}
+}
+
+func TestGitLabRunnerArgsWithoutProxy(t *testing.T) {
+	t.Cleanup(viper.Reset)
+	viper.Set(glRunnerToken, "glpat-test")
+	viper.Set(glRunnerProjectID, "123")
+
+	linux := gitlab.Linux
+	args := GitLabRunnerArgs(&linux, &gitlab.Amd64)
+	if args == nil || args.Env != nil {
+		t.Errorf("GitLabRunnerArgs() = %+v; want args with no Env", args)
+	}
+}
+
+func TestGitLabRunnerArgsProxyWithoutToken(t *testing.T) {
+	t.Cleanup(viper.Reset)
+	viper.Set(glRunnerHTTPProxy, "http://proxy.example.com:3128")
+
+	linux := gitlab.Linux
+	if args := GitLabRunnerArgs(&linux, &gitlab.Amd64); args != nil {
+		t.Errorf("GitLabRunnerArgs() = %+v; want nil without a token", args)
 	}
 }
