@@ -472,6 +472,9 @@ func GitLabRunnerArgs(platform *gitlab.Platform, arch *gitlab.Arch) *gitlab.GitL
 			Env:         env,
 		}
 	}
+	if viper.GetString(glRunnerHTTPProxy) != "" || viper.GetString(glRunnerNoProxy) != "" {
+		logging.Warn("--glrunner-http-proxy and --glrunner-no-proxy are ignored without --glrunner-token")
+	}
 	return nil
 }
 
