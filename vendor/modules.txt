@@ -1795,6 +1795,7 @@ golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
 # google.golang.org/api v0.316.0
 ## explicit; go 1.26.0
+google.golang.org/api/compute/v0.beta
 google.golang.org/api/compute/v1
 google.golang.org/api/googleapi
 google.golang.org/api/googleapi/transport
