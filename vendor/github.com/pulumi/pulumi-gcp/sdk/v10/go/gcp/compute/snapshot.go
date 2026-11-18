@@ -82,6 +82,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Snapshot Basic2
 //
 // ```go
@@ -133,6 +134,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Snapshot Basic Source Instant Snapshot
 //
 // ```go
@@ -189,6 +191,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Snapshot Chainname
 //
 // ```go
@@ -325,8 +328,9 @@ type Snapshot struct {
 	// If you do not provide an encryption key when creating the snapshot,
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the snapshot.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the snapshot.
 	// Structure is documented below.
 	SnapshotEncryptionKey SnapshotSnapshotEncryptionKeyPtrOutput `pulumi:"snapshotEncryptionKey"`
 	// The unique identifier for the resource.
@@ -454,8 +458,9 @@ type snapshotState struct {
 	// If you do not provide an encryption key when creating the snapshot,
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the snapshot.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the snapshot.
 	// Structure is documented below.
 	SnapshotEncryptionKey *SnapshotSnapshotEncryptionKey `pulumi:"snapshotEncryptionKey"`
 	// The unique identifier for the resource.
@@ -549,8 +554,9 @@ type SnapshotState struct {
 	// If you do not provide an encryption key when creating the snapshot,
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the snapshot.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the snapshot.
 	// Structure is documented below.
 	SnapshotEncryptionKey SnapshotSnapshotEncryptionKeyPtrInput
 	// The unique identifier for the resource.
@@ -579,6 +585,12 @@ type SnapshotState struct {
 
 func (SnapshotState) ElementType() reflect.Type {
 	return reflect.TypeOf((*snapshotState)(nil)).Elem()
+}
+
+// SnapshotExists checks whether an existing Snapshot resource with the given ID exists.
+func SnapshotExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *SnapshotState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/snapshot:Snapshot", id, state, "", opts...)
 }
 
 type snapshotArgs struct {
@@ -629,8 +641,9 @@ type snapshotArgs struct {
 	// If you do not provide an encryption key when creating the snapshot,
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the snapshot.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the snapshot.
 	// Structure is documented below.
 	SnapshotEncryptionKey *SnapshotSnapshotEncryptionKey `pulumi:"snapshotEncryptionKey"`
 	// Indicates the type of the snapshot.
@@ -700,8 +713,9 @@ type SnapshotArgs struct {
 	// If you do not provide an encryption key when creating the snapshot,
 	// then the snapshot will be encrypted using an automatically generated
 	// key and you do not need to provide a key to use the snapshot later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the snapshot.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the snapshot.
 	// Structure is documented below.
 	SnapshotEncryptionKey SnapshotSnapshotEncryptionKeyPtrInput
 	// Indicates the type of the snapshot.
@@ -921,8 +935,9 @@ func (o SnapshotOutput) SelfLink() pulumi.StringOutput {
 // If you do not provide an encryption key when creating the snapshot,
 // then the snapshot will be encrypted using an automatically generated
 // key and you do not need to provide a key to use the snapshot later.
-// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-// done in place; other changes to this block recreate the snapshot.
+// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+// fails at plan time. Other changes to this block recreate the snapshot.
 // Structure is documented below.
 func (o SnapshotOutput) SnapshotEncryptionKey() SnapshotSnapshotEncryptionKeyPtrOutput {
 	return o.ApplyT(func(v *Snapshot) SnapshotSnapshotEncryptionKeyPtrOutput { return v.SnapshotEncryptionKey }).(SnapshotSnapshotEncryptionKeyPtrOutput)

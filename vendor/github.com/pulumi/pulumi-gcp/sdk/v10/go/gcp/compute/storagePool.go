@@ -65,6 +65,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Storage Pool Full
 //
 // ```go
@@ -410,6 +411,12 @@ type StoragePoolState struct {
 
 func (StoragePoolState) ElementType() reflect.Type {
 	return reflect.TypeOf((*storagePoolState)(nil)).Elem()
+}
+
+// StoragePoolExists checks whether an existing StoragePool resource with the given ID exists.
+func StoragePoolExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *StoragePoolState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/storagePool:StoragePool", id, state, "", opts...)
 }
 
 type storagePoolArgs struct {

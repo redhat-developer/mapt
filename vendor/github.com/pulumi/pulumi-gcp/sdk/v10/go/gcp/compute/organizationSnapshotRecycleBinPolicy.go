@@ -62,6 +62,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Snapshot Recycle Bin Policy Multiple
 //
 // ```go
@@ -202,6 +203,12 @@ type OrganizationSnapshotRecycleBinPolicyState struct {
 
 func (OrganizationSnapshotRecycleBinPolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*organizationSnapshotRecycleBinPolicyState)(nil)).Elem()
+}
+
+// OrganizationSnapshotRecycleBinPolicyExists checks whether an existing OrganizationSnapshotRecycleBinPolicy resource with the given ID exists.
+func OrganizationSnapshotRecycleBinPolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *OrganizationSnapshotRecycleBinPolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/organizationSnapshotRecycleBinPolicy:OrganizationSnapshotRecycleBinPolicy", id, state, "", opts...)
 }
 
 type organizationSnapshotRecycleBinPolicyArgs struct {

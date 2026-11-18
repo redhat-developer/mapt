@@ -299,7 +299,8 @@ type InstanceGroupManager struct {
 	// the command will fail if this field is set to "PREVENT" in Terraform state.
 	// When set to "ABANDON", the command will remove the resource from Terraform
 	// management without updating or deleting the resource in the API.
-	// When set to "DELETE", deleting the resource is allowed.
+	// When set to "DELETE", deleting the resource is allowed. If graceful shutdown is configured, the MIG waits for all instances to shut down gracefully before deletion.
+	// When set to "FORCE", deleting the resource is allowed, and graceful shutdown is skipped for instance deletion even if it's configured for the instances.
 	//
 	// ***
 	DeletionPolicy pulumi.StringOutput `pulumi:"deletionPolicy"`
@@ -312,7 +313,7 @@ type InstanceGroupManager struct {
 	InstanceGroup pulumi.StringOutput `pulumi:"instanceGroup"`
 	// The unique identifier number for the resource. This identifier is defined by the server.
 	InstanceGroupManagerId pulumi.IntOutput `pulumi:"instanceGroupManagerId"`
-	// The instance lifecycle policy for this managed instance group.
+	// The instance lifecycle policy for this managed instance group. Structure is documented below.
 	InstanceLifecyclePolicy InstanceGroupManagerInstanceLifecyclePolicyOutput `pulumi:"instanceLifecyclePolicy"`
 	// Pagination behavior of the `listManagedInstances` API
 	// method for this managed instance group. Valid values are: `PAGELESS`, `PAGINATED`.
@@ -443,7 +444,8 @@ type instanceGroupManagerState struct {
 	// the command will fail if this field is set to "PREVENT" in Terraform state.
 	// When set to "ABANDON", the command will remove the resource from Terraform
 	// management without updating or deleting the resource in the API.
-	// When set to "DELETE", deleting the resource is allowed.
+	// When set to "DELETE", deleting the resource is allowed. If graceful shutdown is configured, the MIG waits for all instances to shut down gracefully before deletion.
+	// When set to "FORCE", deleting the resource is allowed, and graceful shutdown is skipped for instance deletion even if it's configured for the instances.
 	//
 	// ***
 	DeletionPolicy *string `pulumi:"deletionPolicy"`
@@ -456,7 +458,7 @@ type instanceGroupManagerState struct {
 	InstanceGroup *string `pulumi:"instanceGroup"`
 	// The unique identifier number for the resource. This identifier is defined by the server.
 	InstanceGroupManagerId *int `pulumi:"instanceGroupManagerId"`
-	// The instance lifecycle policy for this managed instance group.
+	// The instance lifecycle policy for this managed instance group. Structure is documented below.
 	InstanceLifecyclePolicy *InstanceGroupManagerInstanceLifecyclePolicy `pulumi:"instanceLifecyclePolicy"`
 	// Pagination behavior of the `listManagedInstances` API
 	// method for this managed instance group. Valid values are: `PAGELESS`, `PAGINATED`.
@@ -552,7 +554,8 @@ type InstanceGroupManagerState struct {
 	// the command will fail if this field is set to "PREVENT" in Terraform state.
 	// When set to "ABANDON", the command will remove the resource from Terraform
 	// management without updating or deleting the resource in the API.
-	// When set to "DELETE", deleting the resource is allowed.
+	// When set to "DELETE", deleting the resource is allowed. If graceful shutdown is configured, the MIG waits for all instances to shut down gracefully before deletion.
+	// When set to "FORCE", deleting the resource is allowed, and graceful shutdown is skipped for instance deletion even if it's configured for the instances.
 	//
 	// ***
 	DeletionPolicy pulumi.StringPtrInput
@@ -565,7 +568,7 @@ type InstanceGroupManagerState struct {
 	InstanceGroup pulumi.StringPtrInput
 	// The unique identifier number for the resource. This identifier is defined by the server.
 	InstanceGroupManagerId pulumi.IntPtrInput
-	// The instance lifecycle policy for this managed instance group.
+	// The instance lifecycle policy for this managed instance group. Structure is documented below.
 	InstanceLifecyclePolicy InstanceGroupManagerInstanceLifecyclePolicyPtrInput
 	// Pagination behavior of the `listManagedInstances` API
 	// method for this managed instance group. Valid values are: `PAGELESS`, `PAGINATED`.
@@ -643,6 +646,12 @@ func (InstanceGroupManagerState) ElementType() reflect.Type {
 	return reflect.TypeOf((*instanceGroupManagerState)(nil)).Elem()
 }
 
+// InstanceGroupManagerExists checks whether an existing InstanceGroupManager resource with the given ID exists.
+func InstanceGroupManagerExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *InstanceGroupManagerState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/instanceGroupManager:InstanceGroupManager", id, state, "", opts...)
+}
+
 type instanceGroupManagerArgs struct {
 	// Properties to set on all instances in the group. After setting
 	// allInstancesConfig on the group, you must update the group's instances to
@@ -663,14 +672,15 @@ type instanceGroupManagerArgs struct {
 	// the command will fail if this field is set to "PREVENT" in Terraform state.
 	// When set to "ABANDON", the command will remove the resource from Terraform
 	// management without updating or deleting the resource in the API.
-	// When set to "DELETE", deleting the resource is allowed.
+	// When set to "DELETE", deleting the resource is allowed. If graceful shutdown is configured, the MIG waits for all instances to shut down gracefully before deletion.
+	// When set to "FORCE", deleting the resource is allowed, and graceful shutdown is skipped for instance deletion even if it's configured for the instances.
 	//
 	// ***
 	DeletionPolicy *string `pulumi:"deletionPolicy"`
 	// An optional textual description of the instance
 	// group manager.
 	Description *string `pulumi:"description"`
-	// The instance lifecycle policy for this managed instance group.
+	// The instance lifecycle policy for this managed instance group. Structure is documented below.
 	InstanceLifecyclePolicy *InstanceGroupManagerInstanceLifecyclePolicy `pulumi:"instanceLifecyclePolicy"`
 	// Pagination behavior of the `listManagedInstances` API
 	// method for this managed instance group. Valid values are: `PAGELESS`, `PAGINATED`.
@@ -760,14 +770,15 @@ type InstanceGroupManagerArgs struct {
 	// the command will fail if this field is set to "PREVENT" in Terraform state.
 	// When set to "ABANDON", the command will remove the resource from Terraform
 	// management without updating or deleting the resource in the API.
-	// When set to "DELETE", deleting the resource is allowed.
+	// When set to "DELETE", deleting the resource is allowed. If graceful shutdown is configured, the MIG waits for all instances to shut down gracefully before deletion.
+	// When set to "FORCE", deleting the resource is allowed, and graceful shutdown is skipped for instance deletion even if it's configured for the instances.
 	//
 	// ***
 	DeletionPolicy pulumi.StringPtrInput
 	// An optional textual description of the instance
 	// group manager.
 	Description pulumi.StringPtrInput
-	// The instance lifecycle policy for this managed instance group.
+	// The instance lifecycle policy for this managed instance group. Structure is documented below.
 	InstanceLifecyclePolicy InstanceGroupManagerInstanceLifecyclePolicyPtrInput
 	// Pagination behavior of the `listManagedInstances` API
 	// method for this managed instance group. Valid values are: `PAGELESS`, `PAGINATED`.
@@ -960,7 +971,8 @@ func (o InstanceGroupManagerOutput) CreationTimestamp() pulumi.StringOutput {
 // the command will fail if this field is set to "PREVENT" in Terraform state.
 // When set to "ABANDON", the command will remove the resource from Terraform
 // management without updating or deleting the resource in the API.
-// When set to "DELETE", deleting the resource is allowed.
+// When set to "DELETE", deleting the resource is allowed. If graceful shutdown is configured, the MIG waits for all instances to shut down gracefully before deletion.
+// When set to "FORCE", deleting the resource is allowed, and graceful shutdown is skipped for instance deletion even if it's configured for the instances.
 //
 // ***
 func (o InstanceGroupManagerOutput) DeletionPolicy() pulumi.StringOutput {
@@ -988,7 +1000,7 @@ func (o InstanceGroupManagerOutput) InstanceGroupManagerId() pulumi.IntOutput {
 	return o.ApplyT(func(v *InstanceGroupManager) pulumi.IntOutput { return v.InstanceGroupManagerId }).(pulumi.IntOutput)
 }
 
-// The instance lifecycle policy for this managed instance group.
+// The instance lifecycle policy for this managed instance group. Structure is documented below.
 func (o InstanceGroupManagerOutput) InstanceLifecyclePolicy() InstanceGroupManagerInstanceLifecyclePolicyOutput {
 	return o.ApplyT(func(v *InstanceGroupManager) InstanceGroupManagerInstanceLifecyclePolicyOutput {
 		return v.InstanceLifecyclePolicy

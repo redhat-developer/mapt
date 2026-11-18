@@ -7,7 +7,7 @@ package apitype
 // A simple struct representing the metadata needed to add an item via user-facing information.
 type AddServiceItem struct {
 	// the type of the item to add
-	Type string `json:"type" yaml:"type"`
+	Type ServiceItemType `json:"type" yaml:"type"`
 	// the name (including any namespacing) of the item
 	Name string `json:"name" yaml:"name"`
 }

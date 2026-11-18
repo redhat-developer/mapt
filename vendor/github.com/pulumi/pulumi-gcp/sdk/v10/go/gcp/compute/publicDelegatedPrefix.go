@@ -60,6 +60,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Public Delegated Prefixes Ipv6
 //
 // ```go
@@ -112,6 +113,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Public Delegated Prefix Ipv6 Subnet Mode
 //
 // ```go
@@ -163,6 +165,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Public Delegated Prefix Internal Ipv6 Subnet Mode
 //
 // ```go
@@ -451,6 +454,12 @@ type PublicDelegatedPrefixState struct {
 
 func (PublicDelegatedPrefixState) ElementType() reflect.Type {
 	return reflect.TypeOf((*publicDelegatedPrefixState)(nil)).Elem()
+}
+
+// PublicDelegatedPrefixExists checks whether an existing PublicDelegatedPrefix resource with the given ID exists.
+func PublicDelegatedPrefixExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *PublicDelegatedPrefixState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/publicDelegatedPrefix:PublicDelegatedPrefix", id, state, "", opts...)
 }
 
 type publicDelegatedPrefixArgs struct {

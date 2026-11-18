@@ -80,6 +80,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Endpoint Group Non Gcp
 //
 // ```go
@@ -330,6 +331,12 @@ type NetworkEndpointGroupState struct {
 
 func (NetworkEndpointGroupState) ElementType() reflect.Type {
 	return reflect.TypeOf((*networkEndpointGroupState)(nil)).Elem()
+}
+
+// NetworkEndpointGroupExists checks whether an existing NetworkEndpointGroup resource with the given ID exists.
+func NetworkEndpointGroupExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *NetworkEndpointGroupState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/networkEndpointGroup:NetworkEndpointGroup", id, state, "", opts...)
 }
 
 type networkEndpointGroupArgs struct {

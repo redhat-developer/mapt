@@ -41,6 +41,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Firewall Policy Roce
 //
 // ```go
@@ -227,6 +228,12 @@ type RegionNetworkFirewallPolicyState struct {
 
 func (RegionNetworkFirewallPolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionNetworkFirewallPolicyState)(nil)).Elem()
+}
+
+// RegionNetworkFirewallPolicyExists checks whether an existing RegionNetworkFirewallPolicy resource with the given ID exists.
+func RegionNetworkFirewallPolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionNetworkFirewallPolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionNetworkFirewallPolicy:RegionNetworkFirewallPolicy", id, state, "", opts...)
 }
 
 type regionNetworkFirewallPolicyArgs struct {

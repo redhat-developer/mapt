@@ -9,5 +9,6 @@ type CreateTeamAccessTokenRequest struct {
 	BaseCreateAccessTokenRequest
 
 	// The display name of the token. Must be between 1 and 40 characters.
+	// Constraints: minLength 1, maxLength 40
 	Name string `json:"name" yaml:"name"`
 }

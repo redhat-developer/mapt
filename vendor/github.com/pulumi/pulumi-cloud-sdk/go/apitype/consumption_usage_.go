@@ -23,4 +23,8 @@ type ConsumptionUsage struct {
 	StatsV0 *ConsumptionUsageStatsV0 `json:"statsV0,omitempty" yaml:"statsV0,omitempty"`
 	// StatsV1 are the usage statistics, and will be populated for graduated-v1 plans.
 	StatsV1 *ConsumptionUsageStatsV1 `json:"statsV1,omitempty" yaml:"statsV1,omitempty"`
+	// Periods breaks the consumption down into the periods its price applies to on its own, oldest first, the last being the current one;
+	// totalConsumed is their sum. Set for Delivery pipelines, which a sales-led contract counts per month of the contract, each month with its
+	// own free pipeline.
+	Periods []ConsumptionUsagePeriod `json:"periods,omitempty" yaml:"periods,omitempty"`
 }

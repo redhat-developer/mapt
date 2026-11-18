@@ -53,13 +53,37 @@ const (
 	RbacPermissionStackScheduleDelete            RbacPermission = "stack_schedule:delete"
 	RbacPermissionStackSchedulePause             RbacPermission = "stack_schedule:pause"
 	RbacPermissionStackScheduleResume            RbacPermission = "stack_schedule:resume"
-	RbacPermissionOrganizationReadUsage          RbacPermission = "organization:read_usage"
-	RbacPermissionOrganizationUpdate             RbacPermission = "organization:update"
-	RbacPermissionOrganizationRename             RbacPermission = "organization:rename"
-	RbacPermissionOrganizationDelete             RbacPermission = "organization:delete"
-	RbacPermissionOrganizationChangeBackend      RbacPermission = "organization:change_backend"
-	RbacPermissionOrganizationBilling            RbacPermission = "organization:billing"
-	RbacPermissionOrganizationPotential          RbacPermission = "organization:potential"
+
+	// Start a run of a Delivery pipeline.
+	RbacPermissionPipelineDispatch RbacPermission = "pipeline:dispatch"
+
+	// Cancel a run of a Delivery pipeline.
+	RbacPermissionPipelineCancel RbacPermission = "pipeline:cancel"
+
+	// Retry a failed run of a Delivery pipeline.
+	RbacPermissionPipelineRetry RbacPermission = "pipeline:retry"
+
+	// Deploy the current release of a Delivery pipeline stage again.
+	RbacPermissionPipelineRedeploy RbacPermission = "pipeline:redeploy"
+
+	// Roll a Delivery pipeline stage back to an earlier release.
+	RbacPermissionPipelineRollback RbacPermission = "pipeline:rollback"
+
+	// Deploy a ready release to a Delivery pipeline stage without waiting for its gate.
+	RbacPermissionPipelineForcePromote RbacPermission = "pipeline:force_promote"
+
+	// Continue the manual condition of a Delivery gate, and approve or reject Delivery approvals that name no approvers.
+	RbacPermissionPipelineApprove RbacPermission = "pipeline:approve"
+
+	// Pause and resume a Delivery pipeline stage.
+	RbacPermissionPipelinePause             RbacPermission = "pipeline:pause"
+	RbacPermissionOrganizationReadUsage     RbacPermission = "organization:read_usage"
+	RbacPermissionOrganizationUpdate        RbacPermission = "organization:update"
+	RbacPermissionOrganizationRename        RbacPermission = "organization:rename"
+	RbacPermissionOrganizationDelete        RbacPermission = "organization:delete"
+	RbacPermissionOrganizationChangeBackend RbacPermission = "organization:change_backend"
+	RbacPermissionOrganizationBilling       RbacPermission = "organization:billing"
+	RbacPermissionOrganizationPotential     RbacPermission = "organization:potential"
 
 	// OrganizationTransferStacks differs from Stack Transfer as it enables transferring all stacks within the organization, rather than being
 	// tied to an individual stack.
@@ -89,6 +113,7 @@ const (
 	RbacPermissionOrgTokenRead                       RbacPermission = "org_token:read"
 	RbacPermissionOrgTokenCreate                     RbacPermission = "org_token:create"
 	RbacPermissionOrgTokenDelete                     RbacPermission = "org_token:delete"
+	RbacPermissionServicePrincipalCreate             RbacPermission = "service_principal:create"
 	RbacPermissionAuthPoliciesRead                   RbacPermission = "auth_policies:read"
 	RbacPermissionAuthPoliciesUpdate                 RbacPermission = "auth_policies:update"
 	RbacPermissionOidcIssuersRead                    RbacPermission = "oidc_issuers:read"
@@ -267,6 +292,14 @@ func (v RbacPermission) AllValues() []RbacPermission {
 		RbacPermissionStackScheduleDelete,
 		RbacPermissionStackSchedulePause,
 		RbacPermissionStackScheduleResume,
+		RbacPermissionPipelineDispatch,
+		RbacPermissionPipelineCancel,
+		RbacPermissionPipelineRetry,
+		RbacPermissionPipelineRedeploy,
+		RbacPermissionPipelineRollback,
+		RbacPermissionPipelineForcePromote,
+		RbacPermissionPipelineApprove,
+		RbacPermissionPipelinePause,
 		RbacPermissionOrganizationReadUsage,
 		RbacPermissionOrganizationUpdate,
 		RbacPermissionOrganizationRename,
@@ -300,6 +333,7 @@ func (v RbacPermission) AllValues() []RbacPermission {
 		RbacPermissionOrgTokenRead,
 		RbacPermissionOrgTokenCreate,
 		RbacPermissionOrgTokenDelete,
+		RbacPermissionServicePrincipalCreate,
 		RbacPermissionAuthPoliciesRead,
 		RbacPermissionAuthPoliciesUpdate,
 		RbacPermissionOidcIssuersRead,
@@ -519,6 +553,22 @@ func (v RbacPermission) IsValid() bool {
 		return true
 	case RbacPermissionStackScheduleResume:
 		return true
+	case RbacPermissionPipelineDispatch:
+		return true
+	case RbacPermissionPipelineCancel:
+		return true
+	case RbacPermissionPipelineRetry:
+		return true
+	case RbacPermissionPipelineRedeploy:
+		return true
+	case RbacPermissionPipelineRollback:
+		return true
+	case RbacPermissionPipelineForcePromote:
+		return true
+	case RbacPermissionPipelineApprove:
+		return true
+	case RbacPermissionPipelinePause:
+		return true
 	case RbacPermissionOrganizationReadUsage:
 		return true
 	case RbacPermissionOrganizationUpdate:
@@ -584,6 +634,8 @@ func (v RbacPermission) IsValid() bool {
 	case RbacPermissionOrgTokenCreate:
 		return true
 	case RbacPermissionOrgTokenDelete:
+		return true
+	case RbacPermissionServicePrincipalCreate:
 		return true
 	case RbacPermissionAuthPoliciesRead:
 		return true
@@ -940,6 +992,22 @@ func (v RbacPermission) openapiName() string {
 		return "StackSchedulePause"
 	case RbacPermissionStackScheduleResume:
 		return "StackScheduleResume"
+	case RbacPermissionPipelineDispatch:
+		return "PipelineDispatch"
+	case RbacPermissionPipelineCancel:
+		return "PipelineCancel"
+	case RbacPermissionPipelineRetry:
+		return "PipelineRetry"
+	case RbacPermissionPipelineRedeploy:
+		return "PipelineRedeploy"
+	case RbacPermissionPipelineRollback:
+		return "PipelineRollback"
+	case RbacPermissionPipelineForcePromote:
+		return "PipelineForcePromote"
+	case RbacPermissionPipelineApprove:
+		return "PipelineApprove"
+	case RbacPermissionPipelinePause:
+		return "PipelinePause"
 	case RbacPermissionOrganizationReadUsage:
 		return "OrganizationReadUsage"
 	case RbacPermissionOrganizationUpdate:
@@ -1006,6 +1074,8 @@ func (v RbacPermission) openapiName() string {
 		return "OrgTokenCreate"
 	case RbacPermissionOrgTokenDelete:
 		return "OrgTokenDelete"
+	case RbacPermissionServicePrincipalCreate:
+		return "ServicePrincipalCreate"
 	case RbacPermissionAuthPoliciesRead:
 		return "AuthPoliciesRead"
 	case RbacPermissionAuthPoliciesUpdate:

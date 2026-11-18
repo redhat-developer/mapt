@@ -8,7 +8,7 @@ package apitype
 // that allows them to access and mutate a service.
 type ServiceMember struct {
 	// the type of the member (e.g. team / user)
-	Type string `json:"type" yaml:"type"`
+	Type ServiceMemberType `json:"type" yaml:"type"`
 	// the login name of the member within Pulumi
 	Name string `json:"name" yaml:"name"`
 	// an optional avatar URL for the member

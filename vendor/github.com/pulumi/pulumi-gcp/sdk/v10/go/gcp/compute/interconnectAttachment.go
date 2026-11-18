@@ -71,6 +71,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Interconnect Attachment Ipsec Encryption
 //
 // ```go
@@ -132,6 +133,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Interconnect Attachment Custom Ranges
 //
 // ```go
@@ -785,6 +787,12 @@ type InterconnectAttachmentState struct {
 
 func (InterconnectAttachmentState) ElementType() reflect.Type {
 	return reflect.TypeOf((*interconnectAttachmentState)(nil)).Elem()
+}
+
+// InterconnectAttachmentExists checks whether an existing InterconnectAttachment resource with the given ID exists.
+func InterconnectAttachmentExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *InterconnectAttachmentState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/interconnectAttachment:InterconnectAttachment", id, state, "", opts...)
 }
 
 type interconnectAttachmentArgs struct {

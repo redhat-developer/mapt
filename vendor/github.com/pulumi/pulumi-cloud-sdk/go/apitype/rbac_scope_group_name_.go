@@ -15,6 +15,7 @@ const (
 	RbacScopeGroupNameStackWebhooks              RbacScopeGroupName = "Stack webhooks"
 	RbacScopeGroupNameStackTags                  RbacScopeGroupName = "Stack tags"
 	RbacScopeGroupNameStackDeploySchedules       RbacScopeGroupName = "Stack deployment schedules"
+	RbacScopeGroupNameStackDeliveryPipelines     RbacScopeGroupName = "Delivery pipelines"
 	RbacScopeGroupNameAgentPools                 RbacScopeGroupName = "Agent pools"
 	RbacScopeGroupNameEnvironments               RbacScopeGroupName = "Environments"
 	RbacScopeGroupNameEnvironmentWebhooks        RbacScopeGroupName = "Environment webhooks"
@@ -55,6 +56,7 @@ func (v RbacScopeGroupName) AllValues() []RbacScopeGroupName {
 		RbacScopeGroupNameStackWebhooks,
 		RbacScopeGroupNameStackTags,
 		RbacScopeGroupNameStackDeploySchedules,
+		RbacScopeGroupNameStackDeliveryPipelines,
 		RbacScopeGroupNameAgentPools,
 		RbacScopeGroupNameEnvironments,
 		RbacScopeGroupNameEnvironmentWebhooks,
@@ -100,6 +102,8 @@ func (v RbacScopeGroupName) IsValid() bool {
 	case RbacScopeGroupNameStackTags:
 		return true
 	case RbacScopeGroupNameStackDeploySchedules:
+		return true
+	case RbacScopeGroupNameStackDeliveryPipelines:
 		return true
 	case RbacScopeGroupNameAgentPools:
 		return true
@@ -180,6 +184,8 @@ func (v RbacScopeGroupName) openapiName() string {
 		return "StackTags"
 	case RbacScopeGroupNameStackDeploySchedules:
 		return "StackDeploySchedules"
+	case RbacScopeGroupNameStackDeliveryPipelines:
+		return "StackDeliveryPipelines"
 	case RbacScopeGroupNameAgentPools:
 		return "AgentPools"
 	case RbacScopeGroupNameEnvironments:

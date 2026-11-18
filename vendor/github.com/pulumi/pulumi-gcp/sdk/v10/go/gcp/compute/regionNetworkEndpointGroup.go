@@ -86,6 +86,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Cloudrun
 //
 // ```go
@@ -140,6 +141,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Appengine
 //
 // ```go
@@ -244,6 +246,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Appengine Empty
 //
 // ```go
@@ -273,6 +276,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Psc
 //
 // ```go
@@ -301,6 +305,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Psc Service Attachment
 //
 // ```go
@@ -407,6 +412,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Internet Ip Port
 //
 // ```go
@@ -441,6 +447,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Internet Fqdn Port
 //
 // ```go
@@ -475,6 +482,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Group Portmap
 //
 // ```go
@@ -762,6 +770,12 @@ type RegionNetworkEndpointGroupState struct {
 
 func (RegionNetworkEndpointGroupState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionNetworkEndpointGroupState)(nil)).Elem()
+}
+
+// RegionNetworkEndpointGroupExists checks whether an existing RegionNetworkEndpointGroup resource with the given ID exists.
+func RegionNetworkEndpointGroupExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionNetworkEndpointGroupState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionNetworkEndpointGroup:RegionNetworkEndpointGroup", id, state, "", opts...)
 }
 
 type regionNetworkEndpointGroupArgs struct {

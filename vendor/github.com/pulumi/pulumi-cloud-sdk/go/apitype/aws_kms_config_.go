@@ -8,6 +8,6 @@ package apitype
 type AwsKmsConfig struct {
 	// ARN of the IAM role to assume for KMS operations.
 	RoleArn string `json:"roleArn" yaml:"roleArn"`
-	// ARN of the KMS key to use for encrypting/decrypting secrets.
+	// Key ARN of the KMS key to use for encrypting/decrypting secrets. Alias ARNs are not accepted.
 	KeyArn string `json:"keyArn" yaml:"keyArn"`
 }

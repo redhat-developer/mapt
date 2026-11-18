@@ -13,7 +13,7 @@ type ServiceItem struct {
 	// the name of the organization this item belongs to
 	OrganizationName string `json:"organizationName" yaml:"organizationName"`
 	// the type of the item
-	Type string `json:"type" yaml:"type"`
+	Type ServiceItemType `json:"type" yaml:"type"`
 	// the name (including any namespacing) of the item
 	Name string `json:"name" yaml:"name"`
 	// optional field if the item has versioning

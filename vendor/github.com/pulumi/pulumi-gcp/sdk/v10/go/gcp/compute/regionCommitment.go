@@ -62,6 +62,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Region Commitment Full
 //
 // ## Import
@@ -315,6 +316,12 @@ type RegionCommitmentState struct {
 
 func (RegionCommitmentState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionCommitmentState)(nil)).Elem()
+}
+
+// RegionCommitmentExists checks whether an existing RegionCommitment resource with the given ID exists.
+func RegionCommitmentExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionCommitmentState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionCommitment:RegionCommitment", id, state, "", opts...)
 }
 
 type regionCommitmentArgs struct {

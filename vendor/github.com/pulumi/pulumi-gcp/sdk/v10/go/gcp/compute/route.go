@@ -78,6 +78,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Route Ilb
 //
 // ```go
@@ -154,6 +155,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Route Ilb Vip
 //
 // ```go
@@ -651,6 +653,12 @@ type RouteState struct {
 
 func (RouteState) ElementType() reflect.Type {
 	return reflect.TypeOf((*routeState)(nil)).Elem()
+}
+
+// RouteExists checks whether an existing Route resource with the given ID exists.
+func RouteExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RouteState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/route:Route", id, state, "", opts...)
 }
 
 type routeArgs struct {

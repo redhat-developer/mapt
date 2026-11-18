@@ -32,4 +32,7 @@ type Team struct {
 	// RoleIDs are the IDs of the FGA roles assigned to the team, if any.
 	// Currently only one role per team is supported.
 	RoleIDs []string `json:"roleIds,omitempty" yaml:"roleIds,omitempty"`
+	// Whether this is the Everyone team: every admin and member of the organization is in it, but
+	// no billing manager. Pulumi manages it, so its name, description, members and roles cannot change.
+	Everyone bool `json:"everyone,omitzero" yaml:"everyone,omitempty"`
 }

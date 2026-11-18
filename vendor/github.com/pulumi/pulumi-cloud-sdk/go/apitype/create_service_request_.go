@@ -8,10 +8,11 @@ package apitype
 // of items to populate the service with after creation.
 type CreateServiceRequest struct {
 	// the service owner type
-	OwnerType string `json:"ownerType" yaml:"ownerType"`
+	OwnerType ServiceMemberType `json:"ownerType" yaml:"ownerType"`
 	// the service owner name
 	OwnerName string `json:"ownerName" yaml:"ownerName"`
 	// The name of the service. Between 1 and 80 characters.
+	// Constraints: minLength 1, maxLength 80
 	Name string `json:"name" yaml:"name"`
 	// an optional description of the service
 	Description string `json:"description" yaml:"description"`

@@ -114,6 +114,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Vpn Gateway Tags
 //
 // ## Import
@@ -277,6 +278,12 @@ type VPNGatewayState struct {
 
 func (VPNGatewayState) ElementType() reflect.Type {
 	return reflect.TypeOf((*vpngatewayState)(nil)).Elem()
+}
+
+// VPNGatewayExists checks whether an existing VPNGateway resource with the given ID exists.
+func VPNGatewayExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *VPNGatewayState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/vPNGateway:VPNGateway", id, state, "", opts...)
 }
 
 type vpngatewayArgs struct {

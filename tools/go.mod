@@ -5,7 +5,7 @@ go 1.27.0
 replace (
 	github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.2.1
 	github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.1.1
-	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.0.6
+	github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.1.1
 )
 
 require github.com/golangci/golangci-lint/v2 v2.15.0

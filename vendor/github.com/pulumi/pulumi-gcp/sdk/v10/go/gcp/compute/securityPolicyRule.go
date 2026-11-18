@@ -67,6 +67,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Security Policy Rule Default Rule
 //
 // ```go
@@ -129,6 +130,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Security Policy Rule Multiple Rules
 //
 // ```go
@@ -193,6 +195,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Security Policy Rule Advanced Features
 //
 // ```go
@@ -257,6 +260,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Security Policy Rule With Body Exclude
 //
 // ```go
@@ -395,6 +399,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Security Policy Rule Request Body Expression
 //
 // ```go
@@ -635,6 +640,12 @@ type SecurityPolicyRuleState struct {
 
 func (SecurityPolicyRuleState) ElementType() reflect.Type {
 	return reflect.TypeOf((*securityPolicyRuleState)(nil)).Elem()
+}
+
+// SecurityPolicyRuleExists checks whether an existing SecurityPolicyRule resource with the given ID exists.
+func SecurityPolicyRuleExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *SecurityPolicyRuleState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/securityPolicyRule:SecurityPolicyRule", id, state, "", opts...)
 }
 
 type securityPolicyRuleArgs struct {

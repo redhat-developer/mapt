@@ -1,3 +1,16 @@
+# v1.106.0 (2026-11-16)
+
+* **Feature**: Amazon ECS gateway connectors now support a configurable deregistration delay (0-3600 seconds, default 300 seconds).
+
+# v1.105.1 (2026-11-10)
+
+* **Dependency Update**: Update to smithy-go v1.28.9.
+* **Dependency Update**: Updated to the latest SDK module versions
+
+# v1.105.0 (2026-11-09)
+
+* **Feature**: Amazon ECS Managed Instances now supports isolated and confidential tasks, which run in AWS Nitro Sandboxes. Configure them with trustedExecutionConfiguration in task definitions and nitroEnclavesEnabled in capacity providers.
+
 # v1.104.2 (2026-11-06)
 
 * **Dependency Update**: Updated to the latest SDK module versions

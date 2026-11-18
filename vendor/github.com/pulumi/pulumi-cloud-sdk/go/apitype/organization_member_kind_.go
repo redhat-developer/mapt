@@ -18,12 +18,16 @@ const (
 
 	// List members registered in the Pulumi Service frontend.
 	OrganizationMemberKindFrontend OrganizationMemberKind = "frontend"
+
+	// List the organization's service principals, other than those that act for a team.
+	OrganizationMemberKindServicePrincipal OrganizationMemberKind = "service-principal"
 )
 
 func (v OrganizationMemberKind) AllValues() []OrganizationMemberKind {
 	return []OrganizationMemberKind{
 		OrganizationMemberKindBackend,
 		OrganizationMemberKindFrontend,
+		OrganizationMemberKindServicePrincipal,
 	}
 }
 
@@ -32,6 +36,8 @@ func (v OrganizationMemberKind) IsValid() bool {
 	case OrganizationMemberKindBackend:
 		return true
 	case OrganizationMemberKindFrontend:
+		return true
+	case OrganizationMemberKindServicePrincipal:
 		return true
 	}
 
@@ -44,6 +50,8 @@ func (v OrganizationMemberKind) openapiName() string {
 		return "Backend"
 	case OrganizationMemberKindFrontend:
 		return "Frontend"
+	case OrganizationMemberKindServicePrincipal:
+		return "ServicePrincipal"
 	}
 
 	return ""

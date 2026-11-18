@@ -11,7 +11,7 @@ type ServiceProperty struct {
 	// the value of the property
 	Value string `json:"value" yaml:"value"`
 	// the type of the property
-	Type string `json:"type" yaml:"type"`
+	Type ServicePropertyType `json:"type" yaml:"type"`
 	// the position of the property
 	Position int64 `json:"order" yaml:"order"`
 }

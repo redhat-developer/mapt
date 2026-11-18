@@ -47,6 +47,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Project Cloud Armor Tier Project Set
 //
 // ```go
@@ -192,6 +193,12 @@ type ProjectCloudArmorTierState struct {
 
 func (ProjectCloudArmorTierState) ElementType() reflect.Type {
 	return reflect.TypeOf((*projectCloudArmorTierState)(nil)).Elem()
+}
+
+// ProjectCloudArmorTierExists checks whether an existing ProjectCloudArmorTier resource with the given ID exists.
+func ProjectCloudArmorTierExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *ProjectCloudArmorTierState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/projectCloudArmorTier:ProjectCloudArmorTier", id, state, "", opts...)
 }
 
 type projectCloudArmorTierArgs struct {

@@ -33,4 +33,13 @@ type CreateAgentDefinitionRequest struct {
 	// agent propose rather than act, and applies to every run of the agent, including scheduled and triggered ones -- such a run stops and
 	// waits for a person even though nothing yet notifies them it is waiting, so choose it deliberately for an unattended agent.
 	ApprovalMode NeoApprovalMode `json:"approvalMode,omitempty" yaml:"approvalMode,omitempty"`
+	// The model provider the agent's tasks run on: a provider name, or 'pulumi' for Pulumi's built-in models. On creation, omitted, null, or
+	// empty uses the organization's default provider; on update, omitted or null keeps the stored provider and empty returns to that default.
+	ModelProvider *string `json:"modelProvider,omitempty" yaml:"modelProvider,omitempty"`
+	// Effort the agent's models reason or think at: 'low', 'medium', or 'high', for this agent only. On an 'openai-responses' provider it
+	// overrides the provider's reasoning effort; on an 'anthropic-messages' provider it sets the thinking effort of models that support
+	// adaptive thinking. With no provider it applies to whichever of these the organization's default is. Refused for 'pulumi' and a named
+	// 'openai-chat' provider, and ignored on a run whose provider cannot reason. On creation, omitted, null, or empty uses the provider's; on
+	// update, omitted or null keeps the stored effort and empty returns to the provider's.
+	ReasoningEffort *string `json:"reasoningEffort,omitempty" yaml:"reasoningEffort,omitempty"`
 }

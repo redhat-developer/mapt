@@ -70,6 +70,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Disk Basic Wo
 //
 // ```go
@@ -106,6 +107,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Disk Rsa Encrypted Key Wo
 //
 // ```go
@@ -138,6 +140,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Disk Async
 //
 // ```go
@@ -178,6 +181,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Disk Features
 //
 // ```go
@@ -283,8 +287,9 @@ type Disk struct {
 	// If you do not provide an encryption key when creating the disk, then
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the disk.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the disk.
 	// Structure is documented below.
 	DiskEncryptionKey DiskDiskEncryptionKeyPtrOutput `pulumi:"diskEncryptionKey"`
 	// The unique identifier for the resource. This identifier is defined by the server.
@@ -540,8 +545,9 @@ type diskState struct {
 	// If you do not provide an encryption key when creating the disk, then
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the disk.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the disk.
 	// Structure is documented below.
 	DiskEncryptionKey *DiskDiskEncryptionKey `pulumi:"diskEncryptionKey"`
 	// The unique identifier for the resource. This identifier is defined by the server.
@@ -763,8 +769,9 @@ type DiskState struct {
 	// If you do not provide an encryption key when creating the disk, then
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the disk.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the disk.
 	// Structure is documented below.
 	DiskEncryptionKey DiskDiskEncryptionKeyPtrInput
 	// The unique identifier for the resource. This identifier is defined by the server.
@@ -950,6 +957,12 @@ func (DiskState) ElementType() reflect.Type {
 	return reflect.TypeOf((*diskState)(nil)).Elem()
 }
 
+// DiskExists checks whether an existing Disk resource with the given ID exists.
+func DiskExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *DiskState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/disk:Disk", id, state, "", opts...)
+}
+
 type diskArgs struct {
 	// The access mode of the disk.
 	// For example:
@@ -988,8 +1001,9 @@ type diskArgs struct {
 	// If you do not provide an encryption key when creating the disk, then
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the disk.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the disk.
 	// Structure is documented below.
 	DiskEncryptionKey *DiskDiskEncryptionKey `pulumi:"diskEncryptionKey"`
 	// Whether this disk is using confidential compute mode.
@@ -1168,8 +1182,9 @@ type DiskArgs struct {
 	// If you do not provide an encryption key when creating the disk, then
 	// the disk will be encrypted using an automatically generated key and
 	// you do not need to provide a key to use the disk later.
-	// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-	// done in place; other changes to this block recreate the disk.
+	// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+	// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+	// fails at plan time. Other changes to this block recreate the disk.
 	// Structure is documented below.
 	DiskEncryptionKey DiskDiskEncryptionKeyPtrInput
 	// Whether this disk is using confidential compute mode.
@@ -1459,8 +1474,9 @@ func (o DiskOutput) Description() pulumi.StringPtrOutput {
 // If you do not provide an encryption key when creating the disk, then
 // the disk will be encrypted using an automatically generated key and
 // you do not need to provide a key to use the disk later.
-// ~>**NOTE** Only changing `kmsKeySelfLink` between Cloud KMS keys is
-// done in place; other changes to this block recreate the disk.
+// ~>**NOTE** `kmsKeySelfLink` can be added or changed in place.
+// Removing it, or changing it while `kmsKeyServiceAccount` is set,
+// fails at plan time. Other changes to this block recreate the disk.
 // Structure is documented below.
 func (o DiskOutput) DiskEncryptionKey() DiskDiskEncryptionKeyPtrOutput {
 	return o.ApplyT(func(v *Disk) DiskDiskEncryptionKeyPtrOutput { return v.DiskEncryptionKey }).(DiskDiskEncryptionKeyPtrOutput)

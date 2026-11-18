@@ -33,6 +33,8 @@ type AgentTask struct {
 	PlanMode bool `json:"planMode" yaml:"planMode"`
 	// Whether this task is shared with other org members.
 	IsShared bool `json:"isShared" yaml:"isShared"`
+	// Whether the task accepts user interaction. Read-only tasks do not accept follow-up input.
+	InteractionMode AgentTaskInteractionMode `json:"interactionMode,omitempty" yaml:"interactionMode,omitempty"`
 	// When the task was first shared. Null if never shared.
 	SharedAt time.Time `json:"sharedAt" yaml:"sharedAt,omitempty"`
 	// Information about the user who created this task.
@@ -70,37 +72,48 @@ type AgentTask struct {
 	// The version control system this task operates against. Set for tasks that target a specific VCS platform (e.g. code reviews). Null for
 	// tasks with no VCS context.
 	VcsProvider *VCSProvider `json:"vcsProvider,omitempty" yaml:"vcsProvider,omitempty"`
+	// The model provider the task's turns run on, pinned at its first turn: 'pulumi' for Pulumi's built-in models, or the name of one of the
+	// organization's model providers. Null until the first turn.
+	ModelProvider *string `json:"modelProvider,omitempty" yaml:"modelProvider,omitempty"`
+	// The model the task's main loop last ran on, as its provider reported it. Null until the task has used a model.
+	Model *string `json:"model,omitempty" yaml:"model,omitempty"`
+	// When the task was archived. Null while the task remains active.
+	ArchivedAt *time.Time `json:"archivedAt,omitempty" yaml:"archivedAt,omitempty"`
 }
 
 func (m *AgentTask) UnmarshalJSON(bytes []byte) error {
 	type decoder struct {
-		FieldID                                string                 `json:"id"`
-		FieldName                              string                 `json:"name"`
-		FieldTaskType                          AgentTaskType          `json:"taskType"`
-		FieldAsyncTriggerType                  *AgentAsyncTriggerType `json:"asyncTriggerType,omitempty"`
-		FieldStatus                            AgentTaskStatus        `json:"status"`
-		FieldCreatedAt                         time.Time              `json:"createdAt"`
-		FieldApprovalMode                      NeoApprovalMode        `json:"approvalMode"`
-		FieldEntities                          []json.RawMessage      `json:"entities"`
-		FieldPlanMode                          bool                   `json:"planMode"`
-		FieldIsShared                          bool                   `json:"isShared"`
-		FieldSharedAt                          time.Time              `json:"sharedAt"`
-		FieldCreatedBy                         UserInfo               `json:"createdBy"`
-		FieldPermissionMode                    NeoPermissionMode      `json:"permissionMode,omitempty"`
-		FieldRole                              *string                `json:"role,omitempty"`
-		FieldRoleName                          *string                `json:"roleName,omitempty"`
-		FieldRuntimePhase                      AgentTaskRuntimePhase  `json:"runtimePhase,omitempty"`
-		FieldLastHeartbeat                     *time.Time             `json:"lastHeartbeat,omitempty"`
-		FieldContextUsedTokens                 int32                  `json:"contextUsedTokens,omitzero"`
-		FieldContextWindowTokens               int32                  `json:"contextWindowTokens,omitzero"`
-		FieldContextCompactionThresholdPercent int32                  `json:"contextCompactionThresholdPercent,omitzero"`
-		FieldTokensUsed                        int64                  `json:"tokensUsed"`
-		FieldToolExecutionMode                 ToolExecutionMode      `json:"toolExecutionMode,omitempty"`
-		FieldSourceAutomationID                *string                `json:"sourceAutomationID,omitempty"`
-		FieldAgentDefinitionID                 *string                `json:"agentDefinitionId,omitempty"`
-		FieldPendingInputCount                 int32                  `json:"pendingInputCount,omitzero"`
-		FieldSource                            AgentTaskSource        `json:"source,omitempty"`
-		FieldVcsProvider                       *VCSProvider           `json:"vcsProvider,omitempty"`
+		FieldID                                string                   `json:"id"`
+		FieldName                              string                   `json:"name"`
+		FieldTaskType                          AgentTaskType            `json:"taskType"`
+		FieldAsyncTriggerType                  *AgentAsyncTriggerType   `json:"asyncTriggerType,omitempty"`
+		FieldStatus                            AgentTaskStatus          `json:"status"`
+		FieldCreatedAt                         time.Time                `json:"createdAt"`
+		FieldApprovalMode                      NeoApprovalMode          `json:"approvalMode"`
+		FieldEntities                          []json.RawMessage        `json:"entities"`
+		FieldPlanMode                          bool                     `json:"planMode"`
+		FieldIsShared                          bool                     `json:"isShared"`
+		FieldInteractionMode                   AgentTaskInteractionMode `json:"interactionMode,omitempty"`
+		FieldSharedAt                          time.Time                `json:"sharedAt"`
+		FieldCreatedBy                         UserInfo                 `json:"createdBy"`
+		FieldPermissionMode                    NeoPermissionMode        `json:"permissionMode,omitempty"`
+		FieldRole                              *string                  `json:"role,omitempty"`
+		FieldRoleName                          *string                  `json:"roleName,omitempty"`
+		FieldRuntimePhase                      AgentTaskRuntimePhase    `json:"runtimePhase,omitempty"`
+		FieldLastHeartbeat                     *time.Time               `json:"lastHeartbeat,omitempty"`
+		FieldContextUsedTokens                 int32                    `json:"contextUsedTokens,omitzero"`
+		FieldContextWindowTokens               int32                    `json:"contextWindowTokens,omitzero"`
+		FieldContextCompactionThresholdPercent int32                    `json:"contextCompactionThresholdPercent,omitzero"`
+		FieldTokensUsed                        int64                    `json:"tokensUsed"`
+		FieldToolExecutionMode                 ToolExecutionMode        `json:"toolExecutionMode,omitempty"`
+		FieldSourceAutomationID                *string                  `json:"sourceAutomationID,omitempty"`
+		FieldAgentDefinitionID                 *string                  `json:"agentDefinitionId,omitempty"`
+		FieldPendingInputCount                 int32                    `json:"pendingInputCount,omitzero"`
+		FieldSource                            AgentTaskSource          `json:"source,omitempty"`
+		FieldVcsProvider                       *VCSProvider             `json:"vcsProvider,omitempty"`
+		FieldModelProvider                     *string                  `json:"modelProvider,omitempty"`
+		FieldModel                             *string                  `json:"model,omitempty"`
+		FieldArchivedAt                        *time.Time               `json:"archivedAt,omitempty"`
 	}
 
 	var v decoder
@@ -130,6 +143,7 @@ func (m *AgentTask) UnmarshalJSON(bytes []byte) error {
 	}
 	m.PlanMode = v.FieldPlanMode
 	m.IsShared = v.FieldIsShared
+	m.InteractionMode = v.FieldInteractionMode
 	m.SharedAt = v.FieldSharedAt
 	m.CreatedBy = v.FieldCreatedBy
 	m.PermissionMode = v.FieldPermissionMode
@@ -147,38 +161,45 @@ func (m *AgentTask) UnmarshalJSON(bytes []byte) error {
 	m.PendingInputCount = v.FieldPendingInputCount
 	m.Source = v.FieldSource
 	m.VcsProvider = v.FieldVcsProvider
+	m.ModelProvider = v.FieldModelProvider
+	m.Model = v.FieldModel
+	m.ArchivedAt = v.FieldArchivedAt
 	return nil
 }
 
 func (m *AgentTask) UnmarshalYAML(value *yaml.Node) error {
 	type decoder struct {
-		FieldID                                string                 `yaml:"id,omitempty"`
-		FieldName                              string                 `yaml:"name,omitempty"`
-		FieldTaskType                          AgentTaskType          `yaml:"taskType,omitempty"`
-		FieldAsyncTriggerType                  *AgentAsyncTriggerType `yaml:"asyncTriggerType,omitempty"`
-		FieldStatus                            AgentTaskStatus        `yaml:"status,omitempty"`
-		FieldCreatedAt                         time.Time              `yaml:"createdAt,omitempty"`
-		FieldApprovalMode                      NeoApprovalMode        `yaml:"approvalMode,omitempty"`
-		FieldEntities                          []yaml.Node            `yaml:"entities,omitempty"`
-		FieldPlanMode                          bool                   `yaml:"planMode,omitempty"`
-		FieldIsShared                          bool                   `yaml:"isShared,omitempty"`
-		FieldSharedAt                          time.Time              `yaml:"sharedAt,omitempty"`
-		FieldCreatedBy                         UserInfo               `yaml:"createdBy,omitempty"`
-		FieldPermissionMode                    NeoPermissionMode      `yaml:"permissionMode,omitempty"`
-		FieldRole                              *string                `yaml:"role,omitempty"`
-		FieldRoleName                          *string                `yaml:"roleName,omitempty"`
-		FieldRuntimePhase                      AgentTaskRuntimePhase  `yaml:"runtimePhase,omitempty"`
-		FieldLastHeartbeat                     *time.Time             `yaml:"lastHeartbeat,omitempty"`
-		FieldContextUsedTokens                 int32                  `yaml:"contextUsedTokens,omitempty"`
-		FieldContextWindowTokens               int32                  `yaml:"contextWindowTokens,omitempty"`
-		FieldContextCompactionThresholdPercent int32                  `yaml:"contextCompactionThresholdPercent,omitempty"`
-		FieldTokensUsed                        int64                  `yaml:"tokensUsed,omitempty"`
-		FieldToolExecutionMode                 ToolExecutionMode      `yaml:"toolExecutionMode,omitempty"`
-		FieldSourceAutomationID                *string                `yaml:"sourceAutomationID,omitempty"`
-		FieldAgentDefinitionID                 *string                `yaml:"agentDefinitionId,omitempty"`
-		FieldPendingInputCount                 int32                  `yaml:"pendingInputCount,omitempty"`
-		FieldSource                            AgentTaskSource        `yaml:"source,omitempty"`
-		FieldVcsProvider                       *VCSProvider           `yaml:"vcsProvider,omitempty"`
+		FieldID                                string                   `yaml:"id,omitempty"`
+		FieldName                              string                   `yaml:"name,omitempty"`
+		FieldTaskType                          AgentTaskType            `yaml:"taskType,omitempty"`
+		FieldAsyncTriggerType                  *AgentAsyncTriggerType   `yaml:"asyncTriggerType,omitempty"`
+		FieldStatus                            AgentTaskStatus          `yaml:"status,omitempty"`
+		FieldCreatedAt                         time.Time                `yaml:"createdAt,omitempty"`
+		FieldApprovalMode                      NeoApprovalMode          `yaml:"approvalMode,omitempty"`
+		FieldEntities                          []yaml.Node              `yaml:"entities,omitempty"`
+		FieldPlanMode                          bool                     `yaml:"planMode,omitempty"`
+		FieldIsShared                          bool                     `yaml:"isShared,omitempty"`
+		FieldInteractionMode                   AgentTaskInteractionMode `yaml:"interactionMode,omitempty"`
+		FieldSharedAt                          time.Time                `yaml:"sharedAt,omitempty"`
+		FieldCreatedBy                         UserInfo                 `yaml:"createdBy,omitempty"`
+		FieldPermissionMode                    NeoPermissionMode        `yaml:"permissionMode,omitempty"`
+		FieldRole                              *string                  `yaml:"role,omitempty"`
+		FieldRoleName                          *string                  `yaml:"roleName,omitempty"`
+		FieldRuntimePhase                      AgentTaskRuntimePhase    `yaml:"runtimePhase,omitempty"`
+		FieldLastHeartbeat                     *time.Time               `yaml:"lastHeartbeat,omitempty"`
+		FieldContextUsedTokens                 int32                    `yaml:"contextUsedTokens,omitempty"`
+		FieldContextWindowTokens               int32                    `yaml:"contextWindowTokens,omitempty"`
+		FieldContextCompactionThresholdPercent int32                    `yaml:"contextCompactionThresholdPercent,omitempty"`
+		FieldTokensUsed                        int64                    `yaml:"tokensUsed,omitempty"`
+		FieldToolExecutionMode                 ToolExecutionMode        `yaml:"toolExecutionMode,omitempty"`
+		FieldSourceAutomationID                *string                  `yaml:"sourceAutomationID,omitempty"`
+		FieldAgentDefinitionID                 *string                  `yaml:"agentDefinitionId,omitempty"`
+		FieldPendingInputCount                 int32                    `yaml:"pendingInputCount,omitempty"`
+		FieldSource                            AgentTaskSource          `yaml:"source,omitempty"`
+		FieldVcsProvider                       *VCSProvider             `yaml:"vcsProvider,omitempty"`
+		FieldModelProvider                     *string                  `yaml:"modelProvider,omitempty"`
+		FieldModel                             *string                  `yaml:"model,omitempty"`
+		FieldArchivedAt                        *time.Time               `yaml:"archivedAt,omitempty"`
 	}
 
 	var v decoder
@@ -208,6 +229,7 @@ func (m *AgentTask) UnmarshalYAML(value *yaml.Node) error {
 	}
 	m.PlanMode = v.FieldPlanMode
 	m.IsShared = v.FieldIsShared
+	m.InteractionMode = v.FieldInteractionMode
 	m.SharedAt = v.FieldSharedAt
 	m.CreatedBy = v.FieldCreatedBy
 	m.PermissionMode = v.FieldPermissionMode
@@ -225,5 +247,8 @@ func (m *AgentTask) UnmarshalYAML(value *yaml.Node) error {
 	m.PendingInputCount = v.FieldPendingInputCount
 	m.Source = v.FieldSource
 	m.VcsProvider = v.FieldVcsProvider
+	m.ModelProvider = v.FieldModelProvider
+	m.Model = v.FieldModel
+	m.ArchivedAt = v.FieldArchivedAt
 	return nil
 }

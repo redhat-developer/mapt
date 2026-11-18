@@ -177,6 +177,10 @@ type OrganizationFeatures struct {
 	AccessTokenExpiryPolicyEnabled bool `json:"accessTokenExpiryPolicyEnabled,omitzero" yaml:"accessTokenExpiryPolicyEnabled,omitempty"`
 	// Whether Neo BYOK (bring-your-own-key) model provider configuration is enabled.
 	NeoByokEnabled bool `json:"neoByokEnabled" yaml:"neoByokEnabled"`
+	// Whether Neo can run on OpenAI-format and customer-owned Amazon Bedrock model providers.
+	AgentsByomEnabled bool `json:"agentsByomEnabled,omitzero" yaml:"agentsByomEnabled,omitempty"`
+	// Whether Neo can run on custom model providers.
+	CustomModelProviderEnabled bool `json:"customModelProviderEnabled,omitzero" yaml:"customModelProviderEnabled,omitempty"`
 	// Deprecated. Always true.
 	NeoAgentTaskRBACEnforcementEnabled bool `json:"neoAgentTaskRbacEnforcementEnabled,omitzero" yaml:"neoAgentTaskRbacEnforcementEnabled,omitempty"`
 	// Whether one-click Link express checkout is enabled for adding a payment method.
@@ -209,8 +213,14 @@ type OrganizationFeatures struct {
 	PermissionModeEnabled bool `json:"permissionModeEnabled,omitzero" yaml:"permissionModeEnabled,omitempty"`
 	// Whether the monthly Infrastructure Posture report is available to the organization.
 	PolicyPostureReportEnabled bool `json:"policyPostureReportEnabled,omitzero" yaml:"policyPostureReportEnabled,omitempty"`
+	// Whether user-defined service principals can be created and managed.
+	UserDefinedServicePrincipalsEnabled bool `json:"userDefinedServicePrincipalsEnabled,omitzero" yaml:"userDefinedServicePrincipalsEnabled,omitempty"`
+	// Whether access tokens can be created for user-defined service principals.
+	ServicePrincipalTokensEnabled bool `json:"servicePrincipalTokensEnabled,omitzero" yaml:"servicePrincipalTokensEnabled,omitempty"`
 	// Whether Delivery is available to the organization.
 	DeliveryEnabled bool `json:"deliveryEnabled,omitzero" yaml:"deliveryEnabled,omitempty"`
+	// Whether the organization is billed for Delivery, and so sees its Delivery usage on the billing page.
+	DeliveryBillingEnabled bool `json:"deliveryBillingEnabled,omitzero" yaml:"deliveryBillingEnabled,omitempty"`
 	// Whether the Cursor Origin VCS integration is available to the organization.
 	CursorOriginVCSEnabled bool `json:"cursorOriginVCSEnabled,omitzero" yaml:"cursorOriginVCSEnabled,omitempty"`
 	// Whether the organization can buy the Enterprise plan self-serve at its monthly price. When false, Enterprise is available self-serve

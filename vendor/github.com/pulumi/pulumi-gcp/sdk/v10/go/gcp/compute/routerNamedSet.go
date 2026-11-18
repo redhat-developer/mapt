@@ -109,6 +109,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Router Named Set Prefix
 //
 // ```go
@@ -164,6 +165,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Router Named Set Community
 //
 // ```go
@@ -365,6 +367,12 @@ type RouterNamedSetState struct {
 
 func (RouterNamedSetState) ElementType() reflect.Type {
 	return reflect.TypeOf((*routerNamedSetState)(nil)).Elem()
+}
+
+// RouterNamedSetExists checks whether an existing RouterNamedSet resource with the given ID exists.
+func RouterNamedSetExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RouterNamedSetState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/routerNamedSet:RouterNamedSet", id, state, "", opts...)
 }
 
 type routerNamedSetArgs struct {
