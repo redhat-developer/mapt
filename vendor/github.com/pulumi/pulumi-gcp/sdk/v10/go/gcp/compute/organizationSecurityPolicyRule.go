@@ -65,6 +65,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Security Policy Rule Expression
 //
 // ```go
@@ -106,6 +107,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Security Policy Rule With Preconfigured Waf Config
 //
 // ```go
@@ -175,6 +177,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Security Policy Rule With Header Action
 //
 // ```go
@@ -228,6 +231,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Security Policy Rule With Redirect
 //
 // ```go
@@ -275,6 +279,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Organization Security Policy Rule Firewall
 //
 // ```go
@@ -571,6 +576,12 @@ type OrganizationSecurityPolicyRuleState struct {
 
 func (OrganizationSecurityPolicyRuleState) ElementType() reflect.Type {
 	return reflect.TypeOf((*organizationSecurityPolicyRuleState)(nil)).Elem()
+}
+
+// OrganizationSecurityPolicyRuleExists checks whether an existing OrganizationSecurityPolicyRule resource with the given ID exists.
+func OrganizationSecurityPolicyRuleExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *OrganizationSecurityPolicyRuleState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/organizationSecurityPolicyRule:OrganizationSecurityPolicyRule", id, state, "", opts...)
 }
 
 type organizationSecurityPolicyRuleArgs struct {

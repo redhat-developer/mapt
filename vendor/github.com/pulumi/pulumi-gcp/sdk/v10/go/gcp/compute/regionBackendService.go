@@ -65,6 +65,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service External Iap
 //
 // ```go
@@ -98,6 +99,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ilb Round Robin
 //
 // ```go
@@ -137,6 +139,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service External
 //
 // ```go
@@ -176,6 +179,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service External Weighted
 //
 // ```go
@@ -216,6 +220,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ilb Ring Hash
 //
 // ```go
@@ -271,6 +276,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ilb Stateful Session Affinity
 //
 // ```go
@@ -318,6 +324,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Balancing Mode
 //
 // ```go
@@ -428,6 +435,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service In Flight
 //
 // ```go
@@ -538,6 +546,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Connection Tracking
 //
 // ```go
@@ -585,6 +594,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ip Address Selection Policy
 //
 // ```go
@@ -625,6 +635,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ilb Custom Metrics
 //
 // ```go
@@ -703,6 +714,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Dynamic Forwarding
 //
 // ```go
@@ -735,6 +747,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Dynamic Forwarding Forward Proxy Cloud Run
 //
 // ```go
@@ -769,6 +782,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Dynamic Forwarding Forward Proxy Direct Forwarding
 //
 // ```go
@@ -803,6 +817,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ha Policy
 //
 // ```go
@@ -842,6 +857,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ha Policy Manual Leader
 //
 // ```go
@@ -950,6 +966,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Ha Policy Internal Lb
 //
 // ```go
@@ -1060,6 +1077,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Tls Settings
 //
 // ```go
@@ -1124,6 +1142,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Service Identity
 //
 // ```go
@@ -1386,7 +1405,7 @@ type RegionBackendService struct {
 	// The URI of the created resource.
 	SelfLink pulumi.StringOutput `pulumi:"selfLink"`
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED or INTERNAL_MANAGED.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED.
 	// The service lb policy must be regional and in the same region as the backend service.
 	ServiceLbPolicy pulumi.StringPtrOutput `pulumi:"serviceLbPolicy"`
 	// Type of session affinity to use. The default is NONE. Session affinity is
@@ -1638,7 +1657,7 @@ type regionBackendServiceState struct {
 	// The URI of the created resource.
 	SelfLink *string `pulumi:"selfLink"`
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED or INTERNAL_MANAGED.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED.
 	// The service lb policy must be regional and in the same region as the backend service.
 	ServiceLbPolicy *string `pulumi:"serviceLbPolicy"`
 	// Type of session affinity to use. The default is NONE. Session affinity is
@@ -1861,7 +1880,7 @@ type RegionBackendServiceState struct {
 	// The URI of the created resource.
 	SelfLink pulumi.StringPtrInput
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED or INTERNAL_MANAGED.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED.
 	// The service lb policy must be regional and in the same region as the backend service.
 	ServiceLbPolicy pulumi.StringPtrInput
 	// Type of session affinity to use. The default is NONE. Session affinity is
@@ -1887,6 +1906,12 @@ type RegionBackendServiceState struct {
 
 func (RegionBackendServiceState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionBackendServiceState)(nil)).Elem()
+}
+
+// RegionBackendServiceExists checks whether an existing RegionBackendService resource with the given ID exists.
+func RegionBackendServiceExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionBackendServiceState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionBackendService:RegionBackendService", id, state, "", opts...)
 }
 
 type regionBackendServiceArgs struct {
@@ -2079,7 +2104,7 @@ type regionBackendServiceArgs struct {
 	// The security policy associated with this backend service.
 	SecurityPolicy *string `pulumi:"securityPolicy"`
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED or INTERNAL_MANAGED.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED.
 	// The service lb policy must be regional and in the same region as the backend service.
 	ServiceLbPolicy *string `pulumi:"serviceLbPolicy"`
 	// Type of session affinity to use. The default is NONE. Session affinity is
@@ -2294,7 +2319,7 @@ type RegionBackendServiceArgs struct {
 	// The security policy associated with this backend service.
 	SecurityPolicy pulumi.StringPtrInput
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED or INTERNAL_MANAGED.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED.
 	// The service lb policy must be regional and in the same region as the backend service.
 	ServiceLbPolicy pulumi.StringPtrInput
 	// Type of session affinity to use. The default is NONE. Session affinity is
@@ -2711,7 +2736,7 @@ func (o RegionBackendServiceOutput) SelfLink() pulumi.StringOutput {
 }
 
 // URL to networkservices.ServiceLbPolicy resource.
-// Can only be set if load balancing scheme is EXTERNAL_MANAGED or INTERNAL_MANAGED.
+// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED.
 // The service lb policy must be regional and in the same region as the backend service.
 func (o RegionBackendServiceOutput) ServiceLbPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *RegionBackendService) pulumi.StringPtrOutput { return v.ServiceLbPolicy }).(pulumi.StringPtrOutput)

@@ -65,6 +65,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Firewall Policy Association Priority
 //
 // ```go
@@ -248,6 +249,12 @@ type RegionNetworkFirewallPolicyAssociationState struct {
 
 func (RegionNetworkFirewallPolicyAssociationState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionNetworkFirewallPolicyAssociationState)(nil)).Elem()
+}
+
+// RegionNetworkFirewallPolicyAssociationExists checks whether an existing RegionNetworkFirewallPolicyAssociation resource with the given ID exists.
+func RegionNetworkFirewallPolicyAssociationExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionNetworkFirewallPolicyAssociationState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionNetworkFirewallPolicyAssociation:RegionNetworkFirewallPolicyAssociation", id, state, "", opts...)
 }
 
 type regionNetworkFirewallPolicyAssociationArgs struct {

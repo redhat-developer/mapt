@@ -81,6 +81,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Bucket Internal Lb
 //
 // ```go
@@ -132,6 +133,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Backend Bucket External Lb
 //
 // ```go
@@ -368,6 +370,12 @@ type RegionBackendBucketState struct {
 
 func (RegionBackendBucketState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionBackendBucketState)(nil)).Elem()
+}
+
+// RegionBackendBucketExists checks whether an existing RegionBackendBucket resource with the given ID exists.
+func RegionBackendBucketExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionBackendBucketState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionBackendBucket:RegionBackendBucket", id, state, "", opts...)
 }
 
 type regionBackendBucketArgs struct {

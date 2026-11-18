@@ -138,6 +138,7 @@ import (
 //	}
 //
 // ```
+//
 // ## Import
 //
 // ManagedSslCertificate can be imported using any of these accepted formats:
@@ -321,6 +322,12 @@ type ManagedSslCertificateState struct {
 
 func (ManagedSslCertificateState) ElementType() reflect.Type {
 	return reflect.TypeOf((*managedSslCertificateState)(nil)).Elem()
+}
+
+// ManagedSslCertificateExists checks whether an existing ManagedSslCertificate resource with the given ID exists.
+func ManagedSslCertificateExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *ManagedSslCertificateState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/managedSslCertificate:ManagedSslCertificate", id, state, "", opts...)
 }
 
 type managedSslCertificateArgs struct {

@@ -49,6 +49,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Ssl Policy Post Quantum
 //
 // ```go
@@ -342,6 +343,12 @@ type RegionSslPolicyState struct {
 
 func (RegionSslPolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionSslPolicyState)(nil)).Elem()
+}
+
+// RegionSslPolicyExists checks whether an existing RegionSslPolicy resource with the given ID exists.
+func RegionSslPolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionSslPolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionSslPolicy:RegionSslPolicy", id, state, "", opts...)
 }
 
 type regionSslPolicyArgs struct {

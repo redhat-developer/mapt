@@ -22,4 +22,7 @@ type OperationContext struct {
 	Options *OperationContextOptions `json:"options,omitempty" yaml:"options,omitempty"`
 	// Role defines the deployment role to assume for the operation.
 	Role *DeploymentRole `json:"role,omitempty" yaml:"role,omitempty"`
+	// The service principal the operation runs as: a user-defined service principal, or a team whose service principal runs with the team's
+	// roles. Mutually exclusive with role.
+	ServicePrincipal *AssignmentPrincipal `json:"servicePrincipal,omitempty" yaml:"servicePrincipal,omitempty"`
 }

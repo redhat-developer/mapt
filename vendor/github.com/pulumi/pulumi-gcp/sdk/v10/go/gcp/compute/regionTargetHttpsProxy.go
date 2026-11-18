@@ -127,6 +127,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Target Https Proxy Http Keep Alive Timeout
 //
 // ```go
@@ -233,6 +234,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Target Https Proxy Mtls
 //
 // ```go
@@ -402,6 +404,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Target Https Proxy Certificate Manager Certificate
 //
 // ```go
@@ -733,6 +736,12 @@ type RegionTargetHttpsProxyState struct {
 
 func (RegionTargetHttpsProxyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionTargetHttpsProxyState)(nil)).Elem()
+}
+
+// RegionTargetHttpsProxyExists checks whether an existing RegionTargetHttpsProxy resource with the given ID exists.
+func RegionTargetHttpsProxyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionTargetHttpsProxyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionTargetHttpsProxy:RegionTargetHttpsProxy", id, state, "", opts...)
 }
 
 type regionTargetHttpsProxyArgs struct {

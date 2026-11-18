@@ -16,7 +16,9 @@ type Webhook struct {
 	// The environment name. Set when the webhook is scoped to a specific environment.
 	EnvName *string `json:"envName,omitempty" yaml:"envName,omitempty"`
 	// The unique identifier name for the webhook within its scope. Optional on creation; if omitted, the service generates a short random
-	// name. Always populated in responses.
+	// name. Always populated in responses. Up to 32 characters of letters, numbers, hyphens, underscores, and periods. On update, the name
+	// comes from the URL and this field is ignored.
+	// Constraints: maxLength 32, pattern ^[a-zA-Z0-9-_.]*$
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// The human-readable display name shown in the UI.
 	DisplayName string `json:"displayName" yaml:"displayName"`

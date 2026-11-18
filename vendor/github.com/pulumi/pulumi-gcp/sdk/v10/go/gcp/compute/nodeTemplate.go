@@ -50,6 +50,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Node Template Server Binding
 //
 // ```go
@@ -89,6 +90,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Node Template Accelerators
 //
 // ```go
@@ -128,6 +130,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Node Template Disks
 //
 // ```go
@@ -375,6 +378,12 @@ type NodeTemplateState struct {
 
 func (NodeTemplateState) ElementType() reflect.Type {
 	return reflect.TypeOf((*nodeTemplateState)(nil)).Elem()
+}
+
+// NodeTemplateExists checks whether an existing NodeTemplate resource with the given ID exists.
+func NodeTemplateExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *NodeTemplateState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/nodeTemplate:NodeTemplate", id, state, "", opts...)
 }
 
 type nodeTemplateArgs struct {

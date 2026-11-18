@@ -70,6 +70,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Internet Fqdn Port
 //
 // ```go
@@ -114,6 +115,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Region Network Endpoint Portmap
 //
 // ```go
@@ -353,6 +355,12 @@ type RegionNetworkEndpointState struct {
 
 func (RegionNetworkEndpointState) ElementType() reflect.Type {
 	return reflect.TypeOf((*regionNetworkEndpointState)(nil)).Elem()
+}
+
+// RegionNetworkEndpointExists checks whether an existing RegionNetworkEndpoint resource with the given ID exists.
+func RegionNetworkEndpointExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RegionNetworkEndpointState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/regionNetworkEndpoint:RegionNetworkEndpoint", id, state, "", opts...)
 }
 
 type regionNetworkEndpointArgs struct {

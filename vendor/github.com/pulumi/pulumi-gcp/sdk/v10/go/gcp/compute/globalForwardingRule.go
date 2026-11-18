@@ -108,6 +108,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Global Forwarding Rule Internal
 //
 // ```go
@@ -257,6 +258,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Global Forwarding Rule External Managed
 //
 // ```go
@@ -334,6 +336,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Global Forwarding Rule Hybrid
 //
 // ```go
@@ -522,6 +525,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Private Service Connect Google Apis
 //
 // ```go
@@ -586,6 +590,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Private Service Connect Google Apis No Automate Dns
 //
 // ```go
@@ -1316,6 +1321,12 @@ type GlobalForwardingRuleState struct {
 
 func (GlobalForwardingRuleState) ElementType() reflect.Type {
 	return reflect.TypeOf((*globalForwardingRuleState)(nil)).Elem()
+}
+
+// GlobalForwardingRuleExists checks whether an existing GlobalForwardingRule resource with the given ID exists.
+func GlobalForwardingRuleExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *GlobalForwardingRuleState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/globalForwardingRule:GlobalForwardingRule", id, state, "", opts...)
 }
 
 type globalForwardingRuleArgs struct {

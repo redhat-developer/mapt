@@ -123,6 +123,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Https Proxy Http Keep Alive Timeout
 //
 // ```go
@@ -224,6 +225,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Https Proxy Mtls
 //
 // ```go
@@ -386,6 +388,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Https Proxy Certificate Manager Certificate
 //
 // ```go
@@ -484,6 +487,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Https Proxy Fingerprint
 //
 // ```go
@@ -928,6 +932,12 @@ type TargetHttpsProxyState struct {
 
 func (TargetHttpsProxyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*targetHttpsProxyState)(nil)).Elem()
+}
+
+// TargetHttpsProxyExists checks whether an existing TargetHttpsProxy resource with the given ID exists.
+func TargetHttpsProxyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *TargetHttpsProxyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/targetHttpsProxy:TargetHttpsProxy", id, state, "", opts...)
 }
 
 type targetHttpsProxyArgs struct {

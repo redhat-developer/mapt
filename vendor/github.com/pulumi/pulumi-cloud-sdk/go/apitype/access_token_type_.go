@@ -24,6 +24,9 @@ const (
 
 	// A machine token bound to a team's robot user within an organization.
 	AccessTokenTypeTeam AccessTokenType = "team"
+
+	// A machine token that authenticates as a user-defined service principal of an organization.
+	AccessTokenTypeServicePrincipal AccessTokenType = "service-principal"
 )
 
 func (v AccessTokenType) AllValues() []AccessTokenType {
@@ -32,6 +35,7 @@ func (v AccessTokenType) AllValues() []AccessTokenType {
 		AccessTokenTypeRefresh,
 		AccessTokenTypeOrganization,
 		AccessTokenTypeTeam,
+		AccessTokenTypeServicePrincipal,
 	}
 }
 
@@ -44,6 +48,8 @@ func (v AccessTokenType) IsValid() bool {
 	case AccessTokenTypeOrganization:
 		return true
 	case AccessTokenTypeTeam:
+		return true
+	case AccessTokenTypeServicePrincipal:
 		return true
 	}
 
@@ -60,6 +66,8 @@ func (v AccessTokenType) openapiName() string {
 		return "Organization"
 	case AccessTokenTypeTeam:
 		return "Team"
+	case AccessTokenTypeServicePrincipal:
+		return "ServicePrincipal"
 	}
 
 	return ""

@@ -64,6 +64,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Bucket Security Policy
 //
 // ```go
@@ -109,6 +110,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Bucket Query String Whitelist
 //
 // ```go
@@ -152,6 +154,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Bucket Include Http Headers
 //
 // ```go
@@ -400,6 +403,12 @@ type BackendBucketState struct {
 
 func (BackendBucketState) ElementType() reflect.Type {
 	return reflect.TypeOf((*backendBucketState)(nil)).Elem()
+}
+
+// BackendBucketExists checks whether an existing BackendBucket resource with the given ID exists.
+func BackendBucketExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *BackendBucketState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/backendBucket:BackendBucket", id, state, "", opts...)
 }
 
 type backendBucketArgs struct {

@@ -59,6 +59,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Ha Vpn Gateway Ipv6
 //
 // ```go
@@ -97,6 +98,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Ha Vpn Gateway Encrypted Interconnect
 //
 // ```go
@@ -441,6 +443,12 @@ type HaVpnGatewayState struct {
 
 func (HaVpnGatewayState) ElementType() reflect.Type {
 	return reflect.TypeOf((*haVpnGatewayState)(nil)).Elem()
+}
+
+// HaVpnGatewayExists checks whether an existing HaVpnGateway resource with the given ID exists.
+func HaVpnGatewayExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *HaVpnGatewayState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/haVpnGateway:HaVpnGateway", id, state, "", opts...)
 }
 
 type haVpnGatewayArgs struct {

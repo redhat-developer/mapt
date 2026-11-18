@@ -66,6 +66,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Scan Config Ignore Http Status Errors
 //
 // ```go
@@ -119,6 +120,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Scan Config Static Ip
 //
 // ```go
@@ -363,6 +365,12 @@ type SecurityScanConfigState struct {
 
 func (SecurityScanConfigState) ElementType() reflect.Type {
 	return reflect.TypeOf((*securityScanConfigState)(nil)).Elem()
+}
+
+// SecurityScanConfigExists checks whether an existing SecurityScanConfig resource with the given ID exists.
+func SecurityScanConfigExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *SecurityScanConfigState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/securityScanConfig:SecurityScanConfig", id, state, "", opts...)
 }
 
 type securityScanConfigArgs struct {

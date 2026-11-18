@@ -89,6 +89,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Peering Routes Config Gke Peered Vpc
 //
 // ```go
@@ -320,6 +321,12 @@ type NetworkPeeringRoutesConfigState struct {
 
 func (NetworkPeeringRoutesConfigState) ElementType() reflect.Type {
 	return reflect.TypeOf((*networkPeeringRoutesConfigState)(nil)).Elem()
+}
+
+// NetworkPeeringRoutesConfigExists checks whether an existing NetworkPeeringRoutesConfig resource with the given ID exists.
+func NetworkPeeringRoutesConfigExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *NetworkPeeringRoutesConfigState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/networkPeeringRoutesConfig:NetworkPeeringRoutesConfig", id, state, "", opts...)
 }
 
 type networkPeeringRoutesConfigArgs struct {

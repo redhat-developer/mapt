@@ -136,6 +136,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Firewall Policy Rule Network Scope Egress
 //
 // ```go
@@ -187,6 +188,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Firewall Policy Rule Network Scope Ingress
 //
 // ```go
@@ -247,6 +249,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Firewall Policy Rule Network Context Egress
 //
 // ```go
@@ -298,6 +301,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Firewall Policy Rule Network Context Ingress
 //
 // ```go
@@ -358,6 +362,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Network Firewall Policy Rule Target Type Internal Managed Lb
 //
 // ```go
@@ -776,6 +781,12 @@ type NetworkFirewallPolicyRuleState struct {
 
 func (NetworkFirewallPolicyRuleState) ElementType() reflect.Type {
 	return reflect.TypeOf((*networkFirewallPolicyRuleState)(nil)).Elem()
+}
+
+// NetworkFirewallPolicyRuleExists checks whether an existing NetworkFirewallPolicyRule resource with the given ID exists.
+func NetworkFirewallPolicyRuleExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *NetworkFirewallPolicyRuleState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/networkFirewallPolicyRule:NetworkFirewallPolicyRule", id, state, "", opts...)
 }
 
 type networkFirewallPolicyRuleArgs struct {

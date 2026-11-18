@@ -70,6 +70,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Machine Image Kms
 //
 // ```go
@@ -131,6 +132,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Machine Image Resource Manager Tags
 //
 // ## Import
@@ -289,6 +291,12 @@ type MachineImageState struct {
 
 func (MachineImageState) ElementType() reflect.Type {
 	return reflect.TypeOf((*machineImageState)(nil)).Elem()
+}
+
+// MachineImageExists checks whether an existing MachineImage resource with the given ID exists.
+func MachineImageExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *MachineImageState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/machineImage:MachineImage", id, state, "", opts...)
 }
 
 type machineImageArgs struct {

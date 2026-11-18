@@ -66,9 +66,9 @@ import (
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			// A key set in project metadata is propagated to every instance in the project.
-//			// This resource configuration is prone to causing frequent diffs as Google adds SSH Keys when the SSH Button is pressed in the console.
-//			// It is better to use OS Login instead.
+//			//A key set in project metadata is propagated to every instance in the project.
+//			//This resource configuration is prone to causing frequent diffs as Google adds SSH Keys when the SSH Button is pressed in the console.
+//			//It is better to use OS Login instead.
 //			_, err := compute.NewProjectMetadata(ctx, "my_ssh_key", &compute.ProjectMetadataArgs{
 //				Metadata: pulumi.StringMap{
 //					"ssh-keys": pulumi.String("      dev:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILg6UtHDNyMNAh0GjaytsJdrUxjtLy3APXqZfNZhvCeT dev\n      foo:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILg6UtHDNyMNAh0GjaytsJdrUxjtLy3APXqZfNZhvCeT bar\n"),
@@ -181,6 +181,12 @@ type ProjectMetadataState struct {
 
 func (ProjectMetadataState) ElementType() reflect.Type {
 	return reflect.TypeOf((*projectMetadataState)(nil)).Elem()
+}
+
+// ProjectMetadataExists checks whether an existing ProjectMetadata resource with the given ID exists.
+func ProjectMetadataExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *ProjectMetadataState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/projectMetadata:ProjectMetadata", id, state, "", opts...)
 }
 
 type projectMetadataArgs struct {

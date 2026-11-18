@@ -68,6 +68,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Ssl Policy Post Quantum
 //
 // ```go
@@ -355,6 +356,12 @@ type SSLPolicyState struct {
 
 func (SSLPolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*sslpolicyState)(nil)).Elem()
+}
+
+// SSLPolicyExists checks whether an existing SSLPolicy resource with the given ID exists.
+func SSLPolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *SSLPolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/sSLPolicy:SSLPolicy", id, state, "", opts...)
 }
 
 type sslpolicyArgs struct {

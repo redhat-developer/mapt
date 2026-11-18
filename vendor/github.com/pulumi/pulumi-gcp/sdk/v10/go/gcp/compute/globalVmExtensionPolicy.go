@@ -63,6 +63,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Global Vm Extension Policy Basic
 //
 // ```go
@@ -110,6 +111,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Global Vm Extension Policy Custom Rollout
 //
 // ```go
@@ -367,6 +369,12 @@ type GlobalVmExtensionPolicyState struct {
 
 func (GlobalVmExtensionPolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*globalVmExtensionPolicyState)(nil)).Elem()
+}
+
+// GlobalVmExtensionPolicyExists checks whether an existing GlobalVmExtensionPolicy resource with the given ID exists.
+func GlobalVmExtensionPolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *GlobalVmExtensionPolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/globalVmExtensionPolicy:GlobalVmExtensionPolicy", id, state, "", opts...)
 }
 
 type globalVmExtensionPolicyArgs struct {

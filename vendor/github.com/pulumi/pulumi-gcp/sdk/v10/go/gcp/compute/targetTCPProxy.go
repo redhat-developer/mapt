@@ -71,6 +71,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Tcp Proxy Backendless
 //
 // ```go
@@ -97,6 +98,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Target Tcp Proxy Tls Route
 //
 // ```go
@@ -353,6 +355,12 @@ type TargetTCPProxyState struct {
 
 func (TargetTCPProxyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*targetTCPProxyState)(nil)).Elem()
+}
+
+// TargetTCPProxyExists checks whether an existing TargetTCPProxy resource with the given ID exists.
+func TargetTCPProxyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *TargetTCPProxyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/targetTCPProxy:TargetTCPProxy", id, state, "", opts...)
 }
 
 type targetTCPProxyArgs struct {

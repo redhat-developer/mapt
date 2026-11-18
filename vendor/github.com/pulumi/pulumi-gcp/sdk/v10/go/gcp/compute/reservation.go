@@ -62,6 +62,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Reservation Basic Beta
 //
 // ```go
@@ -84,7 +85,7 @@ import (
 //					InstanceProperties: &compute.ReservationSpecificReservationInstancePropertiesArgs{
 //						MinCpuPlatform:      pulumi.String("Intel Cascade Lake"),
 //						MachineType:         pulumi.String("n2-standard-2"),
-//						MaintenanceInterval: pulumi.String("PERIODIC"),
+//						MaintenanceInterval: pulumi.String("RECURRENT"),
 //					},
 //				},
 //				EnableEmergentMaintenance: pulumi.Bool(true),
@@ -97,6 +98,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Reservation Source Instance Template
 //
 // ```go
@@ -175,6 +177,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Reservation Sharing Policy
 //
 // ```go
@@ -523,6 +526,12 @@ type ReservationState struct {
 
 func (ReservationState) ElementType() reflect.Type {
 	return reflect.TypeOf((*reservationState)(nil)).Elem()
+}
+
+// ReservationExists checks whether an existing Reservation resource with the given ID exists.
+func ReservationExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *ReservationState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/reservation:Reservation", id, state, "", opts...)
 }
 
 type reservationArgs struct {

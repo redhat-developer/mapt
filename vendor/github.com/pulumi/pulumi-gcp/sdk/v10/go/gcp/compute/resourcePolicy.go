@@ -53,6 +53,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Full
 //
 // ```go
@@ -98,6 +99,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Placement Policy
 //
 // ```go
@@ -128,6 +130,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Placement Policy Max Distance
 //
 // ```go
@@ -159,6 +162,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Instance Schedule Policy
 //
 // ```go
@@ -195,6 +199,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Snapshot Schedule Chain Name
 //
 // ```go
@@ -242,6 +247,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Consistency Group
 //
 // ```go
@@ -271,6 +277,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Workload Policy
 //
 // ```go
@@ -300,6 +307,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Workload Policy Accelerator Topology
 //
 // ```go
@@ -330,6 +338,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Workload Policy Accelerator Topology Mode
 //
 // ```go
@@ -361,6 +370,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Workload Policy Max Topology Distance
 //
 // ```go
@@ -391,6 +401,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Placement Policy Gpu Topology
 //
 // ```go
@@ -421,6 +432,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Resource Policy Placement Policy Tpu Topology
 //
 // ```go
@@ -629,6 +641,12 @@ type ResourcePolicyState struct {
 
 func (ResourcePolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*resourcePolicyState)(nil)).Elem()
+}
+
+// ResourcePolicyExists checks whether an existing ResourcePolicy resource with the given ID exists.
+func ResourcePolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *ResourcePolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/resourcePolicy:ResourcePolicy", id, state, "", opts...)
 }
 
 type resourcePolicyArgs struct {

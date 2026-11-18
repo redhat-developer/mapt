@@ -16,6 +16,7 @@ const (
 	ProductCategoryDiscoveredResources ProductCategory = "discovered_resources"
 	ProductCategoryInsightsScans       ProductCategory = "insights_scans"
 	ProductCategoryNeo                 ProductCategory = "neo"
+	ProductCategoryDeliveryPipelines   ProductCategory = "delivery_pipelines"
 	ProductCategoryInvalid             ProductCategory = ""
 )
 
@@ -27,6 +28,7 @@ func (v ProductCategory) AllValues() []ProductCategory {
 		ProductCategoryDiscoveredResources,
 		ProductCategoryInsightsScans,
 		ProductCategoryNeo,
+		ProductCategoryDeliveryPipelines,
 		ProductCategoryInvalid,
 	}
 }
@@ -44,6 +46,8 @@ func (v ProductCategory) IsValid() bool {
 	case ProductCategoryInsightsScans:
 		return true
 	case ProductCategoryNeo:
+		return true
+	case ProductCategoryDeliveryPipelines:
 		return true
 	case ProductCategoryInvalid:
 		return true
@@ -66,6 +70,8 @@ func (v ProductCategory) openapiName() string {
 		return "InsightsScans"
 	case ProductCategoryNeo:
 		return "Neo"
+	case ProductCategoryDeliveryPipelines:
+		return "DeliveryPipelines"
 	case ProductCategoryInvalid:
 		return "Invalid"
 	}

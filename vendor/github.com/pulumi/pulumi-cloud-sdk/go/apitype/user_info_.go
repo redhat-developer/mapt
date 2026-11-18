@@ -16,4 +16,7 @@ type UserInfo struct {
 	// The user's email address. It is only populated on selected endpoints and is
 	// omitted from most responses. Treat it as sensitive information.
 	Email string `json:"email,omitempty" yaml:"email,omitempty"`
+	// The type of service principal the user is. Set only where service principals are listed next to people, such as an organization's
+	// members and the access granted on an entity.
+	ServicePrincipalKind *ServicePrincipalKind `json:"servicePrincipalKind,omitempty" yaml:"servicePrincipalKind,omitempty"`
 }

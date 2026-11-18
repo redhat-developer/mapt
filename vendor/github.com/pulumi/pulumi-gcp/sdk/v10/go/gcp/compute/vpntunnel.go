@@ -118,6 +118,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Vpn Tunnel Cipher Suite
 //
 // ```go
@@ -611,6 +612,12 @@ type VPNTunnelState struct {
 
 func (VPNTunnelState) ElementType() reflect.Type {
 	return reflect.TypeOf((*vpntunnelState)(nil)).Elem()
+}
+
+// VPNTunnelExists checks whether an existing VPNTunnel resource with the given ID exists.
+func VPNTunnelExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *VPNTunnelState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/vPNTunnel:VPNTunnel", id, state, "", opts...)
 }
 
 type vpntunnelArgs struct {

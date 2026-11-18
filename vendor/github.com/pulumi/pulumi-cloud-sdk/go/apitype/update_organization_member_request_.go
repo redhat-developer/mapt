@@ -13,4 +13,7 @@ type UpdateOrganizationMemberRequest struct {
 	Role OrganizationRole `json:"role,omitempty" yaml:"role,omitempty"`
 	// The ID of a custom role to assign to the member. If both `role` and `fgaRoleId` are provided, `fgaRoleId` takes precedence.
 	FGARoleID *string `json:"fgaRoleId,omitempty" yaml:"fgaRoleId,omitempty"`
+	// A new name for the member. Only user-defined service principals can be renamed; the name must be unique among the organization's service
+	// principals. When only `name` is set, the member's role is left unchanged.
+	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
 }

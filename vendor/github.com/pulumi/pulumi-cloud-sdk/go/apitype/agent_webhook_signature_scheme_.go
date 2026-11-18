@@ -15,17 +15,23 @@ type AgentWebhookSignatureScheme string
 const (
 	// PagerDuty V3 HMAC-SHA256 request signatures.
 	AgentWebhookSignatureSchemePagerDutyV3 AgentWebhookSignatureScheme = "pagerduty_v3"
+
+	// Sentry V1 HMAC-SHA256 request signatures.
+	AgentWebhookSignatureSchemeSentryHmacSha256 AgentWebhookSignatureScheme = "sentry_v1"
 )
 
 func (v AgentWebhookSignatureScheme) AllValues() []AgentWebhookSignatureScheme {
 	return []AgentWebhookSignatureScheme{
 		AgentWebhookSignatureSchemePagerDutyV3,
+		AgentWebhookSignatureSchemeSentryHmacSha256,
 	}
 }
 
 func (v AgentWebhookSignatureScheme) IsValid() bool {
 	switch v {
 	case AgentWebhookSignatureSchemePagerDutyV3:
+		return true
+	case AgentWebhookSignatureSchemeSentryHmacSha256:
 		return true
 	}
 
@@ -36,6 +42,8 @@ func (v AgentWebhookSignatureScheme) openapiName() string {
 	switch v {
 	case AgentWebhookSignatureSchemePagerDutyV3:
 		return "PagerDutyV3"
+	case AgentWebhookSignatureSchemeSentryHmacSha256:
+		return "SentryHmacSha256"
 	}
 
 	return ""

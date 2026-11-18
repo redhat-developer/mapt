@@ -18,12 +18,24 @@ const (
 
 	// A PagerDuty V3 webhook with optional signature verification.
 	AgentWebhookPresetPagerDuty AgentWebhookPreset = "pagerduty"
+
+	// A Datadog monitor webhook authenticated with Pulumi's generated secret header.
+	AgentWebhookPresetDatadog AgentWebhookPreset = "datadog"
+
+	// A Honeycomb trigger webhook authenticated with Pulumi's generated secret header.
+	AgentWebhookPresetHoneycomb AgentWebhookPreset = "honeycomb"
+
+	// A Sentry integration webhook with optional signature verification.
+	AgentWebhookPresetSentry AgentWebhookPreset = "sentry"
 )
 
 func (v AgentWebhookPreset) AllValues() []AgentWebhookPreset {
 	return []AgentWebhookPreset{
 		AgentWebhookPresetGeneric,
 		AgentWebhookPresetPagerDuty,
+		AgentWebhookPresetDatadog,
+		AgentWebhookPresetHoneycomb,
+		AgentWebhookPresetSentry,
 	}
 }
 
@@ -32,6 +44,12 @@ func (v AgentWebhookPreset) IsValid() bool {
 	case AgentWebhookPresetGeneric:
 		return true
 	case AgentWebhookPresetPagerDuty:
+		return true
+	case AgentWebhookPresetDatadog:
+		return true
+	case AgentWebhookPresetHoneycomb:
+		return true
+	case AgentWebhookPresetSentry:
 		return true
 	}
 
@@ -44,6 +62,12 @@ func (v AgentWebhookPreset) openapiName() string {
 		return "Generic"
 	case AgentWebhookPresetPagerDuty:
 		return "PagerDuty"
+	case AgentWebhookPresetDatadog:
+		return "Datadog"
+	case AgentWebhookPresetHoneycomb:
+		return "Honeycomb"
+	case AgentWebhookPresetSentry:
+		return "Sentry"
 	}
 
 	return ""

@@ -35,4 +35,7 @@ type GetDeploymentResponse struct {
 	Initiator string `json:"initiator,omitempty" yaml:"initiator,omitempty"`
 	// PulumiOperation is the operation that was performed. Omitted for historical deployments that predate this field.
 	PulumiOperation PulumiOperation `json:"pulumiOperation,omitempty" yaml:"pulumiOperation,omitempty"`
+	// What the deployment executes as, recorded when it was queued. Omitted for deployments queued before this was recorded, or by
+	// organizations that do not select what their deployments run as.
+	RunsAs *DeploymentRunsAs `json:"runsAs,omitempty" yaml:"runsAs,omitempty"`
 }

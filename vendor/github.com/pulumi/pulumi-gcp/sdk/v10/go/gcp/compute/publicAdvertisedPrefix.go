@@ -50,6 +50,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Public Advertised Prefixes Pdp Scope
 //
 // ```go
@@ -79,6 +80,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Public Advertised Prefixes Ipv6 Access Type
 //
 // ```go
@@ -301,6 +303,12 @@ type PublicAdvertisedPrefixState struct {
 
 func (PublicAdvertisedPrefixState) ElementType() reflect.Type {
 	return reflect.TypeOf((*publicAdvertisedPrefixState)(nil)).Elem()
+}
+
+// PublicAdvertisedPrefixExists checks whether an existing PublicAdvertisedPrefix resource with the given ID exists.
+func PublicAdvertisedPrefixExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *PublicAdvertisedPrefixState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/publicAdvertisedPrefix:PublicAdvertisedPrefix", id, state, "", opts...)
 }
 
 type publicAdvertisedPrefixArgs struct {

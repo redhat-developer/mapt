@@ -23,12 +23,13 @@ type CreateAgentAutomationWebhookTrigger interface {
 	// payloads are accepted without signature verification.
 	VerifyWebhookSignature() *bool
 	SetVerifyWebhookSignature(v *bool) error
-	// The signature scheme used to authenticate webhook requests. PagerDuty presets default to pagerduty_v3 when omitted.
+	// The signature scheme used to authenticate webhook requests. PagerDuty presets default to pagerduty_v3 and Sentry presets default to
+	// sentry_v1 when omitted.
 	WebhookSignatureScheme() AgentWebhookSignatureScheme
 	SetWebhookSignatureScheme(v AgentWebhookSignatureScheme) error
 	// The verification credential for the selected webhook signature scheme. For PagerDuty V3 this is the shared signing secret generated
-	// after creating the subscription. It may be omitted while obtaining the Pulumi webhook URL. When updating, omit it to retain the current
-	// credential or provide a new value to rotate it.
+	// after creating the subscription. For Sentry this is the client secret of the integration. It may be omitted while obtaining the Pulumi
+	// webhook URL. When updating, omit it to retain the current credential or provide a new value to rotate it.
 	WebhookSignatureCredential() *string
 	SetWebhookSignatureCredential(v *string) error
 }

@@ -25,4 +25,7 @@ type OperationContextRequest struct {
 	Options jsonvalue.Value[OperationContextOptionsRequest] `json:"options,omitempty" yaml:"options,omitempty"`
 	// The deployment role to assume for the operation.
 	Role jsonvalue.Value[DeploymentRoleRequest] `json:"role,omitempty" yaml:"role,omitempty"`
+	// The service principal the operation runs as. Mutually exclusive with role. Only deployment settings can select one; a deployment request
+	// that sets it is rejected.
+	ServicePrincipal jsonvalue.Value[DeploymentServicePrincipalRequest] `json:"servicePrincipal,omitempty" yaml:"servicePrincipal,omitempty"`
 }

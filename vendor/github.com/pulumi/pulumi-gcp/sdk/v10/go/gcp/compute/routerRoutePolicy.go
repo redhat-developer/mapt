@@ -87,6 +87,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Router Route Policy Import
 //
 // ```go
@@ -293,6 +294,12 @@ type RouterRoutePolicyState struct {
 
 func (RouterRoutePolicyState) ElementType() reflect.Type {
 	return reflect.TypeOf((*routerRoutePolicyState)(nil)).Elem()
+}
+
+// RouterRoutePolicyExists checks whether an existing RouterRoutePolicy resource with the given ID exists.
+func RouterRoutePolicyExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RouterRoutePolicyState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/routerRoutePolicy:RouterRoutePolicy", id, state, "", opts...)
 }
 
 type routerRoutePolicyArgs struct {

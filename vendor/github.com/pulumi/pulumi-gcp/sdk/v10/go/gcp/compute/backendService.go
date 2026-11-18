@@ -70,6 +70,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service External Iap
 //
 // ```go
@@ -102,6 +103,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Cache Simple
 //
 // ```go
@@ -144,6 +146,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Cache Include Http Headers
 //
 // ```go
@@ -181,6 +184,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Cache Include Named Cookies
 //
 // ```go
@@ -222,6 +226,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Cache
 //
 // ```go
@@ -269,6 +274,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Cache Bypass Cache On Request Headers
 //
 // ```go
@@ -324,6 +330,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Traffic Director Round Robin
 //
 // ```go
@@ -361,6 +368,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Traffic Director Ring Hash
 //
 // ```go
@@ -422,6 +430,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Stateful Session Affinity
 //
 // ```go
@@ -467,6 +476,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Network Endpoint
 //
 // ```go
@@ -526,6 +536,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service In Flight
 //
 // ```go
@@ -633,6 +644,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service External Managed
 //
 // ```go
@@ -670,6 +682,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Ip Address Selection Policy
 //
 // ```go
@@ -697,6 +710,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Custom Metrics
 //
 // ```go
@@ -784,6 +798,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Tls Settings
 //
 // ```go
@@ -845,6 +860,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Identity
 //
 // ```go
@@ -886,6 +902,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Dynamic Forwarding
 //
 // ```go
@@ -917,6 +934,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Dynamic Forwarding Forward Proxy Cloud Run
 //
 // ```go
@@ -950,6 +968,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Backend Service Dynamic Forwarding Forward Proxy Direct Forwarding
 //
 // ```go
@@ -957,14 +976,24 @@ import (
 //
 // import (
 //
+//	"fmt"
+//
 //	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/compute"
+//	"github.com/pulumi/pulumi-gcp/sdk/v10/go/gcp/networksecurity"
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 //
 // )
 //
 //	func main() {
 //		pulumi.Run(func(ctx *pulumi.Context) error {
-//			_, err := compute.NewBackendService(ctx, "default", &compute.BackendServiceArgs{
+//			defaultBackendAuthenticationConfig, err := networksecurity.NewBackendAuthenticationConfig(ctx, "default", &networksecurity.BackendAuthenticationConfigArgs{
+//				Name:           pulumi.String("authentication"),
+//				WellKnownRoots: pulumi.String("PUBLIC_ROOTS"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			_, err = compute.NewBackendService(ctx, "default", &compute.BackendServiceArgs{
 //				Name:                pulumi.String("backend-service"),
 //				LoadBalancingScheme: pulumi.String("INTERNAL_MANAGED"),
 //				Protocol:            pulumi.String("HTTP2"),
@@ -973,6 +1002,11 @@ import (
 //						Enabled:   pulumi.Bool(true),
 //						ProxyMode: pulumi.String("DIRECT_FORWARDING"),
 //					},
+//				},
+//				TlsSettings: &compute.BackendServiceTlsSettingsArgs{
+//					AuthenticationConfig: defaultBackendAuthenticationConfig.ID().ApplyT(func(id pulumi.ID) (string, error) {
+//						return fmt.Sprintf("//networksecurity.googleapis.com/%v", id), nil
+//					}).(pulumi.StringOutput),
 //				},
 //			})
 //			if err != nil {
@@ -1227,7 +1261,7 @@ type BackendService struct {
 	// The URI of the created resource.
 	SelfLink pulumi.StringOutput `pulumi:"selfLink"`
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED for a global backend service, and EXTERNAL_MANAGED or INTERNAL_MANAGED for a regional backend service. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
 	ServiceLbPolicy pulumi.StringPtrOutput `pulumi:"serviceLbPolicy"`
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -1501,7 +1535,7 @@ type backendServiceState struct {
 	// The URI of the created resource.
 	SelfLink *string `pulumi:"selfLink"`
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED for a global backend service, and EXTERNAL_MANAGED or INTERNAL_MANAGED for a regional backend service. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
 	ServiceLbPolicy *string `pulumi:"serviceLbPolicy"`
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -1746,7 +1780,7 @@ type BackendServiceState struct {
 	// The URI of the created resource.
 	SelfLink pulumi.StringPtrInput
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED for a global backend service, and EXTERNAL_MANAGED or INTERNAL_MANAGED for a regional backend service. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
 	ServiceLbPolicy pulumi.StringPtrInput
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -1767,6 +1801,12 @@ type BackendServiceState struct {
 
 func (BackendServiceState) ElementType() reflect.Type {
 	return reflect.TypeOf((*backendServiceState)(nil)).Elem()
+}
+
+// BackendServiceExists checks whether an existing BackendService resource with the given ID exists.
+func BackendServiceExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *BackendServiceState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/backendService:BackendService", id, state, "", opts...)
 }
 
 type backendServiceArgs struct {
@@ -1986,7 +2026,7 @@ type backendServiceArgs struct {
 	// Structure is documented below.
 	SecuritySettings *BackendServiceSecuritySettings `pulumi:"securitySettings"`
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED for a global backend service, and EXTERNAL_MANAGED or INTERNAL_MANAGED for a regional backend service. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
 	ServiceLbPolicy *string `pulumi:"serviceLbPolicy"`
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -2223,7 +2263,7 @@ type BackendServiceArgs struct {
 	// Structure is documented below.
 	SecuritySettings BackendServiceSecuritySettingsPtrInput
 	// URL to networkservices.ServiceLbPolicy resource.
-	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED for a global backend service, and EXTERNAL_MANAGED or INTERNAL_MANAGED for a regional backend service. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
+	// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
 	ServiceLbPolicy pulumi.StringPtrInput
 	// Type of session affinity to use. The default is NONE. Session affinity is
 	// not applicable if the protocol is UDP.
@@ -2670,7 +2710,7 @@ func (o BackendServiceOutput) SelfLink() pulumi.StringOutput {
 }
 
 // URL to networkservices.ServiceLbPolicy resource.
-// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED for a global backend service, and EXTERNAL_MANAGED or INTERNAL_MANAGED for a regional backend service. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
+// Can only be set if load balancing scheme is EXTERNAL_MANAGED, INTERNAL_MANAGED or INTERNAL_SELF_MANAGED. For a global backend service, the service lb policy must be global. For a regional backend service, the service lb policy must be regional and in the same region.
 func (o BackendServiceOutput) ServiceLbPolicy() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *BackendService) pulumi.StringPtrOutput { return v.ServiceLbPolicy }).(pulumi.StringPtrOutput)
 }

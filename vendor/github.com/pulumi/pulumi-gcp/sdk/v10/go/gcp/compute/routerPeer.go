@@ -186,6 +186,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Router Peer Router Appliance
 //
 // ```go
@@ -1019,6 +1020,12 @@ type RouterPeerState struct {
 
 func (RouterPeerState) ElementType() reflect.Type {
 	return reflect.TypeOf((*routerPeerState)(nil)).Elem()
+}
+
+// RouterPeerExists checks whether an existing RouterPeer resource with the given ID exists.
+func RouterPeerExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RouterPeerState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/routerPeer:RouterPeer", id, state, "", opts...)
 }
 
 type routerPeerArgs struct {

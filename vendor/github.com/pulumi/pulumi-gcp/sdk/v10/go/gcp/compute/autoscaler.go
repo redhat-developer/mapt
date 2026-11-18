@@ -128,6 +128,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Autoscaler Basic
 //
 // ```go
@@ -397,6 +398,12 @@ type AutoscalerState struct {
 
 func (AutoscalerState) ElementType() reflect.Type {
 	return reflect.TypeOf((*autoscalerState)(nil)).Elem()
+}
+
+// AutoscalerExists checks whether an existing Autoscaler resource with the given ID exists.
+func AutoscalerExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *AutoscalerState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/autoscaler:Autoscaler", id, state, "", opts...)
 }
 
 type autoscalerArgs struct {

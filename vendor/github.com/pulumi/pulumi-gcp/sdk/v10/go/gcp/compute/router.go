@@ -69,6 +69,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Compute Router Encrypted Interconnect
 //
 // ```go
@@ -106,6 +107,7 @@ import (
 //	}
 //
 // ```
+//
 // ### Router Ncc Gw
 //
 // ```go
@@ -234,8 +236,13 @@ type Router struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter pulumi.BoolPtrOutput `pulumi:"encryptedInterconnectRouter"`
+	// (Optional, Deprecated)
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
+	//
+	// > **Warning:** `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
+	//
+	// Deprecated: `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
 	Md5AuthenticationKeys RouterMd5AuthenticationKeysPtrOutput `pulumi:"md5AuthenticationKeys"`
 	// Name of the resource. The name must be 1-63 characters long, and
 	// comply with RFC1035. Specifically, the name must be 1-63 characters
@@ -256,6 +263,8 @@ type Router struct {
 	Project pulumi.StringOutput `pulumi:"project"`
 	// Region where the router resides.
 	Region pulumi.StringOutput `pulumi:"region"`
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	RouterId pulumi.IntOutput `pulumi:"routerId"`
 	// The URI of the created resource.
 	SelfLink pulumi.StringOutput `pulumi:"selfLink"`
 }
@@ -307,8 +316,13 @@ type routerState struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter *bool `pulumi:"encryptedInterconnectRouter"`
+	// (Optional, Deprecated)
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
+	//
+	// > **Warning:** `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
+	//
+	// Deprecated: `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
 	Md5AuthenticationKeys *RouterMd5AuthenticationKeys `pulumi:"md5AuthenticationKeys"`
 	// Name of the resource. The name must be 1-63 characters long, and
 	// comply with RFC1035. Specifically, the name must be 1-63 characters
@@ -329,6 +343,8 @@ type routerState struct {
 	Project *string `pulumi:"project"`
 	// Region where the router resides.
 	Region *string `pulumi:"region"`
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	RouterId *int `pulumi:"routerId"`
 	// The URI of the created resource.
 	SelfLink *string `pulumi:"selfLink"`
 }
@@ -351,8 +367,13 @@ type RouterState struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter pulumi.BoolPtrInput
+	// (Optional, Deprecated)
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
+	//
+	// > **Warning:** `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
+	//
+	// Deprecated: `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
 	Md5AuthenticationKeys RouterMd5AuthenticationKeysPtrInput
 	// Name of the resource. The name must be 1-63 characters long, and
 	// comply with RFC1035. Specifically, the name must be 1-63 characters
@@ -373,12 +394,20 @@ type RouterState struct {
 	Project pulumi.StringPtrInput
 	// Region where the router resides.
 	Region pulumi.StringPtrInput
+	// The unique identifier number for the resource. This identifier is defined by the server.
+	RouterId pulumi.IntPtrInput
 	// The URI of the created resource.
 	SelfLink pulumi.StringPtrInput
 }
 
 func (RouterState) ElementType() reflect.Type {
 	return reflect.TypeOf((*routerState)(nil)).Elem()
+}
+
+// RouterExists checks whether an existing Router resource with the given ID exists.
+func RouterExists(ctx *pulumi.Context,
+	id pulumi.StringInput, state *RouterState, opts ...pulumi.ResourceOption) pulumi.BoolOutput {
+	return ctx.ExistsResource("gcp:compute/router:Router", id, state, "", opts...)
 }
 
 type routerArgs struct {
@@ -397,8 +426,13 @@ type routerArgs struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter *bool `pulumi:"encryptedInterconnectRouter"`
+	// (Optional, Deprecated)
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
+	//
+	// > **Warning:** `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
+	//
+	// Deprecated: `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
 	Md5AuthenticationKeys *RouterMd5AuthenticationKeys `pulumi:"md5AuthenticationKeys"`
 	// Name of the resource. The name must be 1-63 characters long, and
 	// comply with RFC1035. Specifically, the name must be 1-63 characters
@@ -438,8 +472,13 @@ type RouterArgs struct {
 	// Indicates if a router is dedicated for use with encrypted VLAN
 	// attachments (interconnectAttachments).
 	EncryptedInterconnectRouter pulumi.BoolPtrInput
+	// (Optional, Deprecated)
 	// Keys used for MD5 authentication.
 	// Structure is documented below.
+	//
+	// > **Warning:** `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
+	//
+	// Deprecated: `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
 	Md5AuthenticationKeys RouterMd5AuthenticationKeysPtrInput
 	// Name of the resource. The name must be 1-63 characters long, and
 	// comply with RFC1035. Specifically, the name must be 1-63 characters
@@ -581,8 +620,13 @@ func (o RouterOutput) EncryptedInterconnectRouter() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Router) pulumi.BoolPtrOutput { return v.EncryptedInterconnectRouter }).(pulumi.BoolPtrOutput)
 }
 
+// (Optional, Deprecated)
 // Keys used for MD5 authentication.
 // Structure is documented below.
+//
+// > **Warning:** `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
+//
+// Deprecated: `md5AuthenticationKeys` is deprecated and will be removed in a future major release. It has no effect; use the `md5AuthenticationKey` block of `compute.RouterPeer` to configure MD5 authentication for a BGP peer instead.
 func (o RouterOutput) Md5AuthenticationKeys() RouterMd5AuthenticationKeysPtrOutput {
 	return o.ApplyT(func(v *Router) RouterMd5AuthenticationKeysPtrOutput { return v.Md5AuthenticationKeys }).(RouterMd5AuthenticationKeysPtrOutput)
 }
@@ -622,6 +666,11 @@ func (o RouterOutput) Project() pulumi.StringOutput {
 // Region where the router resides.
 func (o RouterOutput) Region() pulumi.StringOutput {
 	return o.ApplyT(func(v *Router) pulumi.StringOutput { return v.Region }).(pulumi.StringOutput)
+}
+
+// The unique identifier number for the resource. This identifier is defined by the server.
+func (o RouterOutput) RouterId() pulumi.IntOutput {
+	return o.ApplyT(func(v *Router) pulumi.IntOutput { return v.RouterId }).(pulumi.IntOutput)
 }
 
 // The URI of the created resource.
