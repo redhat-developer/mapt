@@ -16,18 +16,31 @@ import (
 )
 
 const (
-	// standard D,E and F series are the VM families
-	// supporting nested virtualization
+	// standard D, E, F, Lsv3, Lasv3, M and Msv2 medium memory series are the
+	// VM families supporting nested virtualization. Mv2 (standardMSv2Family)
+	// is left out on purpose: Microsoft's LISA tests don't list it as nested
+	// virtualization capable.
 	excludedFamilies = "Av4Family,ASv4Family,CSv3Family"
 	dSeriesPattern   = `^[Ss]tandardD.*v[3-6]Family$`
 	eSeriesPattern   = `^[Ss]tandardE.*v[3-6]Family$`
 	fSeriesPattern   = `^[Ss]tandardF.*v\dFamily$`
-	// Lsv3, Lasv3 and M also support nested virtualization, but every size
-	// in them has local storage
-	lSeriesPattern = `(?i)^standardLA?Sv3Family$`
-	mSeriesPattern = `(?i)^standardMSFamily$`
+	// every size in Lsv3, Lasv3 and M has local storage
+	lSeriesPattern = `^[Ss]tandardLA?Sv3Family$`
+	mSeriesPattern = `^[Ss]tandardMSFamily$`
+	// Msv2 medium memory sizes have no local storage
+	mMediumMemoryPattern = `^[Ss]tandardMSMediumMemoryv2Family$`
 	// constrained vCPU sizes, such as Standard_E8-2s_v5 or Standard_M8-2ms
 	lowerCpuPattern = `^[Ss]tandard.*-.*(_v\d)?$`
+)
+
+var (
+	dSeries       = regexp.MustCompile(dSeriesPattern)
+	eSeries       = regexp.MustCompile(eSeriesPattern)
+	fSeries       = regexp.MustCompile(fSeriesPattern)
+	lSeries       = regexp.MustCompile(lSeriesPattern)
+	mSeries       = regexp.MustCompile(mSeriesPattern)
+	mMediumMemory = regexp.MustCompile(mMediumMemoryPattern)
+	lowerCpu      = regexp.MustCompile(lowerCpuPattern)
 )
 
 type ComputeSelector struct{}
@@ -238,13 +251,10 @@ type virtualMachine struct {
 }
 
 func (vm *virtualMachine) nestedVirtSupported() bool {
-	dSeries := regexp.MustCompile(dSeriesPattern)
-	eSeries := regexp.MustCompile(eSeriesPattern)
-	fSeries := regexp.MustCompile(fSeriesPattern)
-
-	if (dSeries.Match([]byte(vm.Family)) ||
-		eSeries.Match([]byte(vm.Family)) ||
-		fSeries.Match([]byte(vm.Family)) ||
+	if (dSeries.MatchString(vm.Family) ||
+		eSeries.MatchString(vm.Family) ||
+		fSeries.MatchString(vm.Family) ||
+		mMediumMemory.MatchString(vm.Family) ||
 		vm.nestedVirtWithLocalStorage()) && !isExcludedFamily(vm.Family) {
 		return true
 	}
@@ -255,8 +265,7 @@ func (vm *virtualMachine) nestedVirtSupported() bool {
 // nested virtualization and always has local storage, so a nested virt request
 // has to allow that storage to use it.
 func (vm *virtualMachine) nestedVirtWithLocalStorage() bool {
-	return regexp.MustCompile(lSeriesPattern).MatchString(vm.Family) ||
-		regexp.MustCompile(mSeriesPattern).MatchString(vm.Family)
+	return lSeries.MatchString(vm.Family) || mSeries.MatchString(vm.Family)
 }
 
 func isExcludedFamily(family string) bool {
@@ -277,6 +286,8 @@ func (vm *virtualMachine) noLocalStorageAttached() bool {
 	return vm.MaxResourceVolumeMB == 0 && vm.NvmeDiskSizeInMiB == 0
 }
 
+// coreFeaturesSupported checks the features for a nested virt or GPU request,
+// where local storage is allowed.
 func (vm *virtualMachine) coreFeaturesSupported() bool {
 	return vm.AcceleratedNetworkingEnabled && vm.PremiumIO && vm.EncryptionAtHostSupported &&
 		vm.hypervGen2Supported()
@@ -403,8 +414,7 @@ func filterCPUsAndMemory(args *cr.ComputeRequestArgs) filterFunc {
 				vm.Memory >= args.MemoryGib &&
 				vm.Arch == args.Arch.String() &&
 				featuresOK {
-				dSeries := regexp.MustCompile(lowerCpuPattern)
-				if !dSeries.Match([]byte(vm.Name)) {
+				if !lowerCpu.MatchString(vm.Name) {
 					vmCh <- vm.Name
 				}
 			}
