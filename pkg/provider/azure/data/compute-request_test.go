@@ -212,13 +212,15 @@ func selected(args *cr.ComputeRequestArgs, vm *virtualMachine) bool {
 
 func TestNestedVirtSupported_Families(t *testing.T) {
 	for family, want := range map[string]bool{
-		"standardLSv3Family":  true,
-		"standardLASv3Family": true,
-		"standardMSFamily":    true,
-		"standardLSv2Family":  false,
-		"standardLasv4Family": false,
-		"standardMSv2Family":  false,
-		"standardNCFamily":    false,
+		"standardLSv3Family":              true,
+		"standardLASv3Family":             true,
+		"standardMSFamily":                true,
+		"standardMSMediumMemoryv2Family":  true,
+		"standardMDSMediumMemoryv2Family": false,
+		"standardLSv2Family":              false,
+		"standardLasv4Family":             false,
+		"standardMSv2Family":              false,
+		"standardNCFamily":                false,
 	} {
 		vm := &virtualMachine{Family: family}
 		if got := vm.nestedVirtSupported(); got != want {
@@ -229,14 +231,33 @@ func TestNestedVirtSupported_Families(t *testing.T) {
 
 func TestFilter_NestedVirtAllowsLocalStorageOnNewFamilies(t *testing.T) {
 	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
-	for name, family := range map[string]string{
-		"Standard_L8s_v3":  "standardLSv3Family",
-		"Standard_L8as_v3": "standardLASv3Family",
-		"Standard_M8ms":    "standardMSFamily",
+	for _, tc := range []struct {
+		name, family string
+		nvmeMiB      int32
+	}{
+		// L sizes have both a temp disk and NVMe disks
+		{"Standard_L8s_v3", "standardLSv3Family", 1831054},
+		{"Standard_L8as_v3", "standardLASv3Family", 1831054},
+		{"Standard_M8ms", "standardMSFamily", 0},
 	} {
-		if !selected(args, capableVM(name, family)) {
-			t.Errorf("%s should be selected for a nested virt request", name)
+		vm := capableVM(tc.name, tc.family)
+		vm.NvmeDiskSizeInMiB = tc.nvmeMiB
+		if !selected(args, vm) {
+			t.Errorf("%s should be selected for a nested virt request", tc.name)
 		}
+	}
+}
+
+func TestFilter_MsMediumMemoryV2NeedsNoLocalStorageException(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
+	vm := capableVM("Standard_M32ms_v2", "standardMSMediumMemoryv2Family")
+	vm.MaxResourceVolumeMB = 0
+	if !selected(args, vm) {
+		t.Error("Standard_M32ms_v2 should be selected for a nested virt request")
+	}
+	vm.MaxResourceVolumeMB = 81920
+	if selected(args, vm) {
+		t.Error("an Msv2 medium memory size with local storage should stay rejected")
 	}
 }
 
@@ -267,5 +288,18 @@ func TestFilter_ConstrainedSizesAreSkipped(t *testing.T) {
 	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
 	if selected(args, capableVM("Standard_M8-2ms", "standardMSFamily")) {
 		t.Error("a constrained vCPU size should be skipped")
+	}
+}
+
+func TestFilter_ConstrainedSizesWithVersionAreStillSkipped(t *testing.T) {
+	args := &cr.ComputeRequestArgs{CPUs: 8, MemoryGib: 32, Arch: cr.Amd64, NestedVirt: true}
+	vm := capableVM("Standard_E8s_v5", "standardESv5Family")
+	vm.MaxResourceVolumeMB = 0
+	if !selected(args, vm) {
+		t.Fatal("Standard_E8s_v5 should be selected for a nested virt request")
+	}
+	vm.Name = "Standard_E8-2s_v5"
+	if selected(args, vm) {
+		t.Error("a constrained vCPU size with a version suffix should be skipped")
 	}
 }
