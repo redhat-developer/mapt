@@ -67,3 +67,96 @@ func TestSnippetMatchesPlatform(t *testing.T) {
 		})
 	}
 }
+
+// TestJITConfigSnippets checks that with a just-in-time config every platform
+// starts the runner from it and neither registers with a token nor installs a
+// service.
+func TestJITConfigSnippets(t *testing.T) {
+	cases := []struct {
+		name     string
+		platform Platform
+		arch     Arch
+		want     string
+	}{
+		{"linux x64", Linux, Amd64, "nohup ./run.sh --jitconfig jit-config-value"},
+		{"linux ppc64le", Linux, Ppc64le, `nohup ./run.sh --jitconfig "jit-config-value"`},
+		{"linux s390x", Linux, S390x, `nohup ./run.sh --jitconfig "jit-config-value"`},
+		{"windows x64", Windows, Amd64, `-Argument "--jitconfig jit-config-value"`},
+		{"macOS arm64", Darwin, Arm64, "<string>--jitconfig</string>\n    <string>jit-config-value</string>"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			platform, arch := tc.platform, tc.arch
+			args := &GithubRunnerArgs{
+				JITConfig: "jit-config-value",
+				Name:      "test-runner",
+				Platform:  &platform,
+				Arch:      &arch,
+			}
+			Init(args)
+			snippet, err := integrations.GetIntegrationSnippet(args, "testuser")
+			if err != nil {
+				t.Fatalf("failed to render snippet: %v", err)
+			}
+			if !strings.Contains(*snippet, tc.want) {
+				t.Errorf("snippet missing %q:\n%s", tc.want, *snippet)
+			}
+			for _, notWant := range []string{"./config.sh", "./config.cmd", "--token", "svc.sh", "plutil", "--runasservice"} {
+				if strings.Contains(*snippet, notWant) {
+					t.Errorf("snippet must not contain %q:\n%s", notWant, *snippet)
+				}
+			}
+		})
+	}
+}
+
+// TestJITConfigRunnerStartsAtBoot checks that on the platforms whose setup ends
+// with a reboot, the just-in-time runner is registered to start at boot rather
+// than left as a process the reboot kills.
+func TestJITConfigRunnerStartsAtBoot(t *testing.T) {
+	cases := []struct {
+		name     string
+		platform Platform
+		want     []string
+	}{
+		{"windows", Windows, []string{
+			"New-ScheduledTaskTrigger -AtStartup",
+			"-ExecutionTimeLimit ([TimeSpan]::Zero)",
+			`-User "SYSTEM"`,
+			`Start-ScheduledTask -TaskName "actions-runner-jit"`,
+		}},
+		{"macOS", Darwin, []string{
+			"/Library/LaunchDaemons/actions.runner.jit.plist",
+			"<key>RunAtLoad</key><true/>",
+			"<key>UserName</key><string>testuser</string>",
+			"sudo launchctl load -w /Library/LaunchDaemons/actions.runner.jit.plist",
+		}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			platform, arch := tc.platform, Amd64
+			if platform == Darwin {
+				arch = Arm64
+			}
+			args := &GithubRunnerArgs{
+				JITConfig: "jit-config-value",
+				Name:      "test-runner",
+				Platform:  &platform,
+				Arch:      &arch,
+			}
+			Init(args)
+			snippet, err := integrations.GetIntegrationSnippet(args, "testuser")
+			if err != nil {
+				t.Fatalf("failed to render snippet: %v", err)
+			}
+			for _, want := range tc.want {
+				if !strings.Contains(*snippet, want) {
+					t.Errorf("snippet missing %q:\n%s", want, *snippet)
+				}
+			}
+			if strings.Contains(*snippet, "nohup") || strings.Contains(*snippet, "Start-Process") {
+				t.Errorf("snippet must not start the runner as a plain process:\n%s", *snippet)
+			}
+		})
+	}
+}

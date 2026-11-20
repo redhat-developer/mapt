@@ -36,7 +36,9 @@ chown -R runner:runner /opt/runner-cache
 
 sudo -u runner bash -c '
     cd /opt/runner-cache
-
+{{ if .JITConfig }}
+    nohup ./run.sh --jitconfig "{{ .JITConfig }}" > /tmp/gh-runner.log 2>&1 &
+{{- else }}
     ./config.sh \
         --unattended \
         --disableupdate \
@@ -47,4 +49,5 @@ sudo -u runner bash -c '
         --ephemeral{{ end }}
 
     nohup ./run.sh > /tmp/gh-runner.log 2>&1 &
+{{- end }}
 '

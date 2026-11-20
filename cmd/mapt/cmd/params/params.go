@@ -1,7 +1,9 @@
 package params
 
 import (
+	"fmt"
 	"os"
+	"strings"
 
 	"github.com/redhat-developer/mapt/pkg/integrations/github"
 	"github.com/redhat-developer/mapt/pkg/integrations/gitlab"
@@ -56,6 +58,8 @@ const (
 	GHActionsRunnerLabelsDesc   string = "List of labels separated by comma to be added to the self-hosted runner"
 	GHActionsRunnerEphemeralDesc string = "Configure the runner as ephemeral: it executes a single job then deregisters automatically"
 
+	GHActionsRunnerJITConfigFileDesc string = "Path to a file holding a just-in-time runner config (base64, from the GitHub API). The runner takes one job and GitHub then removes it. Not combinable with the token, App, labels or ephemeral options"
+
 	// Compute request
 	memory              string = "memory"
 	memoryDesc          string = "Amount of RAM for the cloud instance in GiB"
@@ -83,6 +87,8 @@ const (
 	ghActionsRunnerOrg       string = "ghactions-runner-org"
 	ghActionsRunnerLabels    string = "ghactions-runner-labels"
 	ghActionsRunnerEphemeral string = "ghactions-runner-ephemeral"
+
+	ghActionsRunnerJITConfigFile string = "ghactions-runner-jitconfig-file"
 
 	ghActionsAppID                 string = "ghactions-app-id"
 	ghActionsAppIDDesc             string = "GitHub App ID used to authenticate and generate a runner registration token"
@@ -319,10 +325,25 @@ func AddGHActionsFlags(fs *pflag.FlagSet) {
 	fs.StringP(ghActionsAppInstallationID, "", "", ghActionsAppInstallationIDDesc)
 	fs.StringP(ghActionsAppPrivateKey, "", "", ghActionsAppPrivateKeyDesc)
 	fs.Bool(ghActionsRunnerEphemeral, false, GHActionsRunnerEphemeralDesc)
+	fs.StringP(ghActionsRunnerJITConfigFile, "", "", GHActionsRunnerJITConfigFileDesc)
 }
 
 // GithubRunnerArgs builds the GitHub Actions runner args for a target platform and arch.
 func GithubRunnerArgs(platform *github.Platform, arch *github.Arch) *github.GithubRunnerArgs {
+	if jitConfigFile := viper.GetString(ghActionsRunnerJITConfigFile); jitConfigFile != "" {
+		jitConfig, err := readJITConfig(jitConfigFile)
+		if err != nil {
+			logging.Fatalf("%v", err)
+		}
+		return &github.GithubRunnerArgs{
+			JITConfig: jitConfig,
+			RepoURL:   viper.GetString(ghActionsRunnerRepo),
+			Org:       viper.GetString(ghActionsRunnerOrg),
+			Platform:  platform,
+			Arch:      arch,
+		}
+	}
+
 	token := viper.GetString(ghActionsRunnerToken)
 	repoURL := viper.GetString(ghActionsRunnerRepo)
 	org := viper.GetString(ghActionsRunnerOrg)
@@ -395,6 +416,32 @@ func GithubRunnerArgs(platform *github.Platform, arch *github.Arch) *github.Gith
 		Arch:      arch,
 		Ephemeral: ephemeral,
 	}
+}
+
+// readJITConfig reads a just-in-time runner config from path. The config names
+// the runner, its labels and its target itself, so the options that would set
+// them another way are rejected.
+func readJITConfig(path string) (string, error) {
+	for _, flag := range []string{ghActionsRunnerToken, ghActionsAppID, ghActionsAppInstallationID, ghActionsAppPrivateKey} {
+		if viper.GetString(flag) != "" {
+			return "", fmt.Errorf("--%s cannot be combined with --%s", ghActionsRunnerJITConfigFile, flag)
+		}
+	}
+	if len(viper.GetStringSlice(ghActionsRunnerLabels)) > 0 {
+		return "", fmt.Errorf("--%s cannot be combined with --%s: the config sets the labels", ghActionsRunnerJITConfigFile, ghActionsRunnerLabels)
+	}
+	if viper.GetBool(ghActionsRunnerEphemeral) {
+		return "", fmt.Errorf("--%s cannot be combined with --%s: a just-in-time runner is always ephemeral", ghActionsRunnerJITConfigFile, ghActionsRunnerEphemeral)
+	}
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return "", fmt.Errorf("reading --%s: %w", ghActionsRunnerJITConfigFile, err)
+	}
+	jitConfig := strings.TrimSpace(string(content))
+	if jitConfig == "" {
+		return "", fmt.Errorf("--%s %s is empty", ghActionsRunnerJITConfigFile, path)
+	}
+	return jitConfig, nil
 }
 
 // GithubRunnerDeregisterArgs returns the GitHub credentials needed to deregister

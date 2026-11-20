@@ -21,6 +21,7 @@ type UserDataValues struct {
 	PowerVSDNS     []string
 	PowerVSMTU     int
 	Ephemeral      bool
+	JITConfig      string
 	RunnerImageRepo        string
 	RunnerImageRepoVersion string
 }

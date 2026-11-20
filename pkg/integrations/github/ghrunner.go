@@ -68,6 +68,7 @@ func (args *GithubRunnerArgs) GetUserDataValues() *integrations.UserDataValues {
 		RepoURL:                repoURL,
 		CliURL:                 downloadURL(),
 		Ephemeral:              args.Ephemeral,
+		JITConfig:              args.JITConfig,
 		RunnerImageRepo:        runnerImageRepo,
 		RunnerImageRepoVersion: runnerImageRepoVersion,
 	}
@@ -139,7 +140,9 @@ func GetManagementToken() (string, error) {
 // Pulumi stack outputs. Call this from deploy() after SetupRunner so the
 // destroy path can read them back without re-parsing CLI flags.
 func ExportRunnerOutputs(ctx *pulumi.Context) {
-	if runnerArgs == nil {
+	// A just-in-time runner is removed by GitHub after its job, and its name is
+	// set by whoever generated the config, so there is nothing to deregister.
+	if runnerArgs == nil || runnerArgs.JITConfig != "" {
 		return
 	}
 	ctx.Export(outputRunnerName, pulumi.String(runnerArgs.Name))
