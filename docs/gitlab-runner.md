@@ -61,6 +61,34 @@ After obtaining the token and the project/group ID, you can deploy a runner usin
 
 **Optional flags:**
 * `--glrunner-tags` - Comma-separated tags (e.g., `aws,mapt,fedora`)
+* `--glrunner-http-proxy` - Proxy URL for the jobs when the host network needs an egress proxy (e.g., `http://proxy.example.com:3128`). It is written to the runner's `environment` as `HTTP_PROXY`, `HTTPS_PROXY`, `http_proxy` and `https_proxy`
+* `--glrunner-no-proxy` - Comma-separated host names, domains or IP addresses the jobs reach directly, written as `NO_PROXY` and `no_proxy`. Requires `--glrunner-http-proxy`. CIDR ranges such as `10.0.0.0/8` are rejected, because some clients (curl on RHEL 9, for example) ignore them without an error
+
+Both proxy flags need `--glrunner-token`; without it no runner is set up and they are ignored.
+
+> *NOTE:* The proxy settings only reach the jobs. Downloading and registering the runner, the runner service and the image pulls made by Podman on the host use the host's own proxy configuration; see [#974](https://github.com/redhat-developer/mapt/issues/974).
+
+> *NOTE:* The proxy URL, including any credentials in it, ends up in:
+> * the instance user data, which any process on the host can read from the cloud's instance metadata service. With `--glrunner-unsecure`, jobs run as the host login user, so job code can read it too
+> * the Pulumi state in the `--backed-url` backend, because the user data is a resource input
+> * `/var/lib/cloud/instance/user-data.txt` on Linux hosts that use cloud-init
+> * `/etc/gitlab-runner/config.toml`
+>
+> Prefer a proxy that allows clients by source address, or a credential used only for this runner. Percent-encode special characters such as `@`, `:`, `/`, `?` and `#` in a user name or password.
+
+To deploy a Fedora runner on AWS behind an egress proxy:
+
+```bash
+mapt aws fedora create --spot \
+    --glrunner-token="glpat-xxxxxxxxxxxxxxxxxxxx" \
+    --glrunner-url="https://gitlab.com" \
+    --glrunner-project-id="12345678" \
+    --glrunner-http-proxy="http://proxy.example.com:3128" \
+    --glrunner-no-proxy="localhost,127.0.0.1,.internal.example.com" \
+    --project-name mapt-fedora-aws \
+    --backed-url file:///Users/tester/workspace \
+    --conn-details-output /Users/tester/workspace/conn-details
+```
 
 To deploy a Fedora runner on AWS as a project runner:
 
