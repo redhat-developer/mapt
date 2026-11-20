@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
@@ -91,6 +92,40 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 		}
 		return fmt.Errorf("failed to get stack: %w", err)
 	}
+	return DestroySelectedStack(mCtx, &objectStack, DestroyOptions{})
+}
+
+// DestroyOptions controls an opt-in phased teardown. Targeted phases retain the
+// stack so later phases continue from the same state.
+type DestroyOptions struct {
+	Targets          []string
+	TargetDependents bool
+	ContinueOnError  bool
+}
+
+// SelectStackForDestroy opens existing state without refreshing providers or
+// creating an empty stack when the requested stack does not exist.
+func SelectStackForDestroy(mCtx *mc.Context, target Stack) (*auto.Stack, error) {
+	program := target.DeployFunc
+	if program == nil {
+		// Targeted destroy still resolves the project runtime. A no-op program
+		// makes the Automation API serve the inline language runtime, so the
+		// CLI does not try to load a Go program that does not exist.
+		program = func(*pulumi.Context) error { return nil }
+	}
+	s, err := auto.SelectStackInlineSource(mCtx.Context(), target.StackName,
+		target.ProjectName, program, getOpts(target)...)
+	if err != nil {
+		return nil, err
+	}
+	if err := setStackCredentials(mCtx.Context(), mCtx, target, &s); err != nil {
+		return nil, err
+	}
+	return &s, nil
+}
+
+func DestroySelectedStack(mCtx *mc.Context, stack *auto.Stack, options DestroyOptions) error {
+	ctx := mCtx.Context()
 
 	w := logging.GetWritter()
 	defer func() {
@@ -111,24 +146,36 @@ func DestroyStack(mCtx *mc.Context, targetStack Stack, opts ...ManagerOptions) e
 				LogToStdErr:   true}))
 	}
 
-	// Destroy resources
-	if _, err := objectStack.Destroy(ctx, mOpts...); err != nil {
-		logging.Error(err)
-		if len(opts) == 1 && opts[0].Background {
-			return err
+	return destroyPhase(ctx, stack, func(ctx context.Context) error {
+		return stack.Workspace().RemoveStack(ctx, stack.Name())
+	}, options, mOpts...)
+}
+
+type stackDestroyer interface {
+	Destroy(context.Context, ...optdestroy.Option) (auto.DestroyResult, error)
+}
+
+func destroyPhase(ctx context.Context, stack stackDestroyer, remove func(context.Context) error, options DestroyOptions, opts ...optdestroy.Option) error {
+	if len(options.Targets) > 0 {
+		opts = append(opts, optdestroy.Target(options.Targets))
+		if options.TargetDependents {
+			opts = append(opts, optdestroy.TargetDependents())
 		}
+	}
+	if options.ContinueOnError {
+		opts = append(opts, optdestroy.ContinueOnError())
+	}
+	if _, err := stack.Destroy(ctx, opts...); err != nil {
+		logging.Error(err)
 		return fmt.Errorf("failed to destroy stack resources: %w", err)
 	}
-
-	// Remove the stack from workspace
-	if err := objectStack.Workspace().RemoveStack(ctx, targetStack.StackName); err != nil {
+	if len(options.Targets) > 0 {
+		return nil
+	}
+	if err := remove(ctx); err != nil {
 		logging.Error(err)
-		if len(opts) == 1 && opts[0].Background {
-			return err
-		}
 		return fmt.Errorf("failed to remove stack from workspace: %w", err)
 	}
-
 	return nil
 }
 
