@@ -44,18 +44,18 @@ func ProxyEnv(httpProxy, noProxy string) ([]string, error) {
 	return env, nil
 }
 
-// validateProxyURL checks the proxy URL. Errors show the URL without its password,
-// or not at all when it does not parse.
+// validateProxyURL checks the proxy URL. Errors never show the URL: an unencoded # or ?
+// in a password moves the rest of it into the fragment or query, which Redacted keeps.
 func validateProxyURL(raw string) error {
 	u, err := url.Parse(raw)
 	if err != nil || u.Hostname() == "" {
 		return fmt.Errorf("--glrunner-http-proxy must be a URL such as http://proxy.example.com:3128; %s", encodeHint)
 	}
 	if u.Scheme != "http" && u.Scheme != "https" {
-		return fmt.Errorf("--glrunner-http-proxy must use http or https, got %q", u.Redacted())
+		return fmt.Errorf("--glrunner-http-proxy must use http or https, got %q", u.Scheme)
 	}
 	if (u.Path != "" && u.Path != "/") || u.RawQuery != "" || u.Fragment != "" {
-		return fmt.Errorf("--glrunner-http-proxy must not have a path, query or fragment, got %q; %s", u.Redacted(), encodeHint)
+		return fmt.Errorf("--glrunner-http-proxy must not have a path, query or fragment; %s", encodeHint)
 	}
 	return nil
 }

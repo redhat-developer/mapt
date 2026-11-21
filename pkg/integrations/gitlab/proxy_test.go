@@ -77,6 +77,10 @@ func TestProxyEnvErrorsHideThePassword(t *testing.T) {
 		"ftp://user:s3cret@proxy:3128",
 		"http://user:s3cret@proxy:3128/path",
 		"http://user:s3cret#@proxy:3128",
+		// "user:12" parses as host and port, so the rest lands in the fragment or query.
+		"http://user:12#s3cret@proxy:3128",
+		"http://user:12?s3cret@proxy:3128",
+		"ftp://user:12#s3cret@proxy:3128",
 	} {
 		_, err := ProxyEnv(proxy, "")
 		if err == nil || strings.Contains(err.Error(), "s3cret") {
