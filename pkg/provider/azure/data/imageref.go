@@ -75,18 +75,24 @@ var (
 	}
 )
 
-// version should came in format X.Y (major.minor)
+// version should come in format X.Y (major.minor), except Fedora which uses X.
 func GetImageRef(osTarget OSType, arch string, version string) (*ImageReference, error) {
 	ir := defaultImageRefs[osTarget][arch]
 	versions := strings.Split(version, ".")
 	switch osTarget {
 	case Ubuntu:
+		if len(versions) < 2 || versions[0] == "" || versions[1] == "" {
+			return nil, fmt.Errorf("invalid Ubuntu version %q: expected X.Y (major.minor)", version)
+		}
 		return &ImageReference{
 			Publisher: ir.Publisher,
 			Offer:     fmt.Sprintf(ir.Offer, versions[0], versions[1]),
 			Sku:       ir.Sku,
 		}, nil
 	case RHEL:
+		if len(versions) < 2 || versions[0] == "" || versions[1] == "" {
+			return nil, fmt.Errorf("invalid RHEL version %q: expected X.Y (major.minor)", version)
+		}
 		return &ImageReference{
 			Publisher: ir.Publisher,
 			Offer:     ir.Offer,
