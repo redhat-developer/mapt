@@ -1358,6 +1358,6 @@ mvdan.cc/gofumpt/internal/version
 # mvdan.cc/unparam v0.0.0-20261011093844-7a2c2c0b7aa6
 ## explicit; go 1.26.0
 mvdan.cc/unparam/check
-# github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.2.1
+# github.com/charmbracelet/bubbles/v2 => charm.land/bubbles/v2 v2.2.2
 # github.com/charmbracelet/bubbletea/v2 => charm.land/bubbletea/v2 v2.1.2
 # github.com/charmbracelet/lipgloss/v2 => charm.land/lipgloss/v2 v2.1.1
