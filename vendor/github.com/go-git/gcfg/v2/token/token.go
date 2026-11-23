@@ -24,7 +24,10 @@ const (
 	literal_beg
 	// Identifiers and basic type literals
 	// (these tokens stand for classes of literals)
-	IDENT  // section-name, variable-name
+	// IDENT is a section name, a variable name or, after a '[', a legacy
+	// section.subsection header: one IDENT whose literal contains a '.',
+	// unsplit and in its original case (it may start with a digit or '-').
+	IDENT
 	STRING // "subsection-name", variable value
 	literal_end
 

@@ -17,10 +17,21 @@
 //   - section and variable names can contain unicode letters, unicode digits
 //     (as defined in http://golang.org/ref/spec#Characters ) and hyphens
 //     (U+002D), starting with a unicode letter
-//   - disallow potentially ambiguous or misleading definitions:
-//   - `[sec.sub]` format is not allowed (deprecated in gitconfig)
-//   - `[sec ""]` is not allowed
-//   - use `[sec]` for section name "sec" and empty subsection name
+//   - the `[sec.sub]` format (deprecated in gitconfig) is read as git does: the
+//     section is the name up to the first dot and the subsection the rest,
+//     both lowercased, so `[Remote.Origin]` is `[remote "origin"]`. Its
+//     names are ASCII letters, digits and hyphens, and unlike in the normal
+//     form a section may start with a digit or a hyphen
+//   - gcfg reads what git writes or documents, and refuses other forms git
+//     merely tolerates, failing closed with an error. These are accepted by
+//     git and refused here: `[.x]`, `[x.]` and `[.]` (empty section or
+//     subsection name), `[a.b "C"]` and `[a.b ""]` (both forms in one header)
+//     and text after a header on its line (`[a.b]k=v`, as in `[a]k=v`)
+//   - an empty subsection name, as in `[sec ""]`, is stored like `[sec]`, with
+//     an empty subsection name, by the `Read*Into` functions and
+//     `ReadWithCallback`. Git keeps them apart (`sec..key` against
+//     `sec.key`), and `ReadWithOptions` reports the difference through
+//     `Event.HasSubsection`
 //   - (planned) within a single file, definitions must be contiguous for each:
 //   - section: '[secA]' -> '[secB]' -> '[secA]' is an error
 //   - subsection: '[sec "A"]' -> '[sec "B"]' -> '[sec "A"]' is an error

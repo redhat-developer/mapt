@@ -45,6 +45,7 @@ type Scanner struct {
 	rdOffset   int  // reading offset (position after current character)
 	lineOffset int  // current line offset
 	nextVal    bool // next token is expected to be a value
+	legacy     bool // next token is the name of a legacy [section.subsection] header
 
 	// public state - ok to modify
 	ErrorCount int // number of errors encountered
@@ -97,6 +98,8 @@ const (
 	ScanComments Mode = 1 << iota // return comments as COMMENT tokens
 )
 
+const bom = 0xFEFF // byte order mark, only permitted as the very first character
+
 // Init prepares the scanner s to tokenize the text src by setting the
 // scanner at the beginning of src. The scanner uses the file set file
 // for position information and it adds line information for each line.
@@ -130,8 +133,12 @@ func (s *Scanner) Init(file *token.File, src []byte, err ErrorHandler, mode Mode
 	s.lineOffset = 0
 	s.ErrorCount = 0
 	s.nextVal = false
+	s.legacy = false
 
 	s.next()
+	if s.ch == bom {
+		s.next() // git ignores a UTF-8 BOM at the start of a config file
+	}
 	return nil
 }
 
@@ -172,6 +179,49 @@ func isDigit(ch rune) bool {
 func (s *Scanner) scanIdentifier() string {
 	offs := s.offset
 	for isLetter(s.ch) || isDigit(s.ch) || s.ch == '-' {
+		s.next()
+	}
+	return string(s.src[offs:s.offset])
+}
+
+// isKeyChar reports whether c may appear in a name in the legacy
+// [section.subsection] header, as git's iskeychar does: an ASCII letter or
+// digit, or '-'.
+func isKeyChar(c byte) bool {
+	return 'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z' || '0' <= c && c <= '9' || c == '-'
+}
+
+// atLegacyHeader reports whether the text after a '[' just scanned is the
+// rest of a legacy [section.subsection] header: ASCII letters, digits,
+// '-' and '.' up to a ']', with a name on each side of the
+// first '.'. Git reads such a header as the section up to the first '.' and
+// the subsection after it. A header with an empty section or subsection
+// name, or one with anything else in it, is not one, and is scanned as usual.
+func (s *Scanner) atLegacyHeader() bool {
+	if s.ch < 0 || s.ch >= 0x80 {
+		return false
+	}
+	dot := -1
+	for i := s.offset; i < len(s.src); i++ {
+		switch c := s.src[i]; {
+		case c == ']':
+			return dot > s.offset && i > dot+1
+		case c == '.':
+			if dot < 0 {
+				dot = i
+			}
+		case !isKeyChar(c):
+			return false
+		}
+	}
+	return false
+}
+
+// scanLegacyName scans the name of a legacy header, which atLegacyHeader
+// has checked, up to but excluding the closing ']'.
+func (s *Scanner) scanLegacyName() string {
+	offs := s.offset
+	for s.ch == '.' || s.ch >= 0 && s.ch < 0x80 && isKeyChar(byte(s.ch)) {
 		s.next()
 	}
 	return string(s.src[offs:s.offset])
@@ -229,11 +279,12 @@ func (s *Scanner) scanString() (string, error) {
 func stripCR(b []byte) []byte {
 	c := make([]byte, len(b))
 	i := 0
-	for _, ch := range b {
-		if ch != '\r' {
-			c[i] = ch
-			i++
+	for j, ch := range b {
+		if ch == '\r' && j+1 < len(b) && b[j+1] == '\n' {
+			continue
 		}
+		c[i] = ch
+		i++
 	}
 	return c[:i]
 }
@@ -250,9 +301,13 @@ loop:
 		s.next()
 		switch {
 		case inQuote && ch == '\\':
+			if s.ch == '\r' && s.rdOffset < len(s.src) && s.src[s.rdOffset] == '\n' {
+				hasCR = true
+				s.next()
+			}
 			s.scanEscape(true)
 		case !inQuote && ch == '\\':
-			if s.ch == '\r' {
+			if s.ch == '\r' && s.rdOffset < len(s.src) && s.src[s.rdOffset] == '\n' {
 				hasCR = true
 				s.next()
 			}
@@ -264,7 +319,10 @@ loop:
 		case ch == '"':
 			inQuote = !inQuote
 		case ch == '\r':
-			hasCR = true
+			// Git drops a CR only when an LF follows it.
+			if s.ch == '\n' {
+				hasCR = true
+			}
 		case ch < 0 || inQuote && ch == '\n':
 			err := s.error(offs, "string not terminated")
 			if err != nil {
@@ -302,6 +360,11 @@ func (s *Scanner) skipWhitespace() {
 // If the returned token is a literal (token.IDENT, token.STRING) or
 // token.COMMENT, the literal string has the corresponding value.
 //
+// After a '[', a header written in the legacy section.subsection form
+// is returned as one token.IDENT whose literal contains a '.', unsplit
+// and with its original case; it may also start with a digit or '-'.
+// Splitting it at the first '.' and lowercasing is up to the parser.
+//
 // If the returned token is token.ILLEGAL, the literal string is the
 // offending character.
 //
@@ -331,6 +394,10 @@ scanAgain:
 
 	// determine token value
 	switch ch := s.ch; {
+	case s.legacy:
+		lit = s.scanLegacyName()
+		tok = token.IDENT
+		s.legacy = false
 	case s.nextVal:
 		l, err2 := s.scanValString()
 		if err2 != nil {
@@ -360,6 +427,7 @@ scanAgain:
 			lit = l
 		case '[':
 			tok = token.LBRACK
+			s.legacy = s.atLegacyHeader()
 		case ']':
 			tok = token.RBRACK
 		case ';', '#':
