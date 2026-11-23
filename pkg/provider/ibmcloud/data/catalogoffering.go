@@ -29,6 +29,12 @@ func GetCatalogOfferingVersionCRN(offeringName string) (string, error) {
 		opts := client.NewGetConsumptionOfferingsOptions()
 		opts.SetLimit(consumptionOfferingsPageLimit)
 		opts.SetOffset(offset)
+		// The openshift-local offerings live in the account's private catalogs;
+		// requesting only private offerings (instead of the default all, which
+		// includes the full public catalog) keeps the scan to a few pages.
+		// digest=true is not usable here: it strips the offering versions,
+		// including the CRNs this lookup needs.
+		opts.SetSelect("private")
 
 		result, _, err := client.GetConsumptionOfferings(opts)
 		if err != nil {
@@ -76,6 +82,8 @@ func GetLatestCatalogOfferingVersionCRN(arch string) (string, string, error) {
 		opts := client.NewGetConsumptionOfferingsOptions()
 		opts.SetLimit(consumptionOfferingsPageLimit)
 		opts.SetOffset(offset)
+		// See GetCatalogOfferingVersionCRN for why private (and not digest).
+		opts.SetSelect("private")
 
 		result, _, err := client.GetConsumptionOfferings(opts)
 		if err != nil {
