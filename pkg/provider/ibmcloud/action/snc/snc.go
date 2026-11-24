@@ -73,7 +73,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 	version := args.Version
 	var offeringCRN string
 	if version == "" {
-		v, crn, err := icdata.GetLatestCatalogOfferingVersionCRN(args.Arch)
+		v, crn, err := icdata.GetLatestCatalogOfferingVersionCRN(args.Arch, icdata.OfferingSelectPrivate)
 		if err != nil {
 			return nil, fmt.Errorf("detecting latest SNC version: %w", err)
 		}
@@ -83,7 +83,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 	} else {
 		offeringName := imageName(version, args.Arch)
 		logging.Debugf("Looking up catalog offering %s", offeringName)
-		crn, err := icdata.GetCatalogOfferingVersionCRN(offeringName)
+		crn, err := icdata.GetCatalogOfferingVersionCRN(offeringName, icdata.OfferingSelectPrivate)
 		if err != nil {
 			return nil, fmt.Errorf("looking up catalog offering for version %s: %w", version, err)
 		}
