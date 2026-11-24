@@ -16,9 +16,21 @@ const (
 	catalogManagementURL          = "https://cm.globalcatalog.cloud.ibm.com/api/v1-beta"
 	consumptionOfferingsPageLimit = 100
 	offeringNamePrefix            = "openshift-local-"
+
+	// Values for the offering select scope, as accepted by the
+	// GetConsumptionOfferings 'select' query parameter.
+	OfferingSelectAll     = "all"
+	OfferingSelectPublic  = "public"
+	OfferingSelectPrivate = "private"
 )
 
-func GetCatalogOfferingVersionCRN(offeringName string) (string, error) {
+// GetCatalogOfferingVersionCRN returns the version CRN for the offering with
+// the exact given name. offeringSelect controls which offerings are scanned:
+// OfferingSelectPrivate restricts the scan to the account's private catalogs
+// (much smaller than the default all, which includes the full public catalog),
+// while OfferingSelectPublic or OfferingSelectAll may be used for offerings
+// published to the public catalog.
+func GetCatalogOfferingVersionCRN(offeringName, offeringSelect string) (string, error) {
 	client, err := catalogManagementService()
 	if err != nil {
 		return "", fmt.Errorf("creating catalog management client: %w", err)
@@ -29,12 +41,9 @@ func GetCatalogOfferingVersionCRN(offeringName string) (string, error) {
 		opts := client.NewGetConsumptionOfferingsOptions()
 		opts.SetLimit(consumptionOfferingsPageLimit)
 		opts.SetOffset(offset)
-		// The openshift-local offerings live in the account's private catalogs;
-		// requesting only private offerings (instead of the default all, which
-		// includes the full public catalog) keeps the scan to a few pages.
 		// digest=true is not usable here: it strips the offering versions,
 		// including the CRNs this lookup needs.
-		opts.SetSelect("private")
+		opts.SetSelect(offeringSelect)
 
 		result, _, err := client.GetConsumptionOfferings(opts)
 		if err != nil {
@@ -64,7 +73,10 @@ func GetCatalogOfferingVersionCRN(offeringName string) (string, error) {
 	return "", fmt.Errorf("offering %q not found in any accessible catalog", offeringName)
 }
 
-func GetLatestCatalogOfferingVersionCRN(arch string) (string, string, error) {
+// GetLatestCatalogOfferingVersionCRN returns the latest version (by semver)
+// and its CRN among the openshift-local offerings for the given arch.
+// offeringSelect has the same meaning as in GetCatalogOfferingVersionCRN.
+func GetLatestCatalogOfferingVersionCRN(arch, offeringSelect string) (string, string, error) {
 	client, err := catalogManagementService()
 	if err != nil {
 		return "", "", fmt.Errorf("creating catalog management client: %w", err)
@@ -82,8 +94,7 @@ func GetLatestCatalogOfferingVersionCRN(arch string) (string, string, error) {
 		opts := client.NewGetConsumptionOfferingsOptions()
 		opts.SetLimit(consumptionOfferingsPageLimit)
 		opts.SetOffset(offset)
-		// See GetCatalogOfferingVersionCRN for why private (and not digest).
-		opts.SetSelect("private")
+		opts.SetSelect(offeringSelect)
 
 		result, _, err := client.GetConsumptionOfferings(opts)
 		if err != nil {
