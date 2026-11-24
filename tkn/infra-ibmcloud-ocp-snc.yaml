@@ -1,0 +1,598 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: infra-ibmcloud-ocp-snc
+  labels:
+    app.kubernetes.io/version: "1.0.0-dev"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.44.x"
+    tekton.dev/categories: infrastructure
+    tekton.dev/tags: infrastructure, ibmcloud, ocp, snc
+    tekton.dev/displayName: "ibmcloud manager"
+    tekton.dev/platforms: "linux/amd64"
+spec:
+  description: |
+    Task provision an OpenShift Single Node Cluster based on OpenShift Local
+    (SNC) on an IBM Cloud VPC virtual server instance.
+
+    A catalog image with the SNC bundle must exist in an IBM Cloud private
+    catalog before the task runs.
+
+  volumes:
+    - name: ibmcloud-credentials
+      secret:
+        secretName: $(params.secret-ibmcloud-credentials)
+    - name: ocp-snc-credentials
+      secret:
+        secretName: $(params.secret-ocp-snc-credentials)
+        optional: true
+    - name: cluster-info
+      emptyDir: {}
+
+  params:
+    # Credentials
+    - name: secret-ibmcloud-credentials
+      description: |
+        ocp secret holding the ibm cloud credentials. Secret should be accessible to this task.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: ibmcloud-${name}
+        type: Opaque
+        data:
+          api-key: ${IBMCLOUD_API_KEY}
+          region: ${IC_REGION}
+          cos-access-key: ${IBMCLOUD_COS_ACCESS_KEY_ID}
+          cos-secret-key: ${IBMCLOUD_COS_SECRET_ACCESS_KEY}
+          bucket: ${bucket}
+    - name: secret-ocp-snc-credentials
+      default: "non-existent-secret"
+      description: |
+        ocp secret holding the OpenShift pull secret. Secret should be accessible to this task.
+        Required for the create operation. Not required for the destroy operation.
+
+        The secret is optional in the volume, so a non-existent name is the default. The
+        volume is then empty and the create operation stops before it changes the cloud.
+
+        ---
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: ocp-snc-${name}
+        type: Opaque
+        data:
+          pull-secret: ${pull_secret}
+
+    # Mapt params
+    - name: id
+      description: identifier for the provisioned environment
+    - name: operation
+      description: operation to execute within the infrastructure. Current values (create, destroy)
+
+    # Secret result
+    # naming
+    - name: cluster-access-secret-name
+      type: string
+      default: ""
+      description: |
+        Once the target is provisioned the config to connect is added to a secret
+        check results. If this param is set the secret will be created with the name set
+        otherwise it will be created with a random name. The name must be a valid
+        DNS-1123 label (lowercase letters, digits, and dashes). The task stops before
+        it provisions the environment when a Secret with this name exists. The task
+        service account therefore needs `get` permission for Secrets in the namespace.
+    # ownership
+    - name: ownerKind
+      type: string
+      default: "PipelineRun"
+      description: |
+        The type of the resource that owns the cluster access secret.
+        Deletion of this resource deletes the secret.
+        Supported values: `PipelineRun`, `TaskRun`.
+    - name: ownerName
+      type: string
+      default: ""
+      description: |
+        The name of the resource that owns the cluster access secret.
+        Pass `$(context.pipelineRun.name)` or `$(context.taskRun.name)`
+        to match the value of `ownerKind`.
+    - name: ownerUid
+      type: string
+      default: ""
+      description: |
+        The uid of the resource that owns the cluster access secret.
+        Pass `$(context.pipelineRun.uid)` or `$(context.taskRun.uid)`
+        to match the value of `ownerKind`.
+
+    # IBM Cloud location params
+    - name: zone
+      description: IBM Cloud availability zone (e.g. us-south-2). Sets IC_ZONE. Required for create.
+      default: ""
+
+    # VM type params
+    - name: compute-sizes
+      description: |
+        Comma-separated list of IBM Cloud compute profiles (e.g. bx2-16x64).
+        If set, the first value overrides the profile selected from cpus, memory and gpus.
+      default: ""
+    - name: compute-families
+      description: |
+        Comma-separated allowlist of IBM Cloud compute family prefixes (e.g. bx2,cx2).
+        Empty means no restriction. Only used when compute-sizes is not set.
+      default: ""
+    - name: cpus
+      description: Number of CPUs for the cloud instance (default 8). Some profiles raise this value.
+      default: "8"
+    - name: memory
+      description: Amount of RAM for the cloud instance in GiB (default 64)
+      default: "64"
+    - name: gpus
+      description: Number of GPUs for the cloud instance (default 0)
+      default: "0"
+    - name: gpu-manufacturer
+      description: Manufacturer company name for GPU. (i.e. NVIDIA)
+      default: ""
+    - name: disk-size
+      description: Disk size in GB for the cloud instance (default 200)
+      default: "200"
+    - name: vpc-id
+      description: ID of an existing VPC. If empty, a new VPC is created.
+      default: ""
+
+    # Spot params
+    - name: spot
+      description: |
+        Request a spot virtual server instance. Spot instances may be preempted
+        by IBM Cloud when capacity is needed; the instance will be stopped on
+        preemption. Ignored for destroy operations.
+        Allowed values: true, false
+      default: "false"
+
+    # OCP params
+    - name: version
+      description: |
+        OpenShift Local version used to select the SNC catalog image (e.g. 4.22.14).
+        If omitted, the latest version available in the catalog is used.
+      default: ""
+    - name: disable-cluster-readiness
+      description: |
+        If this flag is set it will skip the checks for the cluster readiness.
+        In this case the kubeconfig can not be generated.
+      default: "false"
+    - name: profile
+      description: |
+        Comma-separated list of profiles to install on the cluster
+        (e.g. virtualization, serverless-serving, serverless-eventing, serverless,
+        servicemesh, ai, nvidia).
+      default: ""
+    - name: operator-channel
+      description: |
+        Comma-separated list of operator channel overrides in the form package=channel
+        (e.g. serverless-operator=preview,nfd=4.17). Overrides the default OLM channel
+        for the named operator.
+      default: ""
+    - name: catalog-source
+      description: |
+        Comma-separated list of OLM catalog source overrides in the form package=index-image
+        (e.g. serverless-operator=quay.io/my-org/my-index:latest).
+      default: ""
+
+    # Metadata params
+    - name: tags
+      description: tags for the resources created on the providers
+      default: ""
+
+    # Control params
+    - name: debug
+      description: |
+        Warning setting this param to true exposes partially masked credentials
+
+        The parameter is intended to add verbosity on the task execution and also print masked credentials
+        (showing first and last character with *** in the middle) on stdout to help with debugging
+      default: "false"
+    - name: force-destroy
+      description: |
+        If force-destroy is set the command will destroy even if there is a lock.
+        Allowed values: true, false
+      default: "false"
+    - name: keep-state
+      description: |
+        Keep Pulumi state files in S3 backend after successful destroy (by default, state files are removed). Only used when operation is destroy.
+        Allowed values: true, false
+      default: "false"
+
+  results:
+    - name: cluster-access-secret
+      description: |
+        ocp secret holding the information to connect to the cluster and the underlying VM.
+        The kubeconfig key is absent when disable-cluster-readiness is true.
+
+          ---
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: ${name}
+          type: Opaque
+          data:
+            host: ${host}
+            username: ${username}
+            id_rsa: ${id_rsa}
+            kubeconfig: ${kubeconfig}
+            kubeadmin_pass: ${kubeadmin_pass}
+
+  steps:
+    - name: preflight
+      image: registry.redhat.io/openshift4/ose-cli:v4.15@sha256:9dbec69c215a4041a49bec977a7c2013b5bafe335201d5e983422f30a7e434a2
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OPERATION
+          value: $(params.operation)
+        - name: CLUSTER_ACCESS_SECRET_NAME
+          value: $(params.cluster-access-secret-name)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+
+        if [[ "$OPERATION" != "create" ]]; then
+          echo "Operation ${OPERATION}: no preflight check"
+          exit 0
+        fi
+
+        # Ownership values go into the cluster access Secret
+        if [[ "$OWNER_NAME" != "" || "$OWNER_UID" != "" ]]; then
+          if [[ ! "$OWNER_KIND" =~ ^(PipelineRun|TaskRun)$ ]]; then
+            echo "ERROR: invalid ownerKind value: ${OWNER_KIND}" >&2
+            exit 1
+          fi
+          if [[ ! "$OWNER_NAME" =~ ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ ]]; then
+            echo "ERROR: invalid ownerName value: ${OWNER_NAME}" >&2
+            exit 1
+          fi
+          if [[ ! "$OWNER_UID" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]]; then
+            echo "ERROR: invalid ownerUid value: ${OWNER_UID}" >&2
+            exit 1
+          fi
+        fi
+
+        # An existing Secret with the requested name stops the create
+        if [[ "$CLUSTER_ACCESS_SECRET_NAME" != "" ]]; then
+          if [[ ! "$CLUSTER_ACCESS_SECRET_NAME" =~ ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ ]]; then
+            echo "ERROR: invalid cluster-access-secret-name: ${CLUSTER_ACCESS_SECRET_NAME}" >&2
+            exit 1
+          fi
+          if ! found=$(oc get secret "$CLUSTER_ACCESS_SECRET_NAME" -n "$NAMESPACE" \
+              --ignore-not-found -o name 2>&1); then
+            echo "ERROR: cannot check secret ${CLUSTER_ACCESS_SECRET_NAME}: ${found}" >&2
+            exit 1
+          fi
+          if [[ "$found" != "" ]]; then
+            echo "ERROR: secret ${CLUSTER_ACCESS_SECRET_NAME} already exists in namespace ${NAMESPACE}" >&2
+            exit 1
+          fi
+          echo "Secret name ${CLUSTER_ACCESS_SECRET_NAME} is free"
+        fi
+    - name: provisioner
+      image: quay.io/redhat-developer/mapt:v1.0.0-dev
+      imagePullPolicy: Always
+      env:
+        - name: HOME
+          value: /opt/mapt/run
+        - name: ZONE
+          value: $(params.zone)
+        - name: DEBUG
+          value: $(params.debug)
+        - name: OPERATION
+          value: $(params.operation)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+        - name: ID
+          value: $(params.id)
+        - name: DISK_SIZE
+          value: $(params.disk-size)
+        - name: COMPUTE_SIZES
+          value: $(params.compute-sizes)
+        - name: CPUS
+          value: $(params.cpus)
+        - name: MEMORY
+          value: $(params.memory)
+        - name: GPUS
+          value: $(params.gpus)
+        - name: GPU_MANUFACTURER
+          value: $(params.gpu-manufacturer)
+        - name: COMPUTE_FAMILIES
+          value: $(params.compute-families)
+        - name: VPC_ID
+          value: $(params.vpc-id)
+        - name: VERSION
+          value: $(params.version)
+        - name: DISABLE_CLUSTER_READINESS
+          value: $(params.disable-cluster-readiness)
+        - name: PROFILE
+          value: $(params.profile)
+        - name: OPERATOR_CHANNEL
+          value: $(params.operator-channel)
+        - name: CATALOG_SOURCE
+          value: $(params.catalog-source)
+        - name: SPOT
+          value: $(params.spot)
+        - name: TAGS
+          value: $(params.tags)
+        - name: KEEP_STATE
+          value: $(params.keep-state)
+        - name: FORCE_DESTROY
+          value: $(params.force-destroy)
+      volumeMounts:
+        - name: ibmcloud-credentials
+          mountPath: /opt/ibmcloud-credentials
+        - name: ocp-snc-credentials
+          mountPath: /opt/ocp-snc-secret
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      script: |
+        #!/bin/bash
+
+        set -euo pipefail
+
+        # Function to mask credentials (show first and last char, hide middle)
+        mask_credential() {
+          local cred="$1"
+          local len=${#cred}
+          if [ $len -le 2 ]; then
+            echo "***"
+          else
+            echo "${cred:0:1}***${cred: -1}"
+          fi
+        }
+
+        # Credentials - set these BEFORE enabling debug mode
+        export IBMCLOUD_API_KEY=$(cat /opt/ibmcloud-credentials/api-key)
+        export IC_REGION=$(cat /opt/ibmcloud-credentials/region)
+        export IBMCLOUD_COS_ACCESS_KEY_ID=$(cat /opt/ibmcloud-credentials/cos-access-key)
+        export IBMCLOUD_COS_SECRET_ACCESS_KEY=$(cat /opt/ibmcloud-credentials/cos-secret-key)
+        BUCKET=$(cat /opt/ibmcloud-credentials/bucket)
+
+        if [[ "$ZONE" != "" ]]; then
+          export IC_ZONE="$ZONE"
+        fi
+
+        # If debug add verbosity and print masked credentials
+        if [[ "$DEBUG" == "true" ]]; then
+          echo "IBMCLOUD_API_KEY=$(mask_credential "$IBMCLOUD_API_KEY")"
+          echo "IC_REGION=$IC_REGION"
+          echo "IC_ZONE=${IC_ZONE:-}"
+          echo "IBMCLOUD_COS_ACCESS_KEY_ID=$(mask_credential "$IBMCLOUD_COS_ACCESS_KEY_ID")"
+          echo "IBMCLOUD_COS_SECRET_ACCESS_KEY=$(mask_credential "$IBMCLOUD_COS_SECRET_ACCESS_KEY")"
+          echo "BUCKET=$BUCKET"
+          set -xeuo pipefail
+        fi
+
+        if [[ "$OPERATION" == "create" ]]; then
+          if [[ "$OWNER_NAME" == "" || "$OWNER_UID" == "" ]]; then
+            echo "Parameter ownerName and ownerUid is recommended when creating instance"
+          fi
+        fi
+
+        # Run mapt
+        args=(ibmcloud openshift-snc "$OPERATION"
+          --project-name "mapt-ibmcloud-ocp-snc-$ID"
+          --backed-url "s3://${BUCKET}/mapt/ocp-snc/$ID"
+        )
+
+        if [[ "$DEBUG" == "true" ]]; then
+          args+=(--debug)
+        fi
+
+        if [[ "$OPERATION" == "create" ]]; then
+          args+=(
+            --conn-details-output /opt/cluster-info
+            --disk-size "$DISK_SIZE"
+          )
+          if [[ "$COMPUTE_SIZES" != "" ]]; then
+            args+=(--compute-sizes "$COMPUTE_SIZES")
+          else
+            args+=(
+              --cpus "$CPUS"
+              --memory "$MEMORY"
+              --gpus "$GPUS"
+            )
+            if [[ "$GPU_MANUFACTURER" != "" ]]; then
+              args+=(--gpu-manufacturer "$GPU_MANUFACTURER")
+            fi
+            if [[ "$COMPUTE_FAMILIES" != "" ]]; then
+              args+=(--compute-families "$COMPUTE_FAMILIES")
+            fi
+          fi
+          if [[ "$VPC_ID" != "" ]]; then
+            args+=(--vpc-id "$VPC_ID")
+          fi
+          if [[ ! -s /opt/ocp-snc-secret/pull-secret ]]; then
+            echo "ERROR: secret-ocp-snc-credentials must provide the key pull-secret for the create operation" >&2
+            exit 1
+          fi
+          args+=(--pull-secret-file /opt/ocp-snc-secret/pull-secret)
+          if [[ "$VERSION" != "" ]]; then
+            args+=(--version "$VERSION")
+          fi
+          if [[ "$DISABLE_CLUSTER_READINESS" == "true" ]]; then
+            args+=(--disable-cluster-readiness)
+          fi
+          if [[ "$PROFILE" != "" ]]; then
+            args+=(--profile "$PROFILE")
+          fi
+          if [[ "$OPERATOR_CHANNEL" != "" ]]; then
+            IFS=',' read -ra channels <<< "$OPERATOR_CHANNEL"
+            for ch in "${channels[@]}"; do
+              if [[ ! "${ch}" =~ ^[a-zA-Z0-9_-]+=[a-zA-Z0-9._:/-]+$ ]]; then
+                echo "ERROR: invalid operator-channel value: ${ch}" >&2
+                exit 1
+              fi
+              args+=(--operator-channel "${ch}")
+            done
+          fi
+          if [[ "$CATALOG_SOURCE" != "" ]]; then
+            IFS=',' read -ra sources <<< "$CATALOG_SOURCE"
+            for cs in "${sources[@]}"; do
+              if [[ ! "${cs}" =~ ^[a-zA-Z0-9_-]+=[^[:space:]]+$ ]]; then
+                echo "ERROR: invalid catalog-source value: ${cs}" >&2
+                exit 1
+              fi
+              args+=(--catalog-source "${cs}")
+            done
+          fi
+          if [[ "$SPOT" == "true" ]]; then
+            args+=(--spot)
+          fi
+          if [[ "$TAGS" != "" ]]; then
+            args+=(--tags "$TAGS")
+          fi
+        fi
+
+        if [[ "$OPERATION" == "destroy" ]]; then
+          if [[ "$KEEP_STATE" == "true" ]]; then
+            args+=(--keep-state)
+          fi
+          if [[ "$FORCE_DESTROY" == "true" ]]; then
+            args+=(--force-destroy)
+          fi
+        fi
+
+        mapt "${args[@]}"
+
+      resources:
+        requests:
+          memory: "1Gi"
+          cpu: "100m"
+        limits:
+          memory: "2Gi"
+          cpu: "300m"
+    - name: host-info-secret
+      image: registry.redhat.io/openshift4/ose-cli:v4.15@sha256:9dbec69c215a4041a49bec977a7c2013b5bafe335201d5e983422f30a7e434a2
+      env:
+        - name: NAMESPACE
+          value: $(context.taskRun.namespace)
+        - name: OWNER_KIND
+          value: $(params.ownerKind)
+        - name: OWNER_NAME
+          value: $(params.ownerName)
+        - name: OWNER_UID
+          value: $(params.ownerUid)
+        - name: OPERATION
+          value: $(params.operation)
+        - name: CLUSTER_ACCESS_SECRET_NAME
+          value: $(params.cluster-access-secret-name)
+        - name: DISABLE_CLUSTER_READINESS
+          value: $(params.disable-cluster-readiness)
+        - name: DEBUG
+          value: $(params.debug)
+      volumeMounts:
+        - name: cluster-info
+          mountPath: /opt/cluster-info
+      workingDir: /opt/cluster-info
+      script: |
+        #!/bin/bash
+        set -eo pipefail
+        if [[ "$OPERATION" == "create" ]]; then
+        CONN_DIR=/opt/cluster-info
+
+        for f in host username id_rsa kubeadmin_pass; do
+          if [[ ! -s "${CONN_DIR}/${f}" ]]; then
+            echo "ERROR: ${CONN_DIR}/${f} is missing or empty" >&2
+            exit 1
+          fi
+        done
+
+        HOST=$(tr -d '[:space:]' < "${CONN_DIR}/host" | base64 -w0)
+        USERNAME=$(tr -d '[:space:]' < "${CONN_DIR}/username" | base64 -w0)
+        ID_RSA=$(base64 -w0 < "${CONN_DIR}/id_rsa")
+        KUBEADMIN_PASS=$(tr -d '[:space:]' < "${CONN_DIR}/kubeadmin_pass" | base64 -w0)
+
+        for value in "$HOST" "$USERNAME" "$ID_RSA" "$KUBEADMIN_PASS"; do
+          if [[ -z "$value" ]]; then
+            echo "ERROR: ${CONN_DIR} holds an empty host, username, id_rsa, or kubeadmin_pass value" >&2
+            exit 1
+          fi
+        done
+
+        KUBECONFIG_LINE=""
+        if [[ "$DISABLE_CLUSTER_READINESS" != "true" ]]; then
+          if [[ ! -s "${CONN_DIR}/kubeconfig" ]]; then
+            echo "ERROR: ${CONN_DIR}/kubeconfig is missing or empty" >&2
+            exit 1
+          fi
+          KUBECONFIG_LINE="  kubeconfig: $(base64 -w0 < "${CONN_DIR}/kubeconfig")"
+        fi
+
+        # Ownership values go into the Secret metadata
+        if [[ "$OWNER_NAME" != "" || "$OWNER_UID" != "" ]]; then
+          if [[ ! "$OWNER_KIND" =~ ^(PipelineRun|TaskRun)$ ]]; then
+            echo "ERROR: invalid ownerKind value: ${OWNER_KIND}" >&2
+            exit 1
+          fi
+          if [[ ! "$OWNER_NAME" =~ ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ ]]; then
+            echo "ERROR: invalid ownerName value: ${OWNER_NAME}" >&2
+            exit 1
+          fi
+          if [[ ! "$OWNER_UID" =~ ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$ ]]; then
+            echo "ERROR: invalid ownerUid value: ${OWNER_UID}" >&2
+            exit 1
+          fi
+        fi
+
+        SECRETNAME='generateName: "mapt-ibmcloud-ocp-snc-"'
+        if [[ "$CLUSTER_ACCESS_SECRET_NAME" != "" ]]; then
+          if [[ ! "$CLUSTER_ACCESS_SECRET_NAME" =~ ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$ ]]; then
+            echo "ERROR: invalid cluster-access-secret-name: ${CLUSTER_ACCESS_SECRET_NAME}" >&2
+            exit 1
+          fi
+          SECRETNAME="name: \"${CLUSTER_ACCESS_SECRET_NAME}\""
+        fi
+
+        cat <<EOF > cluster-info.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          $SECRETNAME
+          namespace: "$NAMESPACE"
+        EOF
+        if [[ "$OWNER_NAME" != "" && "$OWNER_UID" != "" ]]; then
+        cat <<EOF >> cluster-info.yaml
+          ownerReferences:
+          - apiVersion: tekton.dev/v1
+            kind: "$OWNER_KIND"
+            name: "$OWNER_NAME"
+            uid: "$OWNER_UID"
+        EOF
+        fi
+        cat <<EOF >> cluster-info.yaml
+        type: Opaque
+        data:
+          host: $HOST
+          username: $USERNAME
+          id_rsa: $ID_RSA
+          kubeadmin_pass: $KUBEADMIN_PASS
+        $KUBECONFIG_LINE
+        EOF
+
+        if [[ "$DEBUG" == "true" ]]; then
+          ls -la /opt/cluster-info/
+        fi
+
+        NAME=$(oc create -f cluster-info.yaml -o=jsonpath='{.metadata.name}')
+        if [[ -z "${NAME}" ]]; then
+          echo "ERROR: cluster access secret has no name" >&2
+          exit 1
+        fi
+        echo -n "${NAME}" | tee $(results.cluster-access-secret.path)
+        fi
