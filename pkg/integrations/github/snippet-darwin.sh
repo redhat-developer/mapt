@@ -25,6 +25,7 @@ sudo tee /Library/LaunchDaemons/actions.runner.jit.plist > /dev/null << EOF
 </dict>
 </plist>
 EOF
+sudo chmod 600 /Library/LaunchDaemons/actions.runner.jit.plist
 sudo launchctl load -w /Library/LaunchDaemons/actions.runner.jit.plist
 {{- else -}}
 ./config.sh --token {{ .Token }} --url {{ .RepoURL }} --name {{ .Name }} --unattended --replace --labels {{ .Labels }}{{ if .Ephemeral }} --ephemeral{{ end }}

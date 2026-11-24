@@ -81,7 +81,7 @@ func TestJITConfigSnippets(t *testing.T) {
 		{"linux x64", Linux, Amd64, "nohup ./run.sh --jitconfig jit-config-value"},
 		{"linux ppc64le", Linux, Ppc64le, `nohup ./run.sh --jitconfig "jit-config-value"`},
 		{"linux s390x", Linux, S390x, `nohup ./run.sh --jitconfig "jit-config-value"`},
-		{"windows x64", Windows, Amd64, `-Argument "--jitconfig jit-config-value"`},
+		{"windows x64", Windows, Amd64, "@call run.cmd --jitconfig jit-config-value"},
 		{"macOS arm64", Darwin, Arm64, "<string>--jitconfig</string>\n    <string>jit-config-value</string>"},
 	}
 	for _, tc := range cases {
@@ -124,12 +124,16 @@ func TestJITConfigRunnerStartsAtBoot(t *testing.T) {
 			"-ExecutionTimeLimit ([TimeSpan]::Zero)",
 			`-User "SYSTEM"`,
 			`Start-ScheduledTask -TaskName "actions-runner-jit"`,
+			// The wrapper clears the hidden files a previous start left, then starts the runner.
+			"@del /f /q /a .runner .credentials .credentials_rsaparams 2>nul`r`n@call run.cmd --jitconfig jit-config-value",
+			`New-ScheduledTaskAction -Execute "$PWD\start-jit.cmd" -WorkingDirectory "$PWD"`,
+			`icacls "$PWD\start-jit.cmd" /inheritance:r /grant:r "*S-1-5-18:F" "*S-1-5-32-544:F"`,
 		}},
 		{"macOS", Darwin, []string{
 			"/Library/LaunchDaemons/actions.runner.jit.plist",
 			"<key>RunAtLoad</key><true/>",
 			"<key>UserName</key><string>testuser</string>",
-			"sudo launchctl load -w /Library/LaunchDaemons/actions.runner.jit.plist",
+			"sudo chmod 600 /Library/LaunchDaemons/actions.runner.jit.plist\nsudo launchctl load -w /Library/LaunchDaemons/actions.runner.jit.plist",
 		}},
 	}
 	for _, tc := range cases {
@@ -156,6 +160,9 @@ func TestJITConfigRunnerStartsAtBoot(t *testing.T) {
 			}
 			if strings.Contains(*snippet, "nohup") || strings.Contains(*snippet, "Start-Process") {
 				t.Errorf("snippet must not start the runner as a plain process:\n%s", *snippet)
+			}
+			if platform == Windows && strings.Contains(*snippet, "-Argument") {
+				t.Errorf("the task must run the wrapper, not run.cmd with the JIT config as an argument:\n%s", *snippet)
 			}
 		})
 	}
