@@ -4,7 +4,7 @@ This actions will handle provision for EKS cluster instances on AWS.
 
 ## EKS
 
-It creates / destroy a basic EKS Cluster. The cluster is provisioned with a managed node group, IAM roles, an OIDC provider for IRSA (IAM Roles for Service Accounts), and optional add-ons like the AWS Load Balancer Controller and EBS CSI driver.
+It creates and destroys an EKS cluster with a self-managed Auto Scaling worker group, IAM roles, an OIDC provider for IRSA (IAM Roles for Service Accounts), and optional add-ons such as the AWS Load Balancer Controller and EBS CSI driver.
 
 ### Prerequisites
 
@@ -16,10 +16,10 @@ It creates / destroy a basic EKS Cluster. The cluster is provisioned with a mana
 The following AWS resources are created as part of the EKS stack:
 
 * **VPC** with CIDR `10.0.0.0/16` and public subnets across multiple availability zones
-* **VPC Endpoints** for S3, ECR, and SSM (to support private networking)
-* **NAT Gateway** in single mode
+* Optional **VPC Endpoints**, selected through the network flags
+* No NAT gateway; workers use public subnets
 * **EKS Cluster** with public API endpoint access
-* **Managed Node Group** with configurable instance types and scaling
+* **Self-managed worker group** using an AL2023 launch template and Auto Scaling, with configurable instance types and scaling
 * **IAM Roles** for the EKS service and node groups, including required AWS managed policies
 * **OIDC Provider** for enabling pod-level IAM roles via service accounts (IRSA)
 
@@ -86,11 +86,23 @@ The create operation produces the following output at the path defined by `--con
 
 * **kubeconfig**: kubeconfig file for connecting to the EKS cluster
 
-The kubeconfig uses AWS CLI exec-based authentication. To use it, you need the AWS CLI installed and the following environment variables exported: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`.
+The kubeconfig uses AWS CLI exec-based authentication. To use it, you need the AWS CLI installed and credentials available through the AWS credential chain (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`, a shared profile, or workload credentials).
+
+The kubeconfig records the cluster region explicitly. The internal Pulumi provider uses an SDK-generated token minted after workers and core add-ons are ready, so mapt itself does not require the AWS CLI binary.
 
 The state for the created resources is stored at the path defined by `--backed-url`. This state is required (with the same `--project-name`) to destroy the resources later.
 
+The `eksCleanup` stack output records the schema version, AWS account ID, region, cluster name and VPC ID for teardown. Tags supplied through `--tags` propagate to the cluster security group, load balancer controller resources, CSI volumes and CNI-created ENIs. These also receive `mapt-cluster-name=<cluster name>`, reserved for exact cluster ownership; supplying `build-id=<BUILD_ID>` links resources to a particular run. EKS control-plane ENIs retain AWS-native ownership tags. CSI volume and CNI ENI tags require `aws-ebs-csi-driver` and `vpc-cni` in `--addons`.
+
 #### Destroy
+
+Controller-created resources are identified by exact cluster ownership, not by the shared `projectName=eks` tag. Load balancers, target groups and security groups are matched through the load balancer controller tags or the in-tree `kubernetes.io/cluster/<name>` tag, which also covers classic ELBs and NLBs created from Service annotations. CSI volumes require both `mapt-cluster-name` and `ebs.csi.aws.com/cluster=true`; deleting them includes volumes left behind by `Retain` persistent volumes. Attached volumes and interfaces are never forcibly detached. Other interfaces in the VPC, including requester-managed ones, are never deleted; cleanup waits for AWS to release them. Interface VPC endpoint and NAT gateway interfaces belong to the stack and are removed in the final network phase.
+
+Destroy first removes the Kubernetes resources mapt manages and their provider, then the cluster and its dependents, then external controller resources, and finally the network and remaining IAM resources. Kubernetes resources go first because Pulumi cannot target the cluster while a provider whose configuration depends on it is still in the stack ([pulumi/pulumi#14650](https://github.com/pulumi/pulumi/issues/14650)). Each phase retains state on failure. Retrying the same command resumes cleanup, including after the cluster has gone. Independent resource deletions continue after errors.
+
+The `eksCleanup` output written with the cluster provides the account, region, cluster name and VPC used by the cleanup phases. If create was interrupted before the output was saved, the same values are read from the cluster resource. Kubernetes resources are removed before the cluster; when the provider can no longer reach it, for example after its token expired, they are dropped from state because deleting the cluster removes them anyway. `--force-destroy` only removes stale backend locks; it does not force-detach AWS resources.
+
+Cleanup requires `sts:GetCallerIdentity`, `eks:DescribeCluster`, EC2 describe/delete permissions for ENIs, volumes and security groups, EC2 security-group rule revocation permissions, ELBv2 describe/tag-read/delete permissions for load balancers and target groups, and Elastic Load Balancing describe/tag-read/delete permissions for classic load balancers. It verifies the AWS account and cluster absence before external-resource deletion. Each cleanup phase waits up to ten minutes, then reports resource IDs and retains the checkpoint for retry.
 
 ```bash
 mapt aws eks destroy -h

@@ -60,14 +60,17 @@ func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcP
 		return err
 	}
 	// Helm v4 orders CRDs before their custom resources and awaits establishment.
-	// Children inherit DeletedWith from this component, so a whole-cluster destroy
-	// does not depend on the short-lived Kubernetes provider token.
+	// Children inherit DeletedWith from this component, so the chart is removed
+	// together with the cluster rather than ahead of it.
 	_, err = helmv4.NewChart(ctx, "aws-load-balancer-controller", &helmv4.ChartArgs{
 		Chart: pulumi.String("aws-load-balancer-controller"), Version: pulumi.String(loadBalancerChartVersion),
 		RepositoryOpts: &helmv4.RepositoryOptsArgs{Repo: pulumi.String("https://aws.github.io/eks-charts")},
 		Namespace:      pulumi.String("kube-system"),
 		Values: pulumi.Map{
-			"clusterName":    eksCluster.Name,
+			"clusterName": eksCluster.Name,
+			"defaultTags": eksCluster.Name.ApplyT(func(name string) map[string]string {
+				return controllerTags(r.mCtx.GetTags(), name)
+			}),
 			"serviceAccount": pulumi.Map{"create": pulumi.Bool(false), "name": serviceAccountName},
 			"region":         pulumi.String(*r.allocationData.Region), "vpcId": vpc.ID(),
 		},
