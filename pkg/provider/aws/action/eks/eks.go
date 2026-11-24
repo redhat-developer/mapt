@@ -3,17 +3,13 @@ package eks
 import (
 	"encoding/json"
 	"fmt"
-	"net/url"
+	"strings"
 
+	"github.com/aws/aws-sdk-go-v2/aws/arn"
 	"github.com/go-playground/validator/v10"
-	awsProvider "github.com/pulumi/pulumi-aws/sdk/v7/go/aws"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/eks"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
-	"github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes"
-	corev1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/core/v1"
-	helmv3 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3"
-	metav1 "github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1"
 	"github.com/pulumi/pulumi/sdk/v3/go/auto"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
@@ -212,31 +208,10 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 
-	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), eksCluster.Name)
-
-	// Get cluster auth token using the AWS SDK (avoids dependency on the aws CLI binary)
-	clusterAuth := eks.GetClusterAuthOutput(ctx, eks.GetClusterAuthOutputArgs{
-		Name: eksCluster.Name,
-	})
-	// Generate a token-based kubeconfig for the Pulumi k8s provider
-	providerKubeconfig := generateTokenKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), clusterAuth.Token())
-
-	// Create a Kubernetes provider instance using token-based auth
-	k8sProvider, err := kubernetes.NewProvider(ctx, "k8sProvider", &kubernetes.ProviderArgs{
-		Kubeconfig: providerKubeconfig,
-	}, pulumi.DependsOn([]pulumi.Resource{eksCluster}))
-	if err != nil {
-		return err
-	}
-
-	currentAws, err := awsProvider.GetCallerIdentity(ctx, &awsProvider.GetCallerIdentityArgs{}, nil)
-	if err != nil {
-		return err
-	}
-	accountId := currentAws.AccountId
+	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), eksCluster.Name, *r.allocationData.Region)
 
 	oidcIssuerUrl := eksCluster.Identities.Index(pulumi.Int(0)).Oidcs().Index(pulumi.Int(0)).Issuer().Elem()
-	_, err = iam.NewOpenIdConnectProvider(ctx, "my-oidc-provider", &iam.OpenIdConnectProviderArgs{
+	oidcProvider, err := iam.NewOpenIdConnectProvider(ctx, "my-oidc-provider", &iam.OpenIdConnectProviderArgs{
 		ClientIdLists: pulumi.StringArray{
 			pulumi.String("sts.amazonaws.com"),
 		},
@@ -246,17 +221,6 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
-	oidcIssuerHostPath := oidcIssuerUrl.ApplyT(func(urlStr string) (string, error) {
-		parsedUrl, err := url.Parse(urlStr)
-		if err != nil {
-			return "", err
-		}
-		// This is the format required for the OIDC provider ARN path segment and condition keys.
-		if parsedUrl.Path == "" || parsedUrl.Path == "/" {
-			return parsedUrl.Host, nil
-		}
-		return parsedUrl.Host + parsedUrl.Path, nil
-	}).(pulumi.StringOutput)
 
 	// Create access entry for self-managed nodes
 	accessEntry, err := eks.NewAccessEntry(ctx, "node-access", &eks.AccessEntryArgs{
@@ -291,7 +255,7 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	}
 
 	// Deploy addons after node group so nodes are available for addon pods to schedule
-	corednsAddon, err := deployAddons(r, oidcIssuerHostPath, accountId, ctx, eksCluster, nodeGroup0)
+	corednsAddon, err := deployAddons(r, oidcProvider.Arn, ctx, eksCluster, nodeGroup0)
 	if err != nil {
 		return err
 	}
@@ -302,7 +266,7 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 		if corednsAddon != nil {
 			lbcDeps = append(lbcDeps, corednsAddon)
 		}
-		err := r.installAwsLoadBalancerController(ctx, oidcIssuerHostPath, accountId, k8sProvider, eksCluster, vpc, nodeGroup0, lbcDeps)
+		err := r.installAwsLoadBalancerController(ctx, oidcProvider.Arn, eksCluster, vpc, nodeGroup0, lbcDeps)
 		if err != nil {
 			return err
 		}
@@ -430,101 +394,6 @@ func (r *eksRequest) createNodeGroupRole(ctx *pulumi.Context) (*iam.Role, error)
 	return nodeGroupRole, nil
 }
 
-func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcIssuerHostPath pulumi.StringOutput, accountId string, k8sProvider *kubernetes.Provider, eksCluster *eks.Cluster, vpc *ec2.Vpc, nodeGroup0 pulumi.Resource, extraDeps []pulumi.Resource) error {
-	policyDocumentJSON := getAwsLoadBalancerControllerIamPolicy()
-
-	// Create IAM policy
-	albControllerPolicyAttachment, err := iam.NewPolicy(ctx, "loadBalancerControllerPolicy", &iam.PolicyArgs{
-		Policy: pulumi.String(policyDocumentJSON),
-		Tags:   r.mCtx.ResourceTags(),
-	})
-	if err != nil {
-		return err
-	}
-
-	// Create IAM role
-	lbcServiceAccountName := pulumi.String("aws-load-balancer-controller-sa")
-
-	assumeRolePolicyJSON := oidcIssuerHostPath.ApplyT(func(hostPath string) (string, error) {
-		policy, err := json.Marshal(map[string]interface{}{
-			"Version": "2012-10-17",
-			"Statement": []map[string]interface{}{
-				{
-					"Effect": "Allow",
-					"Principal": map[string]interface{}{
-						"Federated": fmt.Sprintf("arn:aws:iam::%s:oidc-provider/%s", accountId, hostPath),
-					},
-					"Action": "sts:AssumeRoleWithWebIdentity",
-					"Condition": map[string]interface{}{
-						"StringEquals": map[string]interface{}{
-							fmt.Sprintf("%s:aud", hostPath): "sts.amazonaws.com",
-							fmt.Sprintf("%s:sub", hostPath): fmt.Sprintf("system:serviceaccount:kube-system:%s", lbcServiceAccountName),
-						},
-					},
-				},
-			},
-		})
-		if err != nil {
-			return "", err
-		}
-		return string(policy), nil
-	}).(pulumi.StringOutput)
-
-	iamRole, err := iam.NewRole(ctx, "loadBalancerControllerRole", &iam.RoleArgs{
-		NamePrefix:       pulumi.String("MaptLBCRole-"),
-		AssumeRolePolicy: assumeRolePolicyJSON,
-		Tags:             r.mCtx.ResourceTags(),
-	})
-	if err != nil {
-		return err
-	}
-
-	// Attach policy to role
-	_, err = iam.NewRolePolicyAttachment(ctx, "loadBalancerControllerPolicyAttachment", &iam.RolePolicyAttachmentArgs{
-		Role:      iamRole.Name,
-		PolicyArn: albControllerPolicyAttachment.Arn,
-	})
-	if err != nil {
-		return err
-	}
-
-	// Create the Kubernetes service account with the IAM role annotation
-	lbcK8sServiceAccount, err := corev1.NewServiceAccount(ctx, "lbcK8sServiceAccount", &corev1.ServiceAccountArgs{
-		Metadata: &metav1.ObjectMetaArgs{
-			Name:      lbcServiceAccountName,
-			Namespace: pulumi.String("kube-system"),
-			Annotations: pulumi.StringMap{
-				"eks.amazonaws.com/role-arn": iamRole.Arn,
-			},
-		},
-	}, pulumi.Provider(k8sProvider), pulumi.DeletedWith(eksCluster))
-	if err != nil {
-		return err
-	}
-
-	// Deploy the AWS Load Balancer Controller as a Helm chart
-	_, err = helmv3.NewChart(ctx, "aws-load-balancer-controller", helmv3.ChartArgs{
-		Chart: pulumi.String("aws-load-balancer-controller"),
-		FetchArgs: helmv3.FetchArgs{
-			Repo: pulumi.String("https://aws.github.io/eks-charts"),
-		},
-		Namespace: pulumi.String("kube-system"),
-		Values: pulumi.Map{
-			"clusterName": eksCluster.Name,
-			"serviceAccount": pulumi.Map{
-				"create": pulumi.Bool(false),    // Tell Helm chart not to create SA
-				"name":   lbcServiceAccountName, // Tell Helm chart to use the SA we created
-			},
-			"region": pulumi.String(*r.allocationData.Region),
-			"vpcId":  vpc.ID(),
-		},
-	}, pulumi.Provider(k8sProvider), pulumi.DependsOn(append([]pulumi.Resource{eksCluster, nodeGroup0, iamRole, lbcK8sServiceAccount}, extraDeps...)))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // deployAddons deploys EKS addons in the correct dependency order:
 //   - Phase 1 (infrastructure): vpc-cni, kube-proxy, eks-pod-identity-agent
 //     These are DaemonSet-based addons that provide basic node networking and need only nodes.
@@ -534,7 +403,7 @@ func (r *eksRequest) installAwsLoadBalancerController(ctx *pulumi.Context, oidcI
 //     Requires coredns for DNS resolution of AWS API endpoints.
 //
 // It returns the coredns addon resource (if deployed) so the LB controller can depend on it.
-func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, accountId string, ctx *pulumi.Context, eksCluster *eks.Cluster, nodeGroup pulumi.Resource) (*eks.Addon, error) {
+func deployAddons(r *eksRequest, oidcProviderArn pulumi.StringOutput, ctx *pulumi.Context, eksCluster *eks.Cluster, nodeGroup pulumi.Resource) (*eks.Addon, error) {
 	// Classify addons into deployment phases
 	infraAddons := []string{}     // Phase 1: DaemonSet-based networking/identity addons
 	var hasCoredns bool           // Phase 2: coredns
@@ -593,7 +462,7 @@ func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, account
 	}
 	for _, addon := range remainingAddons {
 		if addon == "aws-ebs-csi-driver" {
-			if err := deployEbsCsiDriver(ctx, r.mCtx, addon, oidcIssuerHostPath, accountId, eksCluster, phase3Deps); err != nil {
+			if err := deployEbsCsiDriver(ctx, r.mCtx, addon, oidcProviderArn, eksCluster, phase3Deps); err != nil {
 				return nil, err
 			}
 		} else {
@@ -615,37 +484,10 @@ func deployAddons(r *eksRequest, oidcIssuerHostPath pulumi.StringOutput, account
 
 // deployEbsCsiDriver handles the special-case deployment of the aws-ebs-csi-driver addon
 // which requires an IRSA role for accessing EBS APIs.
-func deployEbsCsiDriver(ctx *pulumi.Context, mCtx *mc.Context, addon string, oidcIssuerHostPath pulumi.StringOutput, accountId string, eksCluster *eks.Cluster, deps []pulumi.Resource) error {
-	ebsCsiDriverServiceAccountName := pulumi.String("ebs-csi-controller-sa")
-
-	assumeRolePolicyJSON := oidcIssuerHostPath.ApplyT(func(hostPath string) (string, error) {
-		policy, err := json.Marshal(map[string]interface{}{
-			"Version": "2012-10-17",
-			"Statement": []map[string]interface{}{
-				{
-					"Effect": "Allow",
-					"Principal": map[string]interface{}{
-						"Federated": fmt.Sprintf("arn:aws:iam::%s:oidc-provider/%s", accountId, hostPath),
-					},
-					"Action": "sts:AssumeRoleWithWebIdentity",
-					"Condition": map[string]interface{}{
-						"StringEquals": map[string]interface{}{
-							fmt.Sprintf("%s:aud", hostPath): "sts.amazonaws.com",
-							fmt.Sprintf("%s:sub", hostPath): fmt.Sprintf("system:serviceaccount:kube-system:%s", ebsCsiDriverServiceAccountName),
-						},
-					},
-				},
-			},
-		})
-		if err != nil {
-			return "", err
-		}
-		return string(policy), nil
-	}).(pulumi.StringOutput)
-
+func deployEbsCsiDriver(ctx *pulumi.Context, mCtx *mc.Context, addon string, oidcProviderArn pulumi.StringOutput, eksCluster *eks.Cluster, deps []pulumi.Resource) error {
 	awsEbsCsiDriverRole, err := iam.NewRole(ctx, "AmazonEKS_EBS_CSI_DriverRole", &iam.RoleArgs{
 		NamePrefix:       pulumi.String("MaptEBSCSIDriverRole-"),
-		AssumeRolePolicy: assumeRolePolicyJSON,
+		AssumeRolePolicy: irsaTrustPolicy(oidcProviderArn, "ebs-csi-controller-sa"),
 		Tags:             mCtx.ResourceTags(),
 	})
 	if err != nil {
@@ -730,7 +572,7 @@ func generateTokenKubeconfig(clusterEndpoint, certData, token pulumi.StringOutpu
 }
 
 // Create the KubeConfig Structure as per https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html
-func generateKubeconfig(clusterEndpoint, certData, clusterName pulumi.StringOutput) pulumi.StringOutput {
+func generateKubeconfig(clusterEndpoint, certData, clusterName pulumi.StringOutput, region string) pulumi.StringOutput {
 	return pulumix.Cast[pulumi.StringOutput](
 		pulumix.Apply3Err(clusterEndpoint, certData, clusterName,
 			func(endpoint, cert, name string) (string, error) {
@@ -739,6 +581,8 @@ func generateKubeconfig(clusterEndpoint, certData, clusterName pulumi.StringOutp
 						"apiVersion": "client.authentication.k8s.io/v1beta1",
 						"command":    "aws",
 						"args": []string{
+							"--region",
+							region,
 							"eks",
 							"get-token",
 							"--cluster-name",
@@ -747,6 +591,55 @@ func generateKubeconfig(clusterEndpoint, certData, clusterName pulumi.StringOutp
 					},
 				})
 			}))
+}
+
+// irsaTrustPolicy builds the AssumeRoleWithWebIdentity trust policy for a
+// service account. The provider ARN is passed as an input so the role depends
+// on the OIDC provider without a hand-built account ID.
+func irsaTrustPolicy(oidcProviderArn pulumi.StringOutput, serviceAccount string) pulumi.StringOutput {
+	return pulumix.Cast[pulumi.StringOutput](
+		pulumix.ApplyErr(oidcProviderArn, func(providerARN string) (string, error) {
+			hostPath, err := oidcProviderHostPath(providerARN)
+			if err != nil {
+				return "", err
+			}
+			policy, err := json.Marshal(map[string]interface{}{
+				"Version": "2012-10-17",
+				"Statement": []map[string]interface{}{
+					{
+						"Effect": "Allow",
+						"Principal": map[string]interface{}{
+							"Federated": providerARN,
+						},
+						"Action": "sts:AssumeRoleWithWebIdentity",
+						"Condition": map[string]interface{}{
+							"StringEquals": map[string]interface{}{
+								fmt.Sprintf("%s:aud", hostPath): "sts.amazonaws.com",
+								fmt.Sprintf("%s:sub", hostPath): fmt.Sprintf("system:serviceaccount:kube-system:%s", serviceAccount),
+							},
+						},
+					},
+				},
+			})
+			if err != nil {
+				return "", err
+			}
+			return string(policy), nil
+		}))
+}
+
+// oidcProviderHostPath returns the issuer host and path used as the condition
+// key prefix, for example oidc.eks.us-east-2.amazonaws.com/id/EXAMPLE.
+func oidcProviderHostPath(providerARN string) (string, error) {
+	parsedARN, err := arn.Parse(providerARN)
+	if err != nil {
+		return "", fmt.Errorf("parsing OIDC provider ARN: %w", err)
+	}
+	hostPath, ok := strings.CutPrefix(parsedARN.Resource, "oidc-provider/")
+	if !ok || hostPath == "" {
+		return "", fmt.Errorf("unexpected OIDC provider ARN: %s", providerARN)
+	}
+	return hostPath, nil
 }
 
 // Write exported values in context to files o a selected target folder
@@ -758,7 +651,7 @@ func (r *eksRequest) manageResults(c *mc.Context, stackResult auto.UpResult) err
 }
 
 func getAwsLoadBalancerControllerIamPolicy() json.RawMessage {
-	// Based on this with a few additions: https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.12.0/docs/install/iam_policy.json
+	// Keep in sync with the pinned chart: https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v3.6.0/docs/install/iam_policy.json
 	policyDocumentJSON := json.RawMessage(`{
 			"Version": "2012-10-17",
 			"Statement": [
