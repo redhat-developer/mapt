@@ -21,6 +21,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/util/ssh"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -359,8 +360,8 @@ func isKey(ctx *pulumi.Context, mCtx *mc.Context, prefix, cId string,
 		return nil, nil, err
 	}
 	if mCtx.Debug() {
-		pk.PrivateKeyPem.ApplyT(func(privateKey string) error {
-			logging.Debugf("%s", privateKey)
+		pk.PublicKeyOpenssh.ApplyT(func(publicKey string) error {
+			logging.Debugf("ssh key fingerprint: %s", ssh.Fingerprint(publicKey))
 			return nil
 		})
 	}

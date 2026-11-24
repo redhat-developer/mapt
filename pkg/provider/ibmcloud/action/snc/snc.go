@@ -24,6 +24,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/file"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/util/ssh"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -250,8 +251,8 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputUserPrivateKey),
 		pk.PrivateKeyPem)
 	if r.mCtx.Debug() {
-		pk.PrivateKeyPem.ApplyT(func(privateKey string) error {
-			logging.Debugf("%s", privateKey)
+		pk.PublicKeyOpenssh.ApplyT(func(publicKey string) error {
+			logging.Debugf("ssh key fingerprint: %s", ssh.Fingerprint(publicKey))
 			return nil
 		})
 	}
