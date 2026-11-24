@@ -1181,7 +1181,7 @@ github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/flowcontrol/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/flowcontrol/v1beta1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/flowcontrol/v1beta2
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/flowcontrol/v1beta3
-github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v3
+github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/helm/v4
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/lifecycle/v1alpha1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/meta/v1
 github.com/pulumi/pulumi-kubernetes/sdk/v4/go/kubernetes/networking/v1

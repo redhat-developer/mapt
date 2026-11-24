@@ -13,6 +13,14 @@
   "customManagers": [
     {
       "customType": "regex",
+      "managerFilePatterns": ["/pkg/provider/aws/action/eks/loadbalancer\\.go$/"],
+      "matchStrings": ["const loadBalancerChartVersion = \"(?<currentValue>[^\"]+)\""],
+      "datasourceTemplate": "helm",
+      "packageNameTemplate": "aws-load-balancer-controller",
+      "registryUrlTemplate": "https://aws.github.io/eks-charts"
+    },
+    {
+      "customType": "regex",
       "managerFilePatterns": [
         "Makefile"
       ],
@@ -124,6 +132,12 @@
       "matchPackageNames": [
         "gitlab-org/gitlab-runner"
       ]
+    },
+    {
+      "matchPackageNames": ["aws-load-balancer-controller"],
+      "groupName": "AWS Load Balancer Controller",
+      "automerge": false,
+      "prBodyNotes": ["Review the controller IAM policy in pkg/provider/aws/action/eks/eks.go against the controller version shipped by this chart."]
     }
   ],
   "postUpdateOptions": [

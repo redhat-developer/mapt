@@ -74,6 +74,8 @@ The `--addons` flag accepts any standard EKS add-on name. The `aws-ebs-csi-drive
 
 When `--load-balancer-controller` is set, mapt deploys the AWS Load Balancer Controller via Helm. This includes automatic IRSA configuration with the full IAM policy required for ALB/NLB management.
 
+The chart is pinned to version 3.6.0 and installed using Pulumi Helm v4. Custom resources depend on their CRDs becoming established, avoiding discovery races during a fresh install. Chart upgrades require a review of the controller IAM policy.
+
 ##### Excluded Zone IDs
 
 Some AWS availability zones are incompatible with EKS (see [AWS knowledge center](https://repost.aws/knowledge-center/eks-cluster-creation-errors)). By default, known incompatible zones are excluded. Use `--excluded-zone-ids` to specify additional zones to exclude.
