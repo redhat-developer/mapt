@@ -3,10 +3,13 @@ package eks
 import (
 	"encoding/json"
 	"fmt"
+	"maps"
+	"slices"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws/arn"
 	"github.com/go-playground/validator/v10"
+	awsProvider "github.com/pulumi/pulumi-aws/sdk/v7/go/aws"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/eks"
 	"github.com/pulumi/pulumi-aws/sdk/v7/go/aws/iam"
@@ -132,12 +135,7 @@ func Destroy(mCtxArgs *mc.ContextArgs) error {
 	if err != nil {
 		return err
 	}
-	if err := aws.DestroyStack(
-		mCtx,
-		aws.DestroyStackRequest{
-			BackedURL: mCtx.BackedURL(),
-			Stackname: stackName,
-		}); err != nil {
+	if err := destroyEKS(mCtx); err != nil {
 		return err
 	}
 
@@ -207,8 +205,22 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	if err != nil {
 		return err
 	}
+	if err := r.tagClusterSecurityGroup(ctx, eksCluster); err != nil {
+		return err
+	}
 
 	kubeconfig := generateKubeconfig(eksCluster.Endpoint, eksCluster.CertificateAuthority.Data().Elem(), eksCluster.Name, *r.allocationData.Region)
+
+	currentAws, err := awsProvider.GetCallerIdentity(ctx, &awsProvider.GetCallerIdentityArgs{}, nil)
+	if err != nil {
+		return err
+	}
+	accountId := currentAws.AccountId
+	ctx.Export(outputCleanup, pulumi.Map{
+		"version": pulumi.Int(1), "accountId": pulumi.String(accountId),
+		"region":      pulumi.String(*r.allocationData.Region),
+		"clusterName": eksCluster.Name, "vpcId": vpc.ID(),
+	})
 
 	oidcIssuerUrl := eksCluster.Identities.Index(pulumi.Int(0)).Oidcs().Index(pulumi.Int(0)).Issuer().Elem()
 	oidcProvider, err := iam.NewOpenIdConnectProvider(ctx, "my-oidc-provider", &iam.OpenIdConnectProviderArgs{
@@ -273,6 +285,34 @@ func (r *eksRequest) deployer(ctx *pulumi.Context) error {
 	}
 
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig), kubeconfig)
+	return nil
+}
+
+// tagClusterSecurityGroup applies the mapt tags to the security group EKS
+// creates for the cluster. EKS does not propagate cluster tags to it. The tags
+// are deleted with the cluster: EKS removes the group itself, so Pulumi never
+// deletes tags whose group is already gone.
+func (r *eksRequest) tagClusterSecurityGroup(ctx *pulumi.Context, eksCluster *eks.Cluster) error {
+	securityGroupID := eksCluster.VpcConfig.ClusterSecurityGroupId().Elem()
+	tags := r.mCtx.GetTags()
+	tagValues := make(map[string]pulumi.StringInput, len(tags)+1)
+	for key, value := range tags {
+		tagValues[key] = pulumi.String(value)
+	}
+	// A value supplied through --tags cannot override cluster ownership.
+	tagValues[clusterOwnershipTag] = eksCluster.Name
+	keys := slices.Sorted(maps.Keys(tagValues))
+	for _, key := range keys {
+		if _, err := ec2.NewTag(ctx,
+			resourcesUtil.GetResourceName(*r.prefix, awsEKSID, fmt.Sprintf("sg-tag-%s", key)),
+			&ec2.TagArgs{
+				Key:        pulumi.String(key),
+				Value:      tagValues[key],
+				ResourceId: securityGroupID,
+			}, pulumi.DeletedWith(eksCluster)); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -428,6 +468,7 @@ func deployAddons(r *eksRequest, oidcProviderArn pulumi.StringOutput, ctx *pulum
 			AddonName:                pulumi.String(addon),
 			ResolveConflictsOnCreate: pulumi.String("OVERWRITE"),
 			Tags:                     r.mCtx.ResourceTags(),
+			ConfigurationValues:      addonConfigurationValues(addon, r.mCtx.GetTags(), eksCluster.Name),
 		}, pulumi.DeletedWith(eksCluster),
 			pulumi.DependsOn([]pulumi.Resource{nodeGroup}),
 			pulumi.Timeouts(&pulumi.CustomTimeouts{Create: "30m"}))
@@ -493,7 +534,7 @@ func deployEbsCsiDriver(ctx *pulumi.Context, mCtx *mc.Context, addon string, oid
 	if err != nil {
 		return err
 	}
-	_, err = iam.NewRolePolicyAttachment(ctx, "AmazonEBSCSIDriverPolicyAttachment", &iam.RolePolicyAttachmentArgs{
+	attachment, err := iam.NewRolePolicyAttachment(ctx, "AmazonEBSCSIDriverPolicyAttachment", &iam.RolePolicyAttachmentArgs{
 		PolicyArn: pulumi.String("arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"),
 		Role:      awsEbsCsiDriverRole.Name,
 	})
@@ -501,23 +542,15 @@ func deployEbsCsiDriver(ctx *pulumi.Context, mCtx *mc.Context, addon string, oid
 		return err
 	}
 
-	configValues, err := json.Marshal(map[string]interface{}{
-		"defaultStorageClass": map[string]interface{}{
-			"enabled": true,
-		},
-	})
-	if err != nil {
-		return err
-	}
 	_, err = eks.NewAddon(ctx, addon, &eks.AddonArgs{
 		ClusterName:              eksCluster.Name,
 		AddonName:                pulumi.String(addon),
 		ServiceAccountRoleArn:    awsEbsCsiDriverRole.Arn,
-		ConfigurationValues:      pulumi.String(configValues),
+		ConfigurationValues:      addonConfigurationValues(addon, mCtx.GetTags(), eksCluster.Name),
 		ResolveConflictsOnCreate: pulumi.String("OVERWRITE"),
 		Tags:                     mCtx.ResourceTags(),
 	}, pulumi.DeletedWith(eksCluster),
-		pulumi.DependsOn(deps),
+		pulumi.DependsOn(append(deps, attachment)),
 		pulumi.Timeouts(&pulumi.CustomTimeouts{Create: "30m"}))
 	return err
 }

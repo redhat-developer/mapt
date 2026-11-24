@@ -29,8 +29,8 @@ func (m *chartMocks) Call(args pulumi.MockCallArgs) (resource.PropertyMap, error
 }
 
 // The Chart component must carry the cluster as its DeletedWith resource.
-// Children inherit it from the component, so a targeted destroy of the cluster
-// skips them without using the short-lived Kubernetes provider token.
+// Children inherit it from the component, so deleting the cluster also removes
+// the chart and its resources.
 func TestLoadBalancerChartInheritsClusterLifecycle(t *testing.T) {
 	mocks := &chartMocks{}
 	err := pulumi.RunErr(func(ctx *pulumi.Context) error {
