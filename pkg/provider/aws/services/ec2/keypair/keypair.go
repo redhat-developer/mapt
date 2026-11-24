@@ -7,6 +7,7 @@ import (
 	mc "github.com/redhat-developer/mapt/pkg/manager/context"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/util/ssh"
 )
 
 type KeyPairRequest struct {
@@ -21,9 +22,9 @@ type KeyPairResources struct {
 func (r KeyPairRequest) Create(ctx *pulumi.Context, mCtx *mc.Context) (*KeyPairResources, error) {
 	kr, err := r.create(ctx, mCtx, r.Name, nil)
 	if mCtx.Debug() {
-		kr.PrivateKey.PrivateKeyPem.ApplyT(
-			func(privateKey string) (*string, error) {
-				logging.Debugf("%s", privateKey)
+		kr.PrivateKey.PublicKeyOpenssh.ApplyT(
+			func(publicKey string) (*string, error) {
+				logging.Debugf("ssh key fingerprint: %s", ssh.Fingerprint(publicKey))
 				return nil, nil
 			})
 	}

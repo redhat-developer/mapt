@@ -31,6 +31,7 @@ import (
 	"github.com/redhat-developer/mapt/pkg/target/service/snc/profile"
 	"github.com/redhat-developer/mapt/pkg/util"
 	"github.com/redhat-developer/mapt/pkg/util/logging"
+	"github.com/redhat-developer/mapt/pkg/util/ssh"
 	resourcesUtil "github.com/redhat-developer/mapt/pkg/util/resources"
 )
 
@@ -201,9 +202,9 @@ func (r *openshiftSNCRequest) deploy(ctx *pulumi.Context) error {
 	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, apiSNC.OutputUserPrivateKey),
 		keyResources.PrivateKey.PrivateKeyPem)
 	if r.mCtx.Debug() {
-		keyResources.PrivateKey.PrivateKeyPem.ApplyT(
-			func(privateKey string) (*string, error) {
-				logging.Debugf("%s", privateKey)
+		keyResources.PrivateKey.PublicKeyOpenssh.ApplyT(
+			func(publicKey string) (*string, error) {
+				logging.Debugf("ssh key fingerprint: %s", ssh.Fingerprint(publicKey))
 				return nil, nil
 			})
 	}
