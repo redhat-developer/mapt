@@ -11,6 +11,10 @@ and `aks` profile for Azure.
 The flags also have sensible default values, if an instance type satisfying the requested hardware specs is not offered by the provider, it'll use the default
 values to create a machine.
 
+## Nested virtualization on IBM Cloud
+
+An IBM Cloud VPC virtual server instance cannot supply the KVM device to the guest. For the `ibmcloud openshift-snc` target, `--nested-virt` selects a bare metal profile. See the [IBM Cloud SNC docs](ibmcloud/openshift-snc.md#bare-metal-servers-and-nested-virtualization).
+
 ## Creating a fedora VM on AWS with user provided specs
 
 As an example we can use the `--cpus`, `--arch` and `--memory` flags with the `mapt aws fedora create` command to create an arm machine with 8 cpus and 64GB of RAM:

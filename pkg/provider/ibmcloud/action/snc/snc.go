@@ -56,6 +56,12 @@ type sncRequest struct {
 	profiles                []string
 	operatorChannels        map[string]string
 	catalogSources          map[string]string
+	// bareMetal is true when the request needs nested virtualization. IBM
+	// Cloud provides it on a bare metal server only.
+	bareMetal bool
+	// imageID is the VPC image for the catalog offering. A bare metal server
+	// takes an image ID, not a catalog offering CRN.
+	imageID *string
 }
 
 func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults, error) {
@@ -96,6 +102,7 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 	}
 
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	bareMetal := args.ComputeRequest != nil && args.ComputeRequest.NestedVirt
 	diskSize := defaultDiskSize
 	computeProfile := defaultProfile
 	if args.ComputeRequest != nil {
@@ -103,7 +110,15 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 			diskSize = *args.ComputeRequest.DiskSize
 		}
 		if len(args.ComputeRequest.ComputeSizes) > 0 {
+			// A named profile wins over the selection. The caller must name a
+			// metal profile when nested virtualization is requested.
 			computeProfile = args.ComputeRequest.ComputeSizes[0]
+		} else if bareMetal {
+			profiles, err := icdata.NewBareMetalSelector().Select(args.ComputeRequest)
+			if err != nil {
+				return nil, fmt.Errorf("selecting bare metal profile: %w", err)
+			}
+			computeProfile = profiles[0]
 		} else if args.ComputeRequest.CPUs > 0 || args.ComputeRequest.MemoryGib > 0 {
 			profiles, err := icdata.NewComputeSelector().Select(args.ComputeRequest)
 			if err != nil {
@@ -112,14 +127,37 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 			computeProfile = profiles[0]
 		}
 	}
+	if bareMetal {
+		// A bare metal server boots from its local disks. The prototype has no
+		// boot volume, so the disk size does not apply.
+		if args.ComputeRequest.DiskSize != nil {
+			logging.Warnf("--disk-size is ignored for a bare metal server: the server boots from its local disks")
+		}
+	}
+	// A bare metal server takes no spot capacity.
 	spot := args.Spot != nil && args.Spot.Spot
 	if spot {
+		if bareMetal {
+			return nil, fmt.Errorf("spot is not available for a bare metal server: omit --spot when nested virtualization is requested")
+		}
 		ok, err := icdata.ProfileSupportsSpot(computeProfile)
 		if err != nil {
 			return nil, fmt.Errorf("checking spot support for profile %s: %w", computeProfile, err)
 		}
 		if !ok {
 			return nil, fmt.Errorf("profile %s does not support spot instances", computeProfile)
+		}
+	}
+	var imageID *string
+	if bareMetal {
+		id, err := icdata.GetImageIDByCatalogOfferingCRN(offeringCRN)
+		if err != nil {
+			return nil, fmt.Errorf("resolving the image for the bare metal server: %w", err)
+		}
+		imageID = &id
+		logging.Debugf("Image for bare metal server: %s", id)
+		if err := icdata.NewBareMetalSelector().CheckCapacity(computeProfile, *zone); err != nil {
+			return nil, err
 		}
 	}
 
@@ -137,6 +175,8 @@ func Create(mCtxArgs *mc.ContextArgs, args *apiSNC.SNCArgs) (*apiSNC.SNCResults,
 		profile:                 computeProfile,
 		diskSize:                diskSize,
 		spot:                    spot,
+		bareMetal:               bareMetal,
+		imageID:                 imageID,
 		zone:                    zone,
 		vpcID:                   vpcID,
 		profiles:                args.Profiles,
@@ -237,51 +277,14 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 		return err
 	}
 
-	instanceArgs := &ibmcloud.IsInstanceArgs{
-		Name: pulumi.String(r.mCtx.ProjectName()),
-		CatalogOffering: &ibmcloud.IsInstanceCatalogOfferingArgs{
-			VersionCrn: pulumi.StringPtr(*r.offeringCRN),
-		},
-		Profile: pulumi.String(r.profile),
-		Vpc:     n.VPCID,
-		Zone:    pulumi.String(zone),
-		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
-			Size: pulumi.Int(r.diskSize),
-		},
-		ResourceGroup: rg.ID(),
-		Keys:          pulumi.StringArray{pik.ID()},
+	instance, fipAssoc, err := r.provisionServer(ctx, &serverArgs{
+		Network:       n,
+		ResourceGroup: rg,
+		SSHKey:        pik,
+		UserData:      ud,
 		Tags:          userTags,
-		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
-			Subnet: n.Subnet.ID(),
-			SecurityGroups: pulumi.StringArray{
-				n.SecurityGroup.ID(),
-			},
-		},
-		UserData: ud,
-	}
-	if r.spot {
-		instanceArgs.Availability = ibmcloud.IsInstanceAvailabilityArgs{
-			Class: pulumi.String("spot"),
-		}
-	}
-	i, err := ibmcloud.NewIsInstance(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "is"),
-		instanceArgs)
-	if err != nil {
-		return err
-	}
-
-	fipAssoc, err := ibmcloud.NewIsInstanceNetworkInterfaceFloatingIp(ctx,
-		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "fipassoc"),
-		&ibmcloud.IsInstanceNetworkInterfaceFloatingIpArgs{
-			FloatingIp: n.Floatingip.ID(),
-			Instance:   i.ID(),
-			NetworkInterface: i.PrimaryNetworkInterface.ApplyT(
-				func(pni ibmcloud.IsInstancePrimaryNetworkInterface) string {
-					return *pni.Id
-				},
-			).(pulumi.StringOutput),
-		})
+		Zone:          zone,
+	})
 	if err != nil {
 		return err
 	}
@@ -308,7 +311,7 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 			K8sProvider:      k8sProvider,
 			Kubeconfig:       kc,
 			Prefix:           *r.prefix,
-			DeletedWith:      i,
+			DeletedWith:      instance,
 			OperatorChannels: r.operatorChannels,
 			CatalogSources:   r.catalogSources,
 		}); err != nil {
@@ -317,6 +320,137 @@ func (r *sncRequest) deploy(ctx *pulumi.Context) error {
 	}
 
 	return nil
+}
+
+// serverArgs holds the resources the server hosts. Both the virtual server
+// instance and the bare metal server use the same VPC, subnet, security group
+// and floating IP.
+type serverArgs struct {
+	Network       *network.Network
+	ResourceGroup *ibmcloud.ResourceGroup
+	SSHKey        *ibmcloud.IsSshKey
+	UserData      pulumi.StringPtrInput
+	Tags          pulumi.StringArray
+	Zone          string
+}
+
+// provisionServer creates the compute resource and attaches the floating IP to
+// its primary network interface. A request for nested virtualization takes the
+// bare metal server, because a virtual server instance cannot supply /dev/kvm
+// to the guest.
+func (r *sncRequest) provisionServer(ctx *pulumi.Context,
+	a *serverArgs,
+) (pulumi.Resource, pulumi.Resource, error) {
+	if r.bareMetal {
+		return r.provisionBareMetalServer(ctx, a)
+	}
+	return r.provisionInstance(ctx, a)
+}
+
+func (r *sncRequest) provisionInstance(ctx *pulumi.Context,
+	a *serverArgs,
+) (pulumi.Resource, pulumi.Resource, error) {
+	instanceArgs := &ibmcloud.IsInstanceArgs{
+		Name: pulumi.String(r.mCtx.ProjectName()),
+		CatalogOffering: &ibmcloud.IsInstanceCatalogOfferingArgs{
+			VersionCrn: pulumi.StringPtr(*r.offeringCRN),
+		},
+		Profile: pulumi.String(r.profile),
+		Vpc:     a.Network.VPCID,
+		Zone:    pulumi.String(a.Zone),
+		BootVolume: &ibmcloud.IsInstanceBootVolumeArgs{
+			Size: pulumi.Int(r.diskSize),
+		},
+		ResourceGroup: a.ResourceGroup.ID(),
+		Keys:          pulumi.StringArray{a.SSHKey.ID()},
+		Tags:          a.Tags,
+		PrimaryNetworkInterface: &ibmcloud.IsInstancePrimaryNetworkInterfaceArgs{
+			Subnet: a.Network.Subnet.ID(),
+			SecurityGroups: pulumi.StringArray{
+				a.Network.SecurityGroup.ID(),
+			},
+		},
+		UserData: a.UserData,
+	}
+	if r.spot {
+		instanceArgs.Availability = ibmcloud.IsInstanceAvailabilityArgs{
+			Class: pulumi.String("spot"),
+		}
+	}
+	i, err := ibmcloud.NewIsInstance(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "is"),
+		instanceArgs)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	fipAssoc, err := ibmcloud.NewIsInstanceNetworkInterfaceFloatingIp(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "fipassoc"),
+		&ibmcloud.IsInstanceNetworkInterfaceFloatingIpArgs{
+			FloatingIp: a.Network.Floatingip.ID(),
+			Instance:   i.ID(),
+			NetworkInterface: i.PrimaryNetworkInterface.ApplyT(
+				func(pni ibmcloud.IsInstancePrimaryNetworkInterface) string {
+					return *pni.Id
+				},
+			).(pulumi.StringOutput),
+		})
+	if err != nil {
+		return nil, nil, err
+	}
+	return i, fipAssoc, nil
+}
+
+func (r *sncRequest) provisionBareMetalServer(ctx *pulumi.Context,
+	a *serverArgs,
+) (pulumi.Resource, pulumi.Resource, error) {
+	if r.imageID == nil {
+		return nil, nil, fmt.Errorf("bare metal server needs an image ID")
+	}
+	bms, err := ibmcloud.NewIsBareMetalServer(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "is"),
+		&ibmcloud.IsBareMetalServerArgs{
+			Name:          pulumi.String(r.mCtx.ProjectName()),
+			Image:         pulumi.String(*r.imageID),
+			Profile:       pulumi.String(r.profile),
+			Vpc:           a.Network.VPCID,
+			Zone:          pulumi.String(a.Zone),
+			ResourceGroup: a.ResourceGroup.ID(),
+			Keys:          pulumi.StringArray{a.SSHKey.ID()},
+			Tags:          a.Tags,
+			PrimaryNetworkInterface: &ibmcloud.IsBareMetalServerPrimaryNetworkInterfaceArgs{
+				Subnet: a.Network.Subnet.ID(),
+				SecurityGroups: pulumi.StringArray{
+					a.Network.SecurityGroup.ID(),
+				},
+			},
+			UserData: a.UserData,
+		})
+	if err != nil {
+		return nil, nil, err
+	}
+
+	fipAssoc, err := ibmcloud.NewIsBareMetalServerNetworkInterfaceFloatingIp(ctx,
+		resourcesUtil.GetResourceName(*r.prefix, ibmCloudSNCID, "fipassoc"),
+		&ibmcloud.IsBareMetalServerNetworkInterfaceFloatingIpArgs{
+			FloatingIp:      a.Network.Floatingip.ID(),
+			BareMetalServer: bms.ID(),
+			NetworkInterface: bms.PrimaryNetworkInterface.ApplyT(
+				func(pni ibmcloud.IsBareMetalServerPrimaryNetworkInterface) string {
+					// The API fills the primary network interface after the create.
+					// An empty value makes the floating IP association fail with
+					// the server state instead of a nil dereference.
+					if pni.Id == nil {
+						return ""
+					}
+					return *pni.Id
+				},
+			).(pulumi.StringOutput),
+		})
+	if err != nil {
+		return nil, nil, err
+	}
+	return bms, fipAssoc, nil
 }
 
 func addSNCSecurityGroupRules(ctx *pulumi.Context, prefix *string, sg *ibmcloud.IsSecurityGroup) error {
