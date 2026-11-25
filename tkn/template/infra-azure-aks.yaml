@@ -92,6 +92,15 @@ spec:
       default: 'false'
 
     # VM type params for pools
+    - name: vmsize
+      description: comma separated list of VM sizes to be used on the user pool
+      default: 'Standard_D8as_v5'
+    - name: system-pool-vmsize
+      description: VM size to be used on the system pool. The spot search only takes the user pool size into account, so the system pool size may not be available in the selected location
+      default: 'Standard_A2_v2'
+    - name: workers-desired
+      description: number of nodes on the user pool
+      default: '1'
     - name: spot
       description: in case spot is set to true it 'ill check for best spot price and create the VM on the target region
       default: 'true'
@@ -197,6 +206,9 @@ spec:
         if [[ $(params.operation) == "create" ]]; then
           cmd+="--conn-details-output /opt/cluster-info "
           cmd+="--version $(params.k8s-version) "
+          cmd+="--vmsize $(params.vmsize) "
+          cmd+="--system-pool-vmsize $(params.system-pool-vmsize) "
+          cmd+="--workers-desired $(params.workers-desired) "
           if [[ $(params.only-system-pool) == "true" ]]; then
             cmd+="--only-system-pool "
           fi

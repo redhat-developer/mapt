@@ -3,6 +3,7 @@ package aks
 import (
 	"encoding/base64"
 	"fmt"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/pulumi/pulumi-azure-native-sdk/authorization/v3"
@@ -27,7 +28,12 @@ import (
 type AKSArgs struct {
 	Prefix   string
 	Location string
-	VMSize   string
+	// VMSizes are the VM sizes the user pool can run on. When spot is enabled
+	// the best option across the sizes is selected, otherwise the first one is
+	// used.
+	VMSizes          []string
+	SystemPoolVMSize string
+	WorkersDesired   int
 	// "1.26.3"
 	KubernetesVersion string
 	OnlySystemPool    bool
@@ -36,10 +42,12 @@ type AKSArgs struct {
 }
 
 type aksRequest struct {
-	mCtx     *mc.Context `validate:"required"`
-	prefix   *string
-	location *string
-	vmSize   *string
+	mCtx             *mc.Context `validate:"required"`
+	prefix           *string
+	location         *string
+	vmSizes          []string
+	systemPoolVMSize *string
+	workersDesired   *int
 	// "1.26.3"
 	kubernetesVersion *string
 	onlySystemPool    *bool
@@ -53,30 +61,53 @@ func (r *aksRequest) validate() error {
 	if err != nil {
 		return err
 	}
-	return v.Struct(r)
+	if err := v.Struct(r); err != nil {
+		return err
+	}
+	if r.systemPoolVMSize == nil || *r.systemPoolVMSize == "" {
+		return fmt.Errorf("the system pool vmsize is required")
+	}
+	if !*r.onlySystemPool {
+		if len(r.vmSizes) == 0 {
+			return fmt.Errorf("at least one user pool vmsize is required")
+		}
+		if r.workersDesired == nil || *r.workersDesired < 1 {
+			return fmt.Errorf("the workers desired must be at least 1")
+		}
+	}
+	return nil
 }
 
 func Create(mCtxArgs *mc.ContextArgs, args *AKSArgs) (err error) {
 	logging.Debug("Creating AKS")
-	// Create mapt Context
-	provider := azure.Provider()
-	if args.Spot != nil && args.Spot.Spot {
-		provider = azure.ProviderOptionalLocation()
-	}
-	mCtx, err := mc.Init(mCtxArgs, provider)
+	// Create mapt Context. The location always comes from the location flag, as
+	// the spot search and the default flag value already resolve it, so no
+	// default location has to be set in the environment.
+	mCtx, err := mc.Init(mCtxArgs, azure.ProviderOptionalLocation())
 	if err != nil {
 		return err
 	}
 	prefix := util.If(len(args.Prefix) > 0, args.Prefix, "main")
+	vmSizes := []string{}
+	for _, vmSize := range args.VMSizes {
+		if vmSize = strings.TrimSpace(vmSize); vmSize != "" {
+			vmSizes = append(vmSizes, vmSize)
+		}
+	}
 	r := &aksRequest{
 		mCtx:              mCtx,
 		prefix:            &prefix,
 		location:          &args.Location,
-		vmSize:            &args.VMSize,
+		vmSizes:           vmSizes,
+		systemPoolVMSize:  &args.SystemPoolVMSize,
+		workersDesired:    &args.WorkersDesired,
 		kubernetesVersion: &args.KubernetesVersion,
 		onlySystemPool:    &args.OnlySystemPool,
 		enableAppRouting:  &args.EnableAppRouting,
 		spot:              args.Spot,
+	}
+	if err := r.validate(); err != nil {
+		return err
 	}
 	cs := manager.Stack{
 		StackName:           mCtx.StackNameByProject(stackAKS),
@@ -111,13 +142,13 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 	if err := r.validate(); err != nil {
 		return err
 	}
-	// Get values for spot machine
-	location, spotPrice, err := r.valuesCheckingSpot()
+	// Resolve the location and the VM size of the user pool
+	selection, err := r.userPoolSelection()
 	if err != nil {
 		return err
 	}
 	// Get location for creating Resouce Group
-	rgLocation := azure.GetSuitableLocationForResourceGroup(*location)
+	rgLocation := azure.GetSuitableLocationForResourceGroup(selection.location)
 	rg, err := resources.NewResourceGroup(ctx,
 		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "rg"),
 		&resources.ResourceGroupArgs{
@@ -157,7 +188,7 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 		ctx,
 		resourcesUtil.GetResourceName(*r.prefix, azureAKSID, "identity"),
 		&managedidentity.UserAssignedIdentityArgs{
-			Location:          pulumi.String(*location),
+			Location:          pulumi.String(selection.location),
 			ResourceGroupName: rg.Name,
 			Tags:              r.mCtx.ResourceTags(),
 		})
@@ -166,35 +197,9 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 		return err
 	}
 	// create the cluster
-	agentPoolProfiles := containerservice.ManagedClusterAgentPoolProfileArray{
-		&containerservice.ManagedClusterAgentPoolProfileArgs{
-			Name:         pulumi.String("systempool"),
-			Mode:         containerservice.AgentPoolModeSystem,
-			Count:        pulumi.Int(1),
-			VmSize:       pulumi.String(systemPoolVMSize),
-			OsType:       pulumi.String("Linux"),
-			OsDiskSizeGB: pulumi.Int(30),
-			Type:         pulumi.String("VirtualMachineScaleSets"),
-		},
-	}
-	if !*r.onlySystemPool {
-		agentPoolProfiles = append(agentPoolProfiles,
-			&containerservice.ManagedClusterAgentPoolProfileArgs{
-				Name:         pulumi.String("userpool"),
-				Mode:         containerservice.AgentPoolModeUser,
-				Count:        pulumi.Int(1),
-				VmSize:       pulumi.String(*r.vmSize),
-				OsType:       pulumi.String("Linux"),
-				OsDiskSizeGB: pulumi.Int(100),
-				Type:         pulumi.String("VirtualMachineScaleSets"),
-				// VnetSubnetID:     n.PublicSubnet.ID(),
-				ScaleSetPriority: containerservice.ScaleSetPrioritySpot,
-				SpotMaxPrice:     pulumi.Float64(*spotPrice)},
-		)
-	}
 	managedClusterArgs := &containerservice.ManagedClusterArgs{
 		ResourceGroupName: rg.Name,
-		Location:          pulumi.String(*location),
+		Location:          pulumi.String(selection.location),
 		Identity: &containerservice.ManagedClusterIdentityArgs{
 			Type: containerservice.ResourceIdentityTypeUserAssigned,
 			UserAssignedIdentities: pulumi.StringArray{
@@ -204,7 +209,7 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 		KubernetesVersion: pulumi.String(*r.kubernetesVersion),
 		DnsPrefix:         pulumi.String("mapt"),
 		EnableRBAC:        pulumi.Bool(true),
-		AgentPoolProfiles: agentPoolProfiles,
+		AgentPoolProfiles: agentPoolProfiles(r.agentPools(selection)),
 		LinuxProfile: &containerservice.ContainerServiceLinuxProfileArgs{
 			AdminUsername: pulumi.String("aksuser"),
 			Ssh: &containerservice.ContainerServiceSshConfigurationArgs{
@@ -261,25 +266,114 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 
 }
 
-func (r *aksRequest) valuesCheckingSpot() (*string, *float64, error) {
-	if r.spot != nil && r.spot.Spot {
-		bsc, err :=
-			data.SpotInfo(
-				r.mCtx,
-				&data.SpotInfoArgs{
-					ComputeSizes:          []string{*r.vmSize},
-					OSType:                "linux",
-					SpotPriceIncreaseRate: &r.spot.IncreaseRate,
-					SpotTolerance:         &r.spot.Tolerance,
-					ExcludedLocations:     r.spot.ExcludedHostingPlaces,
-				})
-		logging.Debugf("Best spot price option found: %v", bsc)
-		if err != nil {
-			return nil, nil, err
-		}
-		return &bsc.HostingPlace, &bsc.Price, nil
+// agentPool holds the node pool configuration which does not depend on the
+// pulumi context, so the pool definition can be tested.
+type agentPool struct {
+	name         string
+	mode         string
+	count        int
+	vmSize       string
+	osDiskSizeGB int
+	spot         bool
+	spotMaxPrice *float64
+}
+
+// poolSelection holds the result of resolving the user pool configuration.
+// price is only set when the user pool runs on spot instances.
+type poolSelection struct {
+	location string
+	vmSize   string
+	price    *float64
+}
+
+// userPoolSelection resolves the location and the VM size of the user pool.
+// When spot is enabled the best option across the configured VM sizes is used,
+// and since the spot search also selects the location, the whole cluster is
+// created there. Otherwise the location passed as parameter is kept and the
+// user pool runs on demand with the first configured VM size.
+func (r *aksRequest) userPoolSelection() (*poolSelection, error) {
+	if *r.onlySystemPool {
+		return &poolSelection{location: *r.location}, nil
 	}
-	return r.location, nil, nil
+	if r.spot == nil || !r.spot.Spot {
+		return &poolSelection{
+			location: *r.location,
+			vmSize:   r.vmSizes[0],
+		}, nil
+	}
+	bsc, err :=
+		data.SpotInfo(
+			r.mCtx,
+			&data.SpotInfoArgs{
+				ComputeSizes:          r.vmSizes,
+				OSType:                "linux",
+				SpotPriceIncreaseRate: &r.spot.IncreaseRate,
+				SpotTolerance:         &r.spot.Tolerance,
+				ExcludedLocations:     r.spot.ExcludedHostingPlaces,
+			})
+	if err != nil {
+		return nil, err
+	}
+	logging.Debugf("Best spot price option found: %v", bsc)
+	vmSize := r.vmSizes[0]
+	if len(bsc.ComputeType) > 0 {
+		vmSize = bsc.ComputeType[0]
+	}
+	price := bsc.Price
+	return &poolSelection{
+		location: bsc.HostingPlace,
+		vmSize:   vmSize,
+		price:    &price,
+	}, nil
+}
+
+// agentPools returns the node pools of the cluster. The system pool always runs
+// on demand and the user pool runs on spot when a spot price was selected.
+func (r *aksRequest) agentPools(selection *poolSelection) []agentPool {
+	pools := []agentPool{
+		{
+			name:         "systempool",
+			mode:         string(containerservice.AgentPoolModeSystem),
+			count:        1,
+			vmSize:       *r.systemPoolVMSize,
+			osDiskSizeGB: 30,
+		},
+	}
+	if *r.onlySystemPool {
+		return pools
+	}
+	return append(pools,
+		agentPool{
+			name:         "userpool",
+			mode:         string(containerservice.AgentPoolModeUser),
+			count:        *r.workersDesired,
+			vmSize:       selection.vmSize,
+			osDiskSizeGB: 100,
+			spot:         selection.price != nil,
+			spotMaxPrice: selection.price,
+		})
+}
+
+// agentPoolProfiles translates the node pools into the AKS agent pool profiles.
+func agentPoolProfiles(pools []agentPool) containerservice.ManagedClusterAgentPoolProfileArray {
+	profiles := containerservice.ManagedClusterAgentPoolProfileArray{}
+	for _, p := range pools {
+		profile := &containerservice.ManagedClusterAgentPoolProfileArgs{
+			Name:         pulumi.String(p.name),
+			Mode:         pulumi.String(p.mode),
+			Count:        pulumi.Int(p.count),
+			VmSize:       pulumi.String(p.vmSize),
+			OsType:       pulumi.String("Linux"),
+			OsDiskSizeGB: pulumi.Int(p.osDiskSizeGB),
+			Type:         pulumi.String("VirtualMachineScaleSets"),
+		}
+		if p.spot {
+			profile.ScaleSetPriority = containerservice.ScaleSetPrioritySpot
+			profile.SpotMaxPrice = pulumi.Float64(*p.spotMaxPrice)
+		}
+		profiles = append(profiles, profile)
+	}
+	return profiles
 }
 
 // Write exported values in context to files o a selected target folder
