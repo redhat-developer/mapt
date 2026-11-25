@@ -70,14 +70,6 @@ func manageRemoteState(ctx context.Context, backedURL string) error {
 	return nil
 }
 
-// pulumi config key : aws env credential
-var envCredentials = map[string]string{
-	awsConstants.CONFIG_AWS_REGION:        "AWS_DEFAULT_REGION",
-	awsConstants.CONFIG_AWS_NATIVE_REGION: "AWS_DEFAULT_REGION",
-	awsConstants.CONFIG_AWS_ACCESS_KEY:    "AWS_ACCESS_KEY_ID",
-	awsConstants.CONFIG_AWS_SECRET_KEY:    "AWS_SECRET_ACCESS_KEY",
-	awsConstants.CONFIG_AWS_SESSION_TOKEN: "AWS_SESSION_TOKEN"}
-
 var DefaultCredentials = GetClouProviderCredentials(nil)
 
 func GetClouProviderCredentials(customCredentials map[string]string) credentials.ProviderCredentials {
@@ -92,20 +84,27 @@ func SetAWSCredentials(ctx context.Context, mCtx *mc.Context, stack auto.Stack, 
 			return err
 		}
 	}
-	for configKey, envKey := range envCredentials {
-		if value, ok := customCredentials[configKey]; ok {
-			if err := stack.SetConfig(ctx, configKey,
-				auto.ConfigValue{Value: value}); err != nil {
-				logging.Errorf("Failed setting credential: %v", err)
-				return err
-			}
-		} else {
-			if err := stack.SetConfig(ctx, configKey,
-				auto.ConfigValue{Value: os.Getenv(envKey)}); err != nil {
-				logging.Errorf("Failed setting credential: %v", err)
-				return err
-			}
+	// Legacy Mapt versions put AWS credentials in the local stack config,
+	// where Pulumi could copy them into its update history. The AWS SDK
+	// reads credentials from the runtime environment and credential chain.
+	if err := stack.RemoveAllConfig(ctx, []string{
+		awsConstants.CONFIG_AWS_ACCESS_KEY,
+		awsConstants.CONFIG_AWS_SECRET_KEY,
+		awsConstants.CONFIG_AWS_SESSION_TOKEN,
+	}); err != nil {
+		return fmt.Errorf("remove legacy AWS credential config: %w", err)
+	}
+
+	regions := make(map[string]auto.ConfigValue, 2)
+	for _, key := range []string{awsConstants.CONFIG_AWS_REGION, awsConstants.CONFIG_AWS_NATIVE_REGION} {
+		region, ok := customCredentials[key]
+		if !ok {
+			region = os.Getenv("AWS_DEFAULT_REGION")
 		}
+		regions[key] = auto.ConfigValue{Value: region}
+	}
+	if err := stack.SetAllConfig(ctx, regions); err != nil {
+		return fmt.Errorf("set AWS region config: %w", err)
 	}
 	return nil
 }
