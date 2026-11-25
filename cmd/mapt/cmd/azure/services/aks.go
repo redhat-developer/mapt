@@ -25,8 +25,13 @@ const (
 	paramLocationDesc    = "location for created resources in case spot flag (if available) is not passed"
 	paramLocationDefault = "West US"
 	paramVMSize          = "vmsize"
-	paramVMSizeDesc      = "VMSize to be used on the user pool. Typically this is used to provision spot node pools"
+	paramVMSizeDesc      = "comma separated list of VMSizes to be used on the user pool. When spot is set the best option across the sizes is selected, otherwise the first one is used"
 	paramVMSizeDefault   = "Standard_D8as_v5"
+
+	paramSystemPoolVMSize     = "system-pool-vmsize"
+	paramSystemPoolVMSizeDesc = "VMSize to be used on the system pool. The spot search only takes the user pool size into account, so the system pool size may not be available in the selected location"
+	paramWorkersDesired       = "workers-desired"
+	paramWorkersDesiredDesc   = "number of nodes on the user pool"
 )
 
 func GetAKSCmd() *cobra.Command {
@@ -52,6 +57,12 @@ func getCreateAKS() *cobra.Command {
 			if err := viper.BindPFlags(cmd.Flags()); err != nil {
 				return err
 			}
+			// viper splits a comma separated string slice on whitespace, so the
+			// flag is read directly to keep the list of VM sizes intact.
+			vmSizes, err := cmd.Flags().GetStringSlice(paramVMSize)
+			if err != nil {
+				return err
+			}
 			return azureAKS.Create(
 				&maptContext.ContextArgs{
 					Context:       cmd.Context(),
@@ -68,14 +79,18 @@ func getCreateAKS() *cobra.Command {
 					KubernetesVersion: viper.GetString(paramVersion),
 					OnlySystemPool:    viper.IsSet(paramOnlySystemPool),
 					EnableAppRouting:  viper.IsSet(paramEnableAppRouting),
-					VMSize:            viper.GetString(paramVMSize)})
+					VMSizes:           vmSizes,
+					SystemPoolVMSize:  viper.GetString(paramSystemPoolVMSize),
+					WorkersDesired:    viper.GetInt(paramWorkersDesired)})
 		},
 	}
 	flagSet := pflag.NewFlagSet(params.CreateCmdName, pflag.ExitOnError)
 	flagSet.StringP(params.ConnectionDetailsOutput, "", "", params.ConnectionDetailsOutputDesc)
 	flagSet.StringToStringP(params.Tags, "", nil, params.TagsDesc)
 	flagSet.StringP(paramLocation, "", paramLocationDefault, paramLocationDesc)
-	flagSet.StringP(paramVMSize, "", paramVMSizeDefault, paramVMSizeDesc)
+	flagSet.StringSliceP(paramVMSize, "", []string{paramVMSizeDefault}, paramVMSizeDesc)
+	flagSet.StringP(paramSystemPoolVMSize, "", azureAKS.DefaultSystemPoolVMSize, paramSystemPoolVMSizeDesc)
+	flagSet.IntP(paramWorkersDesired, "", azureAKS.DefaultWorkersDesired, paramWorkersDesiredDesc)
 	flagSet.StringP(paramVersion, "", defaultVersion, paramVersionDesc)
 	flagSet.Bool(paramOnlySystemPool, false, paramOnlySystemPoolDesc)
 	flagSet.Bool(paramEnableAppRouting, false, paramEnableAppRoutingDesc)
