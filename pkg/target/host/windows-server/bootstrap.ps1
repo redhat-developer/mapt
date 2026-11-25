@@ -20,12 +20,13 @@ Invoke-Command -ScriptBlock { New-Item -Path C:\Users\{{.Username}}\.ssh -Name "
 Set-Item .\allowunencrypted $false
 
 # Install github-actions-runner if needed
-{{ if .ActionsRunnerSnippet }}$ghToken = {{ .RunnerToken }}
-    {{- .ActionsRunnerSnippet }}
+{{ if .ActionsRunnerSnippet }}
+$ghToken = '{{ .RunnerToken }}'
+{{ .ActionsRunnerSnippet }}
 {{ end }}
 
 {{ if .GitLabSnippet }}
-$gitlabToken = {{ .GitLabToken }}
+$gitlabToken = '{{ .GitLabToken }}'
 {{ .GitLabSnippet }}
 {{ end }}
 
