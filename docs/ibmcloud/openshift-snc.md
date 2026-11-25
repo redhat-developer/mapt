@@ -1,6 +1,6 @@
 # Overview
 
-This action provisions a single-node OpenShift cluster on IBM Cloud VPC, using bundles from the [SNC](https://github.com/crc-org/snc) project. The VM is created from a catalog image and assigned a floating IP for direct SSH and Kubernetes API access.
+This action provisions a single-node OpenShift cluster on IBM Cloud VPC, using bundles from the [SNC](https://github.com/crc-org/snc) project. The compute resource is created from a catalog image and assigned a floating IP for direct SSH and Kubernetes API access.
 
 The catalog image is automatically discovered by querying the IBM Cloud Catalog Management API. When `--version` is omitted, the latest available version is selected by semver.
 
@@ -136,6 +136,71 @@ mapt ibmcloud openshift-snc create \
 ```
 
 See the [AWS SNC docs](../aws/openshift-snc.md#profiles) for the full list of available profiles and operator override flags (`--operator-channel`, `--catalog-source`).
+
+## Bare metal servers and nested virtualization
+
+IBM Cloud VPC does not supply the KVM device to a virtual server instance. It supplies the KVM device on bare metal servers only. The `virtualization` profile needs that device, because OpenShift Virtualization starts its virtual machines on it.
+
+Use one of these two options to request a bare metal server:
+
+- Add `--profile virtualization`. The profile requests nested virtualization.
+- Add `--nested-virt`.
+
+When the request needs nested virtualization, mapt selects a bare metal profile. The selector reads the profiles from `ListBareMetalServerProfiles` and applies these filters:
+
+| Field | Filter |
+|---|---|
+| `--cpus` | Minimum core count |
+| `--memory` | Minimum memory size |
+| `--compute-families` | Prefix of the profile name (for example `cx2`) or of the family name (for example `compute`) |
+
+The selector returns the smallest profile that satisfies the request.
+
+```bash
+mapt ibmcloud openshift-snc create \
+    --version 4.22.14 \
+    --project-name my-snc \
+    --backed-url file:///workspace \
+    --conn-details-output /tmp/snc \
+    --pull-secret-file /path/to/pull-secret \
+    --profile virtualization \
+    --cpus 96 \
+    --memory 384
+```
+
+To use a named metal profile, set `--compute-sizes`. A named profile wins over the selection:
+
+```bash
+mapt ibmcloud openshift-snc create \
+    ... \
+    --profile virtualization \
+    --compute-sizes cx2-metal-96x192
+```
+
+The bare metal server uses the same VPC, subnet, security group and floating IP as a virtual server instance.
+
+### Behaviour of the bare metal path
+
+| Item | Behaviour |
+|---|---|
+| Capacity | mapt calls `ListBareMetalServerCapacities` before the create. No free capacity gives a clear error. |
+| Boot volume | The server boots from its local disks. mapt ignores `--disk-size` and prints a warning. |
+| Spot | A bare metal server takes no spot capacity. mapt stops when you set `--spot`. |
+| GPUs | A bare metal profile has no GPU field. A request with `--gpus` matches no profile. |
+
+### Cost
+
+A bare metal server costs more than a virtual server instance. Check the [IBM Cloud VPC pricing page](https://www.ibm.com/products/virtual-servers/pricing) before you run the create. Delete the cluster when you no longer need it.
+
+### Verify the KVM device
+
+After the cluster is ready, confirm that a node reports the KVM device:
+
+```bash
+kubectl get nodes -o go-template='{{range .items}}{{.metadata.name}} {{index .status.allocatable "devices.kubevirt.io/kvm"}}{{"\n"}}{{end}}'
+```
+
+The command prints a value for each node. An empty value means the compute resource is not a bare metal server.
 
 ## Destroy
 

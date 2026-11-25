@@ -14,10 +14,16 @@ metadata:
 spec:
   description: |
     Task provision an OpenShift Single Node Cluster based on OpenShift Local
-    (SNC) on an IBM Cloud VPC virtual server instance.
+    (SNC) on an IBM Cloud VPC virtual server instance or bare metal server.
 
     A catalog image with the SNC bundle must exist in an IBM Cloud private
     catalog before the task runs.
+
+    Set nested-virt, or the virtualization profile, to request a bare metal
+    server. IBM Cloud VPC supplies the KVM device on bare metal servers only.
+    A bare metal server costs more than a virtual server instance. Check the
+    IBM Cloud VPC pricing before the create, and run the destroy when the
+    cluster is no longer needed.
 
   volumes:
     - name: ibmcloud-credentials
@@ -135,6 +141,15 @@ spec:
     - name: gpu-manufacturer
       description: Manufacturer company name for GPU. (i.e. NVIDIA)
       default: ""
+    - name: nested-virt
+      description: |
+        Request nested virtualization. mapt then selects an IBM Cloud VPC bare
+        metal server, because a virtual server instance cannot supply the KVM
+        device. The virtualization profile also sets this request. A named
+        compute-sizes value must be a metal profile in this case. A bare metal
+        server costs more than a virtual server instance.
+        Allowed values: true, false
+      default: "false"
     - name: disk-size
       description: Disk size in GB for the cloud instance (default 200)
       default: "200"
@@ -147,7 +162,8 @@ spec:
       description: |
         Request a spot virtual server instance. Spot instances may be preempted
         by IBM Cloud when capacity is needed; the instance will be stopped on
-        preemption. Ignored for destroy operations.
+        preemption. Ignored for destroy operations. A bare metal server request
+        (nested-virt true) fails when this value is true.
         Allowed values: true, false
       default: "false"
 
@@ -311,6 +327,8 @@ spec:
           value: $(params.gpus)
         - name: GPU_MANUFACTURER
           value: $(params.gpu-manufacturer)
+        - name: NESTED_VIRT
+          value: $(params.nested-virt)
         - name: COMPUTE_FAMILIES
           value: $(params.compute-families)
         - name: VPC_ID
@@ -416,6 +434,9 @@ spec:
           fi
           if [[ "$VPC_ID" != "" ]]; then
             args+=(--vpc-id "$VPC_ID")
+          fi
+          if [[ "$NESTED_VIRT" == "true" ]]; then
+            args+=(--nested-virt)
           fi
           if [[ ! -s /opt/ocp-snc-secret/pull-secret ]]; then
             echo "ERROR: secret-ocp-snc-credentials must provide the key pull-secret for the create operation" >&2
