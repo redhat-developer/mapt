@@ -269,7 +269,10 @@ func (r *rhelAIRequest) createMachine() error {
 		DeployFunc: r.deploy,
 	}
 
-	sr, _ := manager.UpStack(r.mCtx, cs)
+	sr, err := manager.UpStack(r.mCtx, cs)
+	if err != nil {
+		return err
+	}
 	return r.manageResults(sr)
 }
 

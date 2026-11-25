@@ -143,9 +143,12 @@ func (r *Request) manageMacMachineTargets(h *mac.HostInformation, targetURNs []s
 	}
 	var sr auto.UpResult
 	if len(targetURNs) > 0 {
-		sr, _ = manager.UpStackTargets(r.MCtx, cs, targetURNs)
+		sr, err = manager.UpStackTargets(r.MCtx, cs, targetURNs)
 	} else {
-		sr, _ = manager.UpStack(r.MCtx, cs)
+		sr, err = manager.UpStack(r.MCtx, cs)
+	}
+	if err != nil {
+		return err
 	}
 	return r.manageResultsMachine(sr)
 }
