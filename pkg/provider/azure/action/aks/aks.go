@@ -253,7 +253,7 @@ func (r *aksRequest) deployer(ctx *pulumi.Context) error {
 			value, _ := base64.StdEncoding.DecodeString(adminCredentials.Kubeconfigs[0].Value)
 			return pulumi.String(value), nil
 		}).(pulumi.StringOutput)
-	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig), kubeconfig)
+	ctx.Export(fmt.Sprintf("%s-%s", *r.prefix, outputKubeconfig), pulumi.ToSecret(kubeconfig))
 	return nil
 
 }
