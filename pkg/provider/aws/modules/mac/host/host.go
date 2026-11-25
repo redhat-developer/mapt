@@ -78,7 +78,10 @@ func createDedicatedHost(mCtx *mc.Context, args *MacDedicatedHostRequestArgs,
 				awsConstants.CONFIG_AWS_REGION: *dHArgs.region}),
 		DeployFunc: dHArgs.deploy,
 	}
-	sr, _ := manager.UpStack(mCtx, cs)
+	sr, err := manager.UpStack(mCtx, cs)
+	if err != nil {
+		return nil, err
+	}
 	dhID, _, err := manageResultsDedicatedHost(mCtx, sr, dHArgs.prefix, exportOutputs)
 	if err != nil {
 		return nil, err

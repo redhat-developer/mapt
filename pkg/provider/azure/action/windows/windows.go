@@ -117,7 +117,10 @@ func Create(mCtxArgs *mc.ContextArgs, args *WindowsArgs) (err error) {
 		ProviderCredentials: azure.DefaultCredentials,
 		DeployFunc:          r.deployer,
 	}
-	sr, _ := manager.UpStack(mCtx, cs)
+	sr, err := manager.UpStack(mCtx, cs)
+	if err != nil {
+		return err
+	}
 	return r.manageResults(sr)
 }
 
